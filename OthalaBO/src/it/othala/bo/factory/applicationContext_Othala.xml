@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.0.xsd">
+
+
+
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreResourceNotFound" value="true" />
+		<property name="locations">
+			<list>
+				<value>classpath:it/othala/dao/ibatis/database.properties</value>
+			</list>
+		</property>
+	</bean>
+
+
+
+	<!--
+		the transactional advice (i.e. what 'happens'; see the <aop:advisor/>
+		bean below)
+	-->
+
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<!-- the transactional semantics... -->
+		<tx:attributes>
+			<!-- all methods starting with 'get' are read-only -->
+			<!-- <tx:method name="get*" read-only="true"/>-->
+			<!-- other methods use the default transaction settings (see below) -->
+			<tx:method name="*" rollback-for="Throwable" />
+
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+		<aop:pointcut id="txBeanMethods" expression="execution(* it.othala.bo.*.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="txBeanMethods" />
+	</aop:config>
+
+	<jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/othala" />
+
+
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="SqlMapClient" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation">
+			<value>it/othala/dao/ibatis/Configuration.xml</value>
+		</property>
+	</bean>
+
+	<!-- INIZIO INJECTION BEAN COME POJO -->
+	<!-- 
+
+	<bean id="gestioneAnagrafica" class="it.contrada.bean.GestioneAnagrafica"
+		autowire="byType" />
+
+	
+	<bean id="tesseraDAO" class="it.contrada.dao.TesseraDAO">
+		<property name="sqlSessionFactory" ref="SqlMapClient" />
+	</bean>
+-->
+
+
+</beans>
