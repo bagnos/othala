@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="Othala">
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <dependent-module archiveName="OthalaDTO.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/OthalaDTO/OthalaDTO">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="OthalaUTIL.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/OthalaUTIL/OthalaUTIL">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="OthalaDAO.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/OthalaDAO/OthalaDAO">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="OthalaBO.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/OthalaBO/OthalaBO">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="context-root" value="Othala"/>
+        <property name="java-output-path" value="/Othala/target/classes"/>
+    </wb-module>
+</project-modules>
