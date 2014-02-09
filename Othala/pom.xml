@@ -11,22 +11,22 @@
 		<dependency>
 			<groupId>it.adunada</groupId>
 			<artifactId>OthalaService</artifactId>
-			<version>0.0.1-SNAPSHOT</version>			
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>it.adunada</groupId>
 			<artifactId>OthalaDAO</artifactId>
-			<version>0.0.1-SNAPSHOT</version>			
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>it.adunada</groupId>
 			<artifactId>OthalaDTO</artifactId>
-			<version>0.0.1-SNAPSHOT</version>			
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>it.adunada</groupId>
 			<artifactId>OthalaUTIL</artifactId>
-			<version>0.0.1-SNAPSHOT</version>			
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -71,8 +71,8 @@
 			<version>1.2</version>
 		</dependency>
 
-		<!-- <dependency> <groupId>org.springframework</groupId> <artifactId>spring-aspects</artifactId> 
-			<version>4.0.0.RELEASE</version> </dependency> -->
+		<!-- <dependency> <groupId>org.springframework</groupId> <artifactId>spring-aspects</artifactId> <version>4.0.0.RELEASE</version> 
+			</dependency> -->
 
 
 
@@ -137,6 +137,13 @@
 			<url>http://repository.primefaces.org</url>
 			<layout>default</layout>
 		</repository>
+		<repository>
+			<id>spring-milestones</id>
+			<url>http://repo.spring.io/milestone</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
 	</repositories>
 	<build>
 		<finalName>Othala</finalName>
@@ -150,9 +157,25 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
-			
-			<!-- <plugin> <groupId>org.apache.tomcat.maven</groupId> <artifactId>tomcat7-maven-plugin</artifactId> 
-				<version>2.2</version> </plugin> -->
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.1.1</version>
+				<configuration>
+					<webResources>
+						<resource>
+							<!-- this is relative to the pom.xml directory -->
+							<directory>metainf</directory>
+							<targetPath>META-INF</targetPath>
+						</resource>
+					</webResources>
+				</configuration>
+			</plugin>
+
+
+			<!-- <plugin> <groupId>org.apache.tomcat.maven</groupId> <artifactId>tomcat7-maven-plugin</artifactId> <version>2.2</version> 
+				</plugin> -->
 		</plugins>
 	</build>
 </project>
