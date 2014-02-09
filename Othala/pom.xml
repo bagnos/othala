@@ -10,7 +10,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>it.adunada</groupId>
-			<artifactId>OthalaBO</artifactId>
+			<artifactId>OthalaService</artifactId>
 			<version>0.0.1-SNAPSHOT</version>			
 		</dependency>
 		<dependency>
