@@ -46,5 +46,10 @@
 			<artifactId>spring-tx</artifactId>
 			<version>4.0.0.RELEASE</version>
 		</dependency>
+		<dependency>
+			<groupId>it.adunada</groupId>
+			<artifactId>OthalaCommon</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>

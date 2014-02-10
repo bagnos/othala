@@ -29,8 +29,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry combineaccessrules="false" kind="src" path="/OthalaDAO"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/OthalaDTO"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/OthalaUTIL"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/OthalaService"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/OthalaCommon"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
