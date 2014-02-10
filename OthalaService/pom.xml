@@ -60,14 +60,10 @@
 		</dependency>
 		<dependency>
 			<groupId>it.adunada</groupId>
-			<artifactId>OthalaDTO</artifactId>
+			<artifactId>OthalaCommon</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>it.adunada</groupId>
-			<artifactId>OthalaUTIL</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+		</dependency>	
+		
 
 	</dependencies>
 </project>

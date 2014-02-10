@@ -10,10 +10,7 @@
         <dependent-module archiveName="OthalaDAO-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/OthalaDAO/OthalaDAO">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="OthalaDTO-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/OthalaDTO/OthalaDTO">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="OthalaUTIL-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/OthalaUTIL/OthalaUTIL">
+        <dependent-module archiveName="OthalaCommon-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/OthalaCommon/OthalaCommon">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="context-root" value="Othala"/>
