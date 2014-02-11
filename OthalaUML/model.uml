@@ -16,7 +16,9 @@
       <ownedUseCase xmi:id="_MzFswpMKEeON7emhanelfw" name="View Carrello"/>
     </ownedUseCase>
   </packagedElement>
-  <packagedElement xmi:type="uml:UseCase" xmi:id="_WeVRwJMEEeON7emhanelfw" name="Registrazion Account"/>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_WeVRwJMEEeON7emhanelfw" name="Registrazion Account">
+    <extend xmi:id="_hQdKAJMkEeON7emhanelfw" extendedCase="_cfy3YJMkEeON7emhanelfw"/>
+  </packagedElement>
   <packagedElement xmi:type="uml:UseCase" xmi:id="_aJyP0JMEEeON7emhanelfw" name="Modifca Account">
     <ownedUseCase xmi:id="_kIFsAJMEEeON7emhanelfw" name="Registrazione"/>
     <extend xmi:id="_mkVE8JMEEeON7emhanelfw" extendedCase="_knhaAJMEEeON7emhanelfw"/>
@@ -114,4 +116,5 @@
     <ownedEnd xmi:id="_3DS4IZMMEeON7emhanelfw" type="_gQxp8JMJEeON7emhanelfw" association="_3DS4IJMMEeON7emhanelfw"/>
     <ownedEnd xmi:id="_3DS4IpMMEeON7emhanelfw" type="_1D3XAJMMEeON7emhanelfw" association="_3DS4IJMMEeON7emhanelfw"/>
   </packagedElement>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_cfy3YJMkEeON7emhanelfw" name="ResetPassord"/>
 </uml:Model>
