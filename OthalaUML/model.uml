@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xmi:id="_pQEkYJMCEeON7emhanelfw" name="NewModel">
+  <packagedElement xmi:type="uml:Actor" xmi:id="_00NV8JMCEeON7emhanelfw" name="Cliente"/>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_54OCYJMCEeON7emhanelfw" name="Login Account"/>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_-avLUJMCEeON7emhanelfw" name="Logout Account">
+    <ownedUseCase xmi:id="_CRT0QJMDEeON7emhanelfw" name="Login"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_PhR1gJMDEeON7emhanelfw" name="remove/edit carello"/>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_ZB-vsJMDEeON7emhanelfw" name="Ricerca Prodotti">
+    <extend xmi:id="_vgAiUJMLEeON7emhanelfw" extendedCase="_frjrwJMDEeON7emhanelfw"/>
+    <extend xmi:id="_wAmG4JMLEeON7emhanelfw" extendedCase="_ibTyYJMKEeON7emhanelfw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_frjrwJMDEeON7emhanelfw" name="Dettaglio Prodotto">
+    <ownedUseCase xmi:id="_MzFswJMKEeON7emhanelfw" name="View Carrello">
+      <ownedUseCase xmi:id="_MzFswZMKEeON7emhanelfw" name="Add/edit/remove carrello"/>
+      <ownedUseCase xmi:id="_MzFswpMKEeON7emhanelfw" name="View Carrello"/>
+    </ownedUseCase>
+  </packagedElement>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_WeVRwJMEEeON7emhanelfw" name="Registrazion Account"/>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_aJyP0JMEEeON7emhanelfw" name="Modifca Account">
+    <ownedUseCase xmi:id="_kIFsAJMEEeON7emhanelfw" name="Registrazione"/>
+    <extend xmi:id="_mkVE8JMEEeON7emhanelfw" extendedCase="_knhaAJMEEeON7emhanelfw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_knhaAJMEEeON7emhanelfw" name="Elimina Account"/>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_3suwUJMEEeON7emhanelfw" name="View Carrello">
+    <ownedUseCase xmi:id="_erS54JMJEeON7emhanelfw" name="Add/edit/remove carrello"/>
+    <ownedUseCase xmi:id="_foVw8JMJEeON7emhanelfw" name="View Carrello"/>
+    <extend xmi:id="_nll7YJMJEeON7emhanelfw" extendedCase="_gQxp8JMJEeON7emhanelfw"/>
+    <extend xmi:id="_UJ9zsJMKEeON7emhanelfw" extendedCase="_PhR1gJMDEeON7emhanelfw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_gQxp8JMJEeON7emhanelfw" name="Conferma Ordine">
+    <ownedUseCase xmi:id="_gQxp8ZMJEeON7emhanelfw" name="Add/edit/remove carrello"/>
+    <ownedUseCase xmi:id="_gQxp8pMJEeON7emhanelfw" name="View Carrello"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_uv_skJMJEeON7emhanelfw" name="Association_Cliente_to_Login Account" memberEnd="_uwO9IJMJEeON7emhanelfw _uwQLQJMJEeON7emhanelfw">
+    <ownedEnd xmi:id="_uwO9IJMJEeON7emhanelfw" type="_00NV8JMCEeON7emhanelfw" association="_uv_skJMJEeON7emhanelfw"/>
+    <ownedEnd xmi:id="_uwQLQJMJEeON7emhanelfw" type="_54OCYJMCEeON7emhanelfw" association="_uv_skJMJEeON7emhanelfw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_wSR-sJMJEeON7emhanelfw" name="Association_Cliente_to_Logout Account" memberEnd="_wSR-sZMJEeON7emhanelfw _wSTz4JMJEeON7emhanelfw">
+    <ownedEnd xmi:id="_wSR-sZMJEeON7emhanelfw" type="_00NV8JMCEeON7emhanelfw" association="_wSR-sJMJEeON7emhanelfw"/>
+    <ownedEnd xmi:id="_wSTz4JMJEeON7emhanelfw" type="_-avLUJMCEeON7emhanelfw" association="_wSR-sJMJEeON7emhanelfw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_xQ5jEJMJEeON7emhanelfw" name="Association_Cliente_to_Ricerca Prodotti" memberEnd="_xQ90gJMJEeON7emhanelfw _xQ_CoJMJEeON7emhanelfw">
+    <ownedEnd xmi:id="_xQ90gJMJEeON7emhanelfw" type="_00NV8JMCEeON7emhanelfw" association="_xQ5jEJMJEeON7emhanelfw"/>
+    <ownedEnd xmi:id="_xQ_CoJMJEeON7emhanelfw" type="_ZB-vsJMDEeON7emhanelfw" association="_xQ5jEJMJEeON7emhanelfw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_yuh-sJMJEeON7emhanelfw" name="Association_Cliente_to_Registrazion Account" memberEnd="_yuilwJMJEeON7emhanelfw _yujM0JMJEeON7emhanelfw">
+    <ownedEnd xmi:id="_yuilwJMJEeON7emhanelfw" type="_00NV8JMCEeON7emhanelfw" association="_yuh-sJMJEeON7emhanelfw"/>
+    <ownedEnd xmi:id="_yujM0JMJEeON7emhanelfw" type="_WeVRwJMEEeON7emhanelfw" association="_yuh-sJMJEeON7emhanelfw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_zNDGsJMJEeON7emhanelfw" name="Association_Cliente_to_Modifca Account" memberEnd="_zNDtwJMJEeON7emhanelfw _zNE74JMJEeON7emhanelfw">
+    <ownedEnd xmi:id="_zNDtwJMJEeON7emhanelfw" type="_00NV8JMCEeON7emhanelfw" association="_zNDGsJMJEeON7emhanelfw"/>
+    <ownedEnd xmi:id="_zNE74JMJEeON7emhanelfw" type="_aJyP0JMEEeON7emhanelfw" association="_zNDGsJMJEeON7emhanelfw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_0o1vQJMJEeON7emhanelfw" name="Association_Cliente_to_View Carrello" memberEnd="_0o2WUJMJEeON7emhanelfw _0o3kcJMJEeON7emhanelfw">
+    <ownedEnd xmi:id="_0o2WUJMJEeON7emhanelfw" type="_00NV8JMCEeON7emhanelfw" association="_0o1vQJMJEeON7emhanelfw"/>
+    <ownedEnd xmi:id="_0o3kcJMJEeON7emhanelfw" type="_3suwUJMEEeON7emhanelfw" association="_0o1vQJMJEeON7emhanelfw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_ibTyYJMKEeON7emhanelfw" name="Add Carrello"/>
+  <packagedElement xmi:type="uml:Actor" xmi:id="_xXxKoJMKEeON7emhanelfw" name="Negozio"/>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_Cj5fcJMLEeON7emhanelfw" name="View Storico Ordini"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_JWFk8JMLEeON7emhanelfw" name="Association_View Storico Ordini_to_Cliente" memberEnd="_JWGMAJMLEeON7emhanelfw _JWGMAZMLEeON7emhanelfw">
+    <ownedEnd xmi:id="_JWGMAJMLEeON7emhanelfw" type="_Cj5fcJMLEeON7emhanelfw" association="_JWFk8JMLEeON7emhanelfw"/>
+    <ownedEnd xmi:id="_JWGMAZMLEeON7emhanelfw" type="_00NV8JMCEeON7emhanelfw" association="_JWFk8JMLEeON7emhanelfw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_TJmGYJMLEeON7emhanelfw" name="Association_Cliente_to_Ricerca Prodotti Home" memberEnd="_TJmGYZMLEeON7emhanelfw _TJmtcJMLEeON7emhanelfw">
+    <ownedEnd xmi:id="_TJmGYZMLEeON7emhanelfw" type="_00NV8JMCEeON7emhanelfw" association="_TJmGYJMLEeON7emhanelfw"/>
+    <ownedEnd xmi:id="_TJmtcJMLEeON7emhanelfw" association="_TJmGYJMLEeON7emhanelfw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_yOCO0JMLEeON7emhanelfw" name="RiceveMail"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_1epD8JMLEeON7emhanelfw" name="Association_Negozio_to_RiceveMail" memberEnd="_1epD8ZMLEeON7emhanelfw _1epD8pMLEeON7emhanelfw">
+    <ownedEnd xmi:id="_1epD8ZMLEeON7emhanelfw" type="_xXxKoJMKEeON7emhanelfw" association="_1epD8JMLEeON7emhanelfw"/>
+    <ownedEnd xmi:id="_1epD8pMLEeON7emhanelfw" type="_yOCO0JMLEeON7emhanelfw" association="_1epD8JMLEeON7emhanelfw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Actor" xmi:id="_2AlTYJMLEeON7emhanelfw" name="Direttore vendite"/>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_4HFs4JMLEeON7emhanelfw" name="Pubblica Articolo"/>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_67r7cJMLEeON7emhanelfw" name="Edit/Remove Articolo"/>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_--HPEJMLEeON7emhanelfw" name="Gestisce Blog"/>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_D6lwIJMMEeON7emhanelfw" name="Spedici Articolo"/>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_GsSbsJMMEeON7emhanelfw" name="Visualizza ordine">
+    <extend xmi:id="_fkPzwJMMEeON7emhanelfw" extendedCase="_cbesAJMMEeON7emhanelfw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_J-kr0JMMEeON7emhanelfw" name="Association_Negozio_to_Spedici Articolo" memberEnd="_J-kr0ZMMEeON7emhanelfw _J-lS4JMMEeON7emhanelfw">
+    <ownedEnd xmi:id="_J-kr0ZMMEeON7emhanelfw" type="_xXxKoJMKEeON7emhanelfw" association="_J-kr0JMMEeON7emhanelfw"/>
+    <ownedEnd xmi:id="_J-lS4JMMEeON7emhanelfw" type="_D6lwIJMMEeON7emhanelfw" association="_J-kr0JMMEeON7emhanelfw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_KhDt0JMMEeON7emhanelfw" name="Association_Negozio_to_Visualizza ordine" memberEnd="_KhDt0ZMMEeON7emhanelfw _KhFjAJMMEeON7emhanelfw">
+    <ownedEnd xmi:id="_KhDt0ZMMEeON7emhanelfw" type="_xXxKoJMKEeON7emhanelfw" association="_KhDt0JMMEeON7emhanelfw"/>
+    <ownedEnd xmi:id="_KhFjAJMMEeON7emhanelfw" type="_GsSbsJMMEeON7emhanelfw" association="_KhDt0JMMEeON7emhanelfw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_LW6-0JMMEeON7emhanelfw" name="Association_Direttore vendite_to_Pubblica Articolo" memberEnd="_LW7l4JMMEeON7emhanelfw _LW7l4ZMMEeON7emhanelfw">
+    <ownedEnd xmi:id="_LW7l4JMMEeON7emhanelfw" type="_2AlTYJMLEeON7emhanelfw" association="_LW6-0JMMEeON7emhanelfw"/>
+    <ownedEnd xmi:id="_LW7l4ZMMEeON7emhanelfw" type="_4HFs4JMLEeON7emhanelfw" association="_LW6-0JMMEeON7emhanelfw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_L96GUJMMEeON7emhanelfw" name="Association_Direttore vendite_to_Edit/Remove Articolo" memberEnd="_L96GUZMMEeON7emhanelfw _L977gJMMEeON7emhanelfw">
+    <ownedEnd xmi:id="_L96GUZMMEeON7emhanelfw" type="_2AlTYJMLEeON7emhanelfw" association="_L96GUJMMEeON7emhanelfw"/>
+    <ownedEnd xmi:id="_L977gJMMEeON7emhanelfw" type="_67r7cJMLEeON7emhanelfw" association="_L96GUJMMEeON7emhanelfw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_MhPc4JMMEeON7emhanelfw" name="Association_Direttore vendite_to_Gestisce Blog" memberEnd="_MhPc4ZMMEeON7emhanelfw _MhRSEJMMEeON7emhanelfw">
+    <ownedEnd xmi:id="_MhPc4ZMMEeON7emhanelfw" type="_2AlTYJMLEeON7emhanelfw" association="_MhPc4JMMEeON7emhanelfw"/>
+    <ownedEnd xmi:id="_MhRSEJMMEeON7emhanelfw" type="_--HPEJMLEeON7emhanelfw" association="_MhPc4JMMEeON7emhanelfw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_RVUP4JMMEeON7emhanelfw" name="Visualizza Ordini">
+    <extend xmi:id="_T93mgJMMEeON7emhanelfw" extendedCase="_GsSbsJMMEeON7emhanelfw"/>
+    <extend xmi:id="_fA1ksJMMEeON7emhanelfw" extendedCase="_cbesAJMMEeON7emhanelfw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_TXtlcJMMEeON7emhanelfw" name="Association_Direttore vendite_to_Visualizza Ordini" memberEnd="_TXuMgJMMEeON7emhanelfw _TXuMgZMMEeON7emhanelfw">
+    <ownedEnd xmi:id="_TXuMgJMMEeON7emhanelfw" type="_2AlTYJMLEeON7emhanelfw" association="_TXtlcJMMEeON7emhanelfw"/>
+    <ownedEnd xmi:id="_TXuMgZMMEeON7emhanelfw" type="_RVUP4JMMEeON7emhanelfw" association="_TXtlcJMMEeON7emhanelfw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_cbesAJMMEeON7emhanelfw" name="Evade Ordine"/>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_1D3XAJMMEeON7emhanelfw" name="Payment PayPall"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_3DS4IJMMEeON7emhanelfw" name="Association_Conferma Ordine_to_Payment" memberEnd="_3DS4IZMMEeON7emhanelfw _3DS4IpMMEeON7emhanelfw">
+    <ownedEnd xmi:id="_3DS4IZMMEeON7emhanelfw" type="_gQxp8JMJEeON7emhanelfw" association="_3DS4IJMMEeON7emhanelfw"/>
+    <ownedEnd xmi:id="_3DS4IpMMEeON7emhanelfw" type="_1D3XAJMMEeON7emhanelfw" association="_3DS4IJMMEeON7emhanelfw"/>
+  </packagedElement>
+</uml:Model>
