@@ -1,0 +1,50 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/Template/BaseTemplate.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+	<ui:define name="metadata">	
+	<f:viewAction action="#{accountView.doInit}"></f:viewAction>
+	</ui:define>
+	<ui:define name="title">
+		<h:outputText value="#{msg.account_registration}"></h:outputText>
+	</ui:define>
+	<ui:define name="content">
+		<h:form id="myForm">
+			<!-- name -->
+			<div>
+				<h:outputText value="#{msg.account_name}"></h:outputText>
+				<div>
+					<!-- surname -->
+				</div>
+				<h:outputText value="#{msg.account_surname}"></h:outputText>
+				<div>
+					<!-- email -->
+					<h:outputText value="#{msg.account_email}"></h:outputText>
+				</div>
+				<!-- cell -->
+				<h:outputText value="#{msg.account_telCell}"></h:outputText>
+				<div>
+					<!-- address -->
+					<h:outputText value="#{msg.account_address}"></h:outputText>
+					<h:outputText value="#{msg.account_number}"></h:outputText>
+					<h:outputText value="#{msg.account_capPost}"></h:outputText>
+					<h:outputText value="#{msg.account_loc}"></h:outputText>
+					<h:outputText value="#{msg.account_city}"></h:outputText>
+				</div>
+				<!-- password -->
+				<div>
+					<h:outputText value="#{msg.account_psw}"></h:outputText>
+					<h:outputText value="#{msg.account_confPsw}"></h:outputText>
+				</div>
+
+				<!-- bottoniera -->
+				<div></div>
+
+			</div>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>

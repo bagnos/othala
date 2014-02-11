@@ -8,19 +8,14 @@ public class AccountDTO implements Serializable  {
 	private String email;
 	private String psw;
 	private String telCell;
-	private String nome;
-	private String cognome;
-	private String indirizzo;
+	private String name;
+	private String surname;
+	private String address;
 	private String loc;
 	private String prov;
-	private String cap;
+	private String postalCode;
+	private String number;
 	
-	public String getCap() {
-		return cap;
-	}
-	public void setCap(String cap) {
-		this.cap = cap;
-	}
 	public String getEmail() {
 		return email;
 	}
@@ -39,23 +34,23 @@ public class AccountDTO implements Serializable  {
 	public void setTelCell(String telCell) {
 		this.telCell = telCell;
 	}
-	public String getNome() {
-		return nome;
+	public String getName() {
+		return name;
 	}
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public String getCognome() {
-		return cognome;
+	public String getSurname() {
+		return surname;
 	}
-	public void setCognome(String cognome) {
-		this.cognome = cognome;
+	public void setSurname(String surname) {
+		this.surname = surname;
 	}
-	public String getIndirizzo() {
-		return indirizzo;
+	public String getAddress() {
+		return address;
 	}
-	public void setIndirizzo(String indirizzo) {
-		this.indirizzo = indirizzo;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	public String getLoc() {
 		return loc;
@@ -69,6 +64,20 @@ public class AccountDTO implements Serializable  {
 	public void setProv(String prov) {
 		this.prov = prov;
 	}
+	public String getPostalCode() {
+		return postalCode;
+	}
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
+	}
+	public String getNumber() {
+		return number;
+	}
+	public void setNumber(String number) {
+		this.number = number;
+	}
+		
+	
 	
 	
 
