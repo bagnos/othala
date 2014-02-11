@@ -5,8 +5,13 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<f:metadata>
+	<ui:insert name="metadata"></ui:insert>
+</f:metadata>
 <h:head>
 	<title><ui:insert name="title">Default title</ui:insert></title>
+
 </h:head>
 
 <h:body>
@@ -23,7 +28,7 @@
 
 
 	<div id="content">
-		<p:messages> id="msgs"</p:messages>
+		<p:messages id="msgs" />
 		<ui:insert name="content">
     	CONTENT
 			<!-- <div> -->

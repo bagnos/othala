@@ -8,7 +8,7 @@ public interface IAccountService {
 
 	public void loginAccoun(String mail, String pswd) throws BadCredentialException;
 
-	public void subscribeAccount(AccountDTO account) throws DuplicateUserException, BadCredentialException;
+	public void registerAccount(AccountDTO account) throws DuplicateUserException, BadCredentialException;
 
 	public void resetPsswordAccount(String email) throws BadCredentialException;
 	
