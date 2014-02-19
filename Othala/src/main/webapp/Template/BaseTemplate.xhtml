@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+<h:head>
+	<title><ui:insert name="title">Default title</ui:insert></title>
+	<h:outputStylesheet name="base.css" library="css"></h:outputStylesheet>
+	<h:outputStylesheet name="account.css" library="css"></h:outputStylesheet>
+	<ui:insert name="metadata" />
+</h:head>
+
+<h:body>
+	<!-- debug jsf, solo per sviluppo -->
+	<ui:debug hotkey="x" rendered="#{initParam['javax.faces.FACELETS_DEVELOPMENT']}" />
+
+	<p:layout fullPage="true" >
+		<p:layoutUnit position="north" >
+			<ui:insert name="header">
+				<!-- <ui:include src="header.xhtml"/> -->
+				<div class="logo-header-account">
+					<h:graphicImage library="images" name="logo2.png"></h:graphicImage>
+				</div>
+			</ui:insert>
+		</p:layoutUnit>
+		<p:layoutUnit position="south">
+			<ui:insert name="footer">
+				<!--<ui:include src="footer.xhtml"/>  -->
+				<ul id="footerLinks" class="ul-footerLinks">
+					<li><a href="#"><h:outputText value="#{msg.base_privacy}" /></a></li>
+				</ul>
+			</ui:insert>
+		</p:layoutUnit>
+		<p:layoutUnit position="center">
+			
+			<ui:insert name="content">
+		CONTENT
+		</ui:insert>
+		</p:layoutUnit>
+	</p:layout>
+
+
+
+
+</h:body>
+</html>
