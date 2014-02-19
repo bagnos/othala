@@ -1,0 +1,52 @@
+.logo-header {
+	margin-left: 5%;
+}
+
+.label-form {
+	width: 25%;
+	display: inline-block;
+	font-weight: bold;
+}
+
+.ui-widget {
+	font-size: 90%;
+}
+
+.botton-container {
+	width: 100%;
+	text-align: center;
+	margin: 4% auto;
+}
+
+.ul-footerLinks {
+	margin-top: 2%;
+	float: right;
+	list-style: none;
+	display: block;
+	text-decoration: none;
+}
+
+.ul-footerLinks>li>a {
+	text-decoration: none;
+	color: #333333;
+	font: inherit;
+}
+
+.ul-footerLinks>li:after {
+	content: "|";
+	padding: 0 .5em;
+}
+
+.margin-left-small {
+	margin-left: 1%;
+}
+
+.gray {
+	color: #666;
+}
+
+/* MODIFICA LAYOUT PRIME FACES */
+.ui-layout,.ui-layout-doc,.ui-layout-unit,.ui-layout-wrap,.ui-layout-bd,.ui-layout-hd
+	{
+	border: none;
+}
