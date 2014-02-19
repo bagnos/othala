@@ -4,7 +4,7 @@
 
 	<ui:define name="metadata">
 		<f:metadata>
-			<f:viewAction action="#{registrationView.doInit}"></f:viewAction>
+			<f:viewAction action="#{accountView.doInit}"></f:viewAction>
 		</f:metadata>
 	</ui:define>
 
@@ -58,7 +58,7 @@
 
 		<!-- bottoniera -->
 		<h:panelGroup styleClass="botton-container" layout="block">
-			<p:commandButton validateClient="true" actionListener="#{registrationView.creaAccountClick}" value="#{msg.account_create}" icon="ui-icon-check" ajax="true"></p:commandButton>
+			<p:commandButton validateClient="true" actionListener="#{accountView.creaAccountClick}" value="#{msg.account_create}" icon="ui-icon-check" ajax="true"></p:commandButton>
 		</h:panelGroup>
 
 	</ui:define>
