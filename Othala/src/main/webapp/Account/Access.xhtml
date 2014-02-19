@@ -19,6 +19,7 @@
 		<p>
 			<h:outputLabel styleClass="label-form" value="#{msg.account_email}" for="email" />
 			<p:inputText id="email" label="#{msg.account_email}" required="true" maxlength="70" size="40" />
+			
 		</p>
 
 
@@ -30,7 +31,7 @@
 
 		<!-- bottoniera -->
 		<h:panelGroup styleClass="botton-container" layout="block">
-			<p:commandButton validateClient="true" value="#{msg.account_access}" icon="ui-icon-check" ajax="true"></p:commandButton>
+			<p:commandButton validateClient="true" value="#{msg.account_access}" icon="ui-icon-check" ajax="false"></p:commandButton>
 		</h:panelGroup>
 
 	</ui:define>
