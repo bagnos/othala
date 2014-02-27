@@ -1,0 +1,108 @@
+
+.header-panel {
+	float: right;
+	right: 0;
+	bottom: 0;
+	top: 0;
+	color: inherit;
+	background: inherit;
+	color: inherit;
+}
+
+.header-top-panel {
+	width: 100%;
+	overflow: hidden;
+	background: black;
+	color: white;
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+
+
+
+.header-menu-botton {
+	float: left;
+	margin-right: 5px;
+	background: inherit !important;
+	border: none !important;
+	color: inherit !important;
+	font-size: 90%;
+}
+
+.header-logo {
+	
+	padding: 0px !important;
+	float: left;
+	margin-right: 5%;
+	
+}
+
+
+.header-top-panel button {
+	border: none;
+}
+
+.header-nav-bar {
+	margin-top: 0px important;
+	border: none !important;
+	background: white !important;
+	min-width: 0px !important;
+	font-size: 16px !important;;
+	box-shadow: 0px 0px 0px !important;
+	z-index: 5000;
+	width: 100%
+	
+	
+}
+
+.header-container-nav-bar {
+	float: left;	
+	margin-top: 40px;
+}
+
+.header-nav-bar li {
+	margin-right: 20px !important;
+}
+
+.header-nav-bar li  .ui-icon-triangle-1-s {
+	display: none !important;
+}
+
+.ui-menubutton {
+	background-image: none !important;
+}
+
+@MEDIA screen and (max-width:670px) {
+		.header-container-nav-bar {
+		margin-top: 0px !important;
+		padding: :0px !important;
+		margin-left: 0px;
+		
+		
+	}
+}
+
+@MEDIA screen and (max-width:228px) {
+	
+	
+	.header-container-nav-bar .ui-menu .ui-menubar
+	{
+	padding: 0px;}
+	
+	.header-nav-bar li
+	{
+		margin: 1px !important;
+	}
+	.ui-menuitem-text
+	{
+		font-size: 12px !important;
+	}
+	
+	
+}
+	
+	
+	
+	
+	
+}
