@@ -1,0 +1,23 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/masterTemplate.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+	<ui:define name="header">
+		<div class="logo-header-account">
+			<h:graphicImage library="images" name="logo2.png"></h:graphicImage>
+		</div>
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form id="myForm">
+			<h:panelGroup styleClass="account-body" layout="block">
+				<p:messages id="msgs" autoUpdate="true"  closable="true" showDetail="false" />
+			</h:panelGroup>
+			
+				<ui:insert name="contentAccount">
+				</ui:insert>
+			
+		</h:form>
+	</ui:define>
+
+
+</ui:composition>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<ui:insert name="metadata" />
+
+<pe:head title="Degortes Outlet" shortcutIcon="#{request.contextPath}/resources/images/logo2.png">
+	<f:facet name="first">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta http-equiv="pragma" content="no-cache" />
+		<meta http-equiv="cache-control" content="no-cache" />
+		<meta http-equiv="expires" content="0" />
+	</f:facet>
+	<h:outputStylesheet name="base.css" library="css"></h:outputStylesheet>
+	<h:outputStylesheet name="account.css" library="css"></h:outputStylesheet>
+	<h:outputStylesheet name="header.css" library="css"></h:outputStylesheet>
+	
+
+</pe:head>
+
+<h:body>
+	<h:form id="myForm">
+		<pe:layout fullPage="true">
+			<pe:javascript event="resize" execute="resizeLayout()" />
+			<pe:layoutPane position="north"  spacingOpen="0"  size="25" resizeWhileDragging="false"
+				closable="false" resizable="false">
+				<ui:insert name="header">
+					<ui:include src="/sections/header.xhtml" />
+				</ui:insert>
+
+			</pe:layoutPane>
+			<pe:layoutPane position="south" size="35" closable="false" resizable="false" styleClassContent="ui-widget-header">
+				<ui:insert name="footer">
+					<!--<ui:include src="footer.xhtml"/>  -->
+					<p:panel styleClass="ui-widget-header">
+						<ul id="footerLinks" class="ul-footerLinks ui-widget">
+							<li><a href="#"><h:outputText style="font-weight:normal;" value="#{msg.base_privacy}" /></a></li>
+						</ul>
+					</p:panel>
+				</ui:insert>
+			</pe:layoutPane>
+			<pe:layoutPane position="center" spacingOpen="0">
+
+				<h:outputScript id="fluidGridScript" target="body">
+/* <![CDATA[ */    
+    function resizeLayout() {
+        PF('fluidGridWdgt').layout();
+    }
+/* ]]> */
+</h:outputScript>
+
+
+				<ui:include src="/sections/mainMenu.xhtml"></ui:include>
+				<h:panelGroup layout="block" id="container-panel" class="container-panel" style="clear:both!important;" >
+					<p:messages id="msgs" autoUpdate="true" closable="true" showDetail="false" />
+
+
+					<!-- <p:growl id="growl" showDetail="false"   autoUpdate="true" sticky="true" />-->
+
+					<ui:insert name="content">
+
+					</ui:insert>
+				</h:panelGroup>
+
+
+
+			</pe:layoutPane>
+		</pe:layout>
+
+
+	</h:form>
+
+</h:body>
+</html>
