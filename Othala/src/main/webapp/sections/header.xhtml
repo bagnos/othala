@@ -3,19 +3,19 @@
 	xmlns:pe="http://primefaces.org/ui/extensions">
 
 	<div class="header-top-panel">
-		<div class="header-panel">
+		<div class="header-panel" id="header-panel">
 
-			<p:menuButton value="#{msg.header_Cart} (0)" styleClass="header-menu-botton">
+			<p:menuButton value="#{msg.header_Cart} (0)"   styleClass="ui-state-highlight header-menu-botton">
 				<p:menuitem value="#{msg.header_viewCart}" icon="ui-icon-cart" />
 				<p:menuitem value="#{msg.header_clearCart}" icon="ui-icon-trash" />
 			</p:menuButton>
 
-			<p:menuButton value="#{msg.header_access}" styleClass="header-menu-botton">
+			<p:menuButton value="#{msg.header_access}" styleClass="ui-state-highlight header-menu-botton">
 				<p:menuitem value="#{msg.header_login}" />
 				<p:menuitem value="#{msg.header_registration}" />
 			</p:menuButton>
 
-			<p:menuButton id="clientBean" value="#{msg.header_hello} Simone!" rendered="#{accessView.renderClient}">
+			<p:menuButton id="clientBean" value="#{msg.header_hello} Simone!" styleClass="ui-state-highlight"  rendered="#{accessView.renderClient}">
 				<p:menuitem value="#{msg.header_logout}" ajax="false" actionListener="#{accessView.logout}">
 
 				</p:menuitem>

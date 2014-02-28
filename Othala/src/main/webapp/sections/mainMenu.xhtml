@@ -2,18 +2,73 @@
 	xmlns:p="http://primefaces.org/ui" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:pe="http://primefaces.org/ui/extensions">
 
-	<p:panel style="width:100%;">
-		<p:panel styleClass="header-logo ">
+	<h:outputScript target="head">
+function outMouseTab() {
+
+var id=tabMenu.getActiveIndex();
+tabMenu.select(-10);
+var sel='#myForm\\:tabView ul li:eq('+id+')';
+$(sel).removeClass( "ui-state-focus ui-tabs-selected ui-state-active" );
+id= tabMenu.getLength()-1;
+var sel='#myForm\\:tabView ul li:eq('+id+')';
+$(sel).removeClass( "ui-state-focus ui-tabs-selected ui-state-active" );
+ 
+}
+</h:outputScript>
 
 
-			<h:graphicImage library="images" styleClass="img-responsive" name="logo2-small.png"></h:graphicImage>
-			<!-- <img class="header-logo-img" />-->
-		</p:panel>
+	<div class="header-container-nav-bar" >
+
+		<p:tabView id="tabView" widgetVar="tabMenu" collabsible="true" activeIndex="-1">
+
+
+			<p:tab id="tab1" title="UOMO">
+
+				<div onmouseout="outMouseTab()">
+					<!-- <p:graphicImage id="tab1Img" styleClass="img-responsive" library="images" name="logo2-small.png" /> -->
+					<h:outputText id="tab1Text"
+						value="The story begins as Don Vito Corleone, the head of a New York Mafia family, oversees his daughter's wedding.  
+                His beloved son Michael has just come home from the war, but does not intend to become part of his father's business. T  
+                hrough Michael's life the nature of the family business becomes clear. The business of the family is just like the head of the family, kind and benevolent to those who give respect,  
+                but given to ruthless violence whenever anything stands against the good of the family." />
+				</div>
+
+			</p:tab>
+
+
+			<p:tab id="tab2" title="DONNA">
+				<div onmouseout="outMouseTab()">
+
+					<h:outputText id="tab2Text"
+						value="Francis Ford Coppola's legendary continuation and sequel to his landmark 1972 film, The_Godfather, parallels the young Vito Corleone's rise with his son Michael's spiritual fall, deepening The_Godfather's depiction of the dark side of the American dream.  
+            In the early 1900s, the child Vito flees his Sicilian village for America after the local Mafia kills his family. Vito struggles to make a living, legally or illegally, for his wife and growing brood in Little Italy,  
+            killing the local Black Hand Fanucci after he demands his customary cut of the tyro's business. With Fanucci gone, Vito's communal stature grows." />
+				</div>
+			</p:tab>
+
+			<p:tab id="tab3" title="BAMBINO">
+				<div onmouseout="outMouseTab()">
+
+					<h:outputText id="tab3Text"
+						value="After a break of more than 15 years, director Francis Ford Coppola and writer Mario Puzo returned to the well for this third and final story of the fictional Corleone crime family.  
+                Two decades have passed, and crime kingpin Michael Corleone, now divorced from his wife Kay has nearly succeeded in keeping his promise that his family would one day be completely legitimate." />
+				</div>
+			</p:tab>
+
+			<p:tab id="tab4" title="SALDI">
+				<div onmouseout="outMouseTab()">
+
+					<h:outputText id="tab4Text"
+						value="After a break of more than 15 years, director Francis Ford Coppola and writer Mario Puzo returned to the well for this third and final story of the fictional Corleone crime family.  
+                Two decades have passed, and crime kingpin Michael Corleone, now divorced from his wife Kay has nearly succeeded in keeping his promise that his family would one day be completely legitimate." />
+				</div>
+			</p:tab>
+
+		</p:tabView>
 
 
 
-
-		<p:panel styleClass="header-container-nav-bar">
+		<!-- 
 			<p:megaMenu styleClass="header-nav-bar">
 				<p:submenu label="UOMO">
 					<p:column>
@@ -157,8 +212,8 @@
 
 
 			</p:megaMenu>
+-->
 
+	</div>
 
-		</p:panel>
-	</p:panel>
 </ui:composition>
