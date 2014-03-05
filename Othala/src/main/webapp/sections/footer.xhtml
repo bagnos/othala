@@ -1,11 +1,60 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:pe="http://primefaces.org/ui/extensions">
 
-	<p:panel styleClass="ui-widget-header">
-		<ul id="footerLinks" class="ul-footerLinks ui-widget">
-			<li><a href="#"><h:outputText style="font-weight:normal;" value="#{msg.base_privacy}" /></a></li>
-		</ul>
-	</p:panel>
+
+	<div class="container">
+		<h:form id="footerForm">
+			<div class="row">
+				<div class="col-sm-2">
+					<strong>SOCIALIZE</strong><br />
+					<a target="_blank" class="btn btn-social-icon btn-xs btn-facebook"
+						href="https://www.facebook.com/pages/OUTLET-DEGORTES-ABBIGLIAMENTO-GRANDI-FIRME/338160518798?ref=ts"
+						title="Facebook">
+						<i class="fa fa-facebook"></i>
+					</a>
+
+					<a target="_blank" href="mailto:degortes@degortes.it" title="Send us Email">
+						<span class=" btn  btn-lg glyphicon glyphicon-envelope"></span>
+					</a>
+				</div>
+				<div class="col-sm-3">
+					<strong>EVENTI TOSCANI SRL</strong>
+					<address>
+						Castiglione della Pescaia (GR) <br />58043 Via IV Novembre, n°1 <br /> P.Iva 01167350527
+					</address>
+				</div>
+				<div class="col-sm-2">
+					<a href="http://www.ristorantemillevini.it/">
+						<p:graphicImage styleClass="img-responsive" name="milleVini.png" width="91" height="50"
+							library="images"></p:graphicImage>
+					</a>
+				</div>
+				<div class="col-sm-2">
+					<a href="http://www.capannina.it">
+						<p:graphicImage styleClass="img-responsive" name="capannina.jpg" width="91" height="50"
+							library="images"></p:graphicImage>
+					</a>
+				</div>
+				<div class="col-sm-3">
+					<strong>NEWSLETTER</strong>
+					<DIV class="input-group ">
+						<input type="text" class="form-control" />
+						<span class="input-group-btn">
+							<button class="btn btn-success" type="button">Iscriviti!</button>
+						</span>
+					</DIV>
+				</div>
+			</div>
+			<div class="row" id="row-copy">
+				<div class="col-sm-12 text-right">
+					<span>&#169;</span> 2013 All rights reserved Degortes.
+				</div>
+
+			</div>
+		</h:form>
+	</div>
+
 
 </ui:composition>

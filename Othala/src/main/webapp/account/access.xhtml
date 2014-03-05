@@ -1,5 +1,6 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/masterTemplate.xhtml"
-	xmlns:h="http://java.sun.com/jsf/html" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/masterTemplateBS.xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions">
 
 
@@ -15,37 +16,35 @@
 	</ui:define>
 
 	<ui:define name="content">
-		
-		<p:panel styleClass="account-body-grid" header="#{msg.account_login}">
-			<pe:fluidGrid id="fluidGrid" fitWidth="true" resizeBound="true" hGutter="20" widgetVar="fluidGridWdgt">
-				<pe:fluidGridItem type="input">
-					<div class="dynaFormLabel">
-						<p:outputLabel styleClass="label-form-grid" value="#{msg.account_email}" for="email" />
+		<h:form id="myForm">
+			<div class="row">
+				<div class="col-sm-4">
+					<h3 class="form-titoli">
+						<h:outputText value="#{msg.account_login}" />
+					</h3>
+					<div class="form-group">
+						<p:outputLabel value="#{msg.account_email}" for="email" />
+						<p:inputText id="email" styleClass="form-control" label="#{msg.account_email}"
+							value="#{accessView.accessBean.email}" required="true" maxlength="70" />
 					</div>
-					<p:inputText id="email" styleClass="account-mail" label="#{msg.account_email}" value="#{accessView.accessBean.email}" required="true"
-						maxlength="70" />
-				</pe:fluidGridItem>
-				<pe:fluidGridItem type="input" styleClass="pe-fluidgrid-item-forgetPsw">
-					<div class="dynaFormLabel">
-						<p:outputLabel styleClass="label-form-grid" value="#{msg.account_psw}" for="psw" />
-					</div>
-					<div>
-						<p:inputText id="psw" required="true" label="#{msg.account_psw}" value="#{accessView.accessBean.psw}" maxlength="10" />
-					</div>
-					<div class="div-forgetPsw">
+
+					<div class="form-group">
+						<p:outputLabel value="#{msg.account_psw}" for="psw" />
+						<p:inputText id="psw" required="true" styleClass="form-control" label="#{msg.account_psw}"
+							value="#{accessView.accessBean.psw}" maxlength="10" />
 						<p:commandLink value="#{msg.account_forgotPsw}"></p:commandLink>
 					</div>
-				</pe:fluidGridItem>
-			</pe:fluidGrid>
-			<div class="checksign-container">
-				<p:selectBooleanCheckbox value="#{accessView.accessBean.staySignIn}" />
-				<h:outputText value="#{msg.account_staySignIn}" styleClass="checksign-label" />
 
-			</div>
-			<div class="botton-container">
-				<p:commandButton validateClient="true" value="#{msg.account_access}" action="#{accessView.login}" icon="ui-icon-check" ajax="false"></p:commandButton>
-			</div>
-		</p:panel>
 
+					<div class="checkbox">
+						<label> <h:selectBooleanCheckbox value="#{accessView.accessBean.staySignIn}" /> <h:outputText
+								value="#{msg.account_staySignIn}" />
+						</label>
+					</div>
+					<p:commandButton validateClient="true" styleClass="btn btn-primary"
+						value="#{msg.account_access}" action="#{accessView.login}" ajax="false"></p:commandButton>
+				</div>
+			</div>
+		</h:form>
 	</ui:define>
 </ui:composition>

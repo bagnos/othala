@@ -9,7 +9,6 @@ import it.othala.view.BaseView;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.event.ActionEvent;
-import javax.faces.event.ActionListener;
 
 @ManagedBean
 public class AccessView extends BaseView{
