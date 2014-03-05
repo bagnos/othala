@@ -1,0 +1,73 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/masterTemplateBS.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:viewAction action="#{accessView.doInit}"></f:viewAction>
+		</f:metadata>
+	</ui:define>
+
+
+	<ui:define name="title">
+		<h:outputText value="#{msg.account_login}"></h:outputText>
+	</ui:define>
+
+	<ui:define name="content">		
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+
+					<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+						<!-- Indicators -->
+						<!-- 
+								<ol class="carousel-indicators">
+									<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+									<li data-target="#carousel-example-generic" data-slide-to="1"></li>
+									<li data-target="#carousel-example-generic" data-slide-to="2"></li>
+								</ol>
+								 -->
+
+						<!-- Wrapper for slides -->
+						<div class="carousel-inner">
+							<div class="item active">
+								<p:graphicImage styleClass="img-responsive" library="images/carousel" name="2.jpg" />
+								<div class="carousel-caption">prova</div>
+							</div>
+							<div class="item">
+								<p:graphicImage styleClass="img-responsive" library="images/carousel" name="3.jpg" />
+								<div class="carousel-caption">prova</div>
+							</div>
+							<div class="item">
+								<p:graphicImage styleClass="img-responsive" library="images/carousel" name="2.jpg" />
+								<div class="carousel-caption">prova</div>
+							</div>
+						</div>
+
+						<!-- Controls -->
+						<a class="left carousel-control" href="#carousel-example-generic" data-slide="prev"> <span
+							class="glyphicon glyphicon-chevron-left"></span>
+						</a> <a class="right carousel-control" href="#carousel-example-generic" data-slide="next"> <span
+							class="glyphicon glyphicon-chevron-right"></span>
+						</a>
+					</div>
+					<!-- 
+							<p:carousel id="home-carousel" styleClass="carousel" autoPlayInterval="2000" rows="1" effect="easeInStrong" circular="true"
+								itemStyle="border:none;width: 980px;float: left;display: block;">
+
+								<p:graphicImage styleClass="img-responsive" library="images/carousel" name="2.jpg" />
+
+								<p:graphicImage styleClass="img-responsive" library="images/carousel" name="3.jpg" />
+
+
+							</p:carousel>
+							-->
+				</div>
+
+
+			</div>
+		</div>
+
+	</ui:define>
+</ui:composition>
