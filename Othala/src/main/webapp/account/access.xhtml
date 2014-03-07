@@ -22,10 +22,16 @@
 					<h3 class="form-titoli">
 						<h:outputText value="#{msg.account_login}" />
 					</h3>
+					
 					<div class="form-group">
 						<p:outputLabel value="#{msg.account_email}" for="email" />
-						<p:inputText id="email" styleClass="form-control" label="#{msg.account_email}"
-							value="#{accessView.accessBean.email}" required="true" maxlength="70" />
+						<p:inputText id="email" styleClass="form-control"  label="#{msg.account_email}"
+							value="#{accessView.accessBean.email}" required="true" validatorMessage="#{msg.validator_mail}" maxlength="70">
+
+							<f:validateRegex
+		pattern="[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+\.[a-zA-Z]{2,4}" />  
+
+						</p:inputText>
 					</div>
 
 					<div class="form-group">

@@ -22,14 +22,20 @@
 			<div class="row">
 				<div class="col-sm-6">
 					<h3 class="form-titoli">
-						<h:outputText value="#{msg.account_registration}" />
+						<h:outputText value="#{msg.account_registration}" />						
 					</h3>
+					
 					<div class="form-group">
 						<div class="col-sm-4">
 							<p:outputLabel value="#{msg.account_email}" for="email" />
 						</div>
 						<div class="col-sm-8">
-							<p:inputText styleClass="form-control" id="email" label="#{msg.account_email}" required="true" maxlength="70" />
+							<p:inputText styleClass="form-control" value="#{accessView.accessBean.email}" id="email"
+								label="#{msg.account_email}" validatorMessage="#{msg.validator_mail}" required="true"
+								maxlength="70">
+								<f:validateRegex pattern="[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+\.[a-zA-Z]{2,4}" />
+							</p:inputText>
+							<p:message for="email"></p:message>
 						</div>
 					</div>
 
@@ -38,7 +44,12 @@
 							<p:outputLabel value="#{msg.account_confEmail}" for="confEmail" />
 						</div>
 						<div class="col-sm-8">
-							<p:inputText styleClass="form-control" id="confEmail" label="#{msg.account_confEmail}" required="true" maxlength="70" />
+							<p:inputText styleClass="form-control" id="confEmail"
+								value="#{accessView.accessBean.confEmail}" label="#{msg.account_confEmail}" required="true"
+								maxlength="70" validatorMessage="#{msg.validator_mail}">
+								<f:validateRegex pattern="[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+\.[a-zA-Z]{2,4}" />
+							</p:inputText>
+							<p:message for="confEmail"></p:message>
 						</div>
 					</div>
 
@@ -47,7 +58,9 @@
 							<p:outputLabel value="#{msg.account_name}" for="name" />
 						</div>
 						<div class="col-sm-8">
-							<p:inputText styleClass="form-control" id="name" label="#{msg.account_name}" required="true" maxlength="70" />
+							<p:inputText styleClass="form-control" id="name" value="#{accessView.accessBean.name}"
+								label="#{msg.account_name}" required="true" maxlength="70" />
+							<p:message for="name"></p:message>
 						</div>
 					</div>
 
@@ -56,16 +69,25 @@
 							<p:outputLabel value="#{msg.account_surname}" for="surname" />
 						</div>
 						<div class="col-sm-8">
-							<p:inputText styleClass="form-control" id="surname" required="true" maxlength="70" />
+							<p:inputText styleClass="form-control" id="surname" value="#{accessView.accessBean.surname}"
+								required="true" maxlength="70" />
+							<p:message for="surname"></p:message>
 						</div>
 					</div>
 
 					<div class="form-group">
 						<div class="col-sm-4">
 							<p:outputLabel styleClass="label-form-grid" value="#{msg.account_psw}" for="psw" />
+							<p:outputLabel value="#{msg.validator_hintPsw}" />
 						</div>
 						<div class="col-sm-6">
-							<p:inputText styleClass="form-control" id="psw" required="true" label="#{msg.account_psw}" maxlength="10" />
+							<p:password styleClass="form-control" id="psw" match="confPsw"
+								value="#{accessView.accessBean.psw}" validatorMessage="#{msg.validator_badPsw}"
+								required="true" label="#{msg.account_psw}" maxlength="10">
+								<f:validateLength minimum="6" maximum="10" />
+							</p:password>
+							<p:message for="psw"></p:message>
+
 						</div>
 					</div>
 
@@ -74,13 +96,22 @@
 							<p:outputLabel styleClass="label-form-grid" value="#{msg.account_confPsw}" for="confPsw" />
 						</div>
 						<div class="col-sm-6">
-							<p:inputText id="confPsw" styleClass="form-control"  required="true" label="#{msg.account_confPsw}"
-								maxlength="10" />
+							<p:password id="confPsw" styleClass="form-control" value="#{accessView.accessBean.confPsw}"
+								required="true" label="#{msg.account_confPsw}" maxlength="10" />
+
+							<p:message for="confPsw"></p:message>
 						</div>
 					</div>
+					<!-- 
+					<div class="form-group">
+						<div class="col-sm-12">
+							<p:captcha label="Captcha" required="true" validatorMessage="#{msg.validator_captha}" theme="clean" />
+						</div>
+					</div>
+					 -->
 
-					<p:commandButton styleClass="btn btn-primary" validateClient="true"
-						value="#{msg.account_create}" ajax="false"></p:commandButton>
+					<p:commandButton styleClass="ui-priority-primary" validateClient="true"
+						value="#{msg.account_create}" actionListener="#{accessView.registration}" ajax="false"></p:commandButton>
 				</div>
 			</div>
 		</h:form>

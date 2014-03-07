@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="it.othala.account.queries">
+
+	<select id="getAccount" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+		SELECT count(idUser)
+		FROM
+		${database.schema}CUSTOMER
+		WHERE idUser like #{idUser}
+	</select>
+
+	<insert id="insertAccount" parameterType="it.othala.dto.AccountDTO">
+		INSERT INTO
+		${database.schema}CUSTOMER (idUser,
+		txPassword,
+		txNome,
+		txCognome)
+		values
+		(#{email},#{psw},#{name},#{surname})
+	</insert>
+
+
+</mapper>
