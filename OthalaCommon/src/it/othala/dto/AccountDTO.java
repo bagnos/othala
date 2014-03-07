@@ -2,83 +2,44 @@ package it.othala.dto;
 
 import java.io.Serializable;
 
-public class AccountDTO implements Serializable  {
+public class AccountDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String email;
 	private String psw;
-	private String telCell;
 	private String name;
 	private String surname;
-	private String address;
-	private String loc;
-	private String prov;
-	private String postalCode;
-	private String number;
-	
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 	public String getPsw() {
 		return psw;
 	}
+
 	public void setPsw(String psw) {
 		this.psw = psw;
 	}
-	public String getTelCell() {
-		return telCell;
-	}
-	public void setTelCell(String telCell) {
-		this.telCell = telCell;
-	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public String getSurname() {
 		return surname;
 	}
+
 	public void setSurname(String surname) {
 		this.surname = surname;
 	}
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	public String getLoc() {
-		return loc;
-	}
-	public void setLoc(String loc) {
-		this.loc = loc;
-	}
-	public String getProv() {
-		return prov;
-	}
-	public void setProv(String prov) {
-		this.prov = prov;
-	}
-	public String getPostalCode() {
-		return postalCode;
-	}
-	public void setPostalCode(String postalCode) {
-		this.postalCode = postalCode;
-	}
-	public String getNumber() {
-		return number;
-	}
-	public void setNumber(String number) {
-		this.number = number;
-	}
-		
-	
-	
-	
 
 }

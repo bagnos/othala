@@ -1,6 +1,5 @@
-package it.othala.account.execption;
+package it.othala.execption;
 
-import it.othala.execption.OthalaException;
 
 public class BadCredentialException extends OthalaException{
 

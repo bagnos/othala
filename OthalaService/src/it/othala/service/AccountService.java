@@ -1,11 +1,21 @@
 package it.othala.service;
 
-import it.othala.account.execption.BadCredentialException;
-import it.othala.account.execption.DuplicateUserException;
+import it.othala.dao.interfaces.IAccountDAO;
 import it.othala.dto.AccountDTO;
+import it.othala.execption.BadCredentialException;
+import it.othala.execption.DuplicateUserException;
+import it.othala.execption.MailNotSendException;
 import it.othala.service.interfaces.IAccountService;
+import it.othala.service.interfaces.IMailService;
 
 public class AccountService implements IAccountService {
+
+	private IAccountDAO accountDAO;
+	private IMailService mailService;
+
+	public void setAccountDAO(IAccountDAO accountDAO) {
+		this.accountDAO = accountDAO;
+	}
 
 	@Override
 	public void loginAccoun(String mail, String pswd) throws BadCredentialException {
@@ -14,9 +24,15 @@ public class AccountService implements IAccountService {
 	}
 
 	@Override
-	public void registerAccount(AccountDTO account) throws DuplicateUserException, BadCredentialException {
-		// TODO Auto-generated method stub
-
+	public void registerAccount(AccountDTO account) throws DuplicateUserException, BadCredentialException,
+			MailNotSendException {
+		
+		if (accountDAO.existAccount(account.getEmail()) > 0) {
+			throw new DuplicateUserException(account.getEmail());
+		}
+		accountDAO.insertAccount(account);
+		mailService.inviaMail(null, null, null, null);
+		
 	}
 
 	@Override

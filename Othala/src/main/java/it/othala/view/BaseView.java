@@ -1,7 +1,13 @@
 package it.othala.view;
 
+import it.othala.execption.OthalaException;
+import it.othala.web.utils.OthalaUtil;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public abstract class BaseView {
 	/**
@@ -12,26 +18,46 @@ public abstract class BaseView {
 	 * 
 	 * @return
 	 */
+	protected static Log log = LogFactory.getLog(BaseView.class);
+
 	public abstract String doInit();
 
-	public void addInfo(String summary,String message) {
+	public void addInfo(String summary, String message) {
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, summary, message));
 	}
 
-	public void addWarn(String summary,String message) {
+	public void addWarn(String summary, String message) {
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_WARN, summary, message));
 	}
 
-	public void addError(String summary,String message) {
+	public void addError(String summary, String message) {
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_ERROR, summary, message));
 	}
 
-	public void addFatal(String summary,String message) {
-		
+	public void addGenericError(Exception e,String dsErrorLog) {
+		log.error(dsErrorLog, e);
+		FacesContext.getCurrentInstance().addMessage(
+				null,
+				new FacesMessage(FacesMessage.SEVERITY_ERROR, OthalaUtil.getWordBundle("validator_summary"), OthalaUtil
+						.getWordBundle("exception_base")));
+	}
+
+	public void addOthalaExceptionError(OthalaException e,String dsErrorLog) {
+		log.error(dsErrorLog, e);
+
+		FacesContext.getCurrentInstance().addMessage(
+				null,
+				new FacesMessage(FacesMessage.SEVERITY_ERROR, OthalaUtil.getWordBundle("validator_summary"), OthalaUtil
+						.getWordBundle(e)));
+	}
+
+	public void addFatal(String summary, String message) {
+
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_FATAL, summary, message));
 	}
+
 }

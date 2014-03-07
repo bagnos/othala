@@ -48,11 +48,12 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
-	<!-- BEAN APPLICATION -->
-	<bean id="sampleService" class="it.othala.service.SampleService" autowire="byType" />
+	
+	<bean id="accountService" class="it.othala.service.AccountService" autowire="byType" />
+	<bean id="mailService" class="it.othala.service.MailService" autowire="byType" />
 
-	<bean id="sampleDAO" class="it.othala.dao.SampleDAO">
-		<property name="sqlSessionFactory" ref="SqlMapClient" />
+	<bean id="accountDAO" class="it.othala.dao.AccountDAO">
+		<property name="sqlSessionFactory" ref="SqlMapClient" />		
 	</bean>
 
 

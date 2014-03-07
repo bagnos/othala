@@ -1,14 +1,15 @@
 package it.othala.service.interfaces;
 
-import it.othala.account.execption.BadCredentialException;
-import it.othala.account.execption.DuplicateUserException;
 import it.othala.dto.AccountDTO;
+import it.othala.execption.BadCredentialException;
+import it.othala.execption.DuplicateUserException;
+import it.othala.execption.MailNotSendException;
 
 public interface IAccountService {
 
 	public void loginAccoun(String mail, String pswd) throws BadCredentialException;
 
-	public void registerAccount(AccountDTO account) throws DuplicateUserException, BadCredentialException;
+	public void registerAccount(AccountDTO account) throws DuplicateUserException, BadCredentialException, MailNotSendException;
 
 	public void resetPsswordAccount(String email) throws BadCredentialException;
 	
