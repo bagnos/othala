@@ -1,10 +1,10 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
 	template="/template/masterTemplateBS.xhtml" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions">>
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions">
 
 
-	
+
 	<ui:define name="metadata">
 		<f:metadata>
 			<f:viewAction action="#{accessView.doInit}"></f:viewAction>
@@ -18,102 +18,125 @@
 
 	<ui:define name="content">
 
-		<h:form id="myForm" styleClass="form-horizontal">
+		<h:form id="myForm">
 			<div class="row">
 				<div class="col-sm-6">
 					<h3 class="form-titoli">
-						<h:outputText value="#{msg.account_registration}" />						
+						<h:outputText value="#{msg.account_registration}" />
 					</h3>
-					
-					<div class="form-group">
-						<div class="col-sm-4">
-							<p:outputLabel value="#{msg.account_email}" for="email" />
-						</div>
-						<div class="col-sm-8">
-							<p:inputText styleClass="form-control" value="#{accessView.accessBean.email}" id="email"
-								label="#{msg.account_email}" validatorMessage="#{msg.validator_mail}" required="true"
-								maxlength="70">
-								<f:validateRegex pattern="[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+\.[a-zA-Z]{2,4}" />
-							</p:inputText>
-							<p:message for="email"></p:message>
-						</div>
-					</div>
 
-					<div class="form-group">
-						<div class="col-sm-4">
-							<p:outputLabel value="#{msg.account_confEmail}" for="confEmail" />
-						</div>
-						<div class="col-sm-8">
-							<p:inputText styleClass="form-control" id="confEmail"
-								value="#{accessView.accessBean.confEmail}" label="#{msg.account_confEmail}" required="true"
-								maxlength="70" validatorMessage="#{msg.validator_mail}">
-								<f:validateRegex pattern="[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+\.[a-zA-Z]{2,4}" />
-							</p:inputText>
-							<p:message for="confEmail"></p:message>
-						</div>
-					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
 
-					<div class="form-group">
-						<div class="col-sm-4">
-							<p:outputLabel value="#{msg.account_name}" for="name" />
-						</div>
-						<div class="col-sm-8">
-							<p:inputText styleClass="form-control" id="name" value="#{accessView.accessBean.name}"
-								label="#{msg.account_name}" required="true" maxlength="70" />
-							<p:message for="name"></p:message>
-						</div>
-					</div>
-
-					<div class="form-group">
-						<div class="col-sm-4">
-							<p:outputLabel value="#{msg.account_surname}" for="surname" />
-						</div>
-						<div class="col-sm-8">
-							<p:inputText styleClass="form-control" id="surname" value="#{accessView.accessBean.surname}"
-								required="true" maxlength="70" />
-							<p:message for="surname"></p:message>
-						</div>
-					</div>
-
-					<div class="form-group">
-						<div class="col-sm-4">
-							<p:outputLabel styleClass="label-form-grid" value="#{msg.account_psw}" for="psw" />
-							<p:outputLabel value="#{msg.validator_hintPsw}" />
+								<p:outputLabel value="#{msg.account_name}" for="name" />
+								<p:inputText styleClass="form-control" id="name" value="#{accessView.accessBean.name}"
+									label="#{msg.account_name}" required="true" maxlength="70" />
+								<p:message for="name"></p:message>
+							</div>
 						</div>
 						<div class="col-sm-6">
-							<p:password styleClass="form-control" id="psw" match="confPsw"
-								value="#{accessView.accessBean.psw}" validatorMessage="#{msg.validator_badPsw}"
-								required="true" label="#{msg.account_psw}" maxlength="10">
-								<f:validateLength minimum="6" maximum="10" />
-							</p:password>
-							<p:message for="psw"></p:message>
+							<div class="form-group">
 
+								<p:outputLabel value="#{msg.account_surname}" for="surname" />
+								<p:inputText styleClass="form-control" id="surname" value="#{accessView.accessBean.surname}"
+									required="true" maxlength="70" />
+								<p:message for="surname"></p:message>
+
+							</div>
 						</div>
 					</div>
 
-					<div class="form-group">
-						<div class="col-sm-4">
-							<p:outputLabel styleClass="label-form-grid" value="#{msg.account_confPsw}" for="confPsw" />
+					<div class="row">
+						<div class="col-sm-8">
+							<div class="form-group">
+
+								<p:outputLabel value="#{msg.account_email}" for="email" />
+								<p:inputText styleClass="form-control" value="#{accessView.accessBean.email}" id="email"
+									label="#{msg.account_email}" validatorMessage="#{msg.validator_mail}" required="true"
+									maxlength="70">
+									<f:validateRegex pattern="[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+\.[a-zA-Z]{2,4}" />
+								</p:inputText>
+								<p:message for="email"></p:message>
+							</div>
+						</div>
+
+					</div>
+
+					<div class="row">
+						<div class="col-sm-8">
+							<div class="form-group">
+
+								<p:outputLabel value="#{msg.account_confEmail}" for="confEmail" />
+
+								<p:inputText styleClass="form-control" id="confEmail"
+									value="#{accessView.accessBean.confEmail}" label="#{msg.account_confEmail}" required="true"
+									maxlength="70" validatorMessage="#{msg.validator_mail}">
+									<f:validateRegex pattern="[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+\.[a-zA-Z]{2,4}" />
+								</p:inputText>
+								<p:message for="confEmail"></p:message>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+
+								<p:outputLabel styleClass="label-form-grid" value="#{msg.account_psw}" for="psw" />
+								<p:outputLabel value="#{msg.validator_hintPsw}" />
+
+								<p:password styleClass="form-control" id="psw" match="confPsw"
+									value="#{accessView.accessBean.psw}" required="true" label="#{msg.account_psw}"
+									maxlength="10">
+									<f:validateLength minimum="6" maximum="10" />
+								</p:password>
+								<p:message for="psw"></p:message>
+
+							</div>
 						</div>
 						<div class="col-sm-6">
-							<p:password id="confPsw" styleClass="form-control" value="#{accessView.accessBean.confPsw}"
-								required="true" label="#{msg.account_confPsw}" maxlength="10" />
+							<div class="form-group">
 
-							<p:message for="confPsw"></p:message>
+								<p:outputLabel styleClass="label-form-grid" value="#{msg.account_confPsw}" for="confPsw" />
+
+								<p:password id="confPsw" styleClass="form-control" value="#{accessView.accessBean.confPsw}"
+									required="true" label="#{msg.account_confPsw}" maxlength="10">
+									<f:validateLength minimum="6" maximum="10" />
+								</p:password>
+
+
+								<p:message for="confPsw"></p:message>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group checkbox">
+								<h:selectBooleanCheckbox value="#{accessView.accessBean.newsletter}" />
+								<h:outputText value="#{msg.account_newsletter}" />
+
+							</div>
 						</div>
 					</div>
 					<!-- 
+					
 					<div class="form-group">
 						<div class="col-sm-12">
-							<p:captcha label="Captcha" required="true" validatorMessage="#{msg.validator_captha}" theme="clean" />
+							<p:captcha label="Captcha" id="captcha" required="true" validatorMessage="#{msg.validator_captha}" theme="clean" />
+							<p:message for="captcha"></p:message>
 						</div>
 					</div>
 					 -->
 
+
 					<p:commandButton styleClass="ui-priority-primary" validateClient="true"
 						value="#{msg.account_create}" actionListener="#{accessView.registration}" ajax="false"></p:commandButton>
+
 				</div>
+
+
 			</div>
+
 		</h:form>
 
 

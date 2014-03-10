@@ -51,8 +51,12 @@
 	
 	<bean id="accountService" class="it.othala.service.AccountService" autowire="byType" />
 	<bean id="mailService" class="it.othala.service.MailService" autowire="byType" />
+	<bean id="newsletterService" class="it.othala.service.NewsletterService" autowire="byType" />
 
 	<bean id="accountDAO" class="it.othala.dao.AccountDAO">
+		<property name="sqlSessionFactory" ref="SqlMapClient" />		
+	</bean>
+	<bean id="newsletterDAO" class="it.othala.dao.NewsletterDAO">
 		<property name="sqlSessionFactory" ref="SqlMapClient" />		
 	</bean>
 

@@ -17,6 +17,14 @@ public  class OthalaException extends Exception {
 	public OthalaException(String dsErrore, Throwable cause) {
 		super(dsErrore, cause);
 	}
+	
+	public OthalaException(String dsErrore) {
+		super(dsErrore);
+	}
+	
+	public OthalaException(Throwable cause) {
+		super(cause);
+	}
 
 	public OthalaException(String keyMessage,Object[] parms) {
 		super();

@@ -2,11 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="it.othala.account.queries">
 
-	<select id="getAccount" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+	<select id="existAccount" resultType="java.lang.Integer" parameterType="java.util.HashMap">
 		SELECT count(idUser)
 		FROM
 		${database.schema}CUSTOMER
 		WHERE idUser like #{idUser}
+	</select>
+
+	<select id="getAccount" resultType="it.othala.dto.AccountDTO"
+		parameterType="java.util.HashMap">
+		SELECT idUser as email,txPassword as psw,txNome as
+		name,txCognome as surname,txFiscale as cdFisc,idTypeState as state
+		FROM ${database.schema}CUSTOMER
+		WHERE idUser like #{email}
 	</select>
 
 	<insert id="insertAccount" parameterType="it.othala.dto.AccountDTO">
@@ -17,6 +25,27 @@
 		txCognome)
 		values
 		(#{email},#{psw},#{name},#{surname})
+	</insert>
+
+	<insert id="changeStateAccount" parameterType="java.util.HashMap">
+		UPDATE
+		${database.schema}CUSTOMER
+		SET idTypeState=#{stato}
+		where idUser =#{email}
+	</insert>
+	
+	<insert id="updateAccountPsw" parameterType="java.util.HashMap">
+		UPDATE
+		${database.schema}CUSTOMER
+		SET txPassword=#{psw}
+		where idUser =#{email}
+	</insert>
+
+	<insert id="insertAccountNewsLetter" parameterType="java.util.HashMap">
+		INSERT INTO
+		${database.schema}NEWSLETTER (txMail)
+		values
+		(#{email})
 	</insert>
 
 

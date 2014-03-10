@@ -9,6 +9,33 @@ public class AccountDTO implements Serializable {
 	private String psw;
 	private String name;
 	private String surname;
+	private int state;
+	private boolean newsletter;
+	private String cdFisc;
+
+	public String getCdFisc() {
+		return cdFisc;
+	}
+
+	public void setCdFisc(String cdFisc) {
+		this.cdFisc = cdFisc;
+	}
+
+	public boolean isNewsletter() {
+		return newsletter;
+	}
+
+	public void setNewsletter(boolean newsletter) {
+		this.newsletter = newsletter;
+	}
+
+	public int getState() {
+		return state;
+	}
+
+	public void setState(int state) {
+		this.state = state;
+	}
 
 	public String getEmail() {
 		return email;

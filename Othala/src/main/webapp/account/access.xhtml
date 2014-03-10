@@ -38,7 +38,7 @@
 						<p:outputLabel value="#{msg.account_psw}" for="psw" />
 						<p:inputText id="psw" required="true" styleClass="form-control" label="#{msg.account_psw}"
 							value="#{accessView.accessBean.psw}" maxlength="10" />
-						<p:commandLink value="#{msg.account_forgotPsw}"></p:commandLink>
+						<p:commandLink value="#{msg.account_forgotPsw}" immediate="true" ajax="false" action="#{accessView.moveToRequestResetPsw}"></p:commandLink>
 					</div>
 
 
@@ -47,7 +47,7 @@
 								value="#{msg.account_staySignIn}" />
 						</label>
 					</div>
-					<p:commandButton validateClient="true" styleClass="btn btn-primary"
+					<p:commandButton validateClient="true" styleClass="ui-priority-primary"
 						value="#{msg.account_access}" action="#{accessView.login}" ajax="false"></p:commandButton>
 				</div>
 			</div>

@@ -35,17 +35,19 @@
 		roleNameCol="txRole" localDataSource="true" />-->
 	
 	 
+	
 	<Resource name="mail/othala"
               auth="Container"
               type="javax.mail.Session"
               mail.transport.protocol="smtp"
+              mail.smtp.starttls.enable="true"
               mail.smtp.host="smtp.gmail.com"
               mail.smtp.port="587"
               mail.smtp.user="simone.bagnolesi@gmail.com"
               mail.smtp.auth="true"
               password="didone76"
     />
-	
+	 
 	
 
 	<!-- <Transaction factory="com.atomikos.icatch.jta.UserTransactionFactory" 

@@ -11,5 +11,9 @@ public class MailNotSendException extends OthalaException {
 	public MailNotSendException() {
 		super(KEY_MESSAGE, new Object[] {});
 	}
+	
+	public MailNotSendException(Throwable cause) {
+		super(cause);
+	}
 
 }

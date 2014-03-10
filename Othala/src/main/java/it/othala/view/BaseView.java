@@ -5,6 +5,7 @@ import it.othala.web.utils.OthalaUtil;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -33,11 +34,12 @@ public abstract class BaseView {
 	}
 
 	public void addError(String summary, String message) {
+		summary = summary == null ? OthalaUtil.getWordBundle("validator_summary") : summary;
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_ERROR, summary, message));
 	}
 
-	public void addGenericError(Exception e,String dsErrorLog) {
+	public void addGenericError(Exception e, String dsErrorLog) {
 		log.error(dsErrorLog, e);
 		FacesContext.getCurrentInstance().addMessage(
 				null,
@@ -45,7 +47,7 @@ public abstract class BaseView {
 						.getWordBundle("exception_base")));
 	}
 
-	public void addOthalaExceptionError(OthalaException e,String dsErrorLog) {
+	public void addOthalaExceptionError(OthalaException e, String dsErrorLog) {
 		log.error(dsErrorLog, e);
 
 		FacesContext.getCurrentInstance().addMessage(
@@ -58,6 +60,17 @@ public abstract class BaseView {
 
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_FATAL, summary, message));
+	}
+
+	protected String getQueryStringParm(String key) {
+		HttpServletRequest hsr = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+				.getRequest();
+		if (hsr.getParameter(key) != null) {
+			return hsr.getParameter(key).toString();
+		} else {
+			return null;
+		}
+
 	}
 
 }
