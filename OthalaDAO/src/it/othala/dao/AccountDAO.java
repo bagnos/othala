@@ -22,7 +22,7 @@ public class AccountDAO extends SqlSessionDaoSupport implements IAccountDAO {
 		HashMap<String,String> map = new HashMap<String,String>();
 		map.put("idUser", email);
 		return getSqlSession().selectOne(
-				"it.othala.account.queries.getAccount", map);
+				"it.othala.account.queries.existAccount", map);
 	}
 
 	@Override
@@ -41,6 +41,38 @@ public class AccountDAO extends SqlSessionDaoSupport implements IAccountDAO {
 	public int updatePsw(String email, String psw) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	
+	
+
+	@Override
+	public int changeStateAccount(String email,int stato) {
+		// TODO Auto-generated method stub
+		HashMap<String,Object> map = new HashMap<>();
+		map.put("email", email);
+		map.put("stato", stato);
+		return getSqlSession().update(
+				"it.othala.account.queries.changeStateAccount", map);
+	}
+
+	@Override
+	public AccountDTO getAccount(String email) {
+		// TODO Auto-generated method stub
+		HashMap<String,String> map = new HashMap<>();
+		map.put("email", email);
+		return getSqlSession().selectOne(
+				"it.othala.account.queries.getAccount", map);
+	}
+
+	@Override
+	public int updatePassword(String email, String psw) {
+		// TODO Auto-generated method stub
+		HashMap<String,String> map = new HashMap<>();
+		map.put("email", email);
+		map.put("psw", psw);
+		return getSqlSession().selectOne(
+				"it.othala.account.queries.getAccount", map);
 	}
 
 }

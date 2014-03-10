@@ -12,5 +12,10 @@ public class BadCredentialException extends OthalaException{
 		super(dsErrore, cause);
 		// TODO Auto-generated constructor stub
 	}
+	
+	public BadCredentialException(String dsErrore) {
+		super(dsErrore);
+		// TODO Auto-generated constructor stub
+	}
 
 }

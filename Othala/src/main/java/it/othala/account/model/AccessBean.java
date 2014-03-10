@@ -20,7 +20,18 @@ public class AccessBean extends BaseBean {
 	private String confPsw;
 	private String name;
 	private String surname;
+	private boolean newsletter;
 	
+	public boolean isNewsletter() {
+		return newsletter;
+	}
+
+
+	public void setNewsletter(boolean newsletter) {
+		this.newsletter = newsletter;
+	}
+
+
 	public AccountDTO getAccountDTO()
 	{
 		AccountDTO acc=new AccountDTO();
@@ -28,6 +39,7 @@ public class AccessBean extends BaseBean {
 		acc.setName(name);
 		acc.setPsw(confPsw);
 		acc.setSurname(surname);;
+		acc.setNewsletter(newsletter);
 		return acc;
 	}
 	

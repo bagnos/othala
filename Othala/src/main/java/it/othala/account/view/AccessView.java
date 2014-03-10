@@ -1,14 +1,15 @@
 package it.othala.account.view;
 
 import it.othala.account.model.AccessBean;
+import it.othala.enums.TypeCustomerState;
 import it.othala.execption.BadCredentialException;
 import it.othala.execption.DuplicateUserException;
 import it.othala.execption.MailNotSendException;
+import it.othala.execption.UserNotFoundException;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 import it.othala.web.utils.OthalaUtil;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.event.ActionEvent;
@@ -52,6 +53,7 @@ public class AccessView extends BaseView {
 
 		if (isVerifiedInput()) {
 			try {
+				accessBean.getAccountDTO().setState(TypeCustomerState.DISATTIVATO.getState());
 				OthalaFactory.getAccountServiceInstance().registerAccount(accessBean.getAccountDTO());
 				addInfo(OthalaUtil.getWordBundle("account_registerUser"), OthalaUtil.getWordBundle(
 						"account_registeredUser", new Object[] { accessBean.getAccountDTO().getEmail() }));
@@ -67,6 +69,26 @@ public class AccessView extends BaseView {
 		return null;
 
 	}
+	
+	public String moveToRequestResetPsw()
+	{
+		return "requestResetPswAssistance";
+	}
+
+	public String resetPsw() {
+
+		try {
+			OthalaFactory.getAccountServiceInstance().resetPsswordAccount(accessBean.getEmail());
+			addInfo(OthalaUtil.getWordBundle("account_checkYourMail"),
+					OthalaUtil.getWordBundle("account_messageSendMailReset"));
+		} catch (UserNotFoundException e) {
+			addOthalaExceptionError(e, "Errore nel reset della password.");
+		} catch (MailNotSendException e) {
+			// TODO Auto-generated catch block
+			addGenericError(e, "errore nella registrazione");
+		}
+		return null;
+	}
 
 	public String logout() {
 		renderClient = false;
@@ -80,12 +102,7 @@ public class AccessView extends BaseView {
 
 	private boolean isVerifiedInput() {
 		if (!accessBean.getEmail().equalsIgnoreCase(accessBean.getConfEmail())) {
-			addError(OthalaUtil.getWordBundle("validator_eqMail"), null);
-			return false;
-		}
-
-		if (!accessBean.getPsw().equalsIgnoreCase(accessBean.getConfPsw())) {
-			addError(OthalaUtil.getWordBundle("validator_eqPsw"), null);
+			addError(null, OthalaUtil.getWordBundle("validator_eqMail"));
 			return false;
 		}
 
