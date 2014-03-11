@@ -39,30 +39,32 @@
     &lt;![endif]--&gt;"
 		escape="false" />
 
-	
-		<div id="wrap">
-			<ui:include src="/sections/navBar.xhtml" />
-			<div class="container" id="contentTabNav">
-				<ui:include src="/sections/tabBar.xhtml" />
 
-				<div id="content" class="container">
-					<p:messages autoUpdate="true" globalOnly="true" closable="true" showDetail="true" showSummary="true"></p:messages>
-					<ui:insert name="content">
-
-					</ui:insert>
-				</div>
-
-
-			</div>
-
+	<div id="wrap">
+		<ui:include src="/sections/navBar.xhtml" />
+		<div class="container" id="contentTabNav">
+			<ui:include src="/sections/tabBar.xhtml" />
 		</div>
-
-		<div id="footer">
-			<ui:include src="/sections/footer.xhtml" />
+		<div class="container">
+			<p:messages autoUpdate="true" globalOnly="true" closable="true" showDetail="true"
+				showSummary="true"></p:messages>
 		</div>
+		<ui:insert name="content">
+
+		</ui:insert>
 
 
-	
+
+
+
+	</div>
+
+	<div id="footer">
+		<ui:include src="/sections/footer.xhtml" />
+	</div>
+
+
+
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->

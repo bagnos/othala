@@ -12,19 +12,12 @@
 	</application>
 
 	<navigation-rule>
-		<from-view-id>/*.*</from-view-id>
+		<from-view-id>/account/access.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>home</from-outcome>
 			<to-view-id>/home.xhtml</to-view-id>
 		</navigation-case>
-		<navigation-case>
-			<from-outcome>registrazione</from-outcome>
-			<to-view-id>/account/registration.xhtml</to-view-id>
-		</navigation-case>
-		<navigation-case>
-			<from-outcome>accedi</from-outcome>
-			<to-view-id>/account/access.xhtml</to-view-id>
-		</navigation-case>
+		
 	</navigation-rule>
 	
 	
