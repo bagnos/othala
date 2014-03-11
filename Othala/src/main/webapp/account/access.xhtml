@@ -16,29 +16,32 @@
 	</ui:define>
 
 	<ui:define name="content">
-		<h:form id="myForm">
+		<h:form id="login">
 			<div class="row">
 				<div class="col-sm-4">
 					<h3 class="form-titoli">
 						<h:outputText value="#{msg.account_login}" />
 					</h3>
-					
-					<div class="form-group">
-						<p:outputLabel value="#{msg.account_email}" for="email" />
-						<p:inputText id="email" styleClass="form-control"  label="#{msg.account_email}"
-							value="#{accessView.accessBean.email}" required="true" validatorMessage="#{msg.validator_mail}" maxlength="70">
 
-							<f:validateRegex
-		pattern="[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+\.[a-zA-Z]{2,4}" />  
+					<div class="form-group">
+						<p:outputLabel value="#{msg.account_email}" for="j_username" />
+						<p:inputText id="j_username" styleClass="form-control" name="j_username" label="#{msg.account_email}"
+							value="#{accessView.accessBean.email}" required="true"
+							validatorMessage="#{msg.validator_mail}" maxlength="70">
+
+							<f:validateRegex pattern="[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+\.[a-zA-Z]{2,4}" />
 
 						</p:inputText>
+						<p:message for="j_username"></p:message>
 					</div>
 
 					<div class="form-group">
-						<p:outputLabel value="#{msg.account_psw}" for="psw" />
-						<p:inputText id="psw" required="true" styleClass="form-control" label="#{msg.account_psw}"
+						<p:outputLabel value="#{msg.account_psw}" for="j_password" />
+						<p:password id="j_password" required="true" name="j_password" styleClass="form-control" label="#{msg.account_psw}"
 							value="#{accessView.accessBean.psw}" maxlength="10" />
-						<p:commandLink value="#{msg.account_forgotPsw}" immediate="true" ajax="false" action="#{accessView.moveToRequestResetPsw}"></p:commandLink>
+							<p:message for="j_password"></p:message>
+						
+								<a href="requestResetPsw.xhtml"><h:outputText value="#{msg.account_forgotPsw}"/></a>
 					</div>
 
 
@@ -47,8 +50,8 @@
 								value="#{msg.account_staySignIn}" />
 						</label>
 					</div>
-					<p:commandButton validateClient="true" styleClass="ui-priority-primary"
-						value="#{msg.account_access}" action="#{accessView.login}" ajax="false"></p:commandButton>
+					<p:commandButton validateClient="true" action="#{accessView.login}" styleClass="ui-priority-primary"
+						value="#{msg.account_access}"  ajax="false"></p:commandButton>
 				</div>
 			</div>
 		</h:form>

@@ -1,6 +1,6 @@
 package it.othala.service.interfaces;
 
-import it.othala.execption.MailNotSendException;
+import it.othala.account.execption.MailNotSendException;
 
 public interface IMailService {
 

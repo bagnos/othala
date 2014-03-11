@@ -1,25 +1,30 @@
 package it.othala.account.view;
 
-import it.othala.execption.UserNotFoundException;
+import it.othala.account.execption.UserNotFoundException;
+import it.othala.account.execption.UserNotResetStateException;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.util.HelperCrypt;
 import it.othala.view.BaseView;
 import it.othala.web.utils.OthalaUtil;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import javax.faces.event.ActionEvent;
 
 @ManagedBean
+@ViewScoped
 public class ResetPswView extends BaseView {
 
 	private String email;
 	private String psw;
-	private String confPsw;
-	private boolean renderPanel;
+	private String confPsw;	
+	private boolean disabled;
 
-	public boolean isRenderPanel() {
-		return renderPanel;
+	public boolean isDisabled() {
+		return disabled;
 	}
 
+	
 	public String getEmail() {
 		return email;
 	}
@@ -47,7 +52,7 @@ public class ResetPswView extends BaseView {
 	@Override
 	public String doInit() {
 		// TODO Auto-generated method stub
-		renderPanel=true;
+		disabled = false;
 		String user = getQueryStringParm("u");
 		if (user != null) {
 			email = HelperCrypt.decrypt(user);
@@ -55,22 +60,23 @@ public class ResetPswView extends BaseView {
 		} else {
 			addError(OthalaUtil.getWordBundle("account_assistanceResetPsw"),
 					OthalaUtil.getWordBundle("account_assistanceResetEmailEmpty"));
-			renderPanel=false;
+			disabled = true;
 		}
 		return null;
 	}
 
-	public String resetPsw() {
+	public void resetPsw(ActionEvent e) {
 
 		try {
-			OthalaFactory.getAccountServiceInstance().changePsswordAccount(email, psw);
-			addInfo( OthalaUtil.getWordBundle("account_assistanceResetPsw"), OthalaUtil.getWordBundle("account_assistanceResetSuccess"));
-		} catch (UserNotFoundException e) {
+
+			OthalaFactory.getAccountServiceInstance().changePassworResetdAccount(email, psw);
+			addInfo(OthalaUtil.getWordBundle("account_assistanceResetPsw"),
+					OthalaUtil.getWordBundle("account_assistanceResetSuccess"));
+
+		} catch (UserNotFoundException | UserNotResetStateException ex) {
 			// TODO Auto-generated catch block
-			addOthalaExceptionError(e, "errore nel cambio della password");
+			addOthalaExceptionError(ex, "errore nel cambio della password");
 		}
-		
-		return null;
 	}
 
 }

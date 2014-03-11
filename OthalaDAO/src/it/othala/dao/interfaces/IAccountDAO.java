@@ -5,6 +5,8 @@ import it.othala.dto.AccountDTO;
 public interface IAccountDAO {
 
 	public int insertAccount(AccountDTO account);
+	
+	public int insertAccountRole(String email,String role);
 
 	public int existAccount(String email);
 
@@ -19,5 +21,8 @@ public interface IAccountDAO {
 	public int changeStateAccount(String email, int Stato);
 
 	public int updatePsw(String email, String psw);
+	
+	public String verifyPassword(String email, String psw);
+	
 
 }

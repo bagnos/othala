@@ -32,7 +32,7 @@
 	<Realm className="org.apache.catalina.realm.DataSourceRealm"
 		dataSourceName="jdbc/othala" userTable="othala.customer"
 		userNameCol="idUser" userCredCol="txPassword" userRoleTable="othala.customer_roles"
-		roleNameCol="txRole" localDataSource="true" />-->
+		roleNameCol="txRole" localDataSource="true" />
 	
 	 
 	

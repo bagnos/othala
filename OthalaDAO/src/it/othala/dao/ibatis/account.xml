@@ -13,8 +13,16 @@
 		parameterType="java.util.HashMap">
 		SELECT idUser as email,txPassword as psw,txNome as
 		name,txCognome as surname,txFiscale as cdFisc,idTypeState as state
-		FROM ${database.schema}CUSTOMER
+		FROM
+		${database.schema}CUSTOMER
 		WHERE idUser like #{email}
+	</select>
+
+	<select id="verifyPassword" parameterType="java.util.HashMap" resultType="java.lang.String">
+		SELECT txNome 
+		FROM ${database.schema}CUSTOMER
+		WHERE idUser=#{email}
+		AND txPassword=#{psw}
 	</select>
 
 	<insert id="insertAccount" parameterType="it.othala.dto.AccountDTO">
@@ -27,13 +35,21 @@
 		(#{email},#{psw},#{name},#{surname})
 	</insert>
 
+	<insert id="insertAccountRole" parameterType="java.util.HashMap">
+		INSERT INTO
+		${database.schema}CUSTOMER_ROLES (idUser,
+		txRole)
+		values
+		(#{email},#{role})
+	</insert>
+
 	<insert id="changeStateAccount" parameterType="java.util.HashMap">
 		UPDATE
 		${database.schema}CUSTOMER
 		SET idTypeState=#{stato}
 		where idUser =#{email}
 	</insert>
-	
+
 	<insert id="updateAccountPsw" parameterType="java.util.HashMap">
 		UPDATE
 		${database.schema}CUSTOMER
