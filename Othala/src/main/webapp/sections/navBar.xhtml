@@ -35,13 +35,15 @@
 									<b class="caret"></b>
 								</a>
 								<ul class="dropdown-menu">
-									<li><p:commandLink ajax="false" action="#{accessView.moveToAcess}">
-											<h:outputText value="#{msg.header_login}" />
-										</p:commandLink></li>
-									<li><p:commandLink ajax="false" action="#{accessView.moveToregistration}">
-											<h:outputText value="#{msg.header_registration}" />
-										</p:commandLink></li>
 
+									<li class="dropdown"><a href="#{request.contextPath}/faces/account/access.xhtml"
+											class="dropdown-toggle">
+											<h:outputText value="#{msg.header_login}" />
+										</a></li>
+									<li><a href="#{request.contextPath}/faces/account/registration.xhtml"
+											class="dropdown-toggle">
+											<h:outputText value="#{msg.header_registration}" />
+										</a></li>
 								</ul></li>
 						</h:panelGroup>
 

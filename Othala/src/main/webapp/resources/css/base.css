@@ -164,6 +164,8 @@ html,body,form {
 		height: auto !important;;
 		margin-top: 2px !important;
 		padding: 2px;
+		
+		
 	}
 	body {
 		padding-right: 0px;
@@ -172,6 +174,7 @@ html,body,form {
 	#wrap {
 		margin: 0px !important;
 		padding: 0px !important;
+		
 	}
 	.panel-group {
 		margin: 2px !important

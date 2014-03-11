@@ -17,15 +17,15 @@
 
 	<ui:define name="content">
 		<h:form>
+			<div class="container">
 
+				<div class="row">
+					<div class="col-sm-6">
+						<h3 class="form-titoli">
+							<h:outputText value="#{msg.account_assistanceResetPsw}" />
+						</h3>
 
-			<div class="row">
-				<div class="col-sm-6">
-					<h3 class="form-titoli">
-						<h:outputText value="#{msg.account_assistanceResetPsw}" />
-					</h3>
-
-					<!-- 
+						<!-- 
 					<div class="row">
 						<div class="col-sm-8">
 							<div class="form-group">
@@ -42,43 +42,46 @@
 					 -->
 
 
-					<div class="row">
-						<div class="col-sm-6">
-							<div class="form-group">
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group">
 
-								<p:outputLabel styleClass="label-form-grid" value="#{msg.account_psw}" for="psw" />
-								<p:outputLabel value="#{msg.validator_hintPsw}" />
+									<p:outputLabel styleClass="label-form-grid" value="#{msg.account_psw}" for="psw" />
+									<p:outputLabel value="#{msg.validator_hintPsw}" />
 
-								<p:password disabled="#{resetPswView.disabled}" styleClass="form-control" id="psw" match="confPsw" value="#{resetPswView.psw}"
-									required="true" label="#{msg.account_psw}" maxlength="10">
-									<f:validateLength minimum="6" maximum="10" />
-								</p:password>
-								<p:message for="psw"></p:message>
+									<p:password disabled="#{resetPswView.disabled}" styleClass="form-control" id="psw"
+										match="confPsw" value="#{resetPswView.psw}" required="true" label="#{msg.account_psw}"
+										maxlength="10">
+										<f:validateLength minimum="6" maximum="10" />
+									</p:password>
+									<p:message for="psw"></p:message>
 
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-6">
-							<div class="form-group">
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group">
 
-								<p:outputLabel styleClass="label-form-grid" value="#{msg.account_confPsw}" for="confPsw" />
+									<p:outputLabel styleClass="label-form-grid" value="#{msg.account_confPsw}" for="confPsw" />
 
-								<p:password disabled="#{resetPswView.disabled}" id="confPsw" styleClass="form-control" value="#{resetPswView.confPsw}"
-									required="true" label="#{msg.account_confPsw}" maxlength="10">
-									<f:validateLength minimum="6" maximum="10" />
-								</p:password>
-								<p:message for="confPsw"></p:message>
+									<p:password disabled="#{resetPswView.disabled}" id="confPsw" styleClass="form-control"
+										value="#{resetPswView.confPsw}" required="true" label="#{msg.account_confPsw}"
+										maxlength="10">
+										<f:validateLength minimum="6" maximum="10" />
+									</p:password>
+									<p:message for="confPsw"></p:message>
+								</div>
 							</div>
 						</div>
+						<p:commandButton disabled="#{resetPswView.disabled}" validateClient="true"
+							styleClass="ui-priority-primary" value="#{msg.account_conferma}"
+							actionListener="#{resetPswView.resetPsw}" ajax="false"></p:commandButton>
+
 					</div>
-					<p:commandButton disabled="#{resetPswView.disabled}" validateClient="true" styleClass="ui-priority-primary"
-						value="#{msg.account_conferma}" actionListener="#{resetPswView.resetPsw}" ajax="false"></p:commandButton>
 
 				</div>
-
 			</div>
-
 
 		</h:form>
 	</ui:define>

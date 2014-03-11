@@ -1,19 +1,30 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:pe="http://primefaces.org/ui/extensions">
 
 
-	 
+
 	<div id="logo">
-		<h:graphicImage library="images" styleClass="img-responsive" name="logo2-small.png"></h:graphicImage>
+		<a href="#{request.contextPath}/faces/home.xhtml">
+			<h:graphicImage library="images" styleClass="img-responsive" name="logo2-small.png"></h:graphicImage>
+		</a>
 	</div>
-	 
+
 
 	<ul class="nav nav-tabs responsive" id="tabNav">
-		<li><a href="#men" data-toggle="tab"><h:outputText value="UOMO"/></a></li>
-		<li><a href="#woman" data-toggle="tab"><h:outputText value="DONNA"/></a></li>
-		<li><a href="#kid" data-toggle="tab"><h:outputText value="BAMBINO"/></a></li>
-		<li><a href="#soldes" data-toggle="tab"><h:outputText value="PROMOZIONI"/></a></li>
+		<li><a href="#men" data-toggle="tab">
+				<h:outputText value="UOMO" />
+			</a></li>
+		<li><a href="#woman" data-toggle="tab">
+				<h:outputText value="DONNA" />
+			</a></li>
+		<li><a href="#kid" data-toggle="tab">
+				<h:outputText value="BAMBINO" />
+			</a></li>
+		<li><a href="#soldes" data-toggle="tab">
+				<h:outputText value="PROMOZIONI" />
+			</a></li>
 	</ul>
 
 	<div id="tab-content" class="tab-content responsive">
