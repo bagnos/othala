@@ -17,7 +17,7 @@
 
 	<ui:define name="content">
 
-		<h:form>
+		<h:form id="myForm">
 			<div class="row">
 				<div class="col-sm-6">
 					<h3 class="form-titoli">
@@ -29,13 +29,14 @@
 								<h:outputText value="#{activatedView.message}" />
 							</div>
 						</div>
-						<h:commandButton styleClass="btn btn-primary" action="access" value="#{msg.account_access}" />
+						
 					</h:panelGroup>
 
 					
 
 				</div>
 			</div>
+			<h:commandButton styleClass="btn btn-primary" action="access"   value="#{msg.account_login}" />
 		</h:form>
 
 	</ui:define>

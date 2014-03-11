@@ -1,7 +1,7 @@
 package it.othala.account.view;
 
-import it.othala.execption.UserAlReadyActivatedException;
-import it.othala.execption.UserNotFoundException;
+import it.othala.account.execption.UserAlReadyActivatedException;
+import it.othala.account.execption.UserNotFoundException;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.util.HelperCrypt;
 import it.othala.view.BaseView;
@@ -22,6 +22,8 @@ public class ActivatedView extends BaseView {
 	public String getMessage() {
 		return message;
 	}
+	
+	
 
 	@Override
 	public String doInit() {

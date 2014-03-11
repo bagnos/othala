@@ -1,13 +1,15 @@
 package it.othala.service;
 
+import it.othala.account.execption.BadCredentialException;
+import it.othala.account.execption.DuplicateUserException;
+import it.othala.account.execption.MailNotSendException;
+import it.othala.account.execption.UserAlReadyActivatedException;
+import it.othala.account.execption.UserNotActivatedException;
+import it.othala.account.execption.UserNotFoundException;
+import it.othala.account.execption.UserNotResetStateException;
 import it.othala.dao.interfaces.IAccountDAO;
 import it.othala.dto.AccountDTO;
 import it.othala.enums.TypeCustomerState;
-import it.othala.execption.BadCredentialException;
-import it.othala.execption.DuplicateUserException;
-import it.othala.execption.MailNotSendException;
-import it.othala.execption.UserAlReadyActivatedException;
-import it.othala.execption.UserNotFoundException;
 import it.othala.service.interfaces.IAccountService;
 import it.othala.service.interfaces.IMailService;
 import it.othala.service.interfaces.INewsletterService;
@@ -22,6 +24,7 @@ public class AccountService implements IAccountService {
 	private IAccountDAO accountDAO;
 	private IMailService mailService;
 	private INewsletterService newsService;
+	private final String CUSTOMER_ROLE = "CUSTOMER";
 
 	public void setMailService(IMailService mailService) {
 		this.mailService = mailService;
@@ -50,6 +53,7 @@ public class AccountService implements IAccountService {
 		}
 
 		accountDAO.insertAccount(account);
+		accountDAO.insertAccountRole(account.getEmail(), CUSTOMER_ROLE);
 
 		if (account.isNewsletter()) {
 			newsService.insertNewsletter(account.getEmail());
@@ -60,14 +64,20 @@ public class AccountService implements IAccountService {
 	}
 
 	@Override
-	public void resetPsswordAccount(String email) throws UserNotFoundException, MailNotSendException {
+	public void resetPasswordAccount(String email) throws UserNotFoundException, MailNotSendException,
+			UserNotActivatedException {
 		// TODO Auto-generated method stub
-		if (accountDAO.existAccount(email)==0)
-		{
+
+		if (accountDAO.existAccount(email) == 0) {
 			throw new UserNotFoundException(email);
 		}
+
+		if (accountDAO.getAccount(email).getState() != TypeCustomerState.ATTIVATO.getState()) {
+			throw new UserNotActivatedException(email);
+		}
+
 		accountDAO.changeStateAccount(email, TypeCustomerState.RESET_PSW.getState());
-		resetMailRegistrazione(email);
+		inviaResetMailRegistrazione(email);
 	}
 
 	@Override
@@ -103,7 +113,7 @@ public class AccountService implements IAccountService {
 				"Welcome " + ConfigurationService.getProperty(ConfigurationService.COMPANY_NAME), content);
 	}
 
-	private void resetMailRegistrazione(String email) throws MailNotSendException {
+	private void inviaResetMailRegistrazione(String email) throws MailNotSendException {
 		String content = null;
 		String encryptMail = null;
 		try {
@@ -119,8 +129,10 @@ public class AccountService implements IAccountService {
 
 		encryptMail = HelperCrypt.encrypt(email);
 		content = content.replaceAll("<USER>", encryptMail);
+		String subject = "Reset Password ";
+		subject += ConfigurationService.getProperty(ConfigurationService.COMPANY_NAME);
 
-		mailService.inviaMail(new String[] { email }, "Reset Password", content);
+		mailService.inviaMail(new String[] { email }, subject, content);
 	}
 
 	@Override
@@ -146,17 +158,35 @@ public class AccountService implements IAccountService {
 	}
 
 	@Override
-	public void changePsswordAccount(String email, String psw) throws UserNotFoundException{
+	public void changePassworResetdAccount(String email, String psw) throws UserNotFoundException,
+			UserNotResetStateException {
 		// TODO Auto-generated method stub
 		AccountDTO acc = accountDAO.getAccount(email);
 
 		if (acc == null) {
 			throw new UserNotFoundException(email);
-		}	
-		
+		}
+
+		if (acc.getState() != TypeCustomerState.RESET_PSW.getState()) {
+			throw new UserNotFoundException(email);
+		}
+
 		accountDAO.updatePassword(email, psw);
-		
+
 		accountDAO.changeStateAccount(email, TypeCustomerState.ATTIVATO.getState());
+	}
+
+	@Override
+	public String verifyPasswordAccount(String email, String psw) throws BadCredentialException {
+		if (email == null || email.isEmpty() || psw == null || psw.isEmpty()) {
+			throw new BadCredentialException();
+		} 
+		String name=accountDAO.verifyPassword(email, psw);
+		if (name == null || name.isEmpty()) {
+			throw new BadCredentialException();
+		}
+		return name;
+
 	}
 
 }

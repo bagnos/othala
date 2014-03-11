@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<faces-config xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<faces-config xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
 	version="2.2">
 
@@ -8,8 +7,25 @@
 		<resource-bundle>
 			<base-name>language</base-name>
 			<var>msg</var>
-		</resource-bundle>		
-		 <message-bundle>messages</message-bundle>
+		</resource-bundle>
+		<message-bundle>messages</message-bundle>
 	</application>
 
+	<navigation-rule>
+		<from-view-id>/*.*</from-view-id>
+		<navigation-case>
+			<from-outcome>home</from-outcome>
+			<to-view-id>/home.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>registrazione</from-outcome>
+			<to-view-id>/account/registration.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>accedi</from-outcome>
+			<to-view-id>/account/access.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	
+	
 </faces-config>

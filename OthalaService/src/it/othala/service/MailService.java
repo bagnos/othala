@@ -1,6 +1,6 @@
 package it.othala.service;
 
-import it.othala.execption.MailNotSendException;
+import it.othala.account.execption.MailNotSendException;
 import it.othala.service.interfaces.IMailService;
 
 import java.util.Properties;

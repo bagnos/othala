@@ -1,4 +1,6 @@
-package it.othala.execption;
+package it.othala.account.execption;
+
+import it.othala.execption.OthalaException;
 
 public class MailNotSendException extends OthalaException {
 

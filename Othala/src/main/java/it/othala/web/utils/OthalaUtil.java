@@ -22,7 +22,7 @@ public class OthalaUtil {
 		String message="";
 		if (e.getKeyMessage()!=null && !(e.getKeyMessage().isEmpty()))
 		{
-			if (e.getParms()!=null || e.getParms().length!=0)
+			if (e.getParms()!=null && e.getParms().length!=0)
 			{
 				//decodifica con parametro				
 				message=MessageFormat.format(getWordBundle(e.getKeyMessage()), e.getParms());	             
