@@ -2,6 +2,25 @@
 	font-size: 95% !important;
 }
 
+.breadcrumb
+{
+	margin-top:10px !important;
+	
+	
+}
+
+
+
+.breadcrumb a
+{
+	color: black !important;
+}
+
+.breadcrumb .active
+{
+	color: black !important;
+}
+
 
 .form-titoli {
 	margin-bottom: 15px;

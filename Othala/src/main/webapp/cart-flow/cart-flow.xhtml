@@ -1,0 +1,149 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/masterTemplateBS.xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:viewAction action="#{cartFlowView.doInit}"></f:viewAction>
+		</f:metadata>
+	</ui:define>
+
+
+	<ui:define name="title">
+		<h:outputText value="#{msg.account_login}"></h:outputText>
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form prependId="false">
+			<div class="container">
+
+				<ol class="breadcrumb" style="margin-top: 10px">
+
+					<li><a class="glyphicon glyphicon-home" title="home" href="#"></a></li>
+					<li><a href="#">Uomo</a></li>
+					<li class="active">Pantaloni</li>
+				</ol>
+
+
+
+
+
+
+
+				<div class="row container">
+
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-sm-3">
+									<div class="form-group">
+										<h:outputText value="Taglia" />
+										<h:selectOneMenu styleClass="form-control">
+											<f:selectItem itemLabel="Sceglia una taglia" itemValue="0"></f:selectItem>
+											<f:selectItem itemLabel="S" itemValue="1"></f:selectItem>
+											<f:selectItem itemLabel="M" itemValue="2"></f:selectItem>
+											<f:selectItem itemLabel="L" itemValue="3"></f:selectItem>
+											<f:selectItem itemLabel="XL" itemValue="6"></f:selectItem>
+										</h:selectOneMenu>
+									</div>
+								</div>
+
+								<div class="col-sm-3">
+									<div class="form-group">
+										<h:outputText value="Colore" />
+										<h:selectOneMenu styleClass="form-control">
+											<f:selectItem itemLabel="Sceglia un colore" itemValue="0"></f:selectItem>
+											<f:selectItem itemLabel="Bianco" itemValue="1"></f:selectItem>
+											<f:selectItem itemLabel="Giallo" itemValue="2"></f:selectItem>
+											<f:selectItem itemLabel="Rosso" itemValue="3"></f:selectItem>
+											<f:selectItem itemLabel="Verde" itemValue="6"></f:selectItem>
+										</h:selectOneMenu>
+									</div>
+								</div>
+
+								<div class="col-sm-3">
+									<div class="form-group">
+										<h:outputText value="Brand" />
+										<h:selectOneMenu styleClass="form-control">
+											<f:selectItem itemLabel="Sceglia un brand" itemValue="0"></f:selectItem>
+											<f:selectItem itemLabel="Armani" itemValue="1"></f:selectItem>
+											<f:selectItem itemLabel="Valentino" itemValue="2"></f:selectItem>
+											<f:selectItem itemLabel="G-Star" itemValue="3"></f:selectItem>
+											<f:selectItem itemLabel="Levis" itemValue="6"></f:selectItem>
+										</h:selectOneMenu>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="form-group">
+										<h:outputText value="Prezzo" />
+										<p:slider for="txt6,txt7" minValue="1" maxValue="5000" display="displayRange" range="true"
+											displayTemplate="{min} &#8364; - {max} &#8364;" />
+										<h:outputText id="displayRange"
+											value="#{cartFlowView.number6} &#8364; - #{cartFlowView.number7} &#8364;" />
+
+										<h:inputHidden id="txt6" value="#{cartFlowView.number6}" />
+										<h:inputHidden id="txt7" value="#{cartFlowView.number7}" />
+									</div>
+								</div>
+							</div>
+							<div>
+								<p:commandButton styleClass="ui-priority-primary" value="Cerca" ajax="true"></p:commandButton>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-3">
+						<div class="form-group">
+							<h:outputText value="Ordina per" />
+							<h:selectOneMenu styleClass="form-control">
+
+								<f:selectItem itemLabel="Prezzo discendente" itemValue="1"></f:selectItem>
+								<f:selectItem itemLabel="Prezzo ascendente" itemValue="2"></f:selectItem>
+
+							</h:selectOneMenu>
+						</div>
+					</div>
+					<div>
+						<div class="col-sm-3 pull-right">
+							<ul class="pager">
+								<li class="disabled"><a href="#" class="glyphicon glyphicon-chevron-left"></a></li>
+								<li><span>1 di 10</span></li>
+								<li><a class="glyphicon glyphicon-chevron-right" href="#"></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+
+
+					<ui:repeat var="art" value="#{cartFlowView.articles}" varStatus="status">
+
+						<div class="col-sm-3">
+							<div class="thumbnail">
+								<p:graphicImage styleClass="img-responsive" library="images/cartThumbinals"
+									name="#{art.imagesUrl}" />
+								<div class="caption text-center">
+									<h4>#{art.brand}</h4>
+
+									#{art.description} <br />#{art.strPrice} &#8364;
+
+
+								</div>
+							</div>
+						</div>
+
+
+					</ui:repeat>
+
+
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>
