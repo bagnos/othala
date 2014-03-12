@@ -40,14 +40,7 @@
 		<param-value>6Le1r-8SAAAAAFVSNutc9zVrpDSSHXHwtzz5qnDU</param-value>
 	</context-param>
 	
-	<login-config>
-		<auth-method>FORM</auth-method>
-		<form-login-config>
-			<form-login-page>/access.xhtml</form-login-page>
-			<form-error-page>/access.xhtml</form-error-page>
-			
-		</form-login-config>
-	</login-config>
+	
 
  
 	<resource-ref>
