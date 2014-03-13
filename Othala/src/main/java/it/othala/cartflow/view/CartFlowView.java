@@ -3,64 +3,157 @@ package it.othala.cartflow.view;
 import it.othala.dto.ArticleDTO;
 import it.othala.view.BaseView;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import javax.faces.event.ActionEvent;
+import javax.faces.event.ActionListener;
 
 @ManagedBean
-public class CartFlowView extends BaseView{
+@ViewScoped
+public class CartFlowView extends BaseView {
 
 	private List<ArticleDTO> articles;
-	
+	private List<ArticleDTO> articlesPage;
+
+	public List<ArticleDTO> getArticlesPage() {
+		return articlesPage;
+	}
+
 	public List<ArticleDTO> getArticles() {
 		return articles;
 	}
-	
-	private int number6 = 100;  
-    
-    private int number7 = 1000;  
-    
-    
 
-	public int getNumber6() {
-		return number6;
+	private int priceMin = 100;
+	private int priceMax = 1000;
+	private final Integer ITEMS_PAGE = 20;
+	private Integer currentPage = null;
+	private Integer totPages = null;
+	private int starIndex = 0;
+	private int endIndex = 0;
+	private boolean renderPaginator;
+	private String classForw;
+	private String classBack;
+
+	public String getClassForw() {
+		return classForw;
 	}
 
-
-
-	public void setNumber6(int number6) {
-		this.number6 = number6;
+	public String getClassBack() {
+		return classBack;
 	}
 
-
-
-	public int getNumber7() {
-		return number7;
+	public boolean isRenderPaginator() {
+		return renderPaginator;
 	}
 
-
-
-	public void setNumber7(int number7) {
-		this.number7 = number7;
+	public Integer getCurrentPage() {
+		return currentPage;
 	}
 
+	public Integer getTotPages() {
+		return totPages;
+	}
 
+	public int getPriceMin() {
+		return priceMin;
+	}
+
+	public void setPriceMin(int priceMin) {
+		this.priceMin = priceMin;
+	}
+
+	public int getPriceMax() {
+		return priceMax;
+	}
+
+	public void setPriceMax(int priceMax) {
+		this.priceMax = priceMax;
+	}
 
 	@Override
 	public String doInit() {
 		// TODO Auto-generated method stub
-		articles=new ArrayList<>();
-		ArticleDTO art=new ArticleDTO();
-		art.setBrand("ARMANI");
-		art.setDescription("Jeans super Slim");
-		art.setImagesUrl("406918_mrp_fr_m2.jpg");
-		art.setStrPrice("120,00");
-		for (int i=0; i<=10;i++)
-		{
+		articles = new ArrayList<>();
+		articlesPage = new ArrayList<>();
+		List<String> color=new ArrayList<>();
+		color.add("GIALLO");
+		color.add("BLU");
+		color.add("ROSSO");
+		
+		List<String> size=new ArrayList<>();
+		size.add("L");
+		size.add("XL");
+		size.add("M");
+		
+		ArticleDTO art = new ArticleDTO();
+		art.setBrand("ARMANI");		
+		art.setImagesUrl("406918_mrp_fr_m2.jpg");		
+		art.getSize().addAll(size);
+		art.setDescrption("SUPER SLIM IN DENIM STRETCH");
+		art.setPrice(new BigDecimal("1000"));
+		art.getColor().addAll(color);
+		
+		for (int i = 0; i <= 50; i++) {
 			articles.add(art);
 		}
+
+		initPaginator();
+
 		return null;
+	}
+
+	public void forward(ActionEvent e) {
+		currentPage++;
+		starIndex = endIndex;
+		endIndex += ITEMS_PAGE;
+		changePage();
+	}
+
+	public void backword(ActionEvent e) {
+		currentPage--;
+		endIndex = starIndex;
+		starIndex = endIndex - ITEMS_PAGE;
+		changePage();
+	}
+
+	private void changePage() {
+
+		articlesPage.clear();
+
+		if (endIndex > articles.size()) {
+			endIndex = articles.size();
+		}
+		articlesPage.addAll(articles.subList(starIndex, endIndex));
+		classBack = "";
+		if (currentPage == 1) {
+			classBack = "disabled";
+		}
+		classForw = "";
+		if (currentPage == totPages) {
+			classForw = "disabled";
+		}
+
+	}
+
+	private void initPaginator() {
+		currentPage = 1;
+		starIndex = 0;
+		classBack = "disabled";
+		endIndex = ITEMS_PAGE;
+
+		if (!articles.isEmpty()) {
+			double dblPages = (double) articles.size() / (double) ITEMS_PAGE;
+			totPages = (int) Math.ceil(dblPages);
+			articlesPage.clear();
+			articlesPage.addAll(articles.subList(starIndex, endIndex));
+			renderPaginator = true;
+		} else {
+			renderPaginator = false;
+		}
 	}
 
 }
