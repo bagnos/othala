@@ -27,21 +27,16 @@
 				</ol>
 
 
-
-
-
-
-
 				<div class="row container">
 
 					<div class="panel panel-default">
 						<div class="panel-body">
 							<div class="row">
-								<div class="col-sm-3">
+								<div class="col-sm-2">
 									<div class="form-group">
 										<h:outputText value="Taglia" />
 										<h:selectOneMenu styleClass="form-control">
-											<f:selectItem itemLabel="Sceglia una taglia" itemValue="0"></f:selectItem>
+											<f:selectItem itemLabel="Scegli una taglia" itemValue="0"></f:selectItem>
 											<f:selectItem itemLabel="S" itemValue="1"></f:selectItem>
 											<f:selectItem itemLabel="M" itemValue="2"></f:selectItem>
 											<f:selectItem itemLabel="L" itemValue="3"></f:selectItem>
@@ -50,11 +45,11 @@
 									</div>
 								</div>
 
-								<div class="col-sm-3">
+								<div class="col-sm-2">
 									<div class="form-group">
 										<h:outputText value="Colore" />
 										<h:selectOneMenu styleClass="form-control">
-											<f:selectItem itemLabel="Sceglia un colore" itemValue="0"></f:selectItem>
+											<f:selectItem itemLabel="Scegli un colore" itemValue="0"></f:selectItem>
 											<f:selectItem itemLabel="Bianco" itemValue="1"></f:selectItem>
 											<f:selectItem itemLabel="Giallo" itemValue="2"></f:selectItem>
 											<f:selectItem itemLabel="Rosso" itemValue="3"></f:selectItem>
@@ -67,7 +62,7 @@
 									<div class="form-group">
 										<h:outputText value="Brand" />
 										<h:selectOneMenu styleClass="form-control">
-											<f:selectItem itemLabel="Sceglia un brand" itemValue="0"></f:selectItem>
+											<f:selectItem itemLabel="Scegli un brand" itemValue="0"></f:selectItem>
 											<f:selectItem itemLabel="Armani" itemValue="1"></f:selectItem>
 											<f:selectItem itemLabel="Valentino" itemValue="2"></f:selectItem>
 											<f:selectItem itemLabel="G-Star" itemValue="3"></f:selectItem>
@@ -75,18 +70,34 @@
 										</h:selectOneMenu>
 									</div>
 								</div>
+
 								<div class="col-sm-3">
+									<div class="form-group">
+										<h:outputText value="Materiale" />
+										<h:selectOneMenu styleClass="form-control">
+											<f:selectItem itemLabel="Scegli un Materiale" itemValue="0"></f:selectItem>
+											<f:selectItem itemLabel="Jeans" itemValue="1"></f:selectItem>
+											<f:selectItem itemLabel="Seta" itemValue="2"></f:selectItem>
+											<f:selectItem itemLabel="Velluto" itemValue="3"></f:selectItem>
+										</h:selectOneMenu>
+									</div>
+								</div>
+
+								<div class="col-sm-2">
 									<div class="form-group">
 										<h:outputText value="Prezzo" />
 										<p:slider for="txt6,txt7" minValue="1" maxValue="5000" display="displayRange" range="true"
 											displayTemplate="{min} &#8364; - {max} &#8364;" />
 										<h:outputText id="displayRange"
-											value="#{cartFlowView.number6} &#8364; - #{cartFlowView.number7} &#8364;" />
+											value="#{cartFlowView.priceMin} &#8364; - #{cartFlowView.priceMax} &#8364;" />
 
-										<h:inputHidden id="txt6" value="#{cartFlowView.number6}" />
-										<h:inputHidden id="txt7" value="#{cartFlowView.number7}" />
+										<h:inputHidden id="txt6" value="#{cartFlowView.priceMin}" />
+										<h:inputHidden id="txt7" value="#{cartFlowView.priceMax}" />
 									</div>
 								</div>
+
+
+
 							</div>
 							<div>
 								<p:commandButton styleClass="ui-priority-primary" value="Cerca" ajax="true"></p:commandButton>
@@ -108,37 +119,39 @@
 							</h:selectOneMenu>
 						</div>
 					</div>
-					<div>
+					<h:panelGroup rendered="#{cartFlowView.renderPaginator}">
 						<div class="col-sm-3 pull-right">
 							<ul class="pager">
-								<li class="disabled"><a href="#" class="glyphicon glyphicon-chevron-left"></a></li>
-								<li><span>1 di 10</span></li>
-								<li><a class="glyphicon glyphicon-chevron-right" href="#"></a></li>
+								<li class="#{cartFlowView.classBack}"><p:commandLink ajax="true" update="@form"  disabled="#{cartFlowView.classBack=='disabled'}"
+										styleClass="glyphicon glyphicon-chevron-left" actionListener="#{cartFlowView.backword}" />
+								</li>
+								<li><span>#{cartFlowView.currentPage} of #{cartFlowView.totPages}</span></li>
+								<li class="#{cartFlowView.classForw}"><p:commandLink ajax="true" update="@form" disabled="#{cartFlowView.classForw=='disabled'}"
+										styleClass="glyphicon glyphicon-chevron-right" actionListener="#{cartFlowView.forward}" />
+								</li>
+
 							</ul>
 						</div>
-					</div>
+					</h:panelGroup>
 				</div>
 
 				<div class="row">
 
 
-					<ui:repeat var="art" value="#{cartFlowView.articles}" varStatus="status">
-
+					<ui:repeat var="art" value="#{cartFlowView.articlesPage}" varStatus="status">
 						<div class="col-sm-3">
 							<div class="thumbnail">
 								<p:graphicImage styleClass="img-responsive" library="images/cartThumbinals"
 									name="#{art.imagesUrl}" />
-								<div class="caption text-center">
-									<h4>#{art.brand}</h4>
-
-									#{art.description} <br />#{art.strPrice} &#8364;
-
-
+								<div class="caption text-center articolo">
+									<h5>#{art.brand}</h5>
+									<h6>#{art.descrption}</h6>
+									<div class="price">
+									&#8364; #{art.price} 
+									</div>
 								</div>
 							</div>
 						</div>
-
-
 					</ui:repeat>
 
 
