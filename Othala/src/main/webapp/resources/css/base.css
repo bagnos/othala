@@ -18,6 +18,14 @@
 	margin: 5% 0 0 0;
 }
 
+#tab-content a {
+	font-weight: lighter !important;;
+	color: #888 !important;;
+	padding: 0 0 0 11px;
+	background: url('./images/tabNav/arw_link.gif') no-repeat left !important;
+	
+}
+
 .breadcrumb {
 	margin-top: 10px;
 	font-size: 16px;
@@ -68,6 +76,7 @@
 .nav-tabs>li>a {
 	font-size: 16px !important;
 	color: rgb(102, 102, 102) !important;
+	font-weight: lighter !important;;
 }
 
 .nav-tabs>li.active>a {
