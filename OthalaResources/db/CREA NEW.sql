@@ -29,6 +29,8 @@ DROP TABLE IF EXISTS `othala`.`Product` ;
 CREATE  TABLE IF NOT EXISTS `othala`.`Product` (
   `idProduct` INT NOT NULL ,
   `txDescrizione` VARCHAR(100) NULL ,
+  `imPrice` DECIMAL(15) NULL ,
+  `pcDiscount` INT NULL ,
   PRIMARY KEY (`idProduct`) ,
   INDEX `idProduct_INDEX1` (`idProduct` ASC) )
 ENGINE = InnoDB;
