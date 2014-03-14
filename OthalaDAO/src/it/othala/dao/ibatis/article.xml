@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="it.othala.article.queries">
+
+
+
+	<select id="listArticle" resultType="it.othala.dto.ArticleDTO"
+		parameterType="java.util.HashMap">
+
+		SELECT a.idProduct,
+		imPrice as price,
+		null,
+		null,
+		null,
+		null,
+		txDescription as descrption,
+		null
+		FROM ${database.schema}product a,
+		${database.schema}product_description b
+		where a.idProduct = b.idProduct
+		and b.idLanguages = #{languages}
+	</select>
+
+
+
+
+</mapper>
