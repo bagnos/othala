@@ -68,6 +68,31 @@
 		and e.idProductAttribute = a.idProductAttribute
 
 	</select>
+	
+		<select id="listProductAttribute" resultType="it.othala.dto.AttributeDTO"
+		parameterType="java.util.HashMap">
+
+		SELECT a.idProductAttribute as attributo,txValore as valore  
+		FROM ${database.schema}product_attribute a,
+		${database.schema}product b,
+		${database.schema}attribute e,
+		${database.schema}valori_attributo c,
+		${database.schema}valori_attributo_languages d
+		where a.idProduct =
+		b.idProduct
+		and a.idProductAttribute = c.idProductAttribute
+		and
+		a.pgProductAttribute = c.pgProductAttribute
+		and a.idProductAttribute =
+		d.idProductAttribute
+		and a.pgProductAttribute = d.pgProductAttribute
+		and a.idProduct = #{idProduct}
+		and d.idLanguages = #{languages}
+		and e.idLanguages =
+		d.idLanguages
+		and e.idProductAttribute = a.idProductAttribute
+
+	</select>
 
 	<select id="listProductImages" resultType="String"
 		parameterType="java.util.HashMap">
