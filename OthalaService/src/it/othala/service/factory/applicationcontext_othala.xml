@@ -53,8 +53,6 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
-	<bean id="articleService" class="it.othala.service.ArticleService"
-		autowire="byType" />
 	<bean id="productService" class="it.othala.service.ProductService"
 		autowire="byType" />
 	<bean id="accountService" class="it.othala.service.AccountService"
@@ -65,9 +63,6 @@
 		autowire="byType" />
 
 	<bean id="accountDAO" class="it.othala.dao.AccountDAO">
-		<property name="sqlSessionFactory" ref="SqlMapClient" />
-	</bean>
-	<bean id="articleDAO" class="it.othala.dao.ArticleDAO">
 		<property name="sqlSessionFactory" ref="SqlMapClient" />
 	</bean>
 		<bean id="productDAO" class="it.othala.dao.ProductDAO">
