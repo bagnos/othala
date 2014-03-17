@@ -19,37 +19,38 @@ public class ProductDTO implements Serializable {
 	private String imagesUrl;
 	private List<String> size = new ArrayList<>();
 	private BigDecimal priceRounded;
-	private String descrption;
+	private String description;
 	private List<String> color = new ArrayList<>();
-	private String genere;
-	private String tipologia;
-	private Integer pcSconto;
+	private String gender;
+	private String type;
+	private Integer discount;
 	
 	
-	public Integer getPcSconto() {
-		return pcSconto;
+	
+
+	public String getGender() {
+		return gender;
 	}
 
-	public void setPcSconto(Integer pcSconto) {
-		this.pcSconto = pcSconto;
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 
-	public String getGenere() {
-		return genere;
+	public String getType() {
+		return type;
 	}
 
-	public void setGenere(String genere) {
-		this.genere = genere;
+	public void setType(String type) {
+		this.type = type;
 	}
 
-	public String getTipologia() {
-		return tipologia;
+	public Integer getDiscount() {
+		return discount;
 	}
 
-	public void setTipologia(String tipologia) {
-		this.tipologia = tipologia;
+	public void setDiscount(Integer discount) {
+		this.discount = discount;
 	}
-
 
 	public void setSize(List<String> size) {
 		this.size = size;
@@ -59,19 +60,19 @@ public class ProductDTO implements Serializable {
 		return color;
 	}
 
-	public String getDescrption() {
-		return descrption;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDescrption(String descrption) {
-		this.descrption = descrption;
+	public void setDescription(String descrption) {
+		this.description = descrption;
 	}
 
 	public BigDecimal getPriceRounded() {
 		priceRounded = null;
-		BigDecimal discount = new BigDecimal(pcSconto / 100);
+		BigDecimal discount2 = new BigDecimal(discount / 100);
 		if (price != null) {
-			priceRounded = (price.multiply(discount)).setScale(2, RoundingMode.HALF_UP);
+			priceRounded = (price.multiply(discount2)).setScale(2, RoundingMode.HALF_UP);
 		}
 
 		return priceRounded;

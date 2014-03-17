@@ -9,8 +9,8 @@
 
 		SELECT a.idProduct ,
 		imPrice as price,
-		txDescription as descrption,
-		pcDiscount as pcSconto
+		txDescription as description,
+		pcDiscount as discount
 		FROM
 		${database.schema}product a,
 		${database.schema}product_description b

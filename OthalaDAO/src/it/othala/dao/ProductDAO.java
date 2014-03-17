@@ -57,7 +57,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 			map.put("idProductAttribute", idProductAttribute.toString());
 			map.put("languages", languages.toString());
 			String newString = getSqlSession().selectOne("it.othala.product.queries.getProductAttribute", map);
-			listProduct.get(i).setGenere(newString);			
+			listProduct.get(i).setGender(newString);			
 			
 		}
 		
@@ -68,7 +68,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 			map.put("idProductAttribute", idProductAttribute.toString());
 			map.put("languages", languages.toString());
 			String newString = getSqlSession().selectOne("it.othala.product.queries.getProductAttribute", map);
-			listProduct.get(i).setTipologia(newString);			
+			listProduct.get(i).setType(newString);			
 			
 		}
 		for (int i = 0; i <= listProduct.size() - 1; i++) { 
