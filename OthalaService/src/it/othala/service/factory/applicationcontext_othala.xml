@@ -55,7 +55,8 @@
 
 	<bean id="articleService" class="it.othala.service.ArticleService"
 		autowire="byType" />
-
+	<bean id="productService" class="it.othala.service.ProductService"
+		autowire="byType" />
 	<bean id="accountService" class="it.othala.service.AccountService"
 		autowire="byType" />
 	<bean id="mailService" class="it.othala.service.MailService"
@@ -67,6 +68,9 @@
 		<property name="sqlSessionFactory" ref="SqlMapClient" />
 	</bean>
 	<bean id="articleDAO" class="it.othala.dao.ArticleDAO">
+		<property name="sqlSessionFactory" ref="SqlMapClient" />
+	</bean>
+		<bean id="productDAO" class="it.othala.dao.ProductDAO">
 		<property name="sqlSessionFactory" ref="SqlMapClient" />
 	</bean>
 	<bean id="newsletterDAO" class="it.othala.dao.NewsletterDAO">
