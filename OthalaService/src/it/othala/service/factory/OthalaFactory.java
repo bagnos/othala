@@ -3,6 +3,7 @@ package it.othala.service.factory;
 import it.othala.service.interfaces.IAccountService;
 import it.othala.service.interfaces.IArticleService;
 import it.othala.service.interfaces.IMailService;
+import it.othala.service.interfaces.IProductService;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -14,6 +15,7 @@ public class OthalaFactory {
 	private static Object mutex = new Object();
 	private static IAccountService accountService;
 	private static IArticleService articleService;
+	private static IProductService productService;
 	private static IMailService mailService;
 
 	private static ApplicationContext getApplicationContext() {
@@ -23,7 +25,8 @@ public class OthalaFactory {
 				if (appContext == null)
 
 				{
-					appContext = new ClassPathXmlApplicationContext(appContextCompletePath);
+					appContext = new ClassPathXmlApplicationContext(
+							appContextCompletePath);
 				}
 
 			}
@@ -33,21 +36,32 @@ public class OthalaFactory {
 
 	public static IAccountService getAccountServiceInstance() {
 		if (accountService == null) {
-			accountService = (IAccountService) getApplicationContext().getBean("accountService");
+			accountService = (IAccountService) getApplicationContext().getBean(
+					"accountService");
 		}
 		return accountService;
 	}
-	
+
 	public static IArticleService getArticleServiceInstance() {
 		if (articleService == null) {
-			articleService = (IArticleService) getApplicationContext().getBean("articleService");
+			articleService = (IArticleService) getApplicationContext().getBean(
+					"articleService");
 		}
 		return articleService;
 	}
-	
+
+	public static IProductService getProductServiceInstance() {
+		if (productService == null) {
+			productService = (IProductService) getApplicationContext().getBean(
+					"productService");
+		}
+		return productService;
+	}
+
 	public static IMailService getMailServiceInstance() {
 		if (mailService == null) {
-			mailService = (IMailService) getApplicationContext().getBean("mailService");
+			mailService = (IMailService) getApplicationContext().getBean(
+					"mailService");
 		}
 		return mailService;
 	}
