@@ -6,6 +6,6 @@ import it.othala.dto.ArticleDTO;
 
 public interface IArticleDAO {
 
-	public List<ArticleDTO> getListArticle(int languages);
+	public List<ArticleDTO> getListArticle(Integer languages);
 
 }
