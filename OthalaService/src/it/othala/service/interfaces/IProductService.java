@@ -6,6 +6,6 @@ import it.othala.dto.ArticleDTO;
 
 public interface IProductService {
 
-	public List<ArticleDTO> getListArticle(int languages);
+	public List<ArticleDTO> getListProduct(int languages);
 	
 }
