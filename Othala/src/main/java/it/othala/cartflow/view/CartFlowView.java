@@ -1,6 +1,6 @@
 package it.othala.cartflow.view;
 
-import it.othala.dto.ArticleDTO;
+import it.othala.dto.ProductDTO;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 
@@ -15,14 +15,14 @@ import javax.faces.event.ActionEvent;
 @ViewScoped
 public class CartFlowView extends BaseView {
 
-	private List<ArticleDTO> articles;
-	private List<ArticleDTO> articlesPage;
+	private List<ProductDTO> articles;
+	private List<ProductDTO> articlesPage;
 
-	public List<ArticleDTO> getArticlesPage() {
+	public List<ProductDTO> getArticlesPage() {
 		return articlesPage;
 	}
 
-	public List<ArticleDTO> getArticles() {
+	public List<ProductDTO> getArticles() {
 		return articles;
 	}
 
@@ -88,13 +88,15 @@ public class CartFlowView extends BaseView {
 		size.add("XL");
 		size.add("M");
 
-		List<ArticleDTO> art1 = OthalaFactory.getArticleServiceInstance()
-				.getListArticle(1);
+		List<ProductDTO> art1 = OthalaFactory.getProductServiceInstance()
+				.getListProduct(1);
 
-		for (int i = 0; i <= 50; i++) { articles.add(art1.get(0)); 
-		articles.add(art1.get(1));}
-		
-		//articles = art1;
+		for (int i = 0; i <= 50; i++) {
+			articles.add(art1.get(0));
+			articles.add(art1.get(1));
+		}
+
+		// articles = art1;
 		initPaginator();
 
 		return null;
