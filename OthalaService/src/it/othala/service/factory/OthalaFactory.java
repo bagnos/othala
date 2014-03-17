@@ -1,6 +1,7 @@
 package it.othala.service.factory;
 
 import it.othala.service.interfaces.IAccountService;
+import it.othala.service.interfaces.IArticleService;
 import it.othala.service.interfaces.IMailService;
 
 import org.springframework.context.ApplicationContext;
@@ -12,6 +13,7 @@ public class OthalaFactory {
 	private static final String appContextCompletePath = "it/othala/service/factory/applicationcontext_othala.xml";
 	private static Object mutex = new Object();
 	private static IAccountService accountService;
+	private static IArticleService articleService;
 	private static IMailService mailService;
 
 	private static ApplicationContext getApplicationContext() {
@@ -34,6 +36,13 @@ public class OthalaFactory {
 			accountService = (IAccountService) getApplicationContext().getBean("accountService");
 		}
 		return accountService;
+	}
+	
+	public static IArticleService getArticleServiceInstance() {
+		if (articleService == null) {
+			articleService = (IArticleService) getApplicationContext().getBean("articleService");
+		}
+		return articleService;
 	}
 	
 	public static IMailService getMailServiceInstance() {
