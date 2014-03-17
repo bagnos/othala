@@ -17,6 +17,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="it/othala/dao/ibatis/account.xml" /> 
 		<mapper resource="it/othala/dao/ibatis/newsletter.xml" />
 		<mapper resource="it/othala/dao/ibatis/article.xml" />
+		<mapper resource="it/othala/dao/ibatis/product.xml" />
 
 	</mappers>
 
