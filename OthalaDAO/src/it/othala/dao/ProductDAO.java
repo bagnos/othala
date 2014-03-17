@@ -15,7 +15,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		// TODO Auto-generated method stub
 
 		List<ProductDTO> listProduct = getSqlSession().selectList(
-				"it.othala.article.queries.listArticle", languages.toString());
+				"it.othala.product.queries.listProduct", languages.toString());
 		
 		for (int i = 0; i <= listProduct.size() - 1; i++) { 
 			Integer idProductAttribute = new Integer(4);
@@ -23,7 +23,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 			map.put("idProduct", listProduct.get(i).getIdProduct().toString());
 			map.put("idProductAttribute", idProductAttribute.toString());
 			map.put("languages", languages.toString());
-			List<String> newString = getSqlSession().selectList("it.othala.article.queries.listArticleAttribute", map);
+			List<String> newString = getSqlSession().selectList("it.othala.product.queries.listArticleAttribute", map);
 			listProduct.get(i).setSize(newString);			
 			
 		}
@@ -34,7 +34,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 			map.put("idProduct", listProduct.get(i).getIdProduct().toString());
 			map.put("idProductAttribute", idProductAttribute.toString());
 			map.put("languages", languages.toString());
-			List<String> newString = getSqlSession().selectList("it.othala.article.queries.listArticleAttribute", map);
+			List<String> newString = getSqlSession().selectList("it.othala.product.queries.listArticleAttribute", map);
 			listProduct.get(i).setColor(newString);			
 			
 		}
@@ -45,7 +45,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 			map.put("idProduct", listProduct.get(i).getIdProduct().toString());
 			map.put("idProductAttribute", idProductAttribute.toString());
 			map.put("languages", languages.toString());
-			String newString = getSqlSession().selectOne("it.othala.article.queries.getProductAttribute", map);
+			String newString = getSqlSession().selectOne("it.othala.product.queries.getProductAttribute", map);
 			listProduct.get(i).setBrand(newString);			
 			
 		}
@@ -56,7 +56,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 			map.put("idProduct", listProduct.get(i).getIdProduct().toString());
 			map.put("idProductAttribute", idProductAttribute.toString());
 			map.put("languages", languages.toString());
-			String newString = getSqlSession().selectOne("it.othala.article.queries.getProductAttribute", map);
+			String newString = getSqlSession().selectOne("it.othala.product.queries.getProductAttribute", map);
 			listProduct.get(i).setGenere(newString);			
 			
 		}
@@ -67,14 +67,14 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 			map.put("idProduct", listProduct.get(i).getIdProduct().toString());
 			map.put("idProductAttribute", idProductAttribute.toString());
 			map.put("languages", languages.toString());
-			String newString = getSqlSession().selectOne("it.othala.article.queries.getProductAttribute", map);
+			String newString = getSqlSession().selectOne("it.othala.product.queries.getProductAttribute", map);
 			listProduct.get(i).setTipologia(newString);			
 			
 		}
 		for (int i = 0; i <= listProduct.size() - 1; i++) { 
 			HashMap<String, String> map = new HashMap<>();
 			map.put("idProduct", listProduct.get(i).getIdProduct().toString());
-			List<String> newString = getSqlSession().selectList("it.othala.article.queries.listProductImages", map);
+			List<String> newString = getSqlSession().selectList("it.othala.product.queries.listProductImages", map);
 			listProduct.get(i).setImagesUrl(newString.get(0));			
 			
 		}
