@@ -13,6 +13,7 @@ public class ArticleDTO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private Integer idProduct;
 	private BigDecimal price;
 	private String brand;
 	private String imagesUrl;
@@ -20,6 +21,39 @@ public class ArticleDTO implements Serializable {
 	private BigDecimal priceRounded;
 	private String descrption;
 	private List<String> color = new ArrayList<>();
+	private String genere;
+	private String tipologia;
+	private Integer pcSconto;
+	
+	
+	public Integer getPcSconto() {
+		return pcSconto;
+	}
+
+	public void setPcSconto(Integer pcSconto) {
+		this.pcSconto = pcSconto;
+	}
+
+	public String getGenere() {
+		return genere;
+	}
+
+	public void setGenere(String genere) {
+		this.genere = genere;
+	}
+
+	public String getTipologia() {
+		return tipologia;
+	}
+
+	public void setTipologia(String tipologia) {
+		this.tipologia = tipologia;
+	}
+
+
+	public void setSize(List<String> size) {
+		this.size = size;
+	}
 
 	public List<String> getColor() {
 		return color;
@@ -35,8 +69,9 @@ public class ArticleDTO implements Serializable {
 
 	public BigDecimal getPriceRounded() {
 		priceRounded = null;
+		BigDecimal discount = new BigDecimal(pcSconto / 100);
 		if (price != null) {
-			priceRounded = price.setScale(2, RoundingMode.HALF_UP);
+			priceRounded = (price.multiply(discount)).setScale(2, RoundingMode.HALF_UP);
 		}
 
 		return priceRounded;
@@ -68,6 +103,18 @@ public class ArticleDTO implements Serializable {
 
 	public void setBrand(String brand) {
 		this.brand = brand;
+	}
+
+	public Integer getIdProduct() {
+		return idProduct;
+	}
+
+	public void setIdProduct(Integer idProduct) {
+		this.idProduct = idProduct;
+	}
+
+	public void setColor(List<String> color) {
+		this.color = color;
 	}
 
 }
