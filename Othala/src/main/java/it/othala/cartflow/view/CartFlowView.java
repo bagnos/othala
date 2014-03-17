@@ -1,16 +1,15 @@
 package it.othala.cartflow.view;
 
 import it.othala.dto.ArticleDTO;
+import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
-import javax.faces.event.ActionListener;
 
 @ManagedBean
 @ViewScoped
@@ -79,28 +78,23 @@ public class CartFlowView extends BaseView {
 		// TODO Auto-generated method stub
 		articles = new ArrayList<>();
 		articlesPage = new ArrayList<>();
-		List<String> color=new ArrayList<>();
+		List<String> color = new ArrayList<>();
 		color.add("GIALLO");
 		color.add("BLU");
 		color.add("ROSSO");
-		
-		List<String> size=new ArrayList<>();
+
+		List<String> size = new ArrayList<>();
 		size.add("L");
 		size.add("XL");
 		size.add("M");
-		
-		ArticleDTO art = new ArticleDTO();
-		art.setBrand("ARMANI");		
-		art.setImagesUrl("406918_mrp_fr_m2.jpg");		
-		art.getSize().addAll(size);
-		art.setDescrption("SUPER SLIM IN DENIM STRETCH");
-		art.setPrice(new BigDecimal("1000"));
-		art.getColor().addAll(color);
-		
-		for (int i = 0; i <= 50; i++) {
-			articles.add(art);
-		}
 
+		List<ArticleDTO> art1 = OthalaFactory.getArticleServiceInstance()
+				.getListArticle(1);
+
+		for (int i = 0; i <= 50; i++) { articles.add(art1.get(0)); 
+		articles.add(art1.get(1));}
+		
+		//articles = art1;
 		initPaginator();
 
 		return null;
