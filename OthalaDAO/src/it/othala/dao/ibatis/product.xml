@@ -199,5 +199,17 @@
 		idProduct = #{idProduct}
 
 	</select>
+	
+	<select id="listDomain" resultType="it.othala.dto.AttributeDTO"
+		parameterType="java.util.HashMap">
+
+		SELECT d.pgProductAttribute as attributo,txValore as valore
+		FROM 
+		${database.schema}valori_attributo_languages d
+		where d.idLanguages = #{languages}
+          and d.idProductAttribute = #{idProductAttribute}
+
+	</select>
+	
 
 </mapper>
