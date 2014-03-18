@@ -89,11 +89,12 @@ public class CartFlowView extends BaseView {
 		size.add("M");
 
 		List<ProductDTO> art1 = OthalaFactory.getProductServiceInstance()
-				.getListProduct(1);
+				.getListProduct(1,null, null, null, null,null, null, null, null);
 
 		for (int i = 0; i <= 18; i++) {
-			articles.add(art1.get(0));
-			articles.add(art1.get(1));
+			for (int y = 0; y <= art1.size() - 1; y++){
+			articles.add(art1.get(y));}
+			
 		}
 
 		// articles = art1;
