@@ -22,6 +22,18 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `othala`.`Product_State`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `othala`.`Product_State` ;
+
+CREATE  TABLE IF NOT EXISTS `othala`.`Product_State` (
+  `idProductState` INT NOT NULL ,
+  `txProductState` VARCHAR(45) NULL ,
+  PRIMARY KEY (`idProductState`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `othala`.`Product`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `othala`.`Product` ;
@@ -30,8 +42,16 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Product` (
   `idProduct` INT NOT NULL ,
   `imPrice` DECIMAL(15) NULL ,
   `pcDiscount` INT NULL ,
+  `idProductState` INT NULL ,
+  `dtProductState` DATETIME NULL ,
   PRIMARY KEY (`idProduct`) ,
-  INDEX `idProduct_INDEX1` (`idProduct` ASC) )
+  INDEX `idProduct_INDEX1` (`idProduct` ASC) ,
+  INDEX `fk_Product_Product_State1` (`idProductState` ASC) ,
+  CONSTRAINT `fk_Product_Product_State1`
+    FOREIGN KEY (`idProductState` )
+    REFERENCES `othala`.`Product_State` (`idProductState` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
