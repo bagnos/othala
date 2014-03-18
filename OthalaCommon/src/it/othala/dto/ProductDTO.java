@@ -123,4 +123,12 @@ public class ProductDTO implements Serializable {
 		this.color = color;
 	}
 
+	public Boolean getFgNewArrivals() {
+		return fgNewArrivals;
+	}
+
+	public void setFgNewArrivals(Boolean fgNewArrivals) {
+		this.fgNewArrivals = fgNewArrivals;
+	}
+
 }
