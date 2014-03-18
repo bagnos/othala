@@ -2,6 +2,7 @@ package it.othala.dao;
 
 import it.othala.dao.interfaces.IProductDAO;
 import it.othala.dto.AttributeDTO;
+import it.othala.dto.DomainDTO;
 import it.othala.dto.ProductDTO;
 
 import java.math.BigDecimal;
@@ -28,7 +29,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		mapProduct.put("maxPrice", maxPrice);
 		mapProduct.put("size", size);
 		mapProduct.put("color", color);
-			mapProduct.put("newArrivals", newArrivals);
+		mapProduct.put("newArrivals", newArrivals);
 
 		// recupero prodotti
 		List<ProductDTO> listProduct = getSqlSession().selectList(
@@ -100,5 +101,42 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		}
 
 		return listProduct;
+	}
+
+	@Override
+	public DomainDTO getDomain(Integer languages) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> mapSize = new HashMap<>();
+		mapSize.put("languages", languages);
+		mapSize.put("idProductAttribute", 4);
+		
+		List<AttributeDTO> listSize = getSqlSession().selectList(
+				"it.othala.product.queries.listDomain", mapSize);
+		
+		HashMap<String, Object> mapColor = new HashMap<>();
+		mapColor.put("languages", languages);
+		mapColor.put("idProductAttribute", 3);
+		
+		List<AttributeDTO> listColor = getSqlSession().selectList(
+				"it.othala.product.queries.listDomain", mapColor);
+		
+		HashMap<String, Object> mapBrand = new HashMap<>();
+		mapBrand.put("languages", languages);
+		mapBrand.put("idProductAttribute", 5);
+		
+		List<AttributeDTO> listBrand = getSqlSession().selectList(
+				"it.othala.product.queries.listDomain", mapBrand);
+		
+		
+		
+		DomainDTO domainDTO = new DomainDTO();
+		domainDTO.setSize(listSize);
+		domainDTO.setColor(listColor);
+		domainDTO.setBrand(listBrand);
+		
+		
+		
+		
+		return domainDTO;
 	}
 }

@@ -1,6 +1,7 @@
 package it.othala.service;
 
 import it.othala.dao.interfaces.IProductDAO;
+import it.othala.dto.DomainDTO;
 import it.othala.dto.ProductDTO;
 import it.othala.service.interfaces.IProductService;
 
@@ -27,4 +28,13 @@ public class ProductService implements IProductService {
 
 	}
 
+	@Override
+	public DomainDTO getDomain(Integer languages) {
+
+		DomainDTO domainDTO = productDAO.getDomain(languages);
+
+		return domainDTO;
+
+	}
+	
 }

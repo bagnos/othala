@@ -1,5 +1,6 @@
 package it.othala.cartflow.view;
 
+import it.othala.dto.DomainDTO;
 import it.othala.dto.ProductDTO;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
@@ -89,12 +90,16 @@ public class CartFlowView extends BaseView {
 		size.add("M");
 
 		List<ProductDTO> art1 = OthalaFactory.getProductServiceInstance()
-				.getListProduct(1,null, null, null, null,null, null, null, null);
+				.getListProduct(1, null, null, null, null, null, null, null,
+						null);
+
+		DomainDTO dom1 = OthalaFactory.getProductServiceInstance().getDomain(1);
 
 		for (int i = 0; i <= 18; i++) {
-			for (int y = 0; y <= art1.size() - 1; y++){
-			articles.add(art1.get(y));}
-			
+			for (int y = 0; y <= art1.size() - 1; y++) {
+				articles.add(art1.get(y));
+			}
+
 		}
 
 		// articles = art1;
@@ -140,9 +145,10 @@ public class CartFlowView extends BaseView {
 		currentPage = 1;
 		starIndex = 0;
 		classBack = "disabled";
-	
+
 		if (!articles.isEmpty()) {
-			endIndex = ITEMS_PAGE>articles.size()?articles.size():ITEMS_PAGE;
+			endIndex = ITEMS_PAGE > articles.size() ? articles.size()
+					: ITEMS_PAGE;
 			double dblPages = (double) articles.size() / (double) ITEMS_PAGE;
 			totPages = (int) Math.ceil(dblPages);
 			articlesPage.clear();
