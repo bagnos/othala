@@ -32,7 +32,7 @@
 					<div class="panel panel-default">
 						<div class="panel-body">
 							<div class="row">
-								<div class="col-sm-2">
+								<div class="col-sm-3">
 									<div class="form-group">
 										<h:outputText value="Taglia" />
 										<h:selectOneMenu styleClass="form-control">
@@ -45,7 +45,7 @@
 									</div>
 								</div>
 
-								<div class="col-sm-2">
+								<div class="col-sm-3">
 									<div class="form-group">
 										<h:outputText value="Colore" />
 										<h:selectOneMenu styleClass="form-control">
@@ -71,6 +71,7 @@
 									</div>
 								</div>
 
+								<!-- 
 								<div class="col-sm-3">
 									<div class="form-group">
 										<h:outputText value="Materiale" />
@@ -82,8 +83,9 @@
 										</h:selectOneMenu>
 									</div>
 								</div>
+								 -->
 
-								<div class="col-sm-2">
+								<div class="col-sm-3">
 									<div class="form-group">
 										<h:outputText value="Prezzo" />
 										<p:slider for="txt6,txt7" minValue="1" maxValue="5000" display="displayRange" range="true"
@@ -122,11 +124,13 @@
 					<h:panelGroup rendered="#{cartFlowView.renderPaginator}">
 						<div class="col-sm-3 pull-right">
 							<ul class="pager">
-								<li class="#{cartFlowView.classBack}"><p:commandLink ajax="true" update="@form"  disabled="#{cartFlowView.classBack=='disabled'}"
+								<li class="#{cartFlowView.classBack}"><p:commandLink ajax="true" update="@form"
+										disabled="#{cartFlowView.classBack=='disabled'}"
 										styleClass="glyphicon glyphicon-chevron-left" actionListener="#{cartFlowView.backword}" />
 								</li>
 								<li><span>#{cartFlowView.currentPage} of #{cartFlowView.totPages}</span></li>
-								<li class="#{cartFlowView.classForw}"><p:commandLink ajax="true" update="@form" disabled="#{cartFlowView.classForw=='disabled'}"
+								<li class="#{cartFlowView.classForw}"><p:commandLink ajax="true" update="@form"
+										disabled="#{cartFlowView.classForw=='disabled'}"
 										styleClass="glyphicon glyphicon-chevron-right" actionListener="#{cartFlowView.forward}" />
 								</li>
 
@@ -143,14 +147,26 @@
 							<div class="thumbnail">
 								<p:graphicImage styleClass="img-responsive" library="images/cartThumbinals"
 									name="#{art.imagesUrl}" />
-								<div class="caption text-center articolo">
+								<div style="float: right">
+									<p:graphicImage id="imgArt" library="images" name="info-thumb.png" />
+									<p:tooltip for="imgArt">
+
+										<h:outputText value="#{msg.catalog_available}" />
+										<br />
+										<h:outputText value="#{msg.catalog_colors} #{art.colors}" />
+										<br />
+										<h:outputText value="#{msg.catalog_sizes} #{art.sizes}" />
+
+									</p:tooltip>
+								</div>
+								<div class="caption articolo">
 									<h5>#{art.brand}</h5>
 									<h6>#{art.description}</h6>
-									<div class="price">
-									&#8364; #{art.price} 
-									</div>
+									<p class="price">&#8364; #{art.price}</p>
 								</div>
+
 							</div>
+
 						</div>
 					</ui:repeat>
 
