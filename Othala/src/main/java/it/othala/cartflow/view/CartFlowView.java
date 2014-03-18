@@ -91,7 +91,7 @@ public class CartFlowView extends BaseView {
 		List<ProductDTO> art1 = OthalaFactory.getProductServiceInstance()
 				.getListProduct(1);
 
-		for (int i = 0; i <= 50; i++) {
+		for (int i = 0; i <= 18; i++) {
 			articles.add(art1.get(0));
 			articles.add(art1.get(1));
 		}
@@ -139,9 +139,9 @@ public class CartFlowView extends BaseView {
 		currentPage = 1;
 		starIndex = 0;
 		classBack = "disabled";
-		endIndex = ITEMS_PAGE;
-
+	
 		if (!articles.isEmpty()) {
+			endIndex = ITEMS_PAGE>articles.size()?articles.size():ITEMS_PAGE;
 			double dblPages = (double) articles.size() / (double) ITEMS_PAGE;
 			totPages = (int) Math.ceil(dblPages);
 			articlesPage.clear();

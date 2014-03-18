@@ -1,7 +1,47 @@
+/* ================================================================================================ 
+	CUSTOM PRIMEFACES
+================================================================================================*/
 .ui-widget {
 	font-size: 95% !important;
 }
 
+.ui-tooltip {
+	font-weight: lighter !important;;
+	color: #777 !important;;
+	line-height: 1.5em !important;;
+	font-size: 10px !important;;
+	background-color: #f7f7f7 !important;
+	border-left: 1px solid #ddd !important;
+	border-right: 1px solid #ddd !important;
+	border-bottom: 1px solid #ddd !important;
+	padding: 8px !important;;
+	-moz-border-radius: 0px;
+	-webkit-border-radius: 0px;
+	border-radius: 0px;
+	-webkit-box-shadow: 0 0px 0px rgba(0, 0, 0, 0.2) !important;
+	-moz-box-shadow: 0 0px 0px rgba(0, 0, 0, 0.2) !important;
+	box-shadow: 0 0px 0px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* ================================================================================================ 
+	FINE CUSTOM PRIMEFACES
+================================================================================================*/
+.
+form-titoli {
+	margin-bottom: 15px;
+	border-bottom: 2px solid #357ebd;
+	padding-bottom: 10px;
+}
+
+.img-responsive {
+	display: inline-block !important;;
+	height: auto !important;;
+	max-width: 100% !important;;
+}
+
+/* ================================================================================================ 
+	INIZIO THUMBINALS
+================================================================================================*/
 .articolo>h5,h6 {
 	margin: 2px !important;
 }
@@ -18,14 +58,18 @@
 	margin: 5% 0 0 0;
 }
 
-#tab-content a {
-	font-weight: lighter !important;;
-	color: #888 !important;;
-	padding: 0 0 0 11px;
-	background: url('./images/tabNav/arw_link.gif') no-repeat left !important;
-	
+.caption.articolo {
+	height: 86px;
+	overflow: hidden;
 }
 
+/* ================================================================================================ 
+	FINE THUMBINALS
+================================================================================================*/
+
+/* ================================================================================================ 
+	INIZIO BREACRUMB
+================================================================================================*/
 .breadcrumb {
 	margin-top: 10px;
 	font-size: 16px;
@@ -43,26 +87,9 @@
 	color: black !important;;
 }
 
-.form-titoli {
-	margin-bottom: 15px;
-	border-bottom: 2px solid #357ebd;
-	padding-bottom: 10px;
-}
-
-#content {
-	padding-top: 20px !important;;
-	padding-bottom: 20px !important;;
-}
-
-#contentTabNav {
-	padding-top: 20px !important;;
-}
-
-.img-responsive {
-	display: inline-block !important;;
-	height: auto !important;;
-	max-width: 100% !important;;
-}
+/* ================================================================================================ 
+	FINE THUMBINALS
+================================================================================================*/
 
 /* ================================================================================================ 
 	INIZIO TAB NAV BAR 
@@ -77,6 +104,23 @@
 	font-size: 16px !important;
 	color: rgb(102, 102, 102) !important;
 	font-weight: lighter !important;;
+}
+
+#tab-content a {
+	font-weight: lighter !important;;
+	color: #888 !important;;
+	padding: 0 0 0 11px;
+	background: url('./images/tabNav/arw_link.gif') no-repeat left
+		!important;
+}
+
+#content {
+	padding-top: 20px !important;;
+	padding-bottom: 20px !important;;
+}
+
+#contentTabNav {
+	padding-top: 20px !important;;
 }
 
 .nav-tabs>li.active>a {

@@ -6,6 +6,8 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.util.StringUtils;
+
 public class ProductDTO implements Serializable {
 
 	/**
@@ -24,9 +26,15 @@ public class ProductDTO implements Serializable {
 	private String gender;
 	private String type;
 	private Integer discount;
-	
-	
-	
+		
+
+	public String getColors() {
+		return StringUtils.collectionToCommaDelimitedString(color);
+	}
+
+	public String getSizes() {
+		return StringUtils.collectionToCommaDelimitedString(size);
+	}
 
 	public String getGender() {
 		return gender;
