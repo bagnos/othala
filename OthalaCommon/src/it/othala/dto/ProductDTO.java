@@ -2,7 +2,6 @@ package it.othala.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,13 +19,13 @@ public class ProductDTO implements Serializable {
 	private String brand;
 	private String imagesUrl;
 	private List<String> size = new ArrayList<>();
-	private BigDecimal priceRounded;
+	private BigDecimal priceDiscounted;
 	private String description;
 	private List<String> color = new ArrayList<>();
 	private String gender;
 	private String type;
 	private Integer discount;
-		
+	private Boolean fgNewArrivals;
 
 	public String getColorsAsString() {
 		return StringUtils.collectionToCommaDelimitedString(color);
@@ -76,14 +75,12 @@ public class ProductDTO implements Serializable {
 		this.description = descrption;
 	}
 
-	public BigDecimal getPriceRounded() {
-		priceRounded = null;
-		BigDecimal discount2 = new BigDecimal(discount / 100);
-		if (price != null) {
-			priceRounded = (price.multiply(discount2)).setScale(2, RoundingMode.HALF_UP);
-		}
+	public BigDecimal getPriceDiscounted() {
+		return priceDiscounted;
+	}
 
-		return priceRounded;
+	public void setPriceDiscounted(BigDecimal priceDiscounted) {
+		this.priceDiscounted = priceDiscounted;
 	}
 
 	public List<String> getSize() {

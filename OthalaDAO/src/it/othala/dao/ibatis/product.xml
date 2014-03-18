@@ -7,15 +7,85 @@
 	<select id="listProduct" resultType="it.othala.dto.ProductDTO"
 		parameterType="java.util.HashMap">
 
-		SELECT a.idProduct ,
+		SELECT
+		a.idProduct ,
 		imPrice as price,
 		txDescription as description,
-		pcDiscount as discount
+		pcDiscount
+		as discount,
+		ceiling(imPrice * (100 - pcDiscount) / 100) as
+		priceDiscounted,
+		case
+		when a.dtProductState > current_date - 7 then 'S'
+		else 'N'
+		end as fgNewArrivals
 		FROM
 		${database.schema}product a,
 		${database.schema}product_description b
 		where a.idProduct = b.idProduct
-		and b.idLanguages = #{languages}
+		and b.idLanguages = 1
+		and a.idProductState = 1
+		<if test="minPrice != null">
+			and (imPrice * (100 - pcDiscount) / 100) &gt;= #{minPrice}
+		</if>
+
+		<if test="type != null">
+			and (imPrice * (100 - pcDiscount) / 100) &lt;= #{maxPrice}
+		</if>
+		<if test="newArrivals != null and newArrivals == true">
+			and a.dtProductState > current_date - 7
+		</if>
+
+		<if test="type != null">
+			and exists (select 1 from product_attribute c where
+			c.idProduct =
+			a.idProduct
+			and c.idProductAttribute = 1
+			and
+			c.pgProductAttribute = #{type})
+		</if>
+
+		<if test="gender != null">
+			and exists (select 1 from product_attribute c where
+			c.idProduct =
+			a.idProduct
+			and c.idProductAttribute = 2
+			and
+			c.pgProductAttribute = #{gender})
+		</if>
+
+		<if test="brand != null">
+			and exists (select 1 from product_attribute c where
+			c.idProduct =
+			a.idProduct
+			and c.idProductAttribute = 5
+			and
+			c.pgProductAttribute = #{brand})
+		</if>
+
+		<if test="size != null">
+			and exists (select 1 from article_attribute c where
+			c.idProduct =
+			a.idProduct
+			and c.idProductAttribute = 4
+			and
+			c.pgProductAttribute = #{size})
+		</if>
+
+		<if test="color != null">
+			and exists (select 1 from article_attribute c where
+			c.idProduct =
+			a.idProduct
+			and c.idProductAttribute = 3
+			and
+			c.pgProductAttribute = #{color})
+		</if>
+
+
+
+
+
+
 	</select>
 
 	<select id="listArticleAttribute" resultType="String"
@@ -23,14 +93,37 @@
 
 		SELECT txValore FROM ${database.schema}article_attribute
 		a,
-		${database.schema}attribute b,
 		${database.schema}valori_attributo c,
 		${database.schema}valori_attributo_languages d
 		where
-		a.idProductAttribute = b.idProductAttribute
-		and a.idProductAttribute =
+		a.idProductAttribute =
 		c.idProductAttribute
-		and a.pgProductAttribute = c.pgProductAttribute
+		and a.pgProductAttribute =
+		c.pgProductAttribute
+		and a.idProductAttribute = d.idProductAttribute
+		and
+		a.pgProductAttribute = d.pgProductAttribute
+		and idProduct =
+		#{idProduct}
+		and a.idProductAttribute = #{idProductAttribute}
+		and
+		d.idLanguages = #{languages}
+
+	</select>
+
+	<select id="listDistinctArticleAttribute" resultType="String"
+		parameterType="java.util.HashMap">
+
+		SELECT distinct(txValore) FROM
+		${database.schema}article_attribute
+		a,
+		${database.schema}valori_attributo c,
+		${database.schema}valori_attributo_languages d
+		where
+		a.idProductAttribute =
+		c.idProductAttribute
+		and a.pgProductAttribute =
+		c.pgProductAttribute
 		and a.idProductAttribute = d.idProductAttribute
 		and
 		a.pgProductAttribute = d.pgProductAttribute
@@ -68,29 +161,33 @@
 		and e.idProductAttribute = a.idProductAttribute
 
 	</select>
-	
-		<select id="listProductAttribute" resultType="it.othala.dto.AttributeDTO"
+
+	<select id="listProductAttribute" resultType="it.othala.dto.AttributeDTO"
 		parameterType="java.util.HashMap">
 
-		SELECT a.idProductAttribute as attributo,txValore as valore  
+		SELECT a.idProductAttribute as attributo,txValore as
+		valore
 		FROM ${database.schema}product_attribute a,
-		${database.schema}product b,
 		${database.schema}attribute e,
 		${database.schema}valori_attributo c,
 		${database.schema}valori_attributo_languages d
-		where a.idProduct =
-		b.idProduct
-		and a.idProductAttribute = c.idProductAttribute
+		where
+		a.idProductAttribute = c.idProductAttribute
 		and
-		a.pgProductAttribute = c.pgProductAttribute
+		a.pgProductAttribute =
+		c.pgProductAttribute
 		and a.idProductAttribute =
 		d.idProductAttribute
-		and a.pgProductAttribute = d.pgProductAttribute
-		and a.idProduct = #{idProduct}
+		and
+		a.pgProductAttribute = d.pgProductAttribute
+		and a.idProduct =
+		#{idProduct}
 		and d.idLanguages = #{languages}
-		and e.idLanguages =
+		and
+		e.idLanguages =
 		d.idLanguages
-		and e.idProductAttribute = a.idProductAttribute
+		and e.idProductAttribute =
+		a.idProductAttribute
 
 	</select>
 
