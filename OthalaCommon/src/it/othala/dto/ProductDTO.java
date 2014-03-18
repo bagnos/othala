@@ -28,11 +28,11 @@ public class ProductDTO implements Serializable {
 	private Integer discount;
 		
 
-	public String getColors() {
+	public String getColorsAsString() {
 		return StringUtils.collectionToCommaDelimitedString(color);
 	}
 
-	public String getSizes() {
+	public String getSizesAsString() {
 		return StringUtils.collectionToCommaDelimitedString(size);
 	}
 
