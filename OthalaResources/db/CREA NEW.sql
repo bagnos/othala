@@ -56,33 +56,15 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `othala`.`Languages`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `othala`.`Languages` ;
-
-CREATE  TABLE IF NOT EXISTS `othala`.`Languages` (
-  `idLanguages` INT NOT NULL ,
-  `txLanguages` VARCHAR(45) NULL ,
-  PRIMARY KEY (`idLanguages`) )
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `othala`.`Attribute`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `othala`.`Attribute` ;
 
 CREATE  TABLE IF NOT EXISTS `othala`.`Attribute` (
   `idProductAttribute` INT NOT NULL ,
-  `idLanguages` INT NOT NULL ,
+  `idLanguages` VARCHAR(2) NOT NULL ,
   `txAttributeName` VARCHAR(100) NULL ,
-  PRIMARY KEY (`idProductAttribute`, `idLanguages`) ,
-  INDEX `fk_Attribute_Languages1` (`idLanguages` ASC) ,
-  CONSTRAINT `fk_Attribute_Languages1`
-    FOREIGN KEY (`idLanguages` )
-    REFERENCES `othala`.`Languages` (`idLanguages` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  PRIMARY KEY (`idProductAttribute`, `idLanguages`) )
 ENGINE = InnoDB;
 
 
@@ -227,12 +209,12 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `othala`.`Article` ;
 
 CREATE  TABLE IF NOT EXISTS `othala`.`Article` (
-  `idProdotto` INT NOT NULL ,
+  `idProduct` INT NOT NULL ,
   `pgArticle` INT NOT NULL ,
   `qtStock` INT NULL ,
-  PRIMARY KEY (`idProdotto`, `pgArticle`) ,
+  PRIMARY KEY (`idProduct`, `pgArticle`) ,
   CONSTRAINT `fk_Article_Product1`
-    FOREIGN KEY (`idProdotto` )
+    FOREIGN KEY (`idProduct` )
     REFERENCES `othala`.`Product` (`idProduct` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -254,7 +236,7 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Article_Attribute` (
   INDEX `fk_Article_Attribute_Valori_Attributo1` (`idProductAttribute` ASC, `pgProductAttribute` ASC) ,
   CONSTRAINT `fk_Article_Attribute_Article1`
     FOREIGN KEY (`idProduct` , `pgArticle` )
-    REFERENCES `othala`.`Article` (`idProdotto` , `pgArticle` )
+    REFERENCES `othala`.`Article` (`idProduct` , `pgArticle` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Article_Attribute_Valori_Attributo1`
@@ -366,7 +348,7 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Orders_Articles` (
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_OrdersArticles_Article1`
     FOREIGN KEY (`idProdotto` , `pgArticle` )
-    REFERENCES `othala`.`Article` (`idProdotto` , `pgArticle` )
+    REFERENCES `othala`.`Article` (`idProduct` , `pgArticle` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -434,19 +416,13 @@ DROP TABLE IF EXISTS `othala`.`Product_Description` ;
 
 CREATE  TABLE IF NOT EXISTS `othala`.`Product_Description` (
   `idProduct` INT NOT NULL ,
-  `idLanguages` INT NOT NULL ,
+  `idLanguages` VARCHAR(2) NOT NULL ,
   `txDescription` VARCHAR(200) NULL ,
   PRIMARY KEY (`idProduct`, `idLanguages`) ,
   INDEX `fk_ProductDescription_Product1` (`idProduct` ASC) ,
-  INDEX `fk_ProductDescription_Languages1` (`idLanguages` ASC) ,
   CONSTRAINT `fk_ProductDescription_Product1`
     FOREIGN KEY (`idProduct` )
     REFERENCES `othala`.`Product` (`idProduct` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_ProductDescription_Languages1`
-    FOREIGN KEY (`idLanguages` )
-    REFERENCES `othala`.`Languages` (`idLanguages` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -460,7 +436,7 @@ DROP TABLE IF EXISTS `othala`.`Valori_Attributo_Languages` ;
 CREATE  TABLE IF NOT EXISTS `othala`.`Valori_Attributo_Languages` (
   `idProductAttribute` INT NOT NULL ,
   `pgProductAttribute` INT NOT NULL ,
-  `idLanguages` INT NOT NULL ,
+  `idLanguages` VARCHAR(2) NOT NULL ,
   `txValore` VARCHAR(200) NULL ,
   PRIMARY KEY (`idProductAttribute`, `pgProductAttribute`, `idLanguages`) ,
   INDEX `fk_Valori_Attributo_Languages_Valori_Attributo1` (`idProductAttribute` ASC, `pgProductAttribute` ASC) ,
