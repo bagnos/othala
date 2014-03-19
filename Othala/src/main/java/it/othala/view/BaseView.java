@@ -72,5 +72,10 @@ public abstract class BaseView {
 		}
 
 	}
+	
+	protected String getLang()
+	{
+		return FacesContext.getCurrentInstance().getExternalContext().getRequestLocale().getLanguage();
+	}
 
 }

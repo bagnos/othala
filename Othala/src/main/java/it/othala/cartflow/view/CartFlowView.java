@@ -1,15 +1,17 @@
 package it.othala.cartflow.view;
 
-import it.othala.dto.DomainDTO;
 import it.othala.dto.ProductDTO;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 @ManagedBean
@@ -18,15 +20,9 @@ public class CartFlowView extends BaseView {
 
 	private List<ProductDTO> articles;
 	private List<ProductDTO> articlesPage;
-
-	public List<ProductDTO> getArticlesPage() {
-		return articlesPage;
-	}
-
-	public List<ProductDTO> getArticles() {
-		return articles;
-	}
-
+	private Integer size;
+	private Integer brand;
+	private Integer color;
 	private int priceMin = 100;
 	private int priceMax = 1000;
 	private final Integer ITEMS_PAGE = 20;
@@ -37,6 +33,38 @@ public class CartFlowView extends BaseView {
 	private boolean renderPaginator;
 	private String classForw;
 	private String classBack;
+
+	public Integer getSize() {
+		return size;
+	}
+
+	public void setSize(Integer size) {
+		this.size = size;
+	}
+
+	public Integer getBrand() {
+		return brand;
+	}
+
+	public void setBrand(Integer brand) {
+		this.brand = brand;
+	}
+
+	public Integer getColor() {
+		return color;
+	}
+
+	public void setColor(Integer color) {
+		this.color = color;
+	}
+
+	public List<ProductDTO> getArticlesPage() {
+		return articlesPage;
+	}
+
+	public List<ProductDTO> getArticles() {
+		return articles;
+	}
 
 	public String getClassForw() {
 		return classForw;
@@ -79,28 +107,17 @@ public class CartFlowView extends BaseView {
 		// TODO Auto-generated method stub
 		articles = new ArrayList<>();
 		articlesPage = new ArrayList<>();
-		List<String> color = new ArrayList<>();
-		color.add("GIALLO");
-		color.add("BLU");
-		color.add("ROSSO");
+		
+		
+		articles = OthalaFactory.getProductServiceInstance().getListProduct(1, null, null, null, null, null, null,
+				null, null);
 
-		List<String> size = new ArrayList<>();
-		size.add("L");
-		size.add("XL");
-		size.add("M");
-
-		List<ProductDTO> art1 = OthalaFactory.getProductServiceInstance()
-				.getListProduct(1, null, null, null, null, null, null, null,
-						null);
-
-		DomainDTO dom1 = OthalaFactory.getProductServiceInstance().getDomain(1);
-
-		for (int i = 0; i <= 18; i++) {
-			for (int y = 0; y <= art1.size() - 1; y++) {
-				articles.add(art1.get(y));
-			}
-
-		}
+		/*
+		 * for (int i = 0; i <= 18; i++) { for (int y = 0; y <= art1.size() - 1;
+		 * y++) { articles.add(art1.get(y)); }
+		 * 
+		 * }
+		 */
 
 		// articles = art1;
 		initPaginator();
@@ -147,8 +164,7 @@ public class CartFlowView extends BaseView {
 		classBack = "disabled";
 
 		if (!articles.isEmpty()) {
-			endIndex = ITEMS_PAGE > articles.size() ? articles.size()
-					: ITEMS_PAGE;
+			endIndex = ITEMS_PAGE > articles.size() ? articles.size() : ITEMS_PAGE;
 			double dblPages = (double) articles.size() / (double) ITEMS_PAGE;
 			totPages = (int) Math.ceil(dblPages);
 			articlesPage.clear();
@@ -157,6 +173,15 @@ public class CartFlowView extends BaseView {
 		} else {
 			renderPaginator = false;
 		}
+	}
+
+	public void find(ActionEvent e) {
+		size = size==null || size == -1 ? null : size;
+		color = color==null || color == -1  ? null : size;
+		brand = brand==null || brand == -1   ? null : size;
+		articles = OthalaFactory.getProductServiceInstance().getListProduct(1, null, null, brand,
+				new BigDecimal(priceMin), new BigDecimal(priceMax), size, color, null);
+		initPaginator();
 	}
 
 }
