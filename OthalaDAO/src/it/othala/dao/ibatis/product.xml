@@ -159,7 +159,7 @@
 		and a.idProductAttribute = #{idProductAttribute}
 		and
 		d.idLanguages = #{languages}
-				and e.idProduct = a.idProduct
+				and e.idProdotto = a.idProduct
 		and
 			e.qtStock > 0
 
