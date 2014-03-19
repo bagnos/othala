@@ -244,5 +244,40 @@
 
 	</select>
 
+	<select id="listMenu" resultType="it.othala.dto.MenuDTO"
+		parameterType="java.util.HashMap">
+
+		SELECT d.pgProductAttribute as idGender,txValore as
+		txGender
+		FROM
+		${database.schema}valori_attributo_languages d
+		where
+		d.idLanguages = #{languages}
+		and d.idProductAttribute = 1
+
+	</select>
+
+	<select id="listSubMenu" resultType="it.othala.dto.SubMenuDTO"
+		parameterType="java.util.HashMap">
+
+		SELECT d.pgProductAttribute as idType,txValore as
+		txType
+		FROM
+		${database.schema}valori_attributo_languages d
+		where
+		d.idLanguages = #{languages}
+		and d.idProductAttribute = 2
+		and exists (select 1 from product a,
+        product_attribute b,
+        product_attribute c
+        where a.idProduct = b.idProduct
+        and a.idProduct = c.idProduct
+        and b.idProductAttribute = d.idProductAttribute
+        and b.pgProductAttribute = d.pgProductattribute
+        and c.idProductAttribute = #{idMenu}
+        
+
+	</select>
+
 
 </mapper>

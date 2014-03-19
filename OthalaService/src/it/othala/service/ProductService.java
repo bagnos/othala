@@ -2,6 +2,7 @@ package it.othala.service;
 
 import it.othala.dao.interfaces.IProductDAO;
 import it.othala.dto.DomainDTO;
+import it.othala.dto.MenuDTO;
 import it.othala.dto.ProductDTO;
 import it.othala.service.interfaces.IProductService;
 
@@ -22,7 +23,9 @@ public class ProductService implements IProductService {
 			BigDecimal maxPrice, Integer size, Integer color,
 			Boolean newArrivals) {
 
-		List<ProductDTO> productDTO = productDAO.getListProduct(languages,type, gender, brand, minPrice, maxPrice, size, color, newArrivals);
+		List<ProductDTO> productDTO = productDAO.getListProduct(languages,
+				type, gender, brand, minPrice, maxPrice, size, color,
+				newArrivals);
 
 		return productDTO;
 
@@ -36,5 +39,13 @@ public class ProductService implements IProductService {
 		return domainDTO;
 
 	}
-	
+
+	@Override
+	public List<MenuDTO> getMenu(Integer languages) {
+
+		List<MenuDTO> menuDTO = productDAO.getMenu(languages);
+
+		return menuDTO;
+
+	}
 }
