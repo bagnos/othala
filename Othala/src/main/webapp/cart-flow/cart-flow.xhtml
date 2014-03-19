@@ -89,81 +89,90 @@
 
 
 							</div>
-							<div class="row">
-								<div class="col-sm-3">
-									<div class="form-group">
-										<h:outputText value="#{msg.catalog_OrderPrice}" />
-										<h:selectOneMenu styleClass="form-control">
-
-											<f:selectItem itemLabel="#{msg.catalog_priceDesc}" itemValue="1"></f:selectItem>
-											<f:selectItem itemLabel="#{msg.catalog_priceAsc}" itemValue="2"></f:selectItem>
-
-										</h:selectOneMenu>
-									</div>
-								</div>
-							</div>
 
 							<div>
-								<p:commandButton styleClass="ui-priority-primary" update="@form" process="@form" actionListener="#{cartFlowView.find}" value="#{msg.catalog_find}" ajax="true"></p:commandButton>
+								<p:commandButton styleClass="ui-priority-primary" update="products" id="findPrds"
+									actionListener="#{cartFlowView.find}" value="#{msg.catalog_find}"></p:commandButton>
 							</div>
 
 						</div>
 
 					</div>
 				</div>
-
 				<div class="row">
-					<h:panelGroup rendered="#{cartFlowView.renderPaginator}">
-						<div class="col-sm-3 pull-right">
-							<ul class="pager">
-								<li class="#{cartFlowView.classBack}"><p:commandLink ajax="true" update="@form"
-										disabled="#{cartFlowView.classBack=='disabled'}"
-										styleClass="glyphicon glyphicon-chevron-left" actionListener="#{cartFlowView.backword}" />
-								</li>
-								<li><span>#{cartFlowView.currentPage} of #{cartFlowView.totPages}</span></li>
-								<li class="#{cartFlowView.classForw}"><p:commandLink ajax="true" update="@form"
-										disabled="#{cartFlowView.classForw=='disabled'}"
-										styleClass="glyphicon glyphicon-chevron-right" actionListener="#{cartFlowView.forward}" />
-								</li>
+					<div class="col-sm-3">
+						<div class="form-group">
+							<h:outputText value="#{msg.catalog_OrderPrice}" />
+							<h:selectOneMenu styleClass="form-control">
 
-							</ul>
+								<f:selectItem itemLabel="#{msg.catalog_priceDesc}" itemValue="1"></f:selectItem>
+								<f:selectItem itemLabel="#{msg.catalog_priceAsc}" itemValue="2"></f:selectItem>
+
+							</h:selectOneMenu>
 						</div>
-					</h:panelGroup>
+					</div>
 				</div>
 
-				<div class="row">
+
+				<h:panelGroup id="products">
+					<div class="row">
+						<h:panelGroup rendered="#{cartFlowView.renderPaginator}">
+							<div class="col-sm-3 pull-right">
+								<ul class="pager">
+									<li class="#{cartFlowView.classBack}"><p:commandLink ajax="true" update="@form"
+											disabled="#{cartFlowView.classBack=='disabled'}"
+											styleClass="glyphicon glyphicon-chevron-left" actionListener="#{cartFlowView.backword}" />
+									</li>
+									<li><span>#{cartFlowView.currentPage} of #{cartFlowView.totPages}</span></li>
+									<li class="#{cartFlowView.classForw}"><p:commandLink ajax="true" update="@form"
+											disabled="#{cartFlowView.classForw=='disabled'}"
+											styleClass="glyphicon glyphicon-chevron-right" actionListener="#{cartFlowView.forward}" />
+									</li>
+
+								</ul>
+							</div>
+						</h:panelGroup>
+					</div>
+
+					<div class="row">
 
 
-					<ui:repeat var="art" value="#{cartFlowView.articlesPage}" varStatus="status">
-						<div class="col-sm-3">
-							<div class="thumbnail">
-								<p:graphicImage styleClass="img-responsive" library="images/cartThumbinals"
-									name="#{art.imagesUrl}" />
-								<div style="float: right">
-									<p:graphicImage id="imgArt" library="images" name="info-thumb.png" />
-									<p:tooltip for="imgArt">
+						<ui:repeat var="art" value="#{cartFlowView.articlesPage}" varStatus="status">
+							<div class="col-sm-3">
+								<div class="thumbnail">
+									<p:graphicImage styleClass="img-responsive" library="images/cartThumbinals"
+										name="#{art.imagesUrl}" />
+									<div style="float: right">
+										<p:graphicImage id="imgArt" library="images" name="info-thumb.png" />
+										<p:tooltip for="imgArt">
 
-										<h:outputText value="#{msg.catalog_available}" />
-										<br />
-										<h:outputText value="#{msg.catalog_colors} #{art.colorsAsString}" />
-										<br />
-										<h:outputText value="#{msg.catalog_sizes} #{art.sizesAsString}" />
+											<h:outputText value="#{msg.catalog_available}" />
+											<br />
+											<h:outputText value="#{msg.catalog_colors} #{art.colorsAsString}" />
+											<br />
+											<h:outputText value="#{msg.catalog_sizes} #{art.sizesAsString}" />
 
-									</p:tooltip>
-								</div>
-								<div class="caption articolo">
-									<h5>#{art.brand}</h5>
-									<h6>#{art.description}</h6>
-									<p class="price">&#8364; #{art.price}</p>
+										</p:tooltip>
+									</div>
+									<div class="caption articolo">
+										<h5>#{art.brand}</h5>
+										<h6>#{art.description}</h6>
+										<p class="price">
+											&#8364;
+											<h:outputText value="#{art.price}">
+												<f:converter converterId="javax.faces.BigDecimal" />
+											</h:outputText>
+										</p>
+									</div>
+
 								</div>
 
 							</div>
-
-						</div>
-					</ui:repeat>
+						</ui:repeat>
 
 
-				</div>
+					</div>
+				</h:panelGroup>
 			</div>
 		</h:form>
 	</ui:define>
