@@ -44,6 +44,7 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Product` (
   `pcDiscount` INT NULL ,
   `idProductState` INT NULL ,
   `dtProductState` DATETIME NULL ,
+  `txThumbnailsUrl` VARCHAR(100) NULL ,
   PRIMARY KEY (`idProduct`) ,
   INDEX `idProduct_INDEX1` (`idProduct` ASC) ,
   INDEX `fk_Product_Product_State1` (`idProductState` ASC) ,
