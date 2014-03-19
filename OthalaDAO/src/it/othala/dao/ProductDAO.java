@@ -40,16 +40,6 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 				"it.othala.product.queries.listProduct", mapProduct);
 
 		
-		/*
-		for (int i = 0; i <= listProduct.size() - 1; i++) {
-			HashMap<String, String> map = new HashMap<>();
-			map.put("idProduct", listProduct.get(i).getIdProduct().toString());
-			List<String> newString = getSqlSession().selectList(
-					"it.othala.product.queries.listProductImages", map);
-			listProduct.get(i).setImagesUrl(newString.get(0));
-
-		}
-*/
 		// recupero attributi del prodotto
 		for (int i = 0; i <= listProduct.size() - 1; i++) {
 			HashMap<String, String> map = new HashMap<>();
@@ -207,5 +197,36 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 
 		return productFull;
 
+	}
+
+	@Override
+	public Integer insertProduct(ProductFullDTO productFull) {
+		
+		HashMap<String, Object> map1 = new HashMap<>();
+		
+		getSqlSession().insert("it.othala.product.queries.insertProduct", map1);
+		
+		HashMap<String, Object> map2 = new HashMap<>();
+		
+		getSqlSession().insert("it.othala.product.queries.insertProductDescription", map2);
+		
+		HashMap<String, Object> map3 = new HashMap<>();
+		
+		getSqlSession().insert("it.othala.product.queries.insertProductAttribute", map3);
+		
+		HashMap<String, Object> map4 = new HashMap<>();
+		
+		getSqlSession().insert("it.othala.product.queries.insertArticle", map4);
+		
+		HashMap<String, Object> map5 = new HashMap<>();
+		
+		getSqlSession().insert("it.othala.product.queries.insertArticleAttribute", map5);
+	
+		HashMap<String, Object> map6 = new HashMap<>();
+		
+		getSqlSession().insert("it.othala.product.queries.insertProductImage", map6);
+	
+		return null;
+		
 	}
 }

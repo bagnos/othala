@@ -57,4 +57,10 @@ public class ProductService implements IProductService {
 				idProduct);
 		return productFullDTO;
 	}
+
+	@Override
+	public Integer insertProduct(ProductFullDTO productFull) {
+		return productDAO.insertProduct(productFull);
+		
+	}
 }

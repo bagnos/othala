@@ -14,10 +14,12 @@
 		txThumbnailsUrl as imagesUrl,
 		pcDiscount
 		as discount,
-		ceiling(imPrice * (100 - pcDiscount) / 100) as
+		ceiling(imPrice *
+		(100 - pcDiscount) / 100) as
 		priceDiscounted,
 		case
-		when a.dtProductState > current_date - 7 then 'S'
+		when a.dtProductState
+		> current_date - 7 then 'S'
 		else 'N'
 		end as fgNewArrivals
 		FROM
@@ -25,10 +27,12 @@
 		${database.schema}product_description b
 		where a.idProduct = b.idProduct
 		and b.idLanguages = #{languages}
-		and a.idProductState = 1
+		and
+		a.idProductState = 1
 		and exists
 		(select 1 from
-		${database.schema}article d where
+		${database.schema}article
+		d where
 		d.idProduct =
 		a.idProduct
 		and
@@ -306,6 +310,7 @@
 		SELECT
 		a.idProduct as idProduct,
 		a.imPrice as price,
+		a.txThumbnailsUrl as thumbnailsUrl
 		a.pcDiscount as discount,
 		ceiling(a.imPrice * (100 - a.pcDiscount) /
 		100) as priceDiscounted,
@@ -316,24 +321,29 @@
 		fgNewArrivals,
 
 		gendera.idProductAttribute as idGender,
-		gendera.pgProductAttribute as pgGender,
+		gendera.pgProductAttribute as
+		pgGender,
 		genderc.txAttributeName as
 		txDescGender,
-		genderd.txValore as txGender,
+		genderd.txValore as
+		txGender,
 
 		typea.idProductAttribute as
 		idType,
-		typea.pgProductAttribute as pgType,
+		typea.pgProductAttribute as
+		pgType,
 		typec.txAttributeName as
 		txDescType,
 		typed.txValore as txType,
 
 		branda.idProductAttribute as
 		idBrand,
-		branda.pgProductAttribute as pgBrand,
+		branda.pgProductAttribute as
+		pgBrand,
 		brandc.txAttributeName as
 		txDescBrand,
-		brandd.txValore as txBrand
+		brandd.txValore as
+		txBrand
 
 		FROM
 		${database.schema}product a,
@@ -423,48 +433,144 @@
 		sized.txValore as txSize,
 
 		colora.idProductAttribute as idColor,
-		colora.pgProductAttribute as pgColor,
+		colora.pgProductAttribute as
+		pgColor,
 		colorc.txAttributeName as txDescColor,
-		colord.txValore as txColor
+		colord.txValore as
+		txColor
 
 
 		FROM
-		 ${database.schema}article a,
+		${database.schema}article a,
 
-		 ${database.schema}article_attribute sizea,
-		 ${database.schema}valori_attributo sizeb,
-		 ${database.schema}attribute sizec,
-		 ${database.schema}valori_attributo_languages sized,
+		${database.schema}article_attribute sizea,
+		${database.schema}valori_attributo sizeb,
+		${database.schema}attribute
+		sizec,
+		${database.schema}valori_attributo_languages sized,
 
-		 ${database.schema}article_attribute colora,
-		 ${database.schema}valori_attributo colorb,
-		 ${database.schema}attribute colorc,
-		 ${database.schema}valori_attributo_languages colord
+		${database.schema}article_attribute colora,
+		${database.schema}valori_attributo colorb,
+		${database.schema}attribute
+		colorc,
+		${database.schema}valori_attributo_languages colord
 
 
-		where a.idProduct = #{idProduct}
+		where
+		a.idProduct = #{idProduct}
 
-		and sizea.idProduct = a.idProduct
-		and sizea.idProductAttribute = 4
-		and sizeb.idProductAttribute = sizea.idProductAttribute
-		and a.pgArticle = sizea.pgArticle
-		and sizeb.pgProductAttribute = sizea.pgProductAttribute
-		and sizeb.idProductAttribute = sizec.idProductAttribute
-		and sized.idProductAttribute = sizeb.idProductAttribute
-		and sized.pgProductAttribute = sizeb.pgProductAttribute
-		and sized.idLanguages = #{languages}
+		and sizea.idProduct =
+		a.idProduct
+		and
+		sizea.idProductAttribute = 4
+		and
+		sizeb.idProductAttribute =
+		sizea.idProductAttribute
+		and a.pgArticle =
+		sizea.pgArticle
+		and
+		sizeb.pgProductAttribute = sizea.pgProductAttribute
+		and
+		sizeb.idProductAttribute = sizec.idProductAttribute
+		and
+		sized.idProductAttribute = sizeb.idProductAttribute
+		and
+		sized.pgProductAttribute = sizeb.pgProductAttribute
+		and
+		sized.idLanguages = #{languages}
 
 		and colora.idProduct = a.idProduct
-		and colora.idProductAttribute = 3
-		and colorb.idProductAttribute = colora.idProductAttribute
+		and
+		colora.idProductAttribute = 3
+		and colorb.idProductAttribute =
+		colora.idProductAttribute
 		and a.pgArticle = colora.pgArticle
-		and colorb.pgProductAttribute = colora.pgProductAttribute
-		and colorb.idProductAttribute = colorc.idProductAttribute
-		and colord.idProductAttribute = colorb.idProductAttribute
-		and colord.pgProductAttribute = colorb.pgProductAttribute
-		and colord.idLanguages = sized.idLanguages
-		
+		and
+		colorb.pgProductAttribute = colora.pgProductAttribute
+		and
+		colorb.idProductAttribute = colorc.idProductAttribute
+		and
+		colord.idProductAttribute = colorb.idProductAttribute
+		and
+		colord.pgProductAttribute = colorb.pgProductAttribute
+		and
+		colord.idLanguages = sized.idLanguages
+
 	</select>
+
+
+	<insert id="insertProduct" parameterType="java.util.HashMap">
+
+		INSERT INTO
+		${database.schema}product
+		(`idProduct`,`imPrice`,`pcDiscount`,`idProductState`,`dtProductState`,`txThumbnailsUrl`)
+		values (#{idProduct},
+		#{imPrice},#{pcDiscount},0,current_datetime,#{txThumbnailsUrl})
+
+	</insert>
+
+	<insert id="insertProductDescription" parameterType="java.util.HashMap">
+
+		INSERT INTO
+		${database.schema}productDescription
+		(`idProduct`,`idLanguages`,`txDescription`)
+		values (#{idProduct},
+		#{idLanguages},#{txDescription})
+
+	</insert>
+
+	<insert id="insertProductAttribute" parameterType="java.util.HashMap">
+		INSERT INTO
+		${database.schema}product_attribute
+		(`idProduct`,
+		`idProductAttribute`,
+		`pgProductAttribute`)
+		VALUES
+		(#{idProduct},
+		#{idProductAttribute},#{pgProductAttribute});
+
+
+	</insert>
+
+	<insert id="insertArticle" parameterType="java.util.HashMap">
+
+		INSERT INTO
+		${database.schema}article
+		(`idProduct`,
+		`pgArticle`,
+		`qtStock`)
+		VALUES
+		(#{idProduct}, #{pgArticle},#{qtStock});
+
+
+	</insert>
+
+	<insert id="insertArticleAttribute" parameterType="java.util.HashMap">
+		INSERT INTO
+		${database.schema}article_attribute
+		(`idProduct`,
+		`pgArticle`,
+		`idProductAttribute`,
+		`pgProductAttribute`)
+		VALUES
+		(#{idProduct},
+		#{pgArticle},#{idProductAttribute},#{pgProductAttribute});
+
+
+	</insert>
+
+	<insert id="insertProductImage" parameterType="java.util.HashMap">
+
+		INSERT INTO ${database.schema}product_image
+		(`idProduct`,
+		`pgImage`,
+		`txImageUrl`)
+		VALUES
+		(#{idProduct}, #{pgImage},#{txImageUrl});
+
+	</insert>
+
+
 
 
 </mapper>
