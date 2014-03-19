@@ -11,6 +11,7 @@
 		a.idProduct ,
 		imPrice as price,
 		txDescription as description,
+		txThumbnailsUrl as imagesUrl,
 		pcDiscount
 		as discount,
 		ceiling(imPrice * (100 - pcDiscount) / 100) as
