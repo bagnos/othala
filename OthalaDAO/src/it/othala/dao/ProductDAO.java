@@ -1,10 +1,12 @@
 package it.othala.dao;
 
 import it.othala.dao.interfaces.IProductDAO;
+import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.AttributeDTO;
 import it.othala.dto.DomainDTO;
 import it.othala.dto.MenuDTO;
 import it.othala.dto.ProductDTO;
+import it.othala.dto.ProductFullDTO;
 import it.othala.dto.SubMenuDTO;
 
 import java.math.BigDecimal;
@@ -160,4 +162,33 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		return listMenu;
 	}
 
+	@Override
+	public ProductFullDTO getProductFull(String languages, Integer idProduct) {
+
+		HashMap<String, Object> mapProduct = new HashMap<>();
+		mapProduct.put("languages", languages);
+		mapProduct.put("idProduct", idProduct);
+
+		ProductFullDTO productFull = getSqlSession().selectOne(
+				"it.othala.product.queries.getProductFull", mapProduct);
+
+		HashMap<String, Object> map1 = new HashMap<>();
+		map1.put("idProduct", idProduct);
+
+		List<String> newString = getSqlSession().selectList(
+				"it.othala.product.queries.listProductImages", map1);
+		productFull.setImagesUrl(newString);
+
+		HashMap<String, Object> map2 = new HashMap<>();
+		map2.put("idProduct", idProduct);
+		map2.put("languages", languages);
+
+		List<ArticleFullDTO> listArticleFull = getSqlSession().selectList(
+				"it.othala.product.queries.listArticleFull", map2);
+
+		productFull.setArticles(listArticleFull);
+
+		return productFull;
+
+	}
 }
