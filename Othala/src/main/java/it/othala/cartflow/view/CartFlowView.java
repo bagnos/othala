@@ -109,10 +109,9 @@ public class CartFlowView extends BaseView {
 
 		// List<MenuDTO> a =
 		// OthalaFactory.getProductServiceInstance().getMenu("it");
-		ProductFullDTO b = OthalaFactory.getProductServiceInstance()
-				.getProductFull("it", 1);
+		//ProductFullDTO b = OthalaFactory.getProductServiceInstance().getProductFull("it", 1);
 
-		// articles = OthalaFactory.getProductServiceInstance().getListProduct("it", null, null, null, null, null, null, null, null);
+		articles = OthalaFactory.getProductServiceInstance().getListProduct("it", null, null, null, null, null, null, null, null);
 
 		/*
 		 * for (int i = 0; i <= 18; i++) { for (int y = 0; y <= art1.size() - 1;
