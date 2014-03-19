@@ -130,11 +130,27 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 
 		List<AttributeDTO> listBrand = getSqlSession().selectList(
 				"it.othala.product.queries.listDomain", mapBrand);
+		
+		HashMap<String, Object> mapType = new HashMap<>();
+		mapType.put("languages", languages);
+		mapType.put("idProductAttribute", 2);
+
+		List<AttributeDTO> listType = getSqlSession().selectList(
+				"it.othala.product.queries.listDomain", mapType);
+		
+		HashMap<String, Object> mapGender = new HashMap<>();
+		mapGender.put("languages", languages);
+		mapGender.put("idProductAttribute", 1);
+
+		List<AttributeDTO> listGender = getSqlSession().selectList(
+				"it.othala.product.queries.listDomain", mapGender);
 
 		DomainDTO domainDTO = new DomainDTO();
 		domainDTO.setSize(listSize);
 		domainDTO.setColor(listColor);
 		domainDTO.setBrand(listBrand);
+		domainDTO.setGender(listGender);
+		domainDTO.setType(listType);
 
 		return domainDTO;
 	}
