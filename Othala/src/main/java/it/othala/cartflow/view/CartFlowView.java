@@ -109,7 +109,7 @@ public class CartFlowView extends BaseView {
 		articlesPage = new ArrayList<>();
 		
 		
-		articles = OthalaFactory.getProductServiceInstance().getListProduct(1, null, null, null, null, null, null,
+		articles = OthalaFactory.getProductServiceInstance().getListProduct("it", null, null, null, null, null, null,
 				null, null);
 
 		/*
@@ -179,7 +179,7 @@ public class CartFlowView extends BaseView {
 		size = size==null || size == -1 ? null : size;
 		color = color==null || color == -1  ? null : size;
 		brand = brand==null || brand == -1   ? null : size;
-		articles = OthalaFactory.getProductServiceInstance().getListProduct(1, null, null, brand,
+		articles = OthalaFactory.getProductServiceInstance().getListProduct("it", null, null, brand,
 				new BigDecimal(priceMin), new BigDecimal(priceMax), size, color, null);
 		initPaginator();
 	}

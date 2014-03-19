@@ -49,7 +49,7 @@ public class ApplicationBean {
 
 	private void updateSelectItem() {
 
-		DomainDTO domain = OthalaFactory.getProductServiceInstance().getDomain(1);
+		DomainDTO domain = OthalaFactory.getProductServiceInstance().getDomain("it");
 		colors.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseColor")));
 		for (AttributeDTO att : domain.getColor()) {
 			colors.add(new SelectItem(att.getAttributo(), att.getValore()));

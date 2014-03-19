@@ -18,7 +18,7 @@ public class ProductService implements IProductService {
 	}
 
 	@Override
-	public List<ProductDTO> getListProduct(Integer languages, Integer type,
+	public List<ProductDTO> getListProduct(String languages, Integer type,
 			Integer gender, Integer brand, BigDecimal minPrice,
 			BigDecimal maxPrice, Integer size, Integer color,
 			Boolean newArrivals) {
@@ -32,7 +32,7 @@ public class ProductService implements IProductService {
 	}
 
 	@Override
-	public DomainDTO getDomain(Integer languages) {
+	public DomainDTO getDomain(String languages) {
 
 		DomainDTO domainDTO = productDAO.getDomain(languages);
 
@@ -41,7 +41,7 @@ public class ProductService implements IProductService {
 	}
 
 	@Override
-	public List<MenuDTO> getMenu(Integer languages) {
+	public List<MenuDTO> getMenu(String languages) {
 
 		List<MenuDTO> menuDTO = productDAO.getMenu(languages);
 

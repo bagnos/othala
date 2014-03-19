@@ -23,11 +23,11 @@
 		${database.schema}product a,
 		${database.schema}product_description b
 		where a.idProduct = b.idProduct
-		and b.idLanguages = 1
+		and b.idLanguages = #{languages}
 		and a.idProductState = 1
 		and exists (select 1 from
 		${database.schema}article d where
-		d.idProdotto = a.idProduct
+		d.idProduct = a.idProduct
 		and
 		d.qtStock > 0)
 		<if test="minPrice != null">
@@ -81,7 +81,7 @@
 			and c.idProductAttribute = 4
 			and
 			c.pgProductAttribute = #{size}
-			and d.idProdotto = a.idProduct
+			and d.idProduct = a.idProduct
 			and
 			d.qtStock > 0
 			)
@@ -97,7 +97,7 @@
 			and c.idProductAttribute = 3
 			and
 			c.pgProductAttribute = #{color}
-			and d.idProdotto = a.idProduct
+			and d.idProduct = a.idProduct
 			and
 			d.qtStock > 0
 			)
@@ -154,12 +154,12 @@
 		and a.idProductAttribute = d.idProductAttribute
 		and
 		a.pgProductAttribute = d.pgProductAttribute
-		and idProduct =
+		and a.idProduct =
 		#{idProduct}
 		and a.idProductAttribute = #{idProductAttribute}
 		and
 		d.idLanguages = #{languages}
-				and e.idProdotto = a.idProduct
+				and e.idProduct = a.idProduct
 		and
 			e.qtStock > 0
 
