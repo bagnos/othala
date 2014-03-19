@@ -9,13 +9,13 @@ import java.util.List;
 
 public interface IProductDAO {
 
-	public List<ProductDTO> getListProduct(Integer languages, Integer type,
+	public List<ProductDTO> getListProduct(String languages, Integer type,
 			Integer gender, Integer brand, BigDecimal minPrice,
 			BigDecimal maxPrice, Integer size, Integer color,
 			Boolean newArrivals);
 
-	public DomainDTO getDomain(Integer languages);
+	public DomainDTO getDomain(String languages);
 
-	public List<MenuDTO> getMenu(Integer languages);
+	public List<MenuDTO> getMenu(String languages);
 
 }

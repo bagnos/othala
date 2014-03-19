@@ -16,7 +16,7 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 
 	@Override
-	public List<ProductDTO> getListProduct(Integer languages, Integer type,
+	public List<ProductDTO> getListProduct(String languages, Integer type,
 			Integer gender, Integer brand, BigDecimal minPrice,
 			BigDecimal maxPrice, Integer size, Integer color,
 			Boolean newArrivals) {
@@ -106,7 +106,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	}
 
 	@Override
-	public DomainDTO getDomain(Integer languages) {
+	public DomainDTO getDomain(String languages) {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> mapSize = new HashMap<>();
 		mapSize.put("languages", languages);
@@ -138,7 +138,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	}
 
 	@Override
-	public List<MenuDTO> getMenu(Integer languages) {
+	public List<MenuDTO> getMenu(String languages) {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> mapMenu = new HashMap<>();
 		mapMenu.put("languages", languages);
