@@ -4,6 +4,7 @@ import it.othala.dao.interfaces.IProductDAO;
 import it.othala.dto.DomainDTO;
 import it.othala.dto.MenuDTO;
 import it.othala.dto.ProductDTO;
+import it.othala.dto.ProductFullDTO;
 import it.othala.service.interfaces.IProductService;
 
 import java.math.BigDecimal;
@@ -47,5 +48,13 @@ public class ProductService implements IProductService {
 
 		return menuDTO;
 
+	}
+
+	@Override
+	public ProductFullDTO getProductFull(String languages, Integer idProduct) {
+		// TODO Auto-generated method stub
+		ProductFullDTO productFullDTO = productDAO.getProductFull(languages,
+				idProduct);
+		return productFullDTO;
 	}
 }

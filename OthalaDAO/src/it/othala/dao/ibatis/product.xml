@@ -25,9 +25,11 @@
 		where a.idProduct = b.idProduct
 		and b.idLanguages = #{languages}
 		and a.idProductState = 1
-		and exists (select 1 from
+		and exists
+		(select 1 from
 		${database.schema}article d where
-		d.idProduct = a.idProduct
+		d.idProduct =
+		a.idProduct
 		and
 		d.qtStock > 0)
 		<if test="minPrice != null">
@@ -123,17 +125,21 @@
 		c.idProductAttribute
 		and a.pgProductAttribute =
 		c.pgProductAttribute
-		and a.idProductAttribute = d.idProductAttribute
 		and
-		a.pgProductAttribute = d.pgProductAttribute
+		a.idProductAttribute = d.idProductAttribute
+		and
+		a.pgProductAttribute =
+		d.pgProductAttribute
 		and a.idProduct =
 		#{idProduct}
-		and a.idProductAttribute = #{idProductAttribute}
 		and
-		d.idLanguages = #{languages}
+		a.idProductAttribute = #{idProductAttribute}
+		and
+		d.idLanguages =
+		#{languages}
 		and e.idProduct = a.idProduct
 		and
-			e.qtStock > 0
+		e.qtStock > 0
 
 	</select>
 
@@ -151,17 +157,21 @@
 		c.idProductAttribute
 		and a.pgProductAttribute =
 		c.pgProductAttribute
-		and a.idProductAttribute = d.idProductAttribute
 		and
-		a.pgProductAttribute = d.pgProductAttribute
+		a.idProductAttribute = d.idProductAttribute
+		and
+		a.pgProductAttribute =
+		d.pgProductAttribute
 		and a.idProduct =
 		#{idProduct}
-		and a.idProductAttribute = #{idProductAttribute}
 		and
-		d.idLanguages = #{languages}
-				and e.idProduct = a.idProduct
+		a.idProductAttribute = #{idProductAttribute}
 		and
-			e.qtStock > 0
+		d.idLanguages =
+		#{languages}
+		and e.idProduct = a.idProduct
+		and
+		e.qtStock > 0
 
 	</select>
 
@@ -265,21 +275,194 @@
 		FROM
 		${database.schema}valori_attributo_languages d
 		where
-		d.idLanguages = #{languages}
+		d.idLanguages =
+		#{languages}
 		and d.idProductAttribute = 2
-		and exists (select 1 from product a,
-        product_attribute b,
-        product_attribute c
-                where a.idProductState = 1
-        and a.idProduct = b.idProduct
-        and b.idProductAttribute = 1
-        and b.pgProductAttribute = #{idMenu}        
-        and a.idProduct = c.idProduct
-        and c.idProductAttribute = d.idProductAttribute
-        and c.pgProductAttribute = d.pgProductattribute)
+		and exists (select 1 from
+		product a,
+		product_attribute b,
+		product_attribute c
+		where
+		a.idProductState = 1
+		and a.idProduct = b.idProduct
+		and
+		b.idProductAttribute = 1
+		and b.pgProductAttribute = #{idMenu}
+		and
+		a.idProduct = c.idProduct
+		and c.idProductAttribute =
+		d.idProductAttribute
+		and c.pgProductAttribute = d.pgProductattribute)
 
-        
 
+
+	</select>
+
+
+	<select id="getProductFull" resultType="it.othala.dto.ProductFullDTO"
+		parameterType="java.util.HashMap">
+
+		SELECT
+		a.idProduct as idProduct,
+		a.imPrice as price,
+		a.pcDiscount as discount,
+		ceiling(a.imPrice * (100 - a.pcDiscount) /
+		100) as priceDiscounted,
+		b.txDescription as description,
+		case when
+		a.dtProductState >
+		current_date - 7 then 'S' else 'N' end as
+		fgNewArrivals,
+
+		gendera.idProductAttribute as idGender,
+		gendera.pgProductAttribute as pgGender,
+		genderc.txAttributeName as
+		txDescGender,
+		genderd.txValore as txGender,
+
+		typea.idProductAttribute as
+		idType,
+		typea.pgProductAttribute as pgType,
+		typec.txAttributeName as
+		txDescType,
+		typed.txValore as txType,
+
+		branda.idProductAttribute as
+		idBrand,
+		branda.pgProductAttribute as pgBrand,
+		brandc.txAttributeName as
+		txDescBrand,
+		brandd.txValore as txBrand
+
+		FROM
+		${database.schema}product a,
+		${database.schema}product_description b,
+
+		${database.schema}product_attribute gendera,
+		${database.schema}valori_attributo genderb,
+		${database.schema}attribute genderc,
+		${database.schema}valori_attributo_languages genderd,
+
+		${database.schema}product_attribute typea,
+		${database.schema}valori_attributo typeb,
+		${database.schema}attribute
+		typec,
+		${database.schema}valori_attributo_languages typed,
+
+		${database.schema}product_attribute branda,
+		${database.schema}valori_attributo brandb,
+		${database.schema}attribute
+		brandc,
+		${database.schema}valori_attributo_languages brandd
+
+		where
+		a.idProduct = #{idProduct}
+		and a.idProduct = b.idProduct
+		and
+		b.idLanguages = #{languages}
+
+		and gendera.idProduct = a.idProduct
+		and
+		gendera.idProductAttribute = 1
+		and genderb.idProductAttribute =
+		gendera.idProductAttribute
+		and genderb.pgProductAttribute =
+		gendera.pgProductAttribute
+		and genderb.idProductAttribute =
+		genderc.idProductAttribute
+		and genderd.idProductAttribute =
+		genderb.idProductAttribute
+		and genderd.pgProductAttribute =
+		genderb.pgProductAttribute
+		and genderd.idLanguages = b.idLanguages
+
+		and
+		typea.idProduct = a.idProduct
+		and typea.idProductAttribute = 2
+		and
+		typeb.idProductAttribute = typea.idProductAttribute
+		and
+		typeb.pgProductAttribute = typea.pgProductAttribute
+		and
+		typeb.idProductAttribute = typec.idProductAttribute
+		and
+		typed.idProductAttribute = typeb.idProductAttribute
+		and
+		typed.pgProductAttribute = typeb.pgProductAttribute
+		and
+		typed.idLanguages = b.idLanguages
+
+		and branda.idProduct = a.idProduct
+		and branda.idProductAttribute = 5
+		and brandb.idProductAttribute =
+		branda.idProductAttribute
+		and brandb.pgProductAttribute =
+		branda.pgProductAttribute
+		and brandb.idProductAttribute =
+		brandc.idProductAttribute
+		and brandd.idProductAttribute =
+		brandb.idProductAttribute
+		and brandd.pgProductAttribute =
+		brandb.pgProductAttribute
+		and brandd.idLanguages = b.idLanguages
+
+
+	</select>
+
+	<select id="listArticleFull" resultType="it.othala.dto.ArticleFullDTO"
+		parameterType="java.util.HashMap">
+
+		SELECT
+		a.pgArticle as pgArticle,
+		a.qtStock as qtStock,
+
+		sizea.idProductAttribute as idSize,
+		sizea.pgProductAttribute as pgSize,
+		sizec.txAttributeName as txDescSize,
+		sized.txValore as txSize,
+
+		colora.idProductAttribute as idColor,
+		colora.pgProductAttribute as pgColor,
+		colorc.txAttributeName as txDescColor,
+		colord.txValore as txColor
+
+
+		FROM
+		 ${database.schema}article a,
+
+		 ${database.schema}article_attribute sizea,
+		 ${database.schema}valori_attributo sizeb,
+		 ${database.schema}attribute sizec,
+		 ${database.schema}valori_attributo_languages sized,
+
+		 ${database.schema}article_attribute colora,
+		 ${database.schema}valori_attributo colorb,
+		 ${database.schema}attribute colorc,
+		 ${database.schema}valori_attributo_languages colord
+
+
+		where a.idProduct = #{idProduct}
+
+		and sizea.idProduct = a.idProduct
+		and sizea.idProductAttribute = 4
+		and sizeb.idProductAttribute = sizea.idProductAttribute
+		and a.pgArticle = sizea.pgArticle
+		and sizeb.pgProductAttribute = sizea.pgProductAttribute
+		and sizeb.idProductAttribute = sizec.idProductAttribute
+		and sized.idProductAttribute = sizeb.idProductAttribute
+		and sized.pgProductAttribute = sizeb.pgProductAttribute
+		and sized.idLanguages = #{languages}
+
+		and colora.idProduct = a.idProduct
+		and colora.idProductAttribute = 3
+		and colorb.idProductAttribute = colora.idProductAttribute
+		and a.pgArticle = colora.pgArticle
+		and colorb.pgProductAttribute = colora.pgProductAttribute
+		and colorb.idProductAttribute = colorc.idProductAttribute
+		and colord.idProductAttribute = colorb.idProductAttribute
+		and colord.pgProductAttribute = colorb.pgProductAttribute
+		and colord.idLanguages = sized.idLanguages
+		
 	</select>
 
 
