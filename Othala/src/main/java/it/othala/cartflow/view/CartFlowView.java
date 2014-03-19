@@ -1,5 +1,6 @@
 package it.othala.cartflow.view;
 
+import it.othala.dto.MenuDTO;
 import it.othala.dto.ProductDTO;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
@@ -7,11 +8,9 @@ import it.othala.view.BaseView;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 @ManagedBean
@@ -107,10 +106,11 @@ public class CartFlowView extends BaseView {
 		// TODO Auto-generated method stub
 		articles = new ArrayList<>();
 		articlesPage = new ArrayList<>();
-		
-		
-		articles = OthalaFactory.getProductServiceInstance().getListProduct("it", null, null, null, null, null, null,
-				null, null);
+
+		//List<MenuDTO> a = OthalaFactory.getProductServiceInstance().getMenu("it");
+
+		articles = OthalaFactory.getProductServiceInstance().getListProduct(
+				"it", null, null, null, null, null, null, null, null);
 
 		/*
 		 * for (int i = 0; i <= 18; i++) { for (int y = 0; y <= art1.size() - 1;
@@ -164,7 +164,8 @@ public class CartFlowView extends BaseView {
 		classBack = "disabled";
 
 		if (!articles.isEmpty()) {
-			endIndex = ITEMS_PAGE > articles.size() ? articles.size() : ITEMS_PAGE;
+			endIndex = ITEMS_PAGE > articles.size() ? articles.size()
+					: ITEMS_PAGE;
 			double dblPages = (double) articles.size() / (double) ITEMS_PAGE;
 			totPages = (int) Math.ceil(dblPages);
 			articlesPage.clear();
@@ -176,11 +177,12 @@ public class CartFlowView extends BaseView {
 	}
 
 	public void find(ActionEvent e) {
-		size = size==null || size == -1 ? null : size;
-		color = color==null || color == -1  ? null : size;
-		brand = brand==null || brand == -1   ? null : size;
-		articles = OthalaFactory.getProductServiceInstance().getListProduct("it", null, null, brand,
-				new BigDecimal(priceMin), new BigDecimal(priceMax), size, color, null);
+		size = size == null || size == -1 ? null : size;
+		color = color == null || color == -1 ? null : size;
+		brand = brand == null || brand == -1 ? null : size;
+		articles = OthalaFactory.getProductServiceInstance().getListProduct(
+				"it", null, null, brand, new BigDecimal(priceMin),
+				new BigDecimal(priceMax), size, color, null);
 		initPaginator();
 	}
 
