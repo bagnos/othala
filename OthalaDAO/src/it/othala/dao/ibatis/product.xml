@@ -270,11 +270,14 @@
 		and exists (select 1 from product a,
         product_attribute b,
         product_attribute c
-        where a.idProduct = b.idProduct
+                where a.idProductState = 1
+        and a.idProduct = b.idProduct
+        and b.idProductAttribute = 1
+        and b.pgProductAttribute = #{idMenu}        
         and a.idProduct = c.idProduct
-        and b.idProductAttribute = d.idProductAttribute
-        and b.pgProductAttribute = d.pgProductattribute
-        and c.idProductAttribute = #{idMenu}
+        and c.idProductAttribute = d.idProductAttribute
+        and c.pgProductAttribute = d.pgProductattribute)
+
         
 
 	</select>
