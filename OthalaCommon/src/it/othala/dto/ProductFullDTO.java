@@ -16,26 +16,29 @@ public class ProductFullDTO implements Serializable {
 	private Integer discount;
 	private BigDecimal priceDiscounted;
 	private String description;
-	
+	private String thumbnailsUrl;
+
 	private Integer idGender;
 	private Integer pgGender;
 	private String txDescGender;
 	private String txGender;
-	
+
 	private Integer idType;
 	private Integer pgType;
 	private String txDescType;
 	private String txType;
-	
+
 	private Integer idBrand;
 	private Integer pgBrand;
 	private String txDescBrand;
 	private String txBrand;
-	
+
+	private List<DescriptionDTO> langDescription;
+
 	private List<String> imagesUrl;
-	
+
 	private List<ArticleFullDTO> articles;
-	
+
 	private Boolean fgNewArrivals;
 
 	public Integer getIdProduct() {
@@ -150,13 +153,6 @@ public class ProductFullDTO implements Serializable {
 		this.txBrand = txBrand;
 	}
 
-	public List<String> getImagesUrl() {
-		return imagesUrl;
-	}
-
-	public void setImagesUrl(List<String> imagesUrl) {
-		this.imagesUrl = imagesUrl;
-	}
 
 	public List<ArticleFullDTO> getArticles() {
 		return articles;
@@ -198,5 +194,32 @@ public class ProductFullDTO implements Serializable {
 		this.txDescBrand = txDescBrand;
 	}
 
-	
+	public String getThumbnailsUrl() {
+		return thumbnailsUrl;
+	}
+
+	public void setThumbnailsUrl(String thumbnailsUrl) {
+		this.thumbnailsUrl = thumbnailsUrl;
+	}
+
+
+
+	public List<String> getImagesUrl() {
+		return imagesUrl;
+	}
+
+	public void setImagesUrl(List<String> imagesUrl) {
+		this.imagesUrl = imagesUrl;
+	}
+
+	public List<DescriptionDTO> getLangDescription() {
+		return langDescription;
+	}
+
+	public void setLangDescription(List<DescriptionDTO> langDescription) {
+		this.langDescription = langDescription;
+	}
+
+
+
 }

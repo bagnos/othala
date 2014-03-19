@@ -21,4 +21,7 @@ public interface IProductDAO {
 
 	public ProductFullDTO getProductFull(String languages, Integer idProduct);
 
+	public Integer insertProduct(ProductFullDTO productFull);
+
+	
 }
