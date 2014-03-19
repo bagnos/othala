@@ -39,7 +39,8 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		List<ProductDTO> listProduct = getSqlSession().selectList(
 				"it.othala.product.queries.listProduct", mapProduct);
 
-		// recupero immagini per ogni prodotto
+		
+		/*
 		for (int i = 0; i <= listProduct.size() - 1; i++) {
 			HashMap<String, String> map = new HashMap<>();
 			map.put("idProduct", listProduct.get(i).getIdProduct().toString());
@@ -48,7 +49,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 			listProduct.get(i).setImagesUrl(newString.get(0));
 
 		}
-
+*/
 		// recupero attributi del prodotto
 		for (int i = 0; i <= listProduct.size() - 1; i++) {
 			HashMap<String, String> map = new HashMap<>();
