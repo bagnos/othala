@@ -39,7 +39,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `othala`.`Product` ;
 
 CREATE  TABLE IF NOT EXISTS `othala`.`Product` (
-  `idProduct` INT NOT NULL ,
+  `idProduct` INT NOT NULL AUTO_INCREMENT ,
   `imPrice` DECIMAL(15) NULL ,
   `pcDiscount` INT NULL ,
   `idProductState` INT NULL ,
