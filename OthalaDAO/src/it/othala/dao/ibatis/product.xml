@@ -499,20 +499,33 @@
 	</select>
 
 
-	<insert id="insertProduct" parameterType="java.util.HashMap">
 
+	<insert id="insertProduct"   parameterType="it.othala.dto.ProductFullDTO">
+
+
+        
 		INSERT INTO
 		${database.schema}product
-		(`idProduct`,`imPrice`,`pcDiscount`,`idProductState`,`dtProductState`,`txThumbnailsUrl`)
-		values (#{idProduct},
-		#{imPrice},#{pcDiscount},0,current_datetime,#{txThumbnailsUrl})
+		(`imPrice`,`pcDiscount`,`idProductState`,`dtProductState`,`txThumbnailsUrl`)
+		values (
+		#{price},#{discount},0,now(),#{thumbnailsUrl})
+		
+        		<selectKey resultType="java.lang.Integer" keyProperty="idProduct" >
 
-	</insert>
+            SELECT LAST_INSERT_ID() AS idProduct
+
+        </selectKey>
+		
+		
+		
+
+    </insert>
+
 
 	<insert id="insertProductDescription" parameterType="java.util.HashMap">
 
 		INSERT INTO
-		${database.schema}productDescription
+		${database.schema}product_description
 		(`idProduct`,`idLanguages`,`txDescription`)
 		values (#{idProduct},
 		#{idLanguages},#{txDescription})
