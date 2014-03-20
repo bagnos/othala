@@ -233,6 +233,7 @@
 		d.idLanguages
 		and e.idProductAttribute =
 		a.idProductAttribute
+		
 
 	</select>
 
@@ -256,6 +257,7 @@
 		d.idLanguages = #{languages}
 		and d.idProductAttribute =
 		#{idProductAttribute}
+		order by 2
 
 	</select>
 
