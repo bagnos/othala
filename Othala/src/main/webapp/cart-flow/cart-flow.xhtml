@@ -91,8 +91,15 @@
 							</div>
 
 							<div>
-								<p:commandButton styleClass="ui-priority-primary" update="products" id="findPrds"
-									actionListener="#{cartFlowView.find}" value="#{msg.catalog_find}"></p:commandButton>
+								<h:commandButton styleClass="btn btn-primary"  id="findPrds"
+									actionListener="#{cartFlowView.find}" value="#{msg.catalog_find}">
+									<f:ajax render="products" execute="@form"></f:ajax>
+									</h:commandButton>
+									
+									<p:commandButton styleClass="ui-priority-primary" update="products" escape="@form"  id="findPrds1"
+									actionListener="#{cartFlowView.find}" value="#{msg.catalog_find}">
+									
+									</p:commandButton>
 							</div>
 
 						</div>
@@ -158,9 +165,8 @@
 										<h5>#{art.brand}</h5>
 										<h6>#{art.description}</h6>
 										<p class="price">
-											&#8364;
 											<h:outputText value="#{art.price}">
-												<f:converter converterId="javax.faces.BigDecimal" />
+												<f:converter converterId="it.othala.BigDecimalConverter" />
 											</h:outputText>
 										</p>
 									</div>
