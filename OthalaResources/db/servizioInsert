@@ -2,41 +2,50 @@
 		
 		
 		
+		private void insertProduct()
+	{
+				
 		ProductFullDTO a = new ProductFullDTO();
-		a.setPrice(new BigDecimal(100));
-		a.setDiscount(10);
-		a.setThumbnailsUrl("antani");
+		
+		/**/ a.setPrice(new BigDecimal(795));
+		/**/ a.setDiscount(30);
+		/**/ a.setThumbnailsUrl("A1.JPG");
 		
 		DescriptionDTO b = new DescriptionDTO();
 		List<DescriptionDTO> c = new ArrayList<DescriptionDTO>();
 		b.setLanguages("it");
-		b.setDescription("prova prova");
+		
+		/**/ b.setDescription("T-SHIRT IN MISTO VISCOSA E SETA");
+		
 		c.add(b);
 		
 		a.setLangDescription(c);
 		
-		a.setIdGender(1);
-		a.setPgGender(1);
-		a.setIdBrand(5);
-		a.setPgBrand(4);
-		a.setIdType(2);
-		a.setPgType(14);
+		/**/a.setIdGender(1);
+		/**/a.setPgGender(1);
+		/**/a.setIdBrand(5);
+		/**/a.setPgBrand(1);
+		/**/a.setIdType(2);
+		/**/a.setPgType(21);
 		
 		ArticleFullDTO d = new ArticleFullDTO();
 		List<ArticleFullDTO> e = new ArrayList<ArticleFullDTO>();
-		d.setPgArticle(1);
-		d.setQtStock(2);
-		d.setIdSize(4);
-		d.setPgSize(4);
-		d.setIdColor(3);
-		d.setPgColor(1);
+		
+		/**/d.setPgArticle(1);
+		/**/d.setQtStock(2);
+		/**/d.setIdSize(4);
+		/**/d.setPgSize(17);
+		/**/d.setIdColor(3);
+		/**/d.setPgColor(4);
+		
 		ArticleFullDTO f = new ArticleFullDTO();
-		f.setPgArticle(2);
-		f.setQtStock(2);
-		f.setIdSize(4);
-		f.setPgSize(5);
-		f.setIdColor(3);
-		f.setPgColor(2);
+		
+		/**/f.setPgArticle(2);
+		/**/f.setQtStock(2);
+		/**/f.setIdSize(4);
+		/**/f.setPgSize(18);
+		/**/f.setIdColor(3);
+		/**/f.setPgColor(4);
 		
 		e.add(d);
 		e.add(f);
@@ -44,10 +53,13 @@
 		a.setArticles(e);
 		
 		List<String> g = new ArrayList<String>(); 
-		g.add("prova1");
-		g.add("prova2");
-		g.add("prova3");
-		g.add("prova4");
+		/**/g.add("A1.JPG");
+		/**/g.add("A2.JPG");
+		/**/g.add("A3.JPG");
+		/**/g.add("A4.JPG");
 		
 		a.setImagesUrl(g);
+		
 		Integer tttttt = OthalaFactory.getProductServiceInstance().insertProduct(a);
+		
+	}
