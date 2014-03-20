@@ -39,7 +39,6 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		List<ProductDTO> listProduct = getSqlSession().selectList(
 				"it.othala.product.queries.listProduct", mapProduct);
 
-		
 		// recupero attributi del prodotto
 		for (int i = 0; i <= listProduct.size() - 1; i++) {
 			HashMap<String, String> map = new HashMap<>();
@@ -121,14 +120,14 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 
 		List<AttributeDTO> listBrand = getSqlSession().selectList(
 				"it.othala.product.queries.listDomain", mapBrand);
-		
+
 		HashMap<String, Object> mapType = new HashMap<>();
 		mapType.put("languages", languages);
 		mapType.put("idProductAttribute", 2);
 
 		List<AttributeDTO> listType = getSqlSession().selectList(
 				"it.othala.product.queries.listDomain", mapType);
-		
+
 		HashMap<String, Object> mapGender = new HashMap<>();
 		mapGender.put("languages", languages);
 		mapGender.put("idProductAttribute", 1);
@@ -201,32 +200,101 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 
 	@Override
 	public Integer insertProduct(ProductFullDTO productFull) {
-		
-		HashMap<String, Object> map1 = new HashMap<>();
-		
-		getSqlSession().insert("it.othala.product.queries.insertProduct", map1);
-		
+
+		getSqlSession().insert("it.othala.product.queries.insertProduct",
+				productFull);
+
 		HashMap<String, Object> map2 = new HashMap<>();
-		
-		getSqlSession().insert("it.othala.product.queries.insertProductDescription", map2);
-		
+
+		for (int i = 0; i <= productFull.getLangDescription().size() - 1; i++) {
+			map2.clear();
+			map2.put("idProduct", productFull.getIdProduct());
+			map2.put("idLanguages", productFull.getLangDescription().get(i)
+					.getLanguages());
+			map2.put("txDescription", productFull.getLangDescription().get(i)
+					.getDescription());
+
+			getSqlSession().insert(
+					"it.othala.product.queries.insertProductDescription", map2);
+		}
+
 		HashMap<String, Object> map3 = new HashMap<>();
-		
-		getSqlSession().insert("it.othala.product.queries.insertProductAttribute", map3);
-		
+		map3.put("idProduct", productFull.getIdProduct());
+		map3.put("idProductAttribute", productFull.getIdGender());
+		map3.put("pgProductAttribute", productFull.getPgGender());
+
+		getSqlSession().insert(
+				"it.othala.product.queries.insertProductAttribute", map3);
+
+		map3.clear();
+		map3.put("idProduct", productFull.getIdProduct());
+		map3.put("idProductAttribute", productFull.getIdType());
+		map3.put("pgProductAttribute", productFull.getPgType());
+
+		getSqlSession().insert(
+				"it.othala.product.queries.insertProductAttribute", map3);
+
+		map3.clear();
+		map3.put("idProduct", productFull.getIdProduct());
+		map3.put("idProductAttribute", productFull.getIdBrand());
+		map3.put("pgProductAttribute", productFull.getPgBrand());
+
+		getSqlSession().insert(
+				"it.othala.product.queries.insertProductAttribute", map3);
+
 		HashMap<String, Object> map4 = new HashMap<>();
+
+		for (int i = 0; i <= productFull.getArticles().size() - 1; i++) {
+			map4.clear();
+			map4.put("idProduct", productFull.getIdProduct());
+			map4.put("pgArticle", productFull.getArticles().get(i)
+					.getPgArticle());
+			map4.put("qtStock", productFull.getArticles().get(i).getQtStock());
+
+			getSqlSession().insert("it.othala.product.queries.insertArticle",
+					map4);
+
+			map4.clear();
+
+			map4.put("idProduct", productFull.getIdProduct());
+			map4.put("pgArticle", productFull.getArticles().get(i)
+					.getPgArticle());
+			map4.put("idProductAttribute", productFull.getArticles().get(i)
+					.getIdSize());
+			map4.put("pgProductAttribute", productFull.getArticles().get(i)
+					.getPgSize());
+
+			getSqlSession().insert(
+					"it.othala.product.queries.insertArticleAttribute", map4);
+
+			map4.clear();
+
+			map4.put("idProduct", productFull.getIdProduct());
+			map4.put("pgArticle", productFull.getArticles().get(i)
+					.getPgArticle());
+			map4.put("idProductAttribute", productFull.getArticles().get(i)
+					.getIdColor());
+			map4.put("pgProductAttribute", productFull.getArticles().get(i)
+					.getPgColor());
+
+			getSqlSession().insert(
+					"it.othala.product.queries.insertArticleAttribute", map4);
+
+		}
 		
-		getSqlSession().insert("it.othala.product.queries.insertArticle", map4);
 		
-		HashMap<String, Object> map5 = new HashMap<>();
-		
-		getSqlSession().insert("it.othala.product.queries.insertArticleAttribute", map5);
-	
-		HashMap<String, Object> map6 = new HashMap<>();
-		
-		getSqlSession().insert("it.othala.product.queries.insertProductImage", map6);
-	
-		return null;
-		
+
+		for (int i = 0; i <= productFull.getImagesUrl().size() - 1; i++) {
+			map2.clear();
+			map2.put("idProduct", productFull.getIdProduct());
+			map2.put("pgImage", i + 1);
+			map2.put("txImageUrl",  productFull.getImagesUrl().get(i));
+
+			getSqlSession().insert(
+					"it.othala.product.queries.insertProductImage", map2);
+		}
+
+		return productFull.getIdProduct();
+
 	}
 }

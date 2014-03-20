@@ -1,5 +1,7 @@
 package it.othala.cartflow.view;
 
+import it.othala.dto.ArticleFullDTO;
+import it.othala.dto.DescriptionDTO;
 import it.othala.dto.ProductDTO;
 import it.othala.dto.ProductFullDTO;
 import it.othala.service.factory.OthalaFactory;
@@ -113,14 +115,7 @@ public class CartFlowView extends BaseView {
 
 		articles = OthalaFactory.getProductServiceInstance().getListProduct("it", null, null, null, null, null, null, null, null);
 
-		/*
-		 * for (int i = 0; i <= 18; i++) { for (int y = 0; y <= art1.size() - 1;
-		 * y++) { articles.add(art1.get(y)); }
-		 * 
-		 * }
-		 */
-
-		// articles = art1;
+		
 		initPaginator();
 
 		return null;
