@@ -41,7 +41,7 @@
 			and (imPrice * (100 - pcDiscount) / 100) &gt;= #{minPrice}
 		</if>
 
-		<if test="type != null">
+		<if test="maxPrice != null">
 			and (imPrice * (100 - pcDiscount) / 100) &lt;= #{maxPrice}
 		</if>
 		<if test="newArrivals != null and newArrivals == true">
