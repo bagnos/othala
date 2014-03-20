@@ -508,7 +508,7 @@
 		${database.schema}product
 		(`imPrice`,`pcDiscount`,`idProductState`,`dtProductState`,`txThumbnailsUrl`)
 		values (
-		#{price},#{discount},0,now(),#{thumbnailsUrl})
+		#{price},#{discount},1,now(),#{thumbnailsUrl})
 		
         		<selectKey resultType="java.lang.Integer" keyProperty="idProduct" >
 
