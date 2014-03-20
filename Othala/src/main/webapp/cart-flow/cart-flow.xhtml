@@ -91,12 +91,9 @@
 							</div>
 
 							<div>
-								<h:commandButton styleClass="btn btn-primary"  id="findPrds"
-									actionListener="#{cartFlowView.find}" value="#{msg.catalog_find}">
-									<f:ajax render="products" execute="@form"></f:ajax>
-									</h:commandButton>
+								
 									
-									<p:commandButton styleClass="ui-priority-primary" update="products" escape="@form"  id="findPrds1"
+									<p:commandButton styleClass="ui-priority-primary" update="products"   id="findPrds"
 									actionListener="#{cartFlowView.find}" value="#{msg.catalog_find}">
 									
 									</p:commandButton>
@@ -121,7 +118,7 @@
 				</div>
 
 
-				<h:panelGroup id="products">
+				<p:panel id="products" styleClass="emptyPnl">
 					<div class="row">
 						<h:panelGroup rendered="#{cartFlowView.renderPaginator}">
 							<div class="col-sm-3 pull-right">
@@ -178,7 +175,7 @@
 
 
 					</div>
-				</h:panelGroup>
+				</p:panel>
 			</div>
 		</h:form>
 	</ui:define>
