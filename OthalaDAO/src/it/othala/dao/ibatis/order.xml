@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="it.othala.order.queries">
+
+	<select id="listOrder" resultType="it.othala.dto.OrderFullDTO"
+		parameterType="java.util.HashMap">
+
+		SELECT
+		a.idOrder, a.idUser, a.dtOrdine, a.idStato, a.imOrdine, a.imSpeseSpedizione,
+		b.idProdotto, b.pgArticle,
+		c.dtStato, c.txNote, 
+		d.txStato
+		FROM
+		${database.schema}orders a,
+		${database.schema}orders_articles b
+		${database.schema}states_orders c
+		${database.schema}states d
+		where a.idOrder = b.idOrder
+		and a.idOrder = c.idOrder
+		and c.idStato = d.idStato
+		<if test="idOrder != null">
+			and a.idOrder = #{idOrder}
+		</if>
+		<if test="idUser != null">
+			and a.idUser = #{idUser}
+		</if>
+		<if test="idStato != null">
+			and c.idStato = #{idStato}
+		</if>
+		<if test="dtDatada != null">
+			and a.dtOrdine &gt;= #{dtDatada}
+		</if>
+		<if test="dtDataA != null">
+			and a.dtOrdine &lt;= #{dtDataA}
+		</if>
+
+	</select>
+
+
+	<insert id="insertOrder"   parameterType="it.othala.dto.OrderFullDTO">
+      
+		INSERT INTO
+		${database.schema}orders
+		(`idUser`,`dtOrdine`,`idStato`,`imOrdine`,`imSpeseSpedizione`)
+		values (
+		#{idUser},now(),#{idStato},#{imOrdine},#{imSpeseSpedizione})
+		
+        <selectKey resultType="java.lang.Integer" keyProperty="idOrder" >
+
+            SELECT LAST_INSERT_ID() AS idOrder
+
+        </selectKey>
+
+
+    </insert>
+
+
+	<insert id="insertOrdersArticles" parameterType="it.othala.dto.OrderFullDTO">
+
+		INSERT INTO
+		${database.schema}orders_articles
+		(`idOrder`,`idProdotto`,`pgArticle`)
+		values (#{idOrder},#{idProdotto},#{pgArticle})
+
+	</insert>
+
+	<insert id="insertStatesOrders" parameterType="it.othala.dto.OrderFullDTO">
+		INSERT INTO
+		${database.schema}states_orders
+		(`idOrder`,`idStato`,`dtStato`,`txNote`)
+		VALUES
+		(#{idOrder},1,now(),#{txNote});
+
+	</insert>
+
+</mapper>
