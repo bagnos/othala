@@ -39,11 +39,10 @@ form-titoli {
 	max-width: 100% !important;;
 }
 
-.emptyPnl
-{
-	border:none !important;
-	margin:0px !important;
-	padding:0px !important;
+.emptyPnl {
+	border: none !important;
+	margin: 0px !important;
+	padding: 0px !important;
 }
 
 /* ================================================================================================ 
@@ -195,6 +194,23 @@ form-titoli {
 	FINE CAROSELLO HOME 
 ================================================================================================*/
 
+.foot1-title {
+	color: #666666;
+	font-size: 14px;
+	padding: 0px 0px 7px 0px;
+	border-bottom: 1px dotted #444;
+	text-transform: uppercase;
+	font-weight: normal;
+	margin-top: 0px;
+}
+
+.foot2-line {
+	color: #666666 !important;
+	font-size: 12px;
+	font-weight: normal;
+	line-height: 18px;
+}
+
 /* ================================================================================================ 
 	INIZIO STICKY FOOTER 
 ================================================================================================*/
@@ -213,7 +229,7 @@ html,body,form {
 
 /* Set the fixed height of the footer here */
 #footer {
-	height: auto !important;;
+	height: auto !important;
 	background-color: #f6f6f6;
 	padding: 30px;
 	font-size: 12px !important;
@@ -227,6 +243,8 @@ html,body,form {
 	border-top: 1px solid #DDD;
 	padding-top: 20px;
 }
+
+
 /* ================================================================================================ 
 	FINE STICKY FOOTER 
 ================================================================================================*/
