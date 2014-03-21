@@ -1,13 +1,16 @@
 package it.othala.service;
 
 import it.othala.dao.interfaces.IProductDAO;
+import it.othala.dto.AttributeDTO;
 import it.othala.dto.DomainDTO;
 import it.othala.dto.MenuDTO;
 import it.othala.dto.ProductDTO;
 import it.othala.dto.ProductFullDTO;
+import it.othala.dto.SubMenuDTO;
 import it.othala.service.interfaces.IProductService;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 
 public class ProductService implements IProductService {
@@ -24,29 +27,93 @@ public class ProductService implements IProductService {
 			BigDecimal maxPrice, Integer size, Integer color,
 			Boolean newArrivals) {
 
-		List<ProductDTO> productDTO = productDAO.getListProduct(languages,
+		List<ProductDTO> listProduct = productDAO.listProduct(languages,
 				type, gender, brand, minPrice, maxPrice, size, color,
 				newArrivals);
 
-		return productDTO;
+		// recupero attributi del prodotto
+		for (int i = 0; i <= listProduct.size() - 1; i++) {
+			
+			List<AttributeDTO> listAttribute = productDAO.listProductAttribute(languages.toString(), listProduct.get(i).getIdProduct());
+			
+			for (int y = 0; y <= listAttribute.size() - 1; y++) {
+
+				if (listAttribute.get(y).getAttributo() == 1) {
+					listProduct.get(i).setGender(
+							listAttribute.get(y).getValore());
+				}
+
+				if (listAttribute.get(y).getAttributo() == 5) {
+					listProduct.get(i).setBrand(
+							listAttribute.get(y).getValore());
+				}
+
+				if (listAttribute.get(y).getAttributo() == 2) {
+					listProduct.get(i)
+							.setType(listAttribute.get(y).getValore());
+				}
+			}
+
+		}
+
+		// recupero attributo taglie degli articoli
+		for (int i = 0; i <= listProduct.size() - 1; i++) {
+			
+			List<String> newString = productDAO.listDistinctArticleAttribute(languages.toString(), listProduct.get(i).getIdProduct(), new Integer(4));
+			
+			listProduct.get(i).setSize(newString);
+
+		}
+
+		// recupero attributo colori degli articoli
+		for (int i = 0; i <= listProduct.size() - 1; i++) {
+			
+			List<String> newString = productDAO.listDistinctArticleAttribute(languages.toString(), listProduct.get(i).getIdProduct(), new Integer(3));
+			
+			listProduct.get(i).setColor(newString);
+
+		}
+
+		return listProduct;
+		
 
 	}
 
 	@Override
 	public DomainDTO getDomain(String languages) {
 
-		DomainDTO domainDTO = productDAO.getDomain(languages);
+		List<AttributeDTO> listSize = productDAO.listDomain(languages, 4);
+		List<AttributeDTO> listColor = productDAO.listDomain(languages, 3);
+		List<AttributeDTO> listBrand = productDAO.listDomain(languages, 5);
+		List<AttributeDTO> listType = productDAO.listDomain(languages, 2);
+		List<AttributeDTO> listGender = productDAO.listDomain(languages, 1);
+	
+		DomainDTO domainDTO = new DomainDTO();
+		domainDTO.setSize(listSize);
+		domainDTO.setColor(listColor);
+		domainDTO.setBrand(listBrand);
+		domainDTO.setGender(listGender);
+		domainDTO.setType(listType);
 
 		return domainDTO;
+
 
 	}
 
 	@Override
 	public List<MenuDTO> getMenu(String languages) {
 
-		List<MenuDTO> menuDTO = productDAO.getMenu(languages);
+		List<MenuDTO> listMenu = productDAO.listMenu(languages);
 
-		return menuDTO;
+		for (int i = 0; i <= listMenu.size() - 1; i++) {
+
+			List<SubMenuDTO> listSubMenu = productDAO.listSubMenu(listMenu.get(i).getIdGender(), languages);
+
+			listMenu.get(i).setSubMenu(listSubMenu);
+
+		}
+
+		return listMenu;
 
 	}
 
