@@ -8,7 +8,6 @@
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd">
 
 
-
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="ignoreResourceNotFound" value="true" />
@@ -71,7 +70,9 @@
 	<bean id="newsletterDAO" class="it.othala.dao.NewsletterDAO">
 		<property name="sqlSessionFactory" ref="SqlMapClient" />
 	</bean>
-
+	<bean id="orderDAO" class="it.othala.dao.OrderDAO">
+		<property name="sqlSessionFactory" ref="SqlMapClient" />
+	</bean>
 
 
 </beans> 
