@@ -60,6 +60,8 @@
 		autowire="byType" />
 	<bean id="newsletterService" class="it.othala.service.NewsletterService"
 		autowire="byType" />
+	<bean id="orderService" class="it.othala.service.OrderService"
+		autowire="byType" />
 
 	<bean id="accountDAO" class="it.othala.dao.AccountDAO">
 		<property name="sqlSessionFactory" ref="SqlMapClient" />

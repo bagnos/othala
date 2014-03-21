@@ -2,6 +2,7 @@ package it.othala.service.factory;
 
 import it.othala.service.interfaces.IAccountService;
 import it.othala.service.interfaces.IMailService;
+import it.othala.service.interfaces.IOrderService;
 import it.othala.service.interfaces.IProductService;
 
 import org.springframework.context.ApplicationContext;
@@ -16,6 +17,7 @@ public class OthalaFactory {
 
 	private static IProductService productService;
 	private static IMailService mailService;
+	private static IOrderService orderService;
 
 	private static ApplicationContext getApplicationContext() {
 
@@ -57,5 +59,14 @@ public class OthalaFactory {
 		}
 		return mailService;
 	}
+	
+	public static IOrderService getOrderServiceInstance() {
+		if (orderService == null) {
+			orderService = (IOrderService) getApplicationContext().getBean(
+					"orderService");
+		}
+		return orderService;
+	}
+
 
 }
