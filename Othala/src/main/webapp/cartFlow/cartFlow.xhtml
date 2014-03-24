@@ -7,6 +7,9 @@
 	<ui:define name="metadata">
 		<f:metadata>
 			<f:viewAction action="#{cartFlowView.doInit}"></f:viewAction>
+			<f:viewParam name="idMenu" value="#{cartFlowView.idMenu}"></f:viewParam>
+			<f:viewParam name="idSubMenu" value="#{cartFlowView.idSubMenu}"></f:viewParam>
+			<f:viewParam name="fgNewArrivals" value="#{cartFlowView.fgNewArrivals}"></f:viewParam>
 		</f:metadata>
 	</ui:define>
 
@@ -20,10 +23,12 @@
 			<div class="container">
 
 				<ol class="breadcrumb" style="margin-top: 10px">
-
-					<li><a class="glyphicon glyphicon-home" title="home" href="#"></a></li>
-					<li><a href="#">Uomo</a></li>
-					<li class="active">Pantaloni</li>
+					<ui:repeat var="bread" value="#{cartFlowView.flowBean.breadCrumb}" varStatus="stBread">
+						<li><a
+								href="#{stBread.first?''.concat(request.contextPath).concat('/faces/home.xhtml'):'#'}"
+								title="#{stBread.first?'home':''}"
+								class="#{stBread.last?'active':(stBread.first?'glyphicon glyphicon-home':'')}">#{bread}</a></li>
+					</ui:repeat>
 				</ol>
 
 
@@ -35,7 +40,7 @@
 								<div class="col-sm-3">
 									<div class="form-group">
 										<h:outputText value="#{msg.catalog_size}" />
-										<h:selectOneMenu styleClass="form-control">
+										<h:selectOneMenu styleClass="form-control" value="#{cartFlowView.size}">
 											<f:selectItems value="#{applicationBean.sizes}"></f:selectItems>
 										</h:selectOneMenu>
 									</div>
@@ -44,7 +49,7 @@
 								<div class="col-sm-3">
 									<div class="form-group">
 										<h:outputText value="#{msg.catalog_color}" />
-										<h:selectOneMenu styleClass="form-control">
+										<h:selectOneMenu styleClass="form-control" value="#{cartFlowView.color}">
 											<f:selectItems value="#{applicationBean.colors}"></f:selectItems>
 										</h:selectOneMenu>
 									</div>
@@ -53,7 +58,7 @@
 								<div class="col-sm-3">
 									<div class="form-group">
 										<h:outputText value="Brand" />
-										<h:selectOneMenu styleClass="form-control">
+										<h:selectOneMenu styleClass="form-control" value="#{cartFlowView.brand}">
 											<f:selectItems value="#{applicationBean.brands}"></f:selectItems>
 										</h:selectOneMenu>
 									</div>
@@ -91,12 +96,12 @@
 							</div>
 
 							<div>
-								
-									
-									<p:commandButton styleClass="ui-priority-primary" update="products"   id="findPrds"
+
+
+								<p:commandButton styleClass="ui-priority-primary" update="products" id="findPrds"
 									actionListener="#{cartFlowView.find}" value="#{msg.catalog_find}">
-									
-									</p:commandButton>
+
+								</p:commandButton>
 							</div>
 
 						</div>
@@ -115,37 +120,38 @@
 							</h:selectOneMenu>
 						</div>
 					</div>
+
+					<div class="col-sm-3 pull-right">
+						<h:panelGroup rendered="#{cartFlowView.renderPaginator}">
+							<ul class="pager">
+								<li class="#{cartFlowView.classBack}"><p:commandLink ajax="true" update="@form"
+										disabled="#{cartFlowView.classBack=='disabled'}"
+										styleClass="glyphicon glyphicon-chevron-left" actionListener="#{cartFlowView.backword}" />
+								</li>
+								<li><span>#{cartFlowView.currentPage} of #{cartFlowView.totPages}</span></li>
+								<li class="#{cartFlowView.classForw}"><p:commandLink ajax="true" update="@form"
+										disabled="#{cartFlowView.classForw=='disabled'}"
+										styleClass="glyphicon glyphicon-chevron-right" actionListener="#{cartFlowView.forward}" />
+								</li>
+							</ul>
+						</h:panelGroup>
+					</div>
 				</div>
 
 
 				<p:panel id="products" styleClass="emptyPnl">
 					<div class="row">
-						<h:panelGroup rendered="#{cartFlowView.renderPaginator}">
-							<div class="col-sm-3 pull-right">
-								<ul class="pager">
-									<li class="#{cartFlowView.classBack}"><p:commandLink ajax="true" update="@form"
-											disabled="#{cartFlowView.classBack=='disabled'}"
-											styleClass="glyphicon glyphicon-chevron-left" actionListener="#{cartFlowView.backword}" />
-									</li>
-									<li><span>#{cartFlowView.currentPage} of #{cartFlowView.totPages}</span></li>
-									<li class="#{cartFlowView.classForw}"><p:commandLink ajax="true" update="@form"
-											disabled="#{cartFlowView.classForw=='disabled'}"
-											styleClass="glyphicon glyphicon-chevron-right" actionListener="#{cartFlowView.forward}" />
-									</li>
-
-								</ul>
-							</div>
-						</h:panelGroup>
-					</div>
-
-					<div class="row">
-
-
-						<ui:repeat var="art" value="#{cartFlowView.articlesPage}" varStatus="status">
+						<ui:repeat var="art" value="#{cartFlowView.flowBean.articlesPage}" varStatus="status">
 							<div class="col-sm-3">
 								<div class="thumbnail">
-									<p:graphicImage styleClass="img-responsive" library="images/cartThumbinals"
-										name="#{art.imagesUrl}" />
+									<h:link outcome="cart-choice-2">
+										<h:graphicImage styleClass="img-responsive" library="images/cartThumbinals"
+											name="#{art.imagesUrl}" />
+										<f:param name="idPrd" value="#{art.idProduct}"></f:param>
+									</h:link>
+
+
+
 									<div style="float: right">
 										<p:graphicImage id="imgArt" library="images" name="info-thumb.png" />
 										<p:tooltip for="imgArt">
@@ -162,9 +168,15 @@
 										<h5>#{art.brand}</h5>
 										<h6>#{art.description}</h6>
 										<p class="price">
-											<h:outputText value="#{art.price}">
+											<h:outputText value="#{art.price}" styleClass="#{art.priceDiscounted!=null?'onSale':''}">
 												<f:converter converterId="it.othala.BigDecimalConverter" />
 											</h:outputText>
+
+											<h:outputText value="#{art.priceDiscounted}" rendered="#{art.priceDiscounted!=null}"
+												style="float:right">
+												<f:converter converterId="it.othala.BigDecimalConverter" />
+											</h:outputText>
+
 										</p>
 									</div>
 

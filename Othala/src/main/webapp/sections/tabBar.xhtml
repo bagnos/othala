@@ -4,7 +4,7 @@
 	xmlns:pe="http://primefaces.org/ui/extensions">
 
 
- 	<div id="logo">
+	<div id="logo">
 		<a href="#{request.contextPath}/faces/home.xhtml">
 			<h:graphicImage library="images" styleClass="img-responsive" name="logo2-small.png"></h:graphicImage>
 		</a>
@@ -12,101 +12,44 @@
 
 
 	<ul class="nav nav-tabs responsive" id="tabNav">
-		<li><a href="#men" data-toggle="tab">
-				<h:outputText value="UOMO" />
-			</a></li>
-		<li><a href="#woman" data-toggle="tab">
-				<h:outputText value="DONNA" />
-			</a></li>
-		<li><a href="#kid" data-toggle="tab">
-				<h:outputText value="BAMBINO" />
-			</a></li>
-		<li><a href="#girl" data-toggle="tab">
-				<h:outputText value="BAMBINA" />
-			</a></li>
-		<li><a href="#soldes" data-toggle="tab">
-				<h:outputText value="PROMOZIONI" />
-			</a></li>
+		<ui:repeat var="menu" value="#{applicationBean.menu}" varStatus="status">
 
+			<li><a href="##{menu.idGender}" data-toggle="tab">
+					<h:outputText value="#{menu.txGender}" />
+				</a></li>
+		</ui:repeat>
 	</ul>
 
 
 	<div id="tab-content" class="tab-content responsive">
-		<div class="tab-pane" id="men">
-			<div class="row">
-				<div class="col-sm-3">
-					<p:graphicImage styleClass="img-responsive" library="images/tabNav" name="header_1.jpg" />
-				</div>
-
-				<div class="col-sm-9:">
-					<div class="row">
-						<div class="col-sm-2">
-
-							<a href="#ACCESSORI" data-toggle="tab">
-								<h:outputText value="ACCESSORI" />
-							</a>
-						</div>
-						<div class="col-sm-2">
-							<a href="#CAMICIE" data-toggle="tab">
-								<h:outputText value="CAMICIE" />
-							</a>
-						</div>
-						<div class="col-sm-2">
-							<a href="#CINTURE" data-toggle="tab">
-								<h:outputText value="CINTURE" />
-							</a>
-						</div>
-
-						<div class="col-sm-2">
-							<a href="#COMPLETI" data-toggle="tab">
-								<h:outputText value="COMPLETI" />
-							</a>
-						</div>
-						<div class="col-sm-2">
-							<a href="#GIACCHE " data-toggle="tab">
-								<h:outputText value="GIACCHE" />
-							</a>
-						</div>
-						<div class="col-sm-2">
-							<a href="#GIUBBOTTI " data-toggle="tab">
-								<h:outputText value="GIUBBOTTI" />
-							</a>
-						</div>
-
-						<div class="col-sm-2">
-							<a href="#MAGLIERIA" data-toggle="tab">
-								<h:outputText value="MAGLIERIA" />
-							</a>
-						</div>
-						<div class="col-sm-2">
-							<a href="#PANTALONI" data-toggle="tab">
-								<h:outputText value="PANTALONI" />
-							</a>
-						</div>
-
-
-						<div class="col-sm-2">
-							<a href="#SCARPE" data-toggle="tab">
-								<h:outputText value="SCARPE" />
-							</a>
-						</div>
-
-						<div class="col-sm-2">
-							<a href="#T-SHIRTS" data-toggle="tab">
-								<h:outputText value="T-SHIRTS" />
-							</a>
-						</div>
-
+		<ui:repeat var="menu" value="#{applicationBean.menu}" varStatus="status">
+			<div class="tab-pane" id="#{menu.idGender}">
+				<div class="row">
+					<div class="col-sm-3">
+						<p:graphicImage styleClass="img-responsive" library="images/tabNav" name="header_1.jpg" />
 					</div>
+
+					<div class="col-sm-9">
+						<div class="row">
+							<ui:repeat var="submenu" value="#{menu.subMenu}" varStatus="statusSub">
+								<div class="col-sm-2">
+
+
+									<h:link value="#{submenu.txType}" outcome="cartFlow">
+										<f:param name="idMenu" value="#{menu.idGender}"></f:param>
+										<f:param name="idSubMenu" value="#{submenu.idType}"></f:param>
+									</h:link>
+
+
+
+
+								</div>
+							</ui:repeat>
+						</div>
+					</div>
+
 				</div>
 			</div>
-			</div>
-					<div class="tab-pane" id="woman">DONNA</div>
-		<div class="tab-pane" id="kid">BAMBINO</div>
-		<div class="tab-pane" id="girl">BAMBINA</div>
-		<div class="tab-pane" id="soldes">PROMOZIONI</div>
+		</ui:repeat>
 	</div>
-
-
-
 </ui:composition>

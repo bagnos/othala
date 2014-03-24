@@ -1,24 +1,24 @@
 package it.othala.cartflow.view;
 
+import it.othala.cartflow.model.CartFlowBean;
 import it.othala.dto.MenuDTO;
 import it.othala.dto.ProductDTO;
+import it.othala.dto.SubMenuDTO;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
+import it.othala.web.utils.OthalaUtil;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
+import javax.inject.Inject;
+import javax.inject.Named;
 
-@ManagedBean
-@ViewScoped
+@Named
+@javax.faces.view.ViewScoped
 public class CartFlowView extends BaseView {
 
-	private List<ProductDTO> articles;
-	private List<ProductDTO> articlesPage;
 	private Integer size;
 	private Integer brand;
 	private Integer color;
@@ -32,6 +32,41 @@ public class CartFlowView extends BaseView {
 	private boolean renderPaginator;
 	private String classForw;
 	private String classBack;
+
+	private Integer idMenu;
+	private Integer idSubMenu;
+	private Boolean fgNewArrivals;
+
+	@Inject
+	private CartFlowBean flowBean;
+
+	public CartFlowBean getFlowBean() {
+		return flowBean;
+	}
+
+	public Boolean getFgNewArrivals() {
+		return fgNewArrivals;
+	}
+
+	public void setFgNewArrivals(Boolean fgNewArrivals) {
+		this.fgNewArrivals = fgNewArrivals;
+	}
+
+	public Integer getIdMenu() {
+		return idMenu;
+	}
+
+	public void setIdMenu(Integer idMenu) {
+		this.idMenu = idMenu;
+	}
+
+	public Integer getIdSubMenu() {
+		return idSubMenu;
+	}
+
+	public void setIdSubMenu(Integer idSubMenu) {
+		this.idSubMenu = idSubMenu;
+	}
 
 	public Integer getSize() {
 		return size;
@@ -55,14 +90,6 @@ public class CartFlowView extends BaseView {
 
 	public void setColor(Integer color) {
 		this.color = color;
-	}
-
-	public List<ProductDTO> getArticlesPage() {
-		return articlesPage;
-	}
-
-	public List<ProductDTO> getArticles() {
-		return articles;
 	}
 
 	public String getClassForw() {
@@ -101,31 +128,23 @@ public class CartFlowView extends BaseView {
 		this.priceMax = priceMax;
 	}
 
+	public String preInit() {
+		return "cart-flow-1";
+	}
+
 	@Override
 	public String doInit() {
 		// TODO Auto-generated method stub
-		articles = new ArrayList<>();
-		articlesPage = new ArrayList<>();
 
-		/*
-		 * List<MenuDTO> a =
-		 * OthalaFactory.getProductServiceInstance().getMenu("it");
-		 */
+		flowBean.getArticles().clear();
+		flowBean.getArticlesPage().clear();
 		
-		/*
-		 * ProductFullDTO b =
-		 * OthalaFactory.getProductServiceInstance().getProductFull("it", 1);
-		 */
-		
-		/*
-		 * DomainDTO a =
-		 * OthalaFactory.getProductServiceInstance().getDomain("it");
-		 */
-
-		articles = OthalaFactory.getProductServiceInstance().getListProduct(
-				"it", null, null, null, null, null, null, null, null);
+		flowBean.getArticles().addAll(
+				OthalaFactory.getProductServiceInstance().getListProduct(getLang(), idMenu, idSubMenu, null, null,
+						null, null, null, fgNewArrivals));
 
 		initPaginator();
+		updatefBreadCrumb();
 
 		return null;
 	}
@@ -146,12 +165,12 @@ public class CartFlowView extends BaseView {
 
 	private void changePage() {
 
-		articlesPage.clear();
+		flowBean.getArticlesPage().clear();
 
-		if (endIndex > articles.size()) {
-			endIndex = articles.size();
+		if (endIndex > flowBean.getArticles().size()) {
+			endIndex = flowBean.getArticles().size();
 		}
-		articlesPage.addAll(articles.subList(starIndex, endIndex));
+		flowBean.getArticlesPage().addAll(flowBean.getArticles().subList(starIndex, endIndex));
 		classBack = "";
 		if (currentPage == 1) {
 			classBack = "disabled";
@@ -168,13 +187,12 @@ public class CartFlowView extends BaseView {
 		starIndex = 0;
 		classBack = "disabled";
 
-		if (!articles.isEmpty()) {
-			endIndex = ITEMS_PAGE > articles.size() ? articles.size()
-					: ITEMS_PAGE;
-			double dblPages = (double) articles.size() / (double) ITEMS_PAGE;
+		if (!flowBean.getArticles().isEmpty()) {
+			endIndex = ITEMS_PAGE > flowBean.getArticles().size() ? flowBean.getArticles().size() : ITEMS_PAGE;
+			double dblPages = (double) flowBean.getArticles().size() / (double) ITEMS_PAGE;
 			totPages = (int) Math.ceil(dblPages);
-			articlesPage.clear();
-			articlesPage.addAll(articles.subList(starIndex, endIndex));
+			flowBean.getArticlesPage().clear();
+			flowBean.getArticlesPage().addAll(flowBean.getArticles().subList(starIndex, endIndex));
 			renderPaginator = true;
 		} else {
 			renderPaginator = false;
@@ -185,10 +203,52 @@ public class CartFlowView extends BaseView {
 		size = size == null || size == -1 ? null : size;
 		color = color == null || color == -1 ? null : size;
 		brand = brand == null || brand == -1 ? null : size;
-		articles = OthalaFactory.getProductServiceInstance().getListProduct(
-				"it", null, null, brand, new BigDecimal(priceMin),
-				new BigDecimal(priceMax), size, color, null);
+		flowBean.getArticles().addAll(
+				OthalaFactory.getProductServiceInstance().getListProduct(getLang(), idMenu, idSubMenu, brand,
+						new BigDecimal(priceMin), new BigDecimal(priceMax), size, color, null));
 		initPaginator();
 	}
 
+	public String detailProduct(ProductDTO p) {
+
+		/* flowBean.setDetailProduct(p); */
+		return "cart-choice-2";
+
+	}
+
+	public void updatefBreadCrumb() {
+		if (flowBean.getBreadCrumb().isEmpty()) {
+			if (getQueryStringParm("idMenu") != null && getQueryStringParm("idSubMenu") != null) {
+				Integer idMenu = Integer.valueOf(getQueryStringParm("idMenu"));
+				Integer idSubMenu = Integer.valueOf(getQueryStringParm("idSubMenu"));
+
+				if (idMenu != null && idSubMenu != null) {
+					flowBean.getBreadCrumb().add("");
+					for (MenuDTO m : getBeanApplication().getMenu()) {
+						if (m.getIdGender() == idMenu.intValue()) {
+							flowBean.getBreadCrumb().add(m.getTxGender());
+							for (SubMenuDTO sm : m.getSubMenu()) {
+								if (sm.getIdType() == idSubMenu.intValue()) {
+									flowBean.getBreadCrumb().add(sm.getTxType());
+
+								}
+							}
+						}
+					}
+				}
+			} else if (getQueryStringParm("idMenu") != null && getQueryStringParm("fgNewArrivals") != null) {
+				flowBean.getBreadCrumb().add("");
+				Integer idMenu = Integer.valueOf(getQueryStringParm("idMenu"));
+				for (MenuDTO m : getBeanApplication().getMenu()) {
+					if (m.getIdGender() == idMenu.intValue()) {
+						flowBean.getBreadCrumb().add(m.getTxGender());
+						break;
+					}
+
+				}
+				flowBean.getBreadCrumb().add(OthalaUtil.getWordBundle("catalog_newArrival"));
+			}
+		}
+
+	}
 }

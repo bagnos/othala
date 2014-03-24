@@ -1,16 +1,24 @@
 package it.othala.view;
 
+import it.othala.dto.MenuDTO;
+import it.othala.dto.SubMenuDTO;
 import it.othala.execption.OthalaException;
+import it.othala.model.ApplicationBean;
 import it.othala.web.utils.OthalaUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public abstract class BaseView {
+
 	/**
 	 * dentro il content del .xhtml inserire {@code <f:metadata>
 	 * <f:viewAction action="sampleView.doInit" /> </f:metadata>} il metodo
@@ -20,6 +28,17 @@ public abstract class BaseView {
 	 * @return
 	 */
 	protected static Log log = LogFactory.getLog(BaseView.class);
+
+	@Inject
+	private ApplicationBean beanApplication;
+
+	private List<String> breadCrumb = new ArrayList<>();
+
+	
+
+	public ApplicationBean getBeanApplication() {
+		return beanApplication;
+	}
 
 	public abstract String doInit();
 
@@ -72,10 +91,9 @@ public abstract class BaseView {
 		}
 
 	}
-	
-	protected String getLang()
-	{
-		return FacesContext.getCurrentInstance().getExternalContext().getRequestLocale().getLanguage();
+
+	protected String getLang() {
+		return OthalaUtil.getLang();
 	}
 
 }

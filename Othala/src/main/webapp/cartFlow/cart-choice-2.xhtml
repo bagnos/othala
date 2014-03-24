@@ -1,0 +1,53 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/masterTemplateBS.xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:viewAction action="#{cartChoice2View.doInit}"></f:viewAction>
+			<f:viewParam name="idPrd" value="#{cartChoice2View.idProduct}" />
+		</f:metadata>
+	</ui:define>
+
+
+	<ui:define name="title">
+		<h:outputText value="Dettaglio Prodotti"></h:outputText>
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form prependId="false">
+			<div class="container">
+				<div class="row">
+					<ol class="breadcrumb breadcrumbLink" style="margin-top: 10px">
+						<ui:repeat var="bread" value="#{cartChoice2View.flowBean.breadCrumb}" varStatus="stBread">
+							<li><a
+									href="#{stBread.first?''.concat(request.contextPath).concat('/faces/home.xhtml'):'javascript:history.back()'}"
+									title="#{stBread.first?'home':''}"
+									class="#{stBread.last?'active':(stBread.first?'glyphicon glyphicon-home':'')}">#{bread}</a></li>
+						</ui:repeat>
+					</ol>
+				</div>
+
+				<div class="row">
+
+					<div class="col-sm-6">
+
+						<p:galleria value="#{cartChoice2View.flowBean.detailProductFull.imagesUrl}" var="image" panelWidth="500" panelHeight="613"
+							showCaption="false">
+							<p:graphicImage styleClass="img-responsive" library="images/cartThumbinals"
+							name="#{image}" />
+						</p:galleria>
+
+
+						
+
+
+
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>
