@@ -33,16 +33,18 @@ form-titoli {
 	padding-bottom: 10px;
 }
 
-.img-responsive {
-	display: inline-block !important;;
-	height: auto !important;;
-	max-width: 100% !important;;
-}
+
 
 .emptyPnl {
 	border: none !important;
 	margin: 0px !important;
 	padding: 0px !important;
+	
+}
+
+.onSale {
+	text-decoration: line-through;
+	color: #900;
 }
 
 /* ================================================================================================ 
@@ -87,11 +89,29 @@ form-titoli {
 
 .breadcrumb>li>a {
 	color: black !important;;;
+	cursor: default !important;
+}
+
+.breadcrumb.breadcrumbLink>li>a.active
+{
+	cursor: pointer !important;
+}
+
+.breadcrumb>li>a.glyphicon-home {
+	
+	cursor: pointer !important;
+}
+
+.breadcrumb>li>a:hover
+{
+	text-decoration: none; !important;;
 }
 
 .breadcrumb>li.active {
 	color: black !important;;
 }
+
+
 
 /* ================================================================================================ 
 	FINE THUMBINALS
@@ -131,6 +151,10 @@ form-titoli {
 
 .nav-tabs>li.active>a {
 	background-color: #f9f9f9 !important;
+}
+
+.tab-pane a:HOVER {
+	text-decoration: none !important;;
 }
 
 #tab-content {

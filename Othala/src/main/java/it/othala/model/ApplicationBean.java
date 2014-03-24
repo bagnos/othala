@@ -2,23 +2,39 @@ package it.othala.model;
 
 import it.othala.dto.AttributeDTO;
 import it.othala.dto.DomainDTO;
+import it.othala.dto.MenuDTO;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.web.utils.OthalaUtil;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ApplicationScoped;
-import javax.faces.bean.ManagedBean;
 import javax.faces.model.SelectItem;
+import javax.inject.Named;
 
-@ManagedBean
+@Named
 @ApplicationScoped
-public class ApplicationBean {
+public class ApplicationBean implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private List<SelectItem> sizes=new ArrayList<>();
 	private List<SelectItem> colors=new ArrayList<>();
 	private List<SelectItem> brands=new ArrayList<>();
+	private List<MenuDTO> menu=new ArrayList<>();
+
+	public List<MenuDTO> getMenu() {
+		if (menu.isEmpty())
+		{
+			menu=OthalaFactory.getProductServiceInstance().getMenu(OthalaUtil.getLang());
+		}
+		
+		return menu;
+	}
 
 	public List<SelectItem> getBrands() {
 		if (brands.isEmpty()) {

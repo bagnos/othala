@@ -5,6 +5,8 @@ import it.othala.execption.OthalaException;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
 
+import javax.faces.context.FacesContext;
+
 public class OthalaUtil {
 
 	private static ResourceBundle resources = ResourceBundle.getBundle("language");
@@ -33,6 +35,11 @@ public class OthalaUtil {
 			}
 		}
 		return message;
+	}
+	
+	public static String getLang()
+	{
+		return FacesContext.getCurrentInstance().getExternalContext().getRequestLocale().getLanguage();
 	}
 	
 }

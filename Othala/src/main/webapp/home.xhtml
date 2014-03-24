@@ -1,5 +1,6 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/masterTemplateBS.xhtml"
-	xmlns:h="http://java.sun.com/jsf/html" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/masterTemplateBS.xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions">
 
 
@@ -14,14 +15,14 @@
 		<h:outputText value="#{msg.account_login}"></h:outputText>
 	</ui:define>
 
-	<ui:define name="content">		
-	
-			<div class="row">
-				<div class="col-sm-12">
+	<ui:define name="content">
 
-					<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-						<!-- Indicators -->
-						<!-- 
+		<div class="row">
+			<div class="col-sm-12">
+
+				<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+					<!-- Indicators -->
+					<!-- 
 								<ol class="carousel-indicators">
 									<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
 									<li data-target="#carousel-example-generic" data-slide-to="1"></li>
@@ -29,30 +30,33 @@
 								</ol>
 								 -->
 
-						<!-- Wrapper for slides -->
-						<div class="carousel-inner">
-							<div class="item active">
-								<p:graphicImage styleClass="img-responsive" library="images/carousel" name="2.jpg" />
-								<div class="carousel-caption">prova</div>
-							</div>
-							<div class="item">
-								<p:graphicImage styleClass="img-responsive" library="images/carousel" name="3.jpg" />
-								<div class="carousel-caption">prova</div>
-							</div>
-							<div class="item">
-								<p:graphicImage styleClass="img-responsive" library="images/carousel" name="2.jpg" />
-								<div class="carousel-caption">prova</div>
-							</div>
+					<!-- Wrapper for slides -->
+					<div class="carousel-inner">
+						<div class="item active">
+							<p:graphicImage styleClass="img-responsive" library="images/carousel" name="2.jpg" />
+							<div class="carousel-caption">prova</div>
 						</div>
-
-						<!-- Controls -->
-						<a class="left carousel-control" href="#carousel-example-generic" data-slide="prev"> <span
-							class="glyphicon glyphicon-chevron-left"></span>
-						</a> <a class="right carousel-control" href="#carousel-example-generic" data-slide="next"> <span
-							class="glyphicon glyphicon-chevron-right"></span>
-						</a>
+						<div class="item">
+							<p:graphicImage styleClass="img-responsive" library="images/carousel" name="3.jpg" />
+							<div class="carousel-caption">prova</div>
+						</div>
+						<div class="item">
+							<p:graphicImage styleClass="img-responsive" library="images/carousel" name="2.jpg" />
+							<div class="carousel-caption">prova</div>
+						</div>
 					</div>
-					<!-- 
+
+					<!-- Controls -->
+					<a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+						<span class="glyphicon glyphicon-chevron-left"></span>
+					</a>
+					<a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+						<span class="glyphicon glyphicon-chevron-right"></span>
+					</a>
+				</div>
+
+
+				<!-- 
 							<p:carousel id="home-carousel" styleClass="carousel" autoPlayInterval="2000" rows="1" effect="easeInStrong" circular="true"
 								itemStyle="border:none;width: 980px;float: left;display: block;">
 
@@ -63,11 +67,57 @@
 
 							</p:carousel>
 							-->
-				</div>
-
-
 			</div>
-		
+		</div>
 
+		<div class="container" style="margin-top: 10px;">
+			<div class="row">
+				<div class="col-sm-12">
+					<p:graphicImage styleClass="img-responsive" library="images/newArrivals"
+						name="newArrivals2.jpg" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-3">
+					<div class="thumbnail">
+						<h:link outcome="cartFlow">
+							<f:param name="idMenu" value="1"></f:param>
+							<f:param name="fgNewArrivals" value="true"></f:param>
+							<p:graphicImage styleClass="img-responsive" library="images/newArrivals" name="men.gif" />
+						</h:link>
+
+
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="thumbnail">
+						<h:link outcome="cartFlow">
+							<f:param name="idMenu" value="2"></f:param>
+							<f:param name="fgNewArrivals" value="true"></f:param>
+							<p:graphicImage styleClass="img-responsive" library="images/newArrivals" name="woman.gif" />
+						</h:link>
+					</div>
+				</div>
+				<div class="col-sm-3">
+
+					<div class="thumbnail">
+						<h:link outcome="cartFlow">
+							<f:param name="idMenu" value="3"></f:param>
+							<f:param name="fgNewArrivals" value="true"></f:param>
+							<p:graphicImage styleClass="img-responsive" library="images/newArrivals" name="boys.gif" />
+						</h:link>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="thumbnail">
+						<h:link outcome="cartFlow">
+							<f:param name="idMenu" value="4"></f:param>
+							<f:param name="fgNewArrivals" value="true"></f:param>
+							<p:graphicImage styleClass="img-responsive" library="images/newArrivals" name="girls.gif" />
+						</h:link>
+					</div>
+				</div>
+			</div>
+		</div>
 	</ui:define>
 </ui:composition>
