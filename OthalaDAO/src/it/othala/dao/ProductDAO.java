@@ -17,36 +17,6 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 
 	@Override
-	public ProductFullDTO getProductFull(String languages, Integer idProduct) {
-
-		HashMap<String, Object> mapProduct = new HashMap<>();
-		mapProduct.put("languages", languages);
-		mapProduct.put("idProduct", idProduct);
-
-		ProductFullDTO productFull = getSqlSession().selectOne(
-				"it.othala.product.queries.getProductFull", mapProduct);
-
-		HashMap<String, Object> map1 = new HashMap<>();
-		map1.put("idProduct", idProduct);
-
-		List<String> newString = getSqlSession().selectList(
-				"it.othala.product.queries.listProductImages", map1);
-		productFull.setImagesUrl(newString);
-
-		HashMap<String, Object> map2 = new HashMap<>();
-		map2.put("idProduct", idProduct);
-		map2.put("languages", languages);
-
-		List<ArticleFullDTO> listArticleFull = getSqlSession().selectList(
-				"it.othala.product.queries.listArticleFull", map2);
-
-		productFull.setArticles(listArticleFull);
-
-		return productFull;
-
-	}
-
-	@Override
 	public Integer insertProduct(ProductFullDTO productFull) {
 
 		getSqlSession().insert("it.othala.product.queries.insertProduct",
@@ -231,6 +201,48 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 				"it.othala.product.queries.listSubMenu", map);
 
 		return listSubMenu;
+
+	}
+
+	@Override
+	public ProductFullDTO getProductFull(String languages, Integer idProduct) {
+
+		HashMap<String, Object> mapProduct = new HashMap<>();
+		mapProduct.put("languages", languages);
+		mapProduct.put("idProduct", idProduct);
+
+		ProductFullDTO productFull = getSqlSession().selectOne(
+				"it.othala.product.queries.getProductFull", mapProduct);
+
+		return productFull;
+
+	}
+
+	@Override
+	public List<String> listProductImages(Integer idProduct) {
+
+		HashMap<String, Object> map1 = new HashMap<>();
+		map1.put("idProduct", idProduct);
+
+		List<String> newString = getSqlSession().selectList(
+				"it.othala.product.queries.listProductImages", map1);
+
+		return newString;
+
+	}
+
+	@Override
+	public List<ArticleFullDTO> listArticleFull(Integer idProduct,
+			String languages) {
+
+		HashMap<String, Object> map2 = new HashMap<>();
+		map2.put("idProduct", idProduct);
+		map2.put("languages", languages);
+
+		List<ArticleFullDTO> listArticleFull = getSqlSession().selectList(
+				"it.othala.product.queries.listArticleFull", map2);
+
+		return listArticleFull;
 
 	}
 

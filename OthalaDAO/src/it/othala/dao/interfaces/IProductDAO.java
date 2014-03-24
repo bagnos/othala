@@ -1,5 +1,6 @@
 package it.othala.dao.interfaces;
 
+import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.AttributeDTO;
 import it.othala.dto.MenuDTO;
 import it.othala.dto.ProductDTO;
@@ -34,6 +35,10 @@ public interface IProductDAO {
 	public List<MenuDTO> listMenu(String languages);
 	
 	public List<SubMenuDTO> listSubMenu(Integer idMenu, String languages);
+
+	public List<String> listProductImages(Integer idProduct);
+
+	List<ArticleFullDTO> listArticleFull(Integer idProduct, String languages);
 	
 
 	
