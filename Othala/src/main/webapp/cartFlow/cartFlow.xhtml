@@ -7,9 +7,9 @@
 	<ui:define name="metadata">
 		<f:metadata>
 			<f:viewAction action="#{cartFlowView.doInit}"></f:viewAction>
-			<f:viewParam name="idMenu" value="#{cartFlowView.idMenu}"></f:viewParam>
-			<f:viewParam name="idSubMenu" value="#{cartFlowView.idSubMenu}"></f:viewParam>
-			<f:viewParam name="fgNewArrivals" value="#{cartFlowView.fgNewArrivals}"></f:viewParam>
+			<f:viewParam name="idMenu" value="#{cartFlowView.flowBean.idMenu}"></f:viewParam>
+			<f:viewParam name="idSubMenu" value="#{cartFlowView.flowBean.idSubMenu}"></f:viewParam>
+			<f:viewParam name="fgNewArrivals" value="#{cartFlowView.flowBean.fgNewArrivals}"></f:viewParam>
 		</f:metadata>
 	</ui:define>
 
@@ -24,10 +24,18 @@
 
 				<ol class="breadcrumb" style="margin-top: 10px">
 					<ui:repeat var="bread" value="#{cartFlowView.flowBean.breadCrumb}" varStatus="stBread">
-						<li><a
-								href="#{stBread.first?''.concat(request.contextPath).concat('/faces/home.xhtml'):'#'}"
-								title="#{stBread.first?'home':''}"
-								class="#{stBread.last?'active':(stBread.first?'glyphicon glyphicon-home':'')}">#{bread}</a></li>
+						<li>
+						<h:outputLink rendered="#{stBread.last}" value="#" styleClass="active">
+							#{bread}
+						</h:outputLink> 
+						<h:outputLink rendered="#{stBread.first}" value="#{request.contextPath}/faces/home.xhtml"
+								styleClass="glyphicon glyphicon-home">
+						 	#{bread}
+						</h:outputLink> 
+						<h:outputLink rendered="#{stBread.first==false and stBread.last==false}" value="#">
+							#{bread}
+						</h:outputLink>
+						</li>
 					</ui:repeat>
 				</ol>
 
@@ -98,10 +106,15 @@
 							<div>
 
 
-								<p:commandButton styleClass="ui-priority-primary" update="products" id="findPrds"
+								<p:commandButton styleClass="ui-priority-primary" process="@form" update="products" ajax="false" id="findPrds"
 									actionListener="#{cartFlowView.find}" value="#{msg.catalog_find}">
 
 								</p:commandButton>
+								
+								<h:commandButton actionListener="#{cartFlowView.find}" value="#{msg.catalog_find}">
+								<f:ajax execute="@form" render="@all"></f:ajax>
+								</h:commandButton>
+								
 							</div>
 
 						</div>
@@ -122,13 +135,14 @@
 					</div>
 
 					<div class="col-sm-3 pull-right">
-						<h:panelGroup rendered="#{cartFlowView.renderPaginator}">
+						<h:panelGroup rendered="#{cartFlowView.flowBean.renderPaginator}">
 							<ul class="pager">
 								<li class="#{cartFlowView.classBack}"><p:commandLink ajax="true" update="@form"
 										disabled="#{cartFlowView.classBack=='disabled'}"
 										styleClass="glyphicon glyphicon-chevron-left" actionListener="#{cartFlowView.backword}" />
 								</li>
-								<li><span>#{cartFlowView.currentPage} of #{cartFlowView.totPages}</span></li>
+								<li><span>#{cartFlowView.flowBean.currentPage} of
+										#{cartFlowView.flowBean.totPages}</span></li>
 								<li class="#{cartFlowView.classForw}"><p:commandLink ajax="true" update="@form"
 										disabled="#{cartFlowView.classForw=='disabled'}"
 										styleClass="glyphicon glyphicon-chevron-right" actionListener="#{cartFlowView.forward}" />

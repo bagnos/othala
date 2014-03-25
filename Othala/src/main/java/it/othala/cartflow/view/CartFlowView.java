@@ -16,64 +16,19 @@ import javax.inject.Named;
 
 @Named
 @javax.faces.view.ViewScoped
+// @javax.faces.flow.FlowScoped("cartFlow")
 public class CartFlowView extends BaseView {
 
+	private final Integer ITEMS_PAGE = 20;
+	private int priceMin = 100;
+	private int priceMax = 1000;
+	private int starIndex = 0;
+	private int endIndex = 0;
+	private String classForw;
+	private String classBack;
 	private Integer size;
 	private Integer brand;
 	private Integer color;
-	private int priceMin = 100;
-	private int priceMax = 1000;
-	private final Integer ITEMS_PAGE = 20;
-	private Integer currentPage = null;
-	private Integer totPages = null;
-	private int starIndex = 0;
-	private int endIndex = 0;
-	private boolean renderPaginator;
-	private String classForw;
-	private String classBack;
-
-	private Integer idMenu;
-	private Integer idSubMenu;
-	private Boolean fgNewArrivals;
-
-	@Inject
-	private CartFlowBean flowBean;
-
-	public CartFlowBean getFlowBean() {
-		return flowBean;
-	}
-
-	public Boolean getFgNewArrivals() {
-		return fgNewArrivals;
-	}
-
-	public void setFgNewArrivals(Boolean fgNewArrivals) {
-		this.fgNewArrivals = fgNewArrivals;
-	}
-
-	public Integer getIdMenu() {
-		return idMenu;
-	}
-
-	public void setIdMenu(Integer idMenu) {
-		this.idMenu = idMenu;
-	}
-
-	public Integer getIdSubMenu() {
-		return idSubMenu;
-	}
-
-	public void setIdSubMenu(Integer idSubMenu) {
-		this.idSubMenu = idSubMenu;
-	}
-
-	public Integer getSize() {
-		return size;
-	}
-
-	public void setSize(Integer size) {
-		this.size = size;
-	}
 
 	public Integer getBrand() {
 		return brand;
@@ -91,24 +46,27 @@ public class CartFlowView extends BaseView {
 		this.color = color;
 	}
 
+	public Integer getSize() {
+		return size;
+	}
+
+	public void setSize(Integer size) {
+		this.size = size;
+	}
+
+	@Inject
+	private CartFlowBean flowBean;
+
+	public CartFlowBean getFlowBean() {
+		return flowBean;
+	}
+
 	public String getClassForw() {
 		return classForw;
 	}
 
 	public String getClassBack() {
 		return classBack;
-	}
-
-	public boolean isRenderPaginator() {
-		return renderPaginator;
-	}
-
-	public Integer getCurrentPage() {
-		return currentPage;
-	}
-
-	public Integer getTotPages() {
-		return totPages;
 	}
 
 	public int getPriceMin() {
@@ -135,28 +93,39 @@ public class CartFlowView extends BaseView {
 	public String doInit() {
 		// TODO Auto-generated method stub
 
-		flowBean.getArticles().clear();
-		flowBean.getArticlesPage().clear();
-		
-		flowBean.getArticles().addAll(
-				OthalaFactory.getProductServiceInstance().getListProduct(getLang(), idMenu, idSubMenu, null, null,
-						null, null, null, fgNewArrivals));
+		priceMin = flowBean.getPriceMin();
+		priceMax = flowBean.getPriceMax();
+		brand = flowBean.getBrand();
+		color = flowBean.getColor();
+		size = flowBean.getSize();
 
-		initPaginator();
-		updatefBreadCrumb();
+		if (flowBean.getArticles().isEmpty()) {
+			flowBean.getArticles().clear();
+			flowBean.getArticlesPage().clear();
+
+			flowBean.getArticles().addAll(
+					OthalaFactory.getProductServiceInstance().getListProduct(getLang(), flowBean.getIdMenu(),
+							flowBean.getIdSubMenu(), flowBean.getBrand(), new BigDecimal(flowBean.getPriceMin()),
+							new BigDecimal(flowBean.getPriceMax()), flowBean.getColor(), flowBean.getSize(),
+							flowBean.getFgNewArrivals()));
+
+			initPaginator(flowBean.getCurrentPage()); 
+			updatefBreadCrumb();
+		}
 
 		return null;
 	}
 
 	public void forward(ActionEvent e) {
-		currentPage++;
+		flowBean.setCurrentPage(flowBean.getCurrentPage() + 1);
+
 		starIndex = endIndex;
 		endIndex += ITEMS_PAGE;
 		changePage();
 	}
 
 	public void backword(ActionEvent e) {
-		currentPage--;
+		flowBean.setCurrentPage(flowBean.getCurrentPage() - 1);
 		endIndex = starIndex;
 		starIndex = endIndex - ITEMS_PAGE;
 		changePage();
@@ -171,41 +140,48 @@ public class CartFlowView extends BaseView {
 		}
 		flowBean.getArticlesPage().addAll(flowBean.getArticles().subList(starIndex, endIndex));
 		classBack = "";
-		if (currentPage == 1) {
+		if (flowBean.getCurrentPage().intValue() == 1) {
 			classBack = "disabled";
 		}
 		classForw = "";
-		if (currentPage == totPages) {
+		if (flowBean.getCurrentPage().intValue() == flowBean.getTotPages().intValue()) {
 			classForw = "disabled";
 		}
 
 	}
 
-	private void initPaginator() {
-		currentPage = 1;
+	private void initPaginator(int page) {
+		flowBean.setCurrentPage(page);
 		starIndex = 0;
 		classBack = "disabled";
 
 		if (!flowBean.getArticles().isEmpty()) {
 			endIndex = ITEMS_PAGE > flowBean.getArticles().size() ? flowBean.getArticles().size() : ITEMS_PAGE;
 			double dblPages = (double) flowBean.getArticles().size() / (double) ITEMS_PAGE;
-			totPages = (int) Math.ceil(dblPages);
+			flowBean.setTotPages((int) Math.ceil(dblPages));
 			flowBean.getArticlesPage().clear();
 			flowBean.getArticlesPage().addAll(flowBean.getArticles().subList(starIndex, endIndex));
-			renderPaginator = true;
+			flowBean.setRenderPaginator(true);
 		} else {
-			renderPaginator = false;
+			flowBean.getArticlesPage().clear();
+			flowBean.setRenderPaginator(false);
 		}
 	}
 
 	public void find(ActionEvent e) {
-		size = size == null || size == -1 ? null : size;
-		color = color == null || color == -1 ? null : size;
-		brand = brand == null || brand == -1 ? null : size;
+
+		flowBean.setSize(size == null || size.intValue() == -1 ? null : size);
+		flowBean.setColor(color == null || color.intValue() == -1 ? null : color);
+		flowBean.setBrand(brand == null || brand.intValue() == -1 ? null : flowBean.getBrand());
+		flowBean.getArticles().clear();
+		flowBean.setPriceMax(priceMax);
+		flowBean.setPriceMin(priceMin);
+
 		flowBean.getArticles().addAll(
-				OthalaFactory.getProductServiceInstance().getListProduct(getLang(), idMenu, idSubMenu, brand,
-						new BigDecimal(priceMin), new BigDecimal(priceMax), size, color, null));
-		initPaginator();
+				OthalaFactory.getProductServiceInstance().getListProduct(getLang(), flowBean.getIdMenu(),
+						flowBean.getIdSubMenu(), flowBean.getBrand(), new BigDecimal(flowBean.getPriceMin()),
+						new BigDecimal(flowBean.getPriceMax()), flowBean.getSize(), flowBean.getColor(), null));
+		initPaginator(1);
 	}
 
 	public String detailProduct(ProductDTO p) {
