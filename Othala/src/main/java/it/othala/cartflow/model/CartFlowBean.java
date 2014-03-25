@@ -24,6 +24,109 @@ public class CartFlowBean implements Serializable {
 	private List<ProductDTO> articlesPage;
 	private List<String> breadCrumb = new ArrayList<>();
 	private ProductFullDTO detailProductFull;
+	
+	private Integer currentPage = null;
+	private Integer totPages = null;
+	private boolean renderPaginator;
+	private Integer idMenu;
+	private Integer idSubMenu;
+	private Boolean fgNewArrivals;	
+	private Integer brand;
+	private Integer color;
+	private Integer size;
+	private Integer priceMin = 100;
+	private Integer priceMax = 1000;
+
+	
+	
+	
+	public Integer getPriceMin() {
+		return priceMin;
+	}
+
+	public void setPriceMin(Integer priceMin) {
+		this.priceMin = priceMin;
+	}
+
+	public Integer getPriceMax() {
+		return priceMax;
+	}
+
+	public void setPriceMax(Integer priceMax) {
+		this.priceMax = priceMax;
+	}
+
+	public Integer getSize() {
+		return size;
+	}
+
+	public void setSize(Integer size) {
+		this.size = size;
+	}
+
+	public Integer getBrand() {
+		return brand;
+	}
+
+	public void setBrand(Integer brand) {
+		this.brand = brand;
+	}
+
+	public Integer getColor() {
+		return color;
+	}
+
+	public void setColor(Integer color) {
+		this.color = color;
+	}
+
+	public Integer getCurrentPage() {
+		return currentPage;
+	}
+
+	public void setCurrentPage(Integer currentPage) {
+		this.currentPage = currentPage;
+	}
+
+	public Integer getTotPages() {
+		return totPages;
+	}
+
+	public void setTotPages(Integer totPages) {
+		this.totPages = totPages;
+	}
+
+	public boolean isRenderPaginator() {
+		return renderPaginator;
+	}
+
+	public void setRenderPaginator(boolean renderPaginator) {
+		this.renderPaginator = renderPaginator;
+	}
+
+	public Integer getIdMenu() {
+		return idMenu;
+	}
+
+	public void setIdMenu(Integer idMenu) {
+		this.idMenu = idMenu;
+	}
+
+	public Integer getIdSubMenu() {
+		return idSubMenu;
+	}
+
+	public void setIdSubMenu(Integer idSubMenu) {
+		this.idSubMenu = idSubMenu;
+	}
+
+	public Boolean getFgNewArrivals() {
+		return fgNewArrivals;
+	}
+
+	public void setFgNewArrivals(Boolean fgNewArrivals) {
+		this.fgNewArrivals = fgNewArrivals;
+	}
 
 	public ProductFullDTO getDetailProductFull() {
 		return detailProductFull;

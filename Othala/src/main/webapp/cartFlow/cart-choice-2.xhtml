@@ -22,10 +22,16 @@
 				<div class="row">
 					<ol class="breadcrumb breadcrumbLink" style="margin-top: 10px">
 						<ui:repeat var="bread" value="#{cartChoice2View.flowBean.breadCrumb}" varStatus="stBread">
-							<li><a
-									href="#{stBread.first?''.concat(request.contextPath).concat('/faces/home.xhtml'):'javascript:history.back()'}"
-									title="#{stBread.first?'home':''}"
-									class="#{stBread.last?'active':(stBread.first?'glyphicon glyphicon-home':'')}">#{bread}</a></li>
+							<li><h:link rendered="#{stBread.last}" outcome="cartFlow" value="#{bread}"
+									styleClass="active">
+								</h:link> 
+								<h:outputLink rendered="#{stBread.first}" value="#{request.contextPath}/faces/home.xhtml" styleClass="glyphicon glyphicon-home">
+									#{bread}
+									</h:outputLink>
+									<h:outputLink rendered="#{stBread.first==false and stBread.last==false}" value="#" >
+									#{bread}
+									</h:outputLink>
+									</li>
 						</ui:repeat>
 					</ol>
 				</div>
@@ -34,14 +40,13 @@
 
 					<div class="col-sm-6">
 
-						<p:galleria value="#{cartChoice2View.flowBean.detailProductFull.imagesUrl}" var="image" panelWidth="500" panelHeight="613"
-							showCaption="false">
-							<p:graphicImage styleClass="img-responsive" library="images/cartThumbinals"
-							name="#{image}" />
+						<p:galleria value="#{cartChoice2View.flowBean.detailProductFull.imagesUrl}" var="image"
+							panelWidth="500" panelHeight="613" showCaption="false">
+							<p:graphicImage styleClass="img-responsive" library="images/cartThumbinals" name="#{image}" />
 						</p:galleria>
 
 
-						
+
 
 
 
