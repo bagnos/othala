@@ -312,7 +312,7 @@
 		SELECT
 		a.idProduct as idProduct,
 		a.imPrice as price,
-		a.txThumbnailsUrl as thumbnailsUrl
+		a.txThumbnailsUrl as thumbnailsUrl,
 		a.pcDiscount as discount,
 		ceiling(a.imPrice * (100 - a.pcDiscount) /
 		100) as priceDiscounted,
