@@ -24,32 +24,40 @@
 						<ui:repeat var="bread" value="#{cartChoice2View.flowBean.breadCrumb}" varStatus="stBread">
 							<li><h:link rendered="#{stBread.last}" outcome="cartFlow" value="#{bread}"
 									styleClass="active">
-								</h:link> 
-								<h:outputLink rendered="#{stBread.first}" value="#{request.contextPath}/faces/home.xhtml" styleClass="glyphicon glyphicon-home">
+								</h:link> <h:outputLink rendered="#{stBread.first}" value="#{request.contextPath}/faces/home.xhtml"
+									styleClass="glyphicon glyphicon-home">
 									#{bread}
-									</h:outputLink>
-									<h:outputLink rendered="#{stBread.first==false and stBread.last==false}" value="#" >
+									</h:outputLink> <h:outputLink rendered="#{stBread.first==false and stBread.last==false}" value="#">
 									#{bread}
-									</h:outputLink>
-									</li>
+									</h:outputLink></li>
 						</ui:repeat>
 					</ol>
 				</div>
 
 				<div class="row">
-
 					<div class="col-sm-6">
-
 						<p:galleria value="#{cartChoice2View.flowBean.detailProductFull.imagesUrl}" var="image"
-							panelWidth="500" panelHeight="613" showCaption="false">
+							panelWidth="500" panelHeight="543" showCaption="false">
 							<p:graphicImage styleClass="img-responsive" library="images/cartThumbinals" name="#{image}" />
 						</p:galleria>
+					</div>
+					<div class="col-sm-4">
+						<div class="well">
+							<h4>#{cartChoice2View.flowBean.detailProductFull.description}</h4>
+							<p class="price">
+								<h:outputText value="#{cartChoice2View.flowBean.detailProductFull.price}"
+									styleClass="#{cartChoice2View.flowBean.detailProductFull.priceDiscounted!=null?'onSale':''}">
+									<f:converter converterId="it.othala.BigDecimalConverter" />
+								</h:outputText>
 
+								<h:outputText value="#{cartChoice2View.flowBean.detailProductFull.priceDiscounted}"
+									rendered="#{cartChoice2View.flowBean.detailProductFull.priceDiscounted!=null}"
+									style="float:right">
+									<f:converter converterId="it.othala.BigDecimalConverter" />
+								</h:outputText>
 
-
-
-
-
+							</p>
+						</div>
 					</div>
 				</div>
 			</div>

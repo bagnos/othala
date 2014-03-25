@@ -81,6 +81,7 @@ public class CartFlowBean implements Serializable {
 	}
 
 	public Integer getCurrentPage() {
+		
 		return currentPage;
 	}
 
