@@ -99,19 +99,17 @@ public class CartFlowView extends BaseView {
 		color = flowBean.getColor();
 		size = flowBean.getSize();
 
-		if (flowBean.getArticles().isEmpty()) {
-			flowBean.getArticles().clear();
-			flowBean.getArticlesPage().clear();
+		flowBean.getArticles().clear();
+		flowBean.getArticlesPage().clear();
 
-			flowBean.getArticles().addAll(
-					OthalaFactory.getProductServiceInstance().getListProduct(getLang(), flowBean.getIdMenu(),
-							flowBean.getIdSubMenu(), flowBean.getBrand(), new BigDecimal(flowBean.getPriceMin()),
-							new BigDecimal(flowBean.getPriceMax()), flowBean.getColor(), flowBean.getSize(),
-							flowBean.getFgNewArrivals()));
+		flowBean.getArticles().addAll(
+				OthalaFactory.getProductServiceInstance().getListProduct(getLang(), flowBean.getIdMenu(),
+						flowBean.getIdSubMenu(), flowBean.getBrand(), new BigDecimal(flowBean.getPriceMin()),
+						new BigDecimal(flowBean.getPriceMax()), flowBean.getColor(), flowBean.getSize(),
+						flowBean.getFgNewArrivals()));
 
-			initPaginator(flowBean.getCurrentPage()); 
-			updatefBreadCrumb();
-		}
+		initPaginator(flowBean.getCurrentPage()==null?1:flowBean.getCurrentPage());
+		updatefBreadCrumb();
 
 		return null;
 	}
@@ -161,6 +159,9 @@ public class CartFlowView extends BaseView {
 			flowBean.setTotPages((int) Math.ceil(dblPages));
 			flowBean.getArticlesPage().clear();
 			flowBean.getArticlesPage().addAll(flowBean.getArticles().subList(starIndex, endIndex));
+			if (flowBean.getCurrentPage().intValue() == flowBean.getTotPages().intValue()) {
+				classForw = "disabled";
+			}
 			flowBean.setRenderPaginator(true);
 		} else {
 			flowBean.getArticlesPage().clear();

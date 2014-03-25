@@ -22,6 +22,7 @@
 		<h:form prependId="false">
 			<div class="container">
 
+				<!-- breadcrumb -->
 				<ol class="breadcrumb" style="margin-top: 10px">
 					<ui:repeat var="bread" value="#{cartFlowView.flowBean.breadCrumb}" varStatus="stBread">
 						<li>
@@ -39,7 +40,8 @@
 					</ui:repeat>
 				</ol>
 
-
+				
+				<!-- filtro ricerca -->
 				<div class="row container">
 
 					<div class="panel panel-default">
@@ -111,9 +113,6 @@
 
 								</p:commandButton>
 								
-								<h:commandButton actionListener="#{cartFlowView.find}" value="#{msg.catalog_find}">
-								<f:ajax execute="@form" render="@all"></f:ajax>
-								</h:commandButton>
 								
 							</div>
 
@@ -121,6 +120,8 @@
 
 					</div>
 				</div>
+				
+				<!-- dati e paginatore -->
 				<div class="row">
 					<div class="col-sm-3">
 						<div class="form-group">

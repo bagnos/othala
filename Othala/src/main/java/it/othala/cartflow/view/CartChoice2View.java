@@ -3,6 +3,7 @@ package it.othala.cartflow.view;
 import it.othala.cartflow.model.CartFlowBean;
 import it.othala.dto.ProductDTO;
 import it.othala.dto.ProductFullDTO;
+import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 
 import java.util.ArrayList;
@@ -46,16 +47,7 @@ public class CartChoice2View extends BaseView {
 			}
 		}
 		
-		//ProductFullDTO prdFull=OthalaFactory.getProductServiceInstance().getProductFull(getLang(), idProduct);
-				ProductFullDTO prdFull=new ProductFullDTO();
-				prdFull.setImagesUrl(new ArrayList<String>());
-				prdFull.getImagesUrl().add(flowBean.getDetailProduct().getImagesUrl());
-				prdFull.getImagesUrl().add(flowBean.getDetailProduct().getImagesUrl());
-				prdFull.getImagesUrl().add(flowBean.getDetailProduct().getImagesUrl());
-				prdFull.getImagesUrl().add(flowBean.getDetailProduct().getImagesUrl());
-				prdFull.getImagesUrl().add(flowBean.getDetailProduct().getImagesUrl());
-				prdFull.getImagesUrl().add(flowBean.getDetailProduct().getImagesUrl());
-				prdFull.getImagesUrl().add(flowBean.getDetailProduct().getImagesUrl());
+		ProductFullDTO prdFull=OthalaFactory.getProductServiceInstance().getProductFull(getLang(), idProduct);
 				
 				flowBean.setDetailProductFull(prdFull);
 
