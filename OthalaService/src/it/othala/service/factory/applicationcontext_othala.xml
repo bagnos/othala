@@ -62,6 +62,8 @@
 		autowire="byType" />
 	<bean id="orderService" class="it.othala.service.OrderService"
 		autowire="byType" />
+			<bean id="siteImagesService" class="it.othala.service.SiteImagesService"
+		autowire="byType" />
 
 	<bean id="accountDAO" class="it.othala.dao.AccountDAO">
 		<property name="sqlSessionFactory" ref="SqlMapClient" />
@@ -73,6 +75,9 @@
 		<property name="sqlSessionFactory" ref="SqlMapClient" />
 	</bean>
 	<bean id="orderDAO" class="it.othala.dao.OrderDAO">
+		<property name="sqlSessionFactory" ref="SqlMapClient" />
+	</bean>
+		<bean id="siteImagesDAO" class="it.othala.dao.SiteImagesDAO">
 		<property name="sqlSessionFactory" ref="SqlMapClient" />
 	</bean>
 

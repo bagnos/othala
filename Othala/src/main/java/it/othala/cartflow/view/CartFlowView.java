@@ -3,14 +3,12 @@ package it.othala.cartflow.view;
 import it.othala.cartflow.model.CartFlowBean;
 import it.othala.dto.MenuDTO;
 import it.othala.dto.ProductDTO;
-import it.othala.dto.ProductFullDTO;
 import it.othala.dto.SubMenuDTO;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 import it.othala.web.utils.OthalaUtil;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;

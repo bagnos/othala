@@ -32,3 +32,19 @@ INSERT INTO `article_attribute` VALUES (3,1,3,9),(3,1,4,9),(3,2,3,6),(3,2,4,6);
 
 INSERT INTO `product_image` VALUES (3,1,'000003_01.JPG'),(3,2,'000003_02.JPG'),(3,3,'000003_03.JPG'),(3,4,'000003_04.JPG');
 
+INSERT INTO `othala`.`site_images` (`idsiteImages`, `txGroupImages`, `pgGroupImages`, `txLibrary`, `txName`) VALUES (1, 'carousel', 1, 'images/carousel', '2.jpg');
+
+INSERT INTO `othala`.`site_images` (`idsiteImages`, `txGroupImages`, `pgGroupImages`, `txLibrary`, `txName`) VALUES (2, 'carousel', 2, 'images/carousel', '3.jpg');
+
+INSERT INTO `othala`.`site_images` (`idsiteImages`, `txGroupImages`, `pgGroupImages`, `txLibrary`, `txName`) VALUES (3, 'carousel', 3, 'images/carousel', '2.jpg');
+
+INSERT INTO `othala`.`site_images` (`idsiteImages`, `txGroupImages`, `pgGroupImages`, `txLibrary`, `txName`) VALUES (4, 'carousel', 4, 'images/carousel', '3.jpg');
+
+INSERT INTO `othala`.`site_images` (`idsiteImages`, `txGroupImages`, `pgGroupImages`, `txLibrary`, `txName`) VALUES (5, 'newArrivals', 1, 'images/newArrivals', 'men.gif');
+
+INSERT INTO `othala`.`site_images` (`idsiteImages`, `txGroupImages`, `pgGroupImages`, `txLibrary`, `txName`) VALUES (6, 'newArrivals', 2, 'images/newArrivals', 'woman.gif');
+
+INSERT INTO `othala`.`site_images` (`idsiteImages`, `txGroupImages`, `pgGroupImages`, `txLibrary`, `txName`) VALUES (7, 'newArrivals', 3, 'images/newArrivals', 'boys.gif');
+
+INSERT INTO `othala`.`site_images` (`idsiteImages`, `txGroupImages`, `pgGroupImages`, `txLibrary`, `txName`) VALUES (8, 'newArrivals', 4, 'images/newArrivals', 'girls.gif');
+

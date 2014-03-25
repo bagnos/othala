@@ -4,6 +4,7 @@ import it.othala.service.interfaces.IAccountService;
 import it.othala.service.interfaces.IMailService;
 import it.othala.service.interfaces.IOrderService;
 import it.othala.service.interfaces.IProductService;
+import it.othala.service.interfaces.ISiteImagesService;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -18,6 +19,7 @@ public class OthalaFactory {
 	private static IProductService productService;
 	private static IMailService mailService;
 	private static IOrderService orderService;
+	private static ISiteImagesService siteImagesService;
 
 	private static ApplicationContext getApplicationContext() {
 
@@ -43,7 +45,6 @@ public class OthalaFactory {
 		return accountService;
 	}
 
-
 	public static IProductService getProductServiceInstance() {
 		if (productService == null) {
 			productService = (IProductService) getApplicationContext().getBean(
@@ -59,7 +60,7 @@ public class OthalaFactory {
 		}
 		return mailService;
 	}
-	
+
 	public static IOrderService getOrderServiceInstance() {
 		if (orderService == null) {
 			orderService = (IOrderService) getApplicationContext().getBean(
@@ -68,5 +69,12 @@ public class OthalaFactory {
 		return orderService;
 	}
 
+	public static ISiteImagesService getSiteImagesServiceInstance() {
+		if (siteImagesService == null) {
+			siteImagesService = (ISiteImagesService) getApplicationContext()
+					.getBean("siteImagesService");
+		}
+		return siteImagesService;
+	}
 
 }
