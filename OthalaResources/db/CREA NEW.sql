@@ -449,6 +449,21 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Valori_Attributo_Languages` (
 ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `othala`.`Site_Images`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `othala`.`Site_Images` ;
+
+CREATE  TABLE IF NOT EXISTS `othala`.`Site_Images` (
+  `idsiteImages` INT NOT NULL ,
+  `txGroupImages` VARCHAR(45) NULL ,
+  `pgGroupImages` INT NULL ,
+  `txLibrary` VARCHAR(45) NULL ,
+  `txName` VARCHAR(45) NULL ,
+  PRIMARY KEY (`idsiteImages`) )
+ENGINE = InnoDB;
+
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
