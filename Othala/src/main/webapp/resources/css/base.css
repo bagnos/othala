@@ -5,6 +5,11 @@
 	font-size: 95% !important;
 }
 
+.ui-galleria-panel
+{
+	text-align: center !important;
+}
+
 .ui-tooltip {
 	font-weight: lighter !important;;
 	color: #777 !important;;
@@ -75,6 +80,8 @@ form-titoli {
 	height: 86px;
 	overflow: hidden;
 }
+
+
 
 .thumbnail.thumbnail-home
 {
