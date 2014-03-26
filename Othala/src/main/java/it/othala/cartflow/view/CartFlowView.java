@@ -173,7 +173,7 @@ public class CartFlowView extends BaseView {
 
 		flowBean.setSize(size == null || size.intValue() == -1 ? null : size);
 		flowBean.setColor(color == null || color.intValue() == -1 ? null : color);
-		flowBean.setBrand(brand == null || brand.intValue() == -1 ? null : flowBean.getBrand());
+		flowBean.setBrand(brand == null || brand.intValue() == -1 ? null : brand);
 		flowBean.getArticles().clear();
 		flowBean.setPriceMax(priceMax);
 		flowBean.setPriceMin(priceMin);
