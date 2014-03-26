@@ -1,14 +1,19 @@
 package it.othala.cartflow.view;
 
 import it.othala.cartflow.model.CartFlowBean;
+import it.othala.dto.ArticleFullDTO;
+import it.othala.dto.DescriptionDTO;
 import it.othala.dto.MenuDTO;
 import it.othala.dto.ProductDTO;
+import it.othala.dto.ProductFullDTO;
 import it.othala.dto.SubMenuDTO;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 import it.othala.web.utils.OthalaUtil;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
@@ -170,7 +175,8 @@ public class CartFlowView extends BaseView {
 	}
 
 	public void find(ActionEvent e) {
-
+		
+		
 		flowBean.setSize(size == null || size.intValue() == -1 ? null : size);
 		flowBean.setColor(color == null || color.intValue() == -1 ? null : color);
 		flowBean.setBrand(brand == null || brand.intValue() == -1 ? null : brand);
@@ -227,4 +233,6 @@ public class CartFlowView extends BaseView {
 		}
 
 	}
+	
+	
 }
