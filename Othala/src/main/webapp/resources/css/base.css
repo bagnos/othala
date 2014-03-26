@@ -97,7 +97,7 @@ form-titoli {
 ================================================================================================*/
 .breadcrumb {
 	margin-top: 10px;
-	font-size: 16px;
+	font-size: 10px;
 }
 
 .breadcrumb>li+li:before {

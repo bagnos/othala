@@ -6,7 +6,7 @@
 
 	<ui:define name="metadata">
 		<f:metadata>
-			<f:viewAction action="#{accessView.doInit}"></f:viewAction>
+
 		</f:metadata>
 	</ui:define>
 
@@ -32,18 +32,27 @@
 
 					<!-- Wrapper for slides -->
 					<div class="carousel-inner">
+						<ui:repeat var="imgCar" value="#{applicationBean.imgsCarousel}" varStatus="staCar">
+							<div class="#{staCar.first?'item active':'item'}">
+								<p:graphicImage styleClass="img-responsive" library="#{imgCar.txLibrary}"
+									name="#{imgCar.txName}" />
+
+							</div>
+						</ui:repeat>
+
+						<!-- 
 						<div class="item active">
 							<p:graphicImage styleClass="img-responsive" library="images/carousel" name="2.jpg" />
-							<div class="carousel-caption">prova</div>
+							
 						</div>
 						<div class="item">
 							<p:graphicImage styleClass="img-responsive" library="images/carousel" name="3.jpg" />
-							<div class="carousel-caption">prova</div>
+							
 						</div>
 						<div class="item">
 							<p:graphicImage styleClass="img-responsive" library="images/carousel" name="2.jpg" />
-							<div class="carousel-caption">prova</div>
-						</div>
+							
+						</div>-->
 					</div>
 
 					<!-- Controls -->
@@ -78,45 +87,19 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-sm-3">
-					<div class="thumbnail thumbnail-home">
-						<h:link outcome="cartFlow">
-							<f:param name="idMenu" value="1"></f:param>
-							<f:param name="fgNewArrivals" value="true"></f:param>
-							<p:graphicImage styleClass="img-responsive" library="images/newArrivals" name="men.gif" />
-						</h:link>
+				<ui:repeat var="imgNewArr" value="#{applicationBean.imgsNewArrival}">
+					<div class="col-sm-3">
+						<div class="thumbnail thumbnail-home">
+							<h:link outcome="cartFlow">
+								<f:param name="idMenu" value="#{imgNewArr.pgGroupImages}"></f:param>
+								<f:param name="fgNewArrivals" value="true"></f:param>
+								<p:graphicImage styleClass="img-responsive" library="#{imgNewArr.txLibrary}"
+									name="#{imgNewArr.txName}" />
+							</h:link>
+						</div>
+					</div>
+				</ui:repeat>
 
-
-					</div>
-				</div>
-				<div class="col-sm-3">
-					<div class="thumbnail thumbnail-home">
-						<h:link outcome="cartFlow">
-							<f:param name="idMenu" value="2"></f:param>
-							<f:param name="fgNewArrivals" value="true"></f:param>
-							<p:graphicImage styleClass="img-responsive" library="images/newArrivals" name="woman.gif" />
-						</h:link>
-					</div>
-				</div>
-				<div class="col-sm-3">
-
-					<div class="thumbnail thumbnail-home">
-						<h:link outcome="cartFlow">
-							<f:param name="idMenu" value="3"></f:param>
-							<f:param name="fgNewArrivals" value="true"></f:param>
-							<p:graphicImage styleClass="img-responsive" library="images/newArrivals" name="boys.gif" />
-						</h:link>
-					</div>
-				</div>
-				<div class="col-sm-3">
-					<div class="thumbnail thumbnail-home">
-						<h:link outcome="cartFlow">
-							<f:param name="idMenu" value="4"></f:param>
-							<f:param name="fgNewArrivals" value="true"></f:param>
-							<p:graphicImage styleClass="img-responsive" library="images/newArrivals" name="girls.gif" />
-						</h:link>
-					</div>
-				</div>
 			</div>
 		</div>
 	</ui:define>
