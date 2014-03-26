@@ -3,6 +3,7 @@ package it.othala.model;
 import it.othala.dto.AttributeDTO;
 import it.othala.dto.DomainDTO;
 import it.othala.dto.MenuDTO;
+import it.othala.dto.SiteImagesDTO;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.web.utils.OthalaUtil;
 
@@ -15,30 +16,50 @@ import javax.faces.model.SelectItem;
 import javax.inject.Named;
 
 @Named
-@ApplicationScoped
+@javax.enterprise.context.ApplicationScoped
 public class ApplicationBean implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private List<SelectItem> sizes=new ArrayList<>();
-	private List<SelectItem> colors=new ArrayList<>();
-	private List<SelectItem> brands=new ArrayList<>();
-	private List<MenuDTO> menu=new ArrayList<>();
+	private List<SelectItem> sizes = new ArrayList<>();
+	private List<SelectItem> colors = new ArrayList<>();
+	private List<SelectItem> brands = new ArrayList<>();
+	private List<MenuDTO> menu = new ArrayList<>();
+	private List<SiteImagesDTO> imgsCarousel = new ArrayList<>();;
+	private List<SiteImagesDTO> imgs = null;
+	private List<SiteImagesDTO> imgsNewArrival = new ArrayList<>();;
+
+	public List<SiteImagesDTO> getImgsCarousel() {
+		if (imgsCarousel.isEmpty()) {
+			updateImgHome();
+		}
+		return imgsCarousel;
+	}
+
+	public List<SiteImagesDTO> getImgsNewArrival() {
+		if (imgsNewArrival.isEmpty()) {
+			updateImgHome();
+		}
+		return imgsNewArrival;
+
+	}
+
+	private final String IMG_NEW_ARRIVALS = "newArrivals";
+	private final String IMG_CAROUSEL = "carousel";
 
 	public List<MenuDTO> getMenu() {
-		if (menu.isEmpty())
-		{
-			menu=OthalaFactory.getProductServiceInstance().getMenu(OthalaUtil.getLang());
+		if (menu.isEmpty()) {
+			menu = OthalaFactory.getProductServiceInstance().getMenu(OthalaUtil.getLang());
 		}
-		
+
 		return menu;
 	}
 
 	public List<SelectItem> getBrands() {
 		if (brands.isEmpty()) {
-			
+
 			updateSelectItem();
 
 		}
@@ -47,7 +68,7 @@ public class ApplicationBean implements Serializable {
 
 	public List<SelectItem> getSizes() {
 		if (sizes.isEmpty()) {
-			
+
 			updateSelectItem();
 
 		}
@@ -56,7 +77,7 @@ public class ApplicationBean implements Serializable {
 
 	public List<SelectItem> getColors() {
 		if (colors.isEmpty()) {
-			
+
 			updateSelectItem();
 
 		}
@@ -74,11 +95,23 @@ public class ApplicationBean implements Serializable {
 		for (AttributeDTO att : domain.getSize()) {
 			sizes.add(new SelectItem(att.getAttributo(), att.getValore()));
 		}
-		
+
 		brands.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseBrand")));
 		for (AttributeDTO att : domain.getBrand()) {
 			brands.add(new SelectItem(att.getAttributo(), att.getValore()));
 		}
+	}
+
+	private void updateImgHome() {
+		imgs = OthalaFactory.getSiteImagesServiceInstance().listSiteImages();
+		for (SiteImagesDTO img : imgs) {
+			if (img.getTxGroupImages().trim().equalsIgnoreCase(IMG_NEW_ARRIVALS)) {
+				imgsNewArrival.add(img);
+			} else if (img.getTxGroupImages().trim().equalsIgnoreCase(IMG_CAROUSEL)) {
+				imgsCarousel.add(img);
+			}
+		}
+
 	}
 
 }
