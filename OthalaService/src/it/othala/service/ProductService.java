@@ -22,87 +22,6 @@ public class ProductService implements IProductService {
 	}
 
 	@Override
-	public List<ProductDTO> getListProduct(String languages, Integer type,
-			Integer gender, Integer brand, BigDecimal minPrice,
-			BigDecimal maxPrice, Integer size, Integer color,
-			Boolean newArrivals) {
-
-		List<ProductDTO> listProduct = productDAO.listProduct(languages, type,
-				gender, brand, minPrice, maxPrice, size, color, newArrivals);
-
-		// recupero attributi del prodotto
-		for (int i = 0; i <= listProduct.size() - 1; i++) {
-
-			List<AttributeDTO> listAttribute = productDAO.listProductAttribute(
-					languages.toString(), listProduct.get(i).getIdProduct());
-
-			for (int y = 0; y <= listAttribute.size() - 1; y++) {
-
-				if (listAttribute.get(y).getAttributo() == 1) {
-					listProduct.get(i).setGender(
-							listAttribute.get(y).getValore());
-				}
-
-				if (listAttribute.get(y).getAttributo() == 5) {
-					listProduct.get(i).setBrand(
-							listAttribute.get(y).getValore());
-				}
-
-				if (listAttribute.get(y).getAttributo() == 2) {
-					listProduct.get(i)
-							.setType(listAttribute.get(y).getValore());
-				}
-			}
-
-		}
-
-		// recupero attributo taglie degli articoli
-		for (int i = 0; i <= listProduct.size() - 1; i++) {
-
-			List<String> newString = productDAO.listDistinctArticleAttribute(
-					languages.toString(), listProduct.get(i).getIdProduct(),
-					new Integer(4));
-
-			listProduct.get(i).setSize(newString);
-
-		}
-
-		// recupero attributo colori degli articoli
-		for (int i = 0; i <= listProduct.size() - 1; i++) {
-
-			List<String> newString = productDAO.listDistinctArticleAttribute(
-					languages.toString(), listProduct.get(i).getIdProduct(),
-					new Integer(3));
-
-			listProduct.get(i).setColor(newString);
-
-		}
-
-		return listProduct;
-
-	}
-
-	@Override
-	public DomainDTO getDomain(String languages) {
-
-		List<AttributeDTO> listSize = productDAO.listDomain(languages, 4);
-		List<AttributeDTO> listColor = productDAO.listDomain(languages, 3);
-		List<AttributeDTO> listBrand = productDAO.listDomain(languages, 5);
-		List<AttributeDTO> listType = productDAO.listDomain(languages, 2);
-		List<AttributeDTO> listGender = productDAO.listDomain(languages, 1);
-
-		DomainDTO domainDTO = new DomainDTO();
-		domainDTO.setSize(listSize);
-		domainDTO.setColor(listColor);
-		domainDTO.setBrand(listBrand);
-		domainDTO.setGender(listGender);
-		domainDTO.setType(listType);
-
-		return domainDTO;
-
-	}
-
-	@Override
 	public List<MenuDTO> getMenu(String languages) {
 
 		List<MenuDTO> listMenu = productDAO.listMenu(languages);
@@ -119,6 +38,57 @@ public class ProductService implements IProductService {
 		return listMenu;
 
 	}
+
+	@Override
+	public List<ProductDTO> getListProduct(String languages, Integer gender,
+			Integer type, Integer brand, BigDecimal minPrice,
+			BigDecimal maxPrice, Integer size, Integer color,
+			Boolean newArrivals) {
+
+		List<ProductDTO> listProduct = productDAO.listProduct(languages, type,
+				gender, brand, minPrice, maxPrice, size, color, newArrivals);
+
+		// recupero attributo taglie degli articoli
+
+		for (int i = 0; i <= listProduct.size() - 1; i++) {
+
+			List<String> newString = productDAO
+					.listDistinctArticleSize(listProduct.get(i).getIdProduct());
+
+			listProduct.get(i).setSize(newString);
+
+		}
+
+		// recupero attributo colori degli articoli
+
+		for (int i = 0; i <= listProduct.size() - 1; i++) {
+
+			List<String> newString = productDAO.listDistinctArticleColor(
+					listProduct.get(i).getIdProduct(), languages.toString());
+
+			listProduct.get(i).setColor(newString);
+
+		}
+
+		return listProduct;
+
+	}
+
+	@Override
+	public DomainDTO getDomain(String languages) {
+
+		DomainDTO domainDTO = new DomainDTO();
+		domainDTO.setSize(productDAO.listSize());
+		domainDTO.setColor(productDAO.listColor(languages));
+		domainDTO.setBrand(productDAO.listBrand(languages));
+		domainDTO.setGender(productDAO.listGender(languages));
+		domainDTO.setType(productDAO.listType(languages));
+
+		return domainDTO;
+
+	}
+
+	/* */
 
 	@Override
 	public ProductFullDTO getProductFull(String languages, Integer idProduct) {
@@ -138,9 +108,10 @@ public class ProductService implements IProductService {
 		return productFull;
 	}
 
-	@Override
-	public Integer insertProduct(ProductFullDTO productFull) {
-		return productDAO.insertProduct(productFull);
-
-	}
+	
+	  @Override public Integer insertProduct(ProductFullDTO productFull) {
+	  return productDAO.insertProduct(productFull);
+	  
+	  }
+	 
 }

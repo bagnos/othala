@@ -2,6 +2,39 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="it.othala.product.queries">
 
+	<select id="listMenu" resultType="it.othala.dto.MenuDTO"
+		parameterType="java.util.HashMap">
+
+		SELECT a.idGender,
+		a.txGender
+		FROM
+		${database.schema}gender a
+		where a.idLanguages = #{languages};
+
+	</select>
+
+	<select id="listSubMenu" resultType="it.othala.dto.SubMenuDTO"
+		parameterType="java.util.HashMap">
+
+
+		SELECT idType, txType
+		FROM
+		${database.schema}type d
+		where
+		d.idLanguages = #{languages}
+		and exists
+		(select 1 from
+		${database.schema}product a
+		where
+		a.idProductState = 1
+		and
+		a.idType =
+		d.idType
+		and a.idGender = #{idMenu}
+		)
+
+
+	</select>
 
 
 	<select id="listProduct" resultType="it.othala.dto.ProductDTO"
@@ -10,25 +43,37 @@
 		SELECT
 		a.idProduct ,
 		imPrice as price,
-		txDescription as description,
-		txThumbnailsUrl as imagesUrl,
-		pcDiscount
-		as discount,
-		ceiling(imPrice *
-		(100 - pcDiscount) / 100) as
+		txBrand as brand,
+		txThumbnailsUrl
+		as imagesUrl,
+		ceiling(imPrice * (100 - pcDiscount) / 100) as
 		priceDiscounted,
+		txDescription as description,
+		txGender as gender,
+		txType as type,
+		pcDiscount as discount,
 		case
 		when a.dtProductState
-		> current_date - 7 then 'S'
+		>
+		current_date - 7 then 'S'
 		else 'N'
 		end as fgNewArrivals
 		FROM
+
 		${database.schema}product a,
-		${database.schema}product_description b
-		where a.idProduct = b.idProduct
+		${database.schema}product_description b,
+		${database.schema}brand c,
+		${database.schema}gender f,
+		`type` g
+		where
+		a.idProduct = b.idProduct
 		and b.idLanguages = #{languages}
 		and
 		a.idProductState = 1
+		and c.idBrand = a.idBrand
+		and f.idGender =
+		a.idGender
+		and g.idType = a.idType
 		and exists
 		(select 1 from
 		${database.schema}article
@@ -36,7 +81,9 @@
 		d.idProduct =
 		a.idProduct
 		and
-		d.qtStock > 0)
+		d.qtStock >
+		0)
+
 		<if test="minPrice != null">
 			and (imPrice * (100 - pcDiscount) / 100) &gt;= #{minPrice}
 		</if>
@@ -49,46 +96,25 @@
 		</if>
 
 		<if test="type != null">
-			and exists (select 1 from
-			${database.schema}product_attribute c where
-			c.idProduct =
-			a.idProduct
-			and c.idProductAttribute = 1
-			and
-			c.pgProductAttribute = #{type})
+			and a.idType = #{type}
 		</if>
 
 		<if test="gender != null">
-			and exists (select 1 from
-			${database.schema}product_attribute c where
-			c.idProduct =
-			a.idProduct
-			and c.idProductAttribute = 2
-			and
-			c.pgProductAttribute = #{gender})
+			and a.idGender = #{gender}
 		</if>
 
 		<if test="brand != null">
-			and exists (select 1 from
-			${database.schema}product_attribute c where
-			c.idProduct =
-			a.idProduct
-			and c.idProductAttribute = 5
-			and
-			c.pgProductAttribute = #{brand})
+			and a.idBrand = #{brand}
 		</if>
 
 		<if test="size != null">
 			and exists (select 1 from
-			${database.schema}article_attribute c,
 			${database.schema}article d
 			where
-			c.idProduct =
-			a.idProduct
-			and c.idProductAttribute = 4
+			a.idProduct =
+			d.idProduct
 			and
-			c.pgProductAttribute = #{size}
-			and d.idProduct = a.idProduct
+			d.idSize = #{size}
 			and
 			d.qtStock > 0
 			)
@@ -96,146 +122,108 @@
 
 		<if test="color != null">
 			and exists (select 1 from
-			${database.schema}article_attribute c,
 			${database.schema}article d
 			where
-			c.idProduct =
-			a.idProduct
-			and c.idProductAttribute = 3
+			a.idProduct =
+			d.idProduct
 			and
-			c.pgProductAttribute = #{color}
-			and d.idProduct = a.idProduct
+			d.idColor = #{color}
 			and
 			d.qtStock > 0
 			)
 		</if>
 
-
-
-
-
-
 	</select>
 
-	<select id="listArticleAttribute" resultType="String"
+	<select id="listDistinctArticleSize" resultType="String"
 		parameterType="java.util.HashMap">
 
-		SELECT txValore FROM ${database.schema}article_attribute
+
+		SELECT distinct(txSize) FROM ${database.schema}article
 		a,
-		${database.schema}valori_attributo c,
-		${database.schema}valori_attributo_languages d,
-		${database.schema}article e
-		where
-		a.idProductAttribute =
-		c.idProductAttribute
-		and a.pgProductAttribute =
-		c.pgProductAttribute
-		and
-		a.idProductAttribute = d.idProductAttribute
-		and
-		a.pgProductAttribute =
-		d.pgProductAttribute
+		${database.schema}size b
+		where a.idSize = b.idSize
 		and a.idProduct =
 		#{idProduct}
-		and
-		a.idProductAttribute = #{idProductAttribute}
-		and
-		d.idLanguages =
-		#{languages}
-		and e.idProduct = a.idProduct
-		and
-		e.qtStock > 0
+		and a.qtStock > 0
 
 	</select>
 
-	<select id="listDistinctArticleAttribute" resultType="String"
+
+	<select id="listDistinctArticleColor" resultType="String"
 		parameterType="java.util.HashMap">
 
-		SELECT distinct(txValore) FROM
-		${database.schema}article_attribute
+
+		SELECT distinct(txColor) FROM ${database.schema}article
 		a,
-		${database.schema}valori_attributo c,
-		${database.schema}valori_attributo_languages d,
-		${database.schema}article e
-		where
-		a.idProductAttribute =
-		c.idProductAttribute
-		and a.pgProductAttribute =
-		c.pgProductAttribute
-		and
-		a.idProductAttribute = d.idProductAttribute
-		and
-		a.pgProductAttribute =
-		d.pgProductAttribute
-		and a.idProduct =
-		#{idProduct}
-		and
-		a.idProductAttribute = #{idProductAttribute}
-		and
-		d.idLanguages =
-		#{languages}
-		and e.idProduct = a.idProduct
-		and
-		e.qtStock > 0
+		${database.schema}color b
+		where a.idColor = b.idColor
+		and a.idProduct
+		= #{idProduct}
+		and a.qtStock > 0
+		and b.idLanguages = #{languages}
 
 	</select>
 
-	<select id="getProductAttribute" resultType="String"
+
+	<select id="listSize" resultType="it.othala.dto.AttributeDTO">
+
+		SELECT idSize as
+		attributo,txSize as valore
+		FROM
+		${database.schema}size
+		order by 2
+
+	</select>
+
+	<select id="listColor" resultType="it.othala.dto.AttributeDTO"
 		parameterType="java.util.HashMap">
 
-		SELECT txValore FROM ${database.schema}product_attribute
-		a,
-		${database.schema}product b,
-		${database.schema}attribute e,
-		${database.schema}valori_attributo c,
-		${database.schema}valori_attributo_languages d
-		where a.idProduct =
-		b.idProduct
-		and a.idProductAttribute = c.idProductAttribute
-		and
-		a.pgProductAttribute = c.pgProductAttribute
-		and a.idProductAttribute =
-		d.idProductAttribute
-		and a.pgProductAttribute = d.pgProductAttribute
-		and a.idProduct = #{idProduct}
-		and d.idLanguages = #{languages}
-		and
-		a.idProductAttribute = #{idProductAttribute}
-		and e.idLanguages =
-		d.idLanguages
-		and e.idProductAttribute = a.idProductAttribute
+		SELECT idColor as attributo,txColor as valore
+		FROM
+		${database.schema}color d
+		where
+		idLanguages = #{languages}
+		order by 2
 
 	</select>
 
-	<select id="listProductAttribute" resultType="it.othala.dto.AttributeDTO"
+	<select id="listBrand" resultType="it.othala.dto.AttributeDTO"
 		parameterType="java.util.HashMap">
 
-		SELECT a.idProductAttribute as attributo,txValore as
-		valore
-		FROM ${database.schema}product_attribute a,
-		${database.schema}attribute e,
-		${database.schema}valori_attributo c,
-		${database.schema}valori_attributo_languages d
+		SELECT idBrand as attributo,txBrand as valore
+		FROM
+		${database.schema}brand d
 		where
-		a.idProductAttribute = c.idProductAttribute
-		and
-		a.pgProductAttribute =
-		c.pgProductAttribute
-		and a.idProductAttribute =
-		d.idProductAttribute
-		and
-		a.pgProductAttribute = d.pgProductAttribute
-		and a.idProduct =
-		#{idProduct}
-		and d.idLanguages = #{languages}
-		and
-		e.idLanguages =
-		d.idLanguages
-		and e.idProductAttribute =
-		a.idProductAttribute
-		
+		idLanguages = #{languages}
+		order by 2
 
 	</select>
+
+	<select id="listGender" resultType="it.othala.dto.AttributeDTO"
+		parameterType="java.util.HashMap">
+
+		SELECT idGender as attributo,txGender as valore
+		FROM
+		${database.schema}gender d
+		where
+		idLanguages = #{languages}
+		order by 2
+
+	</select>
+
+	<select id="listType" resultType="it.othala.dto.AttributeDTO"
+		parameterType="java.util.HashMap">
+
+		SELECT idType as attributo,txType as valore
+		FROM
+		${database.schema}type d
+		where
+		idLanguages = #{languages}
+		order by 2
+
+	</select>
+
 
 	<select id="listProductImages" resultType="String"
 		parameterType="java.util.HashMap">
@@ -246,68 +234,11 @@
 
 	</select>
 
-	<select id="listDomain" resultType="it.othala.dto.AttributeDTO"
-		parameterType="java.util.HashMap">
-
-		SELECT d.pgProductAttribute as attributo,txValore as
-		valore
-		FROM
-		${database.schema}valori_attributo_languages d
-		where
-		d.idLanguages = #{languages}
-		and d.idProductAttribute =
-		#{idProductAttribute}
-		order by 2
-
-	</select>
-
-	<select id="listMenu" resultType="it.othala.dto.MenuDTO"
-		parameterType="java.util.HashMap">
-
-		SELECT d.pgProductAttribute as idGender,txValore as
-		txGender
-		FROM
-		${database.schema}valori_attributo_languages d
-		where
-		d.idLanguages = #{languages}
-		and d.idProductAttribute = 1
-
-	</select>
-
-	<select id="listSubMenu" resultType="it.othala.dto.SubMenuDTO"
-		parameterType="java.util.HashMap">
-
-		SELECT d.pgProductAttribute as idType,txValore as
-		txType
-		FROM
-		${database.schema}valori_attributo_languages d
-		where
-		d.idLanguages =
-		#{languages}
-		and d.idProductAttribute = 2
-		and exists (select 1 from
-		product a,
-		product_attribute b,
-		product_attribute c
-		where
-		a.idProductState = 1
-		and a.idProduct = b.idProduct
-		and
-		b.idProductAttribute = 1
-		and b.pgProductAttribute = #{idMenu}
-		and
-		a.idProduct = c.idProduct
-		and c.idProductAttribute =
-		d.idProductAttribute
-		and c.pgProductAttribute = d.pgProductattribute)
-
-
-
-	</select>
 
 
 	<select id="getProductFull" resultType="it.othala.dto.ProductFullDTO"
 		parameterType="java.util.HashMap">
+
 
 		SELECT
 		a.idProduct as idProduct,
@@ -321,207 +252,97 @@
 		a.dtProductState >
 		current_date - 7 then 'S' else 'N' end as
 		fgNewArrivals,
-
-		gendera.idProductAttribute as idGender,
-		gendera.pgProductAttribute as
-		pgGender,
-		genderc.txAttributeName as
-		txDescGender,
-		genderd.txValore as
+		a.idGender,
 		txGender,
-
-		typea.idProductAttribute as
-		idType,
-		typea.pgProductAttribute as
-		pgType,
-		typec.txAttributeName as
-		txDescType,
-		typed.txValore as txType,
-
-		branda.idProductAttribute as
-		idBrand,
-		branda.pgProductAttribute as
-		pgBrand,
-		brandc.txAttributeName as
-		txDescBrand,
-		brandd.txValore as
+		a.idType,
+		txType,
+		a.idBrand,
 		txBrand
 
 		FROM
 		${database.schema}product a,
 		${database.schema}product_description b,
 
-		${database.schema}product_attribute gendera,
-		${database.schema}valori_attributo genderb,
-		${database.schema}attribute genderc,
-		${database.schema}valori_attributo_languages genderd,
-
-		${database.schema}product_attribute typea,
-		${database.schema}valori_attributo typeb,
-		${database.schema}attribute
-		typec,
-		${database.schema}valori_attributo_languages typed,
-
-		${database.schema}product_attribute branda,
-		${database.schema}valori_attributo brandb,
-		${database.schema}attribute
-		brandc,
-		${database.schema}valori_attributo_languages brandd
+		${database.schema}gender c,
+		${database.schema}type d,
+		${database.schema}brand e
 
 		where
 		a.idProduct = #{idProduct}
-		and a.idProduct = b.idProduct
+		and
+		a.idProduct = b.idProduct
 		and
 		b.idLanguages = #{languages}
-
-		and gendera.idProduct = a.idProduct
+		and a.idType =
+		d.idType
+		and a.idGender = c.idGender
+		and a.idBrand = e.idBrand
 		and
-		gendera.idProductAttribute = 1
-		and genderb.idProductAttribute =
-		gendera.idProductAttribute
-		and genderb.pgProductAttribute =
-		gendera.pgProductAttribute
-		and genderb.idProductAttribute =
-		genderc.idProductAttribute
-		and genderd.idProductAttribute =
-		genderb.idProductAttribute
-		and genderd.pgProductAttribute =
-		genderb.pgProductAttribute
-		and genderd.idLanguages = b.idLanguages
-
+		d.idLanguages = b.idLanguages
+		and c.idLanguages = b.idLanguages
 		and
-		typea.idProduct = a.idProduct
-		and typea.idProductAttribute = 2
-		and
-		typeb.idProductAttribute = typea.idProductAttribute
-		and
-		typeb.pgProductAttribute = typea.pgProductAttribute
-		and
-		typeb.idProductAttribute = typec.idProductAttribute
-		and
-		typed.idProductAttribute = typeb.idProductAttribute
-		and
-		typed.pgProductAttribute = typeb.pgProductAttribute
-		and
-		typed.idLanguages = b.idLanguages
-
-		and branda.idProduct = a.idProduct
-		and branda.idProductAttribute = 5
-		and brandb.idProductAttribute =
-		branda.idProductAttribute
-		and brandb.pgProductAttribute =
-		branda.pgProductAttribute
-		and brandb.idProductAttribute =
-		brandc.idProductAttribute
-		and brandd.idProductAttribute =
-		brandb.idProductAttribute
-		and brandd.pgProductAttribute =
-		brandb.pgProductAttribute
-		and brandd.idLanguages = b.idLanguages
+		e.idLanguages = b.idLanguages
 
 
 	</select>
 
+
+
+
 	<select id="listArticleFull" resultType="it.othala.dto.ArticleFullDTO"
 		parameterType="java.util.HashMap">
+
 
 		SELECT
 		a.pgArticle as pgArticle,
 		a.qtStock as qtStock,
 
-		sizea.idProductAttribute as idSize,
-		sizea.pgProductAttribute as pgSize,
-		sizec.txAttributeName as txDescSize,
-		sized.txValore as txSize,
+		a.idSize,
 
-		colora.idProductAttribute as idColor,
-		colora.pgProductAttribute as
-		pgColor,
-		colorc.txAttributeName as txDescColor,
-		colord.txValore as
+		txSize,
+
+		a.idColor,
+
 		txColor
 
 
 		FROM
 		${database.schema}article a,
-
-		${database.schema}article_attribute sizea,
-		${database.schema}valori_attributo sizeb,
-		${database.schema}attribute
-		sizec,
-		${database.schema}valori_attributo_languages sized,
-
-		${database.schema}article_attribute colora,
-		${database.schema}valori_attributo colorb,
-		${database.schema}attribute
-		colorc,
-		${database.schema}valori_attributo_languages colord
+		${database.schema}size b,
+		${database.schema}color c
 
 
 		where
 		a.idProduct = #{idProduct}
+		and a.idSize = b.idSize
+		and c.idColor = a.idColor
+		and c.idLanguages = #{languages}
 
-		and sizea.idProduct =
-		a.idProduct
-		and
-		sizea.idProductAttribute = 4
-		and
-		sizeb.idProductAttribute =
-		sizea.idProductAttribute
-		and a.pgArticle =
-		sizea.pgArticle
-		and
-		sizeb.pgProductAttribute = sizea.pgProductAttribute
-		and
-		sizeb.idProductAttribute = sizec.idProductAttribute
-		and
-		sized.idProductAttribute = sizeb.idProductAttribute
-		and
-		sized.pgProductAttribute = sizeb.pgProductAttribute
-		and
-		sized.idLanguages = #{languages}
-
-		and colora.idProduct = a.idProduct
-		and
-		colora.idProductAttribute = 3
-		and colorb.idProductAttribute =
-		colora.idProductAttribute
-		and a.pgArticle = colora.pgArticle
-		and
-		colorb.pgProductAttribute = colora.pgProductAttribute
-		and
-		colorb.idProductAttribute = colorc.idProductAttribute
-		and
-		colord.idProductAttribute = colorb.idProductAttribute
-		and
-		colord.pgProductAttribute = colorb.pgProductAttribute
-		and
-		colord.idLanguages = sized.idLanguages
 
 	</select>
 
 
 
-	<insert id="insertProduct"   parameterType="it.othala.dto.ProductFullDTO">
+	<insert id="insertProduct" parameterType="it.othala.dto.ProductFullDTO">
 
 
-        
+
 		INSERT INTO
 		${database.schema}product
 		(`imPrice`,`pcDiscount`,`idProductState`,`dtProductState`,`txThumbnailsUrl`)
 		values (
 		#{price},#{discount},1,now(),#{thumbnailsUrl})
-		
-        		<selectKey resultType="java.lang.Integer" keyProperty="idProduct" >
 
-            SELECT LAST_INSERT_ID() AS idProduct
+		<selectKey resultType="java.lang.Integer" keyProperty="idProduct">
 
-        </selectKey>
-		
-		
-		
+			SELECT LAST_INSERT_ID() AS idProduct
 
-    </insert>
+		</selectKey>
+
+
+
+
+	</insert>
 
 
 	<insert id="insertProductDescription" parameterType="java.util.HashMap">
@@ -576,7 +397,8 @@
 
 	<insert id="insertProductImage" parameterType="java.util.HashMap">
 
-		INSERT INTO ${database.schema}product_image
+		INSERT INTO
+		${database.schema}product_image
 		(`idProduct`,
 		`pgImage`,
 		`txImageUrl`)

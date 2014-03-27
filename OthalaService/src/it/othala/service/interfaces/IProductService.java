@@ -10,17 +10,18 @@ import java.util.List;
 
 public interface IProductService {
 
-	public List<ProductDTO> getListProduct(String languages, Integer type,
-			Integer gender, Integer brand, BigDecimal minPrice,
+	public List<ProductDTO> getListProduct(String languages, Integer gender,
+			Integer type, Integer brand, BigDecimal minPrice,
 			BigDecimal maxPrice, Integer size, Integer color,
 			Boolean newArrivals);
 
 	public DomainDTO getDomain(String languages);
 
 	public List<MenuDTO> getMenu(String languages);
-	
+
 	public ProductFullDTO getProductFull(String languages, Integer idProduct);
 
-	public Integer insertProduct(ProductFullDTO productFull);
-
+	
+	 public Integer insertProduct(ProductFullDTO productFull);
+	
 }

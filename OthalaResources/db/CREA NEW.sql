@@ -34,23 +34,83 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `othala`.`Gender`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `othala`.`Gender` ;
+
+CREATE  TABLE IF NOT EXISTS `othala`.`Gender` (
+  `idGender` INT NOT NULL ,
+  `idLanguages` VARCHAR(2) NOT NULL ,
+  `txGender` VARCHAR(200) NULL ,
+  PRIMARY KEY (`idGender`, `idLanguages`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `othala`.`Type`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `othala`.`Type` ;
+
+CREATE  TABLE IF NOT EXISTS `othala`.`Type` (
+  `idType` INT NOT NULL ,
+  `idLanguages` VARCHAR(2) NOT NULL ,
+  `txType` VARCHAR(200) NULL ,
+  PRIMARY KEY (`idType`, `idLanguages`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `othala`.`Brand`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `othala`.`Brand` ;
+
+CREATE  TABLE IF NOT EXISTS `othala`.`Brand` (
+  `idBrand` INT NOT NULL ,
+  `idLanguages` VARCHAR(2) NOT NULL ,
+  `txBrand` VARCHAR(200) NULL ,
+  PRIMARY KEY (`idBrand`, `idLanguages`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `othala`.`Product`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `othala`.`Product` ;
 
 CREATE  TABLE IF NOT EXISTS `othala`.`Product` (
   `idProduct` INT NOT NULL AUTO_INCREMENT ,
+  `idGender` INT NULL ,
+  `idType` INT NULL ,
+  `idBrand` INT NULL ,
   `imPrice` DECIMAL(15) NULL ,
   `pcDiscount` INT NULL ,
+  `txThumbnailsUrl` VARCHAR(100) NULL ,
   `idProductState` INT NULL ,
   `dtProductState` DATETIME NULL ,
-  `txThumbnailsUrl` VARCHAR(100) NULL ,
   PRIMARY KEY (`idProduct`) ,
   INDEX `idProduct_INDEX1` (`idProduct` ASC) ,
   INDEX `fk_Product_Product_State1` (`idProductState` ASC) ,
+  INDEX `fk_Product_Gender1` (`idGender` ASC) ,
+  INDEX `fk_Product_Type1` (`idType` ASC) ,
+  INDEX `fk_Product_Brand1` (`idBrand` ASC) ,
   CONSTRAINT `fk_Product_Product_State1`
     FOREIGN KEY (`idProductState` )
     REFERENCES `othala`.`Product_State` (`idProductState` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Product_Gender1`
+    FOREIGN KEY (`idGender` )
+    REFERENCES `othala`.`Gender` (`idGender` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Product_Type1`
+    FOREIGN KEY (`idType` )
+    REFERENCES `othala`.`Type` (`idType` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Product_Brand1`
+    FOREIGN KEY (`idBrand` )
+    REFERENCES `othala`.`Brand` (`idBrand` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -205,6 +265,31 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `othala`.`Size`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `othala`.`Size` ;
+
+CREATE  TABLE IF NOT EXISTS `othala`.`Size` (
+  `idSize` INT NOT NULL ,
+  `txSize` VARCHAR(10) NULL ,
+  PRIMARY KEY (`idSize`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `othala`.`Color`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `othala`.`Color` ;
+
+CREATE  TABLE IF NOT EXISTS `othala`.`Color` (
+  `idColor` INT NOT NULL ,
+  `idLanguages` VARCHAR(2) NOT NULL ,
+  `txColor` VARCHAR(200) NULL ,
+  PRIMARY KEY (`idColor`, `idLanguages`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `othala`.`Article`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `othala`.`Article` ;
@@ -212,37 +297,25 @@ DROP TABLE IF EXISTS `othala`.`Article` ;
 CREATE  TABLE IF NOT EXISTS `othala`.`Article` (
   `idProduct` INT NOT NULL ,
   `pgArticle` INT NOT NULL ,
+  `idSize` INT NULL ,
+  `idColor` INT NULL ,
   `qtStock` INT NULL ,
   PRIMARY KEY (`idProduct`, `pgArticle`) ,
+  INDEX `fk_Article_Size1` (`idSize` ASC) ,
+  INDEX `fk_Article_Color1` (`idColor` ASC) ,
   CONSTRAINT `fk_Article_Product1`
     FOREIGN KEY (`idProduct` )
     REFERENCES `othala`.`Product` (`idProduct` )
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `othala`.`Article_Attribute`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `othala`.`Article_Attribute` ;
-
-CREATE  TABLE IF NOT EXISTS `othala`.`Article_Attribute` (
-  `idProduct` INT NOT NULL ,
-  `pgArticle` INT NOT NULL ,
-  `idProductAttribute` INT NOT NULL ,
-  `pgProductAttribute` INT NOT NULL ,
-  PRIMARY KEY (`idProduct`, `pgArticle`, `idProductAttribute`, `pgProductAttribute`) ,
-  INDEX `fk_Article_Attribute_Article1` (`idProduct` ASC, `pgArticle` ASC) ,
-  INDEX `fk_Article_Attribute_Valori_Attributo1` (`idProductAttribute` ASC, `pgProductAttribute` ASC) ,
-  CONSTRAINT `fk_Article_Attribute_Article1`
-    FOREIGN KEY (`idProduct` , `pgArticle` )
-    REFERENCES `othala`.`Article` (`idProduct` , `pgArticle` )
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Article_Size1`
+    FOREIGN KEY (`idSize` )
+    REFERENCES `othala`.`Size` (`idSize` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Article_Attribute_Valori_Attributo1`
-    FOREIGN KEY (`idProductAttribute` , `pgProductAttribute` )
-    REFERENCES `othala`.`Valori_Attributo` (`idProductAttribute` , `pgProductAttribute` )
+  CONSTRAINT `fk_Article_Color1`
+    FOREIGN KEY (`idColor` )
+    REFERENCES `othala`.`Color` (`idColor` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -461,6 +534,45 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Site_Images` (
   `txLibrary` VARCHAR(45) NULL ,
   `txName` VARCHAR(45) NULL ,
   PRIMARY KEY (`idsiteImages`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `othala`.`Type`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `othala`.`Type` ;
+
+CREATE  TABLE IF NOT EXISTS `othala`.`Type` (
+  `idType` INT NOT NULL ,
+  `idLanguages` VARCHAR(2) NOT NULL ,
+  `txType` VARCHAR(200) NULL ,
+  PRIMARY KEY (`idType`, `idLanguages`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `othala`.`Color`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `othala`.`Color` ;
+
+CREATE  TABLE IF NOT EXISTS `othala`.`Color` (
+  `idColor` INT NOT NULL ,
+  `idLanguages` VARCHAR(2) NOT NULL ,
+  `txColor` VARCHAR(200) NULL ,
+  PRIMARY KEY (`idColor`, `idLanguages`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `othala`.`Brand`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `othala`.`Brand` ;
+
+CREATE  TABLE IF NOT EXISTS `othala`.`Brand` (
+  `idBrand` INT NOT NULL ,
+  `idLanguages` VARCHAR(2) NOT NULL ,
+  `txBrand` VARCHAR(200) NULL ,
+  PRIMARY KEY (`idBrand`, `idLanguages`) )
 ENGINE = InnoDB;
 
 

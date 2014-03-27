@@ -25,8 +25,8 @@ import javax.inject.Named;
 public class CartFlowView extends BaseView {
 
 	private final Integer ITEMS_PAGE = 20;
-	private int priceMin = 100;
-	private int priceMax = 1000;
+	private int priceMin = 1;
+	private int priceMax = 5000;
 	private int starIndex = 0;
 	private int endIndex = 0;
 	private String classForw;
