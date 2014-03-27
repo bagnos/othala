@@ -218,30 +218,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 					"it.othala.product.queries.insertProductDescription", map2);
 		}
 
-		HashMap<String, Object> map3 = new HashMap<>();
-		map3.put("idProduct", productFull.getIdProduct());
-		map3.put("idProductAttribute", productFull.getIdGender());
-
-
-		getSqlSession().insert(
-				"it.othala.product.queries.insertProductAttribute", map3);
-
-		map3.clear();
-		map3.put("idProduct", productFull.getIdProduct());
-		map3.put("idProductAttribute", productFull.getIdType());
-
-
-		getSqlSession().insert(
-				"it.othala.product.queries.insertProductAttribute", map3);
-
-		map3.clear();
-		map3.put("idProduct", productFull.getIdProduct());
-		map3.put("idProductAttribute", productFull.getIdBrand());
-
-
-		getSqlSession().insert(
-				"it.othala.product.queries.insertProductAttribute", map3);
-
+	
 		HashMap<String, Object> map4 = new HashMap<>();
 
 		for (int i = 0; i <= productFull.getArticles().size() - 1; i++) {
@@ -249,34 +226,14 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 			map4.put("idProduct", productFull.getIdProduct());
 			map4.put("pgArticle", productFull.getArticles().get(i)
 					.getPgArticle());
+			map4.put("idSize", productFull.getArticles().get(i)
+					.getIdSize());
+			map4.put("idColor", productFull.getArticles().get(i)
+					.getIdColor());
 			map4.put("qtStock", productFull.getArticles().get(i).getQtStock());
 
 			getSqlSession().insert("it.othala.product.queries.insertArticle",
 					map4);
-
-			map4.clear();
-
-			map4.put("idProduct", productFull.getIdProduct());
-			map4.put("pgArticle", productFull.getArticles().get(i)
-					.getPgArticle());
-			map4.put("idProductAttribute", productFull.getArticles().get(i)
-					.getIdSize());
-
-
-			getSqlSession().insert(
-					"it.othala.product.queries.insertArticleAttribute", map4);
-
-			map4.clear();
-
-			map4.put("idProduct", productFull.getIdProduct());
-			map4.put("pgArticle", productFull.getArticles().get(i)
-					.getPgArticle());
-			map4.put("idProductAttribute", productFull.getArticles().get(i)
-					.getIdColor());
-
-
-			getSqlSession().insert(
-					"it.othala.product.queries.insertArticleAttribute", map4);
 
 		}
 

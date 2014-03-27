@@ -1,8 +1,4 @@
-		
-		
-		
-		
-		private void insertProduct()
+	private void insertProduct()
 	{
 				
 		ProductFullDTO a = new ProductFullDTO();
@@ -22,30 +18,26 @@
 		a.setLangDescription(c);
 		
 		/**/a.setIdGender(1);
-		/**/a.setPgGender(1);
 		/**/a.setIdBrand(5);
-		/**/a.setPgBrand(1);
-		/**/a.setIdType(2);
-		/**/a.setPgType(21);
+		/**/a.setIdType(21);
 		
 		ArticleFullDTO d = new ArticleFullDTO();
 		List<ArticleFullDTO> e = new ArrayList<ArticleFullDTO>();
 		
 		/**/d.setPgArticle(1);
 		/**/d.setQtStock(2);
-		/**/d.setIdSize(4);
-		/**/d.setPgSize(17);
-		/**/d.setIdColor(3);
-		/**/d.setPgColor(4);
+		/**/d.setIdSize(17);
+
+		/**/d.setIdColor(4);
+
 		
 		ArticleFullDTO f = new ArticleFullDTO();
 		
 		/**/f.setPgArticle(2);
 		/**/f.setQtStock(2);
-		/**/f.setIdSize(4);
-		/**/f.setPgSize(18);
-		/**/f.setIdColor(3);
-		/**/f.setPgColor(4);
+		/**/f.setIdSize(18);
+		/**/f.setIdColor(4);
+
 		
 		e.add(d);
 		e.add(f);
