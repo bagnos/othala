@@ -100,7 +100,7 @@
 									<div class="col-sm-6">
 										<div class="form-group">
 											<h:outputText value="#{msg.catalog_color}" />
-											<h:selectOneMenu styleClass="form-control" id="lst-color"
+											<h:selectOneMenu disabled="#{cartChoice2View.colorItems.size()==0}" styleClass="form-control" id="lst-color"
 												value="#{cartChoice2View.idColor}">
 												<f:selectItems value="#{cartChoice2View.colorItems}"></f:selectItems>
 											</h:selectOneMenu>

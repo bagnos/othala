@@ -94,6 +94,7 @@ public class CartChoice2View extends BaseView {
 
 		colorItems = new ArrayList<>();
 		colorItems.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseColor")));
+		/*
 		for (ArticleFullDTO art : prdFull.getArticles()) {
 			boolean found = false;
 			for (SelectItem item : colorItems) {
@@ -107,7 +108,7 @@ public class CartChoice2View extends BaseView {
 
 			}
 
-		}
+		}*/
 
 		return null;
 	}
@@ -120,6 +121,11 @@ public class CartChoice2View extends BaseView {
 				if (art.getIdSize().intValue() == idSize.intValue())
 					colorItems.add(new SelectItem(art.getTxColor(), art.getTxColor()));
 			}
+		}
+		else
+		{
+			colorItems = new ArrayList<>();
+			colorItems.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseColor")));
 		}
 	}
 

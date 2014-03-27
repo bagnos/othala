@@ -98,6 +98,8 @@ form-titoli {
 .breadcrumb {
 	margin-top: 10px;
 	font-size: 10px;
+	float: right !important;
+	background-color: transparent !important;
 }
 
 .breadcrumb>li+li:before {
