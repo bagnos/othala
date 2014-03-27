@@ -11,12 +11,9 @@ import it.othala.web.utils.OthalaUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import org.apache.xmlbeans.impl.common.IdentityConstraint.IdState;
 
 @Named
 @javax.faces.view.ViewScoped
@@ -121,8 +118,20 @@ public class CartChoice2View extends BaseView {
 			colorItems.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseColor")));
 			for (ArticleFullDTO art : prdFull.getArticles()) {
 				if (art.getIdSize().intValue() == idSize.intValue())
-					colorItems.add(new SelectItem(art.getTxColor(), art.getTxColor()));
+					colorItems.add(new SelectItem(art.getTxColor(), art.getTxColor()));					
 			}
 		}
+	}
+	
+	public String addCart()
+	{
+		//si recupera l'articolo selezionato
+		
+		for (ArticleFullDTO art : prdFull.getArticles()) {
+			if (art.getIdSize().intValue() == idSize.intValue())
+				colorItems.add(new SelectItem(art.getTxColor(), art.getTxColor()));					
+		}
+		
+		return null;
 	}
 }

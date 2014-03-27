@@ -1,5 +1,6 @@
 package it.othala.cartflow.model;
 
+import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.ProductDTO;
 import it.othala.dto.ProductFullDTO;
 
@@ -24,22 +25,29 @@ public class CartFlowBean implements Serializable {
 	private List<ProductDTO> articlesPage;
 	private List<String> breadCrumb = new ArrayList<>();
 	private ProductFullDTO detailProductFull;
-	
+
 	private Integer currentPage = null;
 	private Integer totPages = null;
 	private boolean renderPaginator;
 	private Integer idMenu;
 	private Integer idSubMenu;
-	private Boolean fgNewArrivals;	
+	private Boolean fgNewArrivals;
 	private Integer brand;
 	private Integer color;
 	private Integer size;
 	private Integer priceMin = 100;
 	private Integer priceMax = 1000;
 
-	
-	
-	
+	private ArticleFullDTO articleSel;
+
+	public ArticleFullDTO getArticleSel() {
+		return articleSel;
+	}
+
+	public void setArticleSel(ArticleFullDTO articleSel) {
+		this.articleSel = articleSel;
+	}
+
 	public Integer getPriceMin() {
 		return priceMin;
 	}
@@ -81,7 +89,7 @@ public class CartFlowBean implements Serializable {
 	}
 
 	public Integer getCurrentPage() {
-		
+
 		return currentPage;
 	}
 
