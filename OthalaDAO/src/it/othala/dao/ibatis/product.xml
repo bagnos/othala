@@ -313,10 +313,12 @@
 
 
 		where
-		a.idProduct = #{idProduct}
+		a.idProduct =
+		#{idProduct}
 		and a.idSize = b.idSize
 		and c.idColor = a.idColor
-		and c.idLanguages = #{languages}
+		and
+		c.idLanguages = #{languages}
 
 
 	</select>
@@ -329,9 +331,17 @@
 
 		INSERT INTO
 		${database.schema}product
-		(`imPrice`,`pcDiscount`,`idProductState`,`dtProductState`,`txThumbnailsUrl`)
-		values (
-		#{price},#{discount},1,now(),#{thumbnailsUrl})
+		(`idGender`,
+		`idType`,
+		`idBrand`,
+		`imPrice`,
+		`pcDiscount`,
+		`txThumbnailsUrl`,
+		`idProductState`,
+		`dtProductState`)
+
+		values (#{idGender},#{idType},#{idBrand},
+		#{price},#{discount},#{thumbnailsUrl},1,now())
 
 		<selectKey resultType="java.lang.Integer" keyProperty="idProduct">
 
@@ -355,18 +365,6 @@
 
 	</insert>
 
-	<insert id="insertProductAttribute" parameterType="java.util.HashMap">
-		INSERT INTO
-		${database.schema}product_attribute
-		(`idProduct`,
-		`idProductAttribute`,
-		`pgProductAttribute`)
-		VALUES
-		(#{idProduct},
-		#{idProductAttribute},#{pgProductAttribute});
-
-
-	</insert>
 
 	<insert id="insertArticle" parameterType="java.util.HashMap">
 
@@ -374,26 +372,15 @@
 		${database.schema}article
 		(`idProduct`,
 		`pgArticle`,
+		`idSize`,
+		`idColor`,
 		`qtStock`)
 		VALUES
-		(#{idProduct}, #{pgArticle},#{qtStock});
+		(#{idProduct}, #{pgArticle},#{idSize},#{idColor},#{qtStock});
 
 
 	</insert>
 
-	<insert id="insertArticleAttribute" parameterType="java.util.HashMap">
-		INSERT INTO
-		${database.schema}article_attribute
-		(`idProduct`,
-		`pgArticle`,
-		`idProductAttribute`,
-		`pgProductAttribute`)
-		VALUES
-		(#{idProduct},
-		#{pgArticle},#{idProductAttribute},#{pgProductAttribute});
-
-
-	</insert>
 
 	<insert id="insertProductImage" parameterType="java.util.HashMap">
 
