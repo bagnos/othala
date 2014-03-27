@@ -18,7 +18,10 @@
 
 	<ui:define name="content">
 		<h:form prependId="false">
+		
 			<div class="container">
+
+				<!-- BREADCRUMB -->
 				<div class="row">
 					<ol class="breadcrumb breadcrumbLink" style="margin-top: 10px">
 						<ui:repeat var="bread" value="#{cartChoice2View.flowBean.breadCrumb}" varStatus="stBread">
@@ -35,13 +38,15 @@
 				</div>
 
 				<div class="row">
+					<!-- IMMAGINE PRINCIPALE E GALLERIA -->
 					<div class="col-sm-6">
 						<p:galleria value="#{cartChoice2View.flowBean.detailProductFull.imagesUrl}" var="image"
 							panelWidth="500" panelHeight="543" showCaption="false">
 							<p:graphicImage library="images/cartThumbinals" name="#{image}" />
 						</p:galleria>
 					</div>
-					<div class="col-sm-4">
+					<!-- DESCRZIONE ARTICOLE, TAGLIE E COLORI -->
+					<div class="col-sm-5">
 						<div class="well articolo">
 
 							<h4>#{cartChoice2View.flowBean.detailProductFull.txBrand}</h4>
@@ -49,7 +54,7 @@
 
 
 							<div class="row">
-								<div class="col-sm-4">
+								<div class="col-sm-3">
 									<a class="btn-xs btn-block btn-social btn-facebook">
 										<i class="fa fa-facebook"></i> #{msg.catalog_facebookLikeIt}
 									</a>
@@ -57,30 +62,58 @@
 							</div>
 
 							<br />
-							<p>
-								<h:outputText value="#{cartChoice2View.flowBean.detailProductFull.price}"
-									styleClass="#{cartChoice2View.flowBean.detailProductFull.priceDiscounted!=null?'onSale':''}">
-									<f:converter converterId="it.othala.BigDecimalConverter" />
-								</h:outputText>
+							<div class="row">
+								<div class="col-sm-3">
+									<h:outputText value="#{cartChoice2View.flowBean.detailProductFull.price}"
+										styleClass="#{cartChoice2View.flowBean.detailProductFull.priceDiscounted!=null?'onSale':''}">
+										<f:converter converterId="it.othala.BigDecimalConverter" />
+									</h:outputText>
+								</div>
 
-								<h:outputText value="#{cartChoice2View.flowBean.detailProductFull.priceDiscounted}"
-									rendered="#{cartChoice2View.flowBean.detailProductFull.priceDiscounted!=null}"
-									style="float:right">
-									<f:converter converterId="it.othala.BigDecimalConverter" />
-								</h:outputText>
-							</p>
-							<h6>#{msg.catalog_notesDelivery}</h6>
+								<div class="col-sm-3">
+									<h:outputText value="#{cartChoice2View.flowBean.detailProductFull.priceDiscounted}"
+										rendered="#{cartChoice2View.flowBean.detailProductFull.priceDiscounted!=null}">
+										<f:converter converterId="it.othala.BigDecimalConverter" />
+									</h:outputText>
+								</div>
+							</div>
+
 							<br />
+							<div class="row">
+								<div class="col-sm-12">
+									<h6>#{msg.catalog_notesDelivery}</h6>
+								</div>
+							</div>
+
+							<br />
+							<h:panelGroup id="pnl-scelte">
+								<div class="row">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<h:outputText value="#{msg.catalog_size}" />
+											<h:selectOneMenu id="selSize" styleClass="form-control" value="#{cartChoice2View.idSize}">
+												<f:selectItems value="#{cartChoice2View.sizeItems}"></f:selectItems>
+												<f:ajax listener="#{cartChoice2View.changeSize}" execute="@form" render="lst-color" ></f:ajax>
+											</h:selectOneMenu>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<h:outputText value="#{msg.catalog_color}" />
+											<h:selectOneMenu styleClass="form-control" id="lst-color"
+												value="#{cartChoice2View.idColor}">
+												<f:selectItems value="#{cartChoice2View.colorItems}"></f:selectItems>
+											</h:selectOneMenu>
+										</div>
+									</div>
+								</div>
+							</h:panelGroup>
 
 
-							<p>
-								<h:selectOneMenu styleClass="form-control" value="#{cartChoice2View.articleSel}">
-									<f:selectItems value="#{cartChoice2View.sizeItems}"></f:selectItems>
-								</h:selectOneMenu>
-							</p>
 						</div>
+
 						<div>
-							<p:commandButton styleClass="ui-priority-primary" ajax="false" action="cart-confirmation" 
+							<p:commandButton styleClass="ui-priority-primary" ajax="false" action="cart-confirmation"
 								value="#{msg.catalog_addToCart}">
 
 							</p:commandButton>
