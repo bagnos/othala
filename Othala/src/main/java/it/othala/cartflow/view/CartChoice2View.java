@@ -118,20 +118,19 @@ public class CartChoice2View extends BaseView {
 			colorItems.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseColor")));
 			for (ArticleFullDTO art : prdFull.getArticles()) {
 				if (art.getIdSize().intValue() == idSize.intValue())
-					colorItems.add(new SelectItem(art.getTxColor(), art.getTxColor()));					
+					colorItems.add(new SelectItem(art.getTxColor(), art.getTxColor()));
 			}
 		}
 	}
-	
-	public String addCart()
-	{
-		//si recupera l'articolo selezionato
-		
+
+	public String addCart() {
+		// si recupera l'articolo selezionato
+
 		for (ArticleFullDTO art : prdFull.getArticles()) {
-			if (art.getIdSize().intValue() == idSize.intValue())
-				colorItems.add(new SelectItem(art.getTxColor(), art.getTxColor()));					
+			if (art.getIdSize().intValue() == idSize.intValue() && art.getIdColor().intValue() == idColor.intValue())
+				flowBean.setArticleSel(art);
 		}
-		
-		return null;
+
+		return "cart-confirmation";
 	}
 }
