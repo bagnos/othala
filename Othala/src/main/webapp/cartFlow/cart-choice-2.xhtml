@@ -93,7 +93,7 @@
 											<h:outputText value="#{msg.catalog_size}" />
 											<h:selectOneMenu id="selSize" styleClass="form-control" value="#{cartChoice2View.idSize}">
 												<f:selectItems value="#{cartChoice2View.sizeItems}"></f:selectItems>
-												<f:ajax listener="#{cartChoice2View.changeSize}" execute="@form" render="lst-color" ></f:ajax>
+												<f:ajax execute="@form" render="lst-color" ></f:ajax>
 											</h:selectOneMenu>
 										</div>
 									</div>
