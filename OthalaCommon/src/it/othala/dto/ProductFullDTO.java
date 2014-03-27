@@ -19,18 +19,12 @@ public class ProductFullDTO implements Serializable {
 	private String thumbnailsUrl;
 
 	private Integer idGender;
-	private Integer pgGender;
-	private String txDescGender;
 	private String txGender;
 
 	private Integer idType;
-	private Integer pgType;
-	private String txDescType;
 	private String txType;
 
 	private Integer idBrand;
-	private Integer pgBrand;
-	private String txDescBrand;
 	private String txBrand;
 
 	private List<DescriptionDTO> langDescription;
@@ -89,14 +83,7 @@ public class ProductFullDTO implements Serializable {
 		this.idGender = idGender;
 	}
 
-	public Integer getPgGender() {
-		return pgGender;
-	}
-
-	public void setPgGender(Integer pgGender) {
-		this.pgGender = pgGender;
-	}
-
+	
 	public String getTxGender() {
 		return txGender;
 	}
@@ -113,13 +100,7 @@ public class ProductFullDTO implements Serializable {
 		this.idType = idType;
 	}
 
-	public Integer getPgType() {
-		return pgType;
-	}
-
-	public void setPgType(Integer pgType) {
-		this.pgType = pgType;
-	}
+	
 
 	public String getTxType() {
 		return txType;
@@ -137,14 +118,7 @@ public class ProductFullDTO implements Serializable {
 		this.idBrand = idBrand;
 	}
 
-	public Integer getPgBrand() {
-		return pgBrand;
-	}
-
-	public void setPgBrand(Integer pgBrand) {
-		this.pgBrand = pgBrand;
-	}
-
+	
 	public String getTxBrand() {
 		return txBrand;
 	}
@@ -170,29 +144,7 @@ public class ProductFullDTO implements Serializable {
 		this.fgNewArrivals = fgNewArrivals;
 	}
 
-	public String getTxDescGender() {
-		return txDescGender;
-	}
-
-	public void setTxDescGender(String txDescGender) {
-		this.txDescGender = txDescGender;
-	}
-
-	public String getTxDescType() {
-		return txDescType;
-	}
-
-	public void setTxDescType(String txDescType) {
-		this.txDescType = txDescType;
-	}
-
-	public String getTxDescBrand() {
-		return txDescBrand;
-	}
-
-	public void setTxDescBrand(String txDescBrand) {
-		this.txDescBrand = txDescBrand;
-	}
+	
 
 	public String getThumbnailsUrl() {
 		return thumbnailsUrl;

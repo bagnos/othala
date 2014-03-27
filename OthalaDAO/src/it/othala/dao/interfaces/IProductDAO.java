@@ -13,33 +13,35 @@ import java.util.List;
 public interface IProductDAO {
 
 
-	public ProductFullDTO getProductFull(String languages, Integer idProduct);
-
-	public Integer insertProduct(ProductFullDTO productFull);
+	public List<MenuDTO> listMenu(String languages);
+	public List<SubMenuDTO> listSubMenu(Integer idMenu, String languages);
 	
+	public List<String> listDistinctArticleSize(Integer idProduct);
+	public List<String> listDistinctArticleColor(Integer idProduct,String languages);
 	
+	public List<AttributeDTO> listSize();
+	public List<AttributeDTO> listColor(String languages);
+	public List<AttributeDTO> listBrand(String languages);
+	public List<AttributeDTO> listType(String languages);
+	public List<AttributeDTO> listGender(String languages);
 	
-	
+	public List<String> listProductImages(Integer idProduct);
 	
 	public List<ProductDTO> listProduct(String languages, Integer type,
 			Integer gender, Integer brand, BigDecimal minPrice,
 			BigDecimal maxPrice, Integer size, Integer color,
 			Boolean newArrivals);
 	
-	public List<AttributeDTO> listProductAttribute(String languages, Integer idProduct);
+	
+	public ProductFullDTO getProductFull(String languages, Integer idProduct);
 
-	public List<String> listDistinctArticleAttribute(String languages, Integer idProduct, Integer idProductAttribute);
 	
-	public List<AttributeDTO> listDomain(String languages, Integer idProductAttribute);
-	
-	public List<MenuDTO> listMenu(String languages);
-	
-	public List<SubMenuDTO> listSubMenu(Integer idMenu, String languages);
+	public List<ArticleFullDTO> listArticleFull(Integer idProduct, String languages);
 
-	public List<String> listProductImages(Integer idProduct);
 
-	List<ArticleFullDTO> listArticleFull(Integer idProduct, String languages);
+	public Integer insertProduct(ProductFullDTO productFull);
 	
+
 
 	
 }

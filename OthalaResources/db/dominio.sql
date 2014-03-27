@@ -1,14 +1,56 @@
-INSERT INTO `attribute` VALUES (1,'it','GENERE'),(2,'it','TIPOLOGIA'),(3,'it','COLORI'),(4,'it','TAGLIE'),(5,'it','DESIGNER');
-INSERT INTO `valori_attributo` VALUES (1,1),(1,2),(1,3),(1,4),(2,1),(2,2),(2,3),(2,4),(2,5),(2,6),(2,7),(2,8),(2,9),(2,10),(2,11),(2,12),(2,13),(2,14),(2,15),(2,16),(2,17),(2,18),(2,19),(2,20),(2,21),(2,22),(3,1),(3,2),(3,3),(3,4),(3,5),(3,6),(3,7),(3,8),(3,9),(3,10),(3,11),(3,12),(3,13),(3,14),(3,15),(3,16),(4,1),(4,2),(4,3),(4,4),(4,5),(4,6),(4,7),(4,8),(4,9),(4,10),(4,11),(4,12),(4,13),(4,14),(4,15),(4,16),(4,17),(4,18),(4,19),(4,20),(4,21),(4,22),(5,1),(5,2),(5,3),(5,4),(5,5),(5,6);
-INSERT INTO `valori_attributo_languages` VALUES (1,1,'it','UOMO'),(1,2,'it','DONNA'),(1,3,'it','BAMBINO'),(1,4,'it','BAMBINA'),(2,1,'it','ACCESSORI'),(2,2,'it','BERMUDA'),(2,3,'it','CAMICIE'),(2,4,'it','CAPPOTTI'),(2,5,'it','COMPLETI'),(2,6,'it','COSTUMI DA BAGNO'),(2,7,'it','FELPE'),(2,8,'it','GIACCHE'),(2,9,'it','GIACCHE DI PELLE'),(2,10,'it','GILET'),(2,11,'it','GIUBBOTTI'),(2,12,'it','GONNE'),(2,13,'it','INTIMO'),(2,14,'it','JEANS'),(2,15,'it','MAGLIERIA'),(2,16,'it','PANTALONI'),(2,17,'it','PELLICCE E SHEARLING'),(2,18,'it','PIUMINI'),(2,19,'it','POLO'),(2,20,'it','SCARPE'),(2,21,'it','T-SHIRTS'),(2,22,'it','VESTITI'),(3,1,'it','ARANCIONE'),(3,2,'it','ARGENTO'),(3,3,'it','BEIGE'),(3,4,'it','BIANCO'),(3,5,'it','BLU'),(3,6,'it','CELESTE'),(3,7,'it','DENIM'),(3,8,'it','GIALLO'),(3,9,'it','GRIGIO'),(3,10,'it','MARRONE'),(3,11,'it','NERO'),(3,12,'it','ORO'),(3,13,'it','ROSA'),(3,14,'it','ROSSO'),(3,15,'it','VERDE'),(3,16,'it','VIOLA'),(4,1,'it','34'),(4,2,'it','36'),(4,3,'it','38'),(4,4,'it','40'),(4,5,'it','42'),(4,6,'it','44'),(4,7,'it','46'),(4,8,'it','48'),(4,9,'it','50'),(4,10,'it','52'),(4,11,'it','54'),(4,12,'it','56'),(4,13,'it','58'),(4,14,'it','60'),(4,15,'it','XXS'),(4,16,'it','XS'),(4,17,'it','S'),(4,18,'it','M'),(4,19,'it','L'),(4,20,'it','XL'),(4,21,'it','XXL'),(4,22,'it','U'),(5,1,'it','LANVIN'),(5,2,'it','BALMAIN'),(5,3,'it','DSQUARED'),(5,4,'it','MOSCHINO'),(5,5,'it','DOLCE E GABBANA'),(5,6,'it','STONE ISLAND');
+
+INSERT INTO gender VALUES    
+(1,'it','UOMO'),(2,'it','DONNA'),(3,'it','BAMBINO'),(4,'it','BAMBINA');
+INSERT INTO brand VALUES    
+(1,'it','LANVIN'),(2,'it','BALMAIN'),(3,'it','DSQUARED'),(4,'it','MOSCHINO'),(5,'it','DOLCE E GABBANA'),(6,'it','STONE ISLAND');
+
+
+
+
+INSERT INTO type VALUES    
+(1,'it','ACCESSORI'),(2,'it','BERMUDA'),
+(3,'it','CAMICIE'),(4,'it','CAPPOTTI'),(5,'it','COMPLETI'),(6,'it','COSTUMI DA BAGNO'),
+(7,'it','FELPE'),(8,'it','GIACCHE'),(9,'it','GIACCHE DI PELLE'),(10,'it','GILET'),
+(11,'it','GIUBBOTTI'),(12,'it','GONNE'),(13,'it','INTIMO'),(14,'it','JEANS'),
+(15,'it','MAGLIERIA'),(16,'it','PANTALONI'),(17,'it','PELLICCE E SHEARLING'),
+(18,'it','PIUMINI'),(19,'it','POLO'),(20,'it','SCARPE'),(21,'it','T-SHIRTS'),
+(22,'it','VESTITI');
+
+
+INSERT INTO `color` VALUES    
+(1,'it','ARANCIONE'),(2,'it','ARGENTO'),(3,'it','BEIGE'),
+(4,'it','BIANCO'),(5,'it','BLU'),(6,'it','CELESTE'),(7,'it','DENIM'),
+(8,'it','GIALLO'),(9,'it','GRIGIO'),(10,'it','MARRONE'),(11,'it','NERO'),
+(12,'it','ORO'),(13,'it','ROSA'),(14,'it','ROSSO'),(15,'it','VERDE'),
+(16,'it','VIOLA');
+
+INSERT INTO size VALUES    
+(1, '34'),  (2,'36'),  (3,'38'), (4,'40'),
+(5, '42'),  (6,'44'),  (7,'46'), (8,'48'), (9,'50'),
+(10,'52'), (11,'54'), (12,'56'),(13,'58'),(14,'60'),
+(15,'XXS'),(16,'XS'), (17,'S'), (18,'M'), (19,'L'),
+(20,'XL') ,(21,'XXL'),(22,'U');
+
 INSERT INTO `product_state` VALUES (0,'INSERITO'),(1,'PUBBLICATO');
 INSERT INTO `site_images` VALUES (1,'carousel',1,'images/carousel','2.jpg'),(2,'carousel',2,'images/carousel','3.jpg'),(3,'carousel',3,'images/carousel','2.jpg'),(4,'carousel',4,'images/carousel','3.jpg'),(5,'newArrivals',1,'images/newArrivals','men.gif'),(6,'newArrivals',2,'images/newArrivals','woman.gif'),(7,'newArrivals',3,'images/newArrivals','boys.gif'),(8,'newArrivals',4,'images/newArrivals','girls.gif');
 
 
-INSERT INTO `product` VALUES (1,1200,50,1,'2014-03-18 00:00:00','000001_01.JPG'),(2,1345,50,1,'2014-03-01 00:00:00','000002_01.JPG'),(3,463,40,1,'2014-03-19 00:00:00','000003_01.JPG'),(4,795,30,1,'2014-03-26 12:12:51','A1.JPG');
+INSERT INTO `product` VALUES (1,1,8,1, 1200,50,'000001_01.JPG',1,'2014-03-18 00:00:00');
+INSERT INTO `product` VALUES (2,1,8,2, 1345,50,'000002_01.JPG',1,'2014-03-01 00:00:00');
+INSERT INTO `product` VALUES (3,1,11,3,463,40,'000003_01.JPG',1,'2014-03-19 00:00:00');
+INSERT INTO `product` VALUES (4,1,21,4,795,30,'A1.JPG',1,'2014-03-26 12:12:51');
+
 INSERT INTO `product_description` VALUES (1,'it','GIACCA SMOKING \"BEVERLY HILLS\" IN VELLUTO'),(2,'it','GIACCA MISTO LANA'),(3,'it','GIACCHETTO IN MUSSOLA DI COTONE GOMMATA TINTA IN CAPO'),(4,'it','T-SHIRT IN MISTO VISCOSA E SETA');
-INSERT INTO `product_attribute` VALUES (1,1,1),(2,1,1),(3,1,1),(4,1,1),(1,2,8),(2,2,8),(3,2,11),(4,2,21),(1,5,1),(4,5,1),(2,5,2),(3,5,6);
+
 INSERT INTO `product_image` VALUES (1,1,'000001_01.JPG'),(1,2,'000001_02.JPG'),(1,3,'000001_03.JPG'),(1,4,'000001_04.JPG'),(2,1,'000002_01.JPG'),(2,2,'000002_02.JPG'),(2,3,'000002_03.JPG'),(2,4,'000002_04.JPG'),(3,1,'000003_01.JPG'),(3,2,'000003_02.JPG'),(3,3,'000003_03.JPG'),(3,4,'000003_04.JPG'),(4,1,'A1.JPG'),(4,2,'A2.JPG'),(4,3,'A3.JPG'),(4,4,'A4.JPG');
-INSERT INTO `article` VALUES (1,1,1),(1,2,2),(1,3,1),(2,1,1),(2,2,1),(2,3,1),(3,1,1),(3,2,2),(4,1,2),(4,2,2);
-INSERT INTO `article_attribute` VALUES (1,1,3,11),(1,1,4,8),(1,2,3,11),(1,2,4,9),(1,3,3,11),(1,3,4,10),(2,1,3,11),(2,1,4,17),(2,2,3,11),(2,2,4,18),(2,3,3,11),(2,3,4,19),(3,1,3,9),(3,1,4,9),(3,2,3,6),(3,2,4,6),(4,1,3,4),(4,1,4,17),(4,2,3,4),(4,2,4,18);
+
+INSERT INTO `article` VALUES (1,1,9,11,1),(1,2,10,11,2),(1,3,11,11,1),(2,1,9,11,1),(2,2,10,11,2),(2,3,11,11,1),(3,1,17,6,1),(3,2,18,6,2),(3,3,19,6,1),(4,1,17,4,1),(4,2,18,4,2),(4,3,19,4,1);
+
+
+INSERT INTO `product` VALUES (881,1,14,6,800,50,'A881.JPG',1,'2014-03-26 00:00:00');
+INSERT INTO `product_description` VALUES (881,'it','JEANS IN COTONE STRETCH 16.5CM');
+INSERT INTO `product_image` VALUES (881,1,'A881.JPG'),(881,2,'A882.JPG'),(881,3,'C881.JPG'),(881,4,'C882.JPG');
+INSERT INTO `article` VALUES (881,1,17,3,1),(881,2,18,3,2),(881,3,19,3,1),(881,4,17,6,1),(881,5,18,6,2),(881,6,19,6,1);
+
+
 
