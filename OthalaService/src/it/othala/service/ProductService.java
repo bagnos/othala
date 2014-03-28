@@ -2,12 +2,12 @@ package it.othala.service;
 
 import it.othala.dao.interfaces.IProductDAO;
 import it.othala.dto.ArticleFullDTO;
-import it.othala.dto.AttributeDTO;
 import it.othala.dto.DomainDTO;
 import it.othala.dto.MenuDTO;
 import it.othala.dto.ProductDTO;
 import it.othala.dto.ProductFullDTO;
 import it.othala.dto.SubMenuDTO;
+import it.othala.enums.OrderByCartFlow;
 import it.othala.service.interfaces.IProductService;
 
 import java.math.BigDecimal;
@@ -43,10 +43,10 @@ public class ProductService implements IProductService {
 	public List<ProductDTO> getListProduct(String languages, Integer gender,
 			Integer type, Integer brand, BigDecimal minPrice,
 			BigDecimal maxPrice, Integer size, Integer color,
-			Boolean newArrivals) {
+			Boolean newArrivals, OrderByCartFlow order) {
 
 		List<ProductDTO> listProduct = productDAO.listProduct(languages, type,
-				gender, brand, minPrice, maxPrice, size, color, newArrivals);
+				gender, brand, minPrice, maxPrice, size, color, newArrivals, order);
 
 		// recupero attributo taglie degli articoli
 

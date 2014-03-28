@@ -7,6 +7,7 @@ import it.othala.dto.MenuDTO;
 import it.othala.dto.ProductDTO;
 import it.othala.dto.ProductFullDTO;
 import it.othala.dto.SubMenuDTO;
+import it.othala.enums.OrderByCartFlow;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -46,7 +47,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	public List<ProductDTO> listProduct(String languages, Integer type,
 			Integer gender, Integer brand, BigDecimal minPrice,
 			BigDecimal maxPrice, Integer size, Integer color,
-			Boolean newArrivals) {
+			Boolean newArrivals, OrderByCartFlow order) {
 
 		HashMap<String, Object> mapProduct = new HashMap<>();
 		mapProduct.put("languages", languages);
@@ -58,6 +59,16 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		mapProduct.put("size", size);
 		mapProduct.put("color", color);
 		mapProduct.put("newArrivals", newArrivals);
+		if (order == null) {
+			mapProduct.put("order", null);
+		}
+		else
+		{
+			mapProduct.put("order", order.getState());
+			
+		}
+		
+		
 
 		// recupero prodotti
 		List<ProductDTO> listProduct = getSqlSession().selectList(
