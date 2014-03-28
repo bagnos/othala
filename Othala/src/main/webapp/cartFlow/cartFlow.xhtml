@@ -20,29 +20,31 @@
 
 	<ui:define name="content">
 		<h:form prependId="false">
+
+
+
 			<div class="container">
-
 				<!-- breadcrumb -->
-				<ol class="breadcrumb" style="margin-top: 10px">
-					<ui:repeat var="bread" value="#{cartFlowView.flowBean.breadCrumb}" varStatus="stBread">
-						<li>
-						<h:outputLink rendered="#{stBread.last}" value="#" styleClass="active">
+				<div class="row">
+					<ol class="breadcrumb" style="margin-top: 10px">
+						<ui:repeat var="bread" value="#{cartFlowView.flowBean.breadCrumb}" varStatus="stBread">
+							<li><h:outputLink rendered="#{stBread.last}" value="#" styleClass="active">
 							#{bread}
-						</h:outputLink> 
-						<h:outputLink rendered="#{stBread.first}" value="#{request.contextPath}/faces/home.xhtml"
-								styleClass="glyphicon glyphicon-home">
+						</h:outputLink> <h:outputLink rendered="#{stBread.first}" value="#{request.contextPath}/faces/home.xhtml"
+									styleClass="glyphicon glyphicon-home">
 						 	#{bread}
-						</h:outputLink> 
-						<h:outputLink rendered="#{stBread.first==false and stBread.last==false}" value="#">
+						</h:outputLink> <h:outputLink rendered="#{stBread.first==false and stBread.last==false}" value="#">
 							#{bread}
-						</h:outputLink>
-						</li>
-					</ui:repeat>
-				</ol>
+						</h:outputLink></li>
+						</ui:repeat>
+					</ol>
+				</div>
 
-				
+
+
+
 				<!-- filtro ricerca -->
-				<div class="row container">
+				<div class="row container" style="clear: both;">
 
 					<div class="panel panel-default">
 						<div class="panel-body">
@@ -108,19 +110,20 @@
 							<div>
 
 
-								<p:commandButton styleClass="ui-priority-primary" process="@form" update="products" ajax="false" id="findPrds"
-									actionListener="#{cartFlowView.find}" value="#{msg.catalog_find}">
+								<p:commandButton styleClass="ui-priority-primary" process="@form" update="products"
+									ajax="false" id="findPrds" actionListener="#{cartFlowView.find}"
+									value="#{msg.catalog_find}">
 
 								</p:commandButton>
-								
-								
+
+
 							</div>
 
 						</div>
 
 					</div>
 				</div>
-				
+
 				<!-- dati e paginatore -->
 				<div class="row">
 					<div class="col-sm-3">
