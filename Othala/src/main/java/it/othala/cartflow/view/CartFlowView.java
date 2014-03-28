@@ -4,6 +4,7 @@ import it.othala.cartflow.model.CartFlowBean;
 import it.othala.dto.MenuDTO;
 import it.othala.dto.ProductDTO;
 import it.othala.dto.SubMenuDTO;
+import it.othala.enums.OrderByCartFlow;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 import it.othala.web.utils.OthalaUtil;
@@ -106,7 +107,7 @@ public class CartFlowView extends BaseView {
 				OthalaFactory.getProductServiceInstance().getListProduct(getLang(), flowBean.getIdMenu(),
 						flowBean.getIdSubMenu(), flowBean.getBrand(), new BigDecimal(flowBean.getPriceMin()),
 						new BigDecimal(flowBean.getPriceMax()), flowBean.getColor(), flowBean.getSize(),
-						flowBean.getFgNewArrivals()));
+						flowBean.getFgNewArrivals(), null));
 
 		initPaginator(flowBean.getCurrentPage()==null?1:flowBean.getCurrentPage());
 		updatefBreadCrumb();
@@ -182,7 +183,7 @@ public class CartFlowView extends BaseView {
 		flowBean.getArticles().addAll(
 				OthalaFactory.getProductServiceInstance().getListProduct(getLang(), flowBean.getIdMenu(),
 						flowBean.getIdSubMenu(), flowBean.getBrand(), new BigDecimal(flowBean.getPriceMin()),
-						new BigDecimal(flowBean.getPriceMax()), flowBean.getSize(), flowBean.getColor(), null));
+						new BigDecimal(flowBean.getPriceMax()), flowBean.getSize(), flowBean.getColor(), null, null));
 		initPaginator(1);
 	}
 
