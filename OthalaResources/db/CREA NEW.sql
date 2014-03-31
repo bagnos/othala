@@ -513,11 +513,12 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Valori_Attributo_Languages` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-USE `othala` ;
 
+-- -----------------------------------------------------
+-- Table `othala`.`Site_Images`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `othala`.`Site_Images` ;
 
-<<<<<<< .mine
-=======
 CREATE  TABLE IF NOT EXISTS `othala`.`Site_Images` (
   `idsiteImages` INT NOT NULL ,
   `txGroupImages` VARCHAR(45) NULL ,
@@ -533,7 +534,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `othala`.`Type` ;
 
->>>>>>> .r191
 CREATE  TABLE IF NOT EXISTS `othala`.`Type` (
   `idType` INT NOT NULL ,
   `idLanguages` VARCHAR(2) NOT NULL ,
@@ -567,6 +567,7 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Brand` (
   PRIMARY KEY (`idBrand`, `idLanguages`) )
 ENGINE = InnoDB;
 
+USE `othala` ;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
