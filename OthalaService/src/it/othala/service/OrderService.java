@@ -1,15 +1,21 @@
 package it.othala.service;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
+import it.othala.account.execption.MailNotSendException;
 import it.othala.dao.interfaces.IOrderDAO;
 import it.othala.dto.OrderFullDTO;
+import it.othala.dto.StateOrderDTO;
+import it.othala.service.interfaces.IMailService;
 import it.othala.service.interfaces.IOrderService;
+import it.othala.service.interfaces.IMailService;
 
 public class OrderService implements IOrderService {
 	
 	private IOrderDAO orderDAO;
+	private IMailService mailService;
 
 	@Override
 	public List<OrderFullDTO> getOrders(Integer Order, Integer User,
@@ -22,11 +28,18 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public Integer insertOrder(OrderFullDTO orderFull) {
+	public Integer insertOrder(OrderFullDTO orderFull) throws MailNotSendException {
 		
 		Integer NumeroOrdine = orderDAO.insertOrder(orderFull);
 		orderDAO.insertOrdersArticles(orderFull);
 		orderDAO.insertStatesOrders(orderFull);
+		
+		String[] mailTo = new String[1];
+		mailTo[0] = "massimiliano_cencioni@tin.it";
+		String subject = "Inserito nuovo ordine";
+		String content = "Un nuovo ordine è stato inserito con codice: " + 
+				NumeroOrdine.toString();
+		mailService.inviaMail(mailTo, subject, content);
 		
 		return NumeroOrdine;
 	}
@@ -37,6 +50,13 @@ public class OrderService implements IOrderService {
 
 	public void setOrderDAO(IOrderDAO orderDAO) {
 		this.orderDAO = orderDAO;
+	}
+
+	@Override
+	public void updateOrder(StateOrderDTO stateOrder) {
+		
+		orderDAO.updateStatesOrders(stateOrder);
+		
 	}
 
 
