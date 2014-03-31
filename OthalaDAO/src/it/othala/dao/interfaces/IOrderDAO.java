@@ -1,6 +1,7 @@
 package it.othala.dao.interfaces;
 
 import it.othala.dto.OrderFullDTO;
+import it.othala.dto.StateOrderDTO;
 
 import java.util.List;
 import java.sql.Date;
@@ -14,5 +15,7 @@ public interface IOrderDAO {
 	public void insertOrdersArticles(OrderFullDTO orderFull);
 	
 	public void insertStatesOrders(OrderFullDTO orderFull);
+	
+	public void updateStatesOrders(StateOrderDTO stateOrder);
 	
 }
