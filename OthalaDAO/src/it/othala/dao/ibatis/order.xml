@@ -6,9 +6,9 @@
 		parameterType="java.util.HashMap">
 
 		SELECT
-		a.idOrder, a.idUser, a.dtOrdine, a.idStato, a.imOrdine, a.imSpeseSpedizione,
+		a.idOrder, a.idUser, a.imOrdine, a.imSpeseSpedizione,
 		b.idProdotto, b.pgArticle,
-		c.dtStato, c.txNote, 
+		c.idStato c.dtStato, c.txNote, 
 		d.txStato
 		FROM
 		${database.schema}orders a,
@@ -28,10 +28,10 @@
 			and c.idStato = #{idStato}
 		</if>
 		<if test="dtDatada != null">
-			and a.dtOrdine &gt;= #{dtDatada}
+			and c.dtStato &gt;= #{dtDatada}
 		</if>
 		<if test="dtDataA != null">
-			and a.dtOrdine &lt;= #{dtDataA}
+			and c.dtStato &lt;= #{dtDataA}
 		</if>
 
 	</select>
@@ -41,17 +41,15 @@
       
 		INSERT INTO
 		${database.schema}orders
-		(`idUser`,`dtOrdine`,`idStato`,`imOrdine`,`imSpeseSpedizione`)
+		(`idUser`,`imOrdine`,`imSpeseSpedizione`)
 		values (
-		#{idUser},now(),#{idStato},#{imOrdine},#{imSpeseSpedizione})
+		#{idUser},#{imOrdine},#{imSpeseSpedizione})
 		
         <selectKey resultType="java.lang.Integer" keyProperty="idOrder" >
 
             SELECT LAST_INSERT_ID() AS idOrder
 
         </selectKey>
-
-
     </insert>
 
 
@@ -70,6 +68,15 @@
 		(`idOrder`,`idStato`,`dtStato`,`txNote`)
 		VALUES
 		(#{idOrder},1,now(),#{txNote});
+
+	</insert>
+	
+	<insert id="updateStatesOrders" parameterType="it.othala.dto.StateOrderDTO">
+		INSERT INTO
+		${database.schema}states_orders
+		(`idOrder`,`idStato`,`dtStato`,`txNote`)
+		VALUES
+		(#{idOrder},#{idStato},now(),#{txNote});
 
 	</insert>
 
