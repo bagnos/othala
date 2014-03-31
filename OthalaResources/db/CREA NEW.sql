@@ -1,6 +1,6 @@
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 DROP SCHEMA IF EXISTS `othala` ;
 CREATE SCHEMA IF NOT EXISTS `othala` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
@@ -365,40 +365,20 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `othala`.`States`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `othala`.`States` ;
-
-CREATE  TABLE IF NOT EXISTS `othala`.`States` (
-  `idStato` INT NOT NULL ,
-  `txStato` VARCHAR(45) NULL ,
-  PRIMARY KEY (`idStato`) )
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `othala`.`Orders`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `othala`.`Orders` ;
 
 CREATE  TABLE IF NOT EXISTS `othala`.`Orders` (
-  `idOrder` INT NOT NULL ,
+  `idOrder` INT NOT NULL AUTO_INCREMENT ,
   `idUser` VARCHAR(100) NOT NULL ,
-  `dtOrdine` DATE NULL ,
-  `idStato` INT NULL ,
   `imOrdine` INT NULL ,
   `imSpeseSpedizione` INT NULL ,
   PRIMARY KEY (`idOrder`) ,
   INDEX `fk_Orders_Customer1_idx` (`idUser` ASC) ,
-  INDEX `fk_Orders_States1_idx` (`idStato` ASC) ,
   CONSTRAINT `fk_Orders_Customer1`
     FOREIGN KEY (`idUser` )
     REFERENCES `othala`.`Customer` (`idUser` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Orders_States1`
-    FOREIGN KEY (`idStato` )
-    REFERENCES `othala`.`States` (`idStato` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -429,6 +409,18 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `othala`.`States`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `othala`.`States` ;
+
+CREATE  TABLE IF NOT EXISTS `othala`.`States` (
+  `idStato` INT NOT NULL ,
+  `txStato` VARCHAR(45) NULL ,
+  PRIMARY KEY (`idStato`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `othala`.`States_Orders`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `othala`.`States_Orders` ;
@@ -438,7 +430,7 @@ CREATE  TABLE IF NOT EXISTS `othala`.`States_Orders` (
   `idStato` INT NOT NULL ,
   `dtStato` DATE NULL ,
   `txNote` VARCHAR(100) NULL ,
-  PRIMARY KEY (`idOrder`) ,
+  PRIMARY KEY (`idOrder`, `idStato`) ,
   INDEX `fk_StatesOrders_States1_idx` (`idStato` ASC) ,
   CONSTRAINT `fk_StatesOrders_Orders1`
     FOREIGN KEY (`idOrder` )
@@ -521,12 +513,11 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Valori_Attributo_Languages` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+USE `othala` ;
 
--- -----------------------------------------------------
--- Table `othala`.`Site_Images`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `othala`.`Site_Images` ;
 
+<<<<<<< .mine
+=======
 CREATE  TABLE IF NOT EXISTS `othala`.`Site_Images` (
   `idsiteImages` INT NOT NULL ,
   `txGroupImages` VARCHAR(45) NULL ,
@@ -542,6 +533,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `othala`.`Type` ;
 
+>>>>>>> .r191
 CREATE  TABLE IF NOT EXISTS `othala`.`Type` (
   `idType` INT NOT NULL ,
   `idLanguages` VARCHAR(2) NOT NULL ,
