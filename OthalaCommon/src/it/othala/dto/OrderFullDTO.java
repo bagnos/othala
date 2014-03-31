@@ -13,7 +13,6 @@ public class OrderFullDTO implements Serializable {
 		
 	private Integer idOrder;
 	private String idUser;
-	private Date dtOrdine;
 	private Integer idStato;
 	private String txStato;
 	private Date dtStato;
@@ -34,12 +33,6 @@ public class OrderFullDTO implements Serializable {
 	}
 	public void setIdUser(String idUser) {
 		this.idUser = idUser;
-	}
-	public Date getDtOrdine() {
-		return dtOrdine;
-	}
-	public void setDtOrdine(Date dtOrdine) {
-		this.dtOrdine = dtOrdine;
 	}
 	public Integer getIdStato() {
 		return idStato;
@@ -90,5 +83,4 @@ public class OrderFullDTO implements Serializable {
 		this.pgArticle = pgArticle;
 	}
 	
-		
 }
