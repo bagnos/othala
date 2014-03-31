@@ -62,7 +62,7 @@
 		autowire="byType" />
 	<bean id="orderService" class="it.othala.service.OrderService"
 		autowire="byType" />
-			<bean id="siteImagesService" class="it.othala.service.SiteImagesService"
+	<bean id="siteImagesService" class="it.othala.service.SiteImagesService"
 		autowire="byType" />
 
 	<bean id="accountDAO" class="it.othala.dao.AccountDAO">
