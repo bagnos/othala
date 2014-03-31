@@ -2,6 +2,7 @@ package it.othala.dao;
 
 import it.othala.dao.interfaces.IOrderDAO;
 import it.othala.dto.OrderFullDTO;
+import it.othala.dto.StateOrderDTO;
 
 import java.sql.Date;
 import java.util.HashMap;
@@ -53,5 +54,13 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO  {
 				orderFull);
 		
 		}
+
+	@Override
+	public void updateStatesOrders(StateOrderDTO stateOrder) {
+		
+		getSqlSession().insert("it.othala.order.queries.updateStatesOrders",
+				stateOrder);
+		
+	}
 
 }
