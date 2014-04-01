@@ -37,8 +37,24 @@ public class CartFlowBean implements Serializable {
 	private Integer size;
 	private Integer priceMin = 100;
 	private Integer priceMax = 1000;
-
+	private int orderPrice;
 	private ArticleFullDTO articleSel;
+	private List<ArticleFullDTO> cart;
+
+	public List<ArticleFullDTO> getCart() {
+		if (cart == null) {
+			cart = new ArrayList<>();
+		}
+		return cart;
+	}
+
+	public int getOrderPrice() {
+		return orderPrice;
+	}
+
+	public void setOrderPrice(int orderPrice) {
+		this.orderPrice = orderPrice;
+	}
 
 	public ArticleFullDTO getArticleSel() {
 		return articleSel;

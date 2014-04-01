@@ -11,9 +11,12 @@ import it.othala.web.utils.OthalaUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.primefaces.context.RequestContext;
 
 @Named
 @javax.faces.view.ViewScoped
@@ -87,7 +90,7 @@ public class CartChoice2View extends BaseView {
 		flowBean.setDetailProductFull(prdFull);
 
 		sizeItems = new ArrayList<>();
-		sizeItems.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseSize")));
+		//sizeItems.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseSize")));
 		for (ArticleFullDTO art : prdFull.getArticles()) {
 			sizeItems.add(new SelectItem(art.getIdSize(), art.getTxSize()));
 		}
@@ -95,48 +98,63 @@ public class CartChoice2View extends BaseView {
 		colorItems = new ArrayList<>();
 		colorItems.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseColor")));
 		/*
-		for (ArticleFullDTO art : prdFull.getArticles()) {
-			boolean found = false;
-			for (SelectItem item : colorItems) {
-				if (item.getValue().toString().equalsIgnoreCase(art.getTxColor())) {
-					found = true;
-					break;
-				}
-			}
-			if (!found) {
-				colorItems.add(new SelectItem(art.getIdColor(), art.getTxColor()));
-
-			}
-
-		}*/
+		 * for (ArticleFullDTO art : prdFull.getArticles()) { boolean found =
+		 * false; for (SelectItem item : colorItems) { if
+		 * (item.getValue().toString().equalsIgnoreCase(art.getTxColor())) {
+		 * found = true; break; } } if (!found) { colorItems.add(new
+		 * SelectItem(art.getIdColor(), art.getTxColor()));
+		 * 
+		 * }
+		 * 
+		 * }
+		 */
 
 		return null;
 	}
 
 	public void changeSize() {
-		if (idSize != null && idSize.intValue() != -1) {
+		if (idSize != null && idSize.intValue() != 0) {
 			colorItems = new ArrayList<>();
-			colorItems.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseColor")));
+			//colorItems.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseColor")));
 			for (ArticleFullDTO art : prdFull.getArticles()) {
 				if (art.getIdSize().intValue() == idSize.intValue())
-					colorItems.add(new SelectItem(art.getTxColor(), art.getTxColor()));
+					colorItems.add(new SelectItem(art.getIdColor(), art.getTxColor()));
 			}
-		}
-		else
-		{
+		} else {
 			colorItems = new ArrayList<>();
-			colorItems.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseColor")));
+			//colorItems.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseColor")));
 		}
 	}
 
 	public String addCart() {
 		// si recupera l'articolo selezionato
 
+		if (idSize==null || idSize==0)
+		{
+			addError("selSize",OthalaUtil.getWordBundle("catalog_requiredElement"), null);
+			
+			return null;
+		}
+		
+		if (idColor==null || idColor==0)
+		{
+			addError("lst-color",OthalaUtil.getWordBundle("catalog_requiredElement"),null);
+			return null;
+		}
+		
+		
 		for (ArticleFullDTO art : prdFull.getArticles()) {
 			if (art.getIdSize().intValue() == idSize.intValue() && art.getIdColor().intValue() == idColor.intValue())
-				flowBean.setArticleSel(art);
+
+				if (flowBean.getCart().contains(art)) {
+					return null;
+				} else {
+
+					flowBean.getCart().add(art);
+				}
 		}
 
-		return "cart-confirmation";
+		return "cart-list";
+
 	}
 }

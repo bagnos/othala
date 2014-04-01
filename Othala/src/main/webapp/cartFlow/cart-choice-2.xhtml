@@ -18,7 +18,7 @@
 
 	<ui:define name="content">
 		<h:form prependId="false">
-		
+
 			<div class="container">
 
 				<!-- BREADCRUMB -->
@@ -77,6 +77,14 @@
 									</h:outputText>
 								</div>
 							</div>
+							<div class="row">
+								<div class="col-sm-6">
+									<h:outputText
+										value="#{cartChoice2View.flowBean.detailProductFull.discount}% #{msg.catalog_discounted}"
+										rendered="#{cartChoice2View.flowBean.detailProductFull.priceDiscounted!=null}">
+									</h:outputText>
+								</div>
+							</div>
 
 							<br />
 							<div class="row">
@@ -91,19 +99,33 @@
 									<div class="col-sm-6">
 										<div class="form-group">
 											<h:outputText value="#{msg.catalog_size}" />
-											<h:selectOneMenu id="selSize" styleClass="form-control" value="#{cartChoice2View.idSize}">
+
+											<h:selectOneMenu id="selSize"
+												 styleClass="form-control"
+												value="#{cartChoice2View.idSize}">
+												<f:selectItem itemLabel="#{msg.catalog_chooseSize}" itemValue=""
+													noSelectionOption="true" />
 												<f:selectItems value="#{cartChoice2View.sizeItems}"></f:selectItems>
-												<f:ajax execute="@form" render="lst-color" ></f:ajax>
+												<f:ajax execute="@form" render="lst-color"></f:ajax>
 											</h:selectOneMenu>
+										<p:message for="selSize" id="errSelSize" />
+
+
+
 										</div>
 									</div>
 									<div class="col-sm-6">
 										<div class="form-group">
 											<h:outputText value="#{msg.catalog_color}" />
-											<h:selectOneMenu  styleClass="form-control" id="lst-color"
-												value="#{cartChoice2View.idColor}">
+											<h:selectOneMenu styleClass="form-control"
+												 label="#{msg.catalog_color}"
+												id="lst-color" value="#{cartChoice2View.idColor}">
+												<f:selectItem itemLabel="#{msg.catalog_chooseColor}" itemValue=""
+													noSelectionOption="true" />
 												<f:selectItems value="#{cartChoice2View.colorItems}"></f:selectItems>
 											</h:selectOneMenu>
+											<p:message for="lst-color" id="errlstColor" />
+
 										</div>
 									</div>
 								</div>
@@ -113,8 +135,9 @@
 						</div>
 
 						<div>
-							<p:commandButton styleClass="ui-priority-primary" ajax="false" action="cart-confirmation"
-								value="#{msg.catalog_addToCart}">
+							<p:commandButton styleClass="ui-priority-primary" 
+								 value="#{msg.catalog_addToCart}" ajax="false"
+								action="#{cartChoice2View.addCart}">
 
 							</p:commandButton>
 						</div>
