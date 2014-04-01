@@ -60,7 +60,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		mapProduct.put("color", color);
 		mapProduct.put("newArrivals", newArrivals);
 		if (order == null) {
-			mapProduct.put("order", null);
+			mapProduct.put("order", OrderByCartFlow.PREZZOASC.getState());
 		}
 		else
 		{
