@@ -5,8 +5,7 @@
 	font-size: 95% !important;
 }
 
-.ui-galleria-panel
-{
+.ui-galleria-panel {
 	text-align: center !important;
 }
 
@@ -28,34 +27,74 @@
 	box-shadow: 0 0px 0px rgba(0, 0, 0, 0.2) !important;
 }
 
-.ui-slider-handle
-{
+.ui-slider-handle {
 	z-index: 1 !important;
 }
 
 /* ================================================================================================ 
 	FINE CUSTOM PRIMEFACES
 ================================================================================================*/
-.
-form-titoli {
+
+/* ================================================================================================ 
+	GENERICHE
+================================================================================================*/
+.form-titoli {
 	margin-bottom: 15px;
 	border-bottom: 2px solid #357ebd;
 	padding-bottom: 10px;
 }
 
-
-
 .emptyPnl {
 	border: none !important;
 	margin: 0px !important;
 	padding: 0px !important;
-	
 }
 
 .onSale {
 	text-decoration: line-through;
 	color: #900;
 }
+
+.newFlag {
+	color: #4c902d;
+	margin: 0px;
+	border-color: #4c902d;
+	background-color: #FFF;
+	border-radius: 4px;
+	-webkit-border-radius: 4px;
+	-o-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-width: 1px;
+	border-style: solid;
+	padding-left: 4px;
+	padding-right: 4px;
+	font-size: 10px;
+	font-weight: bold;
+	margin-right: 4px;
+}
+
+.newPromo {
+	color: #cd5033;
+	font-size: 10px;
+	margin: 0px;
+	border-color: #cd5033;
+	background-color: #FFF;
+	border-radius: 4px;
+	-webkit-border-radius: 4px;
+	-o-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-width: 1px;
+	border-style: solid;
+	padding-left: 4px;
+	padding-right: 4px;
+	font-weight: bold;
+	margin-right: 4px;
+
+}
+
+/* ================================================================================================ 
+	FINE GENERICHE
+================================================================================================*/
 
 /* ================================================================================================ 
 	INIZIO THUMBINALS
@@ -81,11 +120,8 @@ form-titoli {
 	overflow: hidden;
 }
 
-
-
-.thumbnail.thumbnail-home
-{
-	border:none !important;
+.thumbnail.thumbnail-home {
+	border: none !important;
 }
 
 /* ================================================================================================ 
@@ -111,26 +147,23 @@ form-titoli {
 	cursor: default !important;
 }
 
-.breadcrumb.breadcrumbLink>li>a.active
-{
+.breadcrumb.breadcrumbLink>li>a.active {
 	cursor: pointer !important;
 }
 
 .breadcrumb>li>a.glyphicon-home {
-	
 	cursor: pointer !important;
 }
 
-.breadcrumb>li>a:hover
-{
-	text-decoration: none; !important;;
+.breadcrumb>li>a:hover {
+	text-decoration: none;
+	!
+	important;;
 }
 
 .breadcrumb>li.active {
 	color: black !important;;
 }
-
-
 
 /* ================================================================================================ 
 	FINE BREACRUMB
@@ -236,7 +269,6 @@ form-titoli {
 /* ================================================================================================ 
 	FINE CAROSELLO HOME 
 ================================================================================================*/
-
 .foot1-title {
 	color: #666666;
 	font-size: 14px;
@@ -286,7 +318,6 @@ html,body,form {
 	border-top: 1px solid #DDD;
 	padding-top: 20px;
 }
-
 
 /* ================================================================================================ 
 	FINE STICKY FOOTER 

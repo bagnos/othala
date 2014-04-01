@@ -57,6 +57,12 @@ public abstract class BaseView {
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_ERROR, summary, message));
 	}
+	
+	public void addError(String id,String summary, String message) {
+		summary = summary == null ? OthalaUtil.getWordBundle("validator_summary") : summary;
+		FacesContext.getCurrentInstance().addMessage(id,
+				new FacesMessage(FacesMessage.SEVERITY_ERROR, summary, message));
+	}
 
 	public void addGenericError(Exception e, String dsErrorLog) {
 		log.error(dsErrorLog, e);

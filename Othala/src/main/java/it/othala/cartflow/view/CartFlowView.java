@@ -12,8 +12,12 @@ import it.othala.web.utils.OthalaUtil;
 import java.math.BigDecimal;
 
 import javax.faces.event.ActionEvent;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.swing.text.StyledEditorKit.BoldAction;
+
+import org.aspectj.weaver.patterns.ConcreteCflowPointcut.Slot;
 
 @Named
 @javax.faces.view.ViewScoped
@@ -30,6 +34,15 @@ public class CartFlowView extends BaseView {
 	private Integer size;
 	private Integer brand;
 	private Integer color;
+	private int orderPrice;
+
+	public int getOrderPrice() {
+		return orderPrice;
+	}
+
+	public void setOrderPrice(int orderPrice) {
+		this.orderPrice = orderPrice;
+	}
 
 	public Integer getBrand() {
 		return brand;
@@ -99,18 +112,12 @@ public class CartFlowView extends BaseView {
 		brand = flowBean.getBrand();
 		color = flowBean.getColor();
 		size = flowBean.getSize();
-
 		flowBean.getArticles().clear();
 		flowBean.getArticlesPage().clear();
 
-		flowBean.getArticles().addAll(
-				OthalaFactory.getProductServiceInstance().getListProduct(getLang(), flowBean.getIdMenu(),
-						flowBean.getIdSubMenu(), flowBean.getBrand(), new BigDecimal(flowBean.getPriceMin()),
-						new BigDecimal(flowBean.getPriceMax()), flowBean.getColor(), flowBean.getSize(),
-						flowBean.getFgNewArrivals(), null));
+		callServiceProduct(flowBean.getCurrentPage() == null ? 1 : flowBean.getCurrentPage());
 
-		initPaginator(flowBean.getCurrentPage()==null?1:flowBean.getCurrentPage());
-		updatefBreadCrumb();
+		updateBreadCrumb();
 
 		return null;
 	}
@@ -155,6 +162,7 @@ public class CartFlowView extends BaseView {
 		classBack = "disabled";
 
 		if (!flowBean.getArticles().isEmpty()) {
+
 			endIndex = ITEMS_PAGE > flowBean.getArticles().size() ? flowBean.getArticles().size() : ITEMS_PAGE;
 			double dblPages = (double) flowBean.getArticles().size() / (double) ITEMS_PAGE;
 			flowBean.setTotPages((int) Math.ceil(dblPages));
@@ -171,20 +179,17 @@ public class CartFlowView extends BaseView {
 	}
 
 	public void find(ActionEvent e) {
-		
-		
+
 		flowBean.setSize(size == null || size.intValue() == -1 ? null : size);
 		flowBean.setColor(color == null || color.intValue() == -1 ? null : color);
 		flowBean.setBrand(brand == null || brand.intValue() == -1 ? null : brand);
 		flowBean.getArticles().clear();
 		flowBean.setPriceMax(priceMax);
 		flowBean.setPriceMin(priceMin);
+		flowBean.setOrderPrice(orderPrice);
 
-		flowBean.getArticles().addAll(
-				OthalaFactory.getProductServiceInstance().getListProduct(getLang(), flowBean.getIdMenu(),
-						flowBean.getIdSubMenu(), flowBean.getBrand(), new BigDecimal(flowBean.getPriceMin()),
-						new BigDecimal(flowBean.getPriceMax()), flowBean.getSize(), flowBean.getColor(), null, null));
-		initPaginator(1);
+		callServiceProduct(1);
+
 	}
 
 	public String detailProduct(ProductDTO p) {
@@ -194,41 +199,57 @@ public class CartFlowView extends BaseView {
 
 	}
 
-	public void updatefBreadCrumb() {
-		if (flowBean.getBreadCrumb().isEmpty()) {
-			if (getQueryStringParm("idMenu") != null && getQueryStringParm("idSubMenu") != null) {
-				Integer idMenu = Integer.valueOf(getQueryStringParm("idMenu"));
-				Integer idSubMenu = Integer.valueOf(getQueryStringParm("idSubMenu"));
+	public void orderListener(AjaxBehaviorEvent event) {
 
-				if (idMenu != null && idSubMenu != null) {
-					flowBean.getBreadCrumb().add("");
-					for (MenuDTO m : getBeanApplication().getMenu()) {
-						if (m.getIdGender() == idMenu.intValue()) {
-							flowBean.getBreadCrumb().add(m.getTxGender());
-							for (SubMenuDTO sm : m.getSubMenu()) {
-								if (sm.getIdType() == idSubMenu.intValue()) {
-									flowBean.getBreadCrumb().add(sm.getTxType());
+		flowBean.setOrderPrice(orderPrice);
+		callServiceProduct(1);
 
-								}
+	}
+
+	private void callServiceProduct(int page) {
+
+		flowBean.getArticles().clear();
+		flowBean.getArticles().addAll(
+				OthalaFactory.getProductServiceInstance().getListProduct(getLang(), flowBean.getIdMenu(),
+						flowBean.getIdSubMenu(), flowBean.getBrand(), new BigDecimal(flowBean.getPriceMin()),
+						new BigDecimal(flowBean.getPriceMax()), flowBean.getSize(), flowBean.getColor(),
+						flowBean.getFgNewArrivals(),
+						flowBean.getOrderPrice() == 1 ? OrderByCartFlow.PREZZODESC : OrderByCartFlow.PREZZOASC));
+		initPaginator(page);
+	}
+
+	public void updateBreadCrumb() {
+		flowBean.getBreadCrumb().clear();
+		if (flowBean.getIdMenu() != null && flowBean.getIdSubMenu() != null) {
+			Integer idMenu = flowBean.getIdMenu();
+			Integer idSubMenu = flowBean.getIdSubMenu();
+
+			if (idMenu != null && idSubMenu != null) {
+				flowBean.getBreadCrumb().add("");
+				for (MenuDTO m : getBeanApplication().getMenu()) {
+					if (m.getIdGender() == idMenu.intValue()) {
+						flowBean.getBreadCrumb().add(m.getTxGender());
+						for (SubMenuDTO sm : m.getSubMenu()) {
+							if (sm.getIdType() == idSubMenu.intValue()) {
+								flowBean.getBreadCrumb().add(sm.getTxType());
+
 							}
 						}
 					}
 				}
-			} else if (getQueryStringParm("idMenu") != null && getQueryStringParm("fgNewArrivals") != null) {
-				flowBean.getBreadCrumb().add("");
-				Integer idMenu = Integer.valueOf(getQueryStringParm("idMenu"));
-				for (MenuDTO m : getBeanApplication().getMenu()) {
-					if (m.getIdGender() == idMenu.intValue()) {
-						flowBean.getBreadCrumb().add(m.getTxGender());
-						break;
-					}
-
-				}
-				flowBean.getBreadCrumb().add(OthalaUtil.getWordBundle("catalog_newArrival"));
 			}
-		}
+		} else if (flowBean.getIdMenu() != null && flowBean.getFgNewArrivals() == true) {
+			flowBean.getBreadCrumb().add("");
+			Integer idMenu = flowBean.getIdMenu();
+			for (MenuDTO m : getBeanApplication().getMenu()) {
+				if (m.getIdGender() == idMenu.intValue()) {
+					flowBean.getBreadCrumb().add(m.getTxGender());
+					break;
+				}
 
+			}
+			flowBean.getBreadCrumb().add(OthalaUtil.getWordBundle("catalog_newArrival"));
+		}
 	}
-	
-	
+
 }
