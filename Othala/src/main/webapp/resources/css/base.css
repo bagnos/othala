@@ -89,7 +89,16 @@
 	padding-right: 4px;
 	font-weight: bold;
 	margin-right: 4px;
+}
 
+.articolo-sel .form-group
+{
+	width:160px;
+}
+
+#fb-like.form-group
+{
+	width:90px;
 }
 
 /* ================================================================================================ 
@@ -330,8 +339,19 @@ html,body,form {
 		top: 61px;
 		right: 5%;
 		z-index: 29;
+	}	
+}
+
+@media (min-width: 768px) {
+
+	.articolo-sel {
+		margin-top: 6px;
+		margin-bottom: 6px;
 	}
 }
+
+
+
 
 /* Lastly, apply responsive CSS fixes as necessary */
 @media ( max-width : 767px) {
@@ -361,5 +381,15 @@ html,body,form {
 	#row-copy {
 		margin-left: 2px;
 		border-top: 1px solid #DDD;
+	}
+	
+	.btn-articolo-sel {
+		margin-top: 6px;
+		margin-bottom: 6px;
+	}
+	
+	.articolo-sel {
+		margin-top: 6px;
+		margin-bottom: 6px;
 	}
 }
