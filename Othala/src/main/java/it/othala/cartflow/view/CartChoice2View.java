@@ -11,12 +11,10 @@ import it.othala.web.utils.OthalaUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.event.ActionEvent;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import org.primefaces.context.RequestContext;
 
 @Named
 @javax.faces.view.ViewScoped
@@ -29,6 +27,35 @@ public class CartChoice2View extends BaseView {
 	private ProductFullDTO prdFull;
 	private Integer idSize;
 	private Integer idColor;
+	private Integer qtaArticle;
+	private Integer min;
+	private Integer max;
+	private ArticleFullDTO artSel;
+
+	public Integer getMin() {
+
+		return min;
+	}
+
+	public void setMin(Integer min) {
+		this.min = min;
+	}
+
+	public Integer getMax() {
+		return max;
+	}
+
+	public void setMax(Integer max) {
+		this.max = max;
+	}
+
+	public Integer getQtaArticle() {
+		return qtaArticle;
+	}
+
+	public void setQtaArticle(Integer qtaArticle) {
+		this.qtaArticle = qtaArticle;
+	}
 
 	public Integer getIdColor() {
 		return idColor;
@@ -47,8 +74,6 @@ public class CartChoice2View extends BaseView {
 	}
 
 	public List<SelectItem> getColorItems() {
-
-		changeSize();
 
 		return colorItems;
 	}
@@ -90,7 +115,8 @@ public class CartChoice2View extends BaseView {
 		flowBean.setDetailProductFull(prdFull);
 
 		sizeItems = new ArrayList<>();
-		//sizeItems.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseSize")));
+		// sizeItems.add(new SelectItem(-1,
+		// OthalaUtil.getWordBundle("catalog_chooseSize")));
 		for (ArticleFullDTO art : prdFull.getArticles()) {
 			sizeItems.add(new SelectItem(art.getIdSize(), art.getTxSize()));
 		}
@@ -112,49 +138,55 @@ public class CartChoice2View extends BaseView {
 		return null;
 	}
 
-	public void changeSize() {
+	public void changeSize(AjaxBehaviorEvent e) {
 		if (idSize != null && idSize.intValue() != 0) {
 			colorItems = new ArrayList<>();
-			//colorItems.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseColor")));
+			// colorItems.add(new SelectItem(-1,
+			// OthalaUtil.getWordBundle("catalog_chooseColor")));
 			for (ArticleFullDTO art : prdFull.getArticles()) {
 				if (art.getIdSize().intValue() == idSize.intValue())
 					colorItems.add(new SelectItem(art.getIdColor(), art.getTxColor()));
 			}
 		} else {
 			colorItems = new ArrayList<>();
-			//colorItems.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseColor")));
+			// colorItems.add(new SelectItem(-1,
+			// OthalaUtil.getWordBundle("catalog_chooseColor")));
 		}
+		idColor = 0;
+		changeColor(null);
 	}
 
-	public String addCart() {
-		// si recupera l'articolo selezionato
+	public void changeColor(AjaxBehaviorEvent e) {
+		min = 0;
+		max = 0;
+		qtaArticle = 0;
+		if (idSize != null && idSize.intValue() != 0) {
+			if (idColor != null && idColor.intValue() != 0) {
+				for (ArticleFullDTO art : prdFull.getArticles()) {
+					if (art.getIdSize().intValue() == idSize.intValue()
+							&& art.getIdColor().intValue() == idColor.intValue())
 
-		if (idSize==null || idSize==0)
-		{
-			addError("selSize",OthalaUtil.getWordBundle("catalog_requiredElement"), null);
-			
-			return null;
-		}
-		
-		if (idColor==null || idColor==0)
-		{
-			addError("lst-color",OthalaUtil.getWordBundle("catalog_requiredElement"),null);
-			return null;
-		}
-		
-		
-		for (ArticleFullDTO art : prdFull.getArticles()) {
-			if (art.getIdSize().intValue() == idSize.intValue() && art.getIdColor().intValue() == idColor.intValue())
+						if (!flowBean.getCart().contains(art)) {
+							if (art.getQtStock() > 0) {
+								
+								flowBean.getCart().add(art);
+								min = 1;
+								max = art.getQtStock();
+								qtaArticle = 1;
+								return;
+							}
+						} else {
 
-				if (flowBean.getCart().contains(art)) {
-					return null;
-				} else {
-
-					flowBean.getCart().add(art);
+							addError(null, OthalaUtil.getWordBundle("catalog_erroArticleIsPresent"));
+							return;
+						}
 				}
+
+			}
+
 		}
 
-		return "cart-list";
-
 	}
+
+	
 }

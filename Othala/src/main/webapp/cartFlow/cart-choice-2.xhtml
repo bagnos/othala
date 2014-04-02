@@ -25,9 +25,9 @@
 				<div class="row">
 					<ol class="breadcrumb breadcrumbLink" style="margin-top: 10px">
 						<ui:repeat var="bread" value="#{cartChoice2View.flowBean.breadCrumb}" varStatus="stBread">
-							<li><h:link rendered="#{stBread.last}" outcome="cartFlow" value="#{bread}"
-									styleClass="active">
-								</h:link> <h:outputLink rendered="#{stBread.first}" value="#{request.contextPath}/faces/home.xhtml"
+							<li><h:outputLink rendered="#{stBread.last}" value="javascript:history.go(-1)"
+									styleClass="active">#{bread}
+								</h:outputLink> <h:outputLink rendered="#{stBread.first}" value="#{request.contextPath}/faces/home.xhtml"
 									styleClass="glyphicon glyphicon-home">
 									#{bread}
 									</h:outputLink> <h:outputLink rendered="#{stBread.first==false and stBread.last==false}" value="#">
@@ -39,38 +39,44 @@
 
 				<div class="row">
 					<!-- IMMAGINE PRINCIPALE E GALLERIA -->
-					<div class="col-sm-6">
+					<div class="col-md-6">
+
 						<p:galleria value="#{cartChoice2View.flowBean.detailProductFull.imagesUrl}" var="image"
-							panelWidth="500" panelHeight="543" showCaption="false">
+							panelWidth="400" panelHeight="543" showCaption="false">
 							<p:graphicImage library="images/cartThumbinals" name="#{image}" />
 						</p:galleria>
+
 					</div>
 					<!-- DESCRZIONE ARTICOLE, TAGLIE E COLORI -->
-					<div class="col-sm-5">
-						<div class="well articolo">
+					<div class="col-md-5 articolo-sel">
+						<div class="row well">
 
 							<h4>#{cartChoice2View.flowBean.detailProductFull.txBrand}</h4>
 							<h5>#{cartChoice2View.flowBean.detailProductFull.description}</h5>
 
 
 							<div class="row">
-								<div class="col-sm-3">
-									<a class="btn-xs btn-block btn-social btn-facebook">
-										<i class="fa fa-facebook"></i> #{msg.catalog_facebookLikeIt}
-									</a>
+								<div class="col-sm-4">
+									<div id="fb-like" class="form-group">
+										<a class="btn-xs btn-block btn-social btn-facebook">
+											<i class="fa fa-facebook"></i> #{msg.catalog_facebookLikeIt}
+										</a>
+									</div>
 								</div>
 							</div>
 
 							<br />
 							<div class="row">
-								<div class="col-sm-3">
-									<h:outputText value="#{cartChoice2View.flowBean.detailProductFull.price}"
-										styleClass="#{cartChoice2View.flowBean.detailProductFull.priceDiscounted!=null?'onSale':''}">
-										<f:converter converterId="it.othala.BigDecimalConverter" />
-									</h:outputText>
+								<div class="col-sm-4">
+
+										<h:outputText value="#{cartChoice2View.flowBean.detailProductFull.price}"
+											styleClass="#{cartChoice2View.flowBean.detailProductFull.priceDiscounted!=null?'onSale':''}">
+											<f:converter converterId="it.othala.BigDecimalConverter" />
+										</h:outputText>
+
 								</div>
 
-								<div class="col-sm-3">
+								<div class="col-sm-4">
 									<h:outputText value="#{cartChoice2View.flowBean.detailProductFull.priceDiscounted}"
 										rendered="#{cartChoice2View.flowBean.detailProductFull.priceDiscounted!=null}">
 										<f:converter converterId="it.othala.BigDecimalConverter" />
@@ -78,7 +84,7 @@
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-sm-6">
+								<div class="col-sm-12">
 									<h:outputText
 										value="#{cartChoice2View.flowBean.detailProductFull.discount}% #{msg.catalog_discounted}"
 										rendered="#{cartChoice2View.flowBean.detailProductFull.priceDiscounted!=null}">
@@ -96,50 +102,74 @@
 							<br />
 							<h:panelGroup id="pnl-scelte">
 								<div class="row">
-									<div class="col-sm-6">
+									<div class="col-sm-5">
 										<div class="form-group">
 											<h:outputText value="#{msg.catalog_size}" />
 
-											<h:selectOneMenu id="selSize"
-												 styleClass="form-control"
-												value="#{cartChoice2View.idSize}">
+											<h:selectOneMenu id="selSize" styleClass="form-control" value="#{cartChoice2View.idSize}">
 												<f:selectItem itemLabel="#{msg.catalog_chooseSize}" itemValue=""
 													noSelectionOption="true" />
 												<f:selectItems value="#{cartChoice2View.sizeItems}"></f:selectItems>
-												<f:ajax execute="@form" render="lst-color"></f:ajax>
+												<f:ajax execute="@form" render="lst-color qtaArt add-cart"
+													listener="#{cartChoice2View.changeSize}"></f:ajax>
 											</h:selectOneMenu>
-										<p:message for="selSize" id="errSelSize" />
+											<p:message for="selSize" id="errSelSize" />
 
 
 
 										</div>
 									</div>
-									<div class="col-sm-6">
+									<div class="col-sm-5">
 										<div class="form-group">
 											<h:outputText value="#{msg.catalog_color}" />
-											<h:selectOneMenu styleClass="form-control"
-												 label="#{msg.catalog_color}"
-												id="lst-color" value="#{cartChoice2View.idColor}">
+											<h:selectOneMenu styleClass="form-control" label="#{msg.catalog_color}" id="lst-color"
+												value="#{cartChoice2View.idColor}">
 												<f:selectItem itemLabel="#{msg.catalog_chooseColor}" itemValue=""
 													noSelectionOption="true" />
 												<f:selectItems value="#{cartChoice2View.colorItems}"></f:selectItems>
+												<f:ajax execute="@form" render="qtaArt add-cart" listener="#{cartChoice2View.changeColor}"></f:ajax>
 											</h:selectOneMenu>
 											<p:message for="lst-color" id="errlstColor" />
 
 										</div>
 									</div>
 								</div>
+								<h:panelGroup layout="block" id="qtaArt">
+									<div class="row">
+										<div class="col-sm-4">
+
+											<h:outputText rendered="#{cartChoice2View.min>0}" value="#{msg.catalog_qta}" />
+											<div>
+												<p:spinner id="spQta" rendered="#{cartChoice2View.min>0}"
+													value="#{cartChoice2View.qtaArticle}" maxlength="2" size="2"
+													min="#{cartChoice2View.min}" max="#{cartChoice2View.max}" />
+											</div>
+
+										</div>
+
+									</div>
+								</h:panelGroup>
+
+
 							</h:panelGroup>
 
 
 						</div>
 
-						<div>
-							<p:commandButton styleClass="ui-priority-primary" 
-								 value="#{msg.catalog_addToCart}" ajax="false"
-								action="#{cartChoice2View.addCart}">
+						<div class="row">
 
-							</p:commandButton>
+
+							<div class="col-sm-6">
+								<p:commandButton icon="ui-icon-triangle-1-w btn-articolo-sel" onclick="history.go(-1);"
+									value="#{msg.catalog_back}" />
+							</div>
+							<div class="col-sm-6">
+								<p:commandButton disabled="#{cartChoice2View.qtaArticle==null or cartChoice2View.qtaArticle==0 }" id="add-cart" styleClass="ui-priority-primary btn-articolo-sel"
+									value="#{msg.catalog_addToCart}" ajax="false" action="cart-selected-3" />
+
+
+							</div>
+
 						</div>
 					</div>
 				</div>
