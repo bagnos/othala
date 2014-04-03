@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -29,8 +30,13 @@ public abstract class BaseView {
 	 */
 	protected static Log log = LogFactory.getLog(BaseView.class);
 
+	/*@ManagedProperty(value="#{applicationBean}")*/
 	@Inject
 	private ApplicationBean beanApplication;
+
+	public void setBeanApplication(ApplicationBean beanApplication) {
+		this.beanApplication = beanApplication;
+	}
 
 	private List<String> breadCrumb = new ArrayList<>();
 

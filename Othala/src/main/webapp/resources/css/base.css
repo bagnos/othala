@@ -91,14 +91,30 @@
 	margin-right: 4px;
 }
 
-.articolo-sel .form-group
-{
-	width:160px;
+.articolo-sel .form-group {
+	width: 160px;
 }
 
-#fb-like.form-group
-{
-	width:90px;
+.img-small-cart {
+	width: 95px;
+	height: 126px;
+	float:left
+}
+
+#fb-like.form-group {
+	width: 90px;
+}
+
+.spacer10 {
+	margin-top: 10px;
+}
+
+.spacer20 {
+	margin-top: 20px !important;
+}
+
+.spacer30 {
+	margin-top: 30px;
 }
 
 /* ================================================================================================ 
@@ -340,19 +356,15 @@ html,body,form {
 		top: 61px;
 		right: 5%;
 		z-index: 29;
-	}	
+	}
 }
 
-@media (min-width: 768px) {
-
+@media ( min-width : 768px) {
 	.articolo-sel {
 		margin-top: 6px;
 		margin-bottom: 6px;
 	}
 }
-
-
-
 
 /* Lastly, apply responsive CSS fixes as necessary */
 @media ( max-width : 767px) {
@@ -383,12 +395,10 @@ html,body,form {
 		margin-left: 2px;
 		border-top: 1px solid #DDD;
 	}
-	
 	.btn-articolo-sel {
 		margin-top: 6px;
 		margin-bottom: 6px;
 	}
-	
 	.articolo-sel {
 		margin-top: 6px;
 		margin-bottom: 6px;

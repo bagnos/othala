@@ -6,7 +6,8 @@
 
 	<ui:define name="metadata">
 		<f:metadata>
-			<!-- <f:viewAction action="#{accessView.doInit}"></f:viewAction>-->
+			<f:viewAction action="#{cartSelected3View.doInit}"></f:viewAction>
+
 		</f:metadata>
 	</ui:define>
 
@@ -18,7 +19,106 @@
 	<ui:define name="content">
 		<h:form id="cartSelected" prependId="false">
 			<div class="container">
-				<div class="row"></div>
+				<div class="row spacer10">
+					<div class="col-sm-2">
+						<h4>CARRELLO</h4>
+					</div>
+				</div>
+				<div class="row spacer10">
+					<div class="col-sm-2">
+						<p:commandButton icon="ui-icon-triangle-1-w btn-articolo-sel" action="cartFlow?faces-redirect=true"
+							value="#{msg.catalog_back}" />
+					</div>
+					<div class="col-sm-2 col-sm-offset-8">
+						<p:commandButton id="add-cart" styleClass="ui-priority-primary" disabled="#{cartFlowBean.cart.size()==0}" value="Acquista" ajax="false"
+							action="cart-payment-4" />
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-10 col-sm-offset-1">
+						<div class="table-responsive spacer10">
+							<table class="table">
+								<thead>
+									<tr>
+										<th class="col-sm-4">ARTICOLO</th>
+										<th class="col-sm-2">COLORE</th>
+										<th class="col-sm-1">TAGLIA</th>
+										<th class="col-sm-2">PREZZO</th>
+										<th class="col-sm-1">QTA'</th>
+										<th class="col-sm-2">PREZZO TOTALE</th>
+
+									</tr>
+								</thead>
+								<tfoot>
+									<tr>
+										<td colspan="5" class="text-right">COSTO SPEDIZIONE</td>
+										<td><h:outputText value="0">
+												<f:converter converterId="it.othala.BigDecimalConverter" />
+											</h:outputText></td>
+									</tr>
+									<tr>
+										<td colspan="5" class="text-right"><strong>TOTALE</strong></td>
+										<td><h:outputText value="#{cartSelected3View.totalPrice}">
+												<f:converter converterId="it.othala.BigDecimalConverter" />
+											</h:outputText></td>
+									</tr>
+
+								</tfoot>
+								<tbody>
+									<ui:repeat var="art" value="#{cartFlowBean.cart}" varStatus="stBread">
+										<tr>
+											<td><div class="row">
+													<div class="col-sm-12">
+														<h:graphicImage styleClass="img-responsive img-small-cart"
+															library="images/cartThumbinals" name="#{art.prdFullDTO.thumbnailsUrl}" />
+														<div class="articolo">
+															<h5>#{art.prdFullDTO.txBrand}</h5>
+															<h6>#{art.prdFullDTO.description}</h6>
+															<p style="margin-top: 20px">
+
+																<p:commandButton value="Rimuovi Articolo" process="@all" update="@all" actionListener="#{cartSelected3View.deleteArticol}" icon="ui-icon ui-icon-trash">
+																<f:attribute value="#{art}" name="art"/>
+																</p:commandButton>
+
+															</p>
+														</div>
+
+
+													</div>
+
+
+												</div></td>
+											<td><h:outputText value="#{art.txColor}" /></td>
+											<td><h:outputText value="#{art.txSize}" /></td>
+
+											<td><h:outputText value="#{art.prdFullDTO.realPrice}">
+													<f:converter converterId="it.othala.BigDecimalConverter" />
+												</h:outputText></td>
+											<td><h:outputText value="#{art.qtBooked}" /></td>
+											<td><h:outputText value="#{art.totalPriced}">
+													<f:converter converterId="it.othala.BigDecimalConverter" />
+												</h:outputText></td>
+
+
+										</tr>
+									</ui:repeat>
+								</tbody>
+							</table>
+
+						</div>
+					</div>
+				</div>
+				<div class="row spacer10">
+					<div class="col-sm-2">
+						<p:commandButton icon="ui-icon-triangle-1-w btn-articolo-sel" action="cartFlow?faces-redirect=true"
+							value="#{msg.catalog_back}" />
+					</div>
+					<div class="col-sm-2 col-sm-offset-8">
+						<p:commandButton id="add-cart-bottom" disabled="#{cartFlowBean.cart.size()==0}" styleClass="ui-priority-primary" value="Acquista"
+							ajax="false" action="cart-payment-4" />
+					</div>
+				</div>
 			</div>
 		</h:form>
 	</ui:define>

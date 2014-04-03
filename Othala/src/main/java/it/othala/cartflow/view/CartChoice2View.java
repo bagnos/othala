@@ -137,6 +137,13 @@ public class CartChoice2View extends BaseView {
 
 		return null;
 	}
+	
+	public String goToCart()
+	{
+		flowBean.getCart().add(artSel);
+		artSel.setQtBooked(qtaArticle);
+		return "cart-selected-3?faces-redirect=true";
+	}
 
 	public void changeSize(AjaxBehaviorEvent e) {
 		if (idSize != null && idSize.intValue() != 0) {
@@ -168,8 +175,8 @@ public class CartChoice2View extends BaseView {
 
 						if (!flowBean.getCart().contains(art)) {
 							if (art.getQtStock() > 0) {
-								
-								flowBean.getCart().add(art);
+								artSel=art;	
+								artSel.setPrdFullDTO(prdFull);								
 								min = 1;
 								max = art.getQtStock();
 								qtaArticle = 1;
@@ -188,5 +195,4 @@ public class CartChoice2View extends BaseView {
 
 	}
 
-	
 }

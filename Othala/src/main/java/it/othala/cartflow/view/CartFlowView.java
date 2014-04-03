@@ -11,17 +11,19 @@ import it.othala.web.utils.OthalaUtil;
 
 import java.math.BigDecimal;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.swing.text.StyledEditorKit.BoldAction;
-
-import org.aspectj.weaver.patterns.ConcreteCflowPointcut.Slot;
 
 @Named
 @javax.faces.view.ViewScoped
 // @javax.faces.flow.FlowScoped("cartFlow")
+/*@ManagedBean
+@ViewScoped*/
 public class CartFlowView extends BaseView {
 
 	private final Integer ITEMS_PAGE = 20;
@@ -35,7 +37,11 @@ public class CartFlowView extends BaseView {
 	private Integer brand;
 	private Integer color;
 	private int orderPrice;
-
+	
+	//@ManagedProperty(value="#{cartFlowBean}")
+	@Inject
+	private CartFlowBean flowBean;
+	
 	public int getOrderPrice() {
 		return orderPrice;
 	}
@@ -68,8 +74,11 @@ public class CartFlowView extends BaseView {
 		this.size = size;
 	}
 
-	@Inject
-	private CartFlowBean flowBean;
+	
+
+	public void setFlowBean(CartFlowBean flowBean) {
+		this.flowBean = flowBean;
+	}
 
 	public CartFlowBean getFlowBean() {
 		return flowBean;
@@ -106,12 +115,7 @@ public class CartFlowView extends BaseView {
 	@Override
 	public String doInit() {
 		// TODO Auto-generated method stub
-
-		priceMin = flowBean.getPriceMin();
-		priceMax = flowBean.getPriceMax();
-		brand = flowBean.getBrand();
-		color = flowBean.getColor();
-		size = flowBean.getSize();
+		
 		flowBean.getArticles().clear();
 		flowBean.getArticlesPage().clear();
 
@@ -180,34 +184,31 @@ public class CartFlowView extends BaseView {
 
 	public void find(ActionEvent e) {
 
-		flowBean.setSize(size == null || size.intValue() == -1 ? null : size);
-		flowBean.setColor(color == null || color.intValue() == -1 ? null : color);
-		flowBean.setBrand(brand == null || brand.intValue() == -1 ? null : brand);
-		flowBean.getArticles().clear();
-		flowBean.setPriceMax(priceMax);
-		flowBean.setPriceMin(priceMin);
-		flowBean.setOrderPrice(orderPrice);
-
+	
 		callServiceProduct(1);
 
 	}
 
 	public String detailProduct(ProductDTO p) {
 
-		/* flowBean.setDetailProduct(p); */
+		
 		return "cart-choice-2";
 
 	}
 
 	public void orderListener(AjaxBehaviorEvent event) {
 
-		flowBean.setOrderPrice(orderPrice);
+		
 		callServiceProduct(1);
 
 	}
 
 	private void callServiceProduct(int page) {
 
+		flowBean.setSize(flowBean.getSize() == null || flowBean.getSize().intValue() == -1 ? null : flowBean.getSize());
+		flowBean.setColor(flowBean.getColor() == null || flowBean.getColor().intValue() == -1 ? null : flowBean.getColor());
+		flowBean.setBrand(flowBean.getBrand() == null || flowBean.getBrand().intValue() == -1 ? null : flowBean.getBrand());
+		
 		flowBean.getArticles().clear();
 		flowBean.getArticles().addAll(
 				OthalaFactory.getProductServiceInstance().getListProduct(getLang(), flowBean.getIdMenu(),
