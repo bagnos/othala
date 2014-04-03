@@ -8,10 +8,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ManagedBean;
 import javax.inject.Named;
 
 @Named
 @javax.faces.flow.FlowScoped("cartFlow")
+/*@javax.faces.bean.SessionScoped
+@ManagedBean*/
 public class CartFlowBean implements Serializable {
 
 	/**

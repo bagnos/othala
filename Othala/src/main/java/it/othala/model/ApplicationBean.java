@@ -12,11 +12,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ApplicationScoped;
+import javax.faces.bean.ManagedBean;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
 
 @Named
 @javax.enterprise.context.ApplicationScoped
+/*
+@ManagedBean
+@ApplicationScoped*/
 public class ApplicationBean implements Serializable {
 
 	/**

@@ -26,6 +26,10 @@ public class ProductFullDTO implements Serializable {
 
 	private Integer idBrand;
 	private String txBrand;
+	
+	private BigDecimal realPrice;
+
+	
 
 	private List<DescriptionDTO> langDescription;
 
@@ -37,6 +41,11 @@ public class ProductFullDTO implements Serializable {
 
 	public Integer getIdProduct() {
 		return idProduct;
+	}
+	
+	public BigDecimal getRealPrice() {
+		realPrice=priceDiscounted!=null?priceDiscounted:price;
+		return realPrice;
 	}
 
 	public void setIdProduct(Integer idProduct) {
