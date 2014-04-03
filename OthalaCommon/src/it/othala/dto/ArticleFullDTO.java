@@ -15,7 +15,7 @@ public class ArticleFullDTO implements Serializable {
 	private String txSize;
 	private Integer idColor;
 	private String txColor;
-
+	private String thumbnailsUrl;
 	
 	public Integer getPgArticle() {
 		return pgArticle;
@@ -54,6 +54,12 @@ public class ArticleFullDTO implements Serializable {
 	}
 	public void setTxColor(String txColor) {
 		this.txColor = txColor;
+	}
+	public String getThumbnailsUrl() {
+		return thumbnailsUrl;
+	}
+	public void setThumbnailsUrl(String thumbnailsUrl) {
+		this.thumbnailsUrl = thumbnailsUrl;
 	}
 	
 	
