@@ -1,10 +1,22 @@
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
 
 DROP SCHEMA IF EXISTS `othala` ;
 CREATE SCHEMA IF NOT EXISTS `othala` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
 USE `othala` ;
+
+-- -----------------------------------------------------
+-- Table `othala`.`Type_State_Account`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `othala`.`Type_State_Account` ;
+
+CREATE  TABLE IF NOT EXISTS `othala`.`Type_State_Account` (
+  `idTypeState` INT NOT NULL ,
+  `txTypeState` VARCHAR(45) NULL ,
+  PRIMARY KEY (`idTypeState`) )
+ENGINE = InnoDB;
+
 
 -- -----------------------------------------------------
 -- Table `othala`.`Customer`
@@ -17,7 +29,14 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Customer` (
   `txNome` VARCHAR(30) NOT NULL ,
   `txCognome` VARCHAR(30) NOT NULL ,
   `txFiscale` VARCHAR(100) NULL ,
-  PRIMARY KEY (`idUser`) )
+  `idTypeState` INT NULL ,
+  PRIMARY KEY (`idUser`) ,
+  INDEX `fk_Customer_Type_State_Account1` (`idTypeState` ASC) ,
+  CONSTRAINT `fk_Customer_Type_State_Account1`
+    FOREIGN KEY (`idTypeState` )
+    REFERENCES `othala`.`Type_State_Account` (`idTypeState` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -300,6 +319,7 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Article` (
   `idSize` INT NULL ,
   `idColor` INT NULL ,
   `qtStock` INT NULL ,
+  `txThumbnailsUrl` VARCHAR(100) NULL ,
   PRIMARY KEY (`idProduct`, `pgArticle`) ,
   INDEX `fk_Article_Size1` (`idSize` ASC) ,
   INDEX `fk_Article_Color1` (`idColor` ASC) ,
@@ -370,7 +390,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `othala`.`Orders` ;
 
 CREATE  TABLE IF NOT EXISTS `othala`.`Orders` (
-  `idOrder` INT NOT NULL AUTO_INCREMENT ,
+  `idOrder` INT NOT NULL ,
   `idUser` VARCHAR(100) NOT NULL ,
   `imOrdine` INT NULL ,
   `imSpeseSpedizione` INT NULL ,
@@ -567,7 +587,6 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Brand` (
   PRIMARY KEY (`idBrand`, `idLanguages`) )
 ENGINE = InnoDB;
 
-USE `othala` ;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

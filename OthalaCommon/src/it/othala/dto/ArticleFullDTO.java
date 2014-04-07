@@ -19,6 +19,7 @@ public class ArticleFullDTO implements Serializable {
 	private ProductFullDTO prdFullDTO;
 	private Integer qtBooked;
 	private BigDecimal totalPriced;
+	private String thumbnailsUrl;
 
 	public BigDecimal getTotalPriced() {
 		if (prdFullDTO != null) {
@@ -91,6 +92,14 @@ public class ArticleFullDTO implements Serializable {
 
 	public void setTxColor(String txColor) {
 		this.txColor = txColor;
+	}
+
+	public String getThumbnailsUrl() {
+		return thumbnailsUrl;
+	}
+
+	public void setThumbnailsUrl(String thumbnailsUrl) {
+		this.thumbnailsUrl = thumbnailsUrl;
 	}
 
 }
