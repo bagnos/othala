@@ -3,6 +3,7 @@ package it.othala.dao;
 import it.othala.dao.interfaces.IProductDAO;
 import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.AttributeDTO;
+import it.othala.dto.AttributeSizeDTO;
 import it.othala.dto.MenuDTO;
 import it.othala.dto.ProductDTO;
 import it.othala.dto.ProductFullDTO;
@@ -100,9 +101,9 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	}
 
 	@Override
-	public List<AttributeDTO> listSize() {
+	public List<AttributeSizeDTO> listSize() {
 
-		List<AttributeDTO> listAttribute = getSqlSession().selectList(
+		List<AttributeSizeDTO> listAttribute = getSqlSession().selectList(
 				"it.othala.product.queries.listSize");
 
 		return listAttribute;
