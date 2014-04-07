@@ -66,6 +66,36 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `othala`.`Type_Size`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `othala`.`Type_Size` ;
+
+CREATE  TABLE IF NOT EXISTS `othala`.`Type_Size` (
+  `idTypeSize` INT NOT NULL ,
+  `txTypeSize` VARCHAR(45) NULL ,
+  PRIMARY KEY (`idTypeSize`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `othala`.`Size_Type_Size`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `othala`.`Size_Type_Size` ;
+
+CREATE  TABLE IF NOT EXISTS `othala`.`Size_Type_Size` (
+  `idType` INT NOT NULL ,
+  `idTypeSize` INT NOT NULL ,
+  PRIMARY KEY (`idType`) ,
+  INDEX `fk_idType_Type_Size1` (`idTypeSize` ASC) ,
+  CONSTRAINT `fk_idType_Type_Size1`
+    FOREIGN KEY (`idTypeSize` )
+    REFERENCES `othala`.`Type_Size` (`idTypeSize` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `othala`.`Type`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `othala`.`Type` ;
@@ -74,7 +104,13 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Type` (
   `idType` INT NOT NULL ,
   `idLanguages` VARCHAR(2) NOT NULL ,
   `txType` VARCHAR(200) NULL ,
-  PRIMARY KEY (`idType`, `idLanguages`) )
+  PRIMARY KEY (`idType`, `idLanguages`) ,
+  INDEX `fk_Type_idType1` (`idType` ASC) ,
+  CONSTRAINT `fk_Type_idType1`
+    FOREIGN KEY (`idType` )
+    REFERENCES `othala`.`Size_Type_Size` (`idType` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -290,8 +326,15 @@ DROP TABLE IF EXISTS `othala`.`Size` ;
 
 CREATE  TABLE IF NOT EXISTS `othala`.`Size` (
   `idSize` INT NOT NULL ,
+  `idTypeSize` INT NULL ,
   `txSize` VARCHAR(10) NULL ,
-  PRIMARY KEY (`idSize`) )
+  PRIMARY KEY (`idSize`) ,
+  INDEX `fk_Size_Type_Size1` (`idTypeSize` ASC) ,
+  CONSTRAINT `fk_Size_Type_Size1`
+    FOREIGN KEY (`idTypeSize` )
+    REFERENCES `othala`.`Type_Size` (`idTypeSize` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -558,7 +601,13 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Type` (
   `idType` INT NOT NULL ,
   `idLanguages` VARCHAR(2) NOT NULL ,
   `txType` VARCHAR(200) NULL ,
-  PRIMARY KEY (`idType`, `idLanguages`) )
+  PRIMARY KEY (`idType`, `idLanguages`) ,
+  INDEX `fk_Type_idType1` (`idType` ASC) ,
+  CONSTRAINT `fk_Type_idType1`
+    FOREIGN KEY (`idType` )
+    REFERENCES `othala`.`Size_Type_Size` (`idType` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
