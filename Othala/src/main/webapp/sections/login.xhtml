@@ -1,0 +1,47 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+
+	<h:panelGroup id="login">
+		<div class="form-group">
+			<p:outputLabel value="#{msg.account_email}" for="j_username" />
+			<p:inputText id="j_username" styleClass="form-control" label="#{msg.account_email}"
+				value="#{accessBean.email}" required="true" validatorMessage="#{msg.validator_mail}"
+				maxlength="70">
+
+				<f:validateRegex pattern="[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+\.[a-zA-Z]{2,4}" />
+
+			</p:inputText>
+			<p:message for="j_username" />
+
+		</div>
+
+		<div class="form-group">
+			<p:outputLabel value="#{msg.account_psw}" for="j_password" />
+			<p:password id="j_password" required="true" styleClass="form-control" label="#{msg.account_psw}"
+				value="#{accessBean.psw}" maxlength="10" />
+			<p:message id="err-psw" for="j_password"></p:message>
+
+		</div>
+
+
+		<!-- 
+		<div class="checkbox">
+			<label> <h:selectBooleanCheckbox value="#{accessView.accessBean.staySignIn}" /> <h:outputText
+					value="#{msg.account_staySignIn}" />
+			</label>
+		</div>
+		 -->
+		<p:commandButton id="ajax" process="login" update="login @(form:first)"
+			styleClass="ui-priority-primary" oncomplete="changePage(xhr, status, args)"
+			actionListener="#{accessView.loginWizard}" value="#{msg.account_access}">
+		</p:commandButton>
+	</h:panelGroup>
+
+
+
+
+</ui:composition>

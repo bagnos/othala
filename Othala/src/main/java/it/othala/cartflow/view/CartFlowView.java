@@ -22,59 +22,23 @@ import javax.inject.Named;
 @Named
 @javax.faces.view.ViewScoped
 // @javax.faces.flow.FlowScoped("cartFlow")
-/*@ManagedBean
-@ViewScoped*/
+/*
+ * @ManagedBean
+ * 
+ * @ViewScoped
+ */
 public class CartFlowView extends BaseView {
 
 	private final Integer ITEMS_PAGE = 20;
-	private int priceMin = 1;
-	private int priceMax = 5000;
+
 	private int starIndex = 0;
 	private int endIndex = 0;
 	private String classForw;
 	private String classBack;
-	private Integer size;
-	private Integer brand;
-	private Integer color;
-	private int orderPrice;
-	
-	//@ManagedProperty(value="#{cartFlowBean}")
+
+	// @ManagedProperty(value="#{cartFlowBean}")
 	@Inject
 	private CartFlowBean flowBean;
-	
-	public int getOrderPrice() {
-		return orderPrice;
-	}
-
-	public void setOrderPrice(int orderPrice) {
-		this.orderPrice = orderPrice;
-	}
-
-	public Integer getBrand() {
-		return brand;
-	}
-
-	public void setBrand(Integer brand) {
-		this.brand = brand;
-	}
-
-	public Integer getColor() {
-		return color;
-	}
-
-	public void setColor(Integer color) {
-		this.color = color;
-	}
-
-	public Integer getSize() {
-		return size;
-	}
-
-	public void setSize(Integer size) {
-		this.size = size;
-	}
-
-	
 
 	public void setFlowBean(CartFlowBean flowBean) {
 		this.flowBean = flowBean;
@@ -92,30 +56,10 @@ public class CartFlowView extends BaseView {
 		return classBack;
 	}
 
-	public int getPriceMin() {
-		return priceMin;
-	}
-
-	public void setPriceMin(int priceMin) {
-		this.priceMin = priceMin;
-	}
-
-	public int getPriceMax() {
-		return priceMax;
-	}
-
-	public void setPriceMax(int priceMax) {
-		this.priceMax = priceMax;
-	}
-
-	public String preInit() {
-		return "cart-flow-1";
-	}
-
 	@Override
 	public String doInit() {
 		// TODO Auto-generated method stub
-		
+
 		flowBean.getArticles().clear();
 		flowBean.getArticlesPage().clear();
 
@@ -184,21 +128,18 @@ public class CartFlowView extends BaseView {
 
 	public void find(ActionEvent e) {
 
-	
 		callServiceProduct(1);
 
 	}
 
 	public String detailProduct(ProductDTO p) {
 
-		
 		return "cart-choice-2";
 
 	}
 
 	public void orderListener(AjaxBehaviorEvent event) {
 
-		
 		callServiceProduct(1);
 
 	}
@@ -206,9 +147,11 @@ public class CartFlowView extends BaseView {
 	private void callServiceProduct(int page) {
 
 		flowBean.setSize(flowBean.getSize() == null || flowBean.getSize().intValue() == -1 ? null : flowBean.getSize());
-		flowBean.setColor(flowBean.getColor() == null || flowBean.getColor().intValue() == -1 ? null : flowBean.getColor());
-		flowBean.setBrand(flowBean.getBrand() == null || flowBean.getBrand().intValue() == -1 ? null : flowBean.getBrand());
-		
+		flowBean.setColor(flowBean.getColor() == null || flowBean.getColor().intValue() == -1 ? null : flowBean
+				.getColor());
+		flowBean.setBrand(flowBean.getBrand() == null || flowBean.getBrand().intValue() == -1 ? null : flowBean
+				.getBrand());
+
 		flowBean.getArticles().clear();
 		flowBean.getArticles().addAll(
 				OthalaFactory.getProductServiceInstance().getListProduct(getLang(), flowBean.getIdMenu(),

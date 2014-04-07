@@ -1,14 +1,19 @@
 package it.othala.account.model;
 
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.inject.Named;
+import java.io.Serializable;
 
-@ManagedBean
-@SessionScoped
-public class CustomerLoginBean {
+@Named
+@javax.enterprise.context.SessionScoped
+public class CustomerLoginBean implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String email;
+	
 	private String name;
 	
 	public String getName() {

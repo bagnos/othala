@@ -98,7 +98,7 @@
 .img-small-cart {
 	width: 95px;
 	height: 126px;
-	float:left
+	float: left
 }
 
 #fb-like.form-group {
@@ -230,7 +230,7 @@
 	background-color: #f9f9f9 !important;
 }
 
-.tab-pane a:HOVER {
+#tab-content .tab-pane a:HOVER {
 	text-decoration: none !important;;
 }
 
@@ -245,7 +245,7 @@
 	background: #f9f9f9 !important;
 }
 
-.tab-pane.active {
+#tab-content .tab-pane.active {
 	background-color: #f9f9f9 !important;
 	border-left: 1px solid #ddd !important;
 	border-right: 1px solid #ddd !important;
@@ -311,7 +311,6 @@
 	line-height: 18px;
 }
 
-
 /* ================================================================================================ 
 	INIZIO STICKY FOOTER 
 ================================================================================================*/
@@ -347,6 +346,197 @@ html,body,form {
 
 /* ================================================================================================ 
 	FINE STICKY FOOTER 
+================================================================================================*/
+
+/* ================================================================================================ 
+	INIZIO WIZARD CHECKOUT CARELLO 
+================================================================================================*/
+.bwizard-steps {
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	background: #fff
+}
+
+.bwizard-steps .active {
+	color: #fff;
+	background: #007ACC
+}
+
+.bwizard-steps .active:after {
+	border-left-color: #007ACC
+}
+
+.bwizard-steps .active a {
+	color: #fff;
+	cursor: default
+}
+
+.bwizard-steps .label {
+	position: relative;
+	color: #333; top : -1px;
+	margin: 0 5px 0 0;
+	padding: 1px 5px 2px;
+	top: -1px;
+}
+
+
+
+.bwizard-steps .active .label {
+	background-color: #333;
+	color: white;
+}
+
+.bwizard-steps li {
+	display: inline-block;
+	position: relative;
+	margin-right: 5px;
+	padding: 12px 17px 10px 30px;
+	*display: inline;
+	*padding-left: 17px;
+	background: #efefef;
+	line-height: 18px;
+	list-style: none;
+	zoom: 1;
+}
+
+.bwizard-steps li:first-child {
+	padding-left: 12px;
+	-moz-border-radius: 4px 0 0 4px;
+	-webkit-border-radius: 4px 0 0 4px;
+	border-radius: 4px 0 0 4px;
+	
+}
+
+.bwizard-steps li:first-child:before {
+	border: none
+}
+
+.bwizard-steps li:last-child {
+	margin-right: 0;
+	-moz-border-radius: 0 4px 4px 0;
+	-webkit-border-radius: 0 4px 4px 0;
+	border-radius: 0 4px 4px 0;
+}
+
+.bwizard-steps li:last-child:after {
+	border: none
+}
+
+.bwizard-steps li:before {
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 0;
+	width: 0;
+	border-bottom: 20px inset transparent;
+	border-left: 20px solid #fff;
+	border-top: 20px inset transparent;
+	content: ""
+}
+
+.bwizard-steps li:after {
+	position: absolute;
+	right: -20px;
+	top: 0;
+	height: 0;
+	width: 0;
+	border-bottom: 20px inset transparent;
+	border-left: 20px solid #efefef;
+	border-top: 20px inset transparent;
+	content: "";
+	z-index: 1;
+}
+
+#startNode{
+	display: inline-block;
+	position: relative;
+	margin-right: 5px;
+	padding: 12px 17px 10px 30px;
+	*display: inline;
+	*padding-left: 17px;
+	background: #efefef;
+	line-height: 18px;
+	list-style: none;
+	zoom: 1;
+	padding-left: 12px;
+	-moz-border-radius: 4px 0 0 4px;
+	-webkit-border-radius: 4px 0 0 4px;
+	border-radius: 4px 0 0 4px;
+	margin-right: 20px;
+}
+
+/*
+#startNode .label {
+	position: relative;
+	color: #333; top : -1px;
+	margin: 0 5px 0 0;
+	padding: 1px 5px 2px;
+	top: -1px;
+}
+
+#startNode:after {
+	position: absolute;
+	right: -20px;
+	top: 0;
+	height: 0;
+	width: 0;
+	border-bottom: 20px inset transparent;
+	border-left: 20px solid #efefef;
+	border-top: 20px inset transparent;
+	content: "";
+	z-index: 1;
+}*/
+
+.bwizard-steps a {
+	color: #333
+}
+
+.bwizard-steps a:hover {
+	text-decoration: none;
+	cursor: default;
+}
+
+.bwizard-steps li:first-child a:hover {
+	
+	cursor: pointer !important;
+}
+
+.bwizard-steps.clickable li:not (.active ) {
+	cursor: pointer
+}
+
+.bwizard-steps.clickable li:hover:not (.active ) {
+	background: #ccc
+}
+
+.bwizard-steps.clickable li:hover:not (.active ):after {
+	border-left-color: #ccc
+}
+
+.bwizard-steps.clickable li:hover:not (.active ) a {
+	color: #08c
+}
+
+@media ( max-width : 480px) {
+	/* badges only on small screens */
+	.bwizard-steps li:after,.bwizard-steps li:before {
+		border: none
+	}
+	.bwizard-steps li,.bwizard-steps li.active,.bwizard-steps li:first-child,.bwizard-steps li:last-child
+		{
+		margin-right: 0;
+		padding: 0;
+		background-color: transparent
+	}
+	.bwizard-steps .active a {
+	color:  #333;
+	cursor: default
+}
+}
+
+/* ================================================================================================ 
+	FINE WIZARD CHECKOUT CARELLO 
 ================================================================================================*/
 
 /* RESPONSIVE */
