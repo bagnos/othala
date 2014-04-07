@@ -175,13 +175,17 @@
 	</select>
 
 
-	<select id="listSize" resultType="it.othala.dto.AttributeDTO">
+	<select id="listSize" resultType="it.othala.dto.AttributeSizeDTO">
 
-		SELECT idSize as
+		SELECT c.idType, idSize as
 		attributo,txSize as valore
 		FROM
-		${database.schema}size
-		order by 2
+		${database.schema}size a,
+        ${database.schema}type_size b,
+        ${database.schema}size_type_size c
+        where a.idTypeSize = b.idTypeSize
+        and a.idTypeSize = c.idTypeSize
+		order by 1
 
 	</select>
 
