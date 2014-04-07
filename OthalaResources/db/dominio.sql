@@ -4,6 +4,14 @@ INSERT INTO gender VALUES
 INSERT INTO brand VALUES    
 (1,'it','LANVIN'),(2,'it','BALMAIN'),(3,'it','DSQUARED'),(4,'it','MOSCHINO'),(5,'it','DOLCE E GABBANA'),(6,'it','STONE ISLAND');
 
+INSERT INTO `type_size`
+VALUES
+(1,'TAGLIE'),(2,'TAGLIE ITA'),(3,'SCARPE EU'),(4,'PANTALONI US');
+
+INSERT INTO `othala`.`size_type_size`
+VALUES
+(1,1),(2,4),(3,2),(4,2),(5,2),(6,1),(7,1),(8,2),(9,2),(10,2),(11,2),
+(12,2),(13,1),(14,4),(15,1),(16,4),(17,2),(18,2),(19,1),(20,3),(21,1),(22,2);
 
 
 
@@ -25,11 +33,19 @@ INSERT INTO `color` VALUES
 (16,'it','VIOLA');
 
 INSERT INTO size VALUES    
-(1, '34'),  (2,'36'),  (3,'38'), (4,'40'),
-(5, '42'),  (6,'44'),  (7,'46'), (8,'48'), (9,'50'),
-(10,'52'), (11,'54'), (12,'56'),(13,'58'),(14,'60'),
-(15,'XXS'),(16,'XS'), (17,'S'), (18,'M'), (19,'L'),
-(20,'XL') ,(21,'XXL'),(22,'U');
+(1, 2,'34'),  (2,2,'36'),  (3,2,'38'), (4,2,'40'),
+(5,2, '42'),  (6,2,'44'),  (7,2,'46'), (8,2,'48'), (9,2,'50'),
+(10,2,'52'), (11,2,'54'), (12,2,'56'),(13,2,'58'),(14,2,'60'),
+(15,1,'XXS'),(16,1,'XS'), (17,1,'S'), (18,1,'M'), (19,1,'L'),
+(20,1,'XL') ,(21,1,'XXL'),(22,1,'U'),
+(23, 3,'34'),  (24,3,'35'),  (25,3,'36'), (26,3,'37'),
+(27,3, '38'),  (28,3,'39'),  (29,3,'40'), (30,3,'41'), (31,3,'42'),
+(32,3,'43'), (33,3,'44'), (34,3,'45'),(35,3,'46'),(36,3,'47'),
+(37, 4,'24'),  (38,4,'25'),  (39,4,'26'), (40,4,'27'),
+(41,4, '28'),  (42,4,'29'),  (43,4,'30'), (44,4,'31'), (45,4,'32'),
+(46,4,'33'), (47,4,'34'), (48,4,'35'),(49,4,'36'),(50,4,'37'),
+(51,4,'38'), (52,4,'39'), (53,4,'40'),(54,4,'41'),(55,4,'42')
+;
 
 INSERT INTO `product_state` VALUES (0,'INSERITO'),(1,'PUBBLICATO');
 INSERT INTO `site_images` VALUES (1,'carousel',1,'images/carousel','2.jpg'),(2,'carousel',2,'images/carousel','3.jpg'),(3,'carousel',3,'images/carousel','2.jpg'),(4,'carousel',4,'images/carousel','3.jpg'),(5,'newArrivals',1,'images/newArrivals','men.gif'),(6,'newArrivals',2,'images/newArrivals','woman.gif'),(7,'newArrivals',3,'images/newArrivals','boys.gif'),(8,'newArrivals',4,'images/newArrivals','girls.gif');
@@ -52,9 +68,8 @@ INSERT INTO `product_description` VALUES (881,'it','JEANS IN COTONE STRETCH 16.5
 INSERT INTO `product_image` VALUES (881,1,'A881.JPG'),(881,2,'A882.JPG'),(881,3,'C881.JPG'),(881,4,'C882.JPG');
 INSERT INTO `article` VALUES (881,1,17,3,1,'A882.JPG'),(881,2,18,3,2,'A882.JPG'),(881,3,19,3,1,'A882.JPG'),(881,4,20,6,1,'A881.JPG'),(881,5,21,6,2,'A881.JPG'),(881,6,22,6,1,'A881.JPG');
 
-INSERT INTO `states` VALUES (1,"INSERITO"),(2,"IN LAVORAZIONE"),(3,"SPEDITO"),(4,"ANNULLATO"),(5,"RECESSO");
+INSERT INTO `states` VALUES (1,'INSERITO'),(2,'IN LAVORAZIONE'),(3,'SPEDITO'),(4,'ANNULLATO'),(5,'RECESSO');
 
 INSERT INTO `type_state_account`
 VALUES
-(1,"DISATTIVATO"),(2,"ATTIVATO"),(3,"CESSATO"),(4,"RESET_PSW");
-
+(1,'DISATTIVATO'),(2,'ATTIVATO'),(3,'CESSATO'),(4,'RESET_PSW');
