@@ -242,7 +242,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 			map4.put("idColor", productFull.getArticles().get(i)
 					.getIdColor());
 			map4.put("qtStock", productFull.getArticles().get(i).getQtStock());
-
+			map4.put("thumbnailsUrl", productFull.getArticles().get(i).getThumbnailsUrl());
 			getSqlSession().insert("it.othala.product.queries.insertArticle",
 					map4);
 
