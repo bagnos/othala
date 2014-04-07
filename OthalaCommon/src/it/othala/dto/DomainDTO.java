@@ -10,18 +10,18 @@ public class DomainDTO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private List<AttributeDTO> size;
+	private List<AttributeSizeDTO> size;
 	private List<AttributeDTO> color;
 	private List<AttributeDTO> brand;
 	private List<AttributeDTO> gender;
 	private List<AttributeDTO> type;
 
 	
-	public List<AttributeDTO> getSize() {
+	public List<AttributeSizeDTO> getSize() {
 		return size;
 	}
 
-	public void setSize(List<AttributeDTO> size) {
+	public void setSize(List<AttributeSizeDTO> size) {
 		this.size = size;
 	}
 
