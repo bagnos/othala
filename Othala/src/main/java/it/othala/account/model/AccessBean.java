@@ -22,6 +22,7 @@ public class AccessBean extends BaseBean {
 	private String surname;
 	private boolean newsletter;
 	
+	
 	public boolean isNewsletter() {
 		return newsletter;
 	}

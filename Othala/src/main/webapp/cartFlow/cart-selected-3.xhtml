@@ -17,7 +17,7 @@
 	</ui:define>
 
 	<ui:define name="content">
-		<h:form id="cartSelected" prependId="false">
+		<h:form  prependId="false">
 			<div class="container">
 				<div class="row spacer10">
 					<div class="col-sm-2">
@@ -26,12 +26,13 @@
 				</div>
 				<div class="row spacer10">
 					<div class="col-sm-2">
-						<p:commandButton icon="ui-icon-triangle-1-w btn-articolo-sel" action="cartFlow?faces-redirect=true"
-							value="#{msg.catalog_back}" />
+						<p:commandButton icon="ui-icon-triangle-1-w btn-articolo-sel"
+							action="cartFlow?faces-redirect=true" value="#{msg.catalog_back}" />
 					</div>
-					<div class="col-sm-2 col-sm-offset-8">
-						<p:commandButton id="add-cart" styleClass="ui-priority-primary" disabled="#{cartFlowBean.cart.size()==0}" value="Acquista" ajax="false"
-							action="cart-payment-4" />
+					<div class="col-sm-2 col-sm-offset-8 text-right">
+						<p:commandButton id="add-cart" styleClass="ui-priority-primary"
+							disabled="#{cartFlowBean.cart.size()==0}" value="Acquista" 
+							action="cartCheckout?faces-redirect=true" />
 					</div>
 				</div>
 
@@ -76,18 +77,13 @@
 															<h5>#{art.prdFullDTO.txBrand}</h5>
 															<h6>#{art.prdFullDTO.description}</h6>
 															<p style="margin-top: 20px">
-
-																<p:commandButton value="Rimuovi Articolo" process="@all" update="@all" actionListener="#{cartSelected3View.deleteArticol}" icon="ui-icon ui-icon-trash">
-																<f:attribute value="#{art}" name="art"/>
+																<p:commandButton value="Rimuovi Articolo" process="@all" update="@all"
+																	actionListener="#{cartSelected3View.deleteArticol}" icon="ui-icon ui-icon-trash">
+																	<f:attribute value="#{art}" name="art" />
 																</p:commandButton>
-
 															</p>
 														</div>
-
-
 													</div>
-
-
 												</div></td>
 											<td><h:outputText value="#{art.txColor}" /></td>
 											<td><h:outputText value="#{art.txSize}" /></td>
@@ -111,12 +107,12 @@
 				</div>
 				<div class="row spacer10">
 					<div class="col-sm-2">
-						<p:commandButton icon="ui-icon-triangle-1-w btn-articolo-sel" action="cartFlow?faces-redirect=true"
-							value="#{msg.catalog_back}" />
+						<p:commandButton icon="ui-icon-triangle-1-w btn-articolo-sel"
+							action="cartFlow?faces-redirect=true" value="#{msg.catalog_back}" />
 					</div>
-					<div class="col-sm-2 col-sm-offset-8">
-						<p:commandButton id="add-cart-bottom" disabled="#{cartFlowBean.cart.size()==0}" styleClass="ui-priority-primary" value="Acquista"
-							ajax="false" action="cart-payment-4" />
+					<div class="col-sm-2 col-sm-offset-8 text-right">
+						<p:commandButton id="add-cart-bottom" disabled="#{cartFlowBean.cart.size()==0}"
+							styleClass="ui-priority-primary" value="Acquista" ajax="false" action="cartCheckout?faces-redirect=true" />
 					</div>
 				</div>
 			</div>

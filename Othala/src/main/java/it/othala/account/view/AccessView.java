@@ -14,16 +14,26 @@ import it.othala.web.utils.OthalaUtil;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
+import javax.inject.Inject;
+import javax.inject.Named;
 
-@ManagedBean
+import org.primefaces.context.RequestContext;
+
+@Named
+@ViewScoped
 public class AccessView extends BaseView {
 
-	@ManagedProperty(value = "#{accessBean}")
+	/*
+	@ManagedProperty(value = "#{accessBean}")*/
+	@Inject
 	private AccessBean accessBean;
 	private boolean renderClient;
 
-	@ManagedProperty(value = "#{customerLoginBean}")
+	/*
+	@ManagedProperty(value = "#{customerLoginBean}")*/
+	@Inject
 	private CustomerLoginBean loginBean;
 
 	public void setLoginBean(CustomerLoginBean loginBean) {
@@ -109,6 +119,41 @@ public class AccessView extends BaseView {
 		}
 		return "home";
 	}
+	
+	public void loginWizard(ActionEvent e) {
+		//try {
+			/*String name = OthalaFactory.getAccountServiceInstance().verifyPasswordAccount(accessBean.getEmail(),
+					accessBean.getPsw());*/
+			loginBean.setName("simone");
+			loginBean.setEmail(accessBean.getEmail());
+			renderClient = true;
+			//RequestContext.getCurrentInstance().execute("$('.pager.wizard li.next a').click();");
+			/*
+		} catch (BadCredentialException ex) {
+			// TODO Auto-generated catch block
+			addOthalaExceptionError(ex, "login error");
+		}*/
+		
+	}
+	
+	public void loginNoRedirect() {
+		//try {
+			/*String name = OthalaFactory.getAccountServiceInstance().verifyPasswordAccount(accessBean.getEmail(),
+					accessBean.getPsw());*/
+			loginBean.setName("simone");
+			loginBean.setEmail(accessBean.getEmail());
+			renderClient = true;
+			RequestContext.getCurrentInstance().execute("$('.pager.wizard li.next a').click();");
+			
+			
+			/*
+		} catch (BadCredentialException ex) {
+			// TODO Auto-generated catch block
+			addOthalaExceptionError(ex, "login error");
+		}*/
+		
+	}
+
 
 	public void logout(ActionEvent e) {
 		loginBean.setEmail(null);
