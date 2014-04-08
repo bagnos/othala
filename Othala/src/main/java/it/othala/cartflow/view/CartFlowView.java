@@ -5,6 +5,7 @@ import it.othala.dto.MenuDTO;
 import it.othala.dto.ProductDTO;
 import it.othala.dto.SubMenuDTO;
 import it.othala.enums.OrderByCartFlow;
+import it.othala.model.ApplicationBean;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 import it.othala.web.utils.OthalaUtil;
@@ -39,6 +40,9 @@ public class CartFlowView extends BaseView {
 	// @ManagedProperty(value="#{cartFlowBean}")
 	@Inject
 	private CartFlowBean flowBean;
+	
+	@Inject
+	private ApplicationBean appBean;
 
 	public void setFlowBean(CartFlowBean flowBean) {
 		this.flowBean = flowBean;
@@ -62,6 +66,8 @@ public class CartFlowView extends BaseView {
 
 		flowBean.getArticles().clear();
 		flowBean.getArticlesPage().clear();
+		
+		appBean.updateSizes(flowBean.getIdSubMenu());
 
 		callServiceProduct(flowBean.getCurrentPage() == null ? 1 : flowBean.getCurrentPage());
 
