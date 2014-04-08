@@ -40,11 +40,12 @@
 	</context-param>
 	
 	 
+	<!--  
 	<context-param>
 	<param-name>javax.faces.CLIENT_WINDOW_MODE</param-name>
 	<param-value>url</param-value>
 	</context-param>
-	 
+	   -->
 	
 	
 
