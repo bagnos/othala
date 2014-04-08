@@ -11,18 +11,18 @@ import it.othala.enums.TypeCustomerState;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 import it.othala.web.utils.OthalaUtil;
+import it.othala.web.utils.WizardUtil;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpSession;
 
 import org.primefaces.context.RequestContext;
 
 @Named
-@ViewScoped
+@javax.faces.view.ViewScoped
 public class AccessView extends BaseView {
 
 	/*
@@ -35,6 +35,30 @@ public class AccessView extends BaseView {
 	@ManagedProperty(value = "#{customerLoginBean}")*/
 	@Inject
 	private CustomerLoginBean loginBean;
+	
+	
+	private String psw;
+	private String email;
+	
+	
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPsw() {
+		return psw;
+	}
+
+	public void setPsw(String psw) {
+		this.psw = psw;
+	}
+
+	
 
 	public void setLoginBean(CustomerLoginBean loginBean) {
 		this.loginBean = loginBean;
@@ -121,45 +145,39 @@ public class AccessView extends BaseView {
 	}
 	
 	public void loginWizard(ActionEvent e) {
-		//try {
-			/*String name = OthalaFactory.getAccountServiceInstance().verifyPasswordAccount(accessBean.getEmail(),
-					accessBean.getPsw());*/
-			loginBean.setName("simone");
-			loginBean.setEmail(accessBean.getEmail());
+		try {
+			String name = OthalaFactory.getAccountServiceInstance().verifyPasswordAccount(email,
+					psw);
+			loginBean.setName(name);
+ 			loginBean.setEmail(accessBean.getEmail());
 			renderClient = true;
-			//RequestContext.getCurrentInstance().execute("$('.pager.wizard li.next a').click();");
-			/*
+			//disabilitiamo l'accedi ed avanziiamo allo step successivo
+			RequestContext.getCurrentInstance().execute(WizardUtil.NextStepWizard());
+			
+
+			//RequestContext.getCurrentInstance().execute("$('#rootwizard').bootstrapWizard({onTabChange: function(tab, navigation, index) { if(index == 1) { alert('on tab show disabled');return false;	}}});");
+			
+			
 		} catch (BadCredentialException ex) {
 			// TODO Auto-generated catch block
 			addOthalaExceptionError(ex, "login error");
-		}*/
+		}
 		
 	}
 	
-	public void loginNoRedirect() {
-		//try {
-			/*String name = OthalaFactory.getAccountServiceInstance().verifyPasswordAccount(accessBean.getEmail(),
-					accessBean.getPsw());*/
-			loginBean.setName("simone");
-			loginBean.setEmail(accessBean.getEmail());
-			renderClient = true;
-			RequestContext.getCurrentInstance().execute("$('.pager.wizard li.next a').click();");
-			
-			
-			/*
-		} catch (BadCredentialException ex) {
-			// TODO Auto-generated catch block
-			addOthalaExceptionError(ex, "login error");
-		}*/
-		
-	}
+	
 
 
 	public void logout(ActionEvent e) {
 		loginBean.setEmail(null);
 		loginBean.setName(null);
 		renderClient = false;
-
+		
+		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        if(session != null){
+            session.invalidate();
+        }
+        redirectHome();
 	}
 	
 	public String moveToAcess()

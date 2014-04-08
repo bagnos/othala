@@ -3,9 +3,11 @@ package it.othala.account.model;
 import it.othala.dto.AccountDTO;
 import it.othala.model.BaseBean;
 
-import javax.faces.bean.ManagedBean;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
 
-@ManagedBean(name = "accessBean")
+@Named
+@SessionScoped
 public class AccessBean extends BaseBean {
 
 	/**

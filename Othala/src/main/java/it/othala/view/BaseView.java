@@ -1,11 +1,13 @@
 package it.othala.view;
 
+import it.othala.account.model.CustomerLoginBean;
 import it.othala.dto.MenuDTO;
 import it.othala.dto.SubMenuDTO;
 import it.othala.execption.OthalaException;
 import it.othala.model.ApplicationBean;
 import it.othala.web.utils.OthalaUtil;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +35,13 @@ public abstract class BaseView {
 	/*@ManagedProperty(value="#{applicationBean}")*/
 	@Inject
 	private ApplicationBean beanApplication;
+	
+	@Inject
+	private CustomerLoginBean loginBean;
+
+	public CustomerLoginBean getLoginBean() {
+		return loginBean;
+	}
 
 	public void setBeanApplication(ApplicationBean beanApplication) {
 		this.beanApplication = beanApplication;
@@ -106,6 +115,16 @@ public abstract class BaseView {
 
 	protected String getLang() {
 		return OthalaUtil.getLang();
+	}
+	
+	protected void redirectHome() 
+	{
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath()+"/faces/home.xhtml");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

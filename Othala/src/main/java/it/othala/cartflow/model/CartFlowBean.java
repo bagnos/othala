@@ -13,9 +13,9 @@ import javax.faces.bean.ManagedBean;
 import javax.inject.Named;
 
 @Named
-@javax.faces.flow.FlowScoped("cartFlow")
-/*@javax.faces.bean.SessionScoped
-@ManagedBean*/
+//@javax.faces.flow.FlowScoped("cartFlow")
+@SessionScoped
+/*@ManagedBean*/
 public class CartFlowBean implements Serializable {
 
 	/**
