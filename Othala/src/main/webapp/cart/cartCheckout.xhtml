@@ -26,29 +26,24 @@
 							<div class="col-sm-12">
 								<div id="rootwizard">
 
-
-
 									<ul>
-
-
-
 										<li><h:commandLink title="Vai al carrello" immediate="true"
 												action="cart-selected-3?faces-redirect=true">
-												<span class="label">1</span> Carrello
+												<span class="label">1</span> #{msg.catalogo_cart}
 										</h:commandLink></li>
 
 
 										<li><a href="#tab1" data-toggle="tab">
-												<span class="label">2</span> Accedi
+												<span class="label">2</span> #{msg.catalogo_access}
 											</a></li>
 										<li><a href="#tab2" data-toggle="tab">
-												<span class="label">3</span> Spedizione
+												<span class="label">3</span> #{msg.catalogo_delivery}
 											</a></li>
 										<li><a href="#tab3" data-toggle="tab">
-												<span class="label">4</span> Pagamento
+												<span class="label">4</span> #{msg.catalogo_payment}
 											</a></li>
 										<li><a href="#tab4" data-toggle="tab">
-												<span class="label">5</span> Conferma
+												<span class="label">5</span> #{msg.catalogo_confirmation}
 											</a></li>
 									</ul>
 
@@ -56,26 +51,29 @@
 										<div class="tab-pane" id="tab1">
 											<div class="col-sm-4">
 												<h4>
-													<strong><h:outputText value="Sono già cliente" /></strong> <span
+													<strong><h:outputText value="#{msg.catalogo_customer}" /></strong> <span
 														class="glyphicon glyphicon-lock" />
 												</h4>
-
-
-												<ui:include src="/sections/login.xhtml" />
-
-
-
+												<h:panelGroup id="login">
+													<ui:include src="/sections/login.xhtml" />
+													<p:commandButton id="ajax" process="login" validateClient="true"
+														update="login @(form:first)" styleClass="ui-priority-primary"
+														actionListener="#{accessView.loginWizard}" value="#{msg.account_access}">
+													</p:commandButton>
+												</h:panelGroup>
 											</div>
-
-
 											<div class="col-sm-6 col-sm-offset-1">
 												<h4>
-													<strong><h:outputText value="Sono un nuovo cliente" /></strong> <span
+													<strong><h:outputText value="#{msg.catalogo_newCustomer}" /></strong> <span
 														class="glyphicon glyphicon-lock" />
 												</h4>
-												<ui:include src="/sections/registration.xhtml" />
-												<p:commandButton styleClass="ui-priority-primary" validateClient="true"
-													value="#{msg.account_create}" ajax="true"></p:commandButton>
+												<h:panelGroup id="registration">
+													<ui:include src="/sections/registration.xhtml" />
+													<p:commandButton id="ajaxReg" process="registration" validateClient="true"
+														update="registration @(form:first)" styleClass="ui-priority-primary"
+														actionListener="#{accessView.registrationWizard}" value="#{msg.account_create}">
+													</p:commandButton>
+												</h:panelGroup>
 											</div>
 
 

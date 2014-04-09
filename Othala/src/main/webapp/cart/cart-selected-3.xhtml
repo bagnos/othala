@@ -21,7 +21,7 @@
 			<div class="container">
 				<div class="row spacer10">
 					<div class="col-sm-2">
-						<h4>CARRELLO</h4>
+						<h4>#{msg.catalogo_cart}</h4>
 					</div>
 				</div>
 				<div class="row spacer10">
@@ -31,7 +31,7 @@
 					</div>
 					<div class="col-sm-2 col-sm-offset-8 text-right">
 						<p:commandButton id="add-cart" styleClass="ui-priority-primary"
-							disabled="#{cartFlowBean.cart.size()==0}" value="Acquista" 
+							disabled="#{cartFlowBean.cart.size()==0}" value="#{msg.catalog_buy}" 
 							action="cartCheckout?faces-redirect=true" />
 					</div>
 				</div>
@@ -39,27 +39,27 @@
 				<div class="row">
 					<div class="col-sm-10 col-sm-offset-1">
 						<div class="table-responsive spacer10">
-							<table class="table">
+							<table class="table" id="cartTable">
 								<thead>
 									<tr>
-										<th class="col-sm-4">ARTICOLO</th>
-										<th class="col-sm-2">COLORE</th>
-										<th class="col-sm-1">TAGLIA</th>
-										<th class="col-sm-2">PREZZO</th>
-										<th class="col-sm-1">QTA'</th>
-										<th class="col-sm-2">PREZZO TOTALE</th>
+										<th class="col-sm-4">#{msg.catalog_article}</th>
+										<th class="col-sm-2">#{msg.catalog_color}</th>
+										<th class="col-sm-1">#{msg.catalog_size}</th>
+										<th class="col-sm-2">#{msg.catalog_price}</th>
+										<th class="col-sm-1">#{msg.catalog_qta}</th>
+										<th class="col-sm-2">#{msg.catalog_totalPrice}</th>
 
 									</tr>
 								</thead>
 								<tfoot>
 									<tr>
-										<td colspan="5" class="text-right">COSTO SPEDIZIONE</td>
+										<td colspan="5" class="text-right">#{msg.catalog_deliveryCost}</td>
 										<td><h:outputText value="0">
 												<f:converter converterId="it.othala.BigDecimalConverter" />
 											</h:outputText></td>
 									</tr>
 									<tr>
-										<td colspan="5" class="text-right"><strong>TOTALE</strong></td>
+										<td colspan="5" class="text-right"><strong>#{msg.catalog_total}</strong></td>
 										<td><h:outputText value="#{cartSelected3View.totalPrice}">
 												<f:converter converterId="it.othala.BigDecimalConverter" />
 											</h:outputText></td>
@@ -72,7 +72,7 @@
 											<td><div class="row">
 													<div class="col-sm-12">
 														<h:graphicImage styleClass="img-responsive img-small-cart"
-															library="images/cartThumbinals" name="#{art.prdFullDTO.thumbnailsUrl}" />
+															library="images/cartThumbinals" name="#{art.thumbnailsUrl}" />
 														<div class="articolo">
 															<h5>#{art.prdFullDTO.txBrand}</h5>
 															<h6>#{art.prdFullDTO.description}</h6>
@@ -112,7 +112,7 @@
 					</div>
 					<div class="col-sm-2 col-sm-offset-8 text-right">
 						<p:commandButton id="add-cart-bottom" disabled="#{cartFlowBean.cart.size()==0}"
-							styleClass="ui-priority-primary" value="Acquista" ajax="false" action="cartCheckout?faces-redirect=true" />
+							styleClass="ui-priority-primary" value="#{msg.catalog_buy}" ajax="false" action="cartCheckout?faces-redirect=true" />
 					</div>
 				</div>
 			</div>

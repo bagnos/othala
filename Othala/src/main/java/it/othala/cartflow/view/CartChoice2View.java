@@ -122,7 +122,7 @@ public class CartChoice2View extends BaseView {
 		}
 
 		colorItems = new ArrayList<>();
-		colorItems.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseColor")));
+		
 		/*
 		 * for (ArticleFullDTO art : prdFull.getArticles()) { boolean found =
 		 * false; for (SelectItem item : colorItems) { if

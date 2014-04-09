@@ -59,7 +59,7 @@ public class AccountService implements IAccountService {
 			newsService.insertNewsletter(account.getEmail());
 		}
 
-		inviaMailRegistrazione(account.getEmail());
+		inviaMailRegistrazione(account.getEmail(),account.getName(),account.getPsw());
 
 	}
 
@@ -92,7 +92,7 @@ public class AccountService implements IAccountService {
 
 	}
 
-	private void inviaMailRegistrazione(String email) throws MailNotSendException {
+	private void inviaMailRegistrazione(String email,String name,String psw) throws MailNotSendException {
 		String content;
 		try {
 			content = Template.getContenFile(TipoTemplate.MailRegistrazione);
@@ -101,6 +101,8 @@ public class AccountService implements IAccountService {
 			throw new MailNotSendException(e);
 		}
 		content = content.replaceAll("<MAIL>", email);
+		content = content.replaceAll("<NAME>", name);
+		content = content.replaceAll("<PSW>", psw);
 		content = content.replaceAll("<SITE>", ConfigurationService.getProperty(ConfigurationService.DNS_SITE));
 		content = content.replaceAll("<COMPANY_NAME>",
 				ConfigurationService.getProperty(ConfigurationService.COMPANY_NAME));
