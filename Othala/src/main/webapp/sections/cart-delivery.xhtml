@@ -1,0 +1,160 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+<h:panelGroup id="delivery">
+	<div class="row">
+		<div class="col-sm-4 ">
+			<h4>
+				<h:outputText value="INDIRIZZO DI FATTURAZIONE" />
+			</h4>
+			
+				<div class="form-group">
+					<p:outputLabel value="Nome" for="nameFat" />
+					<p:inputText id="nameFat" styleClass="form-control" label="Nome" value="" required="true"
+						maxlength="70">
+					</p:inputText>
+					<p:message for="nameFat" />
+				</div>
+
+				<div class="form-group">
+					<p:outputLabel value="Cognome" for="cognomeFat" />
+					<p:inputText id="cognomeFat" styleClass="form-control" label="Cognome" value="" required="true"
+						maxlength="70">
+					</p:inputText>
+					<p:message for="cognomeFat" />
+				</div>
+
+				<div class="form-group">
+					<p:outputLabel value="Telefono" for="telefonoFat" />
+					<p:inputText id="telefonoFat" styleClass="form-control" label="Telefono" value=""
+						required="true" maxlength="70">
+					</p:inputText>
+					<p:message for="telefonoFat" />
+				</div>
+
+				<div class="form-group">
+					<p:outputLabel value="Indirizzo" for="indirizzoFat" />
+					<p:inputTextarea rows="5" cols="30" required="true" maxlength="70" autoResize="false"
+						id="indirizzoFat" styleClass="form-control" label="Indirizzo" value="" />
+
+					<p:message for="indirizzoFat" />
+				</div>
+
+				<div class="form-group">
+					<p:outputLabel value="Codice Postale" for="postaleFat" />
+					<p:inputText id="postaleFat" styleClass="form-control" label="Codice Postale" value=""
+						required="true" maxlength="70">
+					</p:inputText>
+					<p:message for="postaleFat" />
+				</div>
+
+				<div class="form-group">
+					<p:outputLabel value="Città" for="cittaFat" />
+					<p:inputText id="cittaFat" styleClass="form-control" label="Città" value="" required="true"
+						maxlength="70">
+					</p:inputText>
+					<p:message for="cittaFat" />
+				</div>
+		
+		</div>
+
+
+		<div class="col-sm-4 col-sm-offset-3">
+			<h4>
+				<h:outputText value="INDIRIZZO DI SPEDIZIONE" />
+			</h4>
+
+
+
+			<div class="checkbox">
+				<label> <h:selectBooleanCheckbox id="chkSpe" value="" /> <h:outputText
+						value="I dati di fatturazione sono uguali a quelli di consegna" />
+
+				</label>
+			</div>
+
+			<div class="form-group">
+				<p:outputLabel value="Nome" for="nameSpe" />
+				<p:inputText id="nameSpe" styleClass="form-control" label="Nome" value="" required="true"
+					maxlength="70">
+				</p:inputText>
+				<p:message for="nameSpe" />
+			</div>
+
+			<div class="form-group">
+				<p:outputLabel value="Cognome" for="cognomeSpe" />
+				<p:inputText id="cognomeSpe" styleClass="form-control" label="Cognome" value="" required="true"
+					maxlength="70">
+				</p:inputText>
+				<p:message for="cognomeSpe" />
+			</div>
+
+			<div class="form-group">
+				<p:outputLabel value="Telefono" for="telefonoSpe" />
+				<p:inputText id="telefonoSpe" styleClass="form-control" label="Telefono" value=""
+					required="true" maxlength="70">
+				</p:inputText>
+				<p:message for="telefonoSpe" />
+			</div>
+
+			<div class="form-group">
+				<p:outputLabel value="Indirizzo" for="indirizzoSpe" />
+				<p:inputTextarea rows="5" cols="30" required="true" maxlength="70" autoResize="false"
+					id="indirizzoSpe" styleClass="form-control" label="Indirizzo" value="" />
+
+				<p:message for="indirizzoSpe" />
+			</div>
+
+			<div class="form-group">
+				<p:outputLabel value="Codice Postale" for="postaleSpe" />
+				<p:inputText id="postaleSpe" styleClass="form-control" label="Codice Postale" value=""
+					required="true" maxlength="70">
+				</p:inputText>
+				<p:message for="postaleSpe" />
+			</div>
+
+			<div class="form-group">
+				<p:outputLabel value="Città" for="cittaSpe" />
+				<p:inputText id="cittaSpe" styleClass="form-control" label="Città" value="" required="true"
+					maxlength="70">
+				</p:inputText>
+				<p:message for="cittaSpe" />
+			</div>
+
+		</div>
+
+	</div>
+
+	<div class="row">
+		<div class="col-sm-8 ">
+			<h4>
+				<h:outputText value="METODI DI PAGAMENTO" />
+			</h4>
+		</div>
+
+	</div>
+
+	<div class="row">
+		<div class="col-sm-10 ">
+
+			<div class="radio">
+				<label> <input type="radio" name="optionsRadiosPay" id="optionsRadios2" value="2" /> <h:graphicImage
+						library="images/footer" name="payment_paypal.png" />
+				</label>
+			</div>
+		</div>
+		<div class="col-sm-2">
+			<p:commandButton id="pay-cart" disabled="true" validateClient="true" process="delivery" styleClass="ui-priority-primary" value="Pagamento Ordine" />
+
+		</div>
+	</div>
+
+
+	</h:panelGroup>
+	
+	
+
+</ui:composition>
