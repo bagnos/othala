@@ -1,20 +1,18 @@
-Welcome to <COMPANY_NAME>
+gentile <NAME>, 
 
-Please keep this e-mail for your records. Your account information is as
-follows:
+ringraziandoti per la tua registrazione ti diamo il benvenuto su <COMPANY_NAME>! 
+
+Questi i tuoi dati:
 
 ----------------------------
 Username: <MAIL>
 
-Board URL: <BOARD_URL>
+Password: <PSW>
 ----------------------------
 
-Please visit the following link in order to activate your account:
+Accedi alla tua area riservata per modifcare i tuoi dati e visualizzare i tuoi ordini.
+Visita il sito http://<SITE>/<CONTEXT_ROOT> ed inizia il tuo Shopping!
 
-http://<SITE>/<CONTEXT_ROOT>/faces/account/activate.xhtml?mode=activate&u=<USER>
 
-Your password has been securely stored in our database and cannot be
-retrieved. In the event that it is forgotten, you will be able to reset it
-using the email address associated with your account.
-
-Thank you for registering.
+Buon Divertimento !
+ 

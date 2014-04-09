@@ -30,9 +30,10 @@
 		${database.schema}CUSTOMER (idUser,
 		txPassword,
 		txNome,
-		txCognome)
+		txCognome,
+		idTypeState)
 		values
-		(#{email},#{psw},#{name},#{surname})
+		(#{email},#{psw},#{name},#{surname},2)
 	</insert>
 
 	<insert id="insertAccountRole" parameterType="java.util.HashMap">

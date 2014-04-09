@@ -5,7 +5,7 @@
 
 
 
-	<h:panelGroup id="login">
+	
 		<div class="form-group">
 			<p:outputLabel value="#{msg.account_email}" for="j_username" />
 			<p:inputText id="j_username" styleClass="form-control" label="#{msg.account_email}"
@@ -28,18 +28,11 @@
 		</div>
 
 
-		<!-- 
-		<div class="checkbox">
-			<label> <h:selectBooleanCheckbox value="#{accessView.accessBean.staySignIn}" /> <h:outputText
-					value="#{msg.account_staySignIn}" />
-			</label>
-		</div>
-		 -->
-		<p:commandButton id="ajax" process="login" validateClient="true" update="login @(form:first)"
-			styleClass="ui-priority-primary" 
-			actionListener="#{accessView.loginWizard}" value="#{msg.account_access}">
-		</p:commandButton>
-	</h:panelGroup>
+
+
+
+		
+		
 
 
 
