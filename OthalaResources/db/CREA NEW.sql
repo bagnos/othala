@@ -1,6 +1,6 @@
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 DROP SCHEMA IF EXISTS `othala` ;
 CREATE SCHEMA IF NOT EXISTS `othala` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
@@ -263,13 +263,14 @@ DROP TABLE IF EXISTS `othala`.`Addresses` ;
 
 CREATE  TABLE IF NOT EXISTS `othala`.`Addresses` (
   `idUser` VARCHAR(100) NOT NULL ,
+  `pgAddress` INT NOT NULL AUTO_INCREMENT ,
   `idTypeAddress` INT NOT NULL ,
   `txVia` VARCHAR(100) NOT NULL ,
   `txComune` VARCHAR(100) NOT NULL ,
   `cdCap` INT NOT NULL ,
   `txProvincia` VARCHAR(100) NOT NULL ,
   `txNazione` VARCHAR(100) NOT NULL ,
-  PRIMARY KEY (`idUser`, `idTypeAddress`) ,
+  PRIMARY KEY (`pgAddress`, `idUser`) ,
   INDEX `fk_Addresses_TypeAddress1` (`idTypeAddress` ASC) ,
   INDEX `fk_Addresses_Customer1` (`idUser` ASC) ,
   CONSTRAINT `fk_Addresses_TypeAddress1`
@@ -636,6 +637,7 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Brand` (
   PRIMARY KEY (`idBrand`, `idLanguages`) )
 ENGINE = InnoDB;
 
+USE `othala` ;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
