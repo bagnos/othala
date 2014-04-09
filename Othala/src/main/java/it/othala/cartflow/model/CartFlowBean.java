@@ -44,6 +44,15 @@ public class CartFlowBean implements Serializable {
 	private int orderPrice;
 	private ArticleFullDTO articleSel;
 	private List<ArticleFullDTO> cart;
+	private int idPayment;
+
+	public int getIdPayment() {
+		return idPayment;
+	}
+
+	public void setIdPayment(int idPayment) {
+		this.idPayment = idPayment;
+	}
 
 	public List<ArticleFullDTO> getCart() {
 		if (cart == null) {
