@@ -19,8 +19,8 @@ $(document).ready(function() {
 		$('.pager.wizard li.previous a').click();
 
 	}
-	enabledPayment();
-
+	
+	alignfromFattToSped();
 
 });
 
@@ -33,13 +33,45 @@ function changePage(xhr, status, args) {
 	}
 }
 
-function enabledPayment() {
+
+
+function alignfromFattToSped() {
 	
-	$("input[name='optionsRadiosPay']").change(function() {
+	$('#nameFat').keyup(function() {		
 		
-		$('#pay-cart').removeAttr('disabled');
-		$('#pay-cart').removeAttr('aria-disabled');
-		$("#pay-cart").removeClass("ui-state-disabled");
+		if ($('#chkSpe').prop('checked')) {
+			$('#nameSpe').val(this.value);			
+		}
+	});
+	
+	$('#cognomeFat').keyup(function() {		
+		if ($('#chkSpe').prop('checked')){
+			$('#cognomeSpe').val(this.value);			
+		}
+	});
+	
+	$('#telefonoFat').keyup(function() {		
+		if ($('#chkSpe').prop('checked')) {
+			$('#telefonoSpe').val(this.value);			
+		}
+	});
+	
+	$('#indirizzoFat').keyup(function() {		
+		if ($('#chkSpe').prop('checked')) {
+			$('#indirizzoSpe').val(this.value);			
+		}
+	});
+	
+	$('#postaleFat').keyup(function() {		
+		if ($('#chkSpe').prop('checked')) {
+			$('#postaleSpe').val(this.value);			
+		}
+	});
+	
+	$('#cittaFat').keyup(function() {		
+		if ($('#chkSpe').prop('checked')) {
+			$('#cittaSpe').val(this.value);			
+		}
 	});
 
 }
