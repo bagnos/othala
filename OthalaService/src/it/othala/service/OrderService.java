@@ -6,6 +6,9 @@ import java.util.List;
 
 import it.othala.account.execption.MailNotSendException;
 import it.othala.dao.interfaces.IOrderDAO;
+import it.othala.dto.DeliveryAddressDTO;
+import it.othala.dto.DeliveryCostDTO;
+import it.othala.dto.DeliveryDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.StateOrderDTO;
 import it.othala.service.interfaces.IMailService;
@@ -56,6 +59,25 @@ public class OrderService implements IOrderService {
 	public void updateOrder(StateOrderDTO stateOrder) {
 		
 		orderDAO.updateStatesOrders(stateOrder);
+		
+	}
+
+	@Override
+	public DeliveryDTO getDeliveryInfo(String userId) {
+		List<DeliveryAddressDTO> addresses = orderDAO.getDeliveryAddress(userId);
+		List<DeliveryCostDTO> costs = orderDAO.getDeliveryCost();
+		
+		DeliveryDTO delivery = new DeliveryDTO();
+		
+		delivery.setIndirizzo(addresses);
+		delivery.setSpeseSpedizione(costs);
+		
+		return delivery;
+	}
+
+	@Override
+	public void newAddress(DeliveryAddressDTO newAddress) {
+		orderDAO.newAddress(newAddress);
 		
 	}
 

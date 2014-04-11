@@ -1,6 +1,8 @@
 package it.othala.service.interfaces;
 
 import it.othala.account.execption.MailNotSendException;
+import it.othala.dto.DeliveryAddressDTO;
+import it.othala.dto.DeliveryDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.StateOrderDTO;
 
@@ -14,5 +16,9 @@ public interface IOrderService {
 	public Integer insertOrder(OrderFullDTO orderFull) throws MailNotSendException;
 	
 	public void updateOrder(StateOrderDTO stateOrder);
+	
+	public DeliveryDTO getDeliveryInfo(String userId);
+	
+	public void newAddress(DeliveryAddressDTO newAddress);
 	
 }
