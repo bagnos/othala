@@ -1,6 +1,8 @@
 package it.othala.dao;
 
 import it.othala.dao.interfaces.IOrderDAO;
+import it.othala.dto.DeliveryAddressDTO;
+import it.othala.dto.DeliveryCostDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.StateOrderDTO;
 
@@ -61,6 +63,38 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO  {
 		getSqlSession().insert("it.othala.order.queries.updateStatesOrders",
 				stateOrder);
 		
+	}
+
+	@Override
+	public void newAddress(DeliveryAddressDTO newAddress) {
+		getSqlSession().insert("it.othala.order.queries.insertAddress",
+				newAddress);
+		
+	}
+
+	@Override
+	public void newDeliveryCost(DeliveryCostDTO newDeliveryCost) {
+		getSqlSession().insert("it.othala.order.queries.insertDeliveryCost",
+				newDeliveryCost);
+		
+	}
+
+
+	@Override
+	public List<DeliveryCostDTO> getDeliveryCost() {
+		// recupero spese spedizione
+		List<DeliveryCostDTO> listCost = getSqlSession().selectList(
+				"it.othala.order.queries.deliveryCosts");
+		
+		return listCost;
+	}
+
+	@Override
+	public List<DeliveryAddressDTO> getDeliveryAddress(String userId) {
+		List<DeliveryAddressDTO> listAddress = getSqlSession().selectList(
+				"it.othala.order.queries.deliveryAddresses",userId);
+		
+		return listAddress;
 	}
 
 }
