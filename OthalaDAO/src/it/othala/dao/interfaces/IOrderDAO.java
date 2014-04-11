@@ -1,5 +1,7 @@
 package it.othala.dao.interfaces;
 
+import it.othala.dto.DeliveryAddressDTO;
+import it.othala.dto.DeliveryCostDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.StateOrderDTO;
 
@@ -18,4 +20,11 @@ public interface IOrderDAO {
 	
 	public void updateStatesOrders(StateOrderDTO stateOrder);
 	
+	public void newAddress(DeliveryAddressDTO newAddress);
+	
+	public void newDeliveryCost(DeliveryCostDTO newDeliveryCost);
+	
+	public List<DeliveryAddressDTO> getDeliveryAddress(String userId);
+	
+	public List<DeliveryCostDTO> getDeliveryCost(); 
 }

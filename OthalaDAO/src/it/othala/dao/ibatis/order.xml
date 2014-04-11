@@ -12,10 +12,10 @@
 		d.txStato
 		FROM
 		${database.schema}orders a,
-		${database.schema}orders_articles b
-		${database.schema}states_orders c
+		${database.schema}orders_articles b,
+		${database.schema}states_orders c,
 		${database.schema}states d
-		where a.idOrder = b.idOrder
+		WHERE a.idOrder = b.idOrder
 		and a.idOrder = c.idOrder
 		and c.idStato = d.idStato
 		<if test="idOrder != null">
@@ -77,6 +77,52 @@
 		(`idOrder`,`idStato`,`dtStato`,`txNote`)
 		VALUES
 		(#{idOrder},#{idStato},now(),#{txNote});
+
+	</insert>
+	
+	<select id="deliveryAddresses" resultType="it.othala.dto.DeliveryAddressDTO"
+		parameterType="java.lang.String">
+		
+		SELECT
+		a.idTypeAddress as typeAddress, a.txVia as via, 
+		a.txComune as comune, a.cdCap as cap, a.txProvincia as provincia, 
+		a.txNazione as nazione, b.Descrizione as typeAddressDes
+		FROM
+		${database.schema}addresses a,
+		${database.schema}type_address b
+		WHERE
+		a.idUser = #{userId} and
+		a.idTypeAddress = b.idTypeAddress
+	
+	</select>
+	
+	<select id="deliveryCosts" resultType="it.othala.dto.DeliveryCostDTO">
+
+		SELECT
+		txDescrizione as descrizione,
+		imSpese as importospese
+		FROM 
+		${database.schema}delivery_cost
+
+	</select>
+	
+	<insert id="insertAddress" parameterType="it.othala.dto.DeliveryAddressDTO">
+		INSERT INTO
+		${database.schema}addresses
+		(`idUser`,`idTypeAddress`,`txVia`,`txComune`, `cdCap`, 
+		`txProvincia`,`txNazione`)
+		VALUES
+		(#{userId},#{typeAddress},#{via},
+		#{comune},#{cap},#{provincia},#{nazione});
+
+	</insert>
+	
+	<insert id="insertDeliveryCost" parameterType="it.othala.dto.DeliveryCostDTO">
+		INSERT INTO
+		${database.schema}delivery_cost
+		(`txDescrizione`,`imSpese`)
+		VALUES
+		(#{descrizione},#{importospese});
 
 	</insert>
 
