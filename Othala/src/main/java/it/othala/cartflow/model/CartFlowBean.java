@@ -38,6 +38,14 @@ public class CartFlowBean implements Serializable {
 	private BigDecimal totalPriceOrder;
 	
 
+	public void setAddressFat(DeliveryAddressDTO addressFat) {
+		this.addressFat = addressFat;
+	}
+
+	public void setAddressSpe(DeliveryAddressDTO addressSpe) {
+		this.addressSpe = addressSpe;
+	}
+
 	public void deleteArticol(ActionEvent e)
 	{
 		ArticleFullDTO art=(ArticleFullDTO) e.getComponent().getAttributes().get("art");
