@@ -209,9 +209,10 @@ public class AccessView extends BaseView {
 
 	public String login() {
 		try {
-			String name = OthalaFactory.getAccountServiceInstance().verifyPasswordAccount(getEmail(), getPsw());
-			loginBean.setName(name);
-			loginBean.setEmail(getEmail());
+			AccountDTO acc = OthalaFactory.getAccountServiceInstance().verifyPasswordAccount(getEmail(), getPsw());
+			loginBean.setName(acc.getName());
+			loginBean.setEmail(acc.getEmail());
+			loginBean.setSurname(acc.getSurname());
 			renderClient = true;
 		} catch (BadCredentialException e) {
 			// TODO Auto-generated catch block
@@ -222,9 +223,10 @@ public class AccessView extends BaseView {
 
 	public void loginWizard(ActionEvent e) {
 		try {
-			String name = OthalaFactory.getAccountServiceInstance().verifyPasswordAccount(email, psw);
-			loginBean.setName(name);
-			loginBean.setEmail(getEmail());
+			AccountDTO acc = OthalaFactory.getAccountServiceInstance().verifyPasswordAccount(email, psw);
+			loginBean.setName(acc.getName());
+			loginBean.setEmail(acc.getEmail());
+			loginBean.setSurname(acc.getSurname());
 			renderClient = true;
 			// disabilitiamo l'accedi ed avanziiamo allo step successivo
 			RequestContext.getCurrentInstance().execute(WizardUtil.NextStepWizard());

@@ -33,6 +33,7 @@ public class CartSelected3View extends BaseView {
 	public String doInit() {
 		// TODO Auto-generated method stub
 		totalPrice=BigDecimal.ZERO;
+		flowBean.setCheckoutCart(false);
 		for (ArticleFullDTO art : flowBean.getCart()) {
 			totalPrice = art.getPrdFullDTO().getRealPrice().add(totalPrice);
 

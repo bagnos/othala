@@ -1,11 +1,13 @@
 package it.othala.cartflow.view;
 
+import it.othala.cartflow.model.CartFlowBean;
 import it.othala.view.BaseView;
 import it.othala.web.utils.OthalaUtil;
 import it.othala.web.utils.WizardUtil;
 
 import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.context.RequestContext;
@@ -17,6 +19,8 @@ public class CartWizardView extends BaseView {
 
 	private String email;
 	private String psw;
+	@Inject
+	private CartFlowBean cart;
 
 	public String getEmail() {
 		return email;
@@ -36,14 +40,14 @@ public class CartWizardView extends BaseView {
 
 	public String doInit() {
 		// TODO Auto-generated method stub
-
+		cart.setCheckoutCart(true);
 		/*
 		if (getLoginBean().getName() == null) {
 			RequestContext.getCurrentInstance().execute(WizardUtil.initAccessWizard());
 		} else {
 			RequestContext.getCurrentInstance().execute(WizardUtil.initNoAccessWizard());
 		}*/
-
+		
 		return null;
 	}
 
