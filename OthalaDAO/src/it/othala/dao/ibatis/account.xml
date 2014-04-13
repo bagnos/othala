@@ -18,8 +18,8 @@
 		WHERE idUser like #{email}
 	</select>
 
-	<select id="verifyPassword" parameterType="java.util.HashMap" resultType="java.lang.String">
-		SELECT txNome 
+	<select id="verifyPassword" parameterType="java.util.HashMap" resultType="it.othala.dto.AccountDTO">
+		SELECT txNome as name,txCognome as surname, idUser as email 
 		FROM ${database.schema}CUSTOMER
 		WHERE idUser=#{email}
 		AND txPassword=#{psw}

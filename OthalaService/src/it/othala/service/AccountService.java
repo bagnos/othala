@@ -39,9 +39,9 @@ public class AccountService implements IAccountService {
 	}
 
 	@Override
-	public void loginAccoun(String mail, String pswd) throws BadCredentialException {
+	public AccountDTO loginAccount(String mail, String pswd) throws BadCredentialException {
 		// TODO Auto-generated method stub
-
+		return null;
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public class AccountService implements IAccountService {
 			newsService.insertNewsletter(account.getEmail());
 		}
 
-		//inviaMailRegistrazione(account.getEmail(),account.getName(),account.getPsw());
+		inviaMailRegistrazione(account.getEmail(),account.getName(),account.getPsw());
 
 	}
 
@@ -179,12 +179,12 @@ public class AccountService implements IAccountService {
 	}
 
 	@Override
-	public String verifyPasswordAccount(String email, String psw) throws BadCredentialException {
+	public AccountDTO verifyPasswordAccount(String email, String psw) throws BadCredentialException {
 		if (email == null || email.isEmpty() || psw == null || psw.isEmpty()) {
 			throw new BadCredentialException();
 		} 
-		String name=accountDAO.verifyPassword(email, psw);
-		if (name == null || name.isEmpty()) {
+		AccountDTO name=accountDAO.verifyPassword(email, psw);
+		if (name == null || name.getEmail().isEmpty()) {
 			throw new BadCredentialException();
 		}
 		return name;

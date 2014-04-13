@@ -22,7 +22,7 @@ public interface IAccountDAO {
 
 	public int updatePsw(String email, String psw);
 	
-	public String verifyPassword(String email, String psw);
+	public AccountDTO verifyPassword(String email, String psw);
 	
 
 }

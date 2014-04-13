@@ -77,11 +77,11 @@ public class AccountDAO extends SqlSessionDaoSupport implements IAccountDAO {
 	}
 
 	@Override
-	public String verifyPassword(String email, String psw) {
+	public AccountDTO verifyPassword(String email, String psw) {
 		HashMap<String, String> map = new HashMap<>();
 		map.put("email", email);
 		map.put("psw", psw);
-		return getSqlSession().selectOne("it.othala.account.queries.verifyPassword", map);
+		return (AccountDTO)getSqlSession().selectOne("it.othala.account.queries.verifyPassword", map);
 	}
 
 }
