@@ -13,10 +13,32 @@ public class DeliveryAddressDTO implements Serializable {
 	private String typeAddressDes;
 	private String via;
 	private String comune;
-	private Integer cap;
+	private String cap;
 	private String provincia;
 	private String nazione;
+	private String name;
+	private String surname;
+	private String tel;
 	
+	
+	public String getTel() {
+		return tel;
+	}
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getSurname() {
+		return surname;
+	}
+	public void setSurname(String surname) {
+		this.surname = surname;
+	}
 	public Integer getTypeAddress() {
 		return typeAddress;
 	}
@@ -41,10 +63,10 @@ public class DeliveryAddressDTO implements Serializable {
 	public void setComune(String comune) {
 		this.comune = comune;
 	}
-	public Integer getCap() {
+	public String getCap() {
 		return cap;
 	}
-	public void setCap(Integer cap) {
+	public void setCap(String cap) {
 		this.cap = cap;
 	}
 	public String getProvincia() {

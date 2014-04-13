@@ -11,7 +11,7 @@ import it.othala.dto.AccountDTO;
 
 public interface IAccountService {
 
-	public void loginAccoun(String mail, String pswd) throws BadCredentialException;
+	public AccountDTO loginAccount(String mail, String pswd) throws BadCredentialException;
 
 	public void registerAccount(AccountDTO account) throws DuplicateUserException, BadCredentialException, MailNotSendException;
 	
@@ -26,6 +26,6 @@ public interface IAccountService {
 	
 	public void activatedAccount(String email) throws UserNotFoundException,UserAlReadyActivatedException;
 	
-	public String verifyPasswordAccount(String email,String psw) throws BadCredentialException;
+	public AccountDTO verifyPasswordAccount(String email,String psw) throws BadCredentialException;
 
 }
