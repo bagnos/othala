@@ -40,7 +40,7 @@ public class CartFlowView extends BaseView {
 	// @ManagedProperty(value="#{cartFlowBean}")
 	@Inject
 	private CartFlowBean flowBean;
-	
+
 	@Inject
 	private ApplicationBean appBean;
 
@@ -64,12 +64,14 @@ public class CartFlowView extends BaseView {
 	public String doInit() {
 		// TODO Auto-generated method stub
 
-		flowBean.getArticles().clear();
-		flowBean.getArticlesPage().clear();
-		
-		appBean.updateSizes(flowBean.getIdSubMenu());
+		flowBean.getCatalog().getArticles().clear();
+		flowBean.getCatalog().getArticlesPage().clear();
+		flowBean.setCheckoutCart(false);
 
-		callServiceProduct(flowBean.getCurrentPage() == null ? 1 : flowBean.getCurrentPage());
+		appBean.updateSizes(flowBean.getCatalog().getIdSubMenu());
+
+		callServiceProduct(flowBean.getCatalog().getCurrentPage() == null ? 1 : flowBean.getCatalog()
+				.getCurrentPage());
 
 		updateBreadCrumb();
 
@@ -77,7 +79,7 @@ public class CartFlowView extends BaseView {
 	}
 
 	public void forward(ActionEvent e) {
-		flowBean.setCurrentPage(flowBean.getCurrentPage() + 1);
+		flowBean.getCatalog().setCurrentPage(flowBean.getCatalog().getCurrentPage() + 1);
 
 		starIndex = endIndex;
 		endIndex += ITEMS_PAGE;
@@ -85,7 +87,7 @@ public class CartFlowView extends BaseView {
 	}
 
 	public void backword(ActionEvent e) {
-		flowBean.setCurrentPage(flowBean.getCurrentPage() - 1);
+		flowBean.getCatalog().setCurrentPage(flowBean.getCatalog().getCurrentPage() - 1);
 		endIndex = starIndex;
 		starIndex = endIndex - ITEMS_PAGE;
 		changePage();
@@ -93,42 +95,42 @@ public class CartFlowView extends BaseView {
 
 	private void changePage() {
 
-		flowBean.getArticlesPage().clear();
+		flowBean.getCatalog().getArticlesPage().clear();
 
-		if (endIndex > flowBean.getArticles().size()) {
-			endIndex = flowBean.getArticles().size();
+		if (endIndex > flowBean.getCatalog().getArticles().size()) {
+			endIndex = flowBean.getCatalog().getArticles().size();
 		}
-		flowBean.getArticlesPage().addAll(flowBean.getArticles().subList(starIndex, endIndex));
+		flowBean.getCatalog().getArticlesPage().addAll(flowBean.getCatalog().getArticles().subList(starIndex, endIndex));
 		classBack = "";
-		if (flowBean.getCurrentPage().intValue() == 1) {
+		if (flowBean.getCatalog().getCurrentPage().intValue() == 1) {
 			classBack = "disabled";
 		}
 		classForw = "";
-		if (flowBean.getCurrentPage().intValue() == flowBean.getTotPages().intValue()) {
+		if (flowBean.getCatalog().getCurrentPage().intValue() == flowBean.getCatalog().getTotPages().intValue()) {
 			classForw = "disabled";
 		}
 
 	}
 
 	private void initPaginator(int page) {
-		flowBean.setCurrentPage(page);
+		flowBean.getCatalog().setCurrentPage(page);
 		starIndex = 0;
 		classBack = "disabled";
 
-		if (!flowBean.getArticles().isEmpty()) {
+		if (!flowBean.getCatalog().getArticles().isEmpty()) {
 
-			endIndex = ITEMS_PAGE > flowBean.getArticles().size() ? flowBean.getArticles().size() : ITEMS_PAGE;
-			double dblPages = (double) flowBean.getArticles().size() / (double) ITEMS_PAGE;
-			flowBean.setTotPages((int) Math.ceil(dblPages));
-			flowBean.getArticlesPage().clear();
-			flowBean.getArticlesPage().addAll(flowBean.getArticles().subList(starIndex, endIndex));
-			if (flowBean.getCurrentPage().intValue() == flowBean.getTotPages().intValue()) {
+			endIndex = ITEMS_PAGE > flowBean.getCatalog().getArticles().size() ? flowBean.getCatalog().getArticles().size() : ITEMS_PAGE;
+			double dblPages = (double) flowBean.getCatalog().getArticles().size() / (double) ITEMS_PAGE;
+			flowBean.getCatalog().setTotPages((int) Math.ceil(dblPages));
+			flowBean.getCatalog().getArticlesPage().clear();
+			flowBean.getCatalog().getArticlesPage().addAll(flowBean.getCatalog().getArticles().subList(starIndex, endIndex));
+			if (flowBean.getCatalog().getCurrentPage().intValue() == flowBean.getCatalog().getTotPages().intValue()) {
 				classForw = "disabled";
 			}
-			flowBean.setRenderPaginator(true);
+			flowBean.getCatalog().setRenderPaginator(true);
 		} else {
-			flowBean.getArticlesPage().clear();
-			flowBean.setRenderPaginator(false);
+			flowBean.getCatalog().getArticlesPage().clear();
+			flowBean.getCatalog().setRenderPaginator(false);
 		}
 	}
 
@@ -152,27 +154,38 @@ public class CartFlowView extends BaseView {
 
 	private void callServiceProduct(int page) {
 
-		flowBean.setSize(flowBean.getSize() == null || flowBean.getSize().intValue() == -1 ? null : flowBean.getSize());
-		flowBean.setColor(flowBean.getColor() == null || flowBean.getColor().intValue() == -1 ? null : flowBean
-				.getColor());
-		flowBean.setBrand(flowBean.getBrand() == null || flowBean.getBrand().intValue() == -1 ? null : flowBean
-				.getBrand());
+		flowBean.getCatalog().setSize(
+				flowBean.getCatalog().getSize() == null || flowBean.getCatalog().getSize().intValue() == -1 ? null
+						: flowBean.getCatalog().getSize());
+		flowBean.getCatalog().setColor(
+				flowBean.getCatalog().getColor() == null || flowBean.getCatalog().getColor().intValue() == -1 ? null
+						: flowBean.getCatalog().getColor());
+		flowBean.getCatalog().setBrand(
+				flowBean.getCatalog().getBrand() == null || flowBean.getCatalog().getBrand().intValue() == -1 ? null
+						: flowBean.getCatalog().getBrand());
 
-		flowBean.getArticles().clear();
-		flowBean.getArticles().addAll(
-				OthalaFactory.getProductServiceInstance().getListProduct(getLang(), flowBean.getIdMenu(),
-						flowBean.getIdSubMenu(), flowBean.getBrand(), new BigDecimal(flowBean.getPriceMin()),
-						new BigDecimal(flowBean.getPriceMax()), flowBean.getSize(), flowBean.getColor(),
-						flowBean.getFgNewArrivals(),
-						flowBean.getOrderPrice() == 1 ? OrderByCartFlow.PREZZODESC : OrderByCartFlow.PREZZOASC));
+		flowBean.getCatalog().getArticles().clear();
+		flowBean.getCatalog().getArticles().addAll(
+				OthalaFactory.getProductServiceInstance().getListProduct(
+						getLang(),
+						flowBean.getCatalog().getIdMenu(),
+						flowBean.getCatalog().getIdSubMenu(),
+						flowBean.getCatalog().getBrand(),
+						new BigDecimal(flowBean.getCatalog().getPriceMin()),
+						new BigDecimal(flowBean.getCatalog().getPriceMax()),
+						flowBean.getCatalog().getSize(),
+						flowBean.getCatalog().getColor(),
+						flowBean.getCatalog().getFgNewArrivals(),
+						flowBean.getCatalog().getOrderPrice() == 1 ? OrderByCartFlow.PREZZODESC
+								: OrderByCartFlow.PREZZOASC));
 		initPaginator(page);
 	}
 
 	public void updateBreadCrumb() {
 		flowBean.getBreadCrumb().clear();
-		if (flowBean.getIdMenu() != null && flowBean.getIdSubMenu() != null) {
-			Integer idMenu = flowBean.getIdMenu();
-			Integer idSubMenu = flowBean.getIdSubMenu();
+		if (flowBean.getCatalog().getIdMenu() != null && flowBean.getCatalog().getIdSubMenu() != null) {
+			Integer idMenu = flowBean.getCatalog().getIdMenu();
+			Integer idSubMenu = flowBean.getCatalog().getIdSubMenu();
 
 			if (idMenu != null && idSubMenu != null) {
 				flowBean.getBreadCrumb().add("");
@@ -188,9 +201,9 @@ public class CartFlowView extends BaseView {
 					}
 				}
 			}
-		} else if (flowBean.getIdMenu() != null && flowBean.getFgNewArrivals() == true) {
+		} else if (flowBean.getCatalog().getIdMenu() != null && flowBean.getCatalog().getFgNewArrivals() == true) {
 			flowBean.getBreadCrumb().add("");
-			Integer idMenu = flowBean.getIdMenu();
+			Integer idMenu = flowBean.getCatalog().getIdMenu();
 			for (MenuDTO m : getBeanApplication().getMenu()) {
 				if (m.getIdGender() == idMenu.intValue()) {
 					flowBean.getBreadCrumb().add(m.getTxGender());

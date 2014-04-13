@@ -103,7 +103,7 @@ public class CartChoice2View extends BaseView {
 	public String doInit() {
 		// TODO Auto-generated method stub
 
-		for (ProductDTO p : flowBean.getArticlesPage()) {
+		for (ProductDTO p : flowBean.getCatalog().getArticlesPage()) {
 			if (p.getIdProduct().intValue() == idProduct.intValue()) {
 				flowBean.setDetailProduct(p);
 				break;
