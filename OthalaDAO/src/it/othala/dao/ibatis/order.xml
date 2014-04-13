@@ -86,13 +86,16 @@
 		SELECT
 		a.idTypeAddress as typeAddress, a.txVia as via, 
 		a.txComune as comune, a.cdCap as cap, a.txProvincia as provincia, 
-		a.txNazione as nazione, b.Descrizione as typeAddressDes
+		a.txNazione as nazione, b.Descrizione as typeAddressDes,a.txTel as tel,
+		c.txNome as name,c.txCognome as surname,c.idUser as userId
 		FROM
 		${database.schema}addresses a,
-		${database.schema}type_address b
+		${database.schema}type_address b,
+		${database.schema}customer c
 		WHERE
 		a.idUser = #{userId} and
-		a.idTypeAddress = b.idTypeAddress
+		a.idTypeAddress = b.idTypeAddress and
+		a.idUser=c.idUser
 	
 	</select>
 	

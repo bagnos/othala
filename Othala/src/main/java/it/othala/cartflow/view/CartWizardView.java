@@ -1,89 +1,58 @@
 package it.othala.cartflow.view;
 
+import it.othala.account.model.CustomerLoginBean;
 import it.othala.cartflow.model.CartFlowBean;
+import it.othala.dto.DeliveryAddressDTO;
+import it.othala.dto.DeliveryDTO;
+import it.othala.enums.TypeAddress;
+import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
-import it.othala.web.utils.OthalaUtil;
-import it.othala.web.utils.WizardUtil;
+
+import java.util.List;
 
 import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.primefaces.context.RequestContext;
 import org.primefaces.event.FlowEvent;
 
 @Named
 @ViewScoped
 public class CartWizardView extends BaseView {
 
-	private String email;
-	private String psw;
+	
+
 	@Inject
 	private CartFlowBean cart;
 
-	public String getEmail() {
-		return email;
-	}
+	@Inject
+	private CustomerLoginBean loginBean;
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPsw() {
-		return psw;
-	}
-
-	public void setPsw(String psw) {
-		this.psw = psw;
-	}
-
+	
 	public String doInit() {
 		// TODO Auto-generated method stub
 		cart.setCheckoutCart(true);
-		/*
-		if (getLoginBean().getName() == null) {
-			RequestContext.getCurrentInstance().execute(WizardUtil.initAccessWizard());
-		} else {
-			RequestContext.getCurrentInstance().execute(WizardUtil.initNoAccessWizard());
-		}*/
 		
+		// recupero l'indirizzo di fatturazione e spedizione
+		retrieveAddresses();
+
 		return null;
 	}
 
-	private String prova;
-	private String prova1;
+	
 
-	public String getProva() {
-		return prova;
-	}
-
-	public void setProva(String prova) {
-		this.prova = prova;
-	}
-
-	public String getProva1() {
-		return prova1;
-	}
-
-	public void setProva1(String prova1) {
-		this.prova1 = prova1;
-	}
-
-	public String onFlowProcess(FlowEvent event) {
-
-		return event.getNewStep();
-
-	}
-
-	public void loginNoRedirect(ActionEvent e) {
-		int a = 0;
-		a = 2;
-		String a1 = email;
-	}
-
-	public String login() {
-		return null;
+	private void retrieveAddresses() {
+		if (cart.getAddressFat().getUserId() == null && cart.getAddressSpe().getUserId() == null) {
+			DeliveryDTO deliveryDTO = OthalaFactory.getOrderServiceInstance().getDeliveryInfo(loginBean.getEmail());
+			for (DeliveryAddressDTO addr : deliveryDTO.getIndirizzo()) {
+				if (addr.getTypeAddress().intValue() == TypeAddress.FATTURAZIONE.getAddress()) {
+					cart.setAddressFat(addr);
+				} else if (addr.getTypeAddress().intValue() == TypeAddress.SPEDIZIONE.getAddress()) {
+					cart.setAddressSpe(addr);
+				}
+			}
+		}
 	}
 
 }
