@@ -31,9 +31,8 @@
 	z-index: 1 !important;
 }
 
-.ui-radiobutton-icon
-{
-	margin:0px !important;
+.ui-radiobutton-icon {
+	margin: 0px !important;
 }
 
 /* ================================================================================================ 
@@ -94,6 +93,18 @@
 	padding-right: 4px;
 	font-weight: bold;
 	margin-right: 4px;
+}
+
+.w120
+{
+	width: 120px;
+}
+.label-control
+{
+	display: inline-block;
+	width:80px;
+	margin-right:10px;
+word-wrap: break-word;
 }
 
 .articolo-sel .form-group {
@@ -513,38 +524,98 @@ html,body,form {
 
 .bwizard-steps
 .clickable
- 
+
 li
+
+
+
+
 :not
+
+
  
+
+
 (
 .active
+
+
  
+
+
 )
 {
 cursor
+
+
+
+
 :
+
+
  
+
+
 pointer
+
+
+
+
 
 
 }
 .bwizard-steps
+
+
+
+
 .clickable
+
+
  
+
+
 li
+
+
+
+
 :hover
+
+
+
+
 :not
+
+
  
+
+
 (
 .active
+
+
  
+
+
 )
 {
 background
+
+
+
+
 :
+
+
  
+
+
 #ccc
+
+
+
+
 
 
 }
