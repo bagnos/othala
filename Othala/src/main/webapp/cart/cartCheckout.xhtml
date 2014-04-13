@@ -16,7 +16,7 @@
 	</ui:define>
 
 	<ui:define name="content">
-		<h:form prependId="false">
+		<h:form prependId="false" id="cart-checkout">
 			<div class="container">
 				<div class="row spacer20">
 
@@ -85,7 +85,10 @@
 										<div class="tab-pane" id="tab2">
 										<ui:include src="/sections/cart-delivery.xhtml" />
 										</div>
-										<div class="tab-pane" id="tab3">3</div>
+										<div class="tab-pane" id="tab3">
+										<ui:include src="/sections/cart-wrapUpAndPayment.xhtml" />
+										</div>
+										
 										<div class="tab-pane" id="tab4">4</div>
 
 
