@@ -269,7 +269,9 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Addresses` (
   `txComune` VARCHAR(100) NOT NULL ,
   `cdCap` INT NOT NULL ,
   `txProvincia` VARCHAR(100) NOT NULL ,
+  `txTel` varchar(20) NOT NULL,
   `txNazione` VARCHAR(100) NOT NULL ,
+  
   PRIMARY KEY (`pgAddress`, `idUser`) ,
   INDEX `fk_Addresses_TypeAddress1` (`idTypeAddress` ASC) ,
   INDEX `fk_Addresses_Customer1` (`idUser` ASC) ,
