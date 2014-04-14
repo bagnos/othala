@@ -170,8 +170,8 @@
 		<div class="row spacer10">
 			<div class="col-sm-2 col-sm-offset-10">
 				<p:commandButton id="pay-cart" validateClient="true" ajax="true" update="delivery wrapUp"
-					process="delivery" action="#{cartWizardView.login}" oncomplete="changePage(xhr, status, args);"
-					styleClass="ui-priority-primary" value="Riepilogo Ordine" />
+					process="delivery" action="#{cartWizardView.updateWrapUp}" oncomplete="changePage(xhr, status, args);"
+					styleClass="ui-priority-primary" value="#{msg.delivery_wrapUpOrder}" />
 
 			</div>
 		</div>
