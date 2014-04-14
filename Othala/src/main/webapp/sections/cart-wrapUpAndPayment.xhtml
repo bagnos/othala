@@ -20,13 +20,33 @@
 	<ui:include src="cart-selected.xhtml" />
 	<div class="row spacer10">
 		<div class="col-sm-2">
-			<p:commandButton icon="ui-icon-triangle-1-w btn-articolo-sel"
-				onclick="previousPage();" value="#{msg.catalogo_gotoDelivery}" />
+
+
+			<p:commandButton icon="ui-icon-triangle-1-w btn-articolo-sel" onclick="previousPage();"
+				value="#{msg.catalogo_gotoDelivery}" />
 		</div>
 
 		<div class="col-sm-2 col-sm-offset-8 text-right">
-			<p:commandButton id="payAll" styleClass="ui-priority-primary" value="#{msg.catalogo_payNow}"
-				ajax="false" action="cartCheckout?faces-redirect=true" />
+			<!-- 
+			<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+				<input type="hidden" name="cmd" value="_xclick"/>
+				<input type="hidden" name="business" value="simone.bagnolesi@gmail.com"/>
+				<input type="hidden" name="item_name" value="Ordine #{customerLoginBean.name}"/>
+				<input type="hidden" name="currency_code" value="EUR"/>
+				<input type="hidden" name="amount" value="#{cartFlowBean.totalPriceOrder}"/>
+				<input type="hidden" name="return" value="#{request.contextPath}/faces/cart/cart-return-payment.xhtml"/>
+				<input type="hidden" name="cancel_return" value="#{request.contextPath}/faces/cart/cart-selected-3.xhtml"/>
+				
+				<input type="image" src="https://www.paypalobjects.com/it_IT/i/btn/x-click-but5.gif" name="submit"
+					alt="Paga con  PayPal - è veloce, gratis e sicuro!"/>
+			</form> -->
+
+			<a href="#{request.contextPath}/faces/cart/cart-payment.xhtml" target="_blank">
+				<img src="https://www.paypalobjects.com/it_IT/i/btn/x-click-but5.gif"
+					alt="Paga con  PayPal - è veloce, gratis e sicuro!" />
+			</a>
+			
+			 
 		</div>
 	</div>
 

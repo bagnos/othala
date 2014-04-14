@@ -7,6 +7,7 @@ import it.othala.dto.ProductFullDTO;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,7 +63,7 @@ public class CartFlowBean implements Serializable {
 				totalPriceOrder=totalPriceOrder.add(art.getTotalPriced());
 			}
 		}
-		return totalPriceOrder;
+		return totalPriceOrder.setScale(2, RoundingMode.HALF_UP);
 	}
 
 	public boolean isCheckoutCart() {
