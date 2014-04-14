@@ -261,23 +261,29 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `othala`.`Addresses` ;
 
-CREATE TABLE `addresses` (
-  `idUser` varchar(100) NOT NULL,
-  `pgAddress` int(11) NOT NULL AUTO_INCREMENT,
-  `idTypeAddress` int(11) NOT NULL,
-  `txVia` varchar(100) NOT NULL,
-  `txComune` varchar(100) NOT NULL,
-  `cdCap` int(11) NOT NULL,
-  `txProvincia` varchar(100) NOT NULL,
-  `txNazione` varchar(100) NOT NULL,
-  `txTel` varchar(20) NOT NULL,
-  PRIMARY KEY (`pgAddress`,`idUser`),
-  KEY `fk_Addresses_TypeAddress1` (`idTypeAddress`),
-  KEY `fk_Addresses_Customer1` (`idUser`),
-  CONSTRAINT `fk_Addresses_Customer1` FOREIGN KEY (`idUser`) REFERENCES `customer` (`idUser`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Addresses_TypeAddress1` FOREIGN KEY (`idTypeAddress`) REFERENCES `type_address` (`idTypeAddress`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8$$
-
+CREATE  TABLE IF NOT EXISTS `othala`.`Addresses` (
+  `idUser` VARCHAR(100) NOT NULL ,
+  `pgAddress` INT NOT NULL AUTO_INCREMENT ,
+  `idTypeAddress` INT NOT NULL ,
+  `txVia` VARCHAR(100) NOT NULL ,
+  `txComune` VARCHAR(100) NOT NULL ,
+  `cdCap` INT NOT NULL ,
+  `txProvincia` VARCHAR(100) NOT NULL ,
+  `txNazione` VARCHAR(100) NOT NULL ,
+  PRIMARY KEY (`pgAddress`, `idUser`) ,
+  INDEX `fk_Addresses_TypeAddress1` (`idTypeAddress` ASC) ,
+  INDEX `fk_Addresses_Customer1` (`idUser` ASC) ,
+  CONSTRAINT `fk_Addresses_TypeAddress1`
+    FOREIGN KEY (`idTypeAddress` )
+    REFERENCES `othala`.`Type_Address` (`idTypeAddress` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Addresses_Customer1`
+    FOREIGN KEY (`idUser` )
+    REFERENCES `othala`.`Customer` (`idUser` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
