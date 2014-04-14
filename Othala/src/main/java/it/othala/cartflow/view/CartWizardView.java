@@ -54,5 +54,9 @@ public class CartWizardView extends BaseView {
 			}
 		}
 	}
+	
+	public String updateWrapUp() {
+		return null;
+	}
 
 }
