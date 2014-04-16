@@ -213,6 +213,7 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Product_Attribute` (
   `pgProductAttribute` INT NOT NULL ,
   PRIMARY KEY (`idProduct`, `idProductAttribute`, `pgProductAttribute`) ,
   INDEX `fk_Product_Attribute_Valori_Attributo1` (`idProductAttribute` ASC, `pgProductAttribute` ASC) ,
+  INDEX `fk_ProductAttribute_Product1_idx` (`idProduct` ASC) ,
   CONSTRAINT `fk_ProductAttribute_Product1`
     FOREIGN KEY (`idProduct` )
     REFERENCES `othala`.`Product` (`idProduct` )
@@ -236,6 +237,7 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Product_Image` (
   `pgImage` INT NOT NULL ,
   `txImageUrl` VARCHAR(100) NULL ,
   PRIMARY KEY (`idProduct`, `pgImage`) ,
+  INDEX `fk_ProductImage_Product1_idx` (`idProduct` ASC) ,
   CONSTRAINT `fk_ProductImage_Product1`
     FOREIGN KEY (`idProduct` )
     REFERENCES `othala`.`Product` (`idProduct` )
@@ -265,14 +267,15 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Addresses` (
   `idUser` VARCHAR(100) NOT NULL ,
   `pgAddress` INT NOT NULL AUTO_INCREMENT ,
   `idTypeAddress` INT NOT NULL ,
+  `txNome` VARCHAR(45) NOT NULL ,
+  `txCognome` VARCHAR(45) NOT NULL ,
   `txVia` VARCHAR(100) NOT NULL ,
   `txComune` VARCHAR(100) NOT NULL ,
   `cdCap` INT NOT NULL ,
   `txProvincia` VARCHAR(100) NOT NULL ,
-  `txTel` varchar(20) NOT NULL,
   `txNazione` VARCHAR(100) NOT NULL ,
-  
-  PRIMARY KEY (`pgAddress`, `idUser`) ,
+  `txTel` VARCHAR(20) NOT NULL ,
+  PRIMARY KEY (`idUser`, `pgAddress`) ,
   INDEX `fk_Addresses_TypeAddress1` (`idTypeAddress` ASC) ,
   INDEX `fk_Addresses_Customer1` (`idUser` ASC) ,
   CONSTRAINT `fk_Addresses_TypeAddress1`
@@ -369,6 +372,7 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Article` (
   PRIMARY KEY (`idProduct`, `pgArticle`) ,
   INDEX `fk_Article_Size1` (`idSize` ASC) ,
   INDEX `fk_Article_Color1` (`idColor` ASC) ,
+  INDEX `fk_Article_Product1_idx` (`idProduct` ASC) ,
   CONSTRAINT `fk_Article_Product1`
     FOREIGN KEY (`idProduct` )
     REFERENCES `othala`.`Product` (`idProduct` )
@@ -461,6 +465,7 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Orders_Articles` (
   `pgArticle` INT NOT NULL ,
   PRIMARY KEY (`idOrder`, `idProdotto`, `pgArticle`) ,
   INDEX `fk_OrdersArticles_Article1_idx` (`idProdotto` ASC, `pgArticle` ASC) ,
+  INDEX `fk_OrdersArticles_Orders1_idx` (`idOrder` ASC) ,
   CONSTRAINT `fk_OrdersArticles_Orders1`
     FOREIGN KEY (`idOrder` )
     REFERENCES `othala`.`Orders` (`idOrder` )
@@ -498,6 +503,7 @@ CREATE  TABLE IF NOT EXISTS `othala`.`States_Orders` (
   `txNote` VARCHAR(100) NULL ,
   PRIMARY KEY (`idOrder`, `idStato`) ,
   INDEX `fk_StatesOrders_States1_idx` (`idStato` ASC) ,
+  INDEX `fk_StatesOrders_Orders1_idx` (`idOrder` ASC) ,
   CONSTRAINT `fk_StatesOrders_Orders1`
     FOREIGN KEY (`idOrder` )
     REFERENCES `othala`.`Orders` (`idOrder` )
@@ -533,6 +539,7 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Customer_Roles` (
   `idUser` VARCHAR(100) NOT NULL ,
   `txRole` VARCHAR(20) NOT NULL ,
   PRIMARY KEY (`idUser`, `txRole`) ,
+  INDEX `fk_CustomerRoles_Customer1_idx` (`idUser` ASC) ,
   CONSTRAINT `fk_CustomerRoles_Customer1`
     FOREIGN KEY (`idUser` )
     REFERENCES `othala`.`Customer` (`idUser` )
