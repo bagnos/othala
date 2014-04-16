@@ -5,11 +5,19 @@
 	<select id="listMenu" resultType="it.othala.dto.MenuDTO"
 		parameterType="java.util.HashMap">
 
-		SELECT a.idGender,
-		a.txGender
+
+		SELECT
+		a.idGender,
+		a.txGender,
+		b.txLibrary as imgLibrary,
+		b.txName as imgName
 		FROM
-		${database.schema}gender a
-		where a.idLanguages = #{languages};
+		${database.schema}gender a,
+		${database.schema}site_images b
+		where a.idLanguages = #{languages}
+		and b.txGroupImages = 'tabNav'
+		and b.pgGroupImages = a.idGender;
+
 
 	</select>
 
@@ -181,10 +189,10 @@
 		attributo,txSize as valore
 		FROM
 		${database.schema}size a,
-        ${database.schema}type_size b,
-        ${database.schema}size_type_size c
-        where a.idTypeSize = b.idTypeSize
-        and a.idTypeSize = c.idTypeSize
+		${database.schema}type_size b,
+		${database.schema}size_type_size c
+		where a.idTypeSize = b.idTypeSize
+		and a.idTypeSize = c.idTypeSize
 		order by 1
 
 	</select>
@@ -317,8 +325,9 @@
 		a.idColor,
 
 		txColor,
-		coalesce(a.txThumbnailsUrl, d.txThumbnailsUrl) as thumbnailsUrl
-		
+		coalesce(a.txThumbnailsUrl,
+		d.txThumbnailsUrl) as thumbnailsUrl
+
 
 
 		FROM
@@ -329,7 +338,8 @@
 
 
 		where
-		a.idProduct =
+		a.idProduct
+		=
 		#{idProduct}
 		and a.idSize = b.idSize
 		and c.idColor = a.idColor

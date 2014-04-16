@@ -49,7 +49,10 @@ INSERT INTO size VALUES
 
 INSERT INTO `product_state` VALUES (0,'INSERITO'),(1,'PUBBLICATO');
 INSERT INTO `site_images` VALUES (1,'carousel',1,'images/carousel','2.jpg'),(2,'carousel',2,'images/carousel','3.jpg'),(3,'carousel',3,'images/carousel','2.jpg'),(4,'carousel',4,'images/carousel','3.jpg'),(5,'newArrivals',1,'images/newArrivals','men.gif'),(6,'newArrivals',2,'images/newArrivals','woman.gif'),(7,'newArrivals',3,'images/newArrivals','boys.gif'),(8,'newArrivals',4,'images/newArrivals','girls.gif');
-
+INSERT INTO `site_images` (`idsiteImages`, `txGroupImages`, `pgGroupImages`, `txLibrary`, `txName`) VALUES (9, 'tabNav', 1, 'images/tabNav', 'uomo.png');
+INSERT INTO `site_images` (`idsiteImages`, `txGroupImages`, `pgGroupImages`, `txLibrary`, `txName`) VALUES (10, 'tabNav', 2, 'images/tabNav', 'donna.png');
+INSERT INTO `site_images` (`idsiteImages`, `txGroupImages`, `pgGroupImages`, `txLibrary`, `txName`) VALUES (11, 'tabNav', 3, 'images/tabNav', 'bambino.png');
+INSERT INTO `site_images` (`idsiteImages`, `txGroupImages`, `pgGroupImages`, `txLibrary`, `txName`) VALUES (12, 'tabNav', 4, 'images/tabNav', 'bambina.png');
 
 INSERT INTO `product` VALUES (1,1,8,1, 1200,50,'000001_01.JPG',1,'2014-03-18 00:00:00');
 INSERT INTO `product` VALUES (2,1,8,2, 1345,50,'000002_01.JPG',1,'2014-03-01 00:00:00');
