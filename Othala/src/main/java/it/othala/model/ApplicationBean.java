@@ -89,13 +89,13 @@ public class ApplicationBean implements Serializable {
 		return brands;
 	}
 
-	public void updateSizes(Integer idType) {
+	public void updateSizes(Integer idSubMenu) {
 
 		sizes.clear();
 		sizes.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseSize")));
-		if (idType != null && idType.intValue() != -1) {
+		if (idSubMenu != null && idSubMenu.intValue() != -1) {
 			for (AttributeSizeDTO att : getDomain().getSize()) {
-				if (att.getIdType().intValue() == idType.intValue()) {
+				if (att.getIdType().intValue() == idSubMenu.intValue() || idSubMenu==0) {
 					sizes.add(new SelectItem(att.getAttributo(), att.getValore()));
 				}
 			}
