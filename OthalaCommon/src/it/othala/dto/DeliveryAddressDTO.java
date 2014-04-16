@@ -8,36 +8,11 @@ public class DeliveryAddressDTO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private String userId;
-	private Integer typeAddress;
-	private String typeAddressDes;
-	private String via;
-	private String comune;
-	private String cap;
-	private String provincia;
-	private String nazione;
-	private String name;
-	private String surname;
-	private String tel;
-	
-	
-	public String getTel() {
-		return tel;
+	public String getUserId() {
+		return userId;
 	}
-	public void setTel(String tel) {
-		this.tel = tel;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getSurname() {
-		return surname;
-	}
-	public void setSurname(String surname) {
-		this.surname = surname;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	public Integer getTypeAddress() {
 		return typeAddress;
@@ -50,6 +25,18 @@ public class DeliveryAddressDTO implements Serializable {
 	}
 	public void setTypeAddressDes(String typeAddressDes) {
 		this.typeAddressDes = typeAddressDes;
+	}
+	public String getNome() {
+		return nome;
+	}
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+	public String getCognome() {
+		return cognome;
+	}
+	public void setCognome(String cognome) {
+		this.cognome = cognome;
 	}
 	public String getVia() {
 		return via;
@@ -81,12 +68,25 @@ public class DeliveryAddressDTO implements Serializable {
 	public void setNazione(String nazione) {
 		this.nazione = nazione;
 	}
-	public String getUserId() {
-		return userId;
+	public String getTel() {
+		return tel;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setTel(String tel) {
+		this.tel = tel;
 	}
+	private String userId;
+	private Integer typeAddress;
+	private String typeAddressDes;
+	private String nome;
+	private String cognome;
+	private String via;
+	private String comune;
+	private String cap;
+	private String provincia;
+	private String nazione;
+	private String tel;
+	
+	
 
 
 }
