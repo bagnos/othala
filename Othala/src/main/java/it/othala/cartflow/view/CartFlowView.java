@@ -12,9 +12,6 @@ import it.othala.web.utils.OthalaUtil;
 
 import java.math.BigDecimal;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
@@ -169,7 +166,7 @@ public class CartFlowView extends BaseView {
 				OthalaFactory.getProductServiceInstance().getListProduct(
 						getLang(),
 						flowBean.getCatalog().getIdMenu(),
-						flowBean.getCatalog().getIdSubMenu(),
+						flowBean.getCatalog().getIdSubMenu()==0?null:flowBean.getCatalog().getIdSubMenu(),
 						flowBean.getCatalog().getBrand(),
 						new BigDecimal(flowBean.getCatalog().getPriceMin()),
 						new BigDecimal(flowBean.getCatalog().getPriceMax()),
