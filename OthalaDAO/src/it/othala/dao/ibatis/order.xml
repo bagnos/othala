@@ -84,10 +84,10 @@
 		parameterType="java.lang.String">
 		
 		SELECT
-		a.idTypeAddress as typeAddress, a.txVia as via, 
-		a.txComune as comune, a.cdCap as cap, a.txProvincia as provincia, 
-		a.txNazione as nazione, b.Descrizione as typeAddressDes,a.txTel as tel,
-		c.txNome as name,c.txCognome as surname,c.idUser as userId
+		a.idTypeAddress as typeAddress, a.txNome as nome,a.txCognome as cognome,
+		a.txVia as via, a.txComune as comune, a.cdCap as cap, 
+		a.txProvincia as provincia, a.txNazione as nazione, 
+		b.Descrizione as typeAddressDes, a.txTel as tel, c.idUser as userId
 		FROM
 		${database.schema}addresses a,
 		${database.schema}type_address b,
@@ -112,10 +112,11 @@
 	<insert id="insertAddress" parameterType="it.othala.dto.DeliveryAddressDTO">
 		INSERT INTO
 		${database.schema}addresses
-		(`idUser`,`idTypeAddress`,`txVia`,`txComune`, `cdCap`, 
+		(`idUser`,`idTypeAddress`,`txNome`,`txCognome`,`txVia`,
+		`txComune`, `cdCap`, 
 		`txProvincia`,`txNazione`)
 		VALUES
-		(#{userId},#{typeAddress},#{via},
+		(#{userId},#{typeAddress},#{nome},#{cognome},#{via},
 		#{comune},#{cap},#{provincia},#{nazione});
 
 	</insert>
