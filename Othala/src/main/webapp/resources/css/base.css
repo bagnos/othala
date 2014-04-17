@@ -335,6 +335,18 @@ word-wrap: break-word;
 	line-height: 18px;
 }
 
+.newArrivals {
+	color: black;
+	font-size: 72px;
+	padding: 0px 0px 7px 0px;
+	border-bottom: 1px dotted #444;
+	text-transform: uppercase;
+	font-weight: bold;
+	margin-top: 2px;
+	
+	
+}
+
 /* ================================================================================================ 
 	INIZIO STICKY FOOTER 
 ================================================================================================*/

@@ -115,6 +115,8 @@ public class ApplicationBean implements Serializable {
 	}
 
 	private void updateImgHome() {
+		imgsNewArrival.clear();
+		imgsCarousel.clear();
 		imgs = OthalaFactory.getSiteImagesServiceInstance().listSiteImages();
 		for (SiteImagesDTO img : imgs) {
 			if (img.getTxGroupImages().trim().equalsIgnoreCase(IMG_NEW_ARRIVALS)) {
