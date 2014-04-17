@@ -15,7 +15,8 @@
 		${database.schema}gender a,
 		${database.schema}site_images b
 		where a.idLanguages = #{languages}
-		and b.txGroupImages = 'tabNav'
+		and
+		b.txGroupImages = 'tabNav'
 		and b.pgGroupImages = a.idGender;
 
 
@@ -191,7 +192,8 @@
 		${database.schema}size a,
 		${database.schema}type_size b,
 		${database.schema}size_type_size c
-		where a.idTypeSize = b.idTypeSize
+		where
+		a.idTypeSize = b.idTypeSize
 		and a.idTypeSize = c.idTypeSize
 		order by 1
 
@@ -341,11 +343,13 @@
 		a.idProduct
 		=
 		#{idProduct}
-		and a.idSize = b.idSize
+		and a.idSize =
+		b.idSize
 		and c.idColor = a.idColor
 		and
 		c.idLanguages = #{languages}
-		and d.idProduct = a.idProduct
+		and
+		d.idProduct = a.idProduct
 
 
 	</select>
@@ -423,7 +427,15 @@
 
 	</insert>
 
+	<select id="getQtStock" resultType="Integer" parameterType="java.util.HashMap">
 
+		SELECT qtStock
+		FROM ${database.schema}article
+		Where idProduct = #{idProduct}
+		and pgArticle = #{pgArticle};
+
+
+	</select>
 
 
 </mapper>
