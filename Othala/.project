@@ -8,6 +8,7 @@
 		<project>OthalaService</project>
 		<project>OthalaDAO</project>
 		<project>OthalaCommon</project>
+		<project>OthalaPayment</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

@@ -2,6 +2,7 @@ package it.othala.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 public class ProductFullDTO implements Serializable {
@@ -45,6 +46,7 @@ public class ProductFullDTO implements Serializable {
 	
 	public BigDecimal getRealPrice() {
 		realPrice=priceDiscounted!=null?priceDiscounted:price;
+		realPrice=realPrice.setScale(2, RoundingMode.HALF_UP);
 		return realPrice;
 	}
 

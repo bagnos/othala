@@ -141,6 +141,11 @@ word-wrap: break-word;
 	text-transform: uppercase;
 }
 
+.paypal-checkout
+{
+	 background-image: url('https://www.paypal.com/it_IT/IT/i/btn/btn_xpressCheckout.gif');   
+}
+
 /* ================================================================================================ 
 	FINE GENERICHE
 ================================================================================================*/
