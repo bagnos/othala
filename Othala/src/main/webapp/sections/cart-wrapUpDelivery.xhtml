@@ -37,12 +37,12 @@
 
 			<div>
 				<p:outputLabel value="#{msg.delivery_name}" styleClass="label-control"  />
-				<h:outputText   value="#{cartFlowBean.addressFat.name}" />
+				<h:outputText   value="#{cartFlowBean.addressFat.nome}" />
 			</div>
 			<div>
 				<p:outputLabel value="#{msg.delivery_surname}" styleClass="label-control" for="lblCognomeFat" />
 				<h:outputText id="lblCognomeFat" 
-					value="#{cartFlowBean.addressFat.surname}">
+					value="#{cartFlowBean.addressFat.cognome}">
 				</h:outputText>
 
 			</div>
@@ -87,13 +87,13 @@
 
 			<div>
 				<p:outputLabel value="#{msg.delivery_name}" styleClass="label-control" for="lnlNameSpe" />
-				<h:outputText id="lnlNameSpe"  value="#{cartFlowBean.addressSpe.name}" />
+				<h:outputText id="lnlNameSpe"  value="#{cartFlowBean.addressSpe.nome}" />
 			</div>
 
 			<div>
 				<p:outputLabel value="#{msg.delivery_surname}" styleClass="label-control" for="lblCognomeSpe" />
 				<h:outputText id="lblCognomeSpe" 
-					value="#{cartFlowBean.addressSpe.surname}" />
+					value="#{cartFlowBean.addressSpe.cognome}" />
 			</div>
 
 			<div>

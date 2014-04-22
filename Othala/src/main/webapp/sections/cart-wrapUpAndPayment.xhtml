@@ -13,6 +13,8 @@
 		</div>
 		<p:panel styleClass="col-sm-12 ">
 			<h:graphicImage library="images/payment" style="margin-left:20px" name="paypal.gif" />
+
+
 		</p:panel>
 	</div>
 
@@ -41,12 +43,23 @@
 					alt="Paga con  PayPal - è veloce, gratis e sicuro!"/>
 			</form> -->
 
-			<a href="#{request.contextPath}/faces/cart/cart-payment.xhtml" >
-				<img src="https://www.paypalobjects.com/it_IT/i/btn/x-click-but5.gif"
-					alt="Paga con  PayPal - è veloce, gratis e sicuro!" />
-			</a>
-			
-			 
+
+			<h:commandLink id="goCheckout" immediate="true" title="#{msg.catalogo_payNowPayPal}" actionListener="#{cartWizardView.checkout}">
+				<!-- <img src="https://www.paypal.com/it_IT/IT/i/btn/btn_xpressCheckout.gif" />-->
+				
+					
+					<img  src="https://www.paypalobjects.com/it_IT/IT/i/btn/btn_buynow_LG.gif"
+						border="0" 
+						alt="PayPal - Il metodo rapido, affidabile e innovativo per pagare e farsi pagare."/>
+					
+
+			</h:commandLink>
+
+
+
+
+
+
 		</div>
 	</div>
 
