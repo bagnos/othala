@@ -2,12 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="it.othala.order.queries">
 
-	<select id="listOrder" resultType="it.othala.dto.OrderFullDTO"
-		parameterType="java.util.HashMap">
+	<resultMap id="Order" type="it.othala.dto.OrderFullDTO">
+		<id property="idOrder" column="a_idOrder" />
+		<result property="idUser" column="idUser" />
+		<result property="imOrdine" column="imOrdine" />
+		<result property="imSpeseSpedizione" column="imSpeseSpedizione" />
+		<result property="idStato" column="idStato" />
+		<result property="dtStato" column="dtStato" />
+		<result property="txNote" column="txNote" />
+		<result property="txStato" column="txStato" />
+		<collection property="prodotti" ofType="it.othala.dto.OrderProductDTO" 
+					javaType="ArrayList" resultMap="OrderProducts"/>
+	</resultMap>
+	<resultMap id="OrderProducts" type="it.othala.dto.OrderProductDTO">
+		<id property="idOrder" column="b_idOrder" />
+		<result property="idProdotto" column="idProdotto" />
+		<result property="pgArticle" column="pgArticle" />
+	</resultMap>
+	
+	
+	<select id="listOrder" resultMap="Order" parameterType="java.util.HashMap">
 
 		SELECT
-		a.idOrder, a.idUser, a.imOrdine, a.imSpeseSpedizione,
-		b.idProdotto, b.pgArticle,
+		a.idOrder as a_idOrder, a.idUser, a.imOrdine, a.imSpeseSpedizione,
+		b.idOrder as b_idOrder, b.idProdotto, b.pgArticle,
 		c.idStato c.dtStato, c.txNote, 
 		d.txStato
 		FROM
