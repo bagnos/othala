@@ -20,7 +20,14 @@ public class OrderProductDTO implements Serializable{
 	public void setPgArticle(Integer pgArticle) {
 		this.pgArticle = pgArticle;
 	}
+	public Integer getQtArticle() {
+		return qtArticle;
+	}
+	public void setQtArticle(Integer qtArticle) {
+		this.qtArticle = qtArticle;
+	}
 	private Integer idProdotto;
 	private Integer pgArticle;
+	private Integer qtArticle;
 	
 }
