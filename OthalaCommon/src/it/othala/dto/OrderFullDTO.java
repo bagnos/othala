@@ -3,6 +3,8 @@ package it.othala.dto;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OrderFullDTO implements Serializable {
 
@@ -19,9 +21,8 @@ public class OrderFullDTO implements Serializable {
 	private String txNote;
 	private BigDecimal imOrdine;
 	private BigDecimal imSpeseSpedizione;
-	private Integer idProdotto;
-	private Integer pgArticle;
-	
+	private List<OrderProductDTO> prodotti = new ArrayList<OrderProductDTO>();
+
 	public Integer getIdOrder() {
 		return idOrder;
 	}
@@ -70,17 +71,11 @@ public class OrderFullDTO implements Serializable {
 	public void setImSpeseSpedizione(BigDecimal imSpeseSpedizione) {
 		this.imSpeseSpedizione = imSpeseSpedizione;
 	}
-	public Integer getIdProdotto() {
-		return idProdotto;
+	public List<OrderProductDTO> getProdotti() {
+		return prodotti;
 	}
-	public void setIdProdotto(Integer idProdotto) {
-		this.idProdotto = idProdotto;
-	}
-	public Integer getPgArticle() {
-		return pgArticle;
-	}
-	public void setPgArticle(Integer pgArticle) {
-		this.pgArticle = pgArticle;
+	public void setProdotti(List<OrderProductDTO> prodotti) {
+		this.prodotti = prodotti;
 	}
 	
 }
