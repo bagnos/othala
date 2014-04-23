@@ -3,7 +3,7 @@
 <mapper namespace="it.othala.order.queries">
 
 	<resultMap id="Order" type="it.othala.dto.OrderFullDTO">
-		<id property="idOrder" column="a_idOrder" />
+		<id property="idOrder" column="idOrder" />
 		<result property="idUser" column="idUser" />
 		<result property="imOrdine" column="imOrdine" />
 		<result property="imSpeseSpedizione" column="imSpeseSpedizione" />
@@ -11,21 +11,19 @@
 		<result property="dtStato" column="dtStato" />
 		<result property="txNote" column="txNote" />
 		<result property="txStato" column="txStato" />
-		<collection property="prodotti" ofType="it.othala.dto.OrderProductDTO" 
-					javaType="ArrayList" resultMap="OrderProducts"/>
-	</resultMap>
-	<resultMap id="OrderProducts" type="it.othala.dto.OrderProductDTO">
-		<id property="idOrder" column="b_idOrder" />
-		<result property="idProdotto" column="idProdotto" />
-		<result property="pgArticle" column="pgArticle" />
+		<collection property="prodotti" ofType="it.othala.dto.OrderProductDTO">
+			<result property="idProdotto" column="idProdotto" />
+			<result property="pgArticle" column="pgArticle" />
+			<result property="qtArticle" column="qtArticle" />
+		</collection>
 	</resultMap>
 	
 	
 	<select id="listOrder" resultMap="Order" parameterType="java.util.HashMap">
 
 		SELECT
-		a.idOrder as a_idOrder, a.idUser, a.imOrdine, a.imSpeseSpedizione,
-		b.idOrder as b_idOrder, b.idProdotto, b.pgArticle,
+		a.idOrder, a.idUser, a.imOrdine, a.imSpeseSpedizione,
+		b.idProdotto, b.pgArticle, b.qtArticle,
 		c.idStato c.dtStato, c.txNote, 
 		d.txStato
 		FROM
@@ -71,12 +69,12 @@
     </insert>
 
 
-	<insert id="insertOrdersArticles" parameterType="it.othala.dto.OrderFullDTO">
+	<insert id="insertOrdersArticles" parameterType="it.othala.dto.OrderProductDTO">
 
 		INSERT INTO
 		${database.schema}orders_articles
-		(`idOrder`,`idProdotto`,`pgArticle`)
-		values (#{idOrder},#{idProdotto},#{pgArticle})
+		(`idOrder`,`idProdotto`,`pgArticle`,`qtArticle`)
+		values (#{idOrder},#{idProdotto},#{pgArticle},#{qtArticle})
 
 	</insert>
 
