@@ -4,6 +4,7 @@ import it.othala.dao.interfaces.IOrderDAO;
 import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryCostDTO;
 import it.othala.dto.OrderFullDTO;
+import it.othala.dto.OrderProductDTO;
 import it.othala.dto.StateOrderDTO;
 
 import java.sql.Date;
@@ -42,10 +43,10 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO  {
 	}
 
 	@Override
-	public void insertOrdersArticles(OrderFullDTO orderFull) {
+	public void insertOrdersArticles(OrderProductDTO orderProduct) {
 		
 		getSqlSession().insert("it.othala.order.queries.insertOrdersArticles",
-				orderFull);
+				orderProduct);
 		
 		}
 
