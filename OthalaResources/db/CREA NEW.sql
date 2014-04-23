@@ -1,6 +1,6 @@
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 DROP SCHEMA IF EXISTS `othala` ;
 CREATE SCHEMA IF NOT EXISTS `othala` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
@@ -463,9 +463,11 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Orders_Articles` (
   `idOrder` INT NOT NULL ,
   `idProdotto` INT NOT NULL ,
   `pgArticle` INT NOT NULL ,
+  `qtArticle` INT NOT NULL ,
   PRIMARY KEY (`idOrder`, `idProdotto`, `pgArticle`) ,
   INDEX `fk_OrdersArticles_Article1_idx` (`idProdotto` ASC, `pgArticle` ASC) ,
   INDEX `fk_OrdersArticles_Orders1_idx` (`idOrder` ASC) ,
+  UNIQUE INDEX `idOrder_UNIQUE` (`idOrder` ASC) ,
   CONSTRAINT `fk_OrdersArticles_Orders1`
     FOREIGN KEY (`idOrder` )
     REFERENCES `othala`.`Orders` (`idOrder` )
@@ -646,6 +648,7 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Brand` (
   PRIMARY KEY (`idBrand`, `idLanguages`) )
 ENGINE = InnoDB;
 
+USE `othala` ;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
