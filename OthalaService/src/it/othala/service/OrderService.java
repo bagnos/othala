@@ -2,14 +2,18 @@ package it.othala.service;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import it.othala.account.execption.MailNotSendException;
+import it.othala.dao.ProductDAO;
 import it.othala.dao.interfaces.IOrderDAO;
+import it.othala.dao.interfaces.IProductDAO;
 import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryCostDTO;
 import it.othala.dto.DeliveryDTO;
 import it.othala.dto.OrderFullDTO;
+import it.othala.dto.OrderProductDTO;
 import it.othala.dto.StateOrderDTO;
 import it.othala.service.interfaces.IMailService;
 import it.othala.service.interfaces.IOrderService;
@@ -18,6 +22,7 @@ import it.othala.service.interfaces.IMailService;
 public class OrderService implements IOrderService {
 	
 	private IOrderDAO orderDAO;
+	private IProductDAO productDao;
 	private IMailService mailService;
 
 	@Override
@@ -33,8 +38,17 @@ public class OrderService implements IOrderService {
 	@Override
 	public Integer insertOrder(OrderFullDTO orderFull) throws MailNotSendException {
 		
+		 
+		
+		
 		Integer NumeroOrdine = orderDAO.insertOrder(orderFull);
-		orderDAO.insertOrdersArticles(orderFull);
+		
+		List<OrderProductDTO> lsProd = orderFull.getProdotti();
+		Iterator<OrderProductDTO> i = lsProd.iterator();
+		while(i.hasNext()){
+			orderDAO.insertOrdersArticles(i.next());
+		}
+
 		orderDAO.insertStatesOrders(orderFull);
 		
 		String[] mailTo = new String[1];
