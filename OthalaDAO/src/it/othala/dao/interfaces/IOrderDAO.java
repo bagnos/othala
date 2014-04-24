@@ -3,6 +3,7 @@ package it.othala.dao.interfaces;
 import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryCostDTO;
 import it.othala.dto.OrderFullDTO;
+import it.othala.dto.OrderProductDTO;
 import it.othala.dto.StateOrderDTO;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public interface IOrderDAO {
 	
 	public Integer insertOrder(OrderFullDTO orderFull);
 	
-	public void insertOrdersArticles(OrderFullDTO orderFull);
+	public void insertOrdersArticles(OrderProductDTO orderProduct);
 	
 	public void insertStatesOrders(OrderFullDTO orderFull);
 	
