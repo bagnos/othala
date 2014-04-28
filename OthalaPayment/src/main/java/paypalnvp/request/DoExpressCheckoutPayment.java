@@ -19,6 +19,9 @@ package paypalnvp.request;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.swing.text.StyledEditorKit.BoldAction;
+
 import paypalnvp.fields.Address;
 import paypalnvp.fields.Payment;
 import paypalnvp.fields.PaymentAction;
@@ -49,7 +52,7 @@ public final class DoExpressCheckoutPayment implements Request {
      *                      response
      * @throws IllegalArgumentException
      */
-    public DoExpressCheckoutPayment(Payment payment, String token,
+    public DoExpressCheckoutPayment(String token,
             PaymentAction paymentAction, String payerId)
             throws IllegalArgumentException {
 
@@ -65,9 +68,8 @@ public final class DoExpressCheckoutPayment implements Request {
 
         nvpRequest.put("METHOD", METHOD_NAME);
 		/* insert payment values */
-		HashMap<String, String> nvp =
-				new HashMap<String, String>(payment.getNVPRequest());
-        nvpRequest.putAll(nvp);
+		
+        
         nvpRequest.put("TOKEN", token);
         nvpRequest.put("PAYMENTACTION", paymentAction.getValue());
         nvpRequest.put("PAYERID", payerId);
@@ -109,6 +111,12 @@ public final class DoExpressCheckoutPayment implements Request {
 				new HashMap<String, String>(address.getNVPRequest());
 		nvpRequest.putAll(nvp);
 	}
+	
+	public void setUSESESSIONPAYMENTDETAILS(boolean use)
+	{
+		nvpRequest.put("USESESSIONPAYMENTDETAILS", Boolean.toString(use));
+	}
+	
 
     public Map<String, String> getNVPRequest() {
         return new HashMap(nvpRequest);

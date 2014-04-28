@@ -75,6 +75,7 @@ final class HttpPost implements Transport {
 
         } catch (IOException ex) {
             Logger.getLogger(HttpPost.class.getName()).log(Level.SEVERE, null, ex);
+            throw new MalformedURLException(ex.getMessage());
         }
 
 		/* return response */

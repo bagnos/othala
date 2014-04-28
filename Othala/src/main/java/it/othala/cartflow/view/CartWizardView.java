@@ -6,6 +6,7 @@ import it.othala.account.model.CustomerLoginBean;
 import it.othala.cartflow.model.CartFlowBean;
 import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryDTO;
+import it.othala.dto.OrderFullDTO;
 import it.othala.enums.TypeAddress;
 import it.othala.payment.paypal.PayPalWrapper;
 import it.othala.payment.paypal.SetExpressCheckoutDTO;
@@ -62,20 +63,27 @@ public class CartWizardView extends BaseView {
 		PayPalWrapper pBd;
 		try {
 			pBd = new PayPalWrapper();
-			SetExpressCheckoutDTO checkDTO = pBd.setExpressCheckout(cart,getLang());
-			if (checkDTO.getToken() != null) {
+			
+			//creazione ordine
+			OrderFullDTO order=new OrderFullDTO();			
+			order.setIdOrder(122345);
+			
+			
+			//checkout paypall
+			SetExpressCheckoutDTO checkDTO = pBd.setExpressCheckout(cart,getLang(),order.getIdOrder().toString());
+			if (checkDTO!=null && checkDTO.getToken() != null) {
 				// return null;
 				FacesContext.getCurrentInstance().getExternalContext().redirect(checkDTO.getRedirectUrl());
 				
 			} else {
-				addError(null, OthalaUtil.getWordBundle("exception_payPalCredentialException"));
-				log.error(String.format("Paypal, SetExpressCheckout in errore:%s",checkDTO.getKoMessage()));
-				// return null;
+				addError(null, OthalaUtil.getWordBundle("exception_payPalException"));
+				log.error(String.format("Paypal, SetExpressCheckout in errore:%s",checkDTO!=null?checkDTO.getKoMessage():"errore generico nella cominicazione con paypal"));
+				// return null; 
 			}
-		} catch (IOException ex) {
+		} catch (Exception ex) {
 			// TODO Auto-generated catch block
-			log.error("Errore autenticazione PayPal", ex);
-			addError(null, OthalaUtil.getWordBundle("exception_payPalCredentialException"));
+			log.error("Errore comunicazione PayPal", ex);
+			addError(null, OthalaUtil.getWordBundle("exception_payPalException"));
 			// return null;
 		}
 

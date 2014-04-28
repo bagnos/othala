@@ -124,15 +124,17 @@ public final class PayPal implements Serializable {
      * argument and sets response Map from PayPal.
      *
      * @param request
+     * @throws MalformedURLException 
+     * @throws UnsupportedEncodingException 
      */
-    public void setResponse(Request request) {
+    public void setResponse(Request request) throws MalformedURLException, UnsupportedEncodingException {
 
         StringBuffer nvpString  = new StringBuffer();
         /* character encoding for the nvp string */
         String encoding         = "UTF-8";
 
         /* create nvp string */
-        try {
+       
             /* profile part */
             for(Map.Entry<String, String> e : profile.getNVPMap().entrySet()) {
                 nvpString.append(e.getKey() + "="
@@ -147,9 +149,7 @@ public final class PayPal implements Serializable {
             }
             /* the rest */
             nvpString.append("VERSION=" + URLEncoder.encode(VERSION, encoding));
-        } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(SetExpressCheckout.class.getName()).log(Level.SEVERE, null, ex);
-        }
+       
 
         /* create end point url */
         StringBuffer endpointUrl = new StringBuffer();
@@ -163,13 +163,10 @@ public final class PayPal implements Serializable {
 
         /* send request and save response */
         String response = null;
-        try {
+       
             response = transport.getResponse(endpointUrl.toString(),
                     nvpString.toString());
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(PayPal.class.getName()).log(Level.SEVERE, null,
-                    ex);
-        }
+        
 
         if (response != null) {
 
@@ -177,16 +174,13 @@ public final class PayPal implements Serializable {
             Map<String, String> responseMap = new HashMap<String, String>();
 
             /* add response to the Map */
-            try {
+           
                 String[] pairs = response.split("&");       // split nvp
                 for (String pair : pairs) {
                     String[] nvp = pair.split("=");         // split key value
                     responseMap.put(nvp[0], URLDecoder.decode(nvp[1], encoding));
                 }
-            } catch (UnsupportedEncodingException ex) {
-                Logger.getLogger(SetExpressCheckout.class.getName()).log(
-                        Level.SEVERE, null, ex);
-            }
+           
 
             /* set response */
             request.setNVPResponse(responseMap);
