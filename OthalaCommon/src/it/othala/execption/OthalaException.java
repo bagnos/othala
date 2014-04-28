@@ -27,7 +27,12 @@ public  class OthalaException extends Exception {
 	}
 
 	public OthalaException(String keyMessage,Object[] parms) {
-		super();
+		
+		this(keyMessage,parms,"");
+	}
+	
+	public OthalaException(String keyMessage,Object[] parms,String dsErrore) {
+		super(dsErrore);
 		this.parms=parms;
 		this.keyMessage=keyMessage;
 

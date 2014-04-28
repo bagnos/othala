@@ -100,6 +100,26 @@ public final class Payment implements RequestFields {
 		}
 	}
 
+	public void setShipToAddress(String name, String street, String city, String zip, String state,String country,String tel)
+			throws IllegalArgumentException {
+
+		if (name.length() > 32 || street.length() > 100 || city.length() > 40 || zip.length() > 20 || tel.length()>20) {
+
+			throw new IllegalArgumentException();
+		}
+
+		nvpRequest.put("PAYMENTREQUEST_0_SHIPTONAME", name);
+		nvpRequest.put("PAYMENTREQUEST_0_SHIPTOSTREET", street);
+		nvpRequest.put("PAYMENTREQUEST_0_SHIPTOCITY", city);
+		nvpRequest.put("PAYMENTREQUEST_0_SHIPTOCOUNTRYCODE", country);
+		nvpRequest.put("PAYMENTREQUEST_0_SHIPTOZIP", zip);
+		nvpRequest.put("PAYMENTREQUEST_0_SHIPTOSTATE", state); 
+		nvpRequest.put("PAYMENTREQUEST_n_SHIPTOPHONENUM", tel);
+		
+		
+
+	}
+
 	/**
 	 * Create Payment from supplied ebay items. Amount has to be set, because
 	 * ebay items do not have amount field.
@@ -151,17 +171,10 @@ public final class Payment implements RequestFields {
 	public void setCurrency(Currency currency) {
 		nvpRequest.put("PAYMENTREQUEST_0_CURRENCYCODE", currency.toString());
 	}
-	
 
-	public void setEmailPayPal(String email)
-	{
+	public void setEmailPayPal(String email) {
 		nvpRequest.put("PAYMENTREQUEST_0_EMAIL", email);
 	}
-	
-	
-	
-	
-	
 
 	/**
 	 * Total shipping costs for this order. Note: Character length and
@@ -181,7 +194,6 @@ public final class Payment implements RequestFields {
 		}
 		nvpRequest.put("SHIPPINGAMT", amount);
 	}
-	
 
 	/**
 	 * Total shipping insurance costs for this order. The value must be a
@@ -303,7 +315,7 @@ public final class Payment implements RequestFields {
 		if (field.length() > 256) {
 			throw new IllegalArgumentException("Field cannot exceed 256 " + "characters");
 		}
-		nvpRequest.put("CUSTOM", field);
+		nvpRequest.put("PAYMENTREQUEST_0_CUSTOM", field);
 	}
 
 	/**
@@ -385,13 +397,14 @@ public final class Payment implements RequestFields {
 		nvpRequest.put("LOCALECODE", locale);
 
 	}
-	
-	public void setSuppressingShippingAddress()
-	{
+
+	public void setSuppressingShippingAddress() {
 		nvpRequest.put("NOSHIPPING", "1");
 	}
-	
-	
+
+	public void setOverrideShippingAddress() {
+		nvpRequest.put("ADDROVERRIDE", "1");
+	}
 
 	/**
 	 * Transaction identification number of the transaction that was created.

@@ -29,8 +29,20 @@ public class ProductFullDTO implements Serializable {
 	private String txBrand;
 	
 	private BigDecimal realPrice;
-
+	private String merchantCode;
 	
+
+	public String getMerchantCode() {
+		if (merchantCode==null && idProduct!=null)
+		{
+			return idProduct.toString();
+		}
+		return merchantCode;
+	}
+
+	public void setMerchantCode(String merchantCode) {
+		this.merchantCode = merchantCode;
+	}
 
 	private List<DescriptionDTO> langDescription;
 

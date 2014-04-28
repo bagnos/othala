@@ -39,27 +39,31 @@ public final class ShipToAddress implements RequestFields {
      *                  limitations: 100 single-byte characters.
      * @param city      Name of city. Character length and limitations: 40 
      *                  single-byte characters.
-     * @param state     State or province. Character length and limitations: 40 
-     *                  single-byte character.
+     * @param zip     
+     * U.S. ZIP code or other country-specific postal code. Required if using a
+     * U.S. shipping address; may be required for other countries.  Character
+     * length and limitations: 20 single-byte characters.
+     *
      * @param country
      * @throws IllegalArgumentException
      */
-    public ShipToAddress(String name, String street, String city, String state,
-            Country country) throws IllegalArgumentException {
+    public ShipToAddress(String name, String street, String city, String zip,
+            String country) throws IllegalArgumentException {
 
         if (name.length() > 32 || street.length() > 100 || city.length() > 40 || 
-                state.length() > 40) {
+        		zip.length() > 20) {
 
             throw new IllegalArgumentException();
         }
-
+        
+       
         nvpRequest = new HashMap<String, String>();
 
-        nvpRequest.put("SHIPTONAME", name);
-        nvpRequest.put("SHIPTOSTREET", street);
-        nvpRequest.put("SHIPTOCITY", city);
-        nvpRequest.put("SHIPTOSTATE", state);
-        nvpRequest.put("SHIPTOCOUNTRY", country.toString());
+        nvpRequest.put("PAYMENTREQUEST_0_SHIPTONAME", name);
+        nvpRequest.put("PAYMENTREQUEST_0_SHIPTOSTREET", street);
+        nvpRequest.put("PAYMENTREQUEST_0_SHIPTOCITY", city);
+        nvpRequest.put("PAYMENTREQUEST_0_SHIPTOCOUNTRYCODE", country);        
+        nvpRequest.put("PAYMENTREQUEST_0_SHIPTOZIP", zip);
 
     }
 
