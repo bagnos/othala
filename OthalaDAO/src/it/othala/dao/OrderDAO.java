@@ -42,15 +42,6 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO  {
 		return orderFull.getIdOrder();
 	}
 
-
-	@Override
-	public void insertOrdersArticles(OrderProductDTO orderProduct) {
-		
-		getSqlSession().insert("it.othala.order.queries.insertOrdersArticles",
-				orderProduct);
-		
-		}
-
 	@Override
 	public void insertStatesOrders(OrderFullDTO orderFull) {
 		
@@ -99,6 +90,11 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO  {
 		return listAddress;
 	}
 
-
+	@Override
+	public void insertOrdersArticles(HashMap<String, Object> mapProduct) {
+		getSqlSession().insert("it.othala.order.queries.insertOrdersArticles",
+				mapProduct);
+		
+	}
 
 }
