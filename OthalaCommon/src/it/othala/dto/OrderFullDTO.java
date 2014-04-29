@@ -6,6 +6,8 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.omg.CORBA.portable.IndirectionException;
+
 public class OrderFullDTO implements Serializable {
 
 	/**
@@ -21,6 +23,28 @@ public class OrderFullDTO implements Serializable {
 	private String txNote;
 	private BigDecimal imOrdine;
 	private BigDecimal imSpeseSpedizione;
+	private DeliveryAddressDTO billingAddress;
+	private DeliveryAddressDTO shippingAddress;
+	private List<ArticleFullDTO> cart;
+	
+	public List<ArticleFullDTO> getCart() {
+		return cart;
+	}
+	public void setCart(List<ArticleFullDTO> cart) {
+		this.cart = cart;
+	}
+	public DeliveryAddressDTO getBillingAddress() {
+		return billingAddress;
+	}
+	public void setBillingAddress(DeliveryAddressDTO billingAddress) {
+		this.billingAddress = billingAddress;
+	}
+	public DeliveryAddressDTO getShippingAddress() {
+		return shippingAddress;
+	}
+	public void setShippingAddress(DeliveryAddressDTO shippingAddress) {
+		this.shippingAddress = shippingAddress;
+	}
 	private List<OrderProductDTO> prodotti = new ArrayList<OrderProductDTO>();
 
 	public Integer getIdOrder() {
