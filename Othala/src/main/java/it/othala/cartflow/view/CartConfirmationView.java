@@ -23,6 +23,16 @@ public class CartConfirmationView extends BaseView {
 	
 	private GetExpressCheckoutDetailsDTO details;
 	private DoExpressCheckoutPaymentDTO checkDTO;
+	private String messagePayment;
+	private boolean paymentOK;
+
+	public boolean isPaymentOK() {
+		return paymentOK;
+	}
+
+	public String getMessagePayment() {
+		return messagePayment;
+	}
 
 	public DoExpressCheckoutPaymentDTO getCheckDTO() {
 		return checkDTO;
@@ -35,6 +45,7 @@ public class CartConfirmationView extends BaseView {
 	public String doInit() {
 		// TODO Auto-generated method stub
 		PayPalWrapper wrap = null;
+		paymentOK=true;
 		try {
 			wrap = new PayPalWrapper();		
 			details = wrap.getExpressCheckoutDetails(getQueryStringParm("token"));
@@ -42,6 +53,7 @@ public class CartConfirmationView extends BaseView {
 		} 
 		catch (PayPalFundingFailureException e)
 		{
+			paymentOK=false;
 			log.error("PayPal funding failure error code 10486", e);
 			try {
 				FacesContext.getCurrentInstance().getExternalContext().redirect(e.getRedirectUrl());
@@ -54,9 +66,19 @@ public class CartConfirmationView extends BaseView {
 		}
 		catch (Exception ex) {
 			// TODO Auto-generated catch block
+			paymentOK=false;
 			log.error("Errore comunicazione PayPal", ex);
 			addError(null, OthalaUtil.getWordBundle("exception_payPalException"));
 			// return null;
+		}
+		
+		if (paymentOK)
+		{
+			messagePayment=OthalaUtil.getWordBundle("catalogo_paySuccess");
+		}
+		else
+		{
+			messagePayment=OthalaUtil.getWordBundle("catalogo_payKO");
 		}
 		return null;
 	}

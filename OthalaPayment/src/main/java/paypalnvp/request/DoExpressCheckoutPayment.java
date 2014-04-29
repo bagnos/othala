@@ -53,7 +53,7 @@ public final class DoExpressCheckoutPayment implements Request {
      * @throws IllegalArgumentException
      */
     public DoExpressCheckoutPayment(String token,
-            PaymentAction paymentAction, String payerId)
+            PaymentAction paymentAction, String payerId,String amount,String currency)
             throws IllegalArgumentException {
 
         if (token.length() != 20) {
@@ -73,6 +73,11 @@ public final class DoExpressCheckoutPayment implements Request {
         nvpRequest.put("TOKEN", token);
         nvpRequest.put("PAYMENTACTION", paymentAction.getValue());
         nvpRequest.put("PAYERID", payerId);
+        nvpRequest.put("PAYMENTREQUEST_0_AMT", amount);
+        nvpRequest.put("PAYMENTREQUEST_0_CURRENCYCODE", currency);
+        
+       
+        
     }
 
 	/**
@@ -115,6 +120,11 @@ public final class DoExpressCheckoutPayment implements Request {
 	public void setUSESESSIONPAYMENTDETAILS(boolean use)
 	{
 		nvpRequest.put("USESESSIONPAYMENTDETAILS", Boolean.toString(use));
+	}
+	
+	public void setPaymentDetails(Map<String, String> details)
+	{
+		nvpRequest.putAll(details);
 	}
 	
 

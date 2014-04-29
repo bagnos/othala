@@ -46,6 +46,7 @@ function previousPage(xhr, status, args) {
 }
 
 function copyAllAddress() {
+	
 	$('#chkSpe').click(function() {
 		if ($('#chkSpe').prop('checked')) {
 			$('#nameSpe').val($('#nameFat').val());

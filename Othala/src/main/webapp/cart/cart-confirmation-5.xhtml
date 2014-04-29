@@ -18,13 +18,16 @@
 
 	<ui:define name="content">
 		<h:form prependId="false">
+		
 			<div class="container">
 
 				<div class="row spacer10">
-					<div class="col-sm-4">
-						<h3>Pagamento Effettuato</h3>
+					<div class="col-sm-12">
+						<h3>#{cartConfirmationView.messagePayment}</h3>
 					</div>
 				</div>
+
+				<h:panelGroup rendered="#{cartConfirmationView.paymentOK}">
 				<div class="row spacer20">
 					<div class="col-sm-3">
 						<h4>Nr. Ordine</h4>
@@ -38,12 +41,13 @@
 						<h4>Pagato a</h4>
 						<address>
 							Degortes Outhlet<br />
-							<a href="mailto:#">degortes@degortes.com</a><br />
-							Assistenza <abbr title="Phone">P:</abbr> 0577324544
+							<a href="mailto:#">degortes@degortes.com</a>
+							<br /> Assistenza <abbr title="Phone">P:</abbr> 0577324544
 						</address>
 					</div>
 				</div>
 
+				<!-- 
 				<div class="row spacer20">
 
 
@@ -54,13 +58,14 @@
 							#{cartConfirmationView.details.shippingAddress.via}<br />
 							#{cartConfirmationView.details.shippingAddress.cap}<br />
 							#{cartConfirmationView.details.shippingAddress.comune}
-							#{cartConfirmationView.details.shippingAddress.provincia} <abbr title="Phone">P:</abbr> #{cartConfirmationView.details.shippingAddress.tel}
+							#{cartConfirmationView.details.shippingAddress.provincia} <abbr title="Phone">P:</abbr>
+							#{cartConfirmationView.details.shippingAddress.tel}
 						</address>
 					</div>
 
 
 				</div>
-
+ -->
 
 				<div class="row  spacer10">
 					<div class="col-sm-10 col-sm-offset-1">
@@ -123,7 +128,7 @@
 						</blockquote>
 					</div>
 				</div>
-
+				</h:panelGroup>
 
 			</div>
 		</h:form>
