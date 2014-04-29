@@ -8,6 +8,7 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -21,7 +22,6 @@ import paypalnvp.fields.Currency;
 import paypalnvp.fields.Payment;
 import paypalnvp.fields.PaymentAction;
 import paypalnvp.fields.PaymentItem;
-import paypalnvp.fields.ShipToAddress;
 import paypalnvp.profile.BaseProfile;
 import paypalnvp.profile.Profile;
 import paypalnvp.request.DoExpressCheckoutPayment;
@@ -39,12 +39,13 @@ public class PayPalWrapper {
 	private final String L_PAYMENTREQUEST_0_DESCn = "L_PAYMENTREQUEST_0_DESC";
 	private final String L_PAYMENTREQUEST_0_AMTm = "L_PAYMENTREQUEST_0_AMT";
 	private final String L_PAYMENTREQUEST_0_QTYm = "L_PAYMENTREQUEST_0_QTY";
-	private final String L_PAYMENTREQUEST_0_NUMBERm = "L_PAYMENTREQUEST_0_NUMBERm";
+	private final String L_PAYMENTREQUEST_0_NUMBERm = "L_PAYMENTREQUEST_0_NUMBER";
 	private final String L_ERRORCODEn = "L_ERRORCODE";
 	private final String L_SHORTMESSAGEn = "L_SHORTMESSAGE";
 	private final String L_LONGMESSAGEn = "StringL_LONGMESSAGE";
 	private List<String> errorCodes;
 	private String errorMessage;
+	private Map<String, String> paymentDetails;
 
 	private void loadProp() throws IOException {
 		if (prop == null) {
@@ -91,8 +92,9 @@ public class PayPalWrapper {
 		PayPal pp = new PayPal(getProfile(), getEnvironment());
 
 		DoExpressCheckoutPayment doCheck = new DoExpressCheckoutPayment(details.getToken(), PaymentAction.SALE,
-				details.getPayerid());
-		doCheck.setUSESESSIONPAYMENTDETAILS(true);
+				details.getPayerid(),details.getAmount().toString(),details.getCurrencyCode());
+		//doCheck.setUSESESSIONPAYMENTDETAILS(true);
+		doCheck.setPaymentDetails(paymentDetails);
 		pp.setResponse(doCheck);
 		Map<String, String> response = doCheck.getNVPResponse();
 		return getDoExpressCheckoutPaymentDTO(response);
@@ -136,16 +138,17 @@ public class PayPalWrapper {
 		payment.setCurrency(Currency.EUR);
 		payment.setAllowingNote(true);
 		payment.setLocalCode(locale.toUpperCase());
-		payment.setOverrideShippingAddress();
-		// payment.setSuppressingShippingAddress();
+		//payment.setOverrideShippingAddress();
+		payment.setSuppressingShippingAddress();
 		payment.setCustomField(idOrder);
 
+		/*
 		String country = locale;
 
 		payment.setShipToAddress(cart.getAddressSpe().getNome() + " " + cart.getAddressSpe().getCognome(), cart
 				.getAddressSpe().getVia(), cart.getAddressSpe().getComune(), cart.getAddressSpe().getCap(), cart
 				.getAddressSpe().getProvincia(), country,cart.getAddressSpe().getTel());
-
+*/
 		return payment;
 	}
 
@@ -230,8 +233,10 @@ public class PayPalWrapper {
 			getExpressCheckoutDetailsDTO.setCorrelationid(response.get("CORRELATIONID").toString());
 			getExpressCheckoutDetailsDTO.setFirstname(response.get("FIRSTNAME").toString());
 			getExpressCheckoutDetailsDTO.setLastname(response.get("LASTNAME").toString());
+			getExpressCheckoutDetailsDTO.setCurrencyCode(response.get("CURRENCYCODE").toString());
 			getExpressCheckoutDetailsDTO.setAmount(new BigDecimal(response.get("PAYMENTREQUEST_0_AMT").toString()));
 
+			/*
 			getExpressCheckoutDetailsDTO.getShippingAddress().setCap(
 					response.get("PAYMENTREQUEST_0_SHIPTOZIP").toString());
 
@@ -247,7 +252,7 @@ public class PayPalWrapper {
 
 			getExpressCheckoutDetailsDTO.getShippingAddress().setComune(response.get("PAYMENTREQUEST_0_SHIPTOCITY"));
 			getExpressCheckoutDetailsDTO.getShippingAddress().setTel(response.get("PAYMENTREQUEST_0_SHIPTOPHONENUM"));
-
+*/
 			updateCart(response, getExpressCheckoutDetailsDTO);
 
 			getExpressCheckoutDetailsDTO.setOkMessage(sn.toString());
@@ -277,17 +282,28 @@ public class PayPalWrapper {
 
 		ItemCartDTO item = null;
 		String key = null;
+		paymentDetails=new Hashtable<String, String>();
 		while (true) {
 			key = L_PAYMENTREQUEST_0_DESCn + i;
 			if (response.containsKey(key)) {
 				item = new ItemCartDTO();
 				item.setDescription(response.get(key));
+				paymentDetails.put(key, response.get(key));
+				paymentDetails.put("L_DESC"+i,response.get(key));
+				
+				
 				key = L_PAYMENTREQUEST_0_QTYm + i;
 				item.setQta(Integer.valueOf(response.get(key)));
+				paymentDetails.put(key, response.get(key));
+				
 				key = L_PAYMENTREQUEST_0_AMTm + i;
 				item.setPrice(new BigDecimal(response.get(key)));
+				paymentDetails.put(key, response.get(key));
+				
+				
 				key = L_PAYMENTREQUEST_0_NUMBERm + i;
 				item.setCode(response.get(key));
+				paymentDetails.put(key, response.get(key));
 				details.getShoppingCartOrder().add(item);
 				i++;
 			} else {
