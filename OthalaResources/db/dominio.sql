@@ -1,3 +1,7 @@
+INSERT INTO `othala`.`shops` (`idShop`, `txShop`, `txMail`) VALUES (1, 'Magazzino Badesse', 'magazzino@degortes.it');
+
+INSERT INTO `othala`.`shops` (`idShop`, `txShop`, `txMail`) VALUES (2, 'Siena piazza della Posta', 'siena@degortes.it');
+
 
 INSERT INTO gender VALUES    
 (1,'it','UOMO'),(2,'it','DONNA'),(3,'it','BAMBINO'),(4,'it','BAMBINA');
@@ -63,13 +67,13 @@ INSERT INTO `product_description` VALUES (1,'it','GIACCA SMOKING \"BEVERLY HILLS
 
 INSERT INTO `product_image` VALUES (1,1,'000001_01.JPG'),(1,2,'000001_02.JPG'),(1,3,'000001_03.JPG'),(1,4,'000001_04.JPG'),(2,1,'000002_01.JPG'),(2,2,'000002_02.JPG'),(2,3,'000002_03.JPG'),(2,4,'000002_04.JPG'),(3,1,'000003_01.JPG'),(3,2,'000003_02.JPG'),(3,3,'000003_03.JPG'),(3,4,'000003_04.JPG'),(4,1,'A1.JPG'),(4,2,'A2.JPG'),(4,3,'A3.JPG'),(4,4,'A4.JPG');
 
-INSERT INTO `article` VALUES (1,1,9,11,1,null),(1,2,10,11,2,null),(1,3,11,11,1,null),(2,1,9,11,1,null),(2,2,10,11,2,null),(2,3,11,11,1,null),(3,1,17,6,1,null),(3,2,18,6,2,null),(3,3,19,6,1,null),(4,1,17,4,1,null),(4,2,18,4,2,null),(4,3,19,4,1,null);
+INSERT INTO `article` VALUES (1,1,9,11,1,null,1),(1,2,10,11,2,null,1),(1,3,11,11,1,null,1),(2,1,9,11,1,null,1),(2,2,10,11,2,null,1),(2,3,11,11,1,null,1),(3,1,17,6,1,null,1),(3,2,18,6,2,null,1),(3,3,19,6,1,null,1),(4,1,17,4,1,null,1),(4,2,18,4,2,null,1),(4,3,19,4,1,null,1);
 
 
 INSERT INTO `product` VALUES (881,1,14,6,800,50,'A881.JPG',1,'2014-03-26 00:00:00');
 INSERT INTO `product_description` VALUES (881,'it','JEANS IN COTONE STRETCH 16.5CM');
 INSERT INTO `product_image` VALUES (881,1,'A881.JPG'),(881,2,'A882.JPG'),(881,3,'C881.JPG'),(881,4,'C882.JPG');
-INSERT INTO `article` VALUES (881,1,17,3,1,'A882.JPG'),(881,2,18,3,2,'A882.JPG'),(881,3,19,3,1,'A882.JPG'),(881,4,20,6,1,'A881.JPG'),(881,5,21,6,2,'A881.JPG'),(881,6,22,6,1,'A881.JPG');
+INSERT INTO `article` VALUES (881,1,17,3,1,'A882.JPG',1),(881,2,18,3,2,'A882.JPG',1),(881,3,19,3,1,'A882.JPG',1),(881,4,20,6,1,'A881.JPG',1),(881,5,21,6,2,'A881.JPG',1),(881,6,22,6,1,'A881.JPG',1);
 
 INSERT INTO `states` VALUES (1,'INSERITO'),(2,'IN LAVORAZIONE'),(3,'SPEDITO'),(4,'ANNULLATO'),(5,'RECESSO');
 

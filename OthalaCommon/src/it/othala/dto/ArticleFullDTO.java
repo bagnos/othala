@@ -20,6 +20,7 @@ public class ArticleFullDTO implements Serializable {
 	private Integer qtBooked;
 	private BigDecimal totalPriced;
 	private String thumbnailsUrl;
+	private ShopDTO shop;
 
 	public BigDecimal getTotalPriced() {
 		if (prdFullDTO != null) {
@@ -100,6 +101,14 @@ public class ArticleFullDTO implements Serializable {
 
 	public void setThumbnailsUrl(String thumbnailsUrl) {
 		this.thumbnailsUrl = thumbnailsUrl;
+	}
+
+	public ShopDTO getShop() {
+		return shop;
+	}
+
+	public void setShop(ShopDTO shop) {
+		this.shop = shop;
 	}
 
 }
