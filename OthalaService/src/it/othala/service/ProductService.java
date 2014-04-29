@@ -6,6 +6,7 @@ import it.othala.dto.DomainDTO;
 import it.othala.dto.MenuDTO;
 import it.othala.dto.ProductDTO;
 import it.othala.dto.ProductFullDTO;
+import it.othala.dto.ShopDTO;
 import it.othala.dto.SubMenuDTO;
 import it.othala.enums.OrderByCartFlow;
 import it.othala.service.interfaces.IProductService;
@@ -103,6 +104,14 @@ public class ProductService implements IProductService {
 		List<ArticleFullDTO> listArticleFull = productDAO.listArticleFull(
 				idProduct, languages);
 
+		for (int i = 0; i <= listArticleFull.size() - 1; i++) {
+
+			ShopDTO shop = productDAO.getShop(idProduct, listArticleFull.get(i).getPgArticle());
+			
+			listArticleFull.get(i).setShop(shop);
+		}
+		
+		
 		productFull.setArticles(listArticleFull);
 
 		return productFull;

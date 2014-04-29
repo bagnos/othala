@@ -354,7 +354,28 @@
 
 	</select>
 
+	<select id="getShop" resultType="it.othala.dto.ShopDTO"
+		parameterType="java.util.HashMap">
 
+
+		SELECT
+		a.idShop,
+		a.txShop,
+		a.txMail
+
+		FROM
+		${database.schema}shops a,
+		${database.schema}article b
+
+
+
+		Where b.idProduct = #{idProduct}
+		and b.pgArticle = #{pgArticle}
+		and a.idShop
+		=
+		b.idShop
+
+	</select>
 
 	<insert id="insertProduct" parameterType="it.othala.dto.ProductFullDTO">
 
@@ -431,7 +452,8 @@
 
 		SELECT qtStock
 		FROM ${database.schema}article
-		Where idProduct = #{idProduct}
+		Where idProduct =
+		#{idProduct}
 		and pgArticle = #{pgArticle};
 
 

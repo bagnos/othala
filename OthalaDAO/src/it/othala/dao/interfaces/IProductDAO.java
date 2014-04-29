@@ -6,6 +6,7 @@ import it.othala.dto.AttributeSizeDTO;
 import it.othala.dto.MenuDTO;
 import it.othala.dto.ProductDTO;
 import it.othala.dto.ProductFullDTO;
+import it.othala.dto.ShopDTO;
 import it.othala.dto.SubMenuDTO;
 import it.othala.enums.OrderByCartFlow;
 
@@ -48,5 +49,7 @@ public interface IProductDAO {
 	public Integer insertProduct(ProductFullDTO productFull);
 
 	public Integer getQtStock(Integer idProduct, Integer pgArticle);
+
+	public ShopDTO getShop(Integer idProduct, Integer pgArticle);
 
 }
