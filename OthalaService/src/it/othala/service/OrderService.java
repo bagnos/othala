@@ -35,6 +35,21 @@ public class OrderService implements IOrderService {
 		List<OrderFullDTO> listaOrdini = orderDAO.getOrders(Order, User, 
 				StatoOrdine);
 		
+		Iterator<OrderFullDTO> i = listaOrdini.iterator();
+		while(i.hasNext()){
+			
+			List<ArticleFullDTO> newlistArticle =  new ArrayList<ArticleFullDTO>();
+			List<ArticleFullDTO> listArticle =  i.next().getCart();
+			Iterator<ArticleFullDTO> y = listArticle.iterator();
+			while(y.hasNext()){
+				ArticleFullDTO artFull = productDao.getArticleFull(
+						y.next().getPrdFullDTO().getIdProduct(), 
+						y.next().getPgArticle(), "it");
+				newlistArticle.add(artFull);
+			}
+			i.next().setCart(newlistArticle);
+		}
+		
 		return listaOrdini;
 	}
 
