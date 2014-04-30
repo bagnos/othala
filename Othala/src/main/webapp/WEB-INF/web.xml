@@ -63,6 +63,22 @@
     <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
     <param-value>server</param-value>
 </context-param>
+
+<!-- MistletoeServlet -->
+<servlet>
+  <servlet-name>MistletoeServlet</servlet-name>
+  <servlet-class>ch.qos.mistletoe.servlet.MistletoeServlet</servlet-class>
+  <!-- (OPTIONAL) name the default test suite -->
+  <init-param>
+    <param-name>defaultTestSuite</param-name>
+    <param-value></param-value>
+  </init-param>
+</servlet>
+<servlet-mapping>
+  <servlet-name>MistletoeServlet</servlet-name>
+  <!-- replace servlet with any other value of your choice -->
+  <url-pattern>/Mistletoe/*</url-pattern>
+</servlet-mapping> 
 	
 	
 
