@@ -141,6 +141,15 @@ public class OrderService implements IOrderService {
 		return newAddress;
 		
 	}
+	
+	@Override
+	public DeliveryAddressDTO updateAddress(DeliveryAddressDTO newAddress,
+			Integer idAddress) {
+		orderDAO.deleteAddress(idAddress);
+		orderDAO.newAddress(newAddress);
+		return newAddress;
+	}
+
 
 	@Override
 	public void updateOrder(String idTransaction, String idUser) {
@@ -153,6 +162,7 @@ public class OrderService implements IOrderService {
 		orderDAO.deleteAddress(idAddress);
 		
 	}
+
 
 
 }
