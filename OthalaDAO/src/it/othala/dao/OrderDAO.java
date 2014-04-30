@@ -4,10 +4,7 @@ import it.othala.dao.interfaces.IOrderDAO;
 import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryCostDTO;
 import it.othala.dto.OrderFullDTO;
-import it.othala.dto.OrderProductDTO;
 import it.othala.dto.StateOrderDTO;
-
-import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,15 +13,17 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO  {
 
 	@Override
-	public List<OrderFullDTO> getOrders(Integer idOrder, Integer idUser,
-			Integer idStato, Date dtDatada, Date dtDataA) {
+	public List<OrderFullDTO> getOrders(Integer idOrder, String idUser,
+			Integer idStato) {
 		
 		HashMap<String, Object> mapOrder = new HashMap<>();
-		mapOrder.put("idOrder", idOrder);
-		mapOrder.put("idUser", idUser);
-		mapOrder.put("idStato", idStato);
-		mapOrder.put("dtDatada", dtDatada);
-		mapOrder.put("dtDataA", dtDataA);
+		if (idOrder != null && idOrder > 0)
+			mapOrder.put("idOrder", idOrder);
+		if (idUser != null && !idUser.isEmpty())
+			mapOrder.put("idUser", idUser);
+		if (idStato != null && idStato > 0)
+			mapOrder.put("idStato", idStato);
+
 
 		// recupero prodotti
 		List<OrderFullDTO> listOrder = getSqlSession().selectList(
@@ -34,12 +33,12 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO  {
 	}
 
 	@Override
-	public Integer insertOrder(OrderFullDTO orderFull) {
+	public OrderFullDTO insertOrder(OrderFullDTO orderFull) {
 		
 		getSqlSession().insert("it.othala.order.queries.insertOrder",
 				orderFull);
 		
-		return orderFull.getIdOrder();
+		return orderFull;
 	}
 
 	@Override
@@ -59,10 +58,11 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO  {
 	}
 
 	@Override
-	public void newAddress(DeliveryAddressDTO newAddress) {
+	public DeliveryAddressDTO newAddress(DeliveryAddressDTO newAddress) {
 		getSqlSession().insert("it.othala.order.queries.insertAddress",
 				newAddress);
 		
+		return newAddress;
 	}
 
 	@Override
@@ -94,6 +94,27 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO  {
 	public void insertOrdersArticles(HashMap<String, Object> mapProduct) {
 		getSqlSession().insert("it.othala.order.queries.insertOrdersArticles",
 				mapProduct);
+		
+	}
+
+	@Override
+	public void updateOrder(String idTransaction, String idUser) {
+		HashMap<String, Object> mapUpdate =  new HashMap<String, Object>();
+		
+		mapUpdate.put("idTransaction", idTransaction);
+		mapUpdate.put("idUser", idUser);
+		
+		getSqlSession().update("it.othala.order.queries.updateOrder",
+				mapUpdate);
+		
+	}
+
+	@Override
+	public void deleteAddress(Integer idAddress) {
+		
+			
+		getSqlSession().delete("it.othala.order.queries.deleteAddress",
+				idAddress);
 		
 	}
 
