@@ -5,20 +5,25 @@ import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.StateOrderDTO;
+import it.othala.execption.OthalaException;
 
 import java.sql.Date;
 import java.util.List;
 
 public interface IOrderService {
 	
-	public List<OrderFullDTO> getOrders(Integer Order,Integer User,Integer StatoOrdine, Date DataIniPeriodo, Date DataFinPeriodo);
+	public List<OrderFullDTO> getOrders(Integer Order,String User,Integer StatoOrdine);
 	
-	public Integer insertOrder(OrderFullDTO orderFull) throws MailNotSendException;
+	public OrderFullDTO insertOrder(OrderFullDTO orderFull) throws MailNotSendException, OthalaException;
 	
-	public void updateOrder(StateOrderDTO stateOrder);
+	public void updateStateOrder(StateOrderDTO stateOrder);
+	
+	public void updateOrder(String idTransaction, String idUser);
+	
+	public void deleteAddress(Integer idAddress);
 	
 	public DeliveryDTO getDeliveryInfo(String userId);
 	
-	public void newAddress(DeliveryAddressDTO newAddress);
+	public DeliveryAddressDTO newAddress(DeliveryAddressDTO newAddress);
 	
 }
