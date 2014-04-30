@@ -1,6 +1,6 @@
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 DROP SCHEMA IF EXISTS `othala` ;
 CREATE SCHEMA IF NOT EXISTS `othala` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
@@ -247,14 +247,27 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `othala`.`Type_Address`
+-- Table `othala`.`Orders`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `othala`.`Type_Address` ;
+DROP TABLE IF EXISTS `othala`.`Orders` ;
 
-CREATE  TABLE IF NOT EXISTS `othala`.`Type_Address` (
-  `idTypeAddress` INT NOT NULL ,
-  `Descrizione` VARCHAR(45) NOT NULL ,
-  PRIMARY KEY (`idTypeAddress`) )
+CREATE  TABLE IF NOT EXISTS `othala`.`Orders` (
+  `idOrder` INT NOT NULL ,
+  `idUser` VARCHAR(100) NOT NULL ,
+  `imOrdine` INT NULL ,
+  `imSpeseSpedizione` INT NULL ,
+  `idTransaction` VARCHAR(45) NULL ,
+  `idAddressFatt` INT NULL ,
+  `idAddressDelivery` INT NULL ,
+  PRIMARY KEY (`idOrder`) ,
+  INDEX `fk_Orders_Customer1_idx` (`idUser` ASC) ,
+  UNIQUE INDEX `idOrder_UNIQUE` (`idOrder` ASC) ,
+  UNIQUE INDEX `idUser_UNIQUE` (`idUser` ASC) ,
+  CONSTRAINT `fk_Orders_Customer1`
+    FOREIGN KEY (`idUser` )
+    REFERENCES `othala`.`Customer` (`idUser` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -264,9 +277,8 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `othala`.`Addresses` ;
 
 CREATE  TABLE IF NOT EXISTS `othala`.`Addresses` (
+  `IDAddress` INT NOT NULL AUTO_INCREMENT ,
   `idUser` VARCHAR(100) NOT NULL ,
-  `pgAddress` INT NOT NULL ,
-  `idTypeAddress` INT NOT NULL ,
   `txNome` VARCHAR(45) NOT NULL ,
   `txCognome` VARCHAR(45) NOT NULL ,
   `txVia` VARCHAR(100) NOT NULL ,
@@ -274,18 +286,25 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Addresses` (
   `cdCap` INT NOT NULL ,
   `txProvincia` VARCHAR(100) NOT NULL ,
   `txNazione` VARCHAR(100) NOT NULL ,
-  `txTel` VARCHAR(20) NOT NULL ,
-  PRIMARY KEY (`idUser`, `pgAddress`) ,
-  INDEX `fk_Addresses_TypeAddress1` (`idTypeAddress` ASC) ,
+  `txTel` INT NOT NULL ,
+  `fgDeleted` TINYINT NOT NULL ,
+  PRIMARY KEY (`IDAddress`) ,
   INDEX `fk_Addresses_Customer1` (`idUser` ASC) ,
-  CONSTRAINT `fk_Addresses_TypeAddress1`
-    FOREIGN KEY (`idTypeAddress` )
-    REFERENCES `othala`.`Type_Address` (`idTypeAddress` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+  UNIQUE INDEX `idUser_UNIQUE` (`idUser` ASC) ,
+  UNIQUE INDEX `IDAddress_UNIQUE` (`IDAddress` ASC) ,
   CONSTRAINT `fk_Addresses_Customer1`
     FOREIGN KEY (`idUser` )
     REFERENCES `othala`.`Customer` (`idUser` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Addresses_Orders1`
+    FOREIGN KEY (`IDAddress` )
+    REFERENCES `othala`.`Orders` (`idAddressFatt` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Addresses_Orders2`
+    FOREIGN KEY (`IDAddress` )
+    REFERENCES `othala`.`Orders` (`idAddressDelivery` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -358,19 +377,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `othala`.`Shops`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `othala`.`Shops` ;
-
-CREATE  TABLE IF NOT EXISTS `othala`.`Shops` (
-  `idShop` INT NOT NULL ,
-  `txShop` VARCHAR(100) NULL ,
-  `txMail` VARCHAR(100) NULL ,
-  PRIMARY KEY (`idShop`) )
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `othala`.`Article`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `othala`.`Article` ;
@@ -382,12 +388,10 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Article` (
   `idColor` INT NULL ,
   `qtStock` INT NULL ,
   `txThumbnailsUrl` VARCHAR(100) NULL ,
-  `idShop` INT NULL ,
   PRIMARY KEY (`idProduct`, `pgArticle`) ,
   INDEX `fk_Article_Size1` (`idSize` ASC) ,
   INDEX `fk_Article_Color1` (`idColor` ASC) ,
   INDEX `fk_Article_Product1_idx` (`idProduct` ASC) ,
-  INDEX `fk_Article_Shops1` (`idShop` ASC) ,
   CONSTRAINT `fk_Article_Product1`
     FOREIGN KEY (`idProduct` )
     REFERENCES `othala`.`Product` (`idProduct` )
@@ -401,11 +405,6 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Article` (
   CONSTRAINT `fk_Article_Color1`
     FOREIGN KEY (`idColor` )
     REFERENCES `othala`.`Color` (`idColor` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Article_Shops1`
-    FOREIGN KEY (`idShop` )
-    REFERENCES `othala`.`Shops` (`idShop` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -455,26 +454,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `othala`.`Orders`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `othala`.`Orders` ;
-
-CREATE  TABLE IF NOT EXISTS `othala`.`Orders` (
-  `idOrder` INT NOT NULL ,
-  `idUser` VARCHAR(100) NOT NULL ,
-  `imOrdine` INT NULL ,
-  `imSpeseSpedizione` INT NULL ,
-  PRIMARY KEY (`idOrder`) ,
-  INDEX `fk_Orders_Customer1_idx` (`idUser` ASC) ,
-  CONSTRAINT `fk_Orders_Customer1`
-    FOREIGN KEY (`idUser` )
-    REFERENCES `othala`.`Customer` (`idUser` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `othala`.`Orders_Articles`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `othala`.`Orders_Articles` ;
@@ -488,6 +467,8 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Orders_Articles` (
   INDEX `fk_OrdersArticles_Article1_idx` (`idProdotto` ASC, `pgArticle` ASC) ,
   INDEX `fk_OrdersArticles_Orders1_idx` (`idOrder` ASC) ,
   UNIQUE INDEX `idOrder_UNIQUE` (`idOrder` ASC) ,
+  UNIQUE INDEX `idProdotto_UNIQUE` (`idProdotto` ASC) ,
+  UNIQUE INDEX `pgArticle_UNIQUE` (`pgArticle` ASC) ,
   CONSTRAINT `fk_OrdersArticles_Orders1`
     FOREIGN KEY (`idOrder` )
     REFERENCES `othala`.`Orders` (`idOrder` )
@@ -509,7 +490,8 @@ DROP TABLE IF EXISTS `othala`.`States` ;
 CREATE  TABLE IF NOT EXISTS `othala`.`States` (
   `idStato` INT NOT NULL ,
   `txStato` VARCHAR(45) NULL ,
-  PRIMARY KEY (`idStato`) )
+  PRIMARY KEY (`idStato`) ,
+  UNIQUE INDEX `idStato_UNIQUE` (`idStato` ASC) )
 ENGINE = InnoDB;
 
 
@@ -526,6 +508,8 @@ CREATE  TABLE IF NOT EXISTS `othala`.`States_Orders` (
   PRIMARY KEY (`idOrder`, `idStato`) ,
   INDEX `fk_StatesOrders_States1_idx` (`idStato` ASC) ,
   INDEX `fk_StatesOrders_Orders1_idx` (`idOrder` ASC) ,
+  UNIQUE INDEX `idOrder_UNIQUE` (`idOrder` ASC) ,
+  UNIQUE INDEX `idStato_UNIQUE` (`idStato` ASC) ,
   CONSTRAINT `fk_StatesOrders_Orders1`
     FOREIGN KEY (`idOrder` )
     REFERENCES `othala`.`Orders` (`idOrder` )
@@ -548,7 +532,8 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Delivery_Cost` (
   `idDeliveryCost` INT NOT NULL ,
   `txDescrizione` VARCHAR(45) NULL ,
   `imSpese` INT NULL ,
-  PRIMARY KEY (`idDeliveryCost`) )
+  PRIMARY KEY (`idDeliveryCost`) ,
+  UNIQUE INDEX `idDeliveryCost_UNIQUE` (`idDeliveryCost` ASC) )
 ENGINE = InnoDB;
 
 
@@ -668,6 +653,7 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Brand` (
   PRIMARY KEY (`idBrand`, `idLanguages`) )
 ENGINE = InnoDB;
 
+USE `othala` ;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
