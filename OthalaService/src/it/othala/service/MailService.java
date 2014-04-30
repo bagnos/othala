@@ -20,8 +20,8 @@ public class MailService implements IMailService {
 
 	private Session session = null;
 
-	@Override
-	public void inviaMail(String from, String[] tos, String subject, String content) throws MailNotSendException {
+	
+	private void inviaMail(String from, String[] tos, String subject, String content,String type) throws MailNotSendException {
 		// TODO Auto-generated method stub
 		{
 			try {
@@ -40,7 +40,11 @@ public class MailService implements IMailService {
 				message.setFrom(new InternetAddress(from));
 				message.setRecipients(Message.RecipientType.TO, to);
 				message.setSubject(subject);
-				message.setContent(content, "text/plain");
+				if (type==null)
+				{
+					type="text/plain";
+				}
+				message.setContent(content, type);
 
 				Transport.send(message);
 			} catch (NamingException | MessagingException e) {
@@ -54,7 +58,7 @@ public class MailService implements IMailService {
 	@Override
 	public void inviaMail(String[] tos, String subject, String content) throws MailNotSendException {
 		// TODO Auto-generated method stub
-		inviaMail(ConfigurationService.getProperty(ConfigurationService.FROM_MAIL), tos, subject, content);
+		inviaMail(ConfigurationService.getProperty(ConfigurationService.FROM_MAIL), tos, subject, content,"text/plain");
 	}
 
 	final String username = "username@gmail.com";
@@ -78,5 +82,14 @@ public class MailService implements IMailService {
 		}
 		return session;
 	}
+
+	@Override
+	public void inviaHTMLMail(String[] tos, String subject, String content) throws MailNotSendException {
+		// TODO Auto-generated method stub
+		inviaMail(ConfigurationService.getProperty(ConfigurationService.FROM_MAIL), tos, subject, content,"text/html");
+	}
+
+	
+	
 
 }
