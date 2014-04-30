@@ -11,10 +11,34 @@
 		<result property="dtStato" column="dtStato" />
 		<result property="txNote" column="txNote" />
 		<result property="txStato" column="txStato" />
-		<collection property="prodotti" ofType="it.othala.dto.OrderProductDTO">
-			<result property="idProdotto" column="idProdotto" />
+		<collection property="billingAddress" ofType="it.othala.dto.DeliveryAddressDTO">
+			<result property="idAddress" column="idAddressBilling" />
+			<result property="userId" column="idUser" />
+			<result property="nome" column="txNomeBilling" />
+			<result property="cognome" column="txCognomeBilling" />
+			<result property="via" column="txViaBilling" />
+			<result property="comune" column="txComuneBilling" />
+			<result property="cap" column="cdCapBilling" />
+			<result property="provincia" column="txProvinciaBilling" />
+			<result property="nazione" column="txNazioneBilling" />
+			<result property="tel" column="txTelBilling" />
+		</collection>
+		<collection property="shippingAddress" ofType="it.othala.dto.DeliveryAddressDTO">
+			<result property="idAddress" column="idAddressDelivery" />
+			<result property="userId" column="idUser" />
+			<result property="nome" column="txNomeDelivery" />
+			<result property="cognome" column="txCognomeDelivery" />
+			<result property="via" column="txViaDelivery" />
+			<result property="comune" column="txComuneDelivery" />
+			<result property="cap" column="cdCapDelivery" />
+			<result property="provincia" column="txProvinciaDelivery" />
+			<result property="nazione" column="txNazioneDelivery" />
+			<result property="tel" column="txTelDelivery" />
+		</collection>
+		<collection property="cart" ofType="it.othala.dto.ArticleFullDTO">
+			<result property="prdFullDTO.idProduct" column="idProdotto" />
 			<result property="pgArticle" column="pgArticle" />
-			<result property="qtArticle" column="qtArticle" />
+			<result property="qtBooked" column="qtArticle" />
 		</collection>
 	</resultMap>
 	
@@ -23,31 +47,44 @@
 
 		SELECT
 		a.idOrder, a.idUser, a.imOrdine, a.imSpeseSpedizione,
+		a.idTransaction, a.idAddressFatt, a.idAddressDelivery,
 		b.idProdotto, b.pgArticle, b.qtArticle,
 		c.idStato c.dtStato, c.txNote, 
-		d.txStato
-		FROM
+		d.txStato, f.IDAddress as idAddressBilling, 
+		f.txNome as txNomeBilling,f.txCognome as txCognomeBilling, 
+		f.txVia as txViaBilling, f.txComune as txComuneBilling, 
+		f.cdCap as cdCapBilling, f.txProvincia as txProvinciaBilling, 
+		f.txNazione as txNazioneBilling, f.txTel as txTelBilling, f.fgDeleted
+		g.IDAddress as idAddressDelivery, 
+		g.txNome as txNomeDelivery, g.txCognome as txCognomeDelivery, 
+		g.txVia as txViaDelivery, g.txComune as txComuneDelivery, 
+		g.cdCap as cdCapDelivery, g.txProvincia as txProvinciaDelivery, 
+		g.txNazione as txNazioneDelivery, g.txTel as txTelDelivery, g.fgDeleted
+ 		FROM
 		${database.schema}orders a,
 		${database.schema}orders_articles b,
 		${database.schema}states_orders c,
-		${database.schema}states d
+		${database.schema}states d,
+		${database.schema}addresses f
+		${database.schema}addresses g
 		WHERE a.idOrder = b.idOrder
 		and a.idOrder = c.idOrder
-		and c.idStato = d.idStato
 		<if test="idOrder != null">
 			and a.idOrder = #{idOrder}
 		</if>
 		<if test="idUser != null">
 			and a.idUser = #{idUser}
 		</if>
+		and a.idAddressFatt = f.idAddress
+		and a.idAddressDelivery = g.idAddress
+		and c.idStato = d.idStato
 		<if test="idStato != null">
 			and c.idStato = #{idStato}
 		</if>
-		<if test="dtDatada != null">
-			and c.dtStato &gt;= #{dtDatada}
-		</if>
-		<if test="dtDataA != null">
-			and c.dtStato &lt;= #{dtDataA}
+		<if test="idStato == null">
+			and c.idStato = (SELECT MAX e.idStato 
+							 FROM ${database.schema}states_orders e
+							 WHERE e.idOrder = a.idOrder)
 		</if>
 
 	</select>
@@ -57,9 +94,11 @@
       
 		INSERT INTO
 		${database.schema}orders
-		(`idUser`,`imOrdine`,`imSpeseSpedizione`)
+		(`idUser`,`imOrdine`,`imSpeseSpedizione`,`idTransaction`,`idAddressFatt`
+		,`idAddressDelivery`)
 		values (
-		#{idUser},#{imOrdine},#{imSpeseSpedizione})
+		#{idUser},#{imOrdine},#{imSpeseSpedizione},null,
+		#{billingAddress.idAddress}, #{billingAddress.idAddress})
 		
         <selectKey resultType="java.lang.Integer" keyProperty="idOrder" >
 
@@ -68,8 +107,15 @@
         </selectKey>
     </insert>
 
+	<update id="updateOrder"   parameterType="java.util.HashMap">
+      
+		UPDATE ${database.schema}orders
+		SET idTransaction = #{idTransaction}
+		WHERE idOrder = #{idOrder}
+      
+    </update>
 
-	<insert id="insertOrdersArticles" parameterType="it.othala.dto.OrderProductDTO">
+	<insert id="insertOrdersArticles" parameterType="java.util.HashMap">
 
 		INSERT INTO
 		${database.schema}orders_articles
@@ -100,18 +146,17 @@
 		parameterType="java.lang.String">
 		
 		SELECT
-		a.idTypeAddress as typeAddress, a.txNome as nome,a.txCognome as cognome,
+		a.idAddress, a.idUser as userId, a.txNome as nome,a.txCognome as cognome,
 		a.txVia as via, a.txComune as comune, a.cdCap as cap, 
 		a.txProvincia as provincia, a.txNazione as nazione, 
-		b.Descrizione as typeAddressDes, a.txTel as tel, c.idUser as userId
+		a.txTel as tel, c.idUser as userId
 		FROM
 		${database.schema}addresses a,
-		${database.schema}type_address b,
 		${database.schema}customer c
 		WHERE
 		a.idUser = #{userId} and
-		a.idTypeAddress = b.idTypeAddress and
-		a.idUser=c.idUser
+		a.idUser = c.idUser
+		a.fgDeleted = 0
 	
 	</select>
 	
@@ -128,14 +173,31 @@
 	<insert id="insertAddress" parameterType="it.othala.dto.DeliveryAddressDTO">
 		INSERT INTO
 		${database.schema}addresses
-		(`idUser`,`idTypeAddress`,`txNome`,`txCognome`,`txVia`,
+		(`idUser`,`txNome`,`txCognome`,`txVia`,
 		`txComune`, `cdCap`, 
-		`txProvincia`,`txNazione`)
+		`txProvincia`,`txNazione`,`txTel`,`fgDeleted`)
 		VALUES
-		(#{userId},#{typeAddress},#{nome},#{cognome},#{via},
-		#{comune},#{cap},#{provincia},#{nazione});
+		(#{userId},#{nome},#{cognome},#{via},
+		#{comune},#{cap},#{provincia},#{nazione},#{tel},0);
+		
+		<selectKey resultType="java.lang.Integer" keyProperty="idAddress" >
+
+            SELECT LAST_INSERT_ID() AS idAddress
+
+        </selectKey>
 
 	</insert>
+	
+
+	<delete id="deleteAddress" parameterType="java.lang.Integer">
+		
+		UPDATE ${database.schema}addresses
+		SET fgDeleted = 1 
+		WHERE 
+		idAddress = #{idAddress}
+		
+
+	</delete>
 	
 	<insert id="insertDeliveryCost" parameterType="it.othala.dto.DeliveryCostDTO">
 		INSERT INTO
