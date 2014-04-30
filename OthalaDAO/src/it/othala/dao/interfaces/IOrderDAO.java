@@ -3,29 +3,34 @@ package it.othala.dao.interfaces;
 import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryCostDTO;
 import it.othala.dto.OrderFullDTO;
-import it.othala.dto.OrderProductDTO;
 import it.othala.dto.StateOrderDTO;
 
+import java.util.HashMap;
 import java.util.List;
 import java.sql.Date;
 
 public interface IOrderDAO {
 
-	public List<OrderFullDTO> getOrders(Integer idOrder,Integer idUser,Integer idStato, Date dtDatada, Date dtDataA);
+	public List<OrderFullDTO> getOrders(Integer idOrder,String idUser,Integer idStato);
 	
-	public Integer insertOrder(OrderFullDTO orderFull);
+	public OrderFullDTO insertOrder(OrderFullDTO orderFull);
 	
-	public void insertOrdersArticles(OrderProductDTO orderProduct);
+	//public void insertOrdersArticles(Integer idOrder, OrderProductDTO orderProduct);
+	public void insertOrdersArticles(HashMap<String, Object> mapProduct);
 	
 	public void insertStatesOrders(OrderFullDTO orderFull);
 	
 	public void updateStatesOrders(StateOrderDTO stateOrder);
 	
-	public void newAddress(DeliveryAddressDTO newAddress);
+	public DeliveryAddressDTO newAddress(DeliveryAddressDTO newAddress);
 	
 	public void newDeliveryCost(DeliveryCostDTO newDeliveryCost);
 	
 	public List<DeliveryAddressDTO> getDeliveryAddress(String userId);
+	
+	public void updateOrder(String idTransaction, String idUser);
+	
+	public void deleteAddress(Integer idAddress);
 	
 	public List<DeliveryCostDTO> getDeliveryCost(); 
 }
