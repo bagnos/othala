@@ -18,7 +18,7 @@ public interface IOrderService {
 	
 	public void updateStateOrder(StateOrderDTO stateOrder);
 	
-	public void updateOrder(String idTransaction, String idUser);
+	public void updateOrder(String idTransaction, Integer idOrder, Integer idStato);
 	
 	public void deleteAddress(Integer idAddress);
 	
