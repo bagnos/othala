@@ -45,8 +45,7 @@ public class OrderFullDTO implements Serializable {
 	public void setShippingAddress(DeliveryAddressDTO shippingAddress) {
 		this.shippingAddress = shippingAddress;
 	}
-	private List<OrderProductDTO> prodotti = new ArrayList<OrderProductDTO>();
-
+	
 	public Integer getIdOrder() {
 		return idOrder;
 	}
@@ -94,12 +93,6 @@ public class OrderFullDTO implements Serializable {
 	}
 	public void setImSpeseSpedizione(BigDecimal imSpeseSpedizione) {
 		this.imSpeseSpedizione = imSpeseSpedizione;
-	}
-	public List<OrderProductDTO> getProdotti() {
-		return prodotti;
-	}
-	public void setProdotti(List<OrderProductDTO> prodotti) {
-		this.prodotti = prodotti;
 	}
 	
 }
