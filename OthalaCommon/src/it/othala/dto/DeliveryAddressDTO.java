@@ -16,22 +16,6 @@ public class DeliveryAddressDTO implements Serializable {
 		this.userId = userId;
 	}
 
-	public Integer getTypeAddress() {
-		return typeAddress;
-	}
-
-	public void setTypeAddress(Integer typeAddress) {
-		this.typeAddress = typeAddress;
-	}
-
-	public String getTypeAddressDes() {
-		return typeAddressDes;
-	}
-
-	public void setTypeAddressDes(String typeAddressDes) {
-		this.typeAddressDes = typeAddressDes;
-	}
-
 	public String getNome() {
 		return nome;
 	}
@@ -88,17 +72,16 @@ public class DeliveryAddressDTO implements Serializable {
 		this.nazione = nazione;
 	}
 
-	public String getTel() {
+	public Integer getTel() {
 		return tel;
 	}
 
-	public void setTel(String tel) {
+	public void setTel(Integer tel) {
 		this.tel = tel;
 	}
 
+	private Integer idAddress;
 	private String userId;
-	private Integer typeAddress;
-	private String typeAddressDes;
 	private String nome;
 	private String cognome;
 	private String via;
@@ -106,12 +89,20 @@ public class DeliveryAddressDTO implements Serializable {
 	private String cap;
 	private String provincia;
 	private String nazione;
-	private String tel;
+	private Integer tel;
 	private String nomeCompleto;
 
 	public String getNomeCompleto() {
 		nomeCompleto = nome + " " + cognome;
 		return nomeCompleto;
+	}
+
+	public Integer getIdAddress() {
+		return idAddress;
+	}
+
+	public void setIdAddress(Integer idAddress) {
+		this.idAddress = idAddress;
 	}
 
 }
