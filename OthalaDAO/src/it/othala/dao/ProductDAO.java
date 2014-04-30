@@ -210,6 +210,22 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	}
 	
 	@Override
+	public ArticleFullDTO getArticleFull(Integer idProduct, Integer pgArticle,
+			String languages) {
+
+		HashMap<String, Object> map2 = new HashMap<>();
+		map2.put("idProduct", idProduct);
+		map2.put("idProduct", pgArticle);
+		map2.put("languages", languages);
+
+		ArticleFullDTO articleFull = getSqlSession().selectOne(
+				"it.othala.product.queries.getArticleFull", map2);
+
+		return articleFull;
+
+	}
+	
+	@Override
 	public ShopDTO getShop(Integer idProduct,Integer pgArticle) {
 
 		HashMap<String, Object> map2 = new HashMap<>();
