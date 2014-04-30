@@ -354,6 +354,53 @@
 
 	</select>
 
+
+	<select id="getArticleFull" resultType="it.othala.dto.ArticleFullDTO"
+		parameterType="java.util.HashMap">
+
+
+		SELECT
+		a.pgArticle as pgArticle,
+		a.qtStock as qtStock,
+
+		a.idSize,
+
+		txSize,
+
+		a.idColor,
+
+		txColor,
+		coalesce(a.txThumbnailsUrl,
+		d.txThumbnailsUrl) as thumbnailsUrl
+
+
+
+		FROM
+		${database.schema}article a,
+		${database.schema}size b,
+		${database.schema}color c,
+		${database.schema}product d
+
+
+		where
+		a.idProduct
+		=
+		#{idProduct}
+		and a.pgArticle
+		=
+		#{pgArticle}
+		and a.idSize =
+		b.idSize
+		and c.idColor = a.idColor
+		and
+		c.idLanguages = #{languages}
+		and
+		d.idProduct = a.idProduct
+
+
+	</select>
+	
+	
 	<select id="getShop" resultType="it.othala.dto.ShopDTO"
 		parameterType="java.util.HashMap">
 

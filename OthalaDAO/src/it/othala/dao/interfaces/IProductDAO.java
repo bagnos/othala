@@ -52,4 +52,7 @@ public interface IProductDAO {
 
 	public ShopDTO getShop(Integer idProduct, Integer pgArticle);
 
+	public ArticleFullDTO getArticleFull(Integer idProduct, Integer pgArticle,
+			String languages);
+
 }
