@@ -2,6 +2,7 @@ package it.othala.service;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -9,12 +10,14 @@ import it.othala.account.execption.MailNotSendException;
 import it.othala.dao.ProductDAO;
 import it.othala.dao.interfaces.IOrderDAO;
 import it.othala.dao.interfaces.IProductDAO;
+import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryCostDTO;
 import it.othala.dto.DeliveryDTO;
 import it.othala.dto.OrderFullDTO;
-import it.othala.dto.OrderProductDTO;
+import it.othala.dto.ProductFullDTO;
 import it.othala.dto.StateOrderDTO;
+import it.othala.execption.OthalaException;
 import it.othala.service.interfaces.IMailService;
 import it.othala.service.interfaces.IOrderService;
 import it.othala.service.interfaces.IMailService;
@@ -26,27 +29,55 @@ public class OrderService implements IOrderService {
 	private IMailService mailService;
 
 	@Override
-	public List<OrderFullDTO> getOrders(Integer Order, Integer User,
-			Integer StatoOrdine, Date DataIniPeriodo, Date DataFinPeriodo) {
+	public List<OrderFullDTO> getOrders(Integer Order, String User,
+			Integer StatoOrdine) {
 		
 		List<OrderFullDTO> listaOrdini = orderDAO.getOrders(Order, User, 
-				StatoOrdine, DataIniPeriodo, DataFinPeriodo);
+				StatoOrdine);
 		
 		return listaOrdini;
 	}
 
 	@Override
-	public Integer insertOrder(OrderFullDTO orderFull) throws MailNotSendException {
+	public OrderFullDTO insertOrder(OrderFullDTO orderFull) throws MailNotSendException, OthalaException {
 		
-		 
+		orderDAO.insertOrder(orderFull);
 		
-		
-		Integer NumeroOrdine = orderDAO.insertOrder(orderFull);
-		
-		List<OrderProductDTO> lsProd = orderFull.getProdotti();
-		Iterator<OrderProductDTO> i = lsProd.iterator();
+		Integer qtaProduct;
+		HashMap<String, Object> mapProduct = new HashMap<String, Object>();
+		List<ArticleFullDTO> lsProd = orderFull.getCart();
+		Iterator<ArticleFullDTO> i = lsProd.iterator();
 		while(i.hasNext()){
-			orderDAO.insertOrdersArticles(i.next());
+			
+			qtaProduct = productDao.getQtStock(
+					i.next().getPrdFullDTO().getIdProduct(), 
+					i.next().getPgArticle());
+			
+			if (qtaProduct < i.next().getQtBooked()){
+				String exc;
+				if (qtaProduct == 0){
+					exc =  "Prodotto " + 
+							i.next().getPrdFullDTO().getDescription() +
+							" non piu disponibile";
+				}
+				else{
+					exc =  "Prodotto " + 
+							i.next().getPrdFullDTO().getDescription() +
+							" quantità residua " +
+							qtaProduct.toString();
+							
+				}
+				throw new OthalaException(exc);
+	
+			}
+			
+			mapProduct.clear();
+			mapProduct.put("idOrder", orderFull.getIdOrder());
+			mapProduct.put("idProdotto", i.next().getPrdFullDTO().getIdProduct());
+			mapProduct.put("pgArticle", i.next().getPgArticle());
+			mapProduct.put("qtArticle", i.next().getQtBooked());
+			
+			orderDAO.insertOrdersArticles(mapProduct);
 		}
 
 		orderDAO.insertStatesOrders(orderFull);
@@ -55,10 +86,10 @@ public class OrderService implements IOrderService {
 		mailTo[0] = "massimiliano_cencioni@tin.it";
 		String subject = "Inserito nuovo ordine";
 		String content = "Un nuovo ordine è stato inserito con codice: " + 
-				NumeroOrdine.toString();
+				orderFull.getIdOrder().toString();
 		mailService.inviaMail(mailTo, subject, content);
 		
-		return NumeroOrdine;
+		return orderFull;
 	}
 
 	public IOrderDAO getOrderDAO() {
@@ -70,7 +101,7 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public void updateOrder(StateOrderDTO stateOrder) {
+	public void updateStateOrder(StateOrderDTO stateOrder) {
 		
 		orderDAO.updateStatesOrders(stateOrder);
 		
@@ -90,8 +121,21 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public void newAddress(DeliveryAddressDTO newAddress) {
+	public DeliveryAddressDTO newAddress(DeliveryAddressDTO newAddress) {
 		orderDAO.newAddress(newAddress);
+		return newAddress;
+		
+	}
+
+	@Override
+	public void updateOrder(String idTransaction, String idUser) {
+		orderDAO.updateOrder(idTransaction, idUser);
+		
+	}
+
+	@Override
+	public void deleteAddress(Integer idAddress) {
+		orderDAO.deleteAddress(idAddress);
 		
 	}
 
