@@ -247,67 +247,134 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `othala`.`Orders`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `othala`.`Orders` ;
 
-CREATE  TABLE IF NOT EXISTS `othala`.`Orders` (
-  `idOrder` INT NOT NULL ,
-  `idUser` VARCHAR(100) NOT NULL ,
-  `imOrdine` INT NULL ,
-  `imSpeseSpedizione` INT NULL ,
-  `idTransaction` VARCHAR(45) NULL ,
-  `idAddressFatt` INT NULL ,
-  `idAddressDelivery` INT NULL ,
-  PRIMARY KEY (`idOrder`) ,
-  INDEX `fk_Orders_Customer1_idx` (`idUser` ASC) ,
-  UNIQUE INDEX `idOrder_UNIQUE` (`idOrder` ASC) ,
-  UNIQUE INDEX `idUser_UNIQUE` (`idUser` ASC) ,
-  CONSTRAINT `fk_Orders_Customer1`
-    FOREIGN KEY (`idUser` )
-    REFERENCES `othala`.`Customer` (`idUser` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `othala`.`Addresses`
+
 -- -----------------------------------------------------
+
 DROP TABLE IF EXISTS `othala`.`Addresses` ;
 
+
+
 CREATE  TABLE IF NOT EXISTS `othala`.`Addresses` (
-  `IDAddress` INT NOT NULL AUTO_INCREMENT ,
+
+  `idAddress` INT NOT NULL ,
+
   `idUser` VARCHAR(100) NOT NULL ,
+
   `txNome` VARCHAR(45) NOT NULL ,
+
   `txCognome` VARCHAR(45) NOT NULL ,
+
   `txVia` VARCHAR(100) NOT NULL ,
+
   `txComune` VARCHAR(100) NOT NULL ,
+
   `cdCap` INT NOT NULL ,
+
   `txProvincia` VARCHAR(100) NOT NULL ,
+
   `txNazione` VARCHAR(100) NOT NULL ,
+
   `txTel` INT NOT NULL ,
+
   `fgDeleted` TINYINT NOT NULL ,
-  PRIMARY KEY (`IDAddress`) ,
+
+  `txEtichetta` VARCHAR(100) NOT NULL ,
+
   INDEX `fk_Addresses_Customer1` (`idUser` ASC) ,
+
   UNIQUE INDEX `idUser_UNIQUE` (`idUser` ASC) ,
-  UNIQUE INDEX `IDAddress_UNIQUE` (`IDAddress` ASC) ,
+
+  PRIMARY KEY (`idAddress`) ,
+
   CONSTRAINT `fk_Addresses_Customer1`
+
     FOREIGN KEY (`idUser` )
+
     REFERENCES `othala`.`Customer` (`idUser` )
+
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Addresses_Orders1`
-    FOREIGN KEY (`IDAddress` )
-    REFERENCES `othala`.`Orders` (`idAddressFatt` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Addresses_Orders2`
-    FOREIGN KEY (`IDAddress` )
-    REFERENCES `othala`.`Orders` (`idAddressDelivery` )
-    ON DELETE NO ACTION
+
     ON UPDATE NO ACTION)
+
 ENGINE = InnoDB;
+
+
+
+
+
+-- -----------------------------------------------------
+
+-- Table `othala`.`Orders`
+
+-- -----------------------------------------------------
+
+DROP TABLE IF EXISTS `othala`.`Orders` ;
+
+
+
+CREATE  TABLE IF NOT EXISTS `othala`.`Orders` (
+
+  `idOrder` INT NOT NULL ,
+
+  `idUser` VARCHAR(100) NOT NULL ,
+
+  `imOrdine` INT NULL ,
+
+  `imSpeseSpedizione` INT NULL ,
+
+  `idTransaction` VARCHAR(45) NULL ,
+
+  `idAddressFat` INT NOT NULL ,
+
+  `idAddressSpe` INT NOT NULL ,
+
+  PRIMARY KEY (`idOrder`) ,
+
+  INDEX `fk_Orders_Customer1_idx` (`idUser` ASC) ,
+
+  UNIQUE INDEX `idOrder_UNIQUE` (`idOrder` ASC) ,
+
+  UNIQUE INDEX `idUser_UNIQUE` (`idUser` ASC) ,
+
+  INDEX `fk_Orders_Addresses1` (`idAddressFat` ASC) ,
+
+  INDEX `fk_Orders_Addresses2` (`idAddressSpe` ASC) ,
+
+  CONSTRAINT `fk_Orders_Customer1`
+
+    FOREIGN KEY (`idUser` )
+
+    REFERENCES `othala`.`Customer` (`idUser` )
+
+    ON DELETE NO ACTION
+
+    ON UPDATE NO ACTION,
+
+  CONSTRAINT `fk_Orders_Addresses1`
+
+    FOREIGN KEY (`idAddressFat` )
+
+    REFERENCES `othala`.`Addresses` (`idAddress` )
+
+    ON DELETE NO ACTION
+
+    ON UPDATE NO ACTION,
+
+  CONSTRAINT `fk_Orders_Addresses2`
+
+    FOREIGN KEY (`idAddressSpe` )
+
+    REFERENCES `othala`.`Addresses` (`idAddress` )
+
+    ON DELETE NO ACTION
+
+    ON UPDATE NO ACTION)
+
+ENGINE = InnoDB;
+
+
 
 
 -- -----------------------------------------------------
