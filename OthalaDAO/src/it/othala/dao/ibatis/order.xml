@@ -22,6 +22,7 @@
 			<result property="provincia" column="txProvinciaBilling" />
 			<result property="nazione" column="txNazioneBilling" />
 			<result property="tel" column="txTelBilling" />
+			<result property="etichetta" column="etichettaBilling" />
 		</collection>
 		<collection property="shippingAddress" ofType="it.othala.dto.DeliveryAddressDTO">
 			<result property="idAddress" column="idAddressDelivery" />
@@ -34,6 +35,7 @@
 			<result property="provincia" column="txProvinciaDelivery" />
 			<result property="nazione" column="txNazioneDelivery" />
 			<result property="tel" column="txTelDelivery" />
+			<result property="etichetta" column="etichettaDelivery" />
 		</collection>
 		<collection property="cart" ofType="it.othala.dto.ArticleFullDTO">
 			<result property="prdFullDTO.idProduct" column="idProdotto" />
@@ -54,12 +56,12 @@
 		f.txNome as txNomeBilling,f.txCognome as txCognomeBilling, 
 		f.txVia as txViaBilling, f.txComune as txComuneBilling, 
 		f.cdCap as cdCapBilling, f.txProvincia as txProvinciaBilling, 
-		f.txNazione as txNazioneBilling, f.txTel as txTelBilling, f.fgDeleted
+		f.txNazione as txNazioneBilling, f.txTel as txTelBilling,f.txEtichetta as etichettaBilling,   f.fgDeleted
 		g.IDAddress as idAddressDelivery, 
 		g.txNome as txNomeDelivery, g.txCognome as txCognomeDelivery, 
 		g.txVia as txViaDelivery, g.txComune as txComuneDelivery, 
 		g.cdCap as cdCapDelivery, g.txProvincia as txProvinciaDelivery, 
-		g.txNazione as txNazioneDelivery, g.txTel as txTelDelivery, g.fgDeleted
+		g.txNazione as txNazioneDelivery, g.txTel as txTelDelivery,g.txEtichetta as etichettaDelivery, g.fgDeleted
  		FROM
 		${database.schema}orders a,
 		${database.schema}orders_articles b,
@@ -147,7 +149,7 @@
 		
 		SELECT
 		a.idAddress, a.idUser as userId, a.txNome as nome,a.txCognome as cognome,
-		a.txVia as via, a.txComune as comune, a.cdCap as cap, 
+		a.txVia as via, a.txComune as comune, a.cdCap as cap, a.txEtichetta as etichetta,
 		a.txProvincia as provincia, a.txNazione as nazione, 
 		a.txTel as tel, c.idUser as userId
 		FROM
@@ -173,12 +175,12 @@
 	<insert id="insertAddress" parameterType="it.othala.dto.DeliveryAddressDTO">
 		INSERT INTO
 		${database.schema}addresses
-		(`idUser`,`txNome`,`txCognome`,`txVia`,
-		`txComune`, `cdCap`, 
-		`txProvincia`,`txNazione`,`txTel`,`fgDeleted`)
+		('idUser','txNome','txCognome','txVia',
+		'txComune', 'cdCap', 
+		'txProvincia','txNazione','txTel','fgDeleted','txEtichetta')
 		VALUES
 		(#{userId},#{nome},#{cognome},#{via},
-		#{comune},#{cap},#{provincia},#{nazione},#{tel},0);
+		#{comune},#{cap},#{provincia},#{nazione},#{tel},0,#{etichetta});
 		
 		<selectKey resultType="java.lang.Integer" keyProperty="idAddress" >
 
