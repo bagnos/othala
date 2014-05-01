@@ -90,6 +90,15 @@ public class DeliveryAddressDTO implements Serializable {
 	private String provincia;
 	private String nazione;
 	private Integer tel;
+	private String etichetta;
+	public String getEtichetta() {
+		return etichetta;
+	}
+
+	public void setEtichetta(String etichetta) {
+		this.etichetta = etichetta;
+	}
+
 	private String nomeCompleto;
 
 	public String getNomeCompleto() {

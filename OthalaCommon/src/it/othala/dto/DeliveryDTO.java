@@ -1,6 +1,7 @@
 package it.othala.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DeliveryDTO implements Serializable {
@@ -11,6 +12,10 @@ public class DeliveryDTO implements Serializable {
 
 	private List <DeliveryAddressDTO> indirizzo; 
 	public List<DeliveryAddressDTO> getIndirizzo() {
+		if (indirizzo==null)
+		{
+			indirizzo=new ArrayList<>();
+		}
 		return indirizzo;
 	}
 	public void setIndirizzo(List<DeliveryAddressDTO> indirizzo) {
