@@ -3,15 +3,21 @@ package it.othala.service;
 import it.othala.account.execption.MailNotSendException;
 import it.othala.service.interfaces.IMailService;
 
+import java.io.IOException;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -20,12 +26,12 @@ public class MailService implements IMailService {
 
 	private Session session = null;
 
-	
-	private void inviaMail(String from, String[] tos, String subject, String content,String type) throws MailNotSendException {
+	private void inviaMail(String from, String[] tos, String subject, String content, String type)
+			throws MailNotSendException {
 		// TODO Auto-generated method stub
 		{
 			try {
-				
+
 				Context initCtx = new InitialContext();
 				Context envCtx = (Context) initCtx.lookup("java:comp/env");
 				Session session = (Session) envCtx.lookup("mail/othala");
@@ -40,9 +46,8 @@ public class MailService implements IMailService {
 				message.setFrom(new InternetAddress(from));
 				message.setRecipients(Message.RecipientType.TO, to);
 				message.setSubject(subject);
-				if (type==null)
-				{
-					type="text/plain";
+				if (type == null) {
+					type = "text/plain";
 				}
 				message.setContent(content, type);
 
@@ -58,7 +63,7 @@ public class MailService implements IMailService {
 	@Override
 	public void inviaMail(String[] tos, String subject, String content) throws MailNotSendException {
 		// TODO Auto-generated method stub
-		inviaMail(ConfigurationService.getProperty(ConfigurationService.FROM_MAIL), tos, subject, content,"text/plain");
+		inviaMail(ConfigurationService.getProperty(ConfigurationService.FROM_MAIL), tos, subject, content, "text/plain");
 	}
 
 	final String username = "username@gmail.com";
@@ -74,7 +79,7 @@ public class MailService implements IMailService {
 			props.put("mail.smtp.host", "smtp.gmail.com");
 			props.put("mail.smtp.port", "587");
 
-			 session = Session.getInstance(props, new javax.mail.Authenticator() {
+			session = Session.getInstance(props, new javax.mail.Authenticator() {
 				protected PasswordAuthentication getPasswordAuthentication() {
 					return new PasswordAuthentication(username, password);
 				}
@@ -84,12 +89,68 @@ public class MailService implements IMailService {
 	}
 
 	@Override
-	public void inviaHTMLMail(String[] tos, String subject, String content) throws MailNotSendException {
+	public void inviaHTMLMail(String[] tos, String subject, String content, Map<String, String> inlineImages)
+			throws MailNotSendException {
 		// TODO Auto-generated method stub
-		inviaMail(ConfigurationService.getProperty(ConfigurationService.FROM_MAIL), tos, subject, content,"text/html");
-	}
 
-	
-	
+		{
+			try {
+
+				Context initCtx = new InitialContext();
+				Context envCtx = (Context) initCtx.lookup("java:comp/env");
+				Session session = (Session) envCtx.lookup("mail/othala");
+				Message message = new MimeMessage(session);
+				InternetAddress to[] = new InternetAddress[tos.length];
+				int i = 0;
+				for (String address : tos) {
+					to[i] = new InternetAddress(address);
+					i++;
+				}
+
+				message.setFrom(new InternetAddress(ConfigurationService.getProperty(ConfigurationService.FROM_MAIL)));
+				message.setRecipients(Message.RecipientType.TO, to);
+				message.setSubject(subject);
+
+				// message.setContent(content, "text/html");
+				// creates message part
+				MimeBodyPart messageBodyPart = new MimeBodyPart();
+				messageBodyPart.setContent(content, "text/html");
+
+				// creates multi-part
+				Multipart multipart = new MimeMultipart();
+				multipart.addBodyPart(messageBodyPart);
+
+				// adds inline image attachments
+				if (inlineImages != null && inlineImages.size() > 0) {
+					Set<String> setImageID = inlineImages.keySet();
+
+					for (String contentId : setImageID) {
+						MimeBodyPart imagePart = new MimeBodyPart();
+						imagePart.setHeader("Content-ID", "<" + contentId + ">");
+						imagePart.setDisposition(MimeBodyPart.INLINE);
+
+						String imageFilePath = inlineImages.get(contentId);
+						try {
+							imagePart.attachFile(imageFilePath);
+							
+							
+						} catch (IOException ex) {
+							ex.printStackTrace();
+						}
+
+						multipart.addBodyPart(imagePart);
+					}
+				}
+
+				message.setContent(multipart);
+
+				Transport.send(message);
+			} catch (NamingException | MessagingException e) {
+				throw new MailNotSendException(e);
+			}
+
+		}
+
+	}
 
 }

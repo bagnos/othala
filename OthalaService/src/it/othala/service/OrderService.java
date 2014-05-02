@@ -1,13 +1,6 @@
 package it.othala.service;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-
 import it.othala.account.execption.MailNotSendException;
-import it.othala.dao.ProductDAO;
 import it.othala.dao.interfaces.IOrderDAO;
 import it.othala.dao.interfaces.IProductDAO;
 import it.othala.dto.ArticleFullDTO;
@@ -15,12 +8,21 @@ import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryCostDTO;
 import it.othala.dto.DeliveryDTO;
 import it.othala.dto.OrderFullDTO;
-import it.othala.dto.ProductFullDTO;
 import it.othala.dto.StateOrderDTO;
 import it.othala.execption.OthalaException;
 import it.othala.service.interfaces.IMailService;
 import it.othala.service.interfaces.IOrderService;
-import it.othala.service.interfaces.IMailService;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.io.IOUtils;
 
 public class OrderService implements IOrderService {
 	
@@ -161,6 +163,32 @@ public class OrderService implements IOrderService {
 	public void deleteAddress(Integer idAddress) {
 		orderDAO.deleteAddress(idAddress);
 		
+	}
+
+	@Override
+	public void inviaMailDiConferma(OrderFullDTO order) throws MailNotSendException {
+		// TODO Auto-generated method stub
+		/*
+		InputStream contenutoStream = Thread.currentThread().getContextClassLoader()
+				.getResourceAsStream("it/othala/service/template/mailConferma.html");
+		String contenuto;
+		try {
+			contenuto = IOUtils.toString(contenutoStream, "UTF-8");
+			contenutoStream.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			throw new MailNotSendException(e);
+		}*/
+		String contenuto="<h1>This is a test</h1><img src=\"cid:image1\"/>";
+		Map<String, String> inlineImages = new HashMap<String, String>();
+		
+		URL res=Thread.currentThread().getContextClassLoader().getResource("/");
+		String basePath=res.getPath().replace("/WEB-INF/classes", "");
+		//String path=res.getPath();
+        inlineImages.put("image1", "http://localhost/Othala/faces/javax.faces.resource/logo2-small.png?ln=images");
+         
+
+		mailService.inviaHTMLMail(new String[] { "simone.bagnolesi@gmail.com" }, "mail conferma", contenuto,inlineImages);
 	}
 
 
