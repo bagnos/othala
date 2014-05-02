@@ -49,14 +49,15 @@
 
 		SELECT
 		a.idOrder, a.idUser, a.imOrdine, a.imSpeseSpedizione,
-		a.idTransaction, a.idAddressFatt, a.idAddressDelivery,
+		a.idTransaction, a.idAddressFat, a.idAddressSpe,
 		b.idProdotto, b.pgArticle, b.qtArticle,
-		c.idStato c.dtStato, c.txNote, 
+		c.idStato, c.dtStato, c.txNote, 
 		d.txStato, f.IDAddress as idAddressBilling, 
 		f.txNome as txNomeBilling,f.txCognome as txCognomeBilling, 
 		f.txVia as txViaBilling, f.txComune as txComuneBilling, 
 		f.cdCap as cdCapBilling, f.txProvincia as txProvinciaBilling, 
-		f.txNazione as txNazioneBilling, f.txTel as txTelBilling,f.txEtichetta as etichettaBilling,   f.fgDeleted
+		f.txNazione as txNazioneBilling, f.txTel as txTelBilling,
+		f.txEtichetta as etichettaBilling,   f.fgDeleted,
 		g.IDAddress as idAddressDelivery, 
 		g.txNome as txNomeDelivery, g.txCognome as txCognomeDelivery, 
 		g.txVia as txViaDelivery, g.txComune as txComuneDelivery, 
@@ -67,7 +68,7 @@
 		${database.schema}orders_articles b,
 		${database.schema}states_orders c,
 		${database.schema}states d,
-		${database.schema}addresses f
+		${database.schema}addresses f,
 		${database.schema}addresses g
 		WHERE a.idOrder = b.idOrder
 		and a.idOrder = c.idOrder
@@ -77,14 +78,14 @@
 		<if test="idUser != null">
 			and a.idUser = #{idUser}
 		</if>
-		and a.idAddressFatt = f.idAddress
-		and a.idAddressDelivery = g.idAddress
+		and a.idAddressFat = f.idAddress
+		and a.idAddressSpe = g.idAddress
 		and c.idStato = d.idStato
 		<if test="idStato != null">
 			and c.idStato = #{idStato}
 		</if>
 		<if test="idStato == null">
-			and c.idStato = (SELECT MAX e.idStato 
+			and c.idStato = (SELECT MAX(e.idStato) 
 							 FROM ${database.schema}states_orders e
 							 WHERE e.idOrder = a.idOrder)
 		</if>

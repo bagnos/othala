@@ -72,11 +72,11 @@ public class DeliveryAddressDTO implements Serializable {
 		this.nazione = nazione;
 	}
 
-	public Integer getTel() {
+	public String getTel() {
 		return tel;
 	}
 
-	public void setTel(Integer tel) {
+	public void setTel(String tel) {
 		this.tel = tel;
 	}
 
@@ -89,7 +89,7 @@ public class DeliveryAddressDTO implements Serializable {
 	private String cap;
 	private String provincia;
 	private String nazione;
-	private Integer tel;
+	private String tel;
 	private String etichetta;
 	public String getEtichetta() {
 		return etichetta;
