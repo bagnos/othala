@@ -98,7 +98,7 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO  {
 	}
 
 	@Override
-	public void updateOrder(String idTransaction, Integer idOrder) {
+	public void updateOrder(String idTransaction, Integer idOrder, Integer idStato) {
 		HashMap<String, Object> mapUpdate =  new HashMap<String, Object>();
 		
 		mapUpdate.put("idTransaction", idTransaction);
@@ -106,6 +106,12 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO  {
 		
 		getSqlSession().update("it.othala.order.queries.updateOrder",
 				mapUpdate);
+		
+		StateOrderDTO stateOrder = new StateOrderDTO();
+		stateOrder.setIdOrder(idOrder);
+		stateOrder.setIdStato(idStato);
+		getSqlSession().insert("it.othala.order.queries.updateStatesOrders",
+				stateOrder);
 		
 	}
 
