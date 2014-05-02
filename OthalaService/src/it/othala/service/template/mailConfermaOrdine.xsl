@@ -19,7 +19,7 @@
 				<!-- grreting -->
 				<p style="margin-top:20px">
 					Gentile
-					<xsl:value-of select="customer" />
+					<xsl:value-of select="order/customer/name" />
 					,
 					<br />
 					<br />
@@ -30,7 +30,7 @@
 				<div>
 					<div>
 						<label style="display:inline-block;width:140px">Ordine</label>
-						<xsl:value-of select="order" />
+						<xsl:value-of select="number" />
 					</div>
 					<div>
 						<label style="display:inline-block;width:140px">Transazione</label>
@@ -76,14 +76,14 @@
 								<!-- UTENTE -->
 								<div>
 									<label style="display:inline-block;width:140px">Email</label>
-									simone.bagnolesi@gmail.com
+									<xsl:value-of select="order/customer/mail" />
 								</div>
 								<div>
-									<label style="display:inline-block;width:140px">Nome</label>
+									<label style="display:inline-block;width:140px"><xsl:value-of select="order/customer/name" /></label>
 									simone
 								</div>
 								<div>
-									<label style="display:inline-block;width:140px">Cognome</label>
+									<label style="display:inline-block;width:140px"><xsl:value-of select="order/customer/surname" /></label>
 									bagnolesi
 								</div>
 							</td>
@@ -95,37 +95,37 @@
 									<div class="well">
 										<div>
 											<label style="display:inline-block;width:140px">Nome</label>
-											<span>simone</span>
+											<span><xsl:value-of select="order/billinAddress/name" /></span>
 										</div>
 										<div>
 											<label style="display:inline-block;width:140px">Cognome</label>
-											<span>bagnolesi</span>
+											<span><xsl:value-of select="order/billinAddress/surname" /></span>
 
 										</div>
 
 										<div>
 											<label style="display:inline-block;width:140px">Telefono</label>
-											<span>3332965518</span>
+											<span><xsl:value-of select="order/billinAddress/tel" /></span>
 										</div>
 
 										<div>
 											<label style="display:inline-block;width:140px">Indirizzo</label>
-											<span>via aretina,89</span>
+											<span><xsl:value-of select="order/billinAddress/street" /></span>
 										</div>
 
 										<div>
 											<label style="display:inline-block;width:140px">Cap</label>
-											<span>53100</span>
+											<span><xsl:value-of select="order/billinAddress/zipCode" /></span>
 										</div>
 
 										<div>
 											<label style="display:inline-block;width:140px">Città</label>
-											<span>Siena</span>
+											<span><xsl:value-of select="order/billinAddress/city" /></span>
 										</div>
 
 										<div>
 											<label style="display:inline-block;width:140px">Provincia</label>
-											<span>SI</span>
+											<span><xsl:value-of select="order/billinAddress/prov" /></span>
 										</div>
 									</div>
 								</div>
@@ -138,37 +138,37 @@
 									<div class="well">
 										<div>
 											<label style="display:inline-block;width:140px">Nome</label>
-											<span>simone</span>
+											<span><xsl:value-of select="order/shippingAddress/name" /></span>
 										</div>
 										<div>
 											<label style="display:inline-block;width:140px">Cognome</label>
-											<span>bagnolesi</span>
+											<span><xsl:value-of select="order/shippingAddress/surname" /></span>
 
 										</div>
 
 										<div>
 											<label style="display:inline-block;width:140px">Telefono</label>
-											<span>3332965518</span>
+											<span><xsl:value-of select="order/shippingAddress/tel" /></span>
 										</div>
 
 										<div>
 											<label style="display:inline-block;width:140px">Indirizzo</label>
-											<span>via aretina,89</span>
+											<span><xsl:value-of select="order/shippingAddress/street" /></span>
 										</div>
 
 										<div>
 											<label style="display:inline-block;width:140px">Cap</label>
-											<span>53100</span>
+											<span><xsl:value-of select="order/shippingAddress/zipCode" /></span>
 										</div>
 
 										<div>
 											<label style="display:inline-block;width:140px">Città</label>
-											<span>Siena</span>
+											<span><xsl:value-of select="order/shippingAddress/city" /></span>
 										</div>
 
 										<div>
 											<label style="display:inline-block;width:140px">Provincia</label>
-											<span>SI</span>
+											<span><xsl:value-of select="order/shippingAddress/prv" /></span>
 										</div>
 									</div>
 								</div>
@@ -183,8 +183,9 @@
 					<h4>METODO DI PAGAMENTO</h4>
 					<div>
 						<img>
+						
 							<xsl:attribute name="src">
-    								<xsl:value-of select="imgPayment" />
+    								<xsl:value-of select="order/imgPayment" />
     								</xsl:attribute>
 						</img>
 					</div>
@@ -210,7 +211,7 @@
 							<td colspan="6" class="text-right">Costo Spedizione</td>
 							<td>
 								€
-								<xsl:value-of select="deliveryCost" />
+								<xsl:value-of select="order/deliveryCost" />
 							</td>
 						</tr>
 						<tr>
@@ -219,13 +220,13 @@
 							</td>
 							<td>
 								€
-								<xsl:value-of select="totalCost" />
+								<xsl:value-of select="order/totalCost" />
 							</td>
 						</tr>
 
 					</tfoot>
 					<tbody>
-						<xsl:for-each select="Cart/items">
+						<xsl:for-each select="order/cart/item">
 							<tr>
 								<td>
 									<img>
@@ -240,6 +241,9 @@
 									</h5>
 									<h6>
 										<xsl:value-of select="description" />
+									</h6>
+									<h6>
+										<xsl:value-of select="number" />
 									</h6>
 								</td>
 								<td>

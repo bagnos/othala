@@ -26,7 +26,32 @@ public class OrderFullDTO implements Serializable {
 	private DeliveryAddressDTO billingAddress;
 	private DeliveryAddressDTO shippingAddress;
 	private List<ArticleFullDTO> cart;
+	private String nameUser;
+	private String surnameUser;
+	private String idTransaction;
 	
+	
+	
+	
+	
+	public String getIdTransaction() {
+		return idTransaction;
+	}
+	public void setIdTransaction(String idTransaction) {
+		this.idTransaction = idTransaction;
+	}
+	public String getNameUser() {
+		return nameUser;
+	}
+	public void setNameUser(String nameUser) {
+		this.nameUser = nameUser;
+	}
+	public String getSurnameUser() {
+		return surnameUser;
+	}
+	public void setSurnameUser(String surnameUser) {
+		this.surnameUser = surnameUser;
+	}
 	public List<ArticleFullDTO> getCart() {
 		return cart;
 	}
