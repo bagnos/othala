@@ -11,6 +11,9 @@
 		<result property="dtStato" column="dtStato" />
 		<result property="txNote" column="txNote" />
 		<result property="txStato" column="txStato" />
+		<result property="nameUser" column="txNome" />
+		<result property="surnameUser" column="txCognome" />
+		<result property="idTransaction" column="idTransaction" />
 		<collection property="billingAddress" ofType="it.othala.dto.DeliveryAddressDTO">
 			<result property="idAddress" column="idAddressBilling" />
 			<result property="userId" column="idUser" />
@@ -62,14 +65,16 @@
 		g.txNome as txNomeDelivery, g.txCognome as txCognomeDelivery, 
 		g.txVia as txViaDelivery, g.txComune as txComuneDelivery, 
 		g.cdCap as cdCapDelivery, g.txProvincia as txProvinciaDelivery, 
-		g.txNazione as txNazioneDelivery, g.txTel as txTelDelivery,g.txEtichetta as etichettaDelivery, g.fgDeleted
+		g.txNazione as txNazioneDelivery, g.txTel as txTelDelivery,g.txEtichetta as etichettaDelivery, 
+		g.fgDeleted, h.txNome, h.txCognome
  		FROM
 		${database.schema}orders a,
 		${database.schema}orders_articles b,
 		${database.schema}states_orders c,
 		${database.schema}states d,
 		${database.schema}addresses f,
-		${database.schema}addresses g
+		${database.schema}addresses g,
+		${database.schema}customer h
 		WHERE a.idOrder = b.idOrder
 		and a.idOrder = c.idOrder
 		<if test="idOrder != null">
@@ -89,6 +94,7 @@
 							 FROM ${database.schema}states_orders e
 							 WHERE e.idOrder = a.idOrder)
 		</if>
+		and a.idUser = h.idUser
 
 	</select>
 
