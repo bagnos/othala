@@ -58,7 +58,7 @@
 												<h:panelGroup id="login">
 													<ui:include src="/sections/login.xhtml" />
 													<p:commandButton id="ajax" process="login" validateClient="true"
-														update="login @(form:first)" styleClass="ui-priority-primary"
+														update="login @(form:first) delivery" styleClass="ui-priority-primary"
 														actionListener="#{accessView.loginWizard}" value="#{msg.account_access}">
 													</p:commandButton>
 												</h:panelGroup>

@@ -63,6 +63,10 @@ public class CartWizardView extends BaseView {
 	}
 
 	public DeliveryDTO getDeliveryDTO() {
+		if (loginBean.getEmail()!=null  && deliveryDTO.getIndirizzo().isEmpty())
+		{
+			retrieveAddresses();
+		}
 		return deliveryDTO;
 	}
 
@@ -73,6 +77,12 @@ public class CartWizardView extends BaseView {
 		idAddressSpe = cart.getAddressSpe().getIdAddress() == null ? 0 : cart.getAddressFat().getIdAddress();
 		editAddrFat = idAddressFat == 0;
 		editAddrSpe = idAddressSpe == 0;
+		if (idAddressFat == 0) {
+			cart.getAddressFat().setNazione("Italia");
+		}
+		if (idAddressSpe == 0) {
+			cart.getAddressSpe().setNazione("Italia");
+		}
 		cart.setCheckoutCart(true);
 
 		// recupero l'indirizzo di fatturazione e spedizione
@@ -83,34 +93,23 @@ public class CartWizardView extends BaseView {
 
 	private void retrieveAddresses() {
 
-		// deliveryDTO =
-		// OthalaFactory.getOrderServiceInstance().getDeliveryInfo(loginBean.getEmail());
-		deliveryDTO = new DeliveryDTO();
-		DeliveryAddressDTO addr = new DeliveryAddressDTO();
-		addr.setCap("53100");
-		addr.setCognome("Bagnolesi");
-		addr.setComune("Siena");
-		addr.setEtichetta("Casa");
-		addr.setIdAddress(1);
-		addr.setNazione("IT");
-		addr.setNome("Simone");
-		addr.setProvincia("SI");
-		addr.setVia("Via aretina 89");
-		addr.setTel("3332965518");
-		deliveryDTO.getIndirizzo().add(addr);
-
-		addr = new DeliveryAddressDTO();
-		addr.setCap("53100");
-		addr.setCognome("Bagnolesi");
-		addr.setComune("Sinea");
-		addr.setEtichetta("Lavoro");
-		addr.setIdAddress(2);
-		addr.setNazione("IT");
-		addr.setNome("Simone");
-		addr.setProvincia("SI");
-		addr.setVia("Via Ricasoli 48");
-		addr.setTel("0577298434");
-		deliveryDTO.getIndirizzo().add(addr);
+		deliveryDTO = OthalaFactory.getOrderServiceInstance().getDeliveryInfo(loginBean.getEmail());
+		/*
+		 * deliveryDTO = new DeliveryDTO(); DeliveryAddressDTO addr = new
+		 * DeliveryAddressDTO(); addr.setCap("53100");
+		 * addr.setCognome("Bagnolesi"); addr.setComune("Siena");
+		 * addr.setEtichetta("Casa"); addr.setIdAddress(1);
+		 * addr.setNazione("IT"); addr.setNome("Simone");
+		 * addr.setProvincia("SI"); addr.setVia("Via aretina 89");
+		 * addr.setTel("3332965518"); deliveryDTO.getIndirizzo().add(addr);
+		 * 
+		 * addr = new DeliveryAddressDTO(); addr.setCap("53100");
+		 * addr.setCognome("Bagnolesi"); addr.setComune("Sinea");
+		 * addr.setEtichetta("Lavoro"); addr.setIdAddress(2);
+		 * addr.setNazione("IT"); addr.setNome("Simone");
+		 * addr.setProvincia("SI"); addr.setVia("Via Ricasoli 48");
+		 * addr.setTel("0577298434"); deliveryDTO.getIndirizzo().add(addr);
+		 */
 		/*
 		 * for (DeliveryAddressDTO addr : deliveryDTO.getIndirizzo()) { if
 		 * (addr.getTypeAddress().intValue() ==
@@ -125,6 +124,7 @@ public class CartWizardView extends BaseView {
 		if (idAddressFat == 0) { // nuovo indirizzo
 			editAddrFat = true;
 			cart.setAddressFat(new DeliveryAddressDTO());
+
 		} else {
 			editAddrFat = false;
 			for (DeliveryAddressDTO addr : deliveryDTO.getIndirizzo()) {
@@ -135,11 +135,12 @@ public class CartWizardView extends BaseView {
 			}
 		}
 	}
-	
+
 	public void changeAddrSpe(AjaxBehaviorEvent ev) {
 		if (idAddressSpe == 0) { // nuovo indirizzo
 			editAddrSpe = true;
 			cart.setAddressSpe(new DeliveryAddressDTO());
+			cart.getAddressSpe().setUserId(loginBean.getEmail());
 		} else {
 			editAddrSpe = false;
 			for (DeliveryAddressDTO addr : deliveryDTO.getIndirizzo()) {
@@ -154,14 +155,14 @@ public class CartWizardView extends BaseView {
 	public void modifyAddrFat(AjaxBehaviorEvent ev) {
 		editAddrFat = true;
 	}
-	
+
 	public void modifyAddrSpe(AjaxBehaviorEvent ev) {
 		editAddrSpe = true;
 	}
 
-	public void newAddrFat(AjaxBehaviorEvent ev) {
-
-		if (cart.getAddressFat().getIdAddress() != null && cart.getAddressFat().getIdAddress() > 0) {
+	public void newAddrFat(ActionEvent ev) {
+		cart.getAddressFat().setUserId(loginBean.getEmail());
+		if (cart.getAddressFat().getIdAddress() == null || cart.getAddressFat().getIdAddress() == 0) {
 			// nuovo
 			cart.setAddressFat(OthalaFactory.getOrderServiceInstance().newAddress(cart.getAddressFat()));
 		} else {
@@ -171,12 +172,14 @@ public class CartWizardView extends BaseView {
 		}
 		retrieveAddresses();
 		idAddressFat = cart.getAddressFat().getIdAddress();
+		idAddressSpe=cart.getAddressSpe().getIdAddress();
 		editAddrFat = false;
 	}
 
-	public void newAddrSpe(AjaxBehaviorEvent ev) {
+	public void newAddrSpe(ActionEvent ev) {
 
-		if (cart.getAddressSpe().getIdAddress() != null && cart.getAddressSpe().getIdAddress() > 0) {
+		cart.getAddressSpe().setUserId(loginBean.getEmail());
+		if (cart.getAddressSpe().getIdAddress() == null || cart.getAddressSpe().getIdAddress() == 0) {
 			// nuovo
 			cart.setAddressSpe(OthalaFactory.getOrderServiceInstance().newAddress(cart.getAddressSpe()));
 		} else {
@@ -186,6 +189,7 @@ public class CartWizardView extends BaseView {
 		}
 		retrieveAddresses();
 		idAddressSpe = cart.getAddressSpe().getIdAddress();
+		idAddressFat=cart.getAddressFat().getIdAddress();
 		editAddrSpe = false;
 	}
 

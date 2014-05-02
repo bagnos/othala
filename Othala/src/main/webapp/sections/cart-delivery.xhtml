@@ -8,12 +8,12 @@
 		<div class="row">
 			<div class="col-sm-4 ">
 				<div class="row">
-					<div class="col-sm-8 ">
+					<div class="col-sm-7">
 						<h5>
 							<strong><h:outputText value="#{msg.delivery_invoiceAddress}" /></strong>
 						</h5>
 					</div>
-					<div class="col-sm-4">
+					<div class="col-sm-5">
 
 						<h:selectOneMenu id="select-fat" value="#{cartWizardView.idAddressFat}"
 							styleClass="form-control">
@@ -56,6 +56,13 @@
 				</h:panelGroup>
 				<h:panelGroup id="addrFatNew">
 					<h:panelGroup layout="block" rendered="#{cartWizardView.editAddrFat}">
+					<div class="form-group">
+							<p:outputLabel value="#{msg.delivery_type}" for="typeFat" />
+							<p:inputText id="typeFat" styleClass="form-control" label="#{msg.delivery_name}"
+								value="#{cartFlowBean.addressFat.etichetta}" required="true" maxlength="70">
+							</p:inputText>
+							<p:message for="typeFat" />
+						</div>
 						<div class="form-group">
 							<p:outputLabel value="#{msg.delivery_name}" for="nameFat" />
 							<p:inputText id="nameFat" styleClass="form-control" label="#{msg.delivery_name}"
@@ -82,7 +89,7 @@
 
 						<div class="form-group">
 							<p:outputLabel value="#{msg.delivery_address}" for="indirizzoFat" />
-							<p:inputText rows="2" cols="30" required="true" maxlength="70" autoResize="false"
+							<p:inputText  required="true" maxlength="70" 
 								id="indirizzoFat" styleClass="form-control" label="#{msg.delivery_address}"
 								value="#{cartFlowBean.addressFat.via}" />
 
@@ -115,13 +122,13 @@
 						</div>
 						<div class="form-group">
 							<p:outputLabel value="#{msg.delivery_paese}" />
-							<p:inputText styleClass="form-control" label="#{msg.delivery_prov}" value="Italia"
+							<p:inputText styleClass="form-control" label="#{msg.delivery_prov}" value="#{cartFlowBean.addressFat.nazione}"
 								disabled="true" required="true" maxlength="4">
 							</p:inputText>
 
 						</div>
-						<p:commandButton id="saveAddrFat" validateClient="true" ajax="true"
-							update="select-fat addrFatNew addrFat" process="addrFatNew" styleClass="ui-priority-primary"
+						<p:commandButton id="saveAddrFat" validateClient="true" ajax="true" actionListener="#{cartWizardView.newAddrFat}"
+							update="delivery" process="addrFatNew" styleClass="ui-priority-primary"
 							value="#{msg.catalogo_changeDelivery}" />
 					</h:panelGroup>
 
@@ -132,7 +139,7 @@
 
 			<div class="col-sm-4 col-sm-offset-3">
 				<div class="row">
-					<div class="col-sm-8">
+					<div class="col-sm-7">
 						<h5>
 							<strong><h:outputText value="#{msg.delivery_deliveryAddress}" /></strong>
 						</h5>
@@ -146,7 +153,7 @@
 					</label>
 				</div>
 				-->
-					<div class="col-sm-4">
+					<div class="col-sm-5">
 
 						<h:selectOneMenu id="select-spe" value="#{cartWizardView.idAddressSpe}"
 							styleClass="form-control">
@@ -165,7 +172,7 @@
 						<div class="row">
 							<div class="col-sm-3">
 								<h:commandLink value="#{msg.catalogo_modifyDelivery}">
-									<f:ajax execute="@this" render="addrSpe addrSpeNew"
+									<f:ajax execute="@this" render="delivery"
 										listener="#{cartWizardView.modifyAddrSpe}"></f:ajax>
 								</h:commandLink>
 							</div>
@@ -191,7 +198,13 @@
 				<h:panelGroup id="addrSpeNew">
 					<h:panelGroup layout="block" rendered="#{cartWizardView.editAddrSpe}">
 					
-							
+							<div class="form-group">
+							<p:outputLabel value="#{msg.delivery_type}" for="typeSpe" />
+							<p:inputText id="typeSpe" styleClass="form-control" label="#{msg.delivery_name}"
+								value="#{cartFlowBean.addressSpe.etichetta}" required="true" maxlength="70">
+							</p:inputText>
+							<p:message for="typeSpe" />
+						</div>
 
 							<div class="form-group">
 								<p:outputLabel value="#{msg.delivery_name}" for="nameSpe" />
@@ -220,7 +233,7 @@
 
 							<div class="form-group">
 								<p:outputLabel value="#{msg.delivery_address}" for="indirizzoSpe" />
-								<p:inputText rows="2" cols="30" required="true" maxlength="70" autoResize="false"
+								<p:inputText  required="true" maxlength="70" 
 									id="indirizzoSpe" styleClass="form-control" label="#{msg.delivery_address}"
 									value="#{cartFlowBean.addressSpe.via}" />
 
@@ -252,13 +265,13 @@
 
 							<div class="form-group">
 								<p:outputLabel value="#{msg.delivery_paese}" />
-								<p:inputText styleClass="form-control" label="#{msg.delivery_prov}" value="Italia"
+								<p:inputText styleClass="form-control" label="#{msg.delivery_prov}" value="#{cartFlowBean.addressSpe.nazione}"
 									disabled="true" required="true" maxlength="4">
 								</p:inputText>
 
 							</div>
 							<p:commandButton id="saveAddrSpe" validateClient="true" ajax="true"
-								update="select-spe addrSpeNew addrSpe" process="addrSpeNew" styleClass="ui-priority-primary"
+								update="delivery" actionListener="#{cartWizardView.newAddrSpe}" process="addrSpeNew" styleClass="ui-priority-primary"
 								value="#{msg.catalogo_changeDelivery}" />
 
 						
