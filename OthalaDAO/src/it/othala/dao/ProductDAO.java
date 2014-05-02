@@ -215,7 +215,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 
 		HashMap<String, Object> map2 = new HashMap<>();
 		map2.put("idProduct", idProduct);
-		map2.put("idProduct", pgArticle);
+		map2.put("pgArticle", pgArticle);
 		map2.put("languages", languages);
 
 		ArticleFullDTO articleFull = getSqlSession().selectOne(
