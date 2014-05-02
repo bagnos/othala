@@ -40,7 +40,7 @@ import org.apache.commons.logging.LogFactory;
 public class OrderService implements IOrderService {
 
 	private IOrderDAO orderDAO;
-	private IProductDAO productDao;
+	private IProductDAO productDAO;
 	private IMailService mailService;
 	private static Log log=LogFactory.getLog(OrderService.class);
 
@@ -49,18 +49,22 @@ public class OrderService implements IOrderService {
 
 		List<OrderFullDTO> listaOrdini = orderDAO.getOrders(Order, User, StatoOrdine);
 
-		Iterator<OrderFullDTO> i = listaOrdini.iterator();
+		Iterator <OrderFullDTO> i = listaOrdini.iterator();
 		while (i.hasNext()) {
-
+			OrderFullDTO order = i.next();
+			
 			List<ArticleFullDTO> newlistArticle = new ArrayList<ArticleFullDTO>();
-			List<ArticleFullDTO> listArticle = i.next().getCart();
-			Iterator<ArticleFullDTO> y = listArticle.iterator();
-			while (y.hasNext()) {
-				ArticleFullDTO artFull = productDao.getArticleFull(y.next().getPrdFullDTO().getIdProduct(), y.next()
-						.getPgArticle(), "it");
+			
+			List<ArticleFullDTO> listArticle = order.getCart();
+			Iterator <ArticleFullDTO> it = listArticle.iterator();
+			while (it.hasNext()) {
+				ArticleFullDTO article = it.next();
+				
+				ArticleFullDTO artFull = productDAO.getArticleFull(article.getPrdFullDTO().getIdProduct(), 
+						article.getPgArticle(), "it");
 				newlistArticle.add(artFull);
 			}
-			i.next().setCart(newlistArticle);
+			order.setCart(newlistArticle);
 		}
 
 		return listaOrdini;
@@ -76,15 +80,16 @@ public class OrderService implements IOrderService {
 		List<ArticleFullDTO> lsProd = orderFull.getCart();
 		Iterator<ArticleFullDTO> i = lsProd.iterator();
 		while (i.hasNext()) {
+			ArticleFullDTO article = i.next();
 
-			qtaProduct = productDao.getQtStock(i.next().getPrdFullDTO().getIdProduct(), i.next().getPgArticle());
+			qtaProduct = productDAO.getQtStock(article.getPrdFullDTO().getIdProduct(), article.getPgArticle());
 
-			if (qtaProduct < i.next().getQtBooked()) {
+			if (qtaProduct < article.getQtBooked()) {
 				String exc;
 				if (qtaProduct == 0) {
-					exc = "Prodotto " + i.next().getPrdFullDTO().getDescription() + " non piu disponibile";
+					exc = "Prodotto " + article.getPrdFullDTO().getDescription() + " non piu disponibile";
 				} else {
-					exc = "Prodotto " + i.next().getPrdFullDTO().getDescription() + " quantità residua "
+					exc = "Prodotto " + article.getPrdFullDTO().getDescription() + " quantità residua "
 							+ qtaProduct.toString();
 
 				}
@@ -94,9 +99,9 @@ public class OrderService implements IOrderService {
 
 			mapProduct.clear();
 			mapProduct.put("idOrder", orderFull.getIdOrder());
-			mapProduct.put("idProdotto", i.next().getPrdFullDTO().getIdProduct());
-			mapProduct.put("pgArticle", i.next().getPgArticle());
-			mapProduct.put("qtArticle", i.next().getQtBooked());
+			mapProduct.put("idProdotto", article.getPrdFullDTO().getIdProduct());
+			mapProduct.put("pgArticle", article.getPgArticle());
+			mapProduct.put("qtArticle", article.getQtBooked());
 
 			orderDAO.insertOrdersArticles(mapProduct);
 		}
@@ -118,6 +123,14 @@ public class OrderService implements IOrderService {
 
 	public void setOrderDAO(IOrderDAO orderDAO) {
 		this.orderDAO = orderDAO;
+	}
+	
+	public IProductDAO getProductDAO() {
+		return productDAO;
+	}
+
+	public void setProductDAO(IProductDAO productDAO) {
+		this.productDAO = productDAO;
 	}
 
 	@Override
