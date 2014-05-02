@@ -158,7 +158,7 @@
 		${database.schema}customer c
 		WHERE
 		a.idUser = #{userId} and
-		a.idUser = c.idUser
+		a.idUser = c.idUser and
 		a.fgDeleted = 0
 	
 	</select>
