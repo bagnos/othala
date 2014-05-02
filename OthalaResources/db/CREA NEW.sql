@@ -252,7 +252,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `othala`.`Addresses` ;
 
 CREATE  TABLE IF NOT EXISTS `othala`.`Addresses` (
-  `idAddress` INT NOT NULL ,
+  `idAddress` INT NOT NULL AUTO_INCREMENT ,
   `idUser` VARCHAR(100) NOT NULL ,
   `txNome` VARCHAR(45) NOT NULL ,
   `txCognome` VARCHAR(45) NOT NULL ,
@@ -265,7 +265,6 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Addresses` (
   `fgDeleted` TINYINT NOT NULL ,
   `txEtichetta` VARCHAR(100) NOT NULL ,
   INDEX `fk_Addresses_Customer1` (`idUser` ASC) ,
-  UNIQUE INDEX `idUser_UNIQUE` (`idUser` ASC) ,
   PRIMARY KEY (`idAddress`) ,
   CONSTRAINT `fk_Addresses_Customer1`
     FOREIGN KEY (`idUser` )
