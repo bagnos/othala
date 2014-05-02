@@ -28,7 +28,7 @@ public interface IOrderDAO {
 	
 	public List<DeliveryAddressDTO> getDeliveryAddress(String userId);
 	
-	public void updateOrder(String idTransaction, String idUser);
+	public void updateOrder(String idTransaction, Integer idOrder);
 	
 	public void deleteAddress(Integer idAddress);
 	

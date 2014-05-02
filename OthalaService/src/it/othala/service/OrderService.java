@@ -152,8 +152,8 @@ public class OrderService implements IOrderService {
 
 
 	@Override
-	public void updateOrder(String idTransaction, Integer idOrder, Integer idStato) {
-		orderDAO.updateOrder(idTransaction, idOrder, idStato);
+	public void updateOrder(String idTransaction, Integer idOrder) {
+		orderDAO.updateOrder(idTransaction, idOrder);
 		
 	}
 
