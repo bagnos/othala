@@ -81,5 +81,5 @@ INSERT INTO `type_state_account`
 VALUES
 (1,'DISATTIVATO'),(2,'ATTIVATO'),(3,'CESSATO'),(4,'RESET_PSW');
 
-INSERT INTO `type_address` VALUES (1,'FATTURAZIONE'),(2,'SPEDIZIONE');
+
 
