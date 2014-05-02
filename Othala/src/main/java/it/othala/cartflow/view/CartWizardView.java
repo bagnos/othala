@@ -7,6 +7,7 @@ import it.othala.dto.DeliveryDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.payment.paypal.PayPalWrapper;
 import it.othala.payment.paypal.SetExpressCheckoutDTO;
+import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 import it.othala.web.utils.OthalaUtil;
 
@@ -28,23 +29,37 @@ public class CartWizardView extends BaseView {
 	private CustomerLoginBean loginBean;
 
 	private DeliveryDTO deliveryDTO;
-	private int addressFat;
-	private int addressSpe;
+	private int idAddressFat;
+	private int idAddressSpe;
+	private boolean editAddrFat;
+	private boolean editAddrSpe;
 
-	public int getAddressFat() {
-		return addressFat;
+	public boolean isEditAddrSpe() {
+		return editAddrSpe;
 	}
 
-	public void setAddressFat(int addressFat) {
-		this.addressFat = addressFat;
+	public boolean isEditAddrFat() {
+		return editAddrFat;
 	}
 
-	public int getAddressSpe() {
-		return addressSpe;
+	public int getIdAddressFat() {
+		return idAddressFat;
 	}
 
-	public void setAddressSpe(int addressSpe) {
-		this.addressSpe = addressSpe;
+	public void setIdAddressFat(int idAddressFat) {
+		this.idAddressFat = idAddressFat;
+	}
+
+	public int getIdAddressSpe() {
+		return idAddressSpe;
+	}
+
+	public void setIdAddressSpe(int idAddressSpe) {
+		this.idAddressSpe = idAddressSpe;
+	}
+
+	public void setDeliveryDTO(DeliveryDTO deliveryDTO) {
+		this.deliveryDTO = deliveryDTO;
 	}
 
 	public DeliveryDTO getDeliveryDTO() {
@@ -53,6 +68,11 @@ public class CartWizardView extends BaseView {
 
 	public String doInit() {
 		// TODO Auto-generated method stub
+
+		idAddressFat = cart.getAddressFat().getIdAddress() == null ? 0 : cart.getAddressFat().getIdAddress();
+		idAddressSpe = cart.getAddressSpe().getIdAddress() == null ? 0 : cart.getAddressFat().getIdAddress();
+		editAddrFat = idAddressFat == 0;
+		editAddrSpe = idAddressSpe == 0;
 		cart.setCheckoutCart(true);
 
 		// recupero l'indirizzo di fatturazione e spedizione
@@ -67,27 +87,29 @@ public class CartWizardView extends BaseView {
 		// OthalaFactory.getOrderServiceInstance().getDeliveryInfo(loginBean.getEmail());
 		deliveryDTO = new DeliveryDTO();
 		DeliveryAddressDTO addr = new DeliveryAddressDTO();
-		addr.setCap("54100");
-		addr.setCognome("1");
-		addr.setComune("2");
-		addr.setEtichetta("casa");
+		addr.setCap("53100");
+		addr.setCognome("Bagnolesi");
+		addr.setComune("Siena");
+		addr.setEtichetta("Casa");
 		addr.setIdAddress(1);
 		addr.setNazione("IT");
-		addr.setNome("2");
-		addr.setProvincia("FI");
-		addr.setVia("via del cazzo");
+		addr.setNome("Simone");
+		addr.setProvincia("SI");
+		addr.setVia("Via aretina 89");
+		addr.setTel("3332965518");
 		deliveryDTO.getIndirizzo().add(addr);
 
 		addr = new DeliveryAddressDTO();
-		addr.setCap("54100");
-		addr.setCognome("1");
-		addr.setComune("2");
-		addr.setEtichetta("lavoro");
+		addr.setCap("53100");
+		addr.setCognome("Bagnolesi");
+		addr.setComune("Sinea");
+		addr.setEtichetta("Lavoro");
 		addr.setIdAddress(2);
 		addr.setNazione("IT");
-		addr.setNome("2");
-		addr.setProvincia("FI");
-		addr.setVia("via del cazzo");
+		addr.setNome("Simone");
+		addr.setProvincia("SI");
+		addr.setVia("Via Ricasoli 48");
+		addr.setTel("0577298434");
 		deliveryDTO.getIndirizzo().add(addr);
 		/*
 		 * for (DeliveryAddressDTO addr : deliveryDTO.getIndirizzo()) { if
@@ -100,11 +122,71 @@ public class CartWizardView extends BaseView {
 	}
 
 	public void changeAddrFat(AjaxBehaviorEvent ev) {
-		if (addressFat == 0) {
-
+		if (idAddressFat == 0) { // nuovo indirizzo
+			editAddrFat = true;
+			cart.setAddressFat(new DeliveryAddressDTO());
 		} else {
-
+			editAddrFat = false;
+			for (DeliveryAddressDTO addr : deliveryDTO.getIndirizzo()) {
+				if (addr.getIdAddress().intValue() == idAddressFat) {
+					cart.setAddressFat(addr);
+					break;
+				}
+			}
 		}
+	}
+	
+	public void changeAddrSpe(AjaxBehaviorEvent ev) {
+		if (idAddressSpe == 0) { // nuovo indirizzo
+			editAddrSpe = true;
+			cart.setAddressSpe(new DeliveryAddressDTO());
+		} else {
+			editAddrSpe = false;
+			for (DeliveryAddressDTO addr : deliveryDTO.getIndirizzo()) {
+				if (addr.getIdAddress().intValue() == idAddressSpe) {
+					cart.setAddressSpe(addr);
+					break;
+				}
+			}
+		}
+	}
+
+	public void modifyAddrFat(AjaxBehaviorEvent ev) {
+		editAddrFat = true;
+	}
+	
+	public void modifyAddrSpe(AjaxBehaviorEvent ev) {
+		editAddrSpe = true;
+	}
+
+	public void newAddrFat(AjaxBehaviorEvent ev) {
+
+		if (cart.getAddressFat().getIdAddress() != null && cart.getAddressFat().getIdAddress() > 0) {
+			// nuovo
+			cart.setAddressFat(OthalaFactory.getOrderServiceInstance().newAddress(cart.getAddressFat()));
+		} else {
+			// modifica
+			cart.setAddressFat(OthalaFactory.getOrderServiceInstance().updateAddress(cart.getAddressFat(),
+					cart.getAddressFat().getIdAddress()));
+		}
+		retrieveAddresses();
+		idAddressFat = cart.getAddressFat().getIdAddress();
+		editAddrFat = false;
+	}
+
+	public void newAddrSpe(AjaxBehaviorEvent ev) {
+
+		if (cart.getAddressSpe().getIdAddress() != null && cart.getAddressSpe().getIdAddress() > 0) {
+			// nuovo
+			cart.setAddressSpe(OthalaFactory.getOrderServiceInstance().newAddress(cart.getAddressSpe()));
+		} else {
+			// modifica
+			cart.setAddressSpe(OthalaFactory.getOrderServiceInstance().updateAddress(cart.getAddressSpe(),
+					cart.getAddressSpe().getIdAddress()));
+		}
+		retrieveAddresses();
+		idAddressSpe = cart.getAddressSpe().getIdAddress();
+		editAddrSpe = false;
 	}
 
 	public String updateWrapUp() {
