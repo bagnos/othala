@@ -261,7 +261,7 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Addresses` (
   `cdCap` INT NOT NULL ,
   `txProvincia` VARCHAR(100) NOT NULL ,
   `txNazione` VARCHAR(100) NOT NULL ,
-  `txTel` INT NOT NULL ,
+  `txTel` VARCHAR(45) NOT NULL ,
   `fgDeleted` TINYINT NOT NULL ,
   `txEtichetta` VARCHAR(100) NOT NULL ,
   INDEX `fk_Addresses_Customer1` (`idUser` ASC) ,
@@ -488,9 +488,6 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Orders_Articles` (
   PRIMARY KEY (`idOrder`, `idProdotto`, `pgArticle`) ,
   INDEX `fk_OrdersArticles_Article1_idx` (`idProdotto` ASC, `pgArticle` ASC) ,
   INDEX `fk_OrdersArticles_Orders1_idx` (`idOrder` ASC) ,
-  UNIQUE INDEX `idOrder_UNIQUE` (`idOrder` ASC) ,
-  UNIQUE INDEX `idProdotto_UNIQUE` (`idProdotto` ASC) ,
-  UNIQUE INDEX `pgArticle_UNIQUE` (`pgArticle` ASC) ,
   CONSTRAINT `fk_OrdersArticles_Orders1`
     FOREIGN KEY (`idOrder` )
     REFERENCES `othala`.`Orders` (`idOrder` )
