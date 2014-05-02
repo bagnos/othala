@@ -176,9 +176,9 @@
 	<insert id="insertAddress" parameterType="it.othala.dto.DeliveryAddressDTO">
 		INSERT INTO
 		${database.schema}addresses
-		('idUser','txNome','txCognome','txVia',
-		'txComune', 'cdCap', 
-		'txProvincia','txNazione','txTel','fgDeleted','txEtichetta')
+        (`idUser`,`txNome`,`txCognome`,`txVia`,
+         `txComune`,`cdCap`,
+         `txProvincia`,`txNazione`,`txTel`,`fgDeleted`,`txEtichetta`)
 		VALUES
 		(#{userId},#{nome},#{cognome},#{via},
 		#{comune},#{cap},#{provincia},#{nazione},#{tel},0,#{etichetta});
