@@ -30,6 +30,7 @@ public class OrderFullDTO implements Serializable {
 	private String surnameUser;
 	private String idTransaction;
 	
+	
 	public String getIdTransaction() {
 		return idTransaction;
 	}
