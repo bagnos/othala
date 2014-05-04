@@ -3,15 +3,16 @@
 	<xsl:template match="/">
 		<html>
 			<head>
-				<meta charset="utf-8" />
+				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 			</head>
 
-			<body>
+			<body
+				style="padding:4px;font-family: Helvetica Neue,Helvetica,Arial,sans-serif;line-height: 1.42857143;">
 				<!-- logo -->
 				<div>
 					<img>
 						<xsl:attribute name="src">
-    								<xsl:value-of select="imgLogo" />
+    								<xsl:value-of select="order/imgLogo" />
     								</xsl:attribute>
 					</img>
 				</div>
@@ -29,12 +30,16 @@
 				<!-- nr ordine e transazione -->
 				<div>
 					<div>
-						<label style="display:inline-block;width:140px">Ordine</label>
-						<xsl:value-of select="number" />
+						<label style="display:inline-block;width:100px">
+							<b>Ordine</b>
+						</label>
+						<xsl:value-of select="order/number" />
 					</div>
 					<div>
-						<label style="display:inline-block;width:140px">Transazione</label>
-						<xsl:value-of select="transaction" />
+						<label style="display:inline-block;width:100px">
+							<b>Transazione</b>
+						</label>
+						<xsl:value-of select="order/transaction" />
 					</div>
 
 				</div>
@@ -48,7 +53,7 @@
 					Grazie
 					per la tua fiducia.
 					<br />
-					Ti aspettiamo nei negozi Degothes
+					Ti aspettiamo nei negozi Degorthes!
 				</p>
 				<p>
 					<strong>Puoi consultare lo stato del tuo ordine e la fattura d'acquisto
@@ -61,117 +66,141 @@
 
 				<!-- dettaglio ordine -->
 
+				<!-- UTENTE -->
+				<table style="width:100%;padding:10px;text-align:left;">
+					<tr>
+						<th>
+							Email
+						</th>
+						<td>
+							<xsl:value-of select="order/customer/mail" />
+						</td>
+					</tr>
+					<tr>
+						<th>
+							Nome
+						</th>
+						<td>
+							<xsl:value-of select="order/customer/name" />
+						</td>
+					</tr>
+					<tr>
+						<th>
+							Cognome
+						</th>
+						<td>
+							<xsl:value-of select="order/customer/surname" />
+						</td>
+					</tr>
+				</table>
+
+
 
 				<table style="width:100%;padding:10px;text-align:left;">
 					<thead>
 						<tr>
-							<th>Utente</th>
 							<th>Indirizzo Fatturazione</th>
-							<th>indirizzo Spedizione</th>
+							<th>Indirizzo Spedizione</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
 							<td>
-								<!-- UTENTE -->
-								<div>
-									<label style="display:inline-block;width:140px">Email</label>
-									<xsl:value-of select="order/customer/mail" />
-								</div>
-								<div>
-									<label style="display:inline-block;width:140px"><xsl:value-of select="order/customer/name" /></label>
-									simone
-								</div>
-								<div>
-									<label style="display:inline-block;width:140px"><xsl:value-of select="order/customer/surname" /></label>
-									bagnolesi
-								</div>
-							</td>
-
-							<td>
 								<!-- INDIRIZZO FATTURAIZONE -->
-								<div>
-									<h4>INDIRIZZO DI FATTURAZIONE</h4>
-									<div class="well">
-										<div>
-											<label style="display:inline-block;width:140px">Nome</label>
-											<span><xsl:value-of select="order/billinAddress/name" /></span>
-										</div>
-										<div>
-											<label style="display:inline-block;width:140px">Cognome</label>
-											<span><xsl:value-of select="order/billinAddress/surname" /></span>
 
-										</div>
 
-										<div>
-											<label style="display:inline-block;width:140px">Telefono</label>
-											<span><xsl:value-of select="order/billinAddress/tel" /></span>
-										</div>
+								<p style="line-height: 1.42857143;">
 
-										<div>
-											<label style="display:inline-block;width:140px">Indirizzo</label>
-											<span><xsl:value-of select="order/billinAddress/street" /></span>
-										</div>
+									<label style="display:inline-block;width:90px">Nome</label>
+									<span>
+										<xsl:value-of select="order/billingAddress/name" />
+									</span>
+									<br />
 
-										<div>
-											<label style="display:inline-block;width:140px">Cap</label>
-											<span><xsl:value-of select="order/billinAddress/zipCode" /></span>
-										</div>
+									<label style="display:inline-block;width:90px">Cognome</label>
+									<span>
+										<xsl:value-of select="order/billingAddress/surname" />
+									</span>
+									<br />
 
-										<div>
-											<label style="display:inline-block;width:140px">Città</label>
-											<span><xsl:value-of select="order/billinAddress/city" /></span>
-										</div>
 
-										<div>
-											<label style="display:inline-block;width:140px">Provincia</label>
-											<span><xsl:value-of select="order/billinAddress/prov" /></span>
-										</div>
-									</div>
-								</div>
+									<label style="display:inline-block;width:90px">Telefono</label>
+
+									<xsl:value-of select="order/billingAddress/telefono" />
+
+									<br />
+
+									<label style="display:inline-block;width:90px">Indirizzo</label>
+									<span>
+										<xsl:value-of select="order/billingAddress/street" />
+									</span>
+									<br />
+
+									<label style="display:inline-block;width:90px">Cap</label>
+									<span>
+										<xsl:value-of select="order/billingAddress/zipCode" />
+									</span>
+									<br />
+
+									<label style="display:inline-block;width:90px">Città</label>
+									<span>
+										<xsl:value-of select="order/billingAddress/city" />
+									</span>
+									<br />
+
+									<label style="display:inline-block;width:90px">Provincia</label>
+									<span>
+										<xsl:value-of select="order/billingAddress/prov" />
+									</span>
+
+								</p>
 
 							</td>
 							<td>
 								<!-- INDIRIZZO FATTURAIZONE -->
-								<div>
-									<h4>INDIRIZZO DI SPEDIZIONE</h4>
-									<div class="well">
-										<div>
-											<label style="display:inline-block;width:140px">Nome</label>
-											<span><xsl:value-of select="order/shippingAddress/name" /></span>
-										</div>
-										<div>
-											<label style="display:inline-block;width:140px">Cognome</label>
-											<span><xsl:value-of select="order/shippingAddress/surname" /></span>
+								<p style="line-height: 1.42857143;">
+									<label style="display:inline-block;width:90px">Nome</label>
+									<span>
+										<xsl:value-of select="order/shippingAddress/name" />
+									</span>
+									<br />
 
-										</div>
+									<label style="display:inline-block;width:90px">Cognome</label>
+									<span>
+										<xsl:value-of select="order/shippingAddress/surname" />
+									</span>
+									<br />
 
-										<div>
-											<label style="display:inline-block;width:140px">Telefono</label>
-											<span><xsl:value-of select="order/shippingAddress/tel" /></span>
-										</div>
+									<label style="display:inline-block;width:90px">Telefono</label>
+									<span>
+										<xsl:value-of select="order/shippingAddress/tel" />
+									</span>
+									<br />
 
-										<div>
-											<label style="display:inline-block;width:140px">Indirizzo</label>
-											<span><xsl:value-of select="order/shippingAddress/street" /></span>
-										</div>
+									<label style="display:inline-block;width:90px">Indirizzo</label>
+									<span>
+										<xsl:value-of select="order/shippingAddress/street" />
+									</span>
+									<br />
 
-										<div>
-											<label style="display:inline-block;width:140px">Cap</label>
-											<span><xsl:value-of select="order/shippingAddress/zipCode" /></span>
-										</div>
+									<label style="display:inline-block;width:90px">Cap</label>
+									<span>
+										<xsl:value-of select="order/shippingAddress/zipCode" />
+									</span>
+									<br />
 
-										<div>
-											<label style="display:inline-block;width:140px">Città</label>
-											<span><xsl:value-of select="order/shippingAddress/city" /></span>
-										</div>
+									<label style="display:inline-block;width:90px">Città</label>
+									<span>
+										<xsl:value-of select="order/shippingAddress/city" />
+									</span>
+									<br />
 
-										<div>
-											<label style="display:inline-block;width:140px">Provincia</label>
-											<span><xsl:value-of select="order/shippingAddress/prv" /></span>
-										</div>
-									</div>
-								</div>
+									<label style="display:inline-block;width:90px">Provincia</label>
+									<span>
+										<xsl:value-of select="order/shippingAddress/prov" />
+									</span>
+
+								</p>
 
 							</td>
 						</tr>
@@ -183,7 +212,7 @@
 					<h4>METODO DI PAGAMENTO</h4>
 					<div>
 						<img>
-						
+
 							<xsl:attribute name="src">
     								<xsl:value-of select="order/imgPayment" />
     								</xsl:attribute>
@@ -194,7 +223,7 @@
 				<!-- CARRELLO -->
 				<h4>CARRELLO</h4>
 
-				<table border="0" style="width:100%;padding:10px;text-align:left;">
+				<table border="0" style="width:100%;text-align:left;border-spacing:10px;">
 					<thead>
 						<tr>
 							<th colspan="2">Articolo</th>
@@ -210,7 +239,7 @@
 						<tr>
 							<td colspan="6" class="text-right">Costo Spedizione</td>
 							<td>
-								€
+								&#8364;
 								<xsl:value-of select="order/deliveryCost" />
 							</td>
 						</tr>
@@ -219,32 +248,34 @@
 								<strong>Totale</strong>
 							</td>
 							<td>
-								€
+								&#8364;
 								<xsl:value-of select="order/totalCost" />
 							</td>
 						</tr>
 
 					</tfoot>
-					<tbody>
+					<tbody style="vertical-align: top;">
 						<xsl:for-each select="order/cart/item">
 							<tr>
 								<td>
-									<img>
+									<img style="width: 95px;height: 126px;float: left">
 										<xsl:attribute name="src">
     								<xsl:value-of select="img" />
     								</xsl:attribute>
 									</img>
 								</td>
 								<td>
-									<h5>
-										<xsl:value-of select="brand" />
-									</h5>
-									<h6>
-										<xsl:value-of select="description" />
-									</h6>
-									<h6>
-										<xsl:value-of select="number" />
-									</h6>
+
+									<xsl:value-of select="brand" />
+									<br />
+
+									<xsl:value-of select="description" />
+									<br />
+
+									Id.
+									<xsl:value-of select="number" />
+									<br />
+
 								</td>
 								<td>
 									<xsl:value-of select="color" />
@@ -260,7 +291,7 @@
 									<xsl:value-of select="quantity" />
 								</td>
 								<td>
-									€
+									&#8364;
 									<xsl:value-of select="price" />
 								</td>
 
