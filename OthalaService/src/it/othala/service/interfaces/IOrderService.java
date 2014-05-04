@@ -3,6 +3,7 @@ package it.othala.service.interfaces;
 import it.othala.account.execption.MailNotSendException;
 import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryDTO;
+import it.othala.dto.MailConfermaDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.StateOrderDTO;
 import it.othala.execption.OthalaException;
@@ -27,6 +28,6 @@ public interface IOrderService {
 	public DeliveryAddressDTO newAddress(DeliveryAddressDTO newAddress);
 	
 	public DeliveryAddressDTO updateAddress(DeliveryAddressDTO newAddress, Integer idAddress);
-	public void inviaMailDiConferma(OrderFullDTO order) throws MailNotSendException;
+	public void inviaMailDiConferma(OrderFullDTO order,MailConfermaDTO mailDTO) throws MailNotSendException;
 	
 }

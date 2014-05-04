@@ -3,11 +3,12 @@ package it.othala.service;
 import it.othala.account.execption.MailNotSendException;
 import it.othala.service.interfaces.IMailService;
 
-import java.io.IOException;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import javax.activation.DataHandler;
+import javax.activation.FileDataSource;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
@@ -114,7 +115,8 @@ public class MailService implements IMailService {
 				// message.setContent(content, "text/html");
 				// creates message part
 				MimeBodyPart messageBodyPart = new MimeBodyPart();
-				messageBodyPart.setContent(content, "text/html");
+
+				messageBodyPart.setContent(content, "text/html; charset=UTF-8");
 
 				// creates multi-part
 				Multipart multipart = new MimeMultipart();
@@ -127,16 +129,13 @@ public class MailService implements IMailService {
 					for (String contentId : setImageID) {
 						MimeBodyPart imagePart = new MimeBodyPart();
 						imagePart.setHeader("Content-ID", "<" + contentId + ">");
-						imagePart.setDisposition(MimeBodyPart.INLINE);
+						// imagePart.setDisposition(MimeBodyPart.INLINE);
 
 						String imageFilePath = inlineImages.get(contentId);
-						try {
-							imagePart.attachFile(imageFilePath);
-							
-							
-						} catch (IOException ex) {
-							ex.printStackTrace();
-						}
+
+						FileDataSource fds = new FileDataSource(imageFilePath);
+
+						imagePart.setDataHandler(new DataHandler(fds));
 
 						multipart.addBodyPart(imagePart);
 					}

@@ -7,11 +7,13 @@ import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryCostDTO;
 import it.othala.dto.DeliveryDTO;
+import it.othala.dto.MailConfermaDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.StateOrderDTO;
 import it.othala.execption.OthalaException;
 import it.othala.service.interfaces.IMailService;
 import it.othala.service.interfaces.IOrderService;
+import it.othala.service.template.Template;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -42,25 +44,29 @@ public class OrderService implements IOrderService {
 	private IOrderDAO orderDAO;
 	private IProductDAO productDAO;
 	private IMailService mailService;
-	private static Log log=LogFactory.getLog(OrderService.class);
+	public void setMailService(IMailService mailService) {
+		this.mailService = mailService;
+	}
+
+	private static Log log = LogFactory.getLog(OrderService.class);
 
 	@Override
 	public List<OrderFullDTO> getOrders(Integer Order, String User, Integer StatoOrdine) {
 
 		List<OrderFullDTO> listaOrdini = orderDAO.getOrders(Order, User, StatoOrdine);
 
-		Iterator <OrderFullDTO> i = listaOrdini.iterator();
+		Iterator<OrderFullDTO> i = listaOrdini.iterator();
 		while (i.hasNext()) {
 			OrderFullDTO order = i.next();
-			
+
 			List<ArticleFullDTO> newlistArticle = new ArrayList<ArticleFullDTO>();
-			
+
 			List<ArticleFullDTO> listArticle = order.getCart();
-			Iterator <ArticleFullDTO> it = listArticle.iterator();
+			Iterator<ArticleFullDTO> it = listArticle.iterator();
 			while (it.hasNext()) {
 				ArticleFullDTO article = it.next();
-				
-				ArticleFullDTO artFull = productDAO.getArticleFull(article.getPrdFullDTO().getIdProduct(), 
+
+				ArticleFullDTO artFull = productDAO.getArticleFull(article.getPrdFullDTO().getIdProduct(),
 						article.getPgArticle(), "it");
 				artFull.setShop(productDAO.getShop(article.getPrdFullDTO().getIdProduct(), article.getPgArticle()));
 				
@@ -127,7 +133,7 @@ public class OrderService implements IOrderService {
 	public void setOrderDAO(IOrderDAO orderDAO) {
 		this.orderDAO = orderDAO;
 	}
-	
+
 	public IProductDAO getProductDAO() {
 		return productDAO;
 	}
@@ -183,7 +189,7 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public void inviaMailDiConferma(OrderFullDTO order) throws MailNotSendException {
+	public void inviaMailDiConferma(OrderFullDTO order,MailConfermaDTO mailDTO) throws MailNotSendException {
 		// TODO Auto-generated method stub
 		/*
 		 * InputStream contenutoStream =
@@ -194,30 +200,33 @@ public class OrderService implements IOrderService {
 		 * Auto-generated catch block throw new MailNotSendException(e); }
 		 */
 		/*
-		String contenuto = "<h1>This is a test</h1><img src=\"cid:image1\"/>";
+		 * String contenuto =
+		 * "<h1>This is a test</h1><img src=\"cid:image1\"/>"; Map<String,
+		 * String> inlineImages = new HashMap<String, String>();
+		 * 
+		 * URL res =
+		 * Thread.currentThread().getContextClassLoader().getResource("/");
+		 * String basePath = res.getPath().replace("/WEB-INF/classes", ""); //
+		 * String path=res.getPath(); inlineImages.put("image1",
+		 * "http://localhost/Othala/faces/javax.faces.resource/logo2-small.png?ln=images"
+		 * );
+		 */
+		URL res = Thread.currentThread().getContextClassLoader().getResource("");
 		Map<String, String> inlineImages = new HashMap<String, String>();
-
-		URL res = Thread.currentThread().getContextClassLoader().getResource("/");
 		String basePath = res.getPath().replace("/WEB-INF/classes", "");
-		// String path=res.getPath();
-		inlineImages.put("image1", "http://localhost/Othala/faces/javax.faces.resource/logo2-small.png?ln=images");*/
-		URL res = Thread.currentThread().getContextClassLoader().getResource("/");
-		Map<String, String> inlineImages = new HashMap<String, String>();
-		String basePath = res.getPath().replace("/WEB-INF/classes", "");
-		String html=generateHtmlOrder(order, basePath, inlineImages);
+		basePath=basePath.replace("/", "");
+		String html = generateHtmlOrder(order, mailDTO, inlineImages);
 
-		mailService.inviaHTMLMail(new String[] { order.getIdUser() }, "Conferma Ordine", html,
-				inlineImages);
+		mailService.inviaHTMLMail(new String[] { order.getIdUser() }, "Conferma Ordine", html, inlineImages);
 	}
 
-	private String generateHtmlOrder(OrderFullDTO order, String basePath,Map<String, String> inlineImages) {
+	private String generateHtmlOrder(OrderFullDTO order, MailConfermaDTO mailDTO, Map<String, String> inlineImages) {
 		BufferedWriter out = null;
 		FileWriter fstream = null;
-		inlineImages = new HashMap<String, String>();
+		
 		try {
-			basePath += "resource/images/";
-			ClassLoader cl = Thread.currentThread().getContextClassLoader();
-			File xslFile = new File(cl.getResource("it/oltala/service/template/mailTemplate.xsl").toURI());
+			
+			File xslFile = Template.getFile("it/othala/service/template/mailConfermaOrdine.xsl");
 			File xmlTemp = File.createTempFile("xmlTemp", ".xml");
 			fstream = new FileWriter(xmlTemp);
 
@@ -227,8 +236,8 @@ public class OrderService implements IOrderService {
 			out.write("<order>");
 			out.write("<imgLogo>");
 			out.write("cid:imageLogo");
-			inlineImages.put("cid:imageLogo", basePath + "logo2-small.png");			
-			out.write("<imgLogo>");
+			inlineImages.put("imageLogo", mailDTO.getPathImgLogo());
+			out.write("</imgLogo>");
 
 			out.write("<customer>");
 			out.write("<name>" + order.getNameUser() + "</name>");
@@ -238,16 +247,17 @@ public class OrderService implements IOrderService {
 
 			out.write("<number>" + order.getIdOrder() + "</number>");
 			out.write("<transaction>" + order.getIdTransaction() + "</transaction>");
-			out.write("<imgPayment>" + basePath + "/payment/logo2-small.png</imgPayment>");
+			out.write("<imgPayment>");
 			out.write("cid:imgPayment");
-			inlineImages.put("cid:imgPayment",basePath + "/payment/logo2-small.png");
+			out.write("</imgPayment>");
+			inlineImages.put("imgPayment", mailDTO.getPathImgPayment());
 			out.write("<deliveryCost>" + order.getImSpeseSpedizione() + "</deliveryCost>");
 			out.write("<totalCost>" + order.getImOrdine() + "</totalCost>");
 
 			out.write("<billingAddress>");
 			out.write("<name>" + order.getBillingAddress().getNome() + "</name>");
 			out.write("<surname>" + order.getBillingAddress().getCognome() + "</surname>");
-			out.write("<tel>" + order.getBillingAddress().getTel() + "</tel>");
+			out.write("<telefono>" + order.getBillingAddress().getTel() + "</telefono>");
 			out.write("<street>" + order.getBillingAddress().getVia() + "</street>");
 			out.write("<zipCode>" + order.getBillingAddress().getCap() + "</zipCode>");
 			out.write("<city>" + order.getBillingAddress().getComune() + "</city>");
@@ -264,23 +274,28 @@ public class OrderService implements IOrderService {
 			out.write("</shippingAddress>");
 
 			out.write("<cart>");
-			int i=0;
+			int i = 0;
 			for (ArticleFullDTO art : order.getCart()) {
-				out.write("<item>");
-				out.write("<number>" + art.getPrdFullDTO().getIdProduct() + "</number>");
-				out.write("<img>cid:imgPayment+i"+ "</img>");		
-				inlineImages.put("cid:imgPayment"+i,basePath+ "cartThumbinals" + art.getThumbnailsUrl());				
-				out.write("<brand>" + art.getPrdFullDTO().getTxBrand() + "</brand>");
-				out.write("<description>" + art.getPrdFullDTO().getDescription() + "</description>");
-				out.write("<color>" + art.getTxColor() + "</color>");
-				out.write("<size>" + art.getTxSize() + "</size>");
-				out.write("<unitPrice>" + art.getPrdFullDTO().getRealPrice() + "</unitPrice>");
-				out.write("<quantity>" + art.getQtBooked() + "</quantity>");
-				out.write("<price>" + art.getTotalPriced() + "</price>");
-				out.write("</item>");
+				if (art != null) {
+					out.write("<item>");
+					out.write("<number>" + art.getPrdFullDTO().getIdProduct() + "</number>");
+					out.write("<img>cid:imgArt"+i + "</img>");
+					inlineImages.put("imgArt" + i, mailDTO.getBasePathArticle() + art.getThumbnailsUrl());
+					out.write("<brand>" + art.getPrdFullDTO().getTxBrand() + "</brand>");
+					out.write("<description>" + art.getPrdFullDTO().getDescription() + "</description>");
+					out.write("<color>" + art.getTxColor() + "</color>");
+					out.write("<size>" + art.getTxSize() + "</size>");
+					out.write("<unitPrice>" + art.getPrdFullDTO().getRealPrice() + "</unitPrice>");
+					out.write("<quantity>" + art.getQtBooked() + "</quantity>");
+					out.write("<price>" + art.getTotalPriced() + "</price>");
+					out.write("</item>");
+					i++;
+				}
 			}
 			out.write("</cart>");
 			out.write("</order>");
+			out.close();
+			fstream.close();
 
 			// scrivo il file xml temporaneo
 
@@ -296,28 +311,30 @@ public class OrderService implements IOrderService {
 			transformer = tFactory.newTransformer(xslSource);
 			transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 			transformer.transform(xmlSource, result);
-			
+
 			String html = IOUtils.toString(new FileInputStream(htmlTemp), "UTF-8");
 			
-			return html;
 			
+
+			return html;
+
 		} catch (Exception e) {
-			log.error("errore formattazione html per invio mail",e);
+			log.error("errore formattazione html per invio mail", e);
 			return null;
 		} finally {
-			if (out!=null)
+			if (out != null)
 				try {
 					out.close();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
-					log.error("errore chiusura outstream",e);
+					log.error("errore chiusura outstream", e);
 				}
-			if (fstream!=null)
+			if (fstream != null)
 				try {
 					fstream.close();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
-					log.error("errore chiusura fstream",e);
+					log.error("errore chiusura fstream", e);
 				}
 
 		}
