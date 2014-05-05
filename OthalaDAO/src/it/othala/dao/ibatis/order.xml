@@ -6,7 +6,6 @@
 		<id property="idOrder" column="idOrder" />
 		<result property="idUser" column="idUser" />
 		<result property="imOrdine" column="imOrdine" />
-		<result property="imSpeseSpedizione" column="imSpeseSpedizione" />
 		<result property="idStato" column="idStato" />
 		<result property="dtStato" column="dtStato" />
 		<result property="txNote" column="txNote" />
@@ -45,13 +44,18 @@
 			<result property="pgArticle" column="pgArticle" />
 			<result property="qtBooked" column="qtArticle" />
 		</collection>
+		<collection property="speseSpedizione" ofType="it.othala.dto.DeliveryCostDTO">
+			<result property="idDeliveryCost" column="deliveryCost" />
+			<result property="descrizione" column="desSpeseSpedizione" />
+			<result property="importoSpese" column="speseSpedizione" />
+		</collection>
 	</resultMap>
 	
 	
 	<select id="listOrder" resultMap="Order" parameterType="java.util.HashMap">
 
 		SELECT
-		a.idOrder, a.idUser, a.imOrdine, a.imSpeseSpedizione,
+		a.idOrder, a.idUser, a.imOrdine, a.idDeliveryCost,
 		a.idTransaction, a.idAddressFat, a.idAddressSpe,
 		b.idProdotto, b.pgArticle, b.qtArticle,
 		c.idStato, c.dtStato, c.txNote, 
@@ -66,15 +70,17 @@
 		g.txVia as txViaDelivery, g.txComune as txComuneDelivery, 
 		g.cdCap as cdCapDelivery, g.txProvincia as txProvinciaDelivery, 
 		g.txNazione as txNazioneDelivery, g.txTel as txTelDelivery,g.txEtichetta as etichettaDelivery, 
-		g.fgDeleted, h.txNome, h.txCognome
- 		FROM
+		g.fgDeleted, h.txNome, h.txCognome, i.idDeliveryCost as deliveryCost, 
+		i.txDescrizione as desSpeseSpedizione, i.imSpese as speseSpedizione
+		FROM
 		${database.schema}orders a,
 		${database.schema}orders_articles b,
 		${database.schema}states_orders c,
 		${database.schema}states d,
 		${database.schema}addresses f,
 		${database.schema}addresses g,
-		${database.schema}customer h
+		${database.schema}customer h,
+		${database.schema}delivery_cost i
 		WHERE a.idOrder = b.idOrder
 		and a.idOrder = c.idOrder
 		<if test="idOrder != null">
@@ -95,7 +101,8 @@
 							 WHERE e.idOrder = a.idOrder)
 		</if>
 		and a.idUser = h.idUser
-
+		and i.idDeliveryCost = a.idDeliveryCost
+		
 	</select>
 
 
@@ -171,11 +178,13 @@
 	
 	<select id="deliveryCosts" resultType="it.othala.dto.DeliveryCostDTO">
 
-		SELECT
+		SELECT idDeliveryCost,
 		txDescrizione as descrizione,
 		imSpese as importospese
 		FROM 
 		${database.schema}delivery_cost
+		WHERE 
+		fgDeleted = 0
 
 	</select>
 	
@@ -211,9 +220,9 @@
 	<insert id="insertDeliveryCost" parameterType="it.othala.dto.DeliveryCostDTO">
 		INSERT INTO
 		${database.schema}delivery_cost
-		(`txDescrizione`,`imSpese`)
+		(`txDescrizione`,`imSpese`,`fgDeleted`)
 		VALUES
-		(#{descrizione},#{importospese});
+		(#{descrizione},#{importospese},0);
 
 	</insert>
 
