@@ -1,10 +1,15 @@
 package it.othala.cartflow.view;
 
+import java.math.BigDecimal;
+
+import it.othala.account.execption.MailNotSendException;
 import it.othala.account.model.CustomerLoginBean;
 import it.othala.cartflow.model.CartFlowBean;
 import it.othala.dto.DeliveryAddressDTO;
+import it.othala.dto.DeliveryCostDTO;
 import it.othala.dto.DeliveryDTO;
 import it.othala.dto.OrderFullDTO;
+import it.othala.execption.OthalaException;
 import it.othala.payment.paypal.PayPalWrapper;
 import it.othala.payment.paypal.SetExpressCheckoutDTO;
 import it.othala.service.factory.OthalaFactory;
@@ -25,6 +30,10 @@ public class CartWizardView extends BaseView {
 	@Inject
 	private CartFlowBean cart;
 
+	public CartFlowBean getCart() {
+		return cart;
+	}
+
 	@Inject
 	private CustomerLoginBean loginBean;
 
@@ -33,7 +42,8 @@ public class CartWizardView extends BaseView {
 	private int idAddressSpe;
 	private boolean editAddrFat;
 	private boolean editAddrSpe;
-
+	private OrderFullDTO order;
+	
 	public boolean isEditAddrSpe() {
 		return editAddrSpe;
 	}
@@ -87,37 +97,34 @@ public class CartWizardView extends BaseView {
 
 		// recupero l'indirizzo di fatturazione e spedizione
 		retrieveAddresses();
+		
+		
+		if (cart.getDeliveryCost()==null)
+		{
+			cart.setDeliveryCost(deliveryDTO.getSpeseSpedizione().get(0));
+			cart.setIdTypeDelivery(cart.getDeliveryCost().getIdDeliveryCost());
+		}
 
 		return null;
 	}
+	
+	
 
 	private void retrieveAddresses() {
 
-		deliveryDTO = OthalaFactory.getOrderServiceInstance().getDeliveryInfo(loginBean.getEmail());
-		/*
-		 * deliveryDTO = new DeliveryDTO(); DeliveryAddressDTO addr = new
-		 * DeliveryAddressDTO(); addr.setCap("53100");
-		 * addr.setCognome("Bagnolesi"); addr.setComune("Siena");
-		 * addr.setEtichetta("Casa"); addr.setIdAddress(1);
-		 * addr.setNazione("IT"); addr.setNome("Simone");
-		 * addr.setProvincia("SI"); addr.setVia("Via aretina 89");
-		 * addr.setTel("3332965518"); deliveryDTO.getIndirizzo().add(addr);
-		 * 
-		 * addr = new DeliveryAddressDTO(); addr.setCap("53100");
-		 * addr.setCognome("Bagnolesi"); addr.setComune("Sinea");
-		 * addr.setEtichetta("Lavoro"); addr.setIdAddress(2);
-		 * addr.setNazione("IT"); addr.setNome("Simone");
-		 * addr.setProvincia("SI"); addr.setVia("Via Ricasoli 48");
-		 * addr.setTel("0577298434"); deliveryDTO.getIndirizzo().add(addr);
-		 */
-		/*
-		 * for (DeliveryAddressDTO addr : deliveryDTO.getIndirizzo()) { if
-		 * (addr.getTypeAddress().intValue() ==
-		 * TypeAddress.FATTURAZIONE.getAddress()) { cart.setAddressFat(addr); }
-		 * else if (addr.getTypeAddress().intValue() ==
-		 * TypeAddress.SPEDIZIONE.getAddress()) { cart.setAddressSpe(addr); } }
-		 */
+		deliveryDTO = OthalaFactory.getOrderServiceInstance().getDeliveryInfo(loginBean.getEmail());		
 
+	}
+	
+	public void modifyTypeDelivery(AjaxBehaviorEvent ev) {
+	for (DeliveryCostDTO d:deliveryDTO.getSpeseSpedizione())
+	{
+		if (d.getIdDeliveryCost().intValue()==cart.getIdTypeDelivery())
+		{
+			cart.setDeliveryCost(d);
+			break;
+		}
+	}
 	}
 
 	public void changeAddrFat(AjaxBehaviorEvent ev) {
@@ -159,6 +166,8 @@ public class CartWizardView extends BaseView {
 	public void modifyAddrSpe(AjaxBehaviorEvent ev) {
 		editAddrSpe = true;
 	}
+	
+	
 
 	public void newAddrFat(ActionEvent ev) {
 		cart.getAddressFat().setUserId(loginBean.getEmail());
@@ -172,7 +181,7 @@ public class CartWizardView extends BaseView {
 		}
 		retrieveAddresses();
 		idAddressFat = cart.getAddressFat().getIdAddress();
-		idAddressSpe=cart.getAddressSpe().getIdAddress();
+		//idAddressSpe=cart.getAddressSpe().getIdAddress();
 		editAddrFat = false;
 	}
 
@@ -189,7 +198,7 @@ public class CartWizardView extends BaseView {
 		}
 		retrieveAddresses();
 		idAddressSpe = cart.getAddressSpe().getIdAddress();
-		idAddressFat=cart.getAddressFat().getIdAddress();
+		//idAddressFat=cart.getAddressFat().getIdAddress();
 		editAddrSpe = false;
 	}
 
@@ -225,6 +234,20 @@ public class CartWizardView extends BaseView {
 			// return null;
 		}
 
+	}
+	
+	private void insertOrder() throws MailNotSendException, OthalaException
+	{
+		order=new OrderFullDTO();
+		order.setBillingAddress(cart.getAddressFat());
+		order.setShippingAddress(cart.getAddressSpe());
+		order.setCart(cart.getCart());
+		order.setIdUser(loginBean.getEmail());
+		
+		
+		
+		order=OthalaFactory.getOrderServiceInstance().insertOrder(order);
+		
 	}
 
 }

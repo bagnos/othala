@@ -3,7 +3,7 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:pe="http://primefaces.org/ui/extensions" xmlns:c="http://java.sun.com/jstl/core">
 
-
+<h:panelGroup id="cartTable-pnl">
 	<div class="row spacer10">
 		<div class="col-sm-2">
 			<h4>#{msg.catalogo_cart}</h4>
@@ -25,12 +25,16 @@
 						</tr>
 					</thead>
 					<tfoot>
+						
+						<h:panelGroup rendered="#{cartFlowBean.deliveryCost!=null}">
 						<tr>
-							<td colspan="5" class="text-right">#{msg.catalog_deliveryCost}</td>
-							<td><h:outputText value="0">
+							<td colspan="5" class="text-right"><h:outputText rendered="#{cartFlowBean.deliveryCost!=null}" value="#{msg.catalog_deliveryCost}"/></td>
+							<td><h:outputText rendered="#{cartFlowBean.deliveryCost!=null}" value="#{cartFlowBean.deliveryCost.importoSpese}">
 									<f:converter converterId="it.othala.BigDecimalConverter" />
 								</h:outputText></td>
 						</tr>
+						</h:panelGroup>
+						
 						<tr>
 							<td colspan="5" class="text-right"><strong>#{msg.catalog_total}</strong></td>
 							<td><h:outputText value="#{cartFlowBean.totalPriceOrder}">
@@ -81,7 +85,7 @@
 		</div>
 	</div>
 
-
+</h:panelGroup>
 
 
 
