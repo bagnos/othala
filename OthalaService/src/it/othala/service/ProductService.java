@@ -12,6 +12,7 @@ import it.othala.enums.OrderByCartFlow;
 import it.othala.service.interfaces.IProductService;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductService implements IProductService {
@@ -47,7 +48,8 @@ public class ProductService implements IProductService {
 			Boolean newArrivals, OrderByCartFlow order) {
 
 		List<ProductDTO> listProduct = productDAO.listProduct(languages, type,
-				gender, brand, minPrice, maxPrice, size, color, newArrivals, order);
+				gender, brand, minPrice, maxPrice, size, color, newArrivals,
+				order);
 
 		// recupero attributo taglie degli articoli
 
@@ -106,21 +108,30 @@ public class ProductService implements IProductService {
 
 		for (int i = 0; i <= listArticleFull.size() - 1; i++) {
 
-			ShopDTO shop = productDAO.getShop(idProduct, listArticleFull.get(i).getPgArticle());
-			
+			ShopDTO shop = productDAO.getShop(idProduct, listArticleFull.get(i)
+					.getPgArticle());
+
 			listArticleFull.get(i).setShop(shop);
 		}
-		
-		
+
 		productFull.setArticles(listArticleFull);
 
 		return productFull;
 	}
 
-	
-	  @Override public Integer insertProduct(ProductFullDTO productFull) {
-	  return productDAO.insertProduct(productFull);
-	  
-	  }
-	 
+	@Override
+	public ProductFullDTO getProductArticleFull(String languages, Integer idProduct, Integer pgArticle) {
+		// TODO Auto-generated method stub
+		ProductFullDTO productFull = productDAO.getProductArticleFull(languages,
+				idProduct, pgArticle);
+
+		return productFull;
+	}
+
+	@Override
+	public Integer insertProduct(ProductFullDTO productFull) {
+		return productDAO.insertProduct(productFull);
+
+	}
+
 }

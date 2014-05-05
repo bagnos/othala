@@ -12,6 +12,7 @@ import it.othala.dto.SubMenuDTO;
 import it.othala.enums.OrderByCartFlow;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -209,6 +210,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 
 	}
 	
+
 	@Override
 	public ArticleFullDTO getArticleFull(Integer idProduct, Integer pgArticle,
 			String languages) {
@@ -224,6 +226,34 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		return articleFull;
 
 	}
+	
+	
+	@Override
+	public ProductFullDTO getProductArticleFull(String languages, Integer idProduct, Integer pgArticle) {
+		// TODO Auto-generated method stub
+		ProductFullDTO productFull = getProductFull(languages,
+				idProduct);
+
+		List<String> newString = listProductImages(idProduct);
+
+		productFull.setImagesUrl(newString);
+
+		ArticleFullDTO articleFull = getArticleFull(
+				idProduct, pgArticle, languages);
+
+			ShopDTO shop = getShop(idProduct, pgArticle);
+			
+			articleFull.setShop(shop);
+
+		List<ArticleFullDTO> ListArticleFull = new ArrayList<ArticleFullDTO>();
+		ListArticleFull.add(articleFull);
+		
+		productFull.setArticles(ListArticleFull);
+
+		return productFull;
+	}
+	
+	
 	
 	@Override
 	public ShopDTO getShop(Integer idProduct,Integer pgArticle) {
