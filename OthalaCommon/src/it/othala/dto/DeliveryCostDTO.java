@@ -22,6 +22,13 @@ public class DeliveryCostDTO implements Serializable {
 	public void setImportoSpese(BigDecimal importoSpese) {
 		this.importoSpese = importoSpese;
 	}
+	public Integer getIdDeliveryCost() {
+		return idDeliveryCost;
+	}
+	public void setIdDeliveryCost(Integer idDeliveryCost) {
+		this.idDeliveryCost = idDeliveryCost;
+	}
+	private Integer idDeliveryCost;
 	private String descrizione;
 	private BigDecimal importoSpese;
 	
