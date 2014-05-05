@@ -22,7 +22,7 @@ public class OrderFullDTO implements Serializable {
 	private Date dtStato;
 	private String txNote;
 	private BigDecimal imOrdine;
-	private DeliveryCostDTO SpeseSpedizione;
+	private DeliveryCostDTO speseSpedizione;
 	private DeliveryAddressDTO billingAddress;
 	private DeliveryAddressDTO shippingAddress;
 	private List<ArticleFullDTO> cart;
@@ -111,10 +111,11 @@ public class OrderFullDTO implements Serializable {
 		this.imOrdine = imOrdine;
 	}
 	public DeliveryCostDTO getSpeseSpedizione() {
-		return SpeseSpedizione;
+		return speseSpedizione;
 	}
 	public void setSpeseSpedizione(DeliveryCostDTO speseSpedizione) {
-		SpeseSpedizione = speseSpedizione;
+		this.speseSpedizione = speseSpedizione;
 	}
+
 	
 }
