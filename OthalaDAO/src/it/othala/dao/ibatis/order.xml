@@ -110,11 +110,12 @@
       
 		INSERT INTO
 		${database.schema}orders
-		(`idUser`,`imOrdine`,`imSpeseSpedizione`,`idTransaction`,`idAddressFatt`
-		,`idAddressDelivery`)
+		(`idUser`,`imOrdine`,`idTransaction`,`idAddressFatt`
+		,`idAddressSpe`,`idDeliveryCost` )
 		values (
-		#{idUser},#{imOrdine},#{imSpeseSpedizione},null,
-		#{billingAddress.idAddress}, #{billingAddress.idAddress})
+		#{idUser},#{imOrdine},null,
+		#{billingAddress.idAddress}, #{billingAddress.idAddress},
+		#{speseSpedizione.idDeliveryCost})
 		
         <selectKey resultType="java.lang.Integer" keyProperty="idOrder" >
 
