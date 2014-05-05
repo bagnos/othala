@@ -92,4 +92,12 @@ INSERT INTO `othala`.`orders_articles` (`idOrder`, `idProdotto`, `pgArticle`, `q
 INSERT INTO `othala`.`states_orders` (`idOrder`, `idStato`, `dtStato`) VALUES (1, 2, '2014-05-02');
 
 
+INSERT INTO `othala`.`delivery_cost` (`idDeliveryCost`, `txDescrizione`, `imSpese`) VALUES (1, 'Corriere Espresso Bartolini', 5.00);
+
+INSERT INTO `othala`.`delivery_cost` (`idDeliveryCost`, `txDescrizione`, `imSpese`) VALUES (2, 'Corriere Espresso SDA', 5.00);
+
+INSERT INTO `othala`.`delivery_cost` (`idDeliveryCost`, `txDescrizione`, `imSpese`) VALUES (3, 'Posta Ordinaria', 3.00);
+
+INSERT INTO `othala`.`delivery_cost` (`idDeliveryCost`, `txDescrizione`, `imSpese`) VALUES (4, 'Posta Raccomandata', 4.00);
+
 
