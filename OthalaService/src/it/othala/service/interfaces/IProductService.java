@@ -24,5 +24,8 @@ public interface IProductService {
 
 	
 	 public Integer insertProduct(ProductFullDTO productFull);
+
+	public ProductFullDTO getProductArticleFull(String languages, Integer idProduct,
+			Integer pgArticle);
 	
 }

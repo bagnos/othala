@@ -55,4 +55,7 @@ public interface IProductDAO {
 	public ArticleFullDTO getArticleFull(Integer idProduct, Integer pgArticle,
 			String languages);
 
+	public ProductFullDTO getProductArticleFull(String languages, Integer idProduct,
+			Integer pgArticle);
+
 }
