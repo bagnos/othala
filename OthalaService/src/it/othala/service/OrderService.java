@@ -69,7 +69,7 @@ public class OrderService implements IOrderService {
 				ArticleFullDTO artFull = productDAO.getArticleFull(article.getPrdFullDTO().getIdProduct(),
 						article.getPgArticle(), "it");
 				artFull.setShop(productDAO.getShop(article.getPrdFullDTO().getIdProduct(), article.getPgArticle()));
-				
+				artFull.setPrdFullDTO(productDAO.getProductArticleFull("it", article.getPrdFullDTO().getIdProduct(), article.getPgArticle()));
 				artFull.setQtBooked(article.getQtBooked());
 				newlistArticle.add(artFull);
 			}
@@ -80,7 +80,7 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public OrderFullDTO insertOrder(OrderFullDTO orderFull) throws MailNotSendException, OthalaException {
+	public OrderFullDTO insertOrder(OrderFullDTO orderFull) throws OthalaException {
 
 		orderDAO.insertOrder(orderFull);
 
@@ -113,15 +113,10 @@ public class OrderService implements IOrderService {
 			mapProduct.put("qtArticle", article.getQtBooked());
 
 			orderDAO.insertOrdersArticles(mapProduct);
+						
 		}
-
+		orderDAO.newDeliveryCost(orderFull.getSpeseSpedizione());
 		orderDAO.insertStatesOrders(orderFull);
-
-		String[] mailTo = new String[1];
-		mailTo[0] = "massimiliano_cencioni@tin.it";
-		String subject = "Inserito nuovo ordine";
-		String content = "Un nuovo ordine è stato inserito con codice: " + orderFull.getIdOrder().toString();
-		mailService.inviaMail(mailTo, subject, content);
 
 		return orderFull;
 	}
@@ -251,7 +246,7 @@ public class OrderService implements IOrderService {
 			out.write("cid:imgPayment");
 			out.write("</imgPayment>");
 			inlineImages.put("imgPayment", mailDTO.getPathImgPayment());
-			out.write("<deliveryCost>" + order.getImSpeseSpedizione() + "</deliveryCost>");
+			out.write("<deliveryCost>" + order.getSpeseSpedizione().getImportoSpese() + "</deliveryCost>");
 			out.write("<totalCost>" + order.getImOrdine() + "</totalCost>");
 
 			out.write("<billingAddress>");
