@@ -115,7 +115,7 @@ public class OrderService implements IOrderService {
 			orderDAO.insertOrdersArticles(mapProduct);
 						
 		}
-		orderDAO.newDeliveryCost(orderFull.getSpeseSpedizione());
+		
 		orderDAO.insertStatesOrders(orderFull);
 
 		return orderFull;
