@@ -30,14 +30,14 @@
 				<!-- nr ordine e transazione -->
 				<div>
 					<div>
-						<label style="display:inline-block;width:100px">
-							<b>Ordine</b>
+						<label style="display:inline-block;width:130px">
+							<b>Numero Ordine</b>
 						</label>
 						<xsl:value-of select="order/number" />
 					</div>
 					<div>
-						<label style="display:inline-block;width:100px">
-							<b>Transazione</b>
+						<label style="display:inline-block;width:130px">
+							<b>Numero Transazione</b>
 						</label>
 						<xsl:value-of select="order/transaction" />
 					</div>
@@ -53,7 +53,7 @@
 					Grazie
 					per la tua fiducia.
 					<br />
-					Ti aspettiamo nei negozi Degorthes!
+					Ti aspettiamo nei negozi Degortes!
 				</p>
 				<p>
 					<strong>Puoi consultare lo stato del tuo ordine e la fattura d'acquisto
@@ -61,8 +61,7 @@
 						Ordini in Il Mio Account.
 					</strong>
 				</p>
-				<p>Il dettaglio dell'ordine è mostrato di seguito perché possa consultarlo:
-				</p>
+				
 
 				<!-- dettaglio ordine -->
 

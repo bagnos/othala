@@ -141,6 +141,8 @@ public class PayPalWrapper {
 		//payment.setOverrideShippingAddress();
 		payment.setSuppressingShippingAddress();
 		payment.setCustomField(idOrder);
+		payment.setShippingAmount(cart.getDeliveryCost().getImportoSpese().toString());
+		payment.setPaymentRequestITEMAMT(cart.getTotalItemOrder().toString());
 
 		/*
 		String country = locale;

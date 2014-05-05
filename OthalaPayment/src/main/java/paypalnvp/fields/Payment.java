@@ -100,10 +100,10 @@ public final class Payment implements RequestFields {
 		}
 	}
 
-	public void setShipToAddress(String name, String street, String city, String zip, String state,String country,String tel)
-			throws IllegalArgumentException {
+	public void setShipToAddress(String name, String street, String city, String zip, String state, String country,
+			String tel) throws IllegalArgumentException {
 
-		if (name.length() > 32 || street.length() > 100 || city.length() > 40 || zip.length() > 20 || tel.length()>20) {
+		if (name.length() > 32 || street.length() > 100 || city.length() > 40 || zip.length() > 20 || tel.length() > 20) {
 
 			throw new IllegalArgumentException();
 		}
@@ -113,10 +113,8 @@ public final class Payment implements RequestFields {
 		nvpRequest.put("PAYMENTREQUEST_0_SHIPTOCITY", city);
 		nvpRequest.put("PAYMENTREQUEST_0_SHIPTOCOUNTRYCODE", country);
 		nvpRequest.put("PAYMENTREQUEST_0_SHIPTOZIP", zip);
-		nvpRequest.put("PAYMENTREQUEST_0_SHIPTOSTATE", state); 
+		nvpRequest.put("PAYMENTREQUEST_0_SHIPTOSTATE", state);
 		nvpRequest.put("PAYMENTREQUEST_n_SHIPTOPHONENUM", tel);
-		
-		
 
 	}
 
@@ -192,7 +190,11 @@ public final class Payment implements RequestFields {
 					+ " is not valid. Amount has to have exactly two decimal "
 					+ "places seaprated by \".\" - example: \"50.00\"");
 		}
-		nvpRequest.put("SHIPPINGAMT", amount);
+		nvpRequest.put("PAYMENTREQUEST_0_SHIPPINGAMT", amount);
+	}
+
+	public void setPaymentRequestITEMAMT(String amount) {
+		nvpRequest.put("PAYMENTREQUEST_0_ITEMAMT", amount);
 	}
 
 	/**

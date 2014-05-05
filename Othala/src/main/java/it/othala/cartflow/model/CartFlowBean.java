@@ -2,6 +2,7 @@ package it.othala.cartflow.model;
 
 import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.DeliveryAddressDTO;
+import it.othala.dto.DeliveryCostDTO;
 import it.othala.dto.ProductDTO;
 import it.othala.dto.ProductFullDTO;
 
@@ -37,7 +38,40 @@ public class CartFlowBean implements Serializable {
 	private Catalog catalog;
 	private boolean checkoutCart;
 	private BigDecimal totalPriceOrder;
+	private DeliveryCostDTO deliveryCost;
+	private BigDecimal totalItemOrder;
+	private int idTypeDelivery;
 	
+	
+
+	public int getIdTypeDelivery() {
+		return idTypeDelivery;
+	}
+
+	public void setIdTypeDelivery(int idTypeDelivery) {
+		this.idTypeDelivery = idTypeDelivery;
+	}
+
+	public BigDecimal getTotalItemOrder() {
+		totalItemOrder=BigDecimal.ZERO;
+		if (cart!=null)
+		{
+			for (ArticleFullDTO art:cart)
+			{
+				totalItemOrder=totalItemOrder.add(art.getTotalPriced());
+			}
+		}
+		
+		return totalItemOrder;
+	}
+
+	public DeliveryCostDTO getDeliveryCost() {
+		return deliveryCost;
+	}
+
+	public void setDeliveryCost(DeliveryCostDTO deliveryCost) {
+		this.deliveryCost = deliveryCost;
+	}
 
 	public void setAddressFat(DeliveryAddressDTO addressFat) {
 		this.addressFat = addressFat;
@@ -56,12 +90,14 @@ public class CartFlowBean implements Serializable {
 	
 	public BigDecimal getTotalPriceOrder() {
 		totalPriceOrder=BigDecimal.ZERO;
-		if (cart!=null)
+		
+		if (deliveryCost!=null)
 		{
-			for (ArticleFullDTO art:cart)
-			{
-				totalPriceOrder=totalPriceOrder.add(art.getTotalPriced());
-			}
+			totalPriceOrder=getTotalItemOrder().add(deliveryCost.getImportoSpese());
+		}
+		else
+		{
+			totalPriceOrder=getTotalItemOrder();
 		}
 		return totalPriceOrder.setScale(2, RoundingMode.HALF_UP);
 	}
