@@ -5,6 +5,8 @@ import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryCostDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.StateOrderDTO;
+import it.othala.execption.OthalaException;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -98,10 +100,15 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO  {
 	}
 
 	@Override
-	public void updateOrder(String idTransaction, Integer idOrder, Integer idStato) {
+	public void updateOrder(String idTransaction, Integer idOrder, Integer idStato, String idTrackingNumber) {
+
 		HashMap<String, Object> mapUpdate =  new HashMap<String, Object>();
+		if (idTransaction != null && !idTransaction.isEmpty())
+			mapUpdate.put("idTransaction", idTransaction);
+		else
+			if (idTrackingNumber != null && !idTrackingNumber.isEmpty())
+				mapUpdate.put("idTrackingNumber", idTrackingNumber);
 		
-		mapUpdate.put("idTransaction", idTransaction);
 		mapUpdate.put("idOrder", idOrder);
 		
 		getSqlSession().update("it.othala.order.queries.updateOrder",
