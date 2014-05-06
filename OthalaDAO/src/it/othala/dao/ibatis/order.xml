@@ -13,6 +13,7 @@
 		<result property="nameUser" column="txNome" />
 		<result property="surnameUser" column="txCognome" />
 		<result property="idTransaction" column="idTransaction" />
+		<result property="idTrackingNumber" column="idTrackingNumber" />
 		<collection property="billingAddress" ofType="it.othala.dto.DeliveryAddressDTO">
 			<result property="idAddress" column="idAddressBilling" />
 			<result property="userId" column="idUser" />
@@ -48,6 +49,8 @@
 			<result property="idDeliveryCost" column="deliveryCost" />
 			<result property="descrizione" column="desSpeseSpedizione" />
 			<result property="importoSpese" column="speseSpedizione" />
+			<result property="descrizioneExt" column="txDescrizioneExt" />
+			<result property="linkTracking" column="txLinkTracking" />
 		</collection>
 	</resultMap>
 	
@@ -56,7 +59,7 @@
 
 		SELECT
 		a.idOrder, a.idUser, a.imOrdine, a.idDeliveryCost,
-		a.idTransaction, a.idAddressFat, a.idAddressSpe,
+		a.idTransaction, a.idAddressFat, a.idAddressSpe, a.idTrackingNumber,
 		b.idProdotto, b.pgArticle, b.qtArticle,
 		c.idStato, c.dtStato, c.txNote, 
 		d.txStato, f.IDAddress as idAddressBilling, 
@@ -71,7 +74,8 @@
 		g.cdCap as cdCapDelivery, g.txProvincia as txProvinciaDelivery, 
 		g.txNazione as txNazioneDelivery, g.txTel as txTelDelivery,g.txEtichetta as etichettaDelivery, 
 		g.fgDeleted, h.txNome, h.txCognome, i.idDeliveryCost as deliveryCost, 
-		i.txDescrizione as desSpeseSpedizione, i.imSpese as speseSpedizione
+		i.txDescrizione as desSpeseSpedizione, i.imSpese as speseSpedizione,
+		i.txDescrizioneExt, i.txLinkTracking
 		FROM
 		${database.schema}orders a,
 		${database.schema}orders_articles b,
@@ -111,11 +115,11 @@
 		INSERT INTO
 		${database.schema}orders
 		(`idUser`,`imOrdine`,`idTransaction`,`idAddressFatt`
-		,`idAddressSpe`,`idDeliveryCost` )
+		,`idAddressSpe`,`idDeliveryCost`,`idTrackingNumber` )
 		values (
 		#{idUser},#{imOrdine},null,
 		#{billingAddress.idAddress}, #{billingAddress.idAddress},
-		#{speseSpedizione.idDeliveryCost})
+		#{speseSpedizione.idDeliveryCost},null)
 		
         <selectKey resultType="java.lang.Integer" keyProperty="idOrder" >
 
@@ -127,7 +131,12 @@
 	<update id="updateOrder"   parameterType="java.util.HashMap">
       
 		UPDATE ${database.schema}orders
-		SET idTransaction = #{idTransaction}
+		<if test="idTransaction != null">
+			SET idTransaction = #{idTransaction}
+		</if>
+		<if test="idTrackingNumber != null">
+			SET idTrackingNumber = #{idTrackingNumber}
+		</if>
 		WHERE idOrder = #{idOrder}
       
     </update>
@@ -181,7 +190,8 @@
 
 		SELECT idDeliveryCost,
 		txDescrizione as descrizione,
-		imSpese as importospese
+		imSpese as importospese, txDescrizioneExt as descrizioneExt,
+		txLinkTracking as linkTracking
 		FROM 
 		${database.schema}delivery_cost
 		WHERE 
@@ -221,9 +231,9 @@
 	<insert id="insertDeliveryCost" parameterType="it.othala.dto.DeliveryCostDTO">
 		INSERT INTO
 		${database.schema}delivery_cost
-		(`txDescrizione`,`imSpese`,`fgDeleted`)
+		(`txDescrizione`,`imSpese`,`fgDeleted`,`txDescrizioneExt`,`txLinkTracking`)
 		VALUES
-		(#{descrizione},#{importospese},0);
+		(#{descrizione},#{importospese},0,#{descrizioneExt},#{linkTracking});
 
 	</insert>
 
