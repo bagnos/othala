@@ -32,5 +32,20 @@ public class DeliveryCostDTO implements Serializable {
 	private String descrizione;
 	private BigDecimal importoSpese;
 	
+	public String getDescrizioneExt() {
+		return descrizioneExt;
+	}
+	public void setDescrizioneExt(String descrizioneExt) {
+		this.descrizioneExt = descrizioneExt;
+	}
+	public String getLinkTracking() {
+		return linkTracking;
+	}
+	public void setLinkTracking(String linkTracking) {
+		this.linkTracking = linkTracking;
+	}
+	private String descrizioneExt;
+	private String linkTracking;
+	
 
 }
