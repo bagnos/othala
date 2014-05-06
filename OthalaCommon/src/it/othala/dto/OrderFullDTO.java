@@ -29,6 +29,7 @@ public class OrderFullDTO implements Serializable {
 	private String nameUser;
 	private String surnameUser;
 	private String idTransaction;
+	private String idTrackingNumber;
 	
 	
 	public String getIdTransaction() {
@@ -115,6 +116,12 @@ public class OrderFullDTO implements Serializable {
 	}
 	public void setSpeseSpedizione(DeliveryCostDTO speseSpedizione) {
 		this.speseSpedizione = speseSpedizione;
+	}
+	public String getIdTrackingNumber() {
+		return idTrackingNumber;
+	}
+	public void setIdTrackingNumber(String idTrackingNumber) {
+		this.idTrackingNumber = idTrackingNumber;
 	}
 
 	
