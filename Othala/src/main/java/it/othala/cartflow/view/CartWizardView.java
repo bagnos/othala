@@ -195,21 +195,19 @@ public class CartWizardView extends BaseView {
 		cart.setAddressFat(OthalaFactory.getOrderServiceInstance().updateAddress(cart.getAddressFat(),
 				cart.getAddressFat().getIdAddress()));
 
-		retrieveAddresses();
-		idAddressFat = cart.getAddressFat().getIdAddress();
-		// idAddressSpe=cart.getAddressSpe().getIdAddress();
+		retrieveAddresses();		
 		
-		if (idAddressSpe==idAddressFat)
+		if (idAddressFat==idAddressSpe)
 		{
 			idAddressFat = cart.getAddressFat().getIdAddress();
-			idAddressFat=idAddressSpe;
+			idAddressSpe=idAddressFat;
 			
 			RequestContext.getCurrentInstance().execute("$('#select-spe').val('"+idAddressSpe+"');");
 			RequestContext.getCurrentInstance().execute("$('#select-fat').val('"+idAddressFat+"');");
 		}else
 		{
 			idAddressFat = cart.getAddressFat().getIdAddress();
-			RequestContext.getCurrentInstance().execute("$('#select-spe').val('"+idAddressSpe+"');");
+			RequestContext.getCurrentInstance().execute("$('#select-fat').val('"+idAddressFat+"');");
 		}
 		
 		editAddrFat = false;
