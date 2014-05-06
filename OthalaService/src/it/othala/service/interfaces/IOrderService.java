@@ -19,7 +19,7 @@ public interface IOrderService {
 	
 	public void updateStateOrder(StateOrderDTO stateOrder);
 	
-	public void updateOrder(String idTransaction, Integer idOrder, Integer idStato);
+	public void updateOrder(String idTransaction, Integer idOrder, Integer idStato, String idTrackingNumber);
 	
 	public void deleteAddress(Integer idAddress);
 	
