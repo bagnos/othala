@@ -21,21 +21,23 @@ $(document).ready(function() {
 	}
 	$('#chkSpe').click(copyAllAddress());
 
-	alignfromFattToSped();
-	initAddress();
-	copyAllAddress();
-
 });
 
 function changePage(xhr, status, args) {
-
+ 
 	if (args.validationFailed) {
 
 	} else {
 		$('.pager.wizard li.next a').click();
 		$('body').scrollTop(0);
-
+	
 	}
+}
+
+function initDeliverySection() {
+	alignfromFattToSped();
+	initAddress();
+	copyAllAddress();
 }
 
 function previousPage(xhr, status, args) {
@@ -46,16 +48,17 @@ function previousPage(xhr, status, args) {
 }
 
 function copyAllAddress() {
-	
+
 	$('#chkSpe').click(function() {
 		if ($('#chkSpe').prop('checked')) {
-			$('#nameSpe').val($('#nameFat').val());
-			$('#cognomeSpe').val($('#cognomeFat').val());
-			$('#telefonoSpe').val($('#telefonoFat').val());
-			$('#indirizzoSpe').val($('#indirizzoFat').val());
-			$('#postaleSpe').val($('#postaleFat').val());
-			$('#cittaSpe').val($('#cittaFat').val());
-			$('#provSpe').val($('#provFat').val());
+			$('#nameFat').val($('#nameSpe').val());
+			$('#cognomeFat').val($('#cognomeSpe').val());
+			$('#telefonoFat').val($('#telefonoSpe').val());
+			$('#indirizzoFat').val($('#indirizzoSpe').val());
+			$('#postaleFat').val($('#postaleSpe').val());
+			$('#cittaFat').val($('#cittaSpe').val());
+			$('#provFat').val($('#provSpe').val());
+			$('#typeFat').val($('#typeSpe').val());
 
 		}
 	});
@@ -63,46 +66,52 @@ function copyAllAddress() {
 
 function alignfromFattToSped() {
 
-	$('#nameFat').keyup(function() {
+	$('#nameSpe').keyup(function() {
 
 		if ($('#chkSpe').prop('checked')) {
-			$('#nameSpe').val(this.value);
+			$('#nameFat').val(this.value);
 		}
 	});
 
-	$('#cognomeFat').keyup(function() {
+	$('#cognomeSpe').keyup(function() {
 		if ($('#chkSpe').prop('checked')) {
-			$('#cognomeSpe').val(this.value);
+			$('#cognomeFat').val(this.value);
 		}
 	});
 
-	$('#telefonoFat').keyup(function() {
+	$('#telefonoSpe').keyup(function() {
 		if ($('#chkSpe').prop('checked')) {
-			$('#telefonoSpe').val(this.value);
+			$('#telefonoFat').val(this.value);
 		}
 	});
 
-	$('#indirizzoFat').keyup(function() {
+	$('#indirizzoSpe').keyup(function() {
 		if ($('#chkSpe').prop('checked')) {
-			$('#indirizzoSpe').val(this.value);
+			$('#indirizzoFat').val(this.value);
 		}
 	});
 
-	$('#postaleFat').keyup(function() {
+	$('#postaleSpe').keyup(function() {
 		if ($('#chkSpe').prop('checked')) {
-			$('#postaleSpe').val(this.value);
+			$('#postaleFat').val(this.value);
 		}
 	});
 
-	$('#cittaFat').keyup(function() {
+	$('#cittaSpe').keyup(function() {
 		if ($('#chkSpe').prop('checked')) {
-			$('#cittaSpe').val(this.value);
+			$('#cittaFat').val(this.value);
 		}
 	});
 
-	$('#provFat').keyup(function() {
+	$('#provSpe').keyup(function() {
 		if ($('#chkSpe').prop('checked')) {
-			$('#provSpe').val(this.value);
+			$('#provFat').val(this.value);
+		}
+	});
+
+	$('#typeSpe').keyup(function() {
+		if ($('#chkSpe').prop('checked')) {
+			$('#typeFat').val(this.value);
 		}
 	});
 
