@@ -474,10 +474,11 @@
 		`idSize`,
 		`idColor`,
 		`qtStock`,
-		`txThumbnailsUrl`,)
+		`txThumbnailsUrl`,
+		`idShop`)
 		VALUES
 		(#{idProduct},
-		#{pgArticle},#{idSize},#{idColor},#{qtStock},#{thumbnailsUrl});
+		#{pgArticle},#{idSize},#{idColor},#{qtStock},#{thumbnailsUrl},#{idShop});
 
 
 	</insert>
