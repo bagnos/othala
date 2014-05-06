@@ -15,6 +15,7 @@ import it.othala.payment.paypal.SetExpressCheckoutDTO;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 import it.othala.web.utils.OthalaUtil;
+import it.othala.web.utils.WizardUtil;
 
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -22,6 +23,8 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.primefaces.context.RequestContext;
 
 @Named
 @ViewScoped
@@ -195,6 +198,20 @@ public class CartWizardView extends BaseView {
 		retrieveAddresses();
 		idAddressFat = cart.getAddressFat().getIdAddress();
 		// idAddressSpe=cart.getAddressSpe().getIdAddress();
+		
+		if (idAddressSpe==idAddressFat)
+		{
+			idAddressFat = cart.getAddressFat().getIdAddress();
+			idAddressFat=idAddressSpe;
+			
+			RequestContext.getCurrentInstance().execute("$('#select-spe').val('"+idAddressSpe+"');");
+			RequestContext.getCurrentInstance().execute("$('#select-fat').val('"+idAddressFat+"');");
+		}else
+		{
+			idAddressFat = cart.getAddressFat().getIdAddress();
+			RequestContext.getCurrentInstance().execute("$('#select-spe').val('"+idAddressSpe+"');");
+		}
+		
 		editAddrFat = false;
 		saveAddressFat=false;
 		
@@ -207,7 +224,22 @@ public class CartWizardView extends BaseView {
 				cart.getAddressSpe().getIdAddress()));
 
 		retrieveAddresses();
-		idAddressSpe = cart.getAddressSpe().getIdAddress();
+		
+		
+		if (idAddressSpe==idAddressFat)
+		{
+			idAddressSpe = cart.getAddressSpe().getIdAddress();
+			idAddressFat=idAddressSpe;
+			
+			RequestContext.getCurrentInstance().execute("$('#select-spe').val('"+idAddressSpe+"');");
+			RequestContext.getCurrentInstance().execute("$('#select-fat').val('"+idAddressFat+"');");
+		}else
+		{
+			idAddressSpe = cart.getAddressSpe().getIdAddress();
+			RequestContext.getCurrentInstance().execute("$('#select-spe').val('"+idAddressSpe+"');");
+		}
+		
+		
 		// idAddressSpe=cart.getAddressSpe().getIdAddress();
 		editAddrSpe = false;
 		saveAddressSpe=false;
