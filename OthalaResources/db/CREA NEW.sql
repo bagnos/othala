@@ -391,6 +391,8 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Delivery_Cost` (
   `txDescrizione` VARCHAR(45) NULL ,
   `imSpese` DECIMAL(15) NULL ,
   `fgDeleted` TINYINT NULL ,
+  `txDescrizioneExt` VARCHAR(250) NULL ,
+  `txLinkTracking` VARCHAR(100) NULL ,
   PRIMARY KEY (`idDeliveryCost`) ,
   UNIQUE INDEX `idDeliveryCost_UNIQUE` (`idDeliveryCost` ASC) )
 ENGINE = InnoDB;
@@ -409,6 +411,7 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Orders` (
   `idAddressFat` INT NOT NULL ,
   `idAddressSpe` INT NOT NULL ,
   `idDeliveryCost` INT NOT NULL ,
+  `idTrackingNumber` VARCHAR(100) NULL ,
   PRIMARY KEY (`idOrder`) ,
   INDEX `fk_Orders_Customer1_idx` (`idUser` ASC) ,
   UNIQUE INDEX `idOrder_UNIQUE` (`idOrder` ASC) ,
