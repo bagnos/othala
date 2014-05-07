@@ -19,22 +19,24 @@ $(document).ready(function() {
 		$('.pager.wizard li.previous a').click();
 
 	}
-	$('#chkSpe').click(copyAllAddress());
+
+	initDeliverySection();
 
 });
 
 function changePage(xhr, status, args) {
- 
+
 	if (args.validationFailed) {
 
 	} else {
 		$('.pager.wizard li.next a').click();
 		$('body').scrollTop(0);
-	
+
 	}
 }
 
 function initDeliverySection() {
+		
 	alignfromFattToSped();
 	initAddress();
 	copyAllAddress();
@@ -45,8 +47,19 @@ function previousPage(xhr, status, args) {
 	$('.pager.wizard li.previous a').click();
 	$('body').scrollTop(0);
 
-}
+} 
 
+function hiedeFatFieldsAddress() {
+	$('#chkSpe').click(function() {
+		if ($('#chkSpe').prop('checked')) {
+			
+			$("#addrFatFields").css("display","none");
+		} else {
+			$('#addrFatFields').show();
+		}
+
+	});
+};
 function copyAllAddress() {
 
 	$('#chkSpe').click(function() {

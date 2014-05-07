@@ -183,6 +183,7 @@
 		a.idUser = #{userId} and
 		a.idUser = c.idUser and
 		a.fgDeleted = 0
+		order by a.idAddress desc
 	
 	</select>
 	
