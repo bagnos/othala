@@ -52,28 +52,23 @@ public class CartWizardView extends BaseView {
 	private boolean newAddrSpe;
 	private boolean newAddrFat;
 	private boolean rendeRiepilogo;
-	
 
 	public boolean isRendeRiepilogo() {
-		rendeRiepilogo=false;
-		if (saveAddressFat)
-		{
+		rendeRiepilogo = false;
+		if (saveAddressFat) {
 			return rendeRiepilogo;
 		}
-		if (saveAddressSpe)
-		{
+		if (saveAddressSpe) {
 			return rendeRiepilogo;
 		}
-		if(editAddrFat)
-		{
+		if (editAddrFat && sameAddress==false) {
 			return rendeRiepilogo;
 		}
-		if(editAddrSpe)
-		{
+		if (editAddrSpe && sameAddress==false) {
 			return rendeRiepilogo;
 		}
-		rendeRiepilogo=true;
-		return  rendeRiepilogo;
+		rendeRiepilogo = true;
+		return rendeRiepilogo;
 	}
 
 	public boolean isNewAddrSpe() {
@@ -154,9 +149,9 @@ public class CartWizardView extends BaseView {
 			cart.setDeliveryCost(deliveryDTO.getSpeseSpedizione().get(0));
 			cart.setIdTypeDelivery(cart.getDeliveryCost().getIdDeliveryCost());
 		}
-		
-		newAddrFat=false;
-		newAddrSpe=false;
+
+		newAddrFat = false;
+		newAddrSpe = false;
 
 		return null;
 	}
@@ -249,13 +244,13 @@ public class CartWizardView extends BaseView {
 		modifyAddrSpe(ev);
 		newAddrSpe = true;
 	}
-	
+
 	public void annAddrFat(AjaxBehaviorEvent ev) {
 		newAddrFat = false;
 		editAddrFat = false;
 		saveAddressFat = false;
 	}
-	
+
 	public void annAddrSpe(AjaxBehaviorEvent ev) {
 		newAddrSpe = false;
 		editAddrSpe = false;
@@ -267,7 +262,7 @@ public class CartWizardView extends BaseView {
 		if (newAddrFat) {
 			// ho cliccato su nuovo
 			cart.setAddressSpe(OthalaFactory.getOrderServiceInstance().newAddress(cart.getAddressSpe()));
-			newAddrFat=false;
+			newAddrFat = false;
 		} else {
 			// modifica
 			cart.setAddressFat(OthalaFactory.getOrderServiceInstance().updateAddress(cart.getAddressFat(),
@@ -297,7 +292,7 @@ public class CartWizardView extends BaseView {
 		if (newAddrSpe) {
 			// ho cliccato su nuovo
 			cart.setAddressSpe(OthalaFactory.getOrderServiceInstance().newAddress(cart.getAddressSpe()));
-			newAddrSpe=false;
+			newAddrSpe = false;
 		} else {
 			// ho cliccato su modifica
 			cart.setAddressSpe(OthalaFactory.getOrderServiceInstance().updateAddress(cart.getAddressSpe(),
@@ -357,8 +352,17 @@ public class CartWizardView extends BaseView {
 			pBd = new PayPalWrapper();
 
 			// creazione ordine
-			OrderFullDTO order = new OrderFullDTO();
-			order.setIdOrder(122345);
+			/*
+			 * OrderFullDTO order = new OrderFullDTO();
+			 * order.setIdOrder(122345);
+			 */
+			try {
+				insertOrder();
+			} catch (Exception ex) {
+				addError(null, OthalaUtil.getWordBundle("exception_base"));
+				log.error("Errore inserimento ordine", ex);
+				return;
+			}
 
 			// checkout paypall
 			SetExpressCheckoutDTO checkDTO = pBd.setExpressCheckout(cart, getLang(), order.getIdOrder().toString());
@@ -387,7 +391,10 @@ public class CartWizardView extends BaseView {
 		order.setShippingAddress(cart.getAddressSpe());
 		order.setCart(cart.getCart());
 		order.setIdUser(loginBean.getEmail());
-
+		order.setNameUser(loginBean.getName());
+		order.setSurnameUser(loginBean.getSurname());
+		order.setImOrdine(cart.getTotalPriceOrder());
+		order.setSpeseSpedizione(cart.getDeliveryCost());
 		order = OthalaFactory.getOrderServiceInstance().insertOrder(order);
 
 	}

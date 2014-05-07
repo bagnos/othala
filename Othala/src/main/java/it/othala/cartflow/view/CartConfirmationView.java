@@ -1,30 +1,35 @@
 package it.othala.cartflow.view;
 
-import it.othala.account.model.CustomerLoginBean;
-import it.othala.cartflow.model.CartFlowBean;
+import it.othala.dto.OrderFullDTO;
 import it.othala.payment.paypal.DoExpressCheckoutPaymentDTO;
 import it.othala.payment.paypal.GetExpressCheckoutDetailsDTO;
 import it.othala.payment.paypal.PayPalFundingFailureException;
 import it.othala.payment.paypal.PayPalWrapper;
+import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 import it.othala.web.utils.OthalaUtil;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 
 @Named
 @ViewScoped
 public class CartConfirmationView extends BaseView {
 
-	
 	private GetExpressCheckoutDetailsDTO details;
 	private DoExpressCheckoutPaymentDTO checkDTO;
 	private String messagePayment;
 	private boolean paymentOK;
+	private OrderFullDTO order;
+	
+
+	public OrderFullDTO getOrder() {
+		return order;
+	}
 
 	public boolean isPaymentOK() {
 		return paymentOK;
@@ -45,15 +50,25 @@ public class CartConfirmationView extends BaseView {
 	public String doInit() {
 		// TODO Auto-generated method stub
 		PayPalWrapper wrap = null;
-		paymentOK=true;
+		paymentOK = true;
 		try {
-			wrap = new PayPalWrapper();		
+			wrap = new PayPalWrapper();
 			details = wrap.getExpressCheckoutDetails(getQueryStringParm("token"));
-			checkDTO=wrap.doExpressCheckoutPayment(details);
-		} 
-		catch (PayPalFundingFailureException e)
-		{
-			paymentOK=false;
+			checkDTO = wrap.doExpressCheckoutPayment(details);
+			int idOrder = Integer.valueOf(details.getCustom());
+			List<OrderFullDTO> orders=OthalaFactory.getOrderServiceInstance().getOrders(idOrder, null, null);
+			order=orders.get(0);
+			
+			if (checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS().equalsIgnoreCase(PayPalWrapper.COMPLETED_STATUS)) {
+				OthalaFactory.getOrderServiceInstance().updateOrder(checkDTO.getPAYMENTINFO_0_TRANSACTIONID(), idOrder,
+						3, null);
+			} else {
+				OthalaFactory.getOrderServiceInstance().updateOrder(checkDTO.getPAYMENTINFO_0_TRANSACTIONID(), idOrder,
+						2, null);
+			} 
+
+		} catch (PayPalFundingFailureException e) {
+			paymentOK = false;
 			log.error("PayPal funding failure error code 10486", e);
 			try {
 				FacesContext.getCurrentInstance().getExternalContext().redirect(e.getRedirectUrl());
@@ -63,22 +78,18 @@ public class CartConfirmationView extends BaseView {
 				addError(null, OthalaUtil.getWordBundle("exception_payPalFundingFailureException"));
 			}
 			return null;
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			// TODO Auto-generated catch block
-			paymentOK=false;
+			paymentOK = false;
 			log.error("Errore comunicazione PayPal", ex);
 			addError(null, OthalaUtil.getWordBundle("exception_payPalException"));
 			// return null;
 		}
-		
-		if (paymentOK)
-		{
-			messagePayment=OthalaUtil.getWordBundle("catalogo_paySuccess");
-		}
-		else
-		{
-			messagePayment=OthalaUtil.getWordBundle("catalogo_payKO");
+
+		if (paymentOK) {
+			messagePayment = OthalaUtil.getWordBundle("catalogo_paySuccess");
+		} else {
+			messagePayment = OthalaUtil.getWordBundle("catalogo_payKO");
 		}
 		return null;
 	}

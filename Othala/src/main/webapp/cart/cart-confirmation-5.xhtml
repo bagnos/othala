@@ -18,7 +18,7 @@
 
 	<ui:define name="content">
 		<h:form prependId="false">
-		
+
 			<div class="container">
 
 				<div class="row spacer10">
@@ -28,26 +28,26 @@
 				</div>
 
 				<h:panelGroup rendered="#{cartConfirmationView.paymentOK}">
-				<div class="row spacer20">
-					<div class="col-sm-3">
-						<h4>Nr. Ordine</h4>
-						#{cartConfirmationView.details.custom}
+					<div class="row spacer20">
+						<div class="col-sm-3">
+							<h4>#{msg.catalogo_nrOrder}</h4>
+							#{cartConfirmationView.details.custom}
+						</div>
+						<div class="col-sm-3">
+							<h4>#{msg.catalogo_nrTrans}</h4>
+							#{cartConfirmationView.checkDTO.PAYMENTINFO_0_TRANSACTIONID}
+						</div>
+						<div class="col-sm-3">
+							<h4>Pagato a</h4>
+							<address>
+								Degortes Outhlet<br />
+								<a href="mailto:#">degortes@degortes.com</a>
+								<br /> Assistenza <abbr title="Phone">P:</abbr> 0577324544
+							</address>
+						</div>
 					</div>
-					<div class="col-sm-3">
-						<h4>Id. PayPal</h4>
-						#{cartConfirmationView.checkDTO.PAYMENTINFO_0_TRANSACTIONID}
-					</div>
-					<div class="col-sm-3">
-						<h4>Pagato a</h4>
-						<address>
-							Degortes Outhlet<br />
-							<a href="mailto:#">degortes@degortes.com</a>
-							<br /> Assistenza <abbr title="Phone">P:</abbr> 0577324544
-						</address>
-					</div>
-				</div>
 
-				<!-- 
+					<!-- 
 				<div class="row spacer20">
 
 
@@ -67,67 +67,73 @@
 				</div>
  -->
 
-				<div class="row  spacer10">
-					<div class="col-sm-10 col-sm-offset-1">
-						<div class="table-responsive spacer10">
-							<table class="table" id="cartTable">
-								<thead>
-									<tr>
-										<th class="col-sm-6">#{msg.catalog_article}</th>
-										<th class="col-sm-2">#{msg.catalog_qta}</th>
-										<th class="col-sm-2">#{msg.catalog_price}</th>
-
-									</tr>
-								</thead>
-								<tfoot>
-									<tr>
-										<td colspan="2" class="text-right">#{msg.catalog_deliveryCost}</td>
-										<td><h:outputText value="0">
-												<f:converter converterId="it.othala.BigDecimalConverter" />
-											</h:outputText></td>
-									</tr>
-									<tr>
-										<td colspan="2" class="text-right"><strong>#{msg.catalog_total}</strong></td>
-										<td><h:outputText value="#{cartConfirmationView.details.amount}">
-												<f:converter converterId="it.othala.BigDecimalConverter" />
-											</h:outputText></td>
-									</tr>
-
-								</tfoot>
-								<tbody>
-									<ui:repeat var="art" value="#{cartConfirmationView.details.shoppingCartOrder}"
-										varStatus="stBread">
+					<div class="row  spacer10">
+						<div class="col-sm-10 col-sm-offset-1">
+							<div class="table-responsive spacer10">
+								<table class="table" id="cartTable">
+									<thead>
 										<tr>
-											<td><h:outputText value="#{art.description}" /></td>
-											<td><h:outputText value="#{art.qta}" /></td>
-											<td><h:outputText value="#{art.price}">
-													<f:converter converterId="it.othala.BigDecimalConverter" />
-												</h:outputText></td>
+											<th class="col-sm-6">#{msg.catalog_article}</th>
+											<th class="col-sm-2">#{msg.catalog_qta}</th>
+											<th class="col-sm-2">#{msg.catalog_price}</th>
 
 										</tr>
-									</ui:repeat>
-								</tbody>
-							</table>
+									</thead>
+									<tfoot>
+										<tr>
+											<td colspan="2" class="text-right">#{msg.catalog_totalItems}</td>
+											<td><h:outputText value="#{cartConfirmationView.details.itemAmount}">
+													<f:converter converterId="it.othala.BigDecimalConverter" />
+												</h:outputText></td>
+										</tr>
+										<tr>
+											<td colspan="2" class="text-right">#{msg.catalog_deliveryCost}</td>
+											<td><h:outputText value="#{cartConfirmationView.details.shipAmount}">
+													<f:converter converterId="it.othala.BigDecimalConverter" />
+												</h:outputText></td>
+										</tr>
+										<tr>
+											<td colspan="2" class="text-right"><strong>#{msg.catalog_total}</strong></td>
+											<td><h:outputText value="#{cartConfirmationView.details.amount}">
+													<f:converter converterId="it.othala.BigDecimalConverter" />
+												</h:outputText></td>
+										</tr>
 
+									</tfoot>
+									<tbody>
+										<ui:repeat var="art" value="#{cartConfirmationView.details.shoppingCartOrder}"
+											varStatus="stBread">
+											<tr>
+												<td><h:outputText value="#{art.description}" /></td>
+												<td><h:outputText value="#{art.qta}" /></td>
+												<td><h:outputText value="#{art.price}">
+														<f:converter converterId="it.othala.BigDecimalConverter" />
+													</h:outputText></td>
+
+											</tr>
+										</ui:repeat>
+									</tbody>
+								</table>
+
+							</div>
 						</div>
 					</div>
-				</div>
 
 
 
 
 
-				<div class="row spacer20">
-					<div class="col-sm-12">
-						<blockquote class="blockquote-reverse">
-							<p>Signor #{cartConfirmationView.details.firstname}
-								#{cartConfirmationView.details.lastname} le confermiamo che il pagamento è stato effettuato
-								con successo.</p>
-							<footer> Degortes Outhlet </footer>
+					<div class="row spacer20">
+						<div class="col-sm-12">
+							<blockquote class="blockquote-reverse">
+								<p>Signor #{cartConfirmationView.order.nameUser}
+									#{cartConfirmationView.order.surnameUser} le confermiamo che il pagamento è stato effettuato
+									con successo.</p>
+								<footer> Degortes Outhlet </footer>
 
-						</blockquote>
+							</blockquote>
+						</div>
 					</div>
-				</div>
 				</h:panelGroup>
 
 			</div>

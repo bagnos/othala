@@ -46,6 +46,7 @@ public class PayPalWrapper {
 	private List<String> errorCodes;
 	private String errorMessage;
 	private Map<String, String> paymentDetails;
+	public static final String COMPLETED_STATUS="Completed"; 
 
 	private void loadProp() throws IOException {
 		if (prop == null) {
@@ -237,6 +238,8 @@ public class PayPalWrapper {
 			getExpressCheckoutDetailsDTO.setLastname(response.get("LASTNAME").toString());
 			getExpressCheckoutDetailsDTO.setCurrencyCode(response.get("CURRENCYCODE").toString());
 			getExpressCheckoutDetailsDTO.setAmount(new BigDecimal(response.get("PAYMENTREQUEST_0_AMT").toString()));
+			getExpressCheckoutDetailsDTO.setItemAmount(new BigDecimal(response.get("PAYMENTREQUEST_0_ITEMAMT").toString()));
+			getExpressCheckoutDetailsDTO.setShipAmount(new BigDecimal(response.get("PAYMENTREQUEST_0_SHIPPINGAMT").toString()));
 
 			/*
 			getExpressCheckoutDetailsDTO.getShippingAddress().setCap(
