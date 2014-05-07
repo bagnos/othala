@@ -118,7 +118,7 @@
 		,`idAddressSpe`,`idDeliveryCost`,`idTrackingNumber` )
 		values (
 		#{idUser},#{imOrdine},null,
-		#{billingAddress.idAddress}, #{billingAddress.idAddress},
+		#{billingAddress.idAddress}, #{shippingAddress.idAddress},
 		#{speseSpedizione.idDeliveryCost},null)
 		
         <selectKey resultType="java.lang.Integer" keyProperty="idOrder" >
