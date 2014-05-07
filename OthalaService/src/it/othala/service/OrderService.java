@@ -182,6 +182,12 @@ public class OrderService implements IOrderService {
 		orderDAO.deleteAddress(idAddress);
 
 	}
+	
+	@Override
+	public void deleteDeliveryCost(Integer idDeliveryCost) {
+		orderDAO.deleteDeliveryCost(idDeliveryCost);
+
+	}
 
 	@Override
 	public void inviaMailDiConferma(OrderFullDTO order,MailConfermaDTO mailDTO) throws MailNotSendException {
