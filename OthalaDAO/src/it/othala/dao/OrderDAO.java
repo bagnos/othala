@@ -130,5 +130,14 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO  {
 				idAddress);
 		
 	}
+	
+	@Override
+	public void deleteDeliveryCost(Integer idDeliveryCost) {
+		
+			
+		getSqlSession().delete("it.othala.order.queries.deleteDeliveryCost",
+				idDeliveryCost);
+		
+	}
 
 }
