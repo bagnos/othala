@@ -23,6 +23,8 @@ public interface IOrderService {
 	
 	public void deleteAddress(Integer idAddress);
 	
+	public void deleteDeliveryCost(Integer idDeliveryCost);
+	
 	public DeliveryDTO getDeliveryInfo(String userId);
 	
 	public DeliveryAddressDTO newAddress(DeliveryAddressDTO newAddress);
