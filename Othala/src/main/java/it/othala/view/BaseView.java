@@ -126,5 +126,24 @@ public abstract class BaseView {
 			e.printStackTrace();
 		}
 	}
+	
+	protected String getBaseImagePath()
+	{		
+		String path= FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
+		path+="/resources/images";
+		return path;
+	}
+	protected String getLogoHomeMail()
+	{		
+		String path= getBaseImagePath();
+		path+="logo2-small.png";
+		return path;
+	}
+	protected String getBaseImageThumbinals()
+	{
+		String path=getBaseImagePath()+"cartThumbinals/";
+		return path;
+	}
+	
 
 }

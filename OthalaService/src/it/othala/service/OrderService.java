@@ -281,7 +281,7 @@ public class OrderService implements IOrderService {
 					out.write("<item>");
 					out.write("<number>" + art.getPrdFullDTO().getIdProduct() + "</number>");
 					out.write("<img>cid:imgArt"+i + "</img>");
-					inlineImages.put("imgArt" + i, mailDTO.getBasePathArticle() + art.getThumbnailsUrl());
+					inlineImages.put("imgArt" + i, mailDTO.getBasePathThumbinalsArticle() + art.getThumbnailsUrl());
 					out.write("<brand>" + art.getPrdFullDTO().getTxBrand() + "</brand>");
 					out.write("<description>" + art.getPrdFullDTO().getDescription() + "</description>");
 					out.write("<color>" + art.getTxColor() + "</color>");

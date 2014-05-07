@@ -123,17 +123,19 @@
 
 
 
-					<div class="row spacer20">
-						<div class="col-sm-12">
-							<blockquote class="blockquote-reverse">
-								<p>Signor #{cartConfirmationView.order.nameUser}
-									#{cartConfirmationView.order.surnameUser} le confermiamo che il pagamento è stato effettuato
-									con successo.</p>
-								<footer> Degortes Outhlet </footer>
+					<h:panelGroup rendered="#{cartConfirmationView.checkDTO.statePayPal.state<3}">
+						<div class="row spacer20">
+							<div class="col-sm-12">
+								<blockquote class="blockquote-reverse">
+									<p>Signor #{cartConfirmationView.order.nameUser}
+										#{cartConfirmationView.order.surnameUser} le confermiamo che il pagamento è stato
+										effettuato con successo.</p>
+									<footer> Degortes Outhlet </footer>
 
-							</blockquote>
+								</blockquote>
+							</div>
 						</div>
-					</div>
+					</h:panelGroup>
 				</h:panelGroup>
 
 			</div>

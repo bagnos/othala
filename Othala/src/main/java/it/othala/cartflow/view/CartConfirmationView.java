@@ -1,6 +1,8 @@
 package it.othala.cartflow.view;
 
+import it.othala.dto.MailConfermaDTO;
 import it.othala.dto.OrderFullDTO;
+import it.othala.enums.TypeStateOrder;
 import it.othala.payment.paypal.DoExpressCheckoutPaymentDTO;
 import it.othala.payment.paypal.GetExpressCheckoutDetailsDTO;
 import it.othala.payment.paypal.PayPalFundingFailureException;
@@ -26,8 +28,6 @@ public class CartConfirmationView extends BaseView {
 	private boolean paymentOK;
 	private OrderFullDTO order;
 	private boolean payCompleted;
-	
-	
 
 	public boolean isPayCompleted() {
 		return payCompleted;
@@ -62,10 +62,36 @@ public class CartConfirmationView extends BaseView {
 			details = wrap.getExpressCheckoutDetails(getQueryStringParm("token"));
 			checkDTO = wrap.doExpressCheckoutPayment(details);
 			int idOrder = Integer.valueOf(details.getCustom());
-			List<OrderFullDTO> orders=OthalaFactory.getOrderServiceInstance().getOrders(idOrder, null, null);
-			order=orders.get(0);
-			
-			
+			try {
+				List<OrderFullDTO> orders = OthalaFactory.getOrderServiceInstance().getOrders(idOrder, null, null);
+				order = orders.get(0);
+
+				switch (checkDTO.getStatePayPal()) {
+				case COMPLETED:
+					OthalaFactory.getOrderServiceInstance().updateOrder(checkDTO.getPAYMENTINFO_0_TRANSACTIONID(),
+							order.getIdOrder(), TypeStateOrder.PAGATO.getState(), null);
+					break;
+				case PROCESSING:
+					OthalaFactory.getOrderServiceInstance().updateOrder(checkDTO.getPAYMENTINFO_0_TRANSACTIONID(),
+							order.getIdOrder(), TypeStateOrder.IN_LAVORAZIONE.getState(), null);
+					break;
+				case REFUSED:
+					addError("null", OthalaUtil.getWordBundle("exception_payPalRefused"));
+					log.warn(checkDTO.getOkMessage());
+					return null;
+				default:
+					break;
+				}
+
+				MailConfermaDTO mail = new MailConfermaDTO();
+				mail.setBasePathThumbinalsArticle(getBaseImageThumbinals());
+				mail.setPathImgLogo(getLogoHomeMail());
+				mail.setPathImgPayment(getBaseImagePath());
+				OthalaFactory.getOrderServiceInstance().inviaMailDiConferma(order, mail);
+			} catch (Exception e) {
+				log.error("errore nella rilettura oppure nell'update dell'ordine, chiamata paypal effettuata correttamente");
+				addError(null, OthalaUtil.getWordBundle("exception_postPayPalException"));
+			}
 
 		} catch (PayPalFundingFailureException e) {
 			paymentOK = false;
