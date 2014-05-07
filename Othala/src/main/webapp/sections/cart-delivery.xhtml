@@ -53,9 +53,9 @@
 					</div>
 
 					<div class="col-sm-5">
-						<h:selectOneMenu id="select-spe" value="#{cartWizardView.idAddressSpe}"
-							styleClass="form-control">
-							<f:selectItem itemLabel="Nuovo..." itemValue="0" noSelectionOption="true" />
+						<h:selectOneMenu id="select-spe"
+							rendered="#{cartWizardView.deliveryDTO.indirizzo.size()!=0 and cartWizardView.newAddrSpe==false}"
+							value="#{cartWizardView.idAddressSpe}" styleClass="form-control">
 							<f:selectItems value="#{cartWizardView.deliveryDTO.indirizzo}" var="addr"
 								itemLabel="#{addr.etichetta}" itemValue="#{addr.idAddress}" />
 							<f:ajax execute="@this" render="delivery" listener="#{cartWizardView.changeAddrSpe}"></f:ajax>
@@ -70,6 +70,13 @@
 							<div class="col-sm-3">
 								<h:commandLink value="#{msg.catalogo_modifyDelivery}">
 									<f:ajax execute="@this" render="delivery" listener="#{cartWizardView.modifyAddrSpe}"></f:ajax>
+								</h:commandLink>
+							</div>
+							<div class="col-sm-3">
+								<h:commandLink value="#{msg.catalogo_newDelivery}">
+									<f:ajax execute="@this" render="delivery" listener="#{cartWizardView.newAddrSpe}">
+
+									</f:ajax>
 								</h:commandLink>
 							</div>
 
@@ -105,12 +112,25 @@
 								</h:commandLink>
 							</div>
 						 -->
-						<div class="form-group">
-							<h:commandLink rendered="#{cartWizardView.saveAddressSpe}"
-								value="#{msg.catalogo_changeDelivery}">
-								<f:ajax execute="addrSpeNew" render="delivery select-spe" listener="#{cartWizardView.newAddrSpe}"></f:ajax>
-							</h:commandLink>
-						</div>
+						<div class="row">
+
+								<div class="col-sm-3">
+									<h:commandLink rendered="#{cartWizardView.saveAddressSpe}"
+										value="#{cartWizardView.newAddrSpe?msg.catalogo_insertDelivery:msg.catalogo_changeDelivery}">
+										<f:ajax execute="addrSpeNew" render="delivery" listener="#{cartWizardView.saveAddrSpe}"></f:ajax>
+									</h:commandLink>
+								</div>
+								<div class="col-sm-5">
+									<h:commandLink rendered="#{cartWizardView.saveAddressSpe}"
+										value="#{msg.catalogo_annChangeDelivery}">
+										<f:ajax execute="addrSpeNew" render="delivery" listener="#{cartWizardView.annAddrSpe}"></f:ajax>
+									</h:commandLink>
+								</div>
+							</div>
+
+
+
+
 
 
 						<div class="form-group">
@@ -203,9 +223,9 @@
 					</div>
 					<div class="col-sm-5">
 
-						<h:selectOneMenu id="select-fat" value="#{cartWizardView.idAddressFat}"
-							styleClass="form-control">
-							<f:selectItem itemLabel="Nuovo..." itemValue="0" noSelectionOption="true" />
+						<h:selectOneMenu id="select-fat"
+							rendered="#{cartWizardView.deliveryDTO.indirizzo.size()!=0 and cartWizardView.newAddrFat==false}"
+							value="#{cartWizardView.idAddressFat}" styleClass="form-control">
 							<f:selectItems value="#{cartWizardView.deliveryDTO.indirizzo}" var="addr"
 								itemLabel="#{addr.etichetta}" itemValue="#{addr.idAddress}" />
 							<f:ajax execute="@this" render="delivery" listener="#{cartWizardView.changeAddrFat}"></f:ajax>
@@ -217,15 +237,23 @@
 				<h:panelGroup id="addrFat">
 					<h:panelGroup layout="block" rendered="#{cartWizardView.editAddrFat==false}">
 						<div class="row">
+
 							<div class="col-sm-3">
-
 								<h:commandLink value="#{msg.catalogo_modifyDelivery}">
-									<f:ajax execute="@this" render="addrFat addrFatNew"
-										listener="#{cartWizardView.modifyAddrFat}"></f:ajax>
-
+									<f:ajax execute="@this" render="delivery" listener="#{cartWizardView.modifyAddrFat}"></f:ajax>
 								</h:commandLink>
-
 							</div>
+							<div class="col-sm-5">
+								<h:commandLink value="#{msg.catalogo_newDelivery}">
+									<f:ajax execute="@this" render="delivery" listener="#{cartWizardView.newAddrFat}">
+
+									</f:ajax>
+								</h:commandLink>
+							</div>
+
+
+
+
 							<!-- 
 							<div class="col-sm-3">
 								<h:commandLink value="#{msg.catalogo_deleteDelivery}" />
@@ -248,93 +276,108 @@
 				<!-- INSERIMENTO E MODIFICA INDIRIZZO FATTURAZIONE -->
 				<h:panelGroup id="addrFatNew">
 					<h:panelGroup layout="block" rendered="#{cartWizardView.editAddrFat}">
-						<h:panelGroup rendered="#{cartWizardView.saveAddressFat==false and cartWizardView.editAddrSpe==true}">
+						<h:panelGroup
+							rendered="#{cartWizardView.saveAddressFat==false and cartWizardView.editAddrSpe==true}">
 							<div class="form-group">
 								<div class="checkbox">
-									<label> <h:selectBooleanCheckbox id="chkSpe" value="#{cartWizardView.sameAddress}" />
-										<h:outputText value="#{msg.delivery_sameAddress}" />
+									<label> <h:selectBooleanCheckbox id="chkSpe" value="#{cartWizardView.sameAddress}">
+											<f:ajax execute="@this" render="delivery" listener="#{cartWizardView.hideAddressFat}"></f:ajax>
+										</h:selectBooleanCheckbox> <h:outputText value="#{msg.delivery_sameAddress}">
+
+										</h:outputText>
 
 									</label>
 								</div>
 							</div>
 						</h:panelGroup>
-						<div class="form-group">
-							<h:commandLink rendered="#{cartWizardView.saveAddressFat}"
-								value="#{msg.catalogo_changeDelivery}">
-								<f:ajax execute="addrFatNew" render="delivery" listener="#{cartWizardView.newAddrFat}"></f:ajax>
-							</h:commandLink>
-						</div>
+						<h:panelGroup id="addrFatFields" rendered="#{cartWizardView.sameAddress==false}">
+							<div class="row">
 
-						<div class="form-group">
-							<p:outputLabel value="#{msg.delivery_type}" for="typeFat" />
-							<p:inputText id="typeFat" styleClass="form-control" label="#{msg.delivery_type}"
-								value="#{cartFlowBean.addressFat.etichetta}" required="true" maxlength="70">
-							</p:inputText>
-							<p:message for="typeFat" />
-						</div>
-						<div class="form-group">
-							<p:outputLabel value="#{msg.delivery_name}" for="nameFat" />
-							<p:inputText id="nameFat" styleClass="form-control" label="#{msg.delivery_name}"
-								value="#{cartFlowBean.addressFat.nome}" required="true" maxlength="70">
-							</p:inputText>
-							<p:message for="nameFat" />
-						</div>
+								<div class="col-sm-3">
+									<h:commandLink rendered="#{cartWizardView.saveAddressFat}"
+										value="#{cartWizardView.newAddrFat?msg.catalogo_insertDelivery:msg.catalogo_changeDelivery}">
+										<f:ajax execute="addrFatNew" render="delivery" listener="#{cartWizardView.saveAddrFat}"></f:ajax>
+									</h:commandLink>
+								</div>
+								<div class="col-sm-3">
+									<h:commandLink rendered="#{cartWizardView.saveAddressFat}"
+										value="#{msg.catalogo_annChangeDelivery}">
+										<f:ajax execute="addrFatNew" render="delivery" listener="#{cartWizardView.annAddrFat}"></f:ajax>
+									</h:commandLink>
+								</div>
+							</div>
 
-						<div class="form-group">
-							<p:outputLabel value="#{msg.delivery_surname}" for="cognomeFat" />
-							<p:inputText id="cognomeFat" styleClass="form-control" label="#{msg.delivery_surname}"
-								value="#{cartFlowBean.addressFat.cognome}" required="true" maxlength="70">
-							</p:inputText>
-							<p:message for="cognomeFat" />
-						</div>
+							<div class="form-group">
+								<p:outputLabel value="#{msg.delivery_type}" for="typeFat" />
+								<p:inputText id="typeFat" styleClass="form-control" label="#{msg.delivery_type}"
+									value="#{cartFlowBean.addressFat.etichetta}" required="true" maxlength="70">
+								</p:inputText>
+								<p:message for="typeFat" />
+							</div>
+							<div class="form-group">
+								<p:outputLabel value="#{msg.delivery_name}" for="nameFat" />
+								<p:inputText id="nameFat" styleClass="form-control" label="#{msg.delivery_name}"
+									value="#{cartFlowBean.addressFat.nome}" required="true" maxlength="70">
+								</p:inputText>
+								<p:message for="nameFat" />
+							</div>
 
-						<div class="form-group ">
-							<p:outputLabel value="#{msg.delivery_tel}" for="telefonoFat" />
+							<div class="form-group">
+								<p:outputLabel value="#{msg.delivery_surname}" for="cognomeFat" />
+								<p:inputText id="cognomeFat" styleClass="form-control" label="#{msg.delivery_surname}"
+									value="#{cartFlowBean.addressFat.cognome}" required="true" maxlength="70">
+								</p:inputText>
+								<p:message for="cognomeFat" />
+							</div>
 
-							<p:inputText id="telefonoFat" styleClass="form-control" label="#{msg.delivery_tel}"
-								value="#{cartFlowBean.addressFat.tel}" required="true" maxlength="15" />
-							<p:message for="telefonoFat" />
-						</div>
+							<div class="form-group ">
+								<p:outputLabel value="#{msg.delivery_tel}" for="telefonoFat" />
 
-						<div class="form-group">
-							<p:outputLabel value="#{msg.delivery_address}" for="indirizzoFat" />
-							<p:inputText required="true" maxlength="70" id="indirizzoFat" styleClass="form-control"
-								label="#{msg.delivery_address}" value="#{cartFlowBean.addressFat.via}" />
+								<p:inputText id="telefonoFat" styleClass="form-control" label="#{msg.delivery_tel}"
+									value="#{cartFlowBean.addressFat.tel}" required="true" maxlength="15" />
+								<p:message for="telefonoFat" />
+							</div>
 
-							<p:message for="indirizzoFat" />
-						</div>
+							<div class="form-group">
+								<p:outputLabel value="#{msg.delivery_address}" for="indirizzoFat" />
+								<p:inputText required="true" maxlength="70" id="indirizzoFat" styleClass="form-control"
+									label="#{msg.delivery_address}" value="#{cartFlowBean.addressFat.via}" />
 
-						<div class="form-group">
-							<p:outputLabel value="#{msg.delivery_cap}" for="postaleFat" />
+								<p:message for="indirizzoFat" />
+							</div>
 
-							<p:inputText id="postaleFat" styleClass="form-control w120" label="#{msg.delivery_cap}"
-								value="#{cartFlowBean.addressFat.cap}" required="true" maxlength="10" />
+							<div class="form-group">
+								<p:outputLabel value="#{msg.delivery_cap}" for="postaleFat" />
 
-							<p:message for="postaleFat" />
-						</div>
+								<p:inputText id="postaleFat" styleClass="form-control w120" label="#{msg.delivery_cap}"
+									value="#{cartFlowBean.addressFat.cap}" required="true" maxlength="10" />
 
-						<div class="form-group">
-							<p:outputLabel value="#{msg.delivery_city}" for="cittaFat" />
-							<p:inputText id="cittaFat" styleClass="form-control" label="#{msg.delivery_city}"
-								value="#{cartFlowBean.addressFat.comune}" required="true" maxlength="70">
-							</p:inputText>
-							<p:message for="cittaFat" />
-						</div>
+								<p:message for="postaleFat" />
+							</div>
 
-						<div class="form-group">
-							<p:outputLabel value="#{msg.delivery_prov}" for="provFat" />
-							<p:inputText id="provFat" styleClass="form-control" label="#{msg.delivery_prov}"
-								value="#{cartFlowBean.addressFat.provincia}" required="true" maxlength="4">
-							</p:inputText>
-							<p:message for="provFat" />
-						</div>
-						<div class="form-group">
-							<p:outputLabel value="#{msg.delivery_paese}" />
-							<p:inputText styleClass="form-control" label="#{msg.delivery_prov}"
-								value="#{cartFlowBean.addressFat.nazione}" disabled="true" required="true" maxlength="4">
-							</p:inputText>
+							<div class="form-group">
+								<p:outputLabel value="#{msg.delivery_city}" for="cittaFat" />
+								<p:inputText id="cittaFat" styleClass="form-control" label="#{msg.delivery_city}"
+									value="#{cartFlowBean.addressFat.comune}" required="true" maxlength="70">
+								</p:inputText>
+								<p:message for="cittaFat" />
+							</div>
 
-						</div>
+							<div class="form-group">
+								<p:outputLabel value="#{msg.delivery_prov}" for="provFat" />
+								<p:inputText id="provFat" styleClass="form-control" label="#{msg.delivery_prov}"
+									value="#{cartFlowBean.addressFat.provincia}" required="true" maxlength="4">
+								</p:inputText>
+								<p:message for="provFat" />
+							</div>
+							<div class="form-group">
+								<p:outputLabel value="#{msg.delivery_paese}" />
+								<p:inputText styleClass="form-control" label="#{msg.delivery_prov}"
+									value="#{cartFlowBean.addressFat.nazione}" disabled="true" required="true" maxlength="4">
+								</p:inputText>
+
+							</div>
+						</h:panelGroup>
 
 					</h:panelGroup>
 
@@ -373,7 +416,7 @@
 		 -->
 		<div class="row spacer10">
 			<div class="col-sm-2 col-sm-offset-10">
-				<p:commandButton id="pay-cart" validateClient="true" ajax="true"
+				<p:commandButton id="pay-cart" validateClient="true" ajax="true" rendered="#{cartWizardView.rendeRiepilogo}"
 					actionListener="#{cartWizardView.newAddr}" update="delivery wrapUp cartTable-pnl"
 					process="delivery addrFatNew addrSpeNew" oncomplete="changePage(xhr, status, args);"
 					styleClass="ui-priority-primary" value="#{msg.delivery_wrapUpOrder}" />
@@ -383,7 +426,7 @@
 
 
 	</h:panelGroup>
-	
+
 
 
 
