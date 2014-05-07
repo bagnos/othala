@@ -14,6 +14,10 @@ public class DoExpressCheckoutPaymentDTO extends PayPalResponseDTO {
 	private TypeStatePayPal statePayPal;
 	
 	
+	public void setStatePayPal(TypeStatePayPal statePayPal) {
+		this.statePayPal = statePayPal;
+	}
+
 	public TypeStatePayPal getStatePayPal() {
 		return statePayPal;
 	}
