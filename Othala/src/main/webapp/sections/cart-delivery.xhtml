@@ -4,7 +4,9 @@
 	xmlns:pe="http://primefaces.org/ui/extensions">
 
 
+
 	<h:panelGroup id="delivery">
+
 
 		<!-- tipo di spedizione -->
 		<div class="row spacer10">
@@ -42,6 +44,7 @@
 
 
 		<div class="row">
+
 
 			<!-- INDIRIZZO SPEDIZIONE -->
 			<div class="col-sm-4 ">
@@ -114,99 +117,129 @@
 						 -->
 						<div class="row">
 
-								<div class="col-sm-3">
-									<h:commandLink rendered="#{cartWizardView.saveAddressSpe}"
-										value="#{cartWizardView.newAddrSpe?msg.catalogo_insertDelivery:msg.catalogo_changeDelivery}">
-										<f:ajax execute="addrSpeNew" render="delivery" listener="#{cartWizardView.saveAddrSpe}"></f:ajax>
-									</h:commandLink>
-								</div>
-								<div class="col-sm-5">
-									<h:commandLink rendered="#{cartWizardView.saveAddressSpe}"
-										value="#{msg.catalogo_annChangeDelivery}">
-										<f:ajax execute="addrSpeNew" render="delivery" listener="#{cartWizardView.annAddrSpe}"></f:ajax>
-									</h:commandLink>
+							<div class="col-sm-3">
+								<h:commandLink rendered="#{cartWizardView.saveAddressSpe}"
+									value="#{cartWizardView.newAddrSpe?msg.catalogo_insertDelivery:msg.catalogo_changeDelivery}">
+									<f:ajax execute="addrSpeNew" render="delivery" listener="#{cartWizardView.saveAddrSpe}"></f:ajax>
+								</h:commandLink>
+							</div>
+							<div class="col-sm-5">
+								<h:commandLink rendered="#{cartWizardView.saveAddressSpe}"
+									value="#{msg.catalogo_annChangeDelivery}">
+									<f:ajax execute="@this" render="delivery" listener="#{cartWizardView.annAddrSpe}"></f:ajax>
+								</h:commandLink>
+							</div>
+						</div>
+
+
+
+
+						<div class="form-horizontal spacer10">
+
+							<div class="form-group">
+								<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_type}"
+									for="typeSpe" />
+								<div class="col-sm-6">
+									<p:inputText id="typeSpe" placeholder="#{msg.delivery_type_hint}" styleClass="form-control"
+										label="#{msg.delivery_type}" value="#{cartFlowBean.addressSpe.etichetta}" required="true"
+										maxlength="70">
+									</p:inputText>
+									<p:message for="typeSpe" />
 								</div>
 							</div>
 
 
 
 
+							<div class="form-group">
+								<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_name}"
+									for="nameSpe" />
+								<div class="col-sm-6">
+									<p:inputText id="nameSpe" styleClass="form-control" label="#{msg.delivery_name}"
+										value="#{cartFlowBean.addressSpe.nome}" required="true" maxlength="70">
+									</p:inputText>
+									<p:message for="nameSpe" />
+								</div>
+							</div>
 
 
-						<div class="form-group">
-							<p:outputLabel value="#{msg.delivery_type}" for="typeSpe" />
-							<p:inputText id="typeSpe" styleClass="form-control" label="#{msg.delivery_type}"
-								value="#{cartFlowBean.addressSpe.etichetta}" required="true" maxlength="70">
-							</p:inputText>
-							<p:message for="typeSpe" />
+							<div class="form-group">
+								<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_surname}"
+									for="cognomeSpe" />
+								<div class="col-sm-6">
+									<p:inputText id="cognomeSpe" styleClass="form-control" label="#{msg.delivery_surname}"
+										value="#{cartFlowBean.addressSpe.cognome}" required="true" maxlength="70">
+									</p:inputText>
+
+									<p:message for="cognomeSpe" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_tel}"
+									for="telefonoSpe" />
+								<div class="col-sm-6">
+
+									<p:inputText id="telefonoSpe" styleClass="form-control" label="#{msg.delivery_tel}"
+										value="#{cartFlowBean.addressSpe.tel}" required="true" maxlength="15" />
+
+									<p:message for="telefonoSpe" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_address}"
+									for="indirizzoSpe" />
+								<div class="col-sm-9">
+									<p:inputText required="true" maxlength="70" id="indirizzoSpe" styleClass="form-control"
+										label="#{msg.delivery_address}" value="#{cartFlowBean.addressSpe.via}" />
+
+									<p:message for="indirizzoSpe" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_cap}"
+									for="postaleSpe" />
+								<div class="col-sm-4">
+									<p:inputText id="postaleSpe" styleClass="form-control w120" label="#{msg.delivery_cap}"
+										value="#{cartFlowBean.addressSpe.cap}" required="true" maxlength="10" />
+									<p:message for="postaleSpe" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_city}"
+									for="cittaSpe" />
+								<div class="col-sm-9">
+									<p:inputText id="cittaSpe" styleClass="form-control" label="#{msg.delivery_city}"
+										value="#{cartFlowBean.addressSpe.comune}" required="true" maxlength="70">
+									</p:inputText>
+									<p:message for="cittaSpe" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_prov}"
+									for="provSpe" />
+								<div class="col-sm-2">
+									<p:inputText id="provSpe" styleClass="form-control" label="#{msg.delivery_prov}"
+										value="#{cartFlowBean.addressSpe.provincia}" required="true" maxlength="4">
+									</p:inputText>
+									<p:message for="provSpe" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_paese}" />
+								<div class="col-sm-5">
+									<p:inputText styleClass="form-control" label="#{msg.delivery_prov}"
+										value="#{cartFlowBean.addressSpe.nazione}" disabled="true" required="true" maxlength="4">
+									</p:inputText>
+								</div>
+
+							</div>
 						</div>
-
-						<div class="form-group">
-							<p:outputLabel value="#{msg.delivery_name}" for="nameSpe" />
-							<p:inputText id="nameSpe" styleClass="form-control" label="#{msg.delivery_name}"
-								value="#{cartFlowBean.addressSpe.nome}" required="true" maxlength="70">
-							</p:inputText>
-							<p:message for="nameSpe" />
-						</div>
-
-						<div class="form-group">
-							<p:outputLabel value="#{msg.delivery_surname}" for="cognomeSpe" />
-							<p:inputText id="cognomeSpe" styleClass="form-control" label="#{msg.delivery_surname}"
-								value="#{cartFlowBean.addressSpe.cognome}" required="true" maxlength="70">
-							</p:inputText>
-							<p:message for="cognomeSpe" />
-						</div>
-
-						<div class="form-group">
-							<p:outputLabel value="#{msg.delivery_tel}" for="telefonoSpe" />
-
-							<p:inputText id="telefonoSpe" styleClass="form-control" label="#{msg.delivery_tel}"
-								value="#{cartFlowBean.addressSpe.tel}" required="true" maxlength="15" />
-
-							<p:message for="telefonoSpe" />
-						</div>
-
-						<div class="form-group">
-							<p:outputLabel value="#{msg.delivery_address}" for="indirizzoSpe" />
-							<p:inputText required="true" maxlength="70" id="indirizzoSpe" styleClass="form-control"
-								label="#{msg.delivery_address}" value="#{cartFlowBean.addressSpe.via}" />
-
-							<p:message for="indirizzoSpe" />
-						</div>
-
-						<div class="form-group">
-							<p:outputLabel value="#{msg.delivery_cap}" for="postaleSpe" />
-							<p:inputText id="postaleSpe" styleClass="form-control w120" label="#{msg.delivery_cap}"
-								value="#{cartFlowBean.addressSpe.cap}" required="true" maxlength="10" />
-							<p:message for="postaleSpe" />
-						</div>
-
-						<div class="form-group">
-							<p:outputLabel value="#{msg.delivery_city}" for="cittaSpe" />
-							<p:inputText id="cittaSpe" styleClass="form-control" label="#{msg.delivery_city}"
-								value="#{cartFlowBean.addressSpe.comune}" required="true" maxlength="70">
-							</p:inputText>
-							<p:message for="cittaSpe" />
-						</div>
-
-						<div class="form-group">
-							<p:outputLabel value="#{msg.delivery_prov}" for="provSpe" />
-							<p:inputText id="provSpe" styleClass="form-control" label="#{msg.delivery_prov}"
-								value="#{cartFlowBean.addressSpe.provincia}" required="true" maxlength="4">
-							</p:inputText>
-							<p:message for="provSpe" />
-						</div>
-
-						<div class="form-group">
-							<p:outputLabel value="#{msg.delivery_paese}" />
-							<p:inputText styleClass="form-control" label="#{msg.delivery_prov}"
-								value="#{cartFlowBean.addressSpe.nazione}" disabled="true" required="true" maxlength="4">
-							</p:inputText>
-
-						</div>
-
-
-
 					</h:panelGroup>
 
 				</h:panelGroup>
@@ -281,7 +314,8 @@
 							<div class="form-group">
 								<div class="checkbox">
 									<label> <h:selectBooleanCheckbox id="chkSpe" value="#{cartWizardView.sameAddress}">
-											<f:ajax execute="@this" render="addrFatNew" listener="#{cartWizardView.hideAddressFat}"></f:ajax>
+											<f:ajax execute="@this" render="addrFatNew pay-cart"
+												listener="#{cartWizardView.hideAddressFat}"></f:ajax>
 										</h:selectBooleanCheckbox> <h:outputText value="#{msg.delivery_sameAddress}">
 
 										</h:outputText>
@@ -302,80 +336,106 @@
 								<div class="col-sm-3">
 									<h:commandLink rendered="#{cartWizardView.saveAddressFat}"
 										value="#{msg.catalogo_annChangeDelivery}">
-										<f:ajax execute="addrFatNew" render="delivery" listener="#{cartWizardView.annAddrFat}"></f:ajax>
+										<f:ajax execute="@this" render="delivery" listener="#{cartWizardView.annAddrFat}"></f:ajax>
 									</h:commandLink>
 								</div>
 							</div>
 
-							<div class="form-group">
-								<p:outputLabel value="#{msg.delivery_type}" for="typeFat" />
-								<p:inputText id="typeFat" styleClass="form-control" label="#{msg.delivery_type}"
-									value="#{cartFlowBean.addressFat.etichetta}" required="true" maxlength="70">
-								</p:inputText>
-								<p:message for="typeFat" />
-							</div>
-							<div class="form-group">
-								<p:outputLabel value="#{msg.delivery_name}" for="nameFat" />
-								<p:inputText id="nameFat" styleClass="form-control" label="#{msg.delivery_name}"
-									value="#{cartFlowBean.addressFat.nome}" required="true" maxlength="70">
-								</p:inputText>
-								<p:message for="nameFat" />
-							</div>
+							<div class="form-horizontal spacer10">
 
-							<div class="form-group">
-								<p:outputLabel value="#{msg.delivery_surname}" for="cognomeFat" />
-								<p:inputText id="cognomeFat" styleClass="form-control" label="#{msg.delivery_surname}"
-									value="#{cartFlowBean.addressFat.cognome}" required="true" maxlength="70">
-								</p:inputText>
-								<p:message for="cognomeFat" />
-							</div>
+								<div class="form-group">
+									<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_type}"
+										for="typeFat" />
+									<div class="col-sm-6">
+										<p:inputText id="typeFat" placeholder="#{msg.delivery_type_hint}" styleClass="form-control" label="#{msg.delivery_type}"
+											value="#{cartFlowBean.addressFat.etichetta}" required="true" maxlength="70">
+										</p:inputText>
+										<p:message for="typeFat" />
+									</div>
+								</div>
+								<div class="form-group">
+									<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_name}"
+										for="nameFat" />
+									<div class="col-sm-6">
+										<p:inputText id="nameFat" styleClass="form-control" label="#{msg.delivery_name}"
+											value="#{cartFlowBean.addressFat.nome}" required="true" maxlength="70">
+										</p:inputText>
+										<p:message for="nameFat" />
+									</div>
+								</div>
 
-							<div class="form-group ">
-								<p:outputLabel value="#{msg.delivery_tel}" for="telefonoFat" />
+								<div class="form-group">
+									<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_surname}"
+										for="cognomeFat" />
+									<div class="col-sm-6">
+										<p:inputText id="cognomeFat" styleClass="form-control" label="#{msg.delivery_surname}"
+											value="#{cartFlowBean.addressFat.cognome}" required="true" maxlength="70">
+										</p:inputText>
+										<p:message for="cognomeFat" />
+									</div>
+								</div>
 
-								<p:inputText id="telefonoFat" styleClass="form-control" label="#{msg.delivery_tel}"
-									value="#{cartFlowBean.addressFat.tel}" required="true" maxlength="15" />
-								<p:message for="telefonoFat" />
-							</div>
+								<div class="form-group ">
+									<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_tel}"
+										for="telefonoFat" />
+									<div class="col-sm-6">
+										<p:inputText id="telefonoFat" styleClass="form-control" label="#{msg.delivery_tel}"
+											value="#{cartFlowBean.addressFat.tel}" required="true" maxlength="15" />
+										<p:message for="telefonoFat" />
+									</div>
+								</div>
 
-							<div class="form-group">
-								<p:outputLabel value="#{msg.delivery_address}" for="indirizzoFat" />
-								<p:inputText required="true" maxlength="70" id="indirizzoFat" styleClass="form-control"
-									label="#{msg.delivery_address}" value="#{cartFlowBean.addressFat.via}" />
+								<div class="form-group">
+									<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_address}"
+										for="indirizzoFat" />
+									<div class="col-sm-9">
+										<p:inputText required="true" maxlength="70" id="indirizzoFat" styleClass="form-control"
+											label="#{msg.delivery_address}" value="#{cartFlowBean.addressFat.via}" />
+										<p:message for="indirizzoFat" />
+									</div>
+								</div>
 
-								<p:message for="indirizzoFat" />
-							</div>
+								<div class="form-group">
+									<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_cap}"
+										for="postaleFat" />
+									<div class="col-sm-2">
+										<p:inputText id="postaleFat" styleClass="form-control w120" label="#{msg.delivery_cap}"
+											value="#{cartFlowBean.addressFat.cap}" required="true" maxlength="10" />
 
-							<div class="form-group">
-								<p:outputLabel value="#{msg.delivery_cap}" for="postaleFat" />
+										<p:message for="postaleFat" />
+									</div>
+								</div>
 
-								<p:inputText id="postaleFat" styleClass="form-control w120" label="#{msg.delivery_cap}"
-									value="#{cartFlowBean.addressFat.cap}" required="true" maxlength="10" />
+								<div class="form-group">
+									<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_city}"
+										for="cittaFat" />
+									<div class="col-sm-9">
+										<p:inputText id="cittaFat" styleClass="form-control" label="#{msg.delivery_city}"
+											value="#{cartFlowBean.addressFat.comune}" required="true" maxlength="70">
+										</p:inputText>
+										<p:message for="cittaFat" />
+									</div>
+								</div>
 
-								<p:message for="postaleFat" />
-							</div>
+								<div class="form-group">
+									<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_prov}"
+										for="provFat" />
+									<div class="col-sm-2">
+										<p:inputText id="provFat" styleClass="form-control" label="#{msg.delivery_prov}"
+											value="#{cartFlowBean.addressFat.provincia}" required="true" maxlength="4">
+										</p:inputText>
+										<p:message for="provFat" />
+									</div>
+								</div>
+								<div class="form-group">
+									<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_paese}" />
+									<div class="col-sm-6">
+										<p:inputText styleClass="form-control" label="#{msg.delivery_prov}"
+											value="#{cartFlowBean.addressFat.nazione}" disabled="true" required="true" maxlength="4">
+										</p:inputText>
+									</div>
 
-							<div class="form-group">
-								<p:outputLabel value="#{msg.delivery_city}" for="cittaFat" />
-								<p:inputText id="cittaFat" styleClass="form-control" label="#{msg.delivery_city}"
-									value="#{cartFlowBean.addressFat.comune}" required="true" maxlength="70">
-								</p:inputText>
-								<p:message for="cittaFat" />
-							</div>
-
-							<div class="form-group">
-								<p:outputLabel value="#{msg.delivery_prov}" for="provFat" />
-								<p:inputText id="provFat" styleClass="form-control" label="#{msg.delivery_prov}"
-									value="#{cartFlowBean.addressFat.provincia}" required="true" maxlength="4">
-								</p:inputText>
-								<p:message for="provFat" />
-							</div>
-							<div class="form-group">
-								<p:outputLabel value="#{msg.delivery_paese}" />
-								<p:inputText styleClass="form-control" label="#{msg.delivery_prov}"
-									value="#{cartFlowBean.addressFat.nazione}" disabled="true" required="true" maxlength="4">
-								</p:inputText>
-
+								</div>
 							</div>
 						</h:panelGroup>
 
@@ -384,6 +444,7 @@
 				</h:panelGroup>
 
 			</div>
+
 
 
 
@@ -414,15 +475,17 @@
 
 		</div>
 		 -->
-		<div class="row spacer10">
-			<div class="col-sm-2 col-sm-offset-10">
-				<p:commandButton id="pay-cart" validateClient="true" ajax="true" rendered="#{cartWizardView.rendeRiepilogo}"
-					actionListener="#{cartWizardView.newAddr}" update="delivery wrapUp cartTable-pnl"
-					process="delivery addrFatNew addrSpeNew" oncomplete="changePage(xhr, status, args);"
-					styleClass="ui-priority-primary" value="#{msg.delivery_wrapUpOrder}" />
+		<h:panelGroup id="pay-cart">
+			<div class="row spacer10">
+				<div class="col-sm-2 col-sm-offset-10">
+					<p:commandButton validateClient="true" ajax="true" rendered="#{cartWizardView.rendeRiepilogo}"
+						actionListener="#{cartWizardView.newAddr}" update="delivery wrapUp cartTable-pnl"
+						process="delivery addrFatNew addrSpeNew" oncomplete="changePage(xhr, status, args);"
+						styleClass="ui-priority-primary" value="#{msg.delivery_wrapUpOrder}" />
 
+				</div>
 			</div>
-		</div>
+		</h:panelGroup>
 
 
 	</h:panelGroup>

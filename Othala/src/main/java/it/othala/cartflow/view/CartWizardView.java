@@ -61,10 +61,10 @@ public class CartWizardView extends BaseView {
 		if (saveAddressSpe) {
 			return rendeRiepilogo;
 		}
-		if (editAddrFat && sameAddress==false) {
+		if (editAddrFat && sameAddress == false && deliveryDTO.getIndirizzo().isEmpty() == false) {
 			return rendeRiepilogo;
 		}
-		if (editAddrSpe && sameAddress==false) {
+		if (editAddrSpe && sameAddress == false && deliveryDTO.getIndirizzo().isEmpty() == false) {
 			return rendeRiepilogo;
 		}
 		rendeRiepilogo = true;
@@ -319,27 +319,31 @@ public class CartWizardView extends BaseView {
 	}
 
 	public void newAddr(ActionEvent ev) {
+		boolean modify = false;
 		if (cart.getAddressSpe().getIdAddress() == null || cart.getAddressSpe().getIdAddress() == 0) {
 			// nuovo spedizione
 			cart.getAddressSpe().setUserId(loginBean.getEmail());
 			cart.setAddressSpe(OthalaFactory.getOrderServiceInstance().newAddress(cart.getAddressSpe()));
+			modify = true;
 		}
 		if (isSameAddress() == false) {
 			if (cart.getAddressFat().getIdAddress() == null || cart.getAddressFat().getIdAddress() == 0) {
 				// nuovo fatturazione
 				cart.getAddressFat().setUserId(loginBean.getEmail());
 				cart.setAddressFat(OthalaFactory.getOrderServiceInstance().newAddress(cart.getAddressFat()));
+				modify = true;
 			}
 		} else {
 			cart.setAddressFat(cart.getAddressSpe());
 		}
-
-		retrieveAddresses();
+		if (modify) {
+			retrieveAddresses();
+		}
 		idAddressSpe = cart.getAddressSpe().getIdAddress();
 		idAddressFat = cart.getAddressFat().getIdAddress();
 		editAddrSpe = false;
 		editAddrFat = false;
-
+		sameAddress = false;
 	}
 
 	public String updateWrapUp() {

@@ -3,8 +3,14 @@ package it.othala.dto;
 public class MailConfermaDTO {
 	private String pathImgLogo;
 	private String pathImgPayment;
-	private String basePathArticle;
+	private String basePathThumbinalsArticle;
 	
+	public String getBasePathThumbinalsArticle() {
+		return basePathThumbinalsArticle;
+	}
+	public void setBasePathThumbinalsArticle(String basePathThumbinalsArticle) {
+		this.basePathThumbinalsArticle = basePathThumbinalsArticle;
+	}
 	public String getPathImgLogo() {
 		return pathImgLogo;
 	}
@@ -17,11 +23,6 @@ public class MailConfermaDTO {
 	public void setPathImgPayment(String pathImgPayment) {
 		this.pathImgPayment = pathImgPayment;
 	}
-	public String getBasePathArticle() {
-		return basePathArticle;
-	}
-	public void setBasePathArticle(String basePathArticle) {
-		this.basePathArticle = basePathArticle;
-	}
+	
 	
 }

@@ -39,7 +39,7 @@ public class MailTest {
 
 			
 			MailConfermaDTO mail=new MailConfermaDTO();
-			mail.setBasePathArticle("C:/progs/Tomcat/apache-tomcat-7.0.53/webapps/Othala/resources/images/cartThumbinals/");
+			mail.setBasePathThumbinalsArticle("C:/progs/Tomcat/apache-tomcat-7.0.53/webapps/Othala/resources/images/cartThumbinals/");
 			mail.setPathImgLogo("C:/progs/Tomcat/apache-tomcat-7.0.53/webapps/Othala/resources/images/logo2-small.png");
 			mail.setPathImgPayment("C:/progs/Tomcat/apache-tomcat-7.0.53/webapps/Othala/resources/images/payment/paypal.gif");
 			OthalaFactory.getOrderServiceInstance().inviaMailDiConferma(order,mail);
