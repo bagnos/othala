@@ -207,6 +207,8 @@ public class PayPalWrapper {
 			checkDTO.setNote(response.get("NOTE"));
 			checkDTO.setPAYMENTINFO_0_PAYMENTSTATUS(response.get("PAYMENTINFO_0_PAYMENTSTATUS"));
 			checkDTO.setPAYMENTINFO_0_PENDINGREASON(response.get("PAYMENTINFO_0_PENDINGREASON"));
+		
+			
 		} else {
 			updateError(response);
 			if (isFundinFailure()) {

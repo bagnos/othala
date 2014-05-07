@@ -11,8 +11,12 @@ public class DoExpressCheckoutPaymentDTO extends PayPalResponseDTO {
 	private String PAYMENTINFO_0_PAYMENTSTATUS;
 	private String PAYMENTINFO_0_PENDINGREASON;
 	private String note;
+	private TypeStatePayPal statePayPal;
 	
 	
+	public TypeStatePayPal getStatePayPal() {
+		return statePayPal;
+	}
 	
 	public String getNote() {
 		return note;

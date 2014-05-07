@@ -25,7 +25,13 @@ public class CartConfirmationView extends BaseView {
 	private String messagePayment;
 	private boolean paymentOK;
 	private OrderFullDTO order;
+	private boolean payCompleted;
 	
+	
+
+	public boolean isPayCompleted() {
+		return payCompleted;
+	}
 
 	public OrderFullDTO getOrder() {
 		return order;
@@ -58,6 +64,11 @@ public class CartConfirmationView extends BaseView {
 			int idOrder = Integer.valueOf(details.getCustom());
 			List<OrderFullDTO> orders=OthalaFactory.getOrderServiceInstance().getOrders(idOrder, null, null);
 			order=orders.get(0);
+			
+			payCompleted=true;
+			if (checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS().equalsIgnoreCase(PayPalWrapper.COMPLETED_STATUS)) {
+			
+			}
 			
 			if (checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS().equalsIgnoreCase(PayPalWrapper.COMPLETED_STATUS)) {
 				OthalaFactory.getOrderServiceInstance().updateOrder(checkDTO.getPAYMENTINFO_0_TRANSACTIONID(), idOrder,
