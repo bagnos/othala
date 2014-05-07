@@ -440,7 +440,7 @@
 		`dtProductState`)
 
 		values (#{idGender},#{idType},#{idBrand},
-		#{price},#{discount},#{thumbnailsUrl},1,now())
+		#{price},#{discount},#{thumbnailsUrl},0,now())
 
 		<selectKey resultType="java.lang.Integer" keyProperty="idProduct">
 
