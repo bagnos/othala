@@ -1,7 +1,7 @@
 package it.othala.payment.paypal;
 
 public enum TypeStatePayPal {
-	COMPLETED(1), PRCESSING(2), REFUSED(3);
+	COMPLETED(1), PROCESSING(2), REFUSED(3);
 
 	private int stato;
 

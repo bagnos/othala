@@ -65,18 +65,7 @@ public class CartConfirmationView extends BaseView {
 			List<OrderFullDTO> orders=OthalaFactory.getOrderServiceInstance().getOrders(idOrder, null, null);
 			order=orders.get(0);
 			
-			payCompleted=true;
-			if (checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS().equalsIgnoreCase(PayPalWrapper.COMPLETED_STATUS)) {
 			
-			}
-			
-			if (checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS().equalsIgnoreCase(PayPalWrapper.COMPLETED_STATUS)) {
-				OthalaFactory.getOrderServiceInstance().updateOrder(checkDTO.getPAYMENTINFO_0_TRANSACTIONID(), idOrder,
-						3, null);
-			} else {
-				OthalaFactory.getOrderServiceInstance().updateOrder(checkDTO.getPAYMENTINFO_0_TRANSACTIONID(), idOrder,
-						2, null);
-			} 
 
 		} catch (PayPalFundingFailureException e) {
 			paymentOK = false;

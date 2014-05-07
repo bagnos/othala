@@ -46,7 +46,7 @@ public class PayPalWrapper {
 	private List<String> errorCodes;
 	private String errorMessage;
 	private Map<String, String> paymentDetails;
-	public static final String COMPLETED_STATUS="Completed"; 
+	public static final String COMPLETED_STATUS = "Completed";
 
 	private void loadProp() throws IOException {
 		if (prop == null) {
@@ -93,8 +93,8 @@ public class PayPalWrapper {
 		PayPal pp = new PayPal(getProfile(), getEnvironment());
 
 		DoExpressCheckoutPayment doCheck = new DoExpressCheckoutPayment(details.getToken(), PaymentAction.SALE,
-				details.getPayerid(),details.getAmount().toString(),details.getCurrencyCode());
-		//doCheck.setUSESESSIONPAYMENTDETAILS(true);
+				details.getPayerid(), details.getAmount().toString(), details.getCurrencyCode());
+		// doCheck.setUSESESSIONPAYMENTDETAILS(true);
 		doCheck.setPaymentDetails(paymentDetails);
 		pp.setResponse(doCheck);
 		Map<String, String> response = doCheck.getNVPResponse();
@@ -139,19 +139,21 @@ public class PayPalWrapper {
 		payment.setCurrency(Currency.EUR);
 		payment.setAllowingNote(true);
 		payment.setLocalCode(locale.toUpperCase());
-		//payment.setOverrideShippingAddress();
+		// payment.setOverrideShippingAddress();
 		payment.setSuppressingShippingAddress();
 		payment.setCustomField(idOrder);
 		payment.setShippingAmount(cart.getDeliveryCost().getImportoSpese().toString());
 		payment.setPaymentRequestITEMAMT(cart.getTotalItemOrder().toString());
 
 		/*
-		String country = locale;
-
-		payment.setShipToAddress(cart.getAddressSpe().getNome() + " " + cart.getAddressSpe().getCognome(), cart
-				.getAddressSpe().getVia(), cart.getAddressSpe().getComune(), cart.getAddressSpe().getCap(), cart
-				.getAddressSpe().getProvincia(), country,cart.getAddressSpe().getTel());
-*/
+		 * String country = locale;
+		 * 
+		 * payment.setShipToAddress(cart.getAddressSpe().getNome() + " " +
+		 * cart.getAddressSpe().getCognome(), cart .getAddressSpe().getVia(),
+		 * cart.getAddressSpe().getComune(), cart.getAddressSpe().getCap(), cart
+		 * .getAddressSpe().getProvincia(),
+		 * country,cart.getAddressSpe().getTel());
+		 */
 		return payment;
 	}
 
@@ -207,10 +209,10 @@ public class PayPalWrapper {
 			checkDTO.setNote(response.get("NOTE"));
 			checkDTO.setPAYMENTINFO_0_PAYMENTSTATUS(response.get("PAYMENTINFO_0_PAYMENTSTATUS"));
 			checkDTO.setPAYMENTINFO_0_PENDINGREASON(response.get("PAYMENTINFO_0_PENDINGREASON"));
-		
-			
+			updateState(checkDTO);	
 		} else {
 			updateError(response);
+			
 			if (isFundinFailure()) {
 
 				throw new PayPalFundingFailureException(errorMessage, getRedirctUrl(checkDTO.getToken()));
@@ -240,26 +242,37 @@ public class PayPalWrapper {
 			getExpressCheckoutDetailsDTO.setLastname(response.get("LASTNAME").toString());
 			getExpressCheckoutDetailsDTO.setCurrencyCode(response.get("CURRENCYCODE").toString());
 			getExpressCheckoutDetailsDTO.setAmount(new BigDecimal(response.get("PAYMENTREQUEST_0_AMT").toString()));
-			getExpressCheckoutDetailsDTO.setItemAmount(new BigDecimal(response.get("PAYMENTREQUEST_0_ITEMAMT").toString()));
-			getExpressCheckoutDetailsDTO.setShipAmount(new BigDecimal(response.get("PAYMENTREQUEST_0_SHIPPINGAMT").toString()));
+			getExpressCheckoutDetailsDTO.setItemAmount(new BigDecimal(response.get("PAYMENTREQUEST_0_ITEMAMT")
+					.toString()));
+			getExpressCheckoutDetailsDTO.setShipAmount(new BigDecimal(response.get("PAYMENTREQUEST_0_SHIPPINGAMT")
+					.toString()));
 
 			/*
-			getExpressCheckoutDetailsDTO.getShippingAddress().setCap(
-					response.get("PAYMENTREQUEST_0_SHIPTOZIP").toString());
-
-			String[] nomeCompleto = response.get("PAYMENTREQUEST_0_SHIPTONAME").toString().split(" ");
-
-			getExpressCheckoutDetailsDTO.getShippingAddress().setNome(nomeCompleto[0]);
-			getExpressCheckoutDetailsDTO.getShippingAddress().setCognome(nomeCompleto[1]);
-			getExpressCheckoutDetailsDTO.getShippingAddress().setVia(
-					(response.get("PAYMENTREQUEST_0_SHIPTOSTREET").toString()));
-			getExpressCheckoutDetailsDTO.getShippingAddress().setProvincia(response.get("PAYMENTREQUEST_0_STATE"));
-			getExpressCheckoutDetailsDTO.getShippingAddress().setNazione(
-					response.get("PAYMENTREQUEST_0_SHIPTOCOUNTRYCODE"));
-
-			getExpressCheckoutDetailsDTO.getShippingAddress().setComune(response.get("PAYMENTREQUEST_0_SHIPTOCITY"));
-			getExpressCheckoutDetailsDTO.getShippingAddress().setTel(response.get("PAYMENTREQUEST_0_SHIPTOPHONENUM"));
-*/
+			 * getExpressCheckoutDetailsDTO.getShippingAddress().setCap(
+			 * response.get("PAYMENTREQUEST_0_SHIPTOZIP").toString());
+			 * 
+			 * String[] nomeCompleto =
+			 * response.get("PAYMENTREQUEST_0_SHIPTONAME"
+			 * ).toString().split(" ");
+			 * 
+			 * getExpressCheckoutDetailsDTO.getShippingAddress().setNome(
+			 * nomeCompleto[0]);
+			 * getExpressCheckoutDetailsDTO.getShippingAddress(
+			 * ).setCognome(nomeCompleto[1]);
+			 * getExpressCheckoutDetailsDTO.getShippingAddress().setVia(
+			 * (response.get("PAYMENTREQUEST_0_SHIPTOSTREET").toString()));
+			 * getExpressCheckoutDetailsDTO
+			 * .getShippingAddress().setProvincia(response
+			 * .get("PAYMENTREQUEST_0_STATE"));
+			 * getExpressCheckoutDetailsDTO.getShippingAddress().setNazione(
+			 * response.get("PAYMENTREQUEST_0_SHIPTOCOUNTRYCODE"));
+			 * 
+			 * getExpressCheckoutDetailsDTO.getShippingAddress().setComune(response
+			 * .get("PAYMENTREQUEST_0_SHIPTOCITY"));
+			 * getExpressCheckoutDetailsDTO
+			 * .getShippingAddress().setTel(response.
+			 * get("PAYMENTREQUEST_0_SHIPTOPHONENUM"));
+			 */
 			updateCart(response, getExpressCheckoutDetailsDTO);
 
 			getExpressCheckoutDetailsDTO.setOkMessage(sn.toString());
@@ -289,25 +302,23 @@ public class PayPalWrapper {
 
 		ItemCartDTO item = null;
 		String key = null;
-		paymentDetails=new Hashtable<String, String>();
+		paymentDetails = new Hashtable<String, String>();
 		while (true) {
 			key = L_PAYMENTREQUEST_0_DESCn + i;
 			if (response.containsKey(key)) {
 				item = new ItemCartDTO();
 				item.setDescription(response.get(key));
 				paymentDetails.put(key, response.get(key));
-				paymentDetails.put("L_DESC"+i,response.get(key));
-				
-				
+				paymentDetails.put("L_DESC" + i, response.get(key));
+
 				key = L_PAYMENTREQUEST_0_QTYm + i;
 				item.setQta(Integer.valueOf(response.get(key)));
 				paymentDetails.put(key, response.get(key));
-				
+
 				key = L_PAYMENTREQUEST_0_AMTm + i;
 				item.setPrice(new BigDecimal(response.get(key)));
 				paymentDetails.put(key, response.get(key));
-				
-				
+
 				key = L_PAYMENTREQUEST_0_NUMBERm + i;
 				item.setCode(response.get(key));
 				paymentDetails.put(key, response.get(key));
@@ -351,6 +362,22 @@ public class PayPalWrapper {
 	public String getRedirctUrl(String token) {
 		redirectUrl = redirectUrl.replace("token", token);
 		return redirectUrl;
+	}
+
+	private void updateState(DoExpressCheckoutPaymentDTO checkDTO) {
+		checkDTO.setStatePayPal(TypeStatePayPal.COMPLETED);
+		if (checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS().equalsIgnoreCase("In progress")
+				|| checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS().equalsIgnoreCase("Pending verification")
+				|| checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS().equalsIgnoreCase("Processing")) {
+			checkDTO.setStatePayPal(TypeStatePayPal.PROCESSING);
+			return;
+		}
+		if (checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS().equalsIgnoreCase("Denied")
+				|| checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS().equalsIgnoreCase("Failed")
+				|| checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS().equalsIgnoreCase("Refused")) {
+			checkDTO.setStatePayPal(TypeStatePayPal.REFUSED);
+			return;
+		}
 	}
 
 }
