@@ -404,9 +404,9 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `othala`.`Orders` ;
 
 CREATE  TABLE IF NOT EXISTS `othala`.`Orders` (
-  `idOrder` INT NOT NULL ,
+  `idOrder` INT NOT NULL AUTO_INCREMENT ,
   `idUser` VARCHAR(100) NOT NULL ,
-  `imOrdine` INT NULL ,
+  `imOrdine` INT NOT NULL ,
   `idTransaction` VARCHAR(45) NULL ,
   `idAddressFat` INT NOT NULL ,
   `idAddressSpe` INT NOT NULL ,
