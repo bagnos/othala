@@ -58,4 +58,10 @@ public interface IProductDAO {
 	public ProductFullDTO getProductArticleFull(String languages, Integer idProduct,
 			Integer pgArticle);
 
+	public void insertBrand(String languages, String txBrand);
+
+	public List<ProductDTO> listProductToPublish();
+	
+	
+
 }
