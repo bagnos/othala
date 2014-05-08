@@ -339,6 +339,27 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		return qtStock;
 
 	}
+
+	@Override
+	public void insertBrand(String languages, String txBrand) {
+		
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("languages", languages);
+		map.put("txBrand", txBrand);
+
+		Integer qtStock = getSqlSession().insert(
+				"it.othala.product.queries.insertBrand", map);
+		
+	}
+
+	@Override
+	public List<ProductDTO> listProductToPublish() {
+
+		List<ProductDTO> listProduct = getSqlSession().selectList(
+				"it.othala.product.queries.listProductToPublish");
+
+		return listProduct;
+	}
 	
 	
 	

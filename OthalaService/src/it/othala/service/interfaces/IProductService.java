@@ -27,5 +27,9 @@ public interface IProductService {
 
 	public ProductFullDTO getProductArticleFull(String languages, Integer idProduct,
 			Integer pgArticle);
+
+	public DomainDTO insertBrand(String languages, String txBrand);
+
+	public List<ProductDTO> getListProductToPublish();
 	
 }

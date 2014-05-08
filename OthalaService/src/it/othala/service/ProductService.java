@@ -1,5 +1,6 @@
 package it.othala.service;
 
+import it.othala.dao.ProductDAO;
 import it.othala.dao.interfaces.IProductDAO;
 import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.DomainDTO;
@@ -134,4 +135,31 @@ public class ProductService implements IProductService {
 
 	}
 
+	
+	@Override
+	public DomainDTO insertBrand(String languages, String txBrand) {
+
+		productDAO.insertBrand(languages, txBrand);
+		
+		DomainDTO domainDTO = new DomainDTO();
+		domainDTO.setSize(productDAO.listSize());
+		domainDTO.setColor(productDAO.listColor(languages));
+		domainDTO.setBrand(productDAO.listBrand(languages));
+		domainDTO.setGender(productDAO.listGender(languages));
+		domainDTO.setType(productDAO.listType(languages));
+
+		return domainDTO;
+
+	}
+	
+	@Override
+	public List<ProductDTO> getListProductToPublish() {
+
+		List<ProductDTO> listProduct = productDAO.listProductToPublish();
+
+		return listProduct;
+
+	}
+	
+	
 }

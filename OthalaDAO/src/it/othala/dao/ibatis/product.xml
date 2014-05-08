@@ -465,6 +465,16 @@
 	</insert>
 
 
+	<insert id="insertBrand" parameterType="java.util.HashMap">
+
+		INSERT INTO
+		${database.schema}brand
+		(`idLanguages`,`txBrand`)
+		values (,
+		#{languages},#{txBrand})
+
+	</insert>
+	
 	<insert id="insertArticle" parameterType="java.util.HashMap">
 
 		INSERT INTO
@@ -506,6 +516,47 @@
 
 
 	</select>
+
+<select id="listProductToPublish" resultType="it.othala.dto.ProductDTO">
+
+		SELECT
+		a.idProduct ,
+		imPrice as price,
+		txBrand as brand,
+		txThumbnailsUrl
+		as imagesUrl,
+		ceiling(imPrice * (100 - pcDiscount) / 100) as
+		priceDiscounted,
+		txDescription as description,
+		txGender as gender,
+		txType as type,
+		pcDiscount as discount,
+		case
+		when a.dtProductState
+		>
+		current_date - 7 then 'Y'
+		else 'N'
+		end as fgNewArrivals
+		FROM
+
+		${database.schema}product a,
+		${database.schema}product_description b,
+		${database.schema}brand c,
+		${database.schema}gender f,
+		`type` g
+		where
+		a.idProduct = b.idProduct
+		and b.idLanguages = 'it'
+		and
+		a.idProductState = 0
+		and c.idBrand = a.idBrand
+		and f.idGender =
+		a.idGender
+		and g.idType = a.idType;
+
+
+	</select>
+
 
 
 </mapper>
