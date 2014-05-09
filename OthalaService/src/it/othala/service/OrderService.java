@@ -10,7 +10,9 @@ import it.othala.dto.DeliveryDTO;
 import it.othala.dto.MailConfermaDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.StateOrderDTO;
+import it.othala.enums.TypeStateOrder;
 import it.othala.execption.OthalaException;
+import it.othala.execption.StockNotPresentException;
 import it.othala.service.interfaces.IMailService;
 import it.othala.service.interfaces.IOrderService;
 import it.othala.service.template.Template;
@@ -82,30 +84,18 @@ public class OrderService implements IOrderService {
 	@Override
 	public OrderFullDTO insertOrder(OrderFullDTO orderFull) throws OthalaException {
 
+		if (!checkQtaInStock(null,orderFull))
+		{throw new StockNotPresentException();}
+		
 		orderDAO.insertOrder(orderFull);
 
-		Integer qtaProduct;
 		HashMap<String, Object> mapProduct = new HashMap<String, Object>();
+		
 		List<ArticleFullDTO> lsProd = orderFull.getCart();
 		Iterator<ArticleFullDTO> i = lsProd.iterator();
 		while (i.hasNext()) {
 			ArticleFullDTO article = i.next();
-
-			qtaProduct = productDAO.getQtStock(article.getPrdFullDTO().getIdProduct(), article.getPgArticle());
-
-			if (qtaProduct < article.getQtBooked()) {
-				String exc;
-				if (qtaProduct == 0) {
-					exc = "Prodotto " + article.getPrdFullDTO().getDescription() + " non piu disponibile";
-				} else {
-					exc = "Prodotto " + article.getPrdFullDTO().getDescription() + " quantità residua "
-							+ qtaProduct.toString();
-
-				}
-				throw new OthalaException(exc);
-
-			}
-
+					
 			mapProduct.clear();
 			mapProduct.put("idOrder", orderFull.getIdOrder());
 			mapProduct.put("idProdotto", article.getPrdFullDTO().getIdProduct());
@@ -113,12 +103,70 @@ public class OrderService implements IOrderService {
 			mapProduct.put("qtArticle", article.getQtBooked());
 
 			orderDAO.insertOrdersArticles(mapProduct);
-						
+			
 		}
 		
 		orderDAO.insertStatesOrders(orderFull);
 
 		return orderFull;
+	}
+	
+	@Override
+	public void confirmOrderPayment(String idTransaction, Integer idOrder, TypeStateOrder stato) throws StockNotPresentException {
+
+		if (!checkQtaInStock(idOrder,null))
+		{throw new StockNotPresentException();}
+		
+		orderDAO.updateOrder(idOrder, idTransaction, null);		
+		
+		StateOrderDTO stateOrder = new StateOrderDTO();
+		stateOrder.setIdOrder(idOrder);
+		stateOrder.setIdStato(stato.getState());
+		stateOrder.setTxNote(null);
+				
+		orderDAO.updateStateOrder(stateOrder);
+		
+		if (stato == TypeStateOrder.PAGATO){
+			 //implementare la diminuzione dallo stock	
+		}
+		
+	}
+	
+	private boolean checkQtaInStock(Integer idOrder, OrderFullDTO orderFull){
+		
+		if (orderFull == null){
+			List<OrderFullDTO> lsOrders = orderDAO.getOrders(idOrder, null, null);
+			Iterator<OrderFullDTO> oi = lsOrders.iterator();
+			orderFull = oi.next();			
+		}
+
+		List<ArticleFullDTO> lsProd = orderFull.getCart();
+		Iterator<ArticleFullDTO> i = lsProd.iterator();
+		boolean esito = true;
+		while (i.hasNext()) {
+			ArticleFullDTO article = i.next();
+
+			Integer qtaProduct = productDAO.getQtStock(article.getPrdFullDTO().getIdProduct(), article.getPgArticle());
+			
+			if (qtaProduct < article.getQtBooked()){esito = false;}
+			else{esito = true;}
+		
+		}
+		return esito;
+	}
+	
+	@Override
+	public void confirmOrderDelivery(String idTrackingNumber, Integer idOrder) {
+
+		orderDAO.updateOrder(idOrder, null, idTrackingNumber);		
+		
+		StateOrderDTO stateOrder = new StateOrderDTO();
+		stateOrder.setIdOrder(idOrder);
+		stateOrder.setIdStato(TypeStateOrder.SPEDITO.getState());
+		stateOrder.setTxNote(null);
+		
+		orderDAO.updateStateOrder(stateOrder);
+	
 	}
 
 	public IOrderDAO getOrderDAO() {
@@ -140,7 +188,7 @@ public class OrderService implements IOrderService {
 	@Override
 	public void updateStateOrder(StateOrderDTO stateOrder) {
 
-		orderDAO.updateStatesOrders(stateOrder);
+		orderDAO.updateStateOrder(stateOrder);
 
 	}
 
@@ -169,12 +217,6 @@ public class OrderService implements IOrderService {
 		orderDAO.deleteAddress(idAddress);
 		orderDAO.newAddress(newAddress);
 		return newAddress;
-	}
-
-	@Override
-	public void updateOrder(String idTransaction, Integer idOrder, Integer idStato, String idTrackingNumber) {
-		orderDAO.updateOrder(idTransaction, idOrder, idStato, idTrackingNumber);
-
 	}
 
 	@Override
