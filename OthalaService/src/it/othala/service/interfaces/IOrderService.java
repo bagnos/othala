@@ -6,7 +6,9 @@ import it.othala.dto.DeliveryDTO;
 import it.othala.dto.MailConfermaDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.StateOrderDTO;
+import it.othala.enums.TypeStateOrder;
 import it.othala.execption.OthalaException;
+import it.othala.execption.StockNotPresentException;
 
 import java.sql.Date;
 import java.util.List;
@@ -17,9 +19,11 @@ public interface IOrderService {
 	
 	public OrderFullDTO insertOrder(OrderFullDTO orderFull) throws MailNotSendException, OthalaException;
 	
-	public void updateStateOrder(StateOrderDTO stateOrder);
+	public void confirmOrderPayment(String idTransaction, Integer idOrder, TypeStateOrder stato) throws StockNotPresentException;
 	
-	public void updateOrder(String idTransaction, Integer idOrder, Integer idStato, String idTrackingNumber);
+	public void confirmOrderDelivery(String idTrackingNumber, Integer idOrder);
+	
+	public void updateStateOrder(StateOrderDTO stateOrder);
 	
 	public void deleteAddress(Integer idAddress);
 	
