@@ -493,8 +493,6 @@ CREATE  TABLE IF NOT EXISTS `othala`.`States_Orders` (
   PRIMARY KEY (`idOrder`, `idStato`) ,
   INDEX `fk_StatesOrders_States1_idx` (`idStato` ASC) ,
   INDEX `fk_StatesOrders_Orders1_idx` (`idOrder` ASC) ,
-  UNIQUE INDEX `idOrder_UNIQUE` (`idOrder` ASC) ,
-  UNIQUE INDEX `idStato_UNIQUE` (`idStato` ASC) ,
   CONSTRAINT `fk_StatesOrders_Orders1`
     FOREIGN KEY (`idOrder` )
     REFERENCES `othala`.`Orders` (`idOrder` )
