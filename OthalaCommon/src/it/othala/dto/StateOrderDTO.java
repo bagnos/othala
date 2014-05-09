@@ -10,7 +10,7 @@ public class StateOrderDTO implements Serializable {
 	
 	private Integer idOrder;
 	private Integer idStato;
-	private String txStato;
+	private String txNote;
 	private Date dtStato;
 	
 	public Integer getIdOrder() {
@@ -25,11 +25,11 @@ public class StateOrderDTO implements Serializable {
 	public void setIdStato(Integer idStato) {
 		this.idStato = idStato;
 	}
-	public String getTxStato() {
-		return txStato;
+	public String getTxNote() {
+		return txNote;
 	}
-	public void setTxStato(String txStato) {
-		this.txStato = txStato;
+	public void setTxNote(String txNote) {
+		this.txNote = txNote;
 	}
 	public Date getDtStato() {
 		return dtStato;
