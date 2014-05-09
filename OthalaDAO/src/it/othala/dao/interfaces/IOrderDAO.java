@@ -20,7 +20,7 @@ public interface IOrderDAO {
 	
 	public void insertStatesOrders(OrderFullDTO orderFull);
 	
-	public void updateStatesOrders(StateOrderDTO stateOrder);
+	public void updateStateOrder(StateOrderDTO stateOrder);
 	
 	public DeliveryAddressDTO newAddress(DeliveryAddressDTO newAddress);
 	
@@ -28,7 +28,7 @@ public interface IOrderDAO {
 	
 	public List<DeliveryAddressDTO> getDeliveryAddress(String userId);
 	
-	public void updateOrder(String idTransaction, Integer idOrder, Integer idStato, String idTrackingNumber);
+	public void updateOrder(Integer idOrder, String idTransaction, String idTrackingNumber);
 	
 	public void deleteAddress(Integer idAddress);
 	

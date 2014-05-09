@@ -5,6 +5,7 @@ import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryCostDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.StateOrderDTO;
+import it.othala.enums.TypeStateOrder;
 import it.othala.execption.OthalaException;
 
 import java.util.HashMap;
@@ -52,7 +53,7 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO  {
 		}
 
 	@Override
-	public void updateStatesOrders(StateOrderDTO stateOrder) {
+	public void updateStateOrder(StateOrderDTO stateOrder) {
 		
 		getSqlSession().insert("it.othala.order.queries.updateStatesOrders",
 				stateOrder);
@@ -98,27 +99,19 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO  {
 				mapProduct);
 		
 	}
-
-	@Override
-	public void updateOrder(String idTransaction, Integer idOrder, Integer idStato, String idTrackingNumber) {
-
-		HashMap<String, Object> mapUpdate =  new HashMap<String, Object>();
-		if (idTransaction != null && !idTransaction.isEmpty())
-			mapUpdate.put("idTransaction", idTransaction);
-		else
-			if (idTrackingNumber != null && !idTrackingNumber.isEmpty())
-				mapUpdate.put("idTrackingNumber", idTrackingNumber);
+	
+	@Override public void updateOrder(Integer idOrder, String idTransaction, String idTrackingNumber){
 		
-		mapUpdate.put("idOrder", idOrder);
+		HashMap<String, Object> mapUpdate =  new HashMap<String, Object>();
+		
+		mapUpdate.put("idOrder", idOrder);		
+		if (idTransaction != null)
+			mapUpdate.put("idTransaction", idTransaction);
+		if (idTrackingNumber != null)
+			mapUpdate.put("idTrackingNumber", idTrackingNumber);
 		
 		getSqlSession().update("it.othala.order.queries.updateOrder",
 				mapUpdate);
-		
-		StateOrderDTO stateOrder = new StateOrderDTO();
-		stateOrder.setIdOrder(idOrder);
-		stateOrder.setIdStato(idStato);
-		getSqlSession().insert("it.othala.order.queries.updateStatesOrders",
-				stateOrder);
 		
 	}
 
