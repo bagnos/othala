@@ -17,24 +17,28 @@
 					<ul class="nav navbar-nav navbar-right">
 						<!-- <li class="dropdown">-->
 
-						<li><a href="#{request.contextPath}/faces/cart/cart-selected-3.xhtml"
-								>
+						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
 								<h:outputText value="#{msg.header_Cart}" />
 								<h:outputText id="cart" value="(#{cartFlowBean.cart.size()})" />
+								<h:panelGroup rendered="#{cartFlowBean.cart.size()>0}">
+									<b class="caret"></b>
+								</h:panelGroup>
 
-								
-							</a></li>
-						<!-- <ul class="dropdown-menu">-->
-						<!-- 
-								<li><a href="#{request.contextPath}/faces/cart/cart-selected-3.xhtml">
-										<h:outputText value="#{msg.header_viewCart}" />
-									</a></li>-->
-						<!--  
-								<li><p:commandLink id="clearCart" update="cart">
-										<h:outputText value="#{msg.header_clearCart}" />
-									</p:commandLink></li>
+							</a> <h:panelGroup rendered="#{cartFlowBean.cart.size()>0}">
+								<ul class="dropdown-menu">
 
-							</ul></li>-->
+									<li><a class="dropdown-toggle"
+											href="#{request.contextPath}/faces/cart/cart-selected-3.xhtml">
+											<h:outputText value="#{msg.header_viewCart}" />
+										</a></li>
+
+									<li><h:commandLink id="clearCart" actionListener="#{myAccountView.clearCart}">
+											<h:outputText value="#{msg.header_clearCart}" />
+										</h:commandLink></li>
+
+								</ul>
+							</h:panelGroup></li>
+
 
 						<h:panelGroup rendered="#{customerLoginBean.name==null}">
 							<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -60,9 +64,15 @@
 									<b class="caret"></b>
 								</a>
 								<ul class="dropdown-menu">
-									<li><p:commandLink  ajax="false" actionListener="#{accessView.logout}">
+									<li><h:commandLink ajax="false" actionListener="#{accessView.logout}">
 											<h:outputText value="#{msg.header_logout}" />
-										</p:commandLink></li>
+										</h:commandLink></li>
+									<li><a href="#{request.contextPath}/faces/account/myAccount.xhtml"
+											class="dropdown-toggle">
+											<h:outputText value="#{msg.account_myAccount}" />
+										</a>
+
+									</li>
 
 								</ul></li>
 						</h:panelGroup>
