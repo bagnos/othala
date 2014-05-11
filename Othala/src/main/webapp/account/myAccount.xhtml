@@ -1,0 +1,236 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/masterTemplateBS.xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:viewAction action="#{myAccountView.doInit}"></f:viewAction>
+		</f:metadata>
+	</ui:define>
+
+
+	<ui:define name="title">
+		<h:outputText value="My Account"></h:outputText>
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form prependId="false" id="frmMyAccount">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-8">
+						<h4>
+							<h:outputText value="#{msg.account_myOrders}" />
+						</h4>
+					</div>
+					<div class="col-sm-4">
+
+
+
+
+						<div class="row">
+							<div class="col-sm-7">
+								<h4>
+									<h:outputText value=" #{msg.account_myAddresses}" />
+								</h4>
+							</div>
+							<div class="col-sm-5">
+
+
+								<p:commandButton ajax="true" style="margin-top: 6px;"
+									rendered="#{myAccountView.editAddress==false and myAccountView.newAddress==false}"
+									value="#{msg.catalogo_newDeliveryAddr}" actionListener="#{myAccountView.newAddr}"
+									update="frmMyAccount" process="@this" styleClass="ui-priority-primary" />
+
+
+
+							</div>
+						</div>
+
+						<h:panelGroup id="lstAddr" styleClass="spacer30"
+							rendered="#{myAccountView.editAddress==false and myAccountView.newAddress==false}">
+							<ui:repeat var="addr" value="#{myAccountView.addresses.indirizzo}">
+								<div class="row spacer10">
+									<div class="col-sm-9">
+										<address>
+											<strong><h:outputText value="#{addr.etichetta}" /></strong> <br />
+											<h:outputText value="#{addr.nome}" />
+											<h:outputText id="lblCognomeFat" styleClass="mleft-addr" value="#{addr.cognome}" />
+											<br />
+											<h:outputText id="lblIndirizzoFat" value="#{addr.via}" />
+											<br />
+											<h:outputText id="lblPostaleFat" value="#{addr.cap}" />
+											<h:outputText id="lblCittaFat" styleClass="mleft-addr" value="#{addr.comune}" />
+											<h:outputText id="lblProvFat" styleClass="mleft-addr" value="#{addr.provincia}" />
+											<br />
+											<h:outputText id="lblNazFat" value="#{addr.nazione}" />
+											<br /> <span class="glyphicon glyphicon-earphone"></span>
+											<h:outputText id="lblTelefonoFat" styleClass="mleft-addr" value="#{addr.tel}" />
+										</address>
+
+									</div>
+									<div class="col-sm-3">
+
+										<h:commandLink value="#{msg.catalogo_modifyDelivery}">
+											<f:ajax execute="@this" render="frmMyAccount" listener="#{myAccountView.selectAddr}">
+
+											</f:ajax>
+
+											<f:param value="#{addr.idAddress}" name="idAddrSel" />
+
+										</h:commandLink>
+									</div>
+
+								</div>
+
+							</ui:repeat>
+						</h:panelGroup>
+
+						<h:panelGroup id="editAddr"
+							rendered="#{myAccountView.editAddress or myAccountView.newAddress}">
+							<div class="row spacer10">
+								<div class="col-sm-3">
+
+									<h:commandLink value="#{msg.catalogo_changeDelivery}">
+										<f:ajax execute="editAddr" render="frmMyAccount" listener="#{myAccountView.saveAddr}">
+										</f:ajax>
+
+									</h:commandLink>
+								</div>
+								<div class="col-sm-3">
+									<h:commandLink value="#{msg.catalogo_annChangeDelivery}">
+										<f:ajax execute="@this" render="frmMyAccount" listener="#{myAccountView.annAddr}"></f:ajax>
+									</h:commandLink>
+								</div>
+							</div>
+							<div class="form-horizontal spacer10">
+
+								<div class="form-group">
+									<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_type}"
+										for="typeSpe" />
+									<div class="col-sm-6">
+										<p:inputText id="typeSpe" placeholder="#{msg.delivery_type_hint}"
+											styleClass="form-control" label="#{msg.delivery_type}"
+											value="#{myAccountView.address.etichetta}" required="true" maxlength="70">
+										</p:inputText>
+										<p:message for="typeSpe" />
+									</div>
+								</div>
+
+
+
+
+								<div class="form-group">
+									<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_name}"
+										for="nameSpe" />
+									<div class="col-sm-6">
+										<p:inputText id="nameSpe" styleClass="form-control" label="#{msg.delivery_name}"
+											value="#{myAccountView.address.nome}" required="true" maxlength="70">
+										</p:inputText>
+										<p:message for="nameSpe" />
+									</div>
+								</div>
+
+
+								<div class="form-group">
+									<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_surname}"
+										for="cognomeSpe" />
+									<div class="col-sm-6">
+										<p:inputText id="cognomeSpe" styleClass="form-control" label="#{msg.delivery_surname}"
+											value="#{myAccountView.address.cognome}" required="true" maxlength="70">
+										</p:inputText>
+
+										<p:message for="cognomeSpe" />
+									</div>
+								</div>
+
+								<div class="form-group">
+									<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_tel}"
+										for="telefonoSpe" />
+									<div class="col-sm-6">
+
+
+										<p:inputMask value="#{myAccountView.address.tel}" id="telefonoSpe" placeHolder=" "
+											styleClass="form-control" label="#{msg.delivery_tel}" mask="9?99999999999999"
+											required="true" maxlength="15" />
+
+										<p:message for="telefonoSpe" />
+									</div>
+								</div>
+
+								<div class="form-group">
+									<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_address}"
+										for="indirizzoSpe" />
+									<div class="col-sm-9">
+										<p:inputText required="true" maxlength="70" id="indirizzoSpe" styleClass="form-control"
+											label="#{msg.delivery_address}" value="#{myAccountView.address.via}" />
+
+										<p:message for="indirizzoSpe" />
+									</div>
+								</div>
+
+								<div class="form-group">
+									<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_cap}"
+										for="postaleSpe" />
+									<div class="col-sm-4">
+										<p:inputText id="postaleSpe" styleClass="form-control w120" label="#{msg.delivery_cap}"
+											value="#{myAccountView.address.cap}" required="true" maxlength="10" />
+										<p:message for="postaleSpe" />
+									</div>
+								</div>
+
+								<div class="form-group">
+									<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_city}"
+										for="cittaSpe" />
+									<div class="col-sm-9">
+										<p:inputText id="cittaSpe" styleClass="form-control" label="#{msg.delivery_city}"
+											value="#{myAccountView.address.comune}" required="true" maxlength="70">
+										</p:inputText>
+										<p:message for="cittaSpe" />
+									</div>
+								</div>
+
+								<div class="form-group">
+									<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_prov}"
+										for="provSpe" />
+									<div class="col-sm-2">
+										<p:inputText id="provSpe" styleClass="form-control" label="#{msg.delivery_prov}"
+											value="#{myAccountView.address.provincia}" required="true" maxlength="4">
+										</p:inputText>
+										<p:message for="provSpe" />
+									</div>
+								</div>
+
+								<div class="form-group">
+									<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_paese}" />
+									<div class="col-sm-5">
+										<p:inputText styleClass="form-control" label="#{msg.delivery_prov}"
+											value="#{myAccountView.address.nazione}" disabled="true" required="true" maxlength="4">
+										</p:inputText>
+									</div>
+
+								</div>
+
+
+							</div>
+
+						</h:panelGroup>
+
+					</div>
+
+
+
+				</div>
+
+
+			</div>
+
+
+
+		</h:form>
+		
+
+
+	</ui:define>
+</ui:composition>
