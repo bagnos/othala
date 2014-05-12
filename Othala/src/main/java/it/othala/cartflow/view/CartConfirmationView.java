@@ -5,8 +5,8 @@ import it.othala.dto.OrderFullDTO;
 import it.othala.enums.TypeStateOrder;
 import it.othala.payment.paypal.DoExpressCheckoutPaymentDTO;
 import it.othala.payment.paypal.GetExpressCheckoutDetailsDTO;
-import it.othala.payment.paypal.PayPalFundingFailureException;
 import it.othala.payment.paypal.PayPalWrapper;
+import it.othala.payment.paypal.exception.PayPalFundingFailureException;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 import it.othala.web.utils.OthalaUtil;
@@ -61,6 +61,8 @@ public class CartConfirmationView extends BaseView {
 		try {
 			wrap = PayPalUtil.getPayPalWrapper();
 			details = wrap.getExpressCheckoutDetails(getQueryStringParm("token"));
+			
+			
 			checkDTO = wrap.doExpressCheckoutPayment(details);
 			int idOrder = Integer.valueOf(details.getCustom());
 			try {

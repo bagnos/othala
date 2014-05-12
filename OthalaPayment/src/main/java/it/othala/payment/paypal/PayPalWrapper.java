@@ -1,5 +1,9 @@
 package it.othala.payment.paypal;
 
+import it.othala.payment.paypal.exception.PayPalException;
+import it.othala.payment.paypal.exception.PayPalFailureException;
+import it.othala.payment.paypal.exception.PayPalFundingFailureException;
+
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
@@ -68,13 +72,21 @@ public class PayPalWrapper {
 	}
 
 	public DoExpressCheckoutPaymentDTO doExpressCheckoutPayment(GetExpressCheckoutDetailsDTO details)
-			throws MalformedURLException, UnsupportedEncodingException, PayPalException, PayPalFundingFailureException {
+			throws  PayPalFundingFailureException, PayPalException, PayPalFailureException {
 
 		DoExpressCheckoutPayment doCheck = new DoExpressCheckoutPayment(details.getToken(), PaymentAction.SALE,
 				details.getPayerid(), details.getAmount().toString(), details.getCurrencyCode());
 		// doCheck.setUSESESSIONPAYMENTDETAILS(true);
 		doCheck.setPaymentDetails(paymentDetails);
-		pp.setResponse(doCheck);
+		try {
+			pp.setResponse(doCheck);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			throw new PayPalException(e);
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			throw new PayPalException(e);
+		}
 		Map<String, String> response = doCheck.getNVPResponse();
 		return getDoExpressCheckoutPaymentDTO(response);
 	}
@@ -98,7 +110,7 @@ public class PayPalWrapper {
 
 	private Payment getPayment(OrderPayPalDTO cart) {
 		PaymentItem item = null;
-		List<PaymentItem> items = new ArrayList<>();
+		List<PaymentItem> items = new ArrayList<PaymentItem>();
 		String description;
 		for (int i = 0; i <= cart.getAricles().size() - 1; i++) {
 			item = new PaymentItem();
@@ -159,7 +171,7 @@ public class PayPalWrapper {
 	}
 
 	private DoExpressCheckoutPaymentDTO getDoExpressCheckoutPaymentDTO(Map<String, String> response)
-			throws PayPalException, PayPalFundingFailureException {
+			throws PayPalException, PayPalFundingFailureException, PayPalFailureException {
 		StringBuilder sn = new StringBuilder();
 		for (String e : response.keySet()) {
 			sn.append(String.format("%s=%s;", e, response.get(e).toString()));
@@ -178,7 +190,7 @@ public class PayPalWrapper {
 
 				throw new PayPalFundingFailureException(errorMessage, getRedirctUrl(checkDTO.getToken()));
 			} else {
-				throw new PayPalException(sn.toString(), errorMessage);
+				throw new PayPalFailureException(sn.toString(), errorMessage);
 			}
 
 		}
@@ -297,7 +309,7 @@ public class PayPalWrapper {
 		StringBuilder sb = new StringBuilder();
 		int i = 0;
 		String key = null;
-		errorCodes = new ArrayList<>();
+		errorCodes = new ArrayList<String>();
 
 		while (true) {
 			key = L_ERRORCODEn + i;

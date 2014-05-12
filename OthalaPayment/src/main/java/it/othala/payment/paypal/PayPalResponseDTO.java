@@ -19,7 +19,7 @@ public class PayPalResponseDTO implements Serializable {
 	public List<String> getErrorCodes() {
 		if (errorCodes==null)
 		{
-			errorCodes=new ArrayList<>();
+			errorCodes=new ArrayList<String>();
 		}
 		return errorCodes;
 	}

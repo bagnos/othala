@@ -1,4 +1,4 @@
-package it.othala.payment.paypal;
+package it.othala.payment.paypal.exception;
 
 import it.othala.execption.OthalaException;
 
@@ -16,6 +16,10 @@ public class PayPalException extends OthalaException {
 	
 	public PayPalException(String errorMessage) {
 		super(errorMessage);
+	}
+	
+	public PayPalException(Throwable e) {
+		super(e);
 	}
 
 

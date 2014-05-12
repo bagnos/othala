@@ -1,4 +1,4 @@
-package it.othala.payment.paypal;
+package it.othala.payment.paypal.exception;
 
 import it.othala.execption.OthalaException;
 

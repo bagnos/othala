@@ -9,31 +9,41 @@ import it.othala.dto.StateOrderDTO;
 import it.othala.enums.TypeStateOrder;
 import it.othala.execption.OthalaException;
 import it.othala.execption.StockNotPresentException;
+import it.othala.payment.paypal.GetExpressCheckoutDetailsDTO;
+import it.othala.payment.paypal.PayPalWrapper;
+import it.othala.payment.paypal.exception.PayPalException;
+import it.othala.payment.paypal.exception.PayPalFailureException;
+import it.othala.payment.paypal.exception.PayPalFundingFailureException;
+import it.othala.payment.paypal.exception.PayPalPaymentRefusedException;
 
-import java.sql.Date;
 import java.util.List;
 
 public interface IOrderService {
-	
-	public List<OrderFullDTO> getOrders(Integer Order,String User,Integer StatoOrdine);
-	
+
+	public List<OrderFullDTO> getOrders(Integer Order, String User, Integer StatoOrdine);
+
 	public OrderFullDTO insertOrder(OrderFullDTO orderFull) throws MailNotSendException, OthalaException;
-	
-	public void confirmOrderPayment(String idTransaction, Integer idOrder, TypeStateOrder stato) throws StockNotPresentException;
-	
+
+	public void confirmOrderPayment(String idTransaction, Integer idOrder, TypeStateOrder stato)
+			throws StockNotPresentException;
+
+	public OrderFullDTO doPaymentByPayPal(PayPalWrapper wrapper, Integer idOrder, GetExpressCheckoutDetailsDTO details)
+			throws StockNotPresentException, PayPalException, PayPalFundingFailureException, PayPalFailureException,PayPalPaymentRefusedException;
+
 	public void confirmOrderDelivery(String idTrackingNumber, Integer idOrder);
-	
+
 	public void updateStateOrder(StateOrderDTO stateOrder);
-	
+
 	public void deleteAddress(Integer idAddress);
-	
+
 	public void deleteDeliveryCost(Integer idDeliveryCost);
-	
+
 	public DeliveryDTO getDeliveryInfo(String userId);
-	
+
 	public DeliveryAddressDTO newAddress(DeliveryAddressDTO newAddress);
-	
+
 	public DeliveryAddressDTO updateAddress(DeliveryAddressDTO newAddress, Integer idAddress);
-	public void inviaMailDiConferma(OrderFullDTO order,MailConfermaDTO mailDTO) throws MailNotSendException;
-	
+
+	public void inviaMailDiConferma(OrderFullDTO order, MailConfermaDTO mailDTO) throws MailNotSendException;
+
 }
