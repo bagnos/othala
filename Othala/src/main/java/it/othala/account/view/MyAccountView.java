@@ -1,4 +1,4 @@
-package it.othala.myaccount.view;
+package it.othala.account.view;
 
 import it.othala.account.model.CustomerLoginBean;
 import it.othala.cartflow.model.CartFlowBean;
@@ -32,6 +32,16 @@ public class MyAccountView extends BaseView {
 	private boolean newAddress;
 	private DeliveryAddressDTO address;
 	private int idAddrSel;
+	private OrderFullDTO order;
+	private Boolean renderDetails;
+
+	public Boolean getRenderDetails() {
+		return renderDetails;
+	}
+
+	public OrderFullDTO getOrder() {
+		return order;
+	}
 
 	public int getIdAddrSel() {
 		return idAddrSel;
@@ -71,8 +81,8 @@ public class MyAccountView extends BaseView {
 		// TODO Auto-generated method stub
 
 		addresses = OthalaFactory.getOrderServiceInstance().getDeliveryInfo(loginBean.getEmail());
-		// orders = OthalaFactory.getOrderServiceInstance().getOrders(null,
-		// loginBean.getEmail(), null);
+		orders = OthalaFactory.getOrderServiceInstance().getOrders(null, loginBean.getEmail(), null);
+		renderDetails=false;
 
 		return null;
 
@@ -88,6 +98,23 @@ public class MyAccountView extends BaseView {
 				break;
 			}
 		}
+	}
+	
+	public void selectOrder(AjaxBehaviorEvent e)
+	{
+		int idOrderSel=Integer.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idOrderSel"));
+		for (OrderFullDTO ord : orders) {
+			if (ord.getIdOrder() == idOrderSel) {
+				order=ord;
+				renderDetails=true;
+				break;
+			}
+		}
+	}
+	
+	public void backToOrders(AjaxBehaviorEvent e)
+	{
+		renderDetails=false;
 	}
 
 	public void newAddr(ActionEvent e) {
@@ -133,6 +160,8 @@ public class MyAccountView extends BaseView {
 		redirectHome();
 
 	}
+	
+	
 
 	
 
