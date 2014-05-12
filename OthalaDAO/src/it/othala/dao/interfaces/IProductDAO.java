@@ -61,6 +61,8 @@ public interface IProductDAO {
 	public void insertBrand(String languages, String txBrand);
 
 	public List<ProductDTO> listProductToPublish();
+
+	public Integer updateQtStock(Integer idProduct, Integer pgArticle, Integer qtArticles);
 	
 	
 

@@ -516,6 +516,18 @@
 
 
 	</select>
+	
+		<update id="updateQtStock" parameterType="java.util.HashMap">
+
+		UPDATE
+		${database.schema}article
+		set qtStock = qtStock - #{qtArticles}
+		Where idProduct =
+		#{idProduct}
+		and pgArticle = #{pgArticle};
+
+
+	</update>
 
 <select id="listProductToPublish" resultType="it.othala.dto.ProductDTO">
 
