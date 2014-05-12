@@ -1,18 +1,16 @@
 package it.othala.view;
 
 import it.othala.account.model.CustomerLoginBean;
-import it.othala.dto.MenuDTO;
-import it.othala.dto.SubMenuDTO;
 import it.othala.execption.OthalaException;
 import it.othala.model.ApplicationBean;
 import it.othala.web.utils.OthalaUtil;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +18,12 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public abstract class BaseView {
+public abstract class BaseView implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * dentro il content del .xhtml inserire {@code <f:metadata>
