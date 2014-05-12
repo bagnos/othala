@@ -386,12 +386,14 @@
 		a.idProduct
 		=
 		#{idProduct}
-		and a.pgArticle
+		and
+		a.pgArticle
 		=
 		#{pgArticle}
 		and a.idSize =
 		b.idSize
-		and c.idColor = a.idColor
+		and c.idColor =
+		a.idColor
 		and
 		c.idLanguages = #{languages}
 		and
@@ -399,8 +401,8 @@
 
 
 	</select>
-	
-	
+
+
 	<select id="getShop" resultType="it.othala.dto.ShopDTO"
 		parameterType="java.util.HashMap">
 
@@ -416,7 +418,8 @@
 
 
 
-		Where b.idProduct = #{idProduct}
+		Where b.idProduct
+		= #{idProduct}
 		and b.pgArticle = #{pgArticle}
 		and a.idShop
 		=
@@ -474,7 +477,7 @@
 		#{languages},#{txBrand})
 
 	</insert>
-	
+
 	<insert id="insertArticle" parameterType="java.util.HashMap">
 
 		INSERT INTO
@@ -516,20 +519,27 @@
 
 
 	</select>
-	
-		<update id="updateQtStock" parameterType="java.util.HashMap">
+
+	<update id="updateQtStock" parameterType="java.util.HashMap">
 
 		UPDATE
 		${database.schema}article
+		<if test="txSegno == true">
+			set qtStock = qtStock - #{qtArticles}
+		</if>
+		<if test="txSegno == false">
+			set qtStock = qtStock + #{qtArticles}
+		</if>
 		set qtStock = qtStock - #{qtArticles}
 		Where idProduct =
 		#{idProduct}
-		and pgArticle = #{pgArticle};
+		and
+		pgArticle = #{pgArticle};
 
 
 	</update>
 
-<select id="listProductToPublish" resultType="it.othala.dto.ProductDTO">
+	<select id="listProductToPublish" resultType="it.othala.dto.ProductDTO">
 
 		SELECT
 		a.idProduct ,
@@ -546,7 +556,8 @@
 		case
 		when a.dtProductState
 		>
-		current_date - 7 then 'Y'
+		current_date - 7 then
+		'Y'
 		else 'N'
 		end as fgNewArrivals
 		FROM
@@ -558,7 +569,8 @@
 		`type` g
 		where
 		a.idProduct = b.idProduct
-		and b.idLanguages = 'it'
+		and
+		b.idLanguages = 'it'
 		and
 		a.idProductState = 0
 		and c.idBrand = a.idBrand
