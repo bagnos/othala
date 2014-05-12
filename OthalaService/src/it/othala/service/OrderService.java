@@ -402,20 +402,19 @@ public class OrderService implements IOrderService {
 	public OrderFullDTO doPaymentByPayPal(PayPalWrapper wrap, Integer idOrder, GetExpressCheckoutDetailsDTO details)
 			throws StockNotPresentException, PayPalException, PayPalFundingFailureException, PayPalFailureException, PayPalPaymentRefusedException {
 		// TODO Auto-generated method stub
+		List<OrderFullDTO> orders = orderDAO.getOrders(idOrder, null, null);		
+		OrderFullDTO order = orders.get(0);
 		
-		return doCheckOutPayPal(wrap, idOrder, details);
+		return doCheckOutPayPal(wrap, order, details);
 	}
 	
-	private OrderFullDTO doCheckOutPayPal(PayPalWrapper wrap, Integer idOrder, GetExpressCheckoutDetailsDTO details) throws PayPalFundingFailureException, PayPalPaymentRefusedException, PayPalException, PayPalFailureException
+	private OrderFullDTO doCheckOutPayPal(PayPalWrapper wrap, OrderFullDTO order, GetExpressCheckoutDetailsDTO details) throws PayPalFundingFailureException, PayPalPaymentRefusedException, PayPalException, PayPalFailureException
 	{
-		OrderFullDTO order=null;
+		
 		TypeStateOrder stateOrder = null;
 		String idTransaction=null;
 
-		//recupero dettaglio ordine
-		List<OrderFullDTO> orders = orderDAO.getOrders(idOrder, null, null);		
-		order = orders.get(0);		
-		
+		//effettuo il pagamento paypal
 		DoExpressCheckoutPaymentDTO checkDTO = wrap.doExpressCheckoutPayment(details);		
 		switch (checkDTO.getStatePayPal()) {
 		case COMPLETED:
