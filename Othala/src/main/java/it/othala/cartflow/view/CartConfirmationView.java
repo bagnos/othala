@@ -10,6 +10,7 @@ import it.othala.payment.paypal.PayPalWrapper;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 import it.othala.web.utils.OthalaUtil;
+import it.othala.web.utils.PayPalUtil;
 
 import java.io.IOException;
 import java.util.List;
@@ -58,7 +59,7 @@ public class CartConfirmationView extends BaseView {
 		PayPalWrapper wrap = null;
 		paymentOK = true;
 		try {
-			wrap = new PayPalWrapper();
+			wrap = PayPalUtil.getPayPalWrapper();
 			details = wrap.getExpressCheckoutDetails(getQueryStringParm("token"));
 			checkDTO = wrap.doExpressCheckoutPayment(details);
 			int idOrder = Integer.valueOf(details.getCustom());
@@ -68,12 +69,12 @@ public class CartConfirmationView extends BaseView {
 
 				switch (checkDTO.getStatePayPal()) {
 				case COMPLETED:
-					OthalaFactory.getOrderServiceInstance().updateOrder(checkDTO.getPAYMENTINFO_0_TRANSACTIONID(),
-							order.getIdOrder(), TypeStateOrder.PAGATO.getState(), null);
+					OthalaFactory.getOrderServiceInstance().confirmOrderPayment(checkDTO.getPAYMENTINFO_0_TRANSACTIONID(),
+							order.getIdOrder(), TypeStateOrder.PAGATO);
 					break;
 				case PROCESSING:
-					OthalaFactory.getOrderServiceInstance().updateOrder(checkDTO.getPAYMENTINFO_0_TRANSACTIONID(),
-							order.getIdOrder(), TypeStateOrder.IN_LAVORAZIONE.getState(), null);
+					OthalaFactory.getOrderServiceInstance().confirmOrderPayment(checkDTO.getPAYMENTINFO_0_TRANSACTIONID(),
+							order.getIdOrder(), TypeStateOrder.IN_LAVORAZIONE);
 					break;
 				case REFUSED:
 					addError("null", OthalaUtil.getWordBundle("exception_payPalRefused"));

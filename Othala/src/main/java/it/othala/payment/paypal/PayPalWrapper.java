@@ -1,9 +1,5 @@
 package it.othala.payment.paypal;
 
-import it.othala.cartflow.model.CartFlowBean;
-
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
@@ -11,10 +7,6 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
-
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
 
 import paypalnvp.core.PayPal;
 import paypalnvp.core.PayPal.Environment;
@@ -22,16 +14,15 @@ import paypalnvp.fields.Currency;
 import paypalnvp.fields.Payment;
 import paypalnvp.fields.PaymentAction;
 import paypalnvp.fields.PaymentItem;
-import paypalnvp.profile.BaseProfile;
 import paypalnvp.profile.Profile;
 import paypalnvp.request.DoExpressCheckoutPayment;
 import paypalnvp.request.GetExpressCheckoutDetails;
 import paypalnvp.request.SetExpressCheckout;
 
+//import javax.servlet.http.HttpServletRequest;
+
 public class PayPalWrapper {
 
-	private static Properties prop = null;
-	private static Environment environment = null;
 	private String returnUrl = null;
 	private String cancelUrl = null;
 	private String imageUrl = null;
@@ -48,31 +39,19 @@ public class PayPalWrapper {
 	private Map<String, String> paymentDetails;
 	public static final String COMPLETED_STATUS = "Completed";
 
-	private void loadProp() throws IOException {
-		if (prop == null) {
-			try (InputStream input = Thread.currentThread().getContextClassLoader()
-					.getResourceAsStream("paypal.properties")) {
+	private PayPal pp = null;
 
-				prop = new Properties();
-				prop.load(input);
-			}
-		}
+	public PayPalWrapper(Environment env, Profile profile) {
 
+		pp = new PayPal(profile, env);
 	}
 
-	public PayPalWrapper() throws IOException {
-		loadProp();
-	}
-
-	public SetExpressCheckoutDTO setExpressCheckout(CartFlowBean cart, String locale, String idOrder)
-			throws MalformedURLException, UnsupportedEncodingException, PayPalException {
+	public SetExpressCheckoutDTO setExpressCheckout(OrderPayPalDTO cart) throws MalformedURLException,
+			UnsupportedEncodingException, PayPalException {
 
 		SetExpressCheckoutDTO setExpChecktDTO = null;
-		PayPal pp = new PayPal(getProfile(), getEnvironment());
 
-		updateUrl();
-
-		Payment payment = getPayment(cart, locale, idOrder);
+		Payment payment = getPayment(cart);
 
 		SetExpressCheckout setEC = new SetExpressCheckout(payment, returnUrl, cancelUrl);
 		setEC.setImage(imageUrl);
@@ -90,7 +69,6 @@ public class PayPalWrapper {
 
 	public DoExpressCheckoutPaymentDTO doExpressCheckoutPayment(GetExpressCheckoutDetailsDTO details)
 			throws MalformedURLException, UnsupportedEncodingException, PayPalException, PayPalFundingFailureException {
-		PayPal pp = new PayPal(getProfile(), getEnvironment());
 
 		DoExpressCheckoutPayment doCheck = new DoExpressCheckoutPayment(details.getToken(), PaymentAction.SALE,
 				details.getPayerid(), details.getAmount().toString(), details.getCurrencyCode());
@@ -104,33 +82,32 @@ public class PayPalWrapper {
 	public GetExpressCheckoutDetailsDTO getExpressCheckoutDetails(String token) throws MalformedURLException,
 			UnsupportedEncodingException, PayPalException {
 		GetExpressCheckoutDetails getExpress = new GetExpressCheckoutDetails(token);
-		PayPal pp = new PayPal(getProfile(), getEnvironment());
+
 		pp.setResponse(getExpress);
 		Map<String, String> response = getExpress.getNVPResponse();
 		GetExpressCheckoutDetailsDTO detailDto = getExpressCheckOutDetailsDTO(response);
 		return detailDto;
 	}
 
-	private static Environment getEnvironment() {
-		if (environment == null) {
-			String env = prop.getProperty("environment");
-			environment = Environment.valueOf(env);
-		}
+	public static Environment getEnvironment(String env) {
+
+		Environment environment = Environment.valueOf(env);
+
 		return environment;
 	}
 
-	private Payment getPayment(CartFlowBean cart, String locale, String idOrder) {
+	private Payment getPayment(OrderPayPalDTO cart) {
 		PaymentItem item = null;
 		List<PaymentItem> items = new ArrayList<>();
 		String description;
-		for (int i = 0; i <= cart.getCart().size() - 1; i++) {
+		for (int i = 0; i <= cart.getAricles().size() - 1; i++) {
 			item = new PaymentItem();
-			description = String.format("%s %s %S", cart.getCart().get(i).getPrdFullDTO().getDescription(), cart
-					.getCart().get(i).getTxSize(), cart.getCart().get(i).getTxColor());
+			description = String.format("%s %s %S", cart.getAricles().get(i).getPrdFullDTO().getDescription(), cart
+					.getAricles().get(i).getTxSize(), cart.getAricles().get(i).getTxColor());
 			item.setDescription(description);
-			item.setAmount(cart.getCart().get(i).getPrdFullDTO().getRealPrice().toString());
-			item.setQuantity(cart.getCart().get(i).getQtBooked());
-			item.setItemNumber(cart.getCart().get(i).getPrdFullDTO().getMerchantCode());
+			item.setAmount(cart.getAricles().get(i).getPrdFullDTO().getRealPrice().toString());
+			item.setQuantity(cart.getAricles().get(i).getQtBooked());
+			item.setItemNumber(cart.getAricles().get(i).getPrdFullDTO().getMerchantCode());
 
 			items.add(item);
 		}
@@ -138,10 +115,10 @@ public class PayPalWrapper {
 		Payment payment = new Payment(cart.getTotalPriceOrder().toString(), items);
 		payment.setCurrency(Currency.EUR);
 		payment.setAllowingNote(true);
-		payment.setLocalCode(locale.toUpperCase());
+		payment.setLocalCode(cart.getLocale().toUpperCase());
 		// payment.setOverrideShippingAddress();
 		payment.setSuppressingShippingAddress();
-		payment.setCustomField(idOrder);
+		payment.setCustomField(cart.getIdOrder());
 		payment.setShippingAmount(cart.getDeliveryCost().getImportoSpese().toString());
 		payment.setPaymentRequestITEMAMT(cart.getTotalItemOrder().toString());
 
@@ -155,22 +132,6 @@ public class PayPalWrapper {
 		 * country,cart.getAddressSpe().getTel());
 		 */
 		return payment;
-	}
-
-	private void updateUrl() {
-		FacesContext context = FacesContext.getCurrentInstance();
-		HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-		String remoteHost = request.getServerName();
-		String contextPath = request.getContextPath();
-		returnUrl = prop.getProperty("returnUrl").replace("#{request.remoteHost}", remoteHost)
-				.replace("#{request.contextPath}", contextPath);
-		cancelUrl = prop.getProperty("cancelUrl").replace("#{request.remoteHost}", remoteHost)
-				.replace("#{request.contextPath}", contextPath);
-		imageUrl = prop.getProperty("imageUrl").replace("#{request.remoteHost}", remoteHost)
-				.replace("#{request.contextPath}", contextPath);
-		String propertRedirect = "redirectUrl" + prop.getProperty("environment");
-		redirectUrl = prop.getProperty(propertRedirect);
-
 	}
 
 	private SetExpressCheckoutDTO getExpressCheckOutDTO(Map<String, String> response, String redirectUrl)
@@ -209,10 +170,10 @@ public class PayPalWrapper {
 			checkDTO.setNote(response.get("NOTE"));
 			checkDTO.setPAYMENTINFO_0_PAYMENTSTATUS(response.get("PAYMENTINFO_0_PAYMENTSTATUS"));
 			checkDTO.setPAYMENTINFO_0_PENDINGREASON(response.get("PAYMENTINFO_0_PENDINGREASON"));
-			updateState(checkDTO);	
+			updateState(checkDTO);
 		} else {
 			updateError(response);
-			
+
 			if (isFundinFailure()) {
 
 				throw new PayPalFundingFailureException(errorMessage, getRedirctUrl(checkDTO.getToken()));
@@ -286,11 +247,12 @@ public class PayPalWrapper {
 		return getExpressCheckoutDetailsDTO;
 	}
 
-	private Profile getProfile() {
-		Profile user = new BaseProfile.Builder(prop.getProperty("Username"), prop.getProperty("Password")).signature(
-				prop.getProperty("Signature")).build();
-		return user;
-	}
+	/*
+	 * private Profile getProfile() { Profile user = new
+	 * BaseProfile.Builder(prop.getProperty("Username"),
+	 * prop.getProperty("Password")).signature(
+	 * prop.getProperty("Signature")).build(); return user; }
+	 */
 
 	private boolean isFundinFailure() {
 		return (errorMessage).contains("10486");
