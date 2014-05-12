@@ -341,6 +341,20 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	}
 
 	@Override
+	public Integer updateQtStock(Integer idProduct, Integer pgArticle, Integer qtArticles) {
+
+		HashMap<String, Object> mapProduct = new HashMap<>();
+		mapProduct.put("idProduct", idProduct);
+		mapProduct.put("pgArticle", pgArticle);
+
+		Integer qtStock = getSqlSession().update(
+				"it.othala.product.queries.updateQtStock", mapProduct);
+
+		return qtStock;
+
+	}
+	
+	@Override
 	public void insertBrand(String languages, String txBrand) {
 		
 		HashMap<String, Object> map = new HashMap<>();
