@@ -63,6 +63,8 @@ public interface IProductDAO {
 	public List<ProductDTO> listProductToPublish();
 
 	public Integer updateQtStock(Integer idProduct, Integer pgArticle, Integer qtArticles, Boolean fgVendita);
+
+	public Integer getQtStockLock(Integer idProduct, Integer pgArticle);
 	
 	
 
