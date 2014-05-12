@@ -1,7 +1,5 @@
 package it.othala.cartflow.view;
 
-import java.math.BigDecimal;
-
 import it.othala.account.execption.MailNotSendException;
 import it.othala.account.model.CustomerLoginBean;
 import it.othala.cartflow.model.CartFlowBean;
@@ -10,12 +8,13 @@ import it.othala.dto.DeliveryCostDTO;
 import it.othala.dto.DeliveryDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.execption.OthalaException;
+import it.othala.payment.paypal.OrderPayPalDTO;
 import it.othala.payment.paypal.PayPalWrapper;
 import it.othala.payment.paypal.SetExpressCheckoutDTO;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 import it.othala.web.utils.OthalaUtil;
-import it.othala.web.utils.WizardUtil;
+import it.othala.web.utils.PayPalUtil;
 
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -32,6 +31,7 @@ public class CartWizardView extends BaseView {
 
 	@Inject
 	private CartFlowBean cart;
+	
 
 	public CartFlowBean getCart() {
 		return cart;
@@ -45,7 +45,7 @@ public class CartWizardView extends BaseView {
 	private int idAddressSpe;
 	private boolean editAddrFat;
 	private boolean editAddrSpe;
-	private OrderFullDTO order;
+	private OrderFullDTO order=null;
 	private boolean sameAddress;
 	private boolean saveAddressSpe;
 	private boolean saveAddressFat;
@@ -353,13 +353,6 @@ public class CartWizardView extends BaseView {
 	public void checkout(ActionEvent e) {
 		PayPalWrapper pBd;
 		try {
-			pBd = new PayPalWrapper();
-
-			// creazione ordine
-			/*
-			 * OrderFullDTO order = new OrderFullDTO();
-			 * order.setIdOrder(122345);
-			 */
 			try {
 				insertOrder();
 			} catch (Exception ex) {
@@ -368,8 +361,11 @@ public class CartWizardView extends BaseView {
 				return;
 			}
 
-			// checkout paypall
-			SetExpressCheckoutDTO checkDTO = pBd.setExpressCheckout(cart, getLang(), order.getIdOrder().toString());
+			// checkout paypall			
+			pBd = PayPalUtil.getPayPalWrapper();
+			OrderPayPalDTO orderPayPal=PayPalUtil.getOrderPayPalDTO(cart, order.getIdOrder().toString(), getLang());
+			SetExpressCheckoutDTO checkDTO = pBd.setExpressCheckout(orderPayPal);
+			
 			if (checkDTO != null && checkDTO.getToken() != null) {
 				// return null;
 				FacesContext.getCurrentInstance().getExternalContext().redirect(checkDTO.getRedirectUrl());
@@ -402,5 +398,11 @@ public class CartWizardView extends BaseView {
 		order = OthalaFactory.getOrderServiceInstance().insertOrder(order);
 
 	}
+
+	
+
+	
+
+
 
 }
