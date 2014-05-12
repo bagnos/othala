@@ -519,6 +519,18 @@
 
 
 	</select>
+	
+		<select id="getQtStockLock" resultType="Integer" parameterType="java.util.HashMap">
+
+		SELECT qtStock
+		FROM ${database.schema}article
+		Where idProduct =
+		#{idProduct}
+		and pgArticle = #{pgArticle}
+		FOR UPDATE;
+
+
+	</select>
 
 	<update id="updateQtStock" parameterType="java.util.HashMap">
 

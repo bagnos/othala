@@ -341,6 +341,20 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	}
 
 	@Override
+	public Integer getQtStockLock(Integer idProduct, Integer pgArticle) {
+
+		HashMap<String, Object> mapProduct = new HashMap<>();
+		mapProduct.put("idProduct", idProduct);
+		mapProduct.put("pgArticle", pgArticle);
+
+		Integer qtStock = getSqlSession().selectOne(
+				"it.othala.product.queries.getQtStockLock", mapProduct);
+
+		return qtStock;
+
+	}
+	
+	@Override
 	public Integer updateQtStock(Integer idProduct, Integer pgArticle, Integer qtArticles, Boolean fgVendita) {
 
 		HashMap<String, Object> mapProduct = new HashMap<>();
