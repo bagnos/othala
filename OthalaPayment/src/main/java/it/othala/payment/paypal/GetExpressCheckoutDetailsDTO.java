@@ -60,7 +60,7 @@ public class GetExpressCheckoutDetailsDTO extends PayPalResponseDTO {
 
 	public List<ItemCartDTO> getShoppingCartOrder() {
 		if (shoppingCartOrder == null) {
-			shoppingCartOrder = new ArrayList<>();
+			shoppingCartOrder = new ArrayList<ItemCartDTO>();
 		}
 		return shoppingCartOrder;
 	}

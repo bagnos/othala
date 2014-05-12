@@ -13,6 +13,14 @@ import it.othala.dto.StateOrderDTO;
 import it.othala.enums.TypeStateOrder;
 import it.othala.execption.OthalaException;
 import it.othala.execption.StockNotPresentException;
+import it.othala.payment.paypal.DoExpressCheckoutPaymentDTO;
+import it.othala.payment.paypal.GetExpressCheckoutDetailsDTO;
+import it.othala.payment.paypal.PayPalWrapper;
+import it.othala.payment.paypal.exception.PayPalException;
+import it.othala.payment.paypal.exception.PayPalFailureException;
+import it.othala.payment.paypal.exception.PayPalFundingFailureException;
+import it.othala.payment.paypal.exception.PayPalPaymentRefusedException;
+import it.othala.service.factory.OthalaFactory;
 import it.othala.service.interfaces.IMailService;
 import it.othala.service.interfaces.IOrderService;
 import it.othala.service.template.Template;
@@ -24,8 +32,6 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,15 +49,12 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import paypalnvp.core.PayPal;
-import paypalnvp.fields.PaymentAction;
-import paypalnvp.request.DoExpressCheckoutPayment;
-
 public class OrderService implements IOrderService {
 
 	private IOrderDAO orderDAO;
 	private IProductDAO productDAO;
 	private IMailService mailService;
+
 	public void setMailService(IMailService mailService) {
 		this.mailService = mailService;
 	}
@@ -77,7 +80,8 @@ public class OrderService implements IOrderService {
 				ArticleFullDTO artFull = productDAO.getArticleFull(article.getPrdFullDTO().getIdProduct(),
 						article.getPgArticle(), "it");
 				artFull.setShop(productDAO.getShop(article.getPrdFullDTO().getIdProduct(), article.getPgArticle()));
-				artFull.setPrdFullDTO(productDAO.getProductArticleFull("it", article.getPrdFullDTO().getIdProduct(), article.getPgArticle()));
+				artFull.setPrdFullDTO(productDAO.getProductArticleFull("it", article.getPrdFullDTO().getIdProduct(),
+						article.getPgArticle()));
 				artFull.setQtBooked(article.getQtBooked());
 				newlistArticle.add(artFull);
 			}
@@ -90,18 +94,19 @@ public class OrderService implements IOrderService {
 	@Override
 	public OrderFullDTO insertOrder(OrderFullDTO orderFull) throws OthalaException {
 
-		if (!checkQtaInStock(null,orderFull))
-		{throw new StockNotPresentException();}
-		
+		if (!checkQtaInStock(null, orderFull)) {
+			throw new StockNotPresentException();
+		}
+
 		orderDAO.insertOrder(orderFull);
 
 		HashMap<String, Object> mapProduct = new HashMap<String, Object>();
-		
+
 		List<ArticleFullDTO> lsProd = orderFull.getCart();
 		Iterator<ArticleFullDTO> i = lsProd.iterator();
 		while (i.hasNext()) {
 			ArticleFullDTO article = i.next();
-					
+
 			mapProduct.clear();
 			mapProduct.put("idOrder", orderFull.getIdOrder());
 			mapProduct.put("idProdotto", article.getPrdFullDTO().getIdProduct());
@@ -109,41 +114,43 @@ public class OrderService implements IOrderService {
 			mapProduct.put("qtArticle", article.getQtBooked());
 
 			orderDAO.insertOrdersArticles(mapProduct);
-			
+
 		}
-		
+
 		orderDAO.insertStatesOrders(orderFull);
 
 		return orderFull;
 	}
-	
-	@Override
-	public void confirmOrderPayment(String idTransaction, Integer idOrder, TypeStateOrder stato) throws StockNotPresentException {
 
-		if (!checkQtaInStock(idOrder,null))
-		{throw new StockNotPresentException();}
-		
-		orderDAO.updateOrder(idOrder, idTransaction, null);		
-		
+	@Override
+	public void confirmOrderPayment(String idTransaction, Integer idOrder, TypeStateOrder stato)
+			throws StockNotPresentException {
+
+		if (!checkQtaInStock(idOrder, null)) {
+			throw new StockNotPresentException();
+		}
+
+		orderDAO.updateOrder(idOrder, idTransaction, null);
+
 		StateOrderDTO stateOrder = new StateOrderDTO();
 		stateOrder.setIdOrder(idOrder);
 		stateOrder.setIdStato(stato.getState());
 		stateOrder.setTxNote(null);
-				
+
 		orderDAO.updateStateOrder(stateOrder);
-		
-		if (stato == TypeStateOrder.PAGATO){
-			 //implementare la diminuzione dallo stock	
+
+		if (stato == TypeStateOrder.PAGATO) {
+			// implementare la diminuzione dallo stock
 		}
-		
+
 	}
-	
-	private boolean checkQtaInStock(Integer idOrder, OrderFullDTO orderFull){
-		
-		if (orderFull == null){
+
+	private boolean checkQtaInStock(Integer idOrder, OrderFullDTO orderFull) {
+
+		if (orderFull == null) {
 			List<OrderFullDTO> lsOrders = orderDAO.getOrders(idOrder, null, null);
 			Iterator<OrderFullDTO> oi = lsOrders.iterator();
-			orderFull = oi.next();			
+			orderFull = oi.next();
 		}
 
 		List<ArticleFullDTO> lsProd = orderFull.getCart();
@@ -153,26 +160,29 @@ public class OrderService implements IOrderService {
 			ArticleFullDTO article = i.next();
 
 			Integer qtaProduct = productDAO.getQtStock(article.getPrdFullDTO().getIdProduct(), article.getPgArticle());
-			
-			if (qtaProduct < article.getQtBooked()){esito = false;}
-			else{esito = true;}
-		
+
+			if (qtaProduct < article.getQtBooked()) {
+				esito = false;
+			} else {
+				esito = true;
+			}
+
 		}
 		return esito;
 	}
-	
+
 	@Override
 	public void confirmOrderDelivery(String idTrackingNumber, Integer idOrder) {
 
-		orderDAO.updateOrder(idOrder, null, idTrackingNumber);		
-		
+		orderDAO.updateOrder(idOrder, null, idTrackingNumber);
+
 		StateOrderDTO stateOrder = new StateOrderDTO();
 		stateOrder.setIdOrder(idOrder);
 		stateOrder.setIdStato(TypeStateOrder.SPEDITO.getState());
 		stateOrder.setTxNote(null);
-		
+
 		orderDAO.updateStateOrder(stateOrder);
-	
+
 	}
 
 	public IOrderDAO getOrderDAO() {
@@ -230,7 +240,7 @@ public class OrderService implements IOrderService {
 		orderDAO.deleteAddress(idAddress);
 
 	}
-	
+
 	@Override
 	public void deleteDeliveryCost(Integer idDeliveryCost) {
 		orderDAO.deleteDeliveryCost(idDeliveryCost);
@@ -238,7 +248,7 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public void inviaMailDiConferma(OrderFullDTO order,MailConfermaDTO mailDTO) throws MailNotSendException {
+	public void inviaMailDiConferma(OrderFullDTO order, MailConfermaDTO mailDTO) throws MailNotSendException {
 		// TODO Auto-generated method stub
 		/*
 		 * InputStream contenutoStream =
@@ -263,7 +273,7 @@ public class OrderService implements IOrderService {
 		URL res = Thread.currentThread().getContextClassLoader().getResource("");
 		Map<String, String> inlineImages = new HashMap<String, String>();
 		String basePath = res.getPath().replace("/WEB-INF/classes", "");
-		basePath=basePath.replace("/", "");
+		basePath = basePath.replace("/", "");
 		String html = generateHtmlOrder(order, mailDTO, inlineImages);
 
 		mailService.inviaHTMLMail(new String[] { order.getIdUser() }, "Conferma Ordine", html, inlineImages);
@@ -272,9 +282,9 @@ public class OrderService implements IOrderService {
 	private String generateHtmlOrder(OrderFullDTO order, MailConfermaDTO mailDTO, Map<String, String> inlineImages) {
 		BufferedWriter out = null;
 		FileWriter fstream = null;
-		
+
 		try {
-			
+
 			File xslFile = Template.getFile("it/othala/service/template/mailConfermaOrdine.xsl");
 			File xmlTemp = File.createTempFile("xmlTemp", ".xml");
 			fstream = new FileWriter(xmlTemp);
@@ -328,7 +338,7 @@ public class OrderService implements IOrderService {
 				if (art != null) {
 					out.write("<item>");
 					out.write("<number>" + art.getPrdFullDTO().getIdProduct() + "</number>");
-					out.write("<img>cid:imgArt"+i + "</img>");
+					out.write("<img>cid:imgArt" + i + "</img>");
 					inlineImages.put("imgArt" + i, mailDTO.getBasePathThumbinalsArticle() + art.getThumbnailsUrl());
 					out.write("<brand>" + art.getPrdFullDTO().getTxBrand() + "</brand>");
 					out.write("<description>" + art.getPrdFullDTO().getDescription() + "</description>");
@@ -362,8 +372,6 @@ public class OrderService implements IOrderService {
 			transformer.transform(xmlSource, result);
 
 			String html = IOUtils.toString(new FileInputStream(htmlTemp), "UTF-8");
-			
-			
 
 			return html;
 
@@ -389,6 +397,44 @@ public class OrderService implements IOrderService {
 		}
 
 	}
+
+	@Override
+	public OrderFullDTO doPaymentByPayPal(PayPalWrapper wrap, Integer idOrder, GetExpressCheckoutDetailsDTO details)
+			throws StockNotPresentException, PayPalException, PayPalFundingFailureException, PayPalFailureException, PayPalPaymentRefusedException {
+		// TODO Auto-generated method stub
+		
+		return doCheckOutPayPal(wrap, idOrder, details);
+	}
 	
-	
+	private OrderFullDTO doCheckOutPayPal(PayPalWrapper wrap, Integer idOrder, GetExpressCheckoutDetailsDTO details) throws PayPalFundingFailureException, PayPalPaymentRefusedException, PayPalException, PayPalFailureException
+	{
+		OrderFullDTO order=null;
+		TypeStateOrder stateOrder = null;
+		String idTransaction=null;
+
+		//recupero dettaglio ordine
+		List<OrderFullDTO> orders = orderDAO.getOrders(idOrder, null, null);		
+		order = orders.get(0);		
+		
+		DoExpressCheckoutPaymentDTO checkDTO = wrap.doExpressCheckoutPayment(details);		
+		switch (checkDTO.getStatePayPal()) {
+		case COMPLETED:
+			idTransaction=checkDTO.getPAYMENTINFO_0_TRANSACTIONID();
+			stateOrder=TypeStateOrder.PAGATO;			
+			break;
+		case PROCESSING:
+			idTransaction=checkDTO.getPAYMENTINFO_0_TRANSACTIONID();
+			stateOrder=TypeStateOrder.IN_LAVORAZIONE;
+			break;
+		case REFUSED:
+			throw new PayPalPaymentRefusedException(checkDTO.getOkMessage());
+		default:
+			break;
+		}		
+		order.setIdTransaction(idTransaction);
+		order.setIdStato(stateOrder.getState());
+		
+		return order;
+	}
+
 }

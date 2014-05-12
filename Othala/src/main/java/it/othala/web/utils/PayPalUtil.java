@@ -16,6 +16,7 @@ import paypalnvp.profile.Profile;
 
 public class PayPalUtil {
 	private static Properties prop = null;
+
 	private static void loadProp() throws IOException {
 		if (prop == null) {
 			try (InputStream input = Thread.currentThread().getContextClassLoader()
@@ -27,15 +28,28 @@ public class PayPalUtil {
 		}
 
 	}
-	
-	public static Profile getProfile() throws IOException {
+
+	private static Profile getProfile() throws IOException {
 		loadProp();
 		Profile user = new BaseProfile.Builder(prop.getProperty("Username"), prop.getProperty("Password")).signature(
 				prop.getProperty("Signature")).build();
 		return user;
 	}
-	
-	public static void updateUrl(OrderPayPalDTO cart) throws IOException {
+
+	public static PayPalWrapper getPayPalWrapper() throws IOException {
+		PayPalWrapper pBd = new PayPalWrapper(PayPalWrapper.getEnvironment(prop.getProperty("environment")),
+				getProfile());
+		return pBd;
+	}
+
+	public static OrderPayPalDTO getOrderPayPalDTO(CartFlowBean car, String idOrder, String lang) throws IOException {
+		OrderPayPalDTO cart = new OrderPayPalDTO();
+		cart.setAricles(cart.getAricles());
+		cart.setLocale(lang);
+		cart.setDeliveryCost(cart.getDeliveryCost());
+		cart.setIdOrder(idOrder);
+		cart.setTotalItemOrder(cart.getTotalItemOrder());
+		cart.setTotalPriceOrder(cart.getTotalPriceOrder());
 		loadProp();
 		FacesContext context = FacesContext.getCurrentInstance();
 		HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
@@ -49,25 +63,7 @@ public class PayPalUtil {
 				.replace("#{request.contextPath}", contextPath));
 		String propertRedirect = "redirectUrl" + prop.getProperty("environment");
 		cart.setRedirectUrl(prop.getProperty(propertRedirect));
-
-	}
-	
-	public static PayPalWrapper getPayPalWrapper() throws IOException
-	{
-		PayPalWrapper pBd = new PayPalWrapper(PayPalWrapper.getEnvironment(prop.getProperty("environment")),getProfile());
-		return pBd;
-	}
-	
-	public static OrderPayPalDTO getOrderPayPalDTO(CartFlowBean car,String idOrder,String lang) throws IOException {
-		OrderPayPalDTO cart = new OrderPayPalDTO();
-		cart.setAricles(cart.getAricles());
-		cart.setLocale(lang);
-		cart.setDeliveryCost(cart.getDeliveryCost());
-		cart.setIdOrder(idOrder);
-		cart.setTotalItemOrder(cart.getTotalItemOrder());
-		cart.setTotalPriceOrder(cart.getTotalPriceOrder());
-		updateUrl(cart);
 		return cart;
 	}
-	
+
 }
