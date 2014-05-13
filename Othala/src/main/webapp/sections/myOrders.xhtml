@@ -18,34 +18,32 @@
 							<table class="table" id="cartTable">
 								<thead>
 									<tr>
-										<th class="col-sm-2"></th>
+										<th class="col-sm-1"></th>
 										<th class="col-sm-2">#{msg.account_nrOrder}</th>
-										<th class="col-sm-3">#{msg.account_nrTrans}</th>
+										<th class="col-sm-4">#{msg.account_nrTrans}</th>
 										<th class="col-sm-2">#{msg.account_imOrder}</th>
 										<th class="col-sm-2">#{msg.account_dtIns}</th>
 										<th class="col-sm-2">#{msg.account_stato}</th>
+
 									</tr>
 								</thead>
 								<tbody>
 									<ui:repeat var="ord" value="#{myAccountView.orders}" varStatus="stBread">
 										<tr>
-											<td>
-												<div class="btn-group">
-													<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-														#{msg.account_actions} <span class="caret"></span>
-													</button>
-													<ul class="dropdown-menu" role="menu">
-														<li><h:commandLink value="#{msg.account_detail}">
-																<f:ajax execute="@this" render="myOrders" listener="#{myAccountView.selectOrder}">
-																</f:ajax>
-																<f:param name="idOrderSel" value="#{ord.idOrder}"></f:param>
-															</h:commandLink></li>
 
-													</ul>
-												</div>
+											<td>
+												 <h:commandLink title="#{msg.account_detail}">
+													<span class="glyphicon glyphicon-chevron-right"></span>
+													<f:ajax execute="@this" render="myOrders" listener="#{myAccountView.selectOrder}">
+													</f:ajax>
+													<f:param name="idOrderSel" value="#{ord.idOrder}"></f:param>
+												</h:commandLink>
+
 
 
 											</td>
+
+
 											<td><h:outputText value="#{ord.idOrder}" /></td>
 											<td><h:outputText value="#{ord.idTransaction}" /></td>
 
@@ -56,6 +54,8 @@
 											<td><h:outputText value="#{ord.txStato}">
 
 												</h:outputText></td>
+
+
 										</tr>
 									</ui:repeat>
 								</tbody>
@@ -140,7 +140,7 @@
 					</div>
 				</div>
 			</div>
-			
+
 
 			<!-- CARRELLO -->
 			<div class="row">
