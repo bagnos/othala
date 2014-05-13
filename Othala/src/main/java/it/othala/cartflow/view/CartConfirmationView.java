@@ -7,6 +7,7 @@ import it.othala.payment.paypal.DoExpressCheckoutPaymentDTO;
 import it.othala.payment.paypal.GetExpressCheckoutDetailsDTO;
 import it.othala.payment.paypal.PayPalWrapper;
 import it.othala.payment.paypal.exception.PayPalFundingFailureException;
+import it.othala.payment.paypal.exception.PayPalPaymentRefusedException;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 import it.othala.web.utils.OthalaUtil;
@@ -69,22 +70,17 @@ public class CartConfirmationView extends BaseView {
 				List<OrderFullDTO> orders = OthalaFactory.getOrderServiceInstance().getOrders(idOrder, null, null);
 				order = orders.get(0);
 
-				switch (checkDTO.getStatePayPal()) {
-				case COMPLETED:
+				/*
+				switch (checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS()) {
+				case "COMPLETED":
 					OthalaFactory.getOrderServiceInstance().confirmOrderPayment(checkDTO.getPAYMENTINFO_0_TRANSACTIONID(),
 							order.getIdOrder(), TypeStateOrder.PAGATO);
 					break;
-				case PROCESSING:
+				default:
 					OthalaFactory.getOrderServiceInstance().confirmOrderPayment(checkDTO.getPAYMENTINFO_0_TRANSACTIONID(),
 							order.getIdOrder(), TypeStateOrder.IN_LAVORAZIONE);
-					break;
-				case REFUSED:
-					addError("null", OthalaUtil.getWordBundle("exception_payPalRefused"));
-					log.warn(checkDTO.getOkMessage());
-					return null;
-				default:
-					break;
-				}
+					break;				
+				}*/
 
 				MailConfermaDTO mail = new MailConfermaDTO();
 				mail.setBasePathThumbinalsArticle(getBaseImageThumbinals());
@@ -107,7 +103,15 @@ public class CartConfirmationView extends BaseView {
 				addError(null, OthalaUtil.getWordBundle("exception_payPalFundingFailureException"));
 			}
 			return null;
-		} catch (Exception ex) {
+		} 
+		catch (PayPalPaymentRefusedException e)
+		{
+			paymentOK = false;
+			addError("null", OthalaUtil.getWordBundle("exception_payPalRefused"));
+			return null;
+		}
+		
+		catch (Exception ex) {
 			// TODO Auto-generated catch block
 			paymentOK = false;
 			log.error("Errore comunicazione PayPal", ex);
