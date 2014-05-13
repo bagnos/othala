@@ -94,10 +94,8 @@ public class OrderService implements IOrderService {
 	@Override
 	public OrderFullDTO insertOrder(OrderFullDTO orderFull) throws OthalaException {
 
-		if (!checkQtaInStock(null, orderFull)) {
-			throw new StockNotPresentException();
-		}
-
+		checkQtaInStock(null,orderFull);
+		
 		orderDAO.insertOrder(orderFull);
 
 		HashMap<String, Object> mapProduct = new HashMap<String, Object>();
@@ -123,31 +121,25 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public void confirmOrderPayment(String idTransaction, Integer idOrder, TypeStateOrder stato)
-			throws StockNotPresentException {
-
-		if (!checkQtaInStock(idOrder, null)) {
-			throw new StockNotPresentException();
-		}
-
-		orderDAO.updateOrder(idOrder, idTransaction, null);
-
-		StateOrderDTO stateOrder = new StateOrderDTO();
-		stateOrder.setIdOrder(idOrder);
-		stateOrder.setIdStato(stato.getState());
-		stateOrder.setTxNote(null);
-
-		orderDAO.updateStateOrder(stateOrder);
-
-		if (stato == TypeStateOrder.PAGATO) {
-			// implementare la diminuzione dallo stock
-		}
+	public OrderFullDTO confirmOrderPayment(PayPalWrapper wrap, Integer idOrder, GetExpressCheckoutDetailsDTO details) throws StockNotPresentException, PayPalException, PayPalFundingFailureException, PayPalFailureException, PayPalPaymentRefusedException 
+	{
+		
+		OrderFullDTO orderFull = checkQtaInStock(idOrder,null);
+			
+		orderFull = doPaymentByPayPal(wrap, idOrder, details);
+		
+		orderDAO.updateOrder(orderFull.getIdOrder(), 
+				orderFull.getIdTransaction(), null);
+		
+		updateStateOrder(null, orderFull, TypeStateOrder.valueOf(orderFull.getIdStato()));
+		
+		return orderFull;
 
 	}
-
-	private boolean checkQtaInStock(Integer idOrder, OrderFullDTO orderFull) {
-
-		if (orderFull == null) {
+	
+	private OrderFullDTO checkQtaInStock(Integer idOrder, OrderFullDTO orderFull) throws StockNotPresentException{
+		
+		if (orderFull == null){
 			List<OrderFullDTO> lsOrders = orderDAO.getOrders(idOrder, null, null);
 			Iterator<OrderFullDTO> oi = lsOrders.iterator();
 			orderFull = oi.next();
@@ -155,20 +147,31 @@ public class OrderService implements IOrderService {
 
 		List<ArticleFullDTO> lsProd = orderFull.getCart();
 		Iterator<ArticleFullDTO> i = lsProd.iterator();
-		boolean esito = true;
 		while (i.hasNext()) {
 			ArticleFullDTO article = i.next();
 
-			Integer qtaProduct = productDAO.getQtStock(article.getPrdFullDTO().getIdProduct(), article.getPgArticle());
+			Integer qtaProduct = productDAO.getQtStockLock(article.getPrdFullDTO().getIdProduct(), article.getPgArticle());
+			
+			if (qtaProduct < article.getQtBooked()){
+				List<String> prodNoStock = new ArrayList<String>();
+				prodNoStock.add(article.getPrdFullDTO().getDescription());
+				throw new StockNotPresentException();}
+	
+		}
+		return orderFull;
+	}
+	
+	private void updateStock(OrderFullDTO orderFull)
+	{
+		List<ArticleFullDTO> lsProd = orderFull.getCart();
+		Iterator<ArticleFullDTO> i = lsProd.iterator();
+		while (i.hasNext()) {
+			ArticleFullDTO article = i.next();
 
-			if (qtaProduct < article.getQtBooked()) {
-				esito = false;
-			} else {
-				esito = true;
-			}
+			productDAO.updateQtStock(article.getPrdFullDTO().getIdProduct(), 
+					article.getPgArticle(), article.getQtBooked(), true);
 
 		}
-		return esito;
 	}
 
 	@Override
@@ -176,12 +179,7 @@ public class OrderService implements IOrderService {
 
 		orderDAO.updateOrder(idOrder, null, idTrackingNumber);
 
-		StateOrderDTO stateOrder = new StateOrderDTO();
-		stateOrder.setIdOrder(idOrder);
-		stateOrder.setIdStato(TypeStateOrder.SPEDITO.getState());
-		stateOrder.setTxNote(null);
-
-		orderDAO.updateStateOrder(stateOrder);
+		updateStateOrder(idOrder, null, TypeStateOrder.SPEDITO);
 
 	}
 
@@ -202,9 +200,28 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public void updateStateOrder(StateOrderDTO stateOrder) {
+	public void updateStateOrder(Integer idOrder, OrderFullDTO orderFull, TypeStateOrder stato) {
+		
+		if (orderFull == null){
+			List<OrderFullDTO> lsOrders = orderDAO.getOrders(idOrder, null, null);
+			Iterator<OrderFullDTO> oi = lsOrders.iterator();
+			orderFull = oi.next();
+		}
+		
+		StateOrderDTO stateOrder = new StateOrderDTO();
+		stateOrder.setIdOrder(orderFull.getIdOrder());
+		stateOrder.setIdStato(stato.getState());
+		stateOrder.setTxNote(null);
 
 		orderDAO.updateStateOrder(stateOrder);
+		
+		switch (stato){
+			case PAGATO:
+				updateStock(orderFull);
+			default:
+		}
+		
+		
 
 	}
 
