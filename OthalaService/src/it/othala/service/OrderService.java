@@ -133,6 +133,8 @@ public class OrderService implements IOrderService {
 		
 		updateStateOrder(null, orderFull, TypeStateOrder.valueOf(orderFull.getIdStato()));
 		
+		updateStock(orderFull,true);
+		
 		return orderFull;
 
 	}
@@ -161,7 +163,7 @@ public class OrderService implements IOrderService {
 		return orderFull;
 	}
 	
-	private void updateStock(OrderFullDTO orderFull)
+	private void updateStock(OrderFullDTO orderFull, boolean fgVendita)
 	{
 		List<ArticleFullDTO> lsProd = orderFull.getCart();
 		Iterator<ArticleFullDTO> i = lsProd.iterator();
@@ -169,7 +171,7 @@ public class OrderService implements IOrderService {
 			ArticleFullDTO article = i.next();
 
 			productDAO.updateQtStock(article.getPrdFullDTO().getIdProduct(), 
-					article.getPgArticle(), article.getQtBooked(), true);
+					article.getPgArticle(), article.getQtBooked(), fgVendita);
 
 		}
 	}
@@ -216,13 +218,12 @@ public class OrderService implements IOrderService {
 		orderDAO.updateStateOrder(stateOrder);
 		
 		switch (stato){
-			case PAGATO:
-				updateStock(orderFull);
+			case DENIED:
+			case FAILED:
+				updateStock(orderFull,false);
 			default:
 		}
 		
-		
-
 	}
 
 	@Override
