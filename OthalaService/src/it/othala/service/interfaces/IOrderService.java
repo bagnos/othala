@@ -24,15 +24,15 @@ public interface IOrderService {
 
 	public OrderFullDTO insertOrder(OrderFullDTO orderFull) throws MailNotSendException, OthalaException;
 
-	public void confirmOrderPayment(String idTransaction, Integer idOrder, TypeStateOrder stato)
-			throws StockNotPresentException;
+	public OrderFullDTO confirmOrderPayment(PayPalWrapper wrap, Integer idOrder, GetExpressCheckoutDetailsDTO details)
+			throws StockNotPresentException, PayPalException, PayPalFundingFailureException, PayPalFailureException, PayPalPaymentRefusedException;
 
 	public OrderFullDTO doPaymentByPayPal(PayPalWrapper wrapper, Integer idOrder, GetExpressCheckoutDetailsDTO details)
 			throws StockNotPresentException, PayPalException, PayPalFundingFailureException, PayPalFailureException,PayPalPaymentRefusedException;
 
 	public void confirmOrderDelivery(String idTrackingNumber, Integer idOrder);
 
-	public void updateStateOrder(StateOrderDTO stateOrder);
+	public void updateStateOrder(Integer idOrder, OrderFullDTO orderFull, TypeStateOrder stato);
 
 	public void deleteAddress(Integer idAddress);
 
