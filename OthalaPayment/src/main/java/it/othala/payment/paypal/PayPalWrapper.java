@@ -3,6 +3,7 @@ package it.othala.payment.paypal;
 import it.othala.payment.paypal.exception.PayPalException;
 import it.othala.payment.paypal.exception.PayPalFailureException;
 import it.othala.payment.paypal.exception.PayPalFundingFailureException;
+import it.othala.payment.paypal.exception.PayPalPaymentRefusedException;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
@@ -70,9 +71,22 @@ public class PayPalWrapper {
 
 		return setExpChecktDTO;
 	}
+	/**
+	 * 
+	 * @param details
+	 * @return
+	 * restituita in caso di errore 10486 da PayPal,typically an invalid or maxed out credit card
+	 * @throws PayPalFundingFailureException
+	 * restituito in caso di errore imprevisto da PayPal
+	 * @throws PayPalException
+	 * restituito in caso di errore gestito da PayPal, ACK=Failure
+	 * @throws PayPalFailureException
+	 * Pagamento non effettuato, stato interno PayPal deny, refused, ecc...
+	 * @throws PayPalPaymentRefusedException
+	 */
 
 	public DoExpressCheckoutPaymentDTO doExpressCheckoutPayment(GetExpressCheckoutDetailsDTO details)
-			throws  PayPalFundingFailureException, PayPalException, PayPalFailureException {
+			throws  PayPalFundingFailureException, PayPalException, PayPalFailureException, PayPalPaymentRefusedException {
 
 		DoExpressCheckoutPayment doCheck = new DoExpressCheckoutPayment(details.getToken(), PaymentAction.SALE,
 				details.getPayerid(), details.getAmount().toString(), details.getCurrencyCode());
@@ -171,7 +185,7 @@ public class PayPalWrapper {
 	}
 
 	private DoExpressCheckoutPaymentDTO getDoExpressCheckoutPaymentDTO(Map<String, String> response)
-			throws PayPalException, PayPalFundingFailureException, PayPalFailureException {
+			throws PayPalException, PayPalFundingFailureException, PayPalFailureException, PayPalPaymentRefusedException {
 		StringBuilder sn = new StringBuilder();
 		for (String e : response.keySet()) {
 			sn.append(String.format("%s=%s;", e, response.get(e).toString()));
@@ -182,7 +196,7 @@ public class PayPalWrapper {
 			checkDTO.setNote(response.get("NOTE"));
 			checkDTO.setPAYMENTINFO_0_PAYMENTSTATUS(response.get("PAYMENTINFO_0_PAYMENTSTATUS"));
 			checkDTO.setPAYMENTINFO_0_PENDINGREASON(response.get("PAYMENTINFO_0_PENDINGREASON"));
-			updateState(checkDTO);
+			verifyFailurePayment(checkDTO);
 		} else {
 			updateError(response);
 
@@ -195,6 +209,18 @@ public class PayPalWrapper {
 
 		}
 		return checkDTO;
+	}
+	
+	private void verifyFailurePayment(DoExpressCheckoutPaymentDTO checkDTO) throws PayPalPaymentRefusedException
+	{
+		checkDTO.setFailedPaymenet(false);
+		if (checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS().equalsIgnoreCase("Denied")
+				|| checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS().equalsIgnoreCase("Failed")
+				|| checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS().equalsIgnoreCase("Refused")) {
+			
+			throw new PayPalPaymentRefusedException(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS());
+		}
+		
 	}
 
 	private GetExpressCheckoutDetailsDTO getExpressCheckOutDetailsDTO(Map<String, String> response)
@@ -338,6 +364,7 @@ public class PayPalWrapper {
 		return redirectUrl;
 	}
 
+	/*
 	private void updateState(DoExpressCheckoutPaymentDTO checkDTO) {
 		checkDTO.setStatePayPal(TypeStatePayPal.COMPLETED);
 		if (checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS().equalsIgnoreCase("In progress")
@@ -352,6 +379,8 @@ public class PayPalWrapper {
 			checkDTO.setStatePayPal(TypeStatePayPal.REFUSED);
 			return;
 		}
-	}
+	}*/
+	
+
 
 }
