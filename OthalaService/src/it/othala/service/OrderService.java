@@ -417,39 +417,25 @@ public class OrderService implements IOrderService {
 
 	@Override
 	public OrderFullDTO doPaymentByPayPal(PayPalWrapper wrap, Integer idOrder, GetExpressCheckoutDetailsDTO details)
-			throws StockNotPresentException, PayPalException, PayPalFundingFailureException, PayPalFailureException, PayPalPaymentRefusedException {
+			throws StockNotPresentException, PayPalException, PayPalFundingFailureException, PayPalFailureException,
+			PayPalPaymentRefusedException {
 		// TODO Auto-generated method stub
-		List<OrderFullDTO> orders = orderDAO.getOrders(idOrder, null, null);		
+		List<OrderFullDTO> orders = orderDAO.getOrders(idOrder, null, null);
 		OrderFullDTO order = orders.get(0);
-		
+
 		return doCheckOutPayPal(wrap, order, details);
 	}
-	
-	private OrderFullDTO doCheckOutPayPal(PayPalWrapper wrap, OrderFullDTO order, GetExpressCheckoutDetailsDTO details) throws PayPalFundingFailureException, PayPalPaymentRefusedException, PayPalException, PayPalFailureException
-	{
-		
-		TypeStateOrder stateOrder = null;
-		String idTransaction=null;
 
-		//effettuo il pagamento paypal
-		DoExpressCheckoutPaymentDTO checkDTO = wrap.doExpressCheckoutPayment(details);		
-		switch (checkDTO.getStatePayPal()) {
-		case COMPLETED:
-			idTransaction=checkDTO.getPAYMENTINFO_0_TRANSACTIONID();
-			stateOrder=TypeStateOrder.PAGATO;			
-			break;
-		case PROCESSING:
-			idTransaction=checkDTO.getPAYMENTINFO_0_TRANSACTIONID();
-			stateOrder=TypeStateOrder.IN_LAVORAZIONE;
-			break;
-		case REFUSED:
-			throw new PayPalPaymentRefusedException(checkDTO.getOkMessage());
-		default:
-			break;
-		}		
-		order.setIdTransaction(idTransaction);
-		order.setIdStato(stateOrder.getState());
+	private OrderFullDTO doCheckOutPayPal(PayPalWrapper wrap, OrderFullDTO order, GetExpressCheckoutDetailsDTO details)
+			throws PayPalFundingFailureException, PayPalPaymentRefusedException, PayPalException,
+			PayPalFailureException {
+
+		// effettuo il pagamento paypal
+		DoExpressCheckoutPaymentDTO checkDTO = wrap.doExpressCheckoutPayment(details);
 		
+		order.setIdTransaction(checkDTO.getPAYMENTINFO_0_TRANSACTIONID());
+		order.setIdStato(TypeStateOrder.getIdFromDescription(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS()));
+
 		return order;
 	}
 

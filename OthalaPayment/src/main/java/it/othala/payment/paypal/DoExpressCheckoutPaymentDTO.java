@@ -11,17 +11,16 @@ public class DoExpressCheckoutPaymentDTO extends PayPalResponseDTO {
 	private String PAYMENTINFO_0_PAYMENTSTATUS;
 	private String PAYMENTINFO_0_PENDINGREASON;
 	private String note;
-	private TypeStatePayPal statePayPal;
+	
+	private boolean failedPaymenet;
 	
 	
-	public void setStatePayPal(TypeStatePayPal statePayPal) {
-		this.statePayPal = statePayPal;
+	public void setFailedPaymenet(boolean failedPaymenet) {
+		this.failedPaymenet = failedPaymenet;
 	}
-
-	public TypeStatePayPal getStatePayPal() {
-		return statePayPal;
+	public boolean isFailedPaymenet() {
+		return failedPaymenet;
 	}
-	
 	public String getNote() {
 		return note;
 	}
