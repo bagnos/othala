@@ -12,5 +12,17 @@ public enum TypeStateOrder {
 	public int getState() {
 		return stato;
 	}
-
+	
+	public static TypeStateOrder valueOf(int idState)
+	{
+		for (TypeStateOrder type: TypeStateOrder.values())
+		{
+			if (type.getState()==idState)
+			{
+				return type;
+			}
+		}
+		return null;
+	}
+	
 }
