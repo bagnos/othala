@@ -47,11 +47,17 @@ public class PayPalWrapper {
 	private String errorMessage;
 	private Map<String, String> paymentDetails;
 	public static final String COMPLETED_STATUS = "Completed";
+	private String username;
+	
+	public String getUsername() {
+		return username;
+	}
 
 	private PayPal pp = null;
 
 	public PayPalWrapper(Environment env, Profile profile) {
 
+		this.username=profile.getUserName();
 		pp = new PayPal(profile, env);
 	}
 

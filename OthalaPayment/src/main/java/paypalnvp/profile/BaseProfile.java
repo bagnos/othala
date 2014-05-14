@@ -32,7 +32,11 @@ public final class BaseProfile implements Profile {
     /** user name obtained from paypal */
     private final String userName;
 
-    /** password obtained from paypal */
+    public String getUserName() {
+		return userName;
+	}
+
+	/** password obtained from paypal */
     private final String password;
 
     /** If you use an API certificate, do not include this parameter */
