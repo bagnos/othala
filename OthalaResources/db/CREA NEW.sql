@@ -6,6 +6,18 @@ DROP SCHEMA IF EXISTS `othala` ;
 CREATE SCHEMA IF NOT EXISTS `othala` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
 USE `othala` ;
 
+
+-- -----------------------------------------------------
+-- Table `othala`.`IpnMessages`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `othala`.`IpnMessages` ;
+CREATE  TABLE IF NOT EXISTS `othala`.`IpnMessages` (
+  `idOrder` INT NOT NULL ,
+  `idTransaction` VARCHAR(50) NOT NULL ,
+  `tsInserimento` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`idOrder`, `idTransaction`) )
+ENGINE = InnoDB
+
 -- -----------------------------------------------------
 -- Table `othala`.`Type_State_Account`
 -- -----------------------------------------------------
