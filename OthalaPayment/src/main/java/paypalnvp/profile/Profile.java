@@ -34,4 +34,5 @@ public interface Profile extends Serializable {
      * @return user part of the nvp request as a Map
      */
     Map<String, String> getNVPMap();
+    public String getUserName();
 }

@@ -29,7 +29,7 @@ public class PayPalUtil {
 
 	}
 
-	private static Profile getProfile() throws IOException {
+	public static Profile getProfile() throws IOException {
 		loadProp();
 		Profile user = new BaseProfile.Builder(prop.getProperty("Username"), prop.getProperty("Password")).signature(
 				prop.getProperty("Signature")).build();
