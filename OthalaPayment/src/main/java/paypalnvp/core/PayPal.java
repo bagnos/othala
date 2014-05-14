@@ -34,197 +34,213 @@ import paypalnvp.request.SetExpressCheckout;
 /**
  * Instance of this class is used for sending requests and returning responses
  * from paypal.
- *
- * @author Pete Reisinger <p.reisinger@gmail.com>
+ * 
+ * @author Pete Reisinger
+ *         <p.reisinger@gmail.com>
  */
 public final class PayPal implements Serializable {
 
-    /** 
-     * indicates if server for use with api signature (or api certificate if 
-     * false) should be used 
-     */
-    private final boolean apiSignature;
+	/**
+	 * indicates if server for use with api signature (or api certificate if
+	 * false) should be used
+	 */
+	private final boolean apiSignature;
 
-    /** version */
-    private static final String VERSION = "112.0";
+	/** version */
+	private static final String VERSION = "112.0";
 
-    /** sends request and returns response */
-    private final Transport transport;
+	/** sends request and returns response */
+	private final Transport transport;
 
-    /** class holding profile details */
-    private final Profile profile;
+	/** class holding profile details */
+	private final Profile profile;
 
-    /** environment - test, live etc. */
-    private final Environment environment;
+	/** environment - test, live etc. */
+	private final Environment environment;
 
-    /**
-     * paypal environment - live, sandbox or beta sandbox
-     */
-    public enum Environment {
+	/**
+	 * paypal environment - live, sandbox or beta sandbox
+	 */
+	public enum Environment {
 
-        /** live environment */
-        LIVE(""),
-        /** test environment */
-        SANDBOX("sandbox."),
-        /** beta test environment */
-        BETA_SANDBOX("beta-sandbox.");
+		/** live environment */
+		LIVE(""),
+		/** test environment */
+		SANDBOX("sandbox."),
+		/** beta test environment */
+		BETA_SANDBOX("beta-sandbox.");
 
-        /** string represnetation of the environment/part of the url */
-        private final String environment;
+		/** string represnetation of the environment/part of the url */
+		private final String environment;
 
-        private Environment(String environment) {
-            this.environment = environment;
-        }
+		private Environment(String environment) {
+			this.environment = environment;
+		}
 
-        /**
-         * Return url where you send request, this changes according to the
-         * environment set.
-         *
-         * @return - url string where to send request
-         */
-        private String getEnvironmentPartUrl() {
-            return environment;
-        }
-    }
+		/**
+		 * Return url where you send request, this changes according to the
+		 * environment set.
+		 * 
+		 * @return - url string where to send request
+		 */
+		private String getEnvironmentPartUrl() {
+			return environment;
+		}
 
-    /* same for all constructors */
-    {transport = new HttpPost();}
+	}
 
-    /**
-     * Returns new instance of PayPal for use with api signatures.
-     * 
-     * @param profile
-     * @param environment
-     */
-    public PayPal(Profile profile, Environment environment) {
+	/* same for all constructors */
+	{
+		transport = new HttpPost();
+	}
 
-        this.profile        = profile;
-        this.environment    = environment;
-        this.apiSignature   = true;
-    }
+	/**
+	 * Returns new instance of PayPal for use with api signatures.
+	 * 
+	 * @param profile
+	 * @param environment
+	 */
+	public PayPal(Profile profile, Environment environment) {
 
-    /**
-     * Returns new instance of PayPal.
-     *
-     * @param profile
-     * @param environment
-     * @param apiSignature -    specify if you want to use server for api
-     *                          signature, or api certificate
-     */
-    public PayPal(Profile profile, Environment environment,
-            boolean apiSignature) {
+		this.profile = profile;
+		this.environment = environment;
+		this.apiSignature = true;
+	}
 
-        this.profile        = profile;
-        this.environment    = environment;
-        this.apiSignature   = apiSignature;
-    }
+	/**
+	 * Returns new instance of PayPal.
+	 * 
+	 * @param profile
+	 * @param environment
+	 * @param apiSignature
+	 *            - specify if you want to use server for api signature, or api
+	 *            certificate
+	 */
+	public PayPal(Profile profile, Environment environment, boolean apiSignature) {
 
-    /**
-     * Sets response from PayPal. Calls setNVPResponse on supplied request
-     * argument and sets response Map from PayPal.
-     *
-     * @param request
-     * @throws MalformedURLException 
-     * @throws UnsupportedEncodingException 
-     */
-    public void setResponse(Request request) throws MalformedURLException, UnsupportedEncodingException {
+		this.profile = profile;
+		this.environment = environment;
+		this.apiSignature = apiSignature;
+	}
+	
+	public String setResponseIPN(String request) throws MalformedURLException, UnsupportedEncodingException {
+			
+		String response = transport.getResponse(getPayPalIpnUrl(), request);
+		return response;
+	}
+	
 
-        StringBuffer nvpString  = new StringBuffer();
-        /* character encoding for the nvp string */
-        String encoding         = "UTF-8";
 
-        /* create nvp string */
-       
-            /* profile part */
-            for(Map.Entry<String, String> e : profile.getNVPMap().entrySet()) {
-                nvpString.append(e.getKey() + "="
-                        + URLEncoder.encode(e.getValue(), encoding));
-                nvpString.append("&");
-            }
-            /* request part */
-            for(Map.Entry<String, String> e : request.getNVPRequest().entrySet()) {
-                nvpString.append(e.getKey() + "="
-                        + URLEncoder.encode(e.getValue(), encoding));
-                nvpString.append("&");
-            }
-            /* the rest */
-            nvpString.append("VERSION=" + URLEncoder.encode(VERSION, encoding));
-       
+	/**
+	 * Sets response from PayPal. Calls setNVPResponse on supplied request
+	 * argument and sets response Map from PayPal.
+	 * 
+	 * @param request
+	 * @throws MalformedURLException
+	 * @throws UnsupportedEncodingException
+	 */
+	public void setResponse(Request request) throws MalformedURLException, UnsupportedEncodingException {
 
-        /* create end point url */
-        StringBuffer endpointUrl = new StringBuffer();
-        if (apiSignature) {
-            endpointUrl.append("https://api-3t.");
-        } else {
-            endpointUrl.append("https://api." );
-        }
-        endpointUrl.append(environment.getEnvironmentPartUrl());
-        endpointUrl.append("paypal.com/nvp");
+		StringBuffer nvpString = new StringBuffer();
+		/* character encoding for the nvp string */
+		String encoding = "UTF-8";
 
-        /* send request and save response */
-        String response = null;
-       
-            response = transport.getResponse(endpointUrl.toString(),
-                    nvpString.toString());
-        
+		/* create nvp string */
 
-        if (response != null) {
+		/* profile part */
+		for (Map.Entry<String, String> e : profile.getNVPMap().entrySet()) {
+			nvpString.append(e.getKey() + "=" + URLEncoder.encode(e.getValue(), encoding));
+			nvpString.append("&");
+		}
+		/* request part */
+		for (Map.Entry<String, String> e : request.getNVPRequest().entrySet()) {
+			nvpString.append(e.getKey() + "=" + URLEncoder.encode(e.getValue(), encoding));
+			nvpString.append("&");
+		}
+		/* the rest */
+		nvpString.append("VERSION=" + URLEncoder.encode(VERSION, encoding));
 
-            /* map holding response */
-            Map<String, String> responseMap = new HashMap<String, String>();
+		/* create end point url */
+		StringBuffer endpointUrl = new StringBuffer();
+		if (apiSignature) {
+			endpointUrl.append("https://api-3t.");
+		} else {
+			endpointUrl.append("https://api.");
+		}
+		endpointUrl.append(environment.getEnvironmentPartUrl());
+		endpointUrl.append("paypal.com/nvp");
 
-            /* add response to the Map */
-           
-                String[] pairs = response.split("&");       // split nvp
-                for (String pair : pairs) {
-                    String[] nvp = pair.split("=");         // split key value
-                    responseMap.put(nvp[0], URLDecoder.decode(nvp[1], encoding));
-                }
-           
+		/* send request and save response */
+		String response = null;
 
-            /* set response */
-            request.setNVPResponse(responseMap);
-        }
-    }
+		response = transport.getResponse(endpointUrl.toString(), nvpString.toString());
 
-    /**
-     * Returns paypal url, where profile should be redirected. If Request has
-     * not been sent, or response has not been successfull, null is returned.
-     * 
-     * @return - url where to redirect profile
-     */
-    public String getRedirectUrl(Request request) {
+		if (response != null) {
 
-        /* response */
-        Map<String, String> response = request.getNVPResponse();
+			/* map holding response */
+			Map<String, String> responseMap = new HashMap<String, String>();
 
-        /* nvpResponse is not set */
-        if (response == null) {
-            return null;
-        }
+			/* add response to the Map */
 
-        String ack      = response.get("ACK");
-        String token    = response.get("TOKEN");
+			String[] pairs = response.split("&"); // split nvp
+			for (String pair : pairs) {
+				String[] nvp = pair.split("="); // split key value
+				responseMap.put(nvp[0], URLDecoder.decode(nvp[1], encoding));
+			}
 
-        /* ack is not successfull or token is not set */
-        if ((ack == null || !ack.equals("Success")) ||
-                (token == null || token.equals(""))) {
+			/* set response */
+			request.setNVPResponse(responseMap);
+		}
+	}
 
-            return null;
-        }
+	/**
+	 * Returns paypal url, where profile should be redirected. If Request has
+	 * not been sent, or response has not been successfull, null is returned.
+	 * 
+	 * @return - url where to redirect profile
+	 */
+	public String getRedirectUrl(Request request) {
 
-        /* return redirect url */
-        return "https://www." + environment.getEnvironmentPartUrl()
-                + "paypal.com/cgi-bin/webscr?cmd=_express-checkout&token="
-                + token;
-    }
+		/* response */
+		Map<String, String> response = request.getNVPResponse();
 
-    @Override
-    public String toString() {
+		/* nvpResponse is not set */
+		if (response == null) {
+			return null;
+		}
 
-		return "instance of PayPalNVP class with values: VERSION: " + VERSION
-                + ", User profile: " + profile.toString() + ", Transpor transport: "
-                + transport.toString() + ", Environment environment: "
-                + environment.toString();
-    }
+		String ack = response.get("ACK");
+		String token = response.get("TOKEN");
+
+		/* ack is not successfull or token is not set */
+		if ((ack == null || !ack.equals("Success")) || (token == null || token.equals(""))) {
+
+			return null;
+		}
+
+		/* return redirect url */
+		return "https://www." + environment.getEnvironmentPartUrl()
+				+ "paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=" + token;
+	}
+
+	@Override
+	public String toString() {
+
+		return "instance of PayPalNVP class with values: VERSION: " + VERSION + ", User profile: " + profile.toString()
+				+ ", Transpor transport: " + transport.toString() + ", Environment environment: "
+				+ environment.toString();
+	}
+
+	public String getPayPalIpnUrl() {
+		/*
+		 * Dim strSandbox As String =
+		 * "https://www.sandbox.paypal.com/cgi-bin/webscr" Dim strLive As String
+		 * = "https://www.paypal.com/cgi-bin/webscr"
+		 */
+
+		String url = "https://www." + environment.getEnvironmentPartUrl() + "paypal.com/cgi-bin/webscr";
+
+		return url;
+	}
+
 }
