@@ -14,7 +14,8 @@ DROP TABLE IF EXISTS `othala`.`IpnMessages` ;
 CREATE  TABLE IF NOT EXISTS `othala`.`IpnMessages` (
   `idOrder` INT NOT NULL ,
   `idTransaction` VARCHAR(50) NOT NULL ,
-  `tsInserimento` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `tsInserimento` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+  `txMessage` VARCHAR(10000) NULL ,
   PRIMARY KEY (`idOrder`, `idTransaction`) )
 ENGINE = InnoDB
 
