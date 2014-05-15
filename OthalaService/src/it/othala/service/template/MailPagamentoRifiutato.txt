@@ -1,0 +1,21 @@
+gentile <NAME>, 
+
+siamo spiacenti ma il sistema di pagamento PayPal non ha accettato il suo pagamento. 
+
+Questi i dettagli:
+
+----------------------------
+Nr. Transazione: <idTransazione>
+
+Nr. Ordine: <idTransazione>
+
+Importo: <Importo>
+----------------------------
+
+
+Verificare i suoi dati sul sistema PayPal e provi nuovamente a creare un ordine.
+
+Arrivederci. 
+
+<companyName>
+ 
