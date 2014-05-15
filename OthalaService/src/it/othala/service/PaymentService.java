@@ -6,9 +6,16 @@ import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.MailConfermaDTO;
 import it.othala.dto.MessageIpnDTO;
 import it.othala.dto.OrderFullDTO;
+import it.othala.dto.ProfilePayPalDTO;
 import it.othala.enums.TypeStateOrder;
+import it.othala.payment.paypal.DoExpressCheckoutPaymentDTO;
+import it.othala.payment.paypal.GetExpressCheckoutDetailsDTO;
+import it.othala.payment.paypal.OrderPayPalDTO;
 import it.othala.payment.paypal.PayPalWrapper;
+import it.othala.payment.paypal.SetExpressCheckoutDTO;
 import it.othala.payment.paypal.exception.PayPalException;
+import it.othala.payment.paypal.exception.PayPalFailureException;
+import it.othala.payment.paypal.exception.PayPalFundingFailureException;
 import it.othala.payment.paypal.exception.PayPalIpnErrorException;
 import it.othala.payment.paypal.exception.PayPalIpnInvalidException;
 import it.othala.service.interfaces.IMailService;
@@ -25,7 +32,9 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,11 +49,16 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import paypalnvp.core.PayPal.Environment;
+import paypalnvp.profile.BaseProfile;
+import paypalnvp.profile.Profile;
+
 public class PaymentService implements IPaymentService {
 
 	private IOrderService orderService;
 	private IMailService mailService;
 	private IMessagelIpnDAO messageIpnDAO;
+	private PayPalWrapper wrapper;
 
 	public void setMessageIpnDAO(IMessagelIpnDAO messageIpnDAO) {
 		this.messageIpnDAO = messageIpnDAO;
@@ -67,13 +81,13 @@ public class PaymentService implements IPaymentService {
 
 	private boolean exitsIdTransaction(long idOrder, String idTransaction) {
 		// TODO Auto-generated method stub
-		return messageIpnDAO.getIdTransaction(idOrder, idTransaction)>0;
-		
+		return messageIpnDAO.getIdTransaction(idOrder, idTransaction) > 0;
+
 	}
 
 	@Override
 	public void processIpnMessage(String originalRequest, String mc_gross, String mc_currency, String payment_status,
-			PayPalWrapper payWrapper) throws PayPalException, PayPalIpnErrorException {
+			ProfilePayPalDTO profile) throws PayPalException, PayPalIpnErrorException {
 
 		String responseRequest = originalRequest + "&cmd=_notify-validate";
 		StringBuilder sb = new StringBuilder();
@@ -81,7 +95,7 @@ public class PaymentService implements IPaymentService {
 
 		try {
 			// resend message to PayPal for securiry protocol
-			HashMap<String, String> respMap = payWrapper.getNotificationIPN(responseRequest);
+			HashMap<String, String> respMap = getWrapper(profile).getNotificationIPN(responseRequest);
 
 			// check that txn_id has not been previously processed
 			String txn_id = respMap.get("txn_id");
@@ -92,7 +106,7 @@ public class PaymentService implements IPaymentService {
 				OrderFullDTO order = orderService.getOrders(idOrder, null, null).get(0);
 
 				// check that receiver_email is your Primary PayPal email
-				String emailMerchant = payWrapper.getUsername();
+				String emailMerchant = profile.getUserName();
 				String receiver_email = respMap.get("receiver_email");
 				if (!emailMerchant.equalsIgnoreCase(receiver_email)) {
 					sb.append(String.format(
@@ -115,17 +129,17 @@ public class PaymentService implements IPaymentService {
 									"EUR", mc_currency, originalRequest));
 					errorFormalMessage = true;
 				}
-				
+
 				// inserisco il messaggio
-				MessageIpnDTO ipnMessage=new MessageIpnDTO();
+				MessageIpnDTO ipnMessage = new MessageIpnDTO();
 				ipnMessage.setIdOrder(order.getIdOrder());
 				ipnMessage.setFgElaborato(!errorFormalMessage);
 				ipnMessage.setIdTransaction(txn_id);
 				ipnMessage.setTxMessage(originalRequest);
 				ipnMessage.setTxStato(payment_status);
-				ipnMessage.setTxNote(sb.toString());				
+				ipnMessage.setTxNote(sb.toString());
 				insertMessage(ipnMessage);
-								
+
 				if (errorFormalMessage) {
 					log.error(String.format("Messagio %s non elaborato, ci sono errori formali", "txn_id"));
 					return;
@@ -436,4 +450,36 @@ public class PaymentService implements IPaymentService {
 
 	}
 
+	@Override
+	public SetExpressCheckoutDTO setExpressCheckout(OrderPayPalDTO cart, ProfilePayPalDTO profile)
+			throws MalformedURLException, UnsupportedEncodingException, PayPalException {
+		// TODO Auto-generated method stub
+		return getWrapper(profile).setExpressCheckout(cart);
+	}
+
+	@Override
+	public DoExpressCheckoutPaymentDTO doExpressCheckoutPayment(GetExpressCheckoutDetailsDTO details,
+			ProfilePayPalDTO profile) throws PayPalFundingFailureException, PayPalException, PayPalFailureException {
+		// TODO Auto-generated method stub
+		return getWrapper(profile).doExpressCheckoutPayment(details);
+	}
+
+	@Override
+	public GetExpressCheckoutDetailsDTO getExpressCheckoutDetails(String token, ProfilePayPalDTO profile)
+			throws MalformedURLException, UnsupportedEncodingException, PayPalException {
+		// TODO Auto-generated method stub
+		return getWrapper(profile).getExpressCheckoutDetails(token);
+	}
+
+	private PayPalWrapper getWrapper(ProfilePayPalDTO profile) {
+		if (wrapper == null) {
+
+			Profile prof = new BaseProfile.Builder(profile.getUserName(), profile.getPassword()).signature(
+					profile.getPassword()).build();
+			Environment env = PayPalWrapper.getEnvironment(profile.getEnvironment());
+			wrapper = new PayPalWrapper(env, prof);
+		}
+		return wrapper;
+
+	}
 }
