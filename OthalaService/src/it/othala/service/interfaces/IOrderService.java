@@ -44,6 +44,6 @@ public interface IOrderService {
 
 	public DeliveryAddressDTO updateAddress(DeliveryAddressDTO newAddress, Integer idAddress);
 
-	public void inviaMailDiConferma(OrderFullDTO order, MailConfermaDTO mailDTO) throws MailNotSendException;
+	
 
 }

@@ -1,6 +1,9 @@
 package it.othala.service;
 
+import it.othala.account.execption.MailNotSendException;
 import it.othala.dao.interfaces.IMessagelIpnDAO;
+import it.othala.dto.ArticleFullDTO;
+import it.othala.dto.MailConfermaDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.enums.TypeStateOrder;
 import it.othala.payment.paypal.PayPalWrapper;
@@ -10,10 +13,27 @@ import it.othala.payment.paypal.exception.PayPalIpnInvalidException;
 import it.othala.service.interfaces.IMailService;
 import it.othala.service.interfaces.IOrderService;
 import it.othala.service.interfaces.IPaymentService;
+import it.othala.service.template.Template;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.math.BigDecimal;
+import java.net.URL;
 import java.util.HashMap;
+import java.util.Map;
 
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -159,8 +179,7 @@ public class PaymentService implements IPaymentService {
 
 		switch (state) {
 		case DENIED:
-		case FAILED:
-		case REFUNDED:
+		case FAILED:		
 		case EXPIRED:
 			return false;
 
@@ -198,5 +217,152 @@ public class PaymentService implements IPaymentService {
 			return false;
 		}
 	}
+
+	@Override
+	public void sendMailRefusedPayment(OrderFullDTO order, String companyName) {
+		// TODO Auto-generated method stub
+		
+	}
+
+		// TODO Auto-generated method stub
+		
+	
+
+	@Override
+	public void sendMailRefundedPayment(OrderFullDTO order, String companyName) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void sendMailAcceptedPyament(OrderFullDTO order, MailConfermaDTO mailDTO,boolean pending) throws MailNotSendException {		
+		URL res = Thread.currentThread().getContextClassLoader().getResource("");
+		Map<String, String> inlineImages = new HashMap<String, String>();
+		String basePath = res.getPath().replace("/WEB-INF/classes", "");
+		basePath = basePath.replace("/", "");
+		String html = generateHtmlOrder(order, mailDTO, inlineImages);
+
+		mailService.inviaHTMLMail(new String[] { order.getIdUser() }, "Conferma Ordine", html, inlineImages);
+	}
+
+	private String generateHtmlOrder(OrderFullDTO order, MailConfermaDTO mailDTO, Map<String, String> inlineImages) {
+		BufferedWriter out = null;
+		FileWriter fstream = null;
+
+		try {
+
+			File xslFile = Template.getFile("it/othala/service/template/mailConfermaOrdine.xsl");
+			File xmlTemp = File.createTempFile("xmlTemp", ".xml");
+			fstream = new FileWriter(xmlTemp);
+
+			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(xmlTemp), "UTF8"));
+
+			out.write("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
+			out.write("<order>");
+			out.write("<imgLogo>");
+			out.write("cid:imageLogo");
+			inlineImages.put("imageLogo", mailDTO.getPathImgLogo());
+			out.write("</imgLogo>");
+
+			out.write("<customer>");
+			out.write("<name>" + order.getNameUser() + "</name>");
+			out.write("<mail>" + order.getIdUser() + "</mail>");
+			out.write("<surname>" + order.getSurnameUser() + "</surname>");
+			out.write("</customer>");
+
+			out.write("<number>" + order.getIdOrder() + "</number>");
+			out.write("<transaction>" + order.getIdTransaction() + "</transaction>");
+			out.write("<imgPayment>");
+			out.write("cid:imgPayment");
+			out.write("</imgPayment>");
+			inlineImages.put("imgPayment", mailDTO.getPathImgPayment());
+			out.write("<deliveryCost>" + order.getSpeseSpedizione().getImportoSpese() + "</deliveryCost>");
+			out.write("<totalCost>" + order.getImOrdine() + "</totalCost>");
+
+			out.write("<billingAddress>");
+			out.write("<name>" + order.getBillingAddress().getNome() + "</name>");
+			out.write("<surname>" + order.getBillingAddress().getCognome() + "</surname>");
+			out.write("<telefono>" + order.getBillingAddress().getTel() + "</telefono>");
+			out.write("<street>" + order.getBillingAddress().getVia() + "</street>");
+			out.write("<zipCode>" + order.getBillingAddress().getCap() + "</zipCode>");
+			out.write("<city>" + order.getBillingAddress().getComune() + "</city>");
+			out.write("<prov>" + order.getBillingAddress().getProvincia() + "</prov>");
+			out.write("</billingAddress>");
+			out.write("<shippingAddress>");
+			out.write("<name>" + order.getShippingAddress().getNome() + "</name>");
+			out.write("<surname>" + order.getShippingAddress().getCognome() + "</surname>");
+			out.write("<tel>" + order.getShippingAddress().getTel() + "</tel>");
+			out.write("<street>" + order.getShippingAddress().getVia() + "</street>");
+			out.write("<zipCode>" + order.getShippingAddress().getCap() + "</zipCode>");
+			out.write("<city>" + order.getShippingAddress().getComune() + "</city>");
+			out.write("<prov>" + order.getShippingAddress().getProvincia() + "</prov>");
+			out.write("</shippingAddress>");
+
+			out.write("<cart>");
+			int i = 0;
+			for (ArticleFullDTO art : order.getCart()) {
+				if (art != null) {
+					out.write("<item>");
+					out.write("<number>" + art.getPrdFullDTO().getIdProduct() + "</number>");
+					out.write("<img>cid:imgArt" + i + "</img>");
+					inlineImages.put("imgArt" + i, mailDTO.getBasePathThumbinalsArticle() + art.getThumbnailsUrl());
+					out.write("<brand>" + art.getPrdFullDTO().getTxBrand() + "</brand>");
+					out.write("<description>" + art.getPrdFullDTO().getDescription() + "</description>");
+					out.write("<color>" + art.getTxColor() + "</color>");
+					out.write("<size>" + art.getTxSize() + "</size>");
+					out.write("<unitPrice>" + art.getPrdFullDTO().getRealPrice() + "</unitPrice>");
+					out.write("<quantity>" + art.getQtBooked() + "</quantity>");
+					out.write("<price>" + art.getTotalPriced() + "</price>");
+					out.write("</item>");
+					i++;
+				}
+			}
+			out.write("</cart>");
+			out.write("</order>");
+			out.close();
+			fstream.close();
+
+			// scrivo il file xml temporaneo
+
+			File htmlTemp = File.createTempFile("htmlTemp", ".html");
+
+			// effetto la conversione xml,xsl to html scrivo il file html
+			// temporaneo
+			TransformerFactory tFactory = TransformerFactory.newInstance();
+			Source xslSource = new javax.xml.transform.stream.StreamSource(xslFile);
+			Source xmlSource = new javax.xml.transform.stream.StreamSource(xmlTemp);
+			javax.xml.transform.stream.StreamResult result = new StreamResult(htmlTemp);
+			Transformer transformer;
+			transformer = tFactory.newTransformer(xslSource);
+			transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+			transformer.transform(xmlSource, result);
+
+			String html = IOUtils.toString(new FileInputStream(htmlTemp), "UTF-8");
+
+			return html;
+
+		} catch (Exception e) {
+			log.error("errore formattazione html per invio mail", e);
+			return null;
+		} finally {
+			if (out != null)
+				try {
+					out.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					log.error("errore chiusura outstream", e);
+				}
+			if (fstream != null)
+				try {
+					fstream.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					log.error("errore chiusura fstream", e);
+				}
+
+		}
+
+	}
+
 
 }

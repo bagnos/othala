@@ -86,7 +86,8 @@ public class CartConfirmationView extends BaseView {
 				mail.setBasePathThumbinalsArticle(getBaseImageThumbinals());
 				mail.setPathImgLogo(getLogoHomeMail());
 				mail.setPathImgPayment(getBaseImagePath());
-				OthalaFactory.getOrderServiceInstance().inviaMailDiConferma(order, mail);
+				OthalaFactory.getPaymentServiceInstance().sendMailAcceptedPyament(order, mail, false);
+				//OthalaFactory.getOrderServiceInstance().inviaMailDiConferma(order, mail);
 			} catch (Exception e) {
 				log.error("errore nella rilettura oppure nell'update dell'ordine, chiamata paypal effettuata correttamente");
 				addError(null, OthalaUtil.getWordBundle("exception_postPayPalException"));
