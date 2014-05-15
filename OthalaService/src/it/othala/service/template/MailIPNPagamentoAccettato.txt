@@ -1,0 +1,22 @@
+gentile <NAME>, 
+
+la informiamo che il sistema di pagamento PayPal ha accettato il suo pagamento.
+Le invieremo una mail al momemnto della consegna. 
+
+Questi i dettagli:
+
+----------------------------
+Nr. Transazione: <idTransazione>
+
+Nr. Ordine: <idOrder>
+
+Importo: <Importo>
+----------------------------
+
+
+Verifica lo stato dei suoi ordini nella sezione myAccount del nostro sito.
+
+Arrivederci. 
+
+<COMPANY_NAME>
+ 

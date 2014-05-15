@@ -7,7 +7,7 @@ Questi i dettagli:
 ----------------------------
 Nr. Transazione: <idTransazione>
 
-Nr. Ordine: <idTransazione>
+Nr. Ordine: <idOrder>
 
 Importo: <Importo>
 ----------------------------
@@ -17,5 +17,5 @@ Verificare i suoi dati sul sistema PayPal e provi nuovamente a creare un ordine.
 
 Arrivederci. 
 
-<companyName>
+<COMPANY_NAME>
  

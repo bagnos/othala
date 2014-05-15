@@ -58,9 +58,7 @@ public class CartConfirmationView extends BaseView {
 	}
 
 	public String doInit() {
-		// TODO Auto-generated method stub
 		PayPalWrapper wrap = null;
-		paymentOK = true;
 		IPaymentService servicePayment = OthalaFactory.getPaymentServiceInstance();
 		try {
 			wrap = PayPalUtil.getPayPalWrapper();
@@ -82,50 +80,39 @@ public class CartConfirmationView extends BaseView {
 					try {
 						OthalaFactory.getPaymentServiceInstance().sendMailAcceptedPyament(order, mail,
 								checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS());
+						addInfo(null, OthalaUtil.getWordBundle("catalogo_paySuccess"));
+
 					} catch (MailNotSendException e) {
 						log.error("errore nell'invio della mail, pagamento accettato", e);
 						addError("null", OthalaUtil.getWordBundle("exception_postMailAcceptedPostPayPalException"));
 					}
 				} else {
-					paymentOK = false;
+					addError(null, OthalaUtil.getWordBundle("catalogo_payKO",
+							new Object[] { checkDTO.getL_PAYMENTINFO_0_FMF(),checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS() }));
 				}
 			} catch (Exception e) {
 				log.error("errore nella rilettura oppure nell'update dell'ordine, chiamata paypal effettuata correttamente");
-				addError(null, OthalaUtil.getWordBundle("exception_postPayPalException"));
+				addError(null, OthalaUtil.getWordBundle("exception_postPayPalException",new Object[]{idOrder}));
 			}
 
 		} catch (PayPalFundingFailureException e) {
-			//problemi sulla carta, gli chiediamo di scegliere un altro strumento di pagamento
-			paymentOK = false;
+			// problemi sulla carta, gli chiediamo di scegliere un altro
+			// strumento di pagamento
+
 			log.error("PayPal funding failure error code 10486", e);
 			try {
 				FacesContext.getCurrentInstance().getExternalContext().redirect(e.getRedirectUrl());
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				log.error("errore redirect funding failure error code 10486", e);
 				addError(null, OthalaUtil.getWordBundle("exception_payPalFundingFailureException"));
 			}
 			return null;
-		} catch (PayPalPaymentRefusedException e) {
-			paymentOK = false;
-			addError("null", OthalaUtil.getWordBundle("exception_payPalRefused"));
-			return null;
 		}
-
-		catch (Exception ex) {
-			// TODO Auto-generated catch block
-			paymentOK = false;
+		 catch (Exception ex) {
 			log.error("Errore comunicazione PayPal", ex);
 			addError(null, OthalaUtil.getWordBundle("exception_payPalException"));
-			// return null;
 		}
 
-		if (paymentOK) {
-			messagePayment = OthalaUtil.getWordBundle("catalogo_paySuccess");
-		} else {
-			messagePayment = OthalaUtil.getWordBundle("catalogo_payKO");
-		}
 		return null;
 	}
-
 }

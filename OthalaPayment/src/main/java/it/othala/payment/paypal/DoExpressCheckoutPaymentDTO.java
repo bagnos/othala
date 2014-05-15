@@ -10,11 +10,17 @@ public class DoExpressCheckoutPaymentDTO extends PayPalResponseDTO {
 	private String PAYMENTINFO_0_TRANSACTIONID;
 	private String PAYMENTINFO_0_PAYMENTSTATUS;
 	private String PAYMENTINFO_0_PENDINGREASON;
-	private String note;
-	
+	private String note;	
 	private boolean failedPaymenet;
+	private String L_PAYMENTINFO_0_FMF;
 	
 	
+	public String getL_PAYMENTINFO_0_FMF() {
+		return L_PAYMENTINFO_0_FMF;
+	}
+	public void setL_PAYMENTINFO_0_FMF(String l_PAYMENTINFO_0_FMF) {
+		L_PAYMENTINFO_0_FMF = l_PAYMENTINFO_0_FMF;
+	}
 	public void setFailedPaymenet(boolean failedPaymenet) {
 		this.failedPaymenet = failedPaymenet;
 	}

@@ -9,10 +9,11 @@
 			<body
 				style="padding:4px;font-family: Helvetica Neue,Helvetica,Arial,sans-serif;line-height: 1.42857143;">
 				<!-- logo -->
+				<xsl:value-of select="order"/>
 				<div>
 					<img>
 						<xsl:attribute name="src">
-    								<xsl:value-of select="order/imgLogo" />
+    								<xsl:value-of select="imgLogo" />
     								</xsl:attribute>
 					</img>
 				</div>
@@ -20,11 +21,17 @@
 				<!-- grreting -->
 				<p style="margin-top:20px">
 					Gentile
-					<xsl:value-of select="order/customer/name" />
+					<xsl:value-of select="customer/name" />
 					,
 					<br />
 					<br />
-					il tuo ordine è stato ricevuto ed è in corso di elaborazione.
+					<xsl:when test="pending = false">
+						il tuo ordine è stato ricevuto ed è in corso di elaborazione.
+					</xsl:when>
+					<xsl:otherwise>
+						il tuo ordine è in verifica presso il sistema PayPal, ti informeremo via mail sull' esito del pagamento.
+					</xsl:otherwise>
+
 				</p>
 
 				<!-- nr ordine e transazione -->
@@ -33,13 +40,13 @@
 						<label style="display:inline-block;width:130px">
 							<b>Numero Ordine</b>
 						</label>
-						<xsl:value-of select="order/number" />
+						<xsl:value-of select="number" />
 					</div>
 					<div>
 						<label style="display:inline-block;width:130px">
 							<b>Numero Transazione</b>
 						</label>
-						<xsl:value-of select="order/transaction" />
+						<xsl:value-of select="transaction" />
 					</div>
 
 				</div>
@@ -47,7 +54,12 @@
 
 				<!-- ringraziamenti -->
 				<p>
-					Quando il tuo ordine verrà messo in consegna ti informeremo con un'e-mail.
+					<xsl:when test="pending = false">
+						Quando il tuo ordine verrà messo in consegna ti informeremo con un'e-mail.
+					</xsl:when>
+					<xsl:otherwise>
+						In caso di pagamento effettuato correttamente ti informeremo con un'e-mail al momento della spedizione del suo ordine.
+					</xsl:otherwise>
 					<br />
 					<br />
 					Grazie
@@ -61,7 +73,7 @@
 						Ordini in Il Mio Account.
 					</strong>
 				</p>
-				
+
 
 				<!-- dettaglio ordine -->
 
@@ -72,7 +84,7 @@
 							Email
 						</th>
 						<td>
-							<xsl:value-of select="order/customer/mail" />
+							<xsl:value-of select="customer/mail" />
 						</td>
 					</tr>
 					<tr>
@@ -80,7 +92,7 @@
 							Nome
 						</th>
 						<td>
-							<xsl:value-of select="order/customer/name" />
+							<xsl:value-of select="customer/name" />
 						</td>
 					</tr>
 					<tr>
@@ -88,7 +100,7 @@
 							Cognome
 						</th>
 						<td>
-							<xsl:value-of select="order/customer/surname" />
+							<xsl:value-of select="customer/surname" />
 						</td>
 					</tr>
 				</table>
@@ -112,44 +124,44 @@
 
 									<label style="display:inline-block;width:90px">Nome</label>
 									<span>
-										<xsl:value-of select="order/billingAddress/name" />
+										<xsl:value-of select="billingAddress/name" />
 									</span>
 									<br />
 
 									<label style="display:inline-block;width:90px">Cognome</label>
 									<span>
-										<xsl:value-of select="order/billingAddress/surname" />
+										<xsl:value-of select="billingAddress/surname" />
 									</span>
 									<br />
 
 
 									<label style="display:inline-block;width:90px">Telefono</label>
 
-									<xsl:value-of select="order/billingAddress/telefono" />
+									<xsl:value-of select="billingAddress/telefono" />
 
 									<br />
 
 									<label style="display:inline-block;width:90px">Indirizzo</label>
 									<span>
-										<xsl:value-of select="order/billingAddress/street" />
+										<xsl:value-of select="billingAddress/street" />
 									</span>
 									<br />
 
 									<label style="display:inline-block;width:90px">Cap</label>
 									<span>
-										<xsl:value-of select="order/billingAddress/zipCode" />
+										<xsl:value-of select="billingAddress/zipCode" />
 									</span>
 									<br />
 
 									<label style="display:inline-block;width:90px">Città</label>
 									<span>
-										<xsl:value-of select="order/billingAddress/city" />
+										<xsl:value-of select="billingAddress/city" />
 									</span>
 									<br />
 
 									<label style="display:inline-block;width:90px">Provincia</label>
 									<span>
-										<xsl:value-of select="order/billingAddress/prov" />
+										<xsl:value-of select="billingAddress/prov" />
 									</span>
 
 								</p>
@@ -160,43 +172,43 @@
 								<p style="line-height: 1.42857143;">
 									<label style="display:inline-block;width:90px">Nome</label>
 									<span>
-										<xsl:value-of select="order/shippingAddress/name" />
+										<xsl:value-of select="shippingAddress/name" />
 									</span>
 									<br />
 
 									<label style="display:inline-block;width:90px">Cognome</label>
 									<span>
-										<xsl:value-of select="order/shippingAddress/surname" />
+										<xsl:value-of select="shippingAddress/surname" />
 									</span>
 									<br />
 
 									<label style="display:inline-block;width:90px">Telefono</label>
 									<span>
-										<xsl:value-of select="order/shippingAddress/tel" />
+										<xsl:value-of select="shippingAddress/tel" />
 									</span>
 									<br />
 
 									<label style="display:inline-block;width:90px">Indirizzo</label>
 									<span>
-										<xsl:value-of select="order/shippingAddress/street" />
+										<xsl:value-of select="shippingAddress/street" />
 									</span>
 									<br />
 
 									<label style="display:inline-block;width:90px">Cap</label>
 									<span>
-										<xsl:value-of select="order/shippingAddress/zipCode" />
+										<xsl:value-of select="shippingAddress/zipCode" />
 									</span>
 									<br />
 
 									<label style="display:inline-block;width:90px">Città</label>
 									<span>
-										<xsl:value-of select="order/shippingAddress/city" />
+										<xsl:value-of select="shippingAddress/city" />
 									</span>
 									<br />
 
 									<label style="display:inline-block;width:90px">Provincia</label>
 									<span>
-										<xsl:value-of select="order/shippingAddress/prov" />
+										<xsl:value-of select="shippingAddress/prov" />
 									</span>
 
 								</p>
@@ -213,7 +225,7 @@
 						<img>
 
 							<xsl:attribute name="src">
-    								<xsl:value-of select="order/imgPayment" />
+    								<xsl:value-of select="imgPayment" />
     								</xsl:attribute>
 						</img>
 					</div>
@@ -239,7 +251,7 @@
 							<td colspan="6" class="text-right">Costo Spedizione</td>
 							<td>
 								&#8364;
-								<xsl:value-of select="order/deliveryCost" />
+								<xsl:value-of select="deliveryCost" />
 							</td>
 						</tr>
 						<tr>
@@ -248,13 +260,13 @@
 							</td>
 							<td>
 								&#8364;
-								<xsl:value-of select="order/totalCost" />
+								<xsl:value-of select="totalCost" />
 							</td>
 						</tr>
 
 					</tfoot>
 					<tbody style="vertical-align: top;">
-						<xsl:for-each select="order/cart/item">
+						<xsl:for-each select="cart/item">
 							<tr>
 								<td>
 									<img style="width: 95px;height: 126px;float: left">
