@@ -6,4 +6,6 @@ public interface IMessageIpnService {
 
 	public void insertMessageIpn(MessageIpnDTO messageIpn);
 
+	public Boolean getIdTransaction(long idOrder, String idTransaction);
+
 }

@@ -23,6 +23,16 @@
 
 	</insert>
 
+		<select id="getIdTransaction" resultType="Integer" parameterType="java.util.HashMap">
 
+		SELECT count(*)
+		FROM ${database.schema}ipnmessages
+		Where idOrder =
+		#{idOrder}
+		and idTransaction = #{idTransaction};
+		
+
+
+	</select>
 
 </mapper>
