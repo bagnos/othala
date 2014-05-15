@@ -121,10 +121,10 @@ public class PaymentService implements IPaymentService {
 				// message is correct, process message
 				TypeStateOrder state = TypeStateOrder.valueOf(payment_status);
 				orderService.updateStateOrder(idOrder, order, state);
-				if (paymentKO(payment_status)) {
+				if (isPaymentKO(payment_status)) {
 					// inviare una mail in cui si comunica che PayPal non ha
 					// accettato il pagamento
-				} else if (paymentCompleted(payment_status)) {
+				} else if (isPaymentCompleted(payment_status)) {
 					// inviare una mail in cui si comunica che PayPal ha
 					// accettato il pagamento
 				} else {
@@ -157,26 +157,9 @@ public class PaymentService implements IPaymentService {
 	}
 
 	@Override
-	public boolean decreaseQuantity(String paypalStatus) {
+	public boolean isPaymentKO(TypeStateOrder state) {
 		// TODO Auto-generated method stub
-		TypeStateOrder state = TypeStateOrder.valueOf(paypalStatus);
-
-		switch (state) {
-		case DENIED:
-		case FAILED:
-		case REFUNDED:
-		case EXPIRED:
-			return false;
-
-		default:
-			return true;
-		}
-	}
-
-	public boolean paymentKO(String paypalStatus) {
-		// TODO Auto-generated method stub
-		TypeStateOrder state = TypeStateOrder.valueOf(paypalStatus);
-
+		
 		switch (state) {
 		case DENIED:
 		case FAILED:		
@@ -188,8 +171,17 @@ public class PaymentService implements IPaymentService {
 		}
 	}
 
+	public boolean isPaymentKO(String paypalStatus) {
+		// TODO Auto-generated method stub
+		TypeStateOrder state = TypeStateOrder.valueOf(paypalStatus);
+
+		return isPaymentKO(state);
+	}
+	
+	
+
 	@Override
-	public boolean paymentPending(String paypalStatus) {
+	public boolean isPaymentPending(String paypalStatus) {
 		// TODO Auto-generated method stub
 		TypeStateOrder state = TypeStateOrder.valueOf(paypalStatus);
 
@@ -204,7 +196,7 @@ public class PaymentService implements IPaymentService {
 	}
 
 	@Override
-	public boolean paymentCompleted(String paypalStatus) {
+	public boolean isPaymentCompleted(String paypalStatus) {
 		// TODO Auto-generated method stub
 		TypeStateOrder state = TypeStateOrder.valueOf(paypalStatus);
 
@@ -219,7 +211,7 @@ public class PaymentService implements IPaymentService {
 	}
 
 	@Override
-	public void sendMailRefusedPayment(OrderFullDTO order, String companyName) {
+	public void sendMailRefusedPayment(OrderFullDTO order) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -229,13 +221,13 @@ public class PaymentService implements IPaymentService {
 	
 
 	@Override
-	public void sendMailRefundedPayment(OrderFullDTO order, String companyName) {
+	public void sendMailRefundedPayment(OrderFullDTO order) {
 		// TODO Auto-generated method stub
 		
 	}
 	
 	@Override
-	public void sendMailAcceptedPyament(OrderFullDTO order, MailConfermaDTO mailDTO,boolean pending) throws MailNotSendException {		
+	public void sendMailAcceptedPyament(OrderFullDTO order, MailConfermaDTO mailDTO,String status) throws MailNotSendException {		
 		URL res = Thread.currentThread().getContextClassLoader().getResource("");
 		Map<String, String> inlineImages = new HashMap<String, String>();
 		String basePath = res.getPath().replace("/WEB-INF/classes", "");
@@ -363,6 +355,8 @@ public class PaymentService implements IPaymentService {
 		}
 
 	}
+
+	
 
 
 }
