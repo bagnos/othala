@@ -105,7 +105,7 @@ INSERT INTO `othala`.`orders_articles` (`idOrder`, `idProdotto`, `pgArticle`, `q
 
 INSERT INTO `othala`.`orders_articles` (`idOrder`, `idProdotto`, `pgArticle`, `qtArticle`) VALUES (1, 881, 1, 1);
 
-INSERT INTO `othala`.`states_orders` (`idOrder`, `idStato`, `dtStato`) VALUES (1, 2, '2014-05-02');
+INSERT INTO `othala`.`states_orders` (`idOrder`, `idStato`) VALUES (1, 2);
 
 
 
