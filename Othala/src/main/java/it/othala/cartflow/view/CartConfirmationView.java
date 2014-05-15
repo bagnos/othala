@@ -3,6 +3,7 @@ package it.othala.cartflow.view;
 import it.othala.account.execption.MailNotSendException;
 import it.othala.dto.MailConfermaDTO;
 import it.othala.dto.OrderFullDTO;
+import it.othala.dto.ProfilePayPalDTO;
 import it.othala.enums.TypeStateOrder;
 import it.othala.payment.paypal.DoExpressCheckoutPaymentDTO;
 import it.othala.payment.paypal.GetExpressCheckoutDetailsDTO;
@@ -58,13 +59,15 @@ public class CartConfirmationView extends BaseView {
 	}
 
 	public String doInit() {
-		PayPalWrapper wrap = null;
+		
 		IPaymentService servicePayment = OthalaFactory.getPaymentServiceInstance();
 		try {
-			wrap = PayPalUtil.getPayPalWrapper();
-			details = wrap.getExpressCheckoutDetails(getQueryStringParm("token"));
+			IPaymentService service=OthalaFactory.getPaymentServiceInstance();
+			ProfilePayPalDTO profile=PayPalUtil.getProfile();
+			
+			details = service.getExpressCheckoutDetails(getQueryStringParm("token"),profile);
 
-			checkDTO = wrap.doExpressCheckoutPayment(details);
+			checkDTO = service.doExpressCheckoutPayment(details,profile);
 			int idOrder = Integer.valueOf(details.getCustom());
 			try {
 				List<OrderFullDTO> orders = OthalaFactory.getOrderServiceInstance().getOrders(idOrder, null, null);

@@ -7,11 +7,13 @@ import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryCostDTO;
 import it.othala.dto.DeliveryDTO;
 import it.othala.dto.OrderFullDTO;
+import it.othala.dto.ProfilePayPalDTO;
 import it.othala.execption.OthalaException;
 import it.othala.payment.paypal.OrderPayPalDTO;
 import it.othala.payment.paypal.PayPalWrapper;
 import it.othala.payment.paypal.SetExpressCheckoutDTO;
 import it.othala.service.factory.OthalaFactory;
+import it.othala.service.interfaces.IPaymentService;
 import it.othala.view.BaseView;
 import it.othala.web.utils.OthalaUtil;
 import it.othala.web.utils.PayPalUtil;
@@ -31,7 +33,6 @@ public class CartWizardView extends BaseView {
 
 	@Inject
 	private CartFlowBean cart;
-	
 
 	public CartFlowBean getCart() {
 		return cart;
@@ -45,7 +46,7 @@ public class CartWizardView extends BaseView {
 	private int idAddressSpe;
 	private boolean editAddrFat;
 	private boolean editAddrSpe;
-	private OrderFullDTO order=null;
+	private OrderFullDTO order = null;
 	private boolean sameAddress;
 	private boolean saveAddressSpe;
 	private boolean saveAddressFat;
@@ -351,7 +352,7 @@ public class CartWizardView extends BaseView {
 	}
 
 	public void checkout(ActionEvent e) {
-		PayPalWrapper pBd;
+
 		try {
 			try {
 				insertOrder();
@@ -361,11 +362,12 @@ public class CartWizardView extends BaseView {
 				return;
 			}
 
-			// checkout paypall			
-			pBd = PayPalUtil.getPayPalWrapper();
-			OrderPayPalDTO orderPayPal=PayPalUtil.getOrderPayPalDTO(cart, order.getIdOrder().toString(), getLang());
-			SetExpressCheckoutDTO checkDTO = pBd.setExpressCheckout(orderPayPal);
-			
+			// checkout paypall
+			OrderPayPalDTO orderPayPal = PayPalUtil.getOrderPayPalDTO(cart, order.getIdOrder().toString(), getLang());
+			ProfilePayPalDTO profile = PayPalUtil.getProfile();
+			IPaymentService service = OthalaFactory.getPaymentServiceInstance();
+			SetExpressCheckoutDTO checkDTO = service.setExpressCheckout(orderPayPal, profile);
+
 			if (checkDTO != null && checkDTO.getToken() != null) {
 				// return null;
 				FacesContext.getCurrentInstance().getExternalContext().redirect(checkDTO.getRedirectUrl());
@@ -398,11 +400,5 @@ public class CartWizardView extends BaseView {
 		order = OthalaFactory.getOrderServiceInstance().insertOrder(order);
 
 	}
-
-	
-
-	
-
-
 
 }

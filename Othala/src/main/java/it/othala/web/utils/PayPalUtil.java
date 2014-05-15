@@ -1,8 +1,8 @@
 package it.othala.web.utils;
 
 import it.othala.cartflow.model.CartFlowBean;
+import it.othala.dto.ProfilePayPalDTO;
 import it.othala.payment.paypal.OrderPayPalDTO;
-import it.othala.payment.paypal.PayPalWrapper;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,9 +10,6 @@ import java.util.Properties;
 
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
-
-import paypalnvp.profile.BaseProfile;
-import paypalnvp.profile.Profile;
 
 public class PayPalUtil {
 	private static Properties prop = null;
@@ -29,18 +26,18 @@ public class PayPalUtil {
 
 	}
 
-	public static Profile getProfile() throws IOException {
+	public static ProfilePayPalDTO getProfile() throws IOException {
 		loadProp();
-		Profile user = new BaseProfile.Builder(prop.getProperty("Username"), prop.getProperty("Password")).signature(
-				prop.getProperty("Signature")).build();
-		return user;
+		ProfilePayPalDTO prof = new ProfilePayPalDTO();
+		prof.setEnvironment(prop.getProperty("environment"));
+		prof.setPassword( prop.getProperty("Password"));
+		prof.setSignature(prop.getProperty("Signature"));
+		prof.setUserName(prop.getProperty("Username"));
+				
+		return prof;
 	}
 
-	public static PayPalWrapper getPayPalWrapper() throws IOException {
-		PayPalWrapper pBd = new PayPalWrapper(PayPalWrapper.getEnvironment(prop.getProperty("environment")),
-				getProfile());
-		return pBd;
-	}
+	
 
 	public static OrderPayPalDTO getOrderPayPalDTO(CartFlowBean car, String idOrder, String lang) throws IOException {
 		OrderPayPalDTO cart = new OrderPayPalDTO();
