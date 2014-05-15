@@ -164,10 +164,10 @@ public class PaymentService implements IPaymentService {
 		case DENIED:
 		case FAILED:		
 		case EXPIRED:
-			return false;
+			return true;
 
 		default:
-			return true;
+			return false;
 		}
 	}
 
