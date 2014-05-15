@@ -56,20 +56,17 @@ public class IpnPayPalServlet extends HttpServlet {
 
 		// recupero body orginario
 		String originalRequest = getBody(request);
-		
 
-		
 		try {
-			// check the payment_status is Completed
-			
-			OthalaFactory.getPaymentServiceInstance().processIpnMessage(originalRequest, request.getParameter("mc_gross"), request.getParameter("mc_currency"), request.getParameter("payment_status"), payWrapper);
-			
-			
+
+			OthalaFactory.getPaymentServiceInstance().processIpnMessage(originalRequest,
+					request.getParameter("mc_gross"), request.getParameter("mc_currency"),
+					request.getParameter("payment_status"), payWrapper);
 
 		} catch (PayPalIpnErrorException | PayPalException e) {
 			// TODO Auto-generated catch block
 			throw new ServletException(e);
-		} 
+		}
 
 	}
 
