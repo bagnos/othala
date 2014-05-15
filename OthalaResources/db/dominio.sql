@@ -82,11 +82,20 @@ INSERT INTO `product_description` VALUES (881,'it','JEANS IN COTONE STRETCH 16.5
 INSERT INTO `product_image` VALUES (881,1,'A881.JPG'),(881,2,'A882.JPG'),(881,3,'C881.JPG'),(881,4,'C882.JPG');
 INSERT INTO `article` VALUES (881,1,17,3,1,'A882.JPG',1),(881,2,18,3,2,'A882.JPG',1),(881,3,19,3,1,'A882.JPG',1),(881,4,20,6,1,'A881.JPG',1),(881,5,21,6,2,'A881.JPG',1),(881,6,22,6,1,'A881.JPG',1);
 
-INSERT INTO `states` VALUES (1,'INSERITO'),(2,'IN LAVORAZIONE'),(3,'PAGATO'),(4,'SPEDITO'),(5,'ANNULLATO'),(6,'RECESSO');
+INSERT INTO `states` VALUES (1,'INSERITO'),(2,'CANCELEDREVERSAL'),
+                            (3,'COMPLETED'),(4,'DENIED'),
+                            (5,'EXPIRED'),(6,'FAILED'),
+                            (7,'INPROGRESS'),(8,'PARTIALLYREFUNDED'),
+                            (9,'PENDING'),(10,'REFUNDED'),
+                            (11,'REVERSED'),(12,'PROCESSED'),
+                            (13,'VOIDED'),(14,'COMPLETEDFUNDSHELD'),
+                            (15,'SPEDITO');
 
 INSERT INTO `type_state_account`
 VALUES
 (1,'DISATTIVATO'),(2,'ATTIVATO'),(3,'CESSATO'),(4,'RESET_PSW');
+
+
 
 
 INSERT INTO `othala`.`customer` (`idUser`, `txPassword`, `txNome`, `txCognome`, `txFiscale`, `idTypeState`) VALUES ('1', 'ANTANI', 'JACOPO', 'FREDIANI', 'FRDJCP79A28I726A', 2);
