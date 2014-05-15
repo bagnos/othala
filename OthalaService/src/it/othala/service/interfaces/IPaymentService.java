@@ -28,4 +28,6 @@ public interface IPaymentService {
 	public void sendMailRefundedPayment(OrderFullDTO order) throws MailNotSendException;
 	
 	public void sendMailAcceptedPyament(OrderFullDTO order, MailConfermaDTO mailDTO,String status) throws MailNotSendException;
+	
+	public void sendMailAcceptedPyamentAfterPending(OrderFullDTO order) throws MailNotSendException;
 }

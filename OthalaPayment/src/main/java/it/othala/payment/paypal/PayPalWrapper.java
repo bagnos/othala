@@ -131,14 +131,13 @@ public class PayPalWrapper {
 	 * @throws PayPalException
 	 *             restituito in caso di errore gestito da PayPal, ACK=Failure
 	 * @throws PayPalFailureException
-	 *             Pagamento non effettuato, stato interno PayPal deny, refused,
-	 *             ecc...
-	 * @throws PayPalPaymentRefusedException
+	 *             Pagamento non effettuato, ack=failure nel messaggio di ritorno
+	 * 
 	 */
 
 	public DoExpressCheckoutPaymentDTO doExpressCheckoutPayment(GetExpressCheckoutDetailsDTO details)
-			throws PayPalFundingFailureException, PayPalException, PayPalFailureException,
-			PayPalPaymentRefusedException {
+			throws PayPalFundingFailureException, PayPalException, PayPalFailureException
+			 {
 
 		DoExpressCheckoutPayment doCheck = new DoExpressCheckoutPayment(details.getToken(), PaymentAction.SALE,
 				details.getPayerid(), details.getAmount().toString(), details.getCurrencyCode());
@@ -237,8 +236,8 @@ public class PayPalWrapper {
 	}
 
 	private DoExpressCheckoutPaymentDTO getDoExpressCheckoutPaymentDTO(Map<String, String> response)
-			throws PayPalException, PayPalFundingFailureException, PayPalFailureException,
-			PayPalPaymentRefusedException {
+			throws PayPalException, PayPalFundingFailureException, PayPalFailureException
+			 {
 		StringBuilder sn = new StringBuilder();
 		for (String e : response.keySet()) {
 			sn.append(String.format("%s=%s;", e, response.get(e).toString()));
@@ -249,7 +248,8 @@ public class PayPalWrapper {
 			checkDTO.setNote(response.get("NOTE"));
 			checkDTO.setPAYMENTINFO_0_PAYMENTSTATUS(response.get("PAYMENTINFO_0_PAYMENTSTATUS"));
 			checkDTO.setPAYMENTINFO_0_PENDINGREASON(response.get("PAYMENTINFO_0_PENDINGREASON"));
-			verifyFailurePayment(checkDTO);
+			checkDTO.setL_PAYMENTINFO_0_FMF(response.get("L_PAYMENTINFO_0_FMF"));
+			
 		} else {
 			updateError(response);
 
@@ -264,16 +264,7 @@ public class PayPalWrapper {
 		return checkDTO;
 	}
 
-	private void verifyFailurePayment(DoExpressCheckoutPaymentDTO checkDTO) throws PayPalPaymentRefusedException {
-		checkDTO.setFailedPaymenet(false);
-		if (checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS().equalsIgnoreCase("Denied")
-				|| checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS().equalsIgnoreCase("Failed")
-				|| checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS().equalsIgnoreCase("Refused")) {
-
-			throw new PayPalPaymentRefusedException(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS());
-		}
-
-	}
+	
 
 	private GetExpressCheckoutDetailsDTO getExpressCheckOutDetailsDTO(Map<String, String> response)
 			throws PayPalException {

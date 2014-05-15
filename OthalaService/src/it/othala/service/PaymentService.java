@@ -14,6 +14,9 @@ import it.othala.service.interfaces.IMailService;
 import it.othala.service.interfaces.IOrderService;
 import it.othala.service.interfaces.IPaymentService;
 import it.othala.service.template.Template;
+import it.othala.service.template.Template.TipoTemplate;
+import it.othala.util.HelperCrypt;
+import it.othala.util.OthalaCommonUtils;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -124,9 +127,23 @@ public class PaymentService implements IPaymentService {
 				if (isPaymentKO(payment_status)) {
 					// inviare una mail in cui si comunica che PayPal non ha
 					// accettato il pagamento
+					try {
+						sendMailRefusedPayment(order);
+					} catch (MailNotSendException e) {
+						// TODO Auto-generated catch block
+						log.error(String.format("errore nell'invio della mail di rifuto", order.getIdOrder()), e);
+					}
 				} else if (isPaymentCompleted(payment_status)) {
 					// inviare una mail in cui si comunica che PayPal ha
 					// accettato il pagamento
+					try {
+						sendMailAcceptedPyamentAfterPending(order);
+					} catch (MailNotSendException e) {
+						// TODO Auto-generated catch block
+						log.error(
+								String.format("errore nell'invio della mail di accettazione pagamento",
+										order.getIdOrder()), e);
+					}
 				} else {
 					// nessuna elaborazione da fare
 					log.error(String
@@ -159,10 +176,10 @@ public class PaymentService implements IPaymentService {
 	@Override
 	public boolean isPaymentKO(TypeStateOrder state) {
 		// TODO Auto-generated method stub
-		
+
 		switch (state) {
 		case DENIED:
-		case FAILED:		
+		case FAILED:
 		case EXPIRED:
 			return true;
 
@@ -177,8 +194,6 @@ public class PaymentService implements IPaymentService {
 
 		return isPaymentKO(state);
 	}
-	
-	
 
 	@Override
 	public boolean isPaymentPending(String paypalStatus) {
@@ -211,33 +226,82 @@ public class PaymentService implements IPaymentService {
 	}
 
 	@Override
-	public void sendMailRefusedPayment(OrderFullDTO order) {
+	public void sendMailRefusedPayment(OrderFullDTO order) throws MailNotSendException {
 		// TODO Auto-generated method stub
-		
+		String content = null;
+		String mail = order.getIdUser();
+		try {
+			content = Template.getContenFile(TipoTemplate.MailIPNRefusePayment);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			throw new MailNotSendException(e);
+		}
+
+		content = content.replaceAll("<COMPANY_NAME>",
+				ConfigurationService.getProperty(ConfigurationService.COMPANY_NAME));
+		content = content.replaceAll("<NAME>", order.getNameUser() + " " + order.getSurnameUser());
+		content = content.replaceAll("<idTransazione>", order.getIdTransaction());
+		content = content.replaceAll("<idOrder>", String.valueOf(order.getIdOrder()));
+		content = content.replaceAll("<importo>", OthalaCommonUtils.getImporto(order.getImOrdine()));
+		content = content.replaceAll("<CONTEXT_ROOT>",
+				ConfigurationService.getProperty(ConfigurationService.CONTEXT_ROOT));
+
+		String subject = "Pagamento Rifiutato ";
+		subject += ConfigurationService.getProperty(ConfigurationService.COMPANY_NAME);
+
+		mailService.inviaMail(new String[] { mail }, subject, content);
 	}
 
+	@Override
+	public void sendMailAcceptedPyamentAfterPending(OrderFullDTO order) throws MailNotSendException {
 		// TODO Auto-generated method stub
-		
-	
+		String content = null;
+		String mail = order.getIdUser();
+		try {
+			content = Template.getContenFile(TipoTemplate.MailIPNAcceptedPaymemtAfetPending);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			throw new MailNotSendException(e);
+		}
+
+		content = content.replaceAll("<COMPANY_NAME>",
+				ConfigurationService.getProperty(ConfigurationService.COMPANY_NAME));
+		content = content.replaceAll("<NAME>", order.getNameUser() + " " + order.getSurnameUser());
+		content = content.replaceAll("<idTransazione>", order.getIdTransaction());
+		content = content.replaceAll("<idOrder>", String.valueOf(order.getIdOrder()));
+		content = content.replaceAll("<importo>", OthalaCommonUtils.getImporto(order.getImOrdine()));
+		content = content.replaceAll("<CONTEXT_ROOT>",
+				ConfigurationService.getProperty(ConfigurationService.CONTEXT_ROOT));
+
+		String subject = "Pagamento Rifiutato ";
+		subject += ConfigurationService.getProperty(ConfigurationService.COMPANY_NAME);
+
+		mailService.inviaMail(new String[] { mail }, subject, content);
+	}
+
+	// TODO Auto-generated method stub
 
 	@Override
 	public void sendMailRefundedPayment(OrderFullDTO order) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	@Override
-	public void sendMailAcceptedPyament(OrderFullDTO order, MailConfermaDTO mailDTO,String status) throws MailNotSendException {		
+	public void sendMailAcceptedPyament(OrderFullDTO order, MailConfermaDTO mailDTO, String status)
+			throws MailNotSendException {
+		TypeStateOrder state = TypeStateOrder.valueOf(status);
 		URL res = Thread.currentThread().getContextClassLoader().getResource("");
 		Map<String, String> inlineImages = new HashMap<String, String>();
 		String basePath = res.getPath().replace("/WEB-INF/classes", "");
 		basePath = basePath.replace("/", "");
-		String html = generateHtmlOrder(order, mailDTO, inlineImages);
+		String html = generateHtmlOrder(order, mailDTO, inlineImages, state);
 
 		mailService.inviaHTMLMail(new String[] { order.getIdUser() }, "Conferma Ordine", html, inlineImages);
 	}
 
-	private String generateHtmlOrder(OrderFullDTO order, MailConfermaDTO mailDTO, Map<String, String> inlineImages) {
+	private String generateHtmlOrder(OrderFullDTO order, MailConfermaDTO mailDTO, Map<String, String> inlineImages,
+			TypeStateOrder state) {
 		BufferedWriter out = null;
 		FileWriter fstream = null;
 
@@ -264,6 +328,12 @@ public class PaymentService implements IPaymentService {
 
 			out.write("<number>" + order.getIdOrder() + "</number>");
 			out.write("<transaction>" + order.getIdTransaction() + "</transaction>");
+			if (state.getState() == TypeStateOrder.PENDING.getState()) {
+				out.write("<pending>true</pending>");
+			} else {
+				out.write("<pending>false</pending>");
+			}
+
 			out.write("<imgPayment>");
 			out.write("cid:imgPayment");
 			out.write("</imgPayment>");
@@ -355,8 +425,5 @@ public class PaymentService implements IPaymentService {
 		}
 
 	}
-
-	
-
 
 }
