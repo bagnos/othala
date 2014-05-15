@@ -74,16 +74,16 @@ public class OrderTest {
 		
 	}
 	//@Test
-	public void Test3(){
+/*	public void Test3(){
 		try{
-		OthalaFactory.getOrderServiceInstance().confirmOrderPayment("ABC1234", 2, TypeStateOrder.PAGATO);
+		OthalaFactory.getOrderServiceInstance().confirmOrderPayment("ABC1234", 2, TypeStateOrder.COMPLETED);
 		}
 		catch(StockNotPresentException ex){
 			ex.printStackTrace();
 		}
 
 		
-	}
+	}*/
 	@Test
 	public void Test4(){
 		
