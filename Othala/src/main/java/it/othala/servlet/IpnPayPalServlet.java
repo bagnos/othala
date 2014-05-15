@@ -1,11 +1,8 @@
-package it.otahala.servlet;
+package it.othala.servlet;
 
-import it.othala.dto.OrderFullDTO;
-import it.othala.enums.TypeStateOrder;
 import it.othala.payment.paypal.PayPalWrapper;
 import it.othala.payment.paypal.exception.PayPalException;
 import it.othala.payment.paypal.exception.PayPalIpnErrorException;
-import it.othala.payment.paypal.exception.PayPalIpnInvalidException;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.web.utils.PayPalUtil;
 
@@ -13,8 +10,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.math.BigDecimal;
-import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
