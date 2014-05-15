@@ -1,7 +1,7 @@
 package it.othala.service;
 
 import it.othala.dao.interfaces.IAccountDAO;
-import it.othala.dao.interfaces.IMessagelIpn;
+import it.othala.dao.interfaces.IMessagelIpnDAO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.enums.TypeStateOrder;
 import it.othala.payment.paypal.PayPalWrapper;
@@ -25,9 +25,9 @@ public class PaymentService implements IPaymentService {
 	
 	private IOrderService orderService;
 	private IMailService mailService;
-	private IMessagelIpn messageIpnDAO;
+	private IMessagelIpnDAO messageIpnDAO;
 
-	public void setMessageIpnDAO(IMessagelIpn messageIpnDAO) {
+	public void setMessageIpnDAO(IMessagelIpnDAO messageIpnDAO) {
 		this.messageIpnDAO = messageIpnDAO;
 	}
 
