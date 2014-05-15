@@ -19,4 +19,18 @@ public class MessageIpnService implements IMessageIpnService {
 
 	}
 
+	@Override
+	public Boolean getIdTransaction(long idOrder, String idTransaction) {
+
+		Integer qtIdTransaction = messageIpnDAO.getIdTransaction(idOrder,
+				idTransaction);
+
+		if (qtIdTransaction > 0) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
 }
