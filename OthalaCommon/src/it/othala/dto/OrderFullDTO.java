@@ -2,7 +2,7 @@ package it.othala.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class OrderFullDTO implements Serializable {
 	private String idUser;
 	private Integer idStato;
 	private String txStato;
-	private Date dtStato;
+	private Timestamp dtStato;
 	private String txNote;
 	private BigDecimal imOrdine;
 	private DeliveryCostDTO speseSpedizione;
@@ -93,10 +93,10 @@ public class OrderFullDTO implements Serializable {
 	public void setTxStato(String txStato) {
 		this.txStato = txStato;
 	}
-	public Date getDtStato() {
+	public Timestamp getDtStato() {
 		return dtStato;
 	}
-	public void setDtStato(Date dtStato) {
+	public void setDtStato(Timestamp dtStato) {
 		this.dtStato = dtStato;
 	}
 	public String getTxNote() {
