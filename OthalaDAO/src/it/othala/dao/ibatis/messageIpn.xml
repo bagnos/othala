@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="it.othala.messageIpn.queries">
+
+
+
+	<insert id="insertMessageIpn" parameterType="it.othala.dto.MessageIpnDTO">
+
+
+
+		INSERT INTO
+		${database.schema}ipnmessages
+		(`idOrder`,
+		`idTransaction`,
+		`txMessage`,
+		`txStato`,
+		`txNote`,
+		`fgElaborato`)
+		VALUES
+		(#{idOrder},#{idTransaction},#{txMessage},
+		#{txStato},#{txNote},#{fgElaborato})
+
+
+	</insert>
+
+
+
+</mapper>

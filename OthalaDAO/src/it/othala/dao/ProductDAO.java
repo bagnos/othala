@@ -230,7 +230,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	
 	@Override
 	public ProductFullDTO getProductArticleFull(String languages, Integer idProduct, Integer pgArticle) {
-		// TODO Auto-generated method stub
+		
 		ProductFullDTO productFull = getProductFull(languages,
 				idProduct);
 
@@ -377,7 +377,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		map.put("languages", languages);
 		map.put("txBrand", txBrand);
 
-		Integer qtStock = getSqlSession().insert(
+		getSqlSession().insert(
 				"it.othala.product.queries.insertBrand", map);
 		
 	}

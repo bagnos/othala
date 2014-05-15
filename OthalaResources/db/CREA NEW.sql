@@ -568,6 +568,9 @@ CREATE  TABLE IF NOT EXISTS `othala`.`IpnMessages` (
   `idTransaction` VARCHAR(50) NOT NULL ,
   `tsInserimento` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
   `txMessage` VARCHAR(10000) NULL ,
+  `txStato` VARCHAR(45) NULL ,
+  `txNote` VARCHAR(100) NULL ,
+  `fgElaborato` TINYINT(1)  NULL ,
   PRIMARY KEY (`idOrder`, `idTransaction`) )
 ENGINE = InnoDB;
 

@@ -64,11 +64,13 @@
 		autowire="byType" />
 	<bean id="siteImagesService" class="it.othala.service.SiteImagesService"
 		autowire="byType" />
+	<bean id="messageIpnService" class="it.othala.service.MessageIpnService"
+		autowire="byType" />
 
 	<bean id="accountDAO" class="it.othala.dao.AccountDAO">
 		<property name="sqlSessionFactory" ref="SqlMapClient" />
 	</bean>
-		<bean id="productDAO" class="it.othala.dao.ProductDAO">
+	<bean id="productDAO" class="it.othala.dao.ProductDAO">
 		<property name="sqlSessionFactory" ref="SqlMapClient" />
 	</bean>
 	<bean id="newsletterDAO" class="it.othala.dao.NewsletterDAO">
@@ -77,7 +79,11 @@
 	<bean id="orderDAO" class="it.othala.dao.OrderDAO">
 		<property name="sqlSessionFactory" ref="SqlMapClient" />
 	</bean>
-		<bean id="siteImagesDAO" class="it.othala.dao.SiteImagesDAO">
+	<bean id="siteImagesDAO" class="it.othala.dao.SiteImagesDAO">
+		<property name="sqlSessionFactory" ref="SqlMapClient" />
+	</bean>
+
+	<bean id="messageIpnDAO" class="it.othala.dao.MessageIpnDAO">
 		<property name="sqlSessionFactory" ref="SqlMapClient" />
 	</bean>
 
