@@ -100,7 +100,7 @@
 			and c.idStato = #{idStato}
 		</if>
 		<if test="idStato == null">
-			and c.idStato = (SELECT MAX(e.idStato) 
+			and c.dtStato = (SELECT MAX(e.dtStato) 
 							 FROM ${database.schema}states_orders e
 							 WHERE e.idOrder = a.idOrder)
 		</if>
@@ -153,18 +153,18 @@
 	<insert id="insertStatesOrders" parameterType="it.othala.dto.OrderFullDTO">
 		INSERT INTO
 		${database.schema}states_orders
-		(`idOrder`,`idStato`,`dtStato`,`txNote`)
+		(`idOrder`,`idStato`,`txNote`)
 		VALUES
-		(#{idOrder},1,now(),#{txNote});
+		(#{idOrder},1,#{txNote});
 
 	</insert>
 	
 	<insert id="updateStatesOrders" parameterType="it.othala.dto.StateOrderDTO">
 		INSERT INTO
 		${database.schema}states_orders
-		(`idOrder`,`idStato`,`dtStato`,`txNote`)
+		(`idOrder`,`idStato`,`txNote`)
 		VALUES
-		(#{idOrder},#{idStato},now(),#{txNote});
+		(#{idOrder},#{idStato},#{txNote});
 
 	</insert>
 	
