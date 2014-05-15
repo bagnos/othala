@@ -1,4 +1,4 @@
-package it.othala.payment.paypal;
+package it.othala.payment.paypal.dto;
 
 
 public class DoExpressCheckoutPaymentDTO extends PayPalResponseDTO {

@@ -1,5 +1,10 @@
-package it.othala.payment.paypal;
+package it.othala.service;
 
+import it.othala.payment.paypal.dto.DoExpressCheckoutPaymentDTO;
+import it.othala.payment.paypal.dto.GetExpressCheckoutDetailsDTO;
+import it.othala.payment.paypal.dto.ItemCartDTO;
+import it.othala.payment.paypal.dto.OrderPayPalDTO;
+import it.othala.payment.paypal.dto.SetExpressCheckoutDTO;
 import it.othala.payment.paypal.exception.PayPalException;
 import it.othala.payment.paypal.exception.PayPalFailureException;
 import it.othala.payment.paypal.exception.PayPalFundingFailureException;
@@ -30,7 +35,7 @@ import paypalnvp.request.SetExpressCheckout;
 
 //import javax.servlet.http.HttpServletRequest;
 
-public class PayPalWrapper {
+ class PayPalWrapper {
 
 	private String returnUrl = null;
 	private String cancelUrl = null;

@@ -4,12 +4,9 @@ import it.othala.account.execption.MailNotSendException;
 import it.othala.dto.MailConfermaDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.ProfilePayPalDTO;
-import it.othala.enums.TypeStateOrder;
-import it.othala.payment.paypal.DoExpressCheckoutPaymentDTO;
-import it.othala.payment.paypal.GetExpressCheckoutDetailsDTO;
-import it.othala.payment.paypal.PayPalWrapper;
+import it.othala.payment.paypal.dto.DoExpressCheckoutPaymentDTO;
+import it.othala.payment.paypal.dto.GetExpressCheckoutDetailsDTO;
 import it.othala.payment.paypal.exception.PayPalFundingFailureException;
-import it.othala.payment.paypal.exception.PayPalPaymentRefusedException;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.service.interfaces.IPaymentService;
 import it.othala.view.BaseView;
@@ -28,7 +25,7 @@ import javax.inject.Named;
 public class CartConfirmationView extends BaseView {
 
 	private GetExpressCheckoutDetailsDTO details;
-	private DoExpressCheckoutPaymentDTO checkDTO;
+	
 	private String messagePayment;
 	private boolean paymentOK;
 	private OrderFullDTO order;
@@ -50,9 +47,7 @@ public class CartConfirmationView extends BaseView {
 		return messagePayment;
 	}
 
-	public DoExpressCheckoutPaymentDTO getCheckDTO() {
-		return checkDTO;
-	}
+	
 
 	public GetExpressCheckoutDetailsDTO getDetails() {
 		return details;
@@ -66,15 +61,18 @@ public class CartConfirmationView extends BaseView {
 			ProfilePayPalDTO profile=PayPalUtil.getProfile();
 			
 			details = service.getExpressCheckoutDetails(getQueryStringParm("token"),profile);
-
-			checkDTO = service.doExpressCheckoutPayment(details,profile);
 			int idOrder = Integer.valueOf(details.getCustom());
+			
+			//confirm e docheckOut
+			OrderFullDTO order= OthalaFactory.getOrderServiceInstance().confirmOrderPayment(profile, idOrder, details);
+			
 			try {
 				List<OrderFullDTO> orders = OthalaFactory.getOrderServiceInstance().getOrders(idOrder, null, null);
 				order = orders.get(0);
 
-				if (servicePayment.isPaymentCompleted(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS())
-						|| servicePayment.isPaymentPending(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS())) {
+
+				if (servicePayment.isPaymentCompleted(order.getTxStato())
+						|| servicePayment.isPaymentPending(order.getTxStato())) {
 
 					MailConfermaDTO mail = new MailConfermaDTO();
 					mail.setBasePathThumbinalsArticle(getBaseImageThumbinals());
@@ -82,7 +80,7 @@ public class CartConfirmationView extends BaseView {
 					mail.setPathImgPayment(getBaseImagePath());
 					try {
 						OthalaFactory.getPaymentServiceInstance().sendMailAcceptedPyament(order, mail,
-								checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS());
+								order.getTxStato());
 						addInfo(null, OthalaUtil.getWordBundle("catalogo_paySuccess"));
 
 					} catch (MailNotSendException e) {
@@ -91,8 +89,9 @@ public class CartConfirmationView extends BaseView {
 					}
 				} else {
 					addError(null, OthalaUtil.getWordBundle("catalogo_payKO",
-							new Object[] { checkDTO.getL_PAYMENTINFO_0_FMF(),checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS() }));
+							new Object[] { order.getFlagPendingStatus(),order.getTxStato() }));
 				}
+
 			} catch (Exception e) {
 				log.error("errore nella rilettura oppure nell'update dell'ordine, chiamata paypal effettuata correttamente");
 				addError(null, OthalaUtil.getWordBundle("exception_postPayPalException",new Object[]{idOrder}));

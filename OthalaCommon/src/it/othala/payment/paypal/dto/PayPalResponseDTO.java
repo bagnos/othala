@@ -1,4 +1,4 @@
-package it.othala.payment.paypal;
+package it.othala.payment.paypal.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;

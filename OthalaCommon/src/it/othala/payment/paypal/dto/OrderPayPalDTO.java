@@ -1,4 +1,4 @@
-package it.othala.payment.paypal;
+package it.othala.payment.paypal.dto;
 
 import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.DeliveryCostDTO;
