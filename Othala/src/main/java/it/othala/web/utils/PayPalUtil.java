@@ -2,7 +2,7 @@ package it.othala.web.utils;
 
 import it.othala.cartflow.model.CartFlowBean;
 import it.othala.dto.ProfilePayPalDTO;
-import it.othala.payment.paypal.OrderPayPalDTO;
+import it.othala.payment.paypal.dto.OrderPayPalDTO;
 
 import java.io.IOException;
 import java.io.InputStream;

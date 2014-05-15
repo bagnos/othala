@@ -30,8 +30,15 @@ public class OrderFullDTO implements Serializable {
 	private String surnameUser;
 	private String idTransaction;
 	private String idTrackingNumber;
+	private String flagPendingStatus;
 	
 	
+	public String getFlagPendingStatus() {
+		return flagPendingStatus;
+	}
+	public void setFlagPendingStatus(String flagPendingStatus) {
+		this.flagPendingStatus = flagPendingStatus;
+	}
 	public String getIdTransaction() {
 		return idTransaction;
 	}

@@ -8,11 +8,10 @@ import it.othala.dto.MessageIpnDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.ProfilePayPalDTO;
 import it.othala.enums.TypeStateOrder;
-import it.othala.payment.paypal.DoExpressCheckoutPaymentDTO;
-import it.othala.payment.paypal.GetExpressCheckoutDetailsDTO;
-import it.othala.payment.paypal.OrderPayPalDTO;
-import it.othala.payment.paypal.PayPalWrapper;
-import it.othala.payment.paypal.SetExpressCheckoutDTO;
+import it.othala.payment.paypal.dto.DoExpressCheckoutPaymentDTO;
+import it.othala.payment.paypal.dto.GetExpressCheckoutDetailsDTO;
+import it.othala.payment.paypal.dto.OrderPayPalDTO;
+import it.othala.payment.paypal.dto.SetExpressCheckoutDTO;
 import it.othala.payment.paypal.exception.PayPalException;
 import it.othala.payment.paypal.exception.PayPalFailureException;
 import it.othala.payment.paypal.exception.PayPalFundingFailureException;
@@ -463,7 +462,7 @@ public class PaymentService implements IPaymentService {
 		// TODO Auto-generated method stub
 		return getWrapper(profile).doExpressCheckoutPayment(details);
 	}
-
+ 
 	@Override
 	public GetExpressCheckoutDetailsDTO getExpressCheckoutDetails(String token, ProfilePayPalDTO profile)
 			throws MalformedURLException, UnsupportedEncodingException, PayPalException {

@@ -9,13 +9,13 @@ import it.othala.dto.DeliveryCostDTO;
 import it.othala.dto.DeliveryDTO;
 import it.othala.dto.MailConfermaDTO;
 import it.othala.dto.OrderFullDTO;
+import it.othala.dto.ProfilePayPalDTO;
 import it.othala.dto.StateOrderDTO;
 import it.othala.enums.TypeStateOrder;
 import it.othala.execption.OthalaException;
 import it.othala.execption.StockNotPresentException;
-import it.othala.payment.paypal.DoExpressCheckoutPaymentDTO;
-import it.othala.payment.paypal.GetExpressCheckoutDetailsDTO;
-import it.othala.payment.paypal.PayPalWrapper;
+import it.othala.payment.paypal.dto.DoExpressCheckoutPaymentDTO;
+import it.othala.payment.paypal.dto.GetExpressCheckoutDetailsDTO;
 import it.othala.payment.paypal.exception.PayPalException;
 import it.othala.payment.paypal.exception.PayPalFailureException;
 import it.othala.payment.paypal.exception.PayPalFundingFailureException;
@@ -55,6 +55,11 @@ public class OrderService implements IOrderService {
 	private IOrderDAO orderDAO;
 	private IProductDAO productDAO;
 	private IMailService mailService;
+	private IPaymentService paymentService;
+
+	public void setPaymentService(IPaymentService paymentService) {
+		this.paymentService = paymentService;
+	}
 
 	public void setMailService(IMailService mailService) {
 		this.mailService = mailService;
@@ -122,12 +127,12 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public OrderFullDTO confirmOrderPayment(PayPalWrapper wrap, Integer idOrder, GetExpressCheckoutDetailsDTO details) throws StockNotPresentException, PayPalException, PayPalFundingFailureException, PayPalFailureException, PayPalPaymentRefusedException 
+	public OrderFullDTO confirmOrderPayment(ProfilePayPalDTO profile, Integer idOrder, GetExpressCheckoutDetailsDTO details) throws StockNotPresentException, PayPalException, PayPalFundingFailureException, PayPalFailureException, PayPalPaymentRefusedException 
 	{
 		
 		OrderFullDTO orderFull = checkQtaInStock(idOrder,null);
 			
-		orderFull = doPaymentByPayPal(wrap, idOrder, details);
+		orderFull = doCheckOutPayPal(profile, orderFull, details);
 		
 		orderDAO.updateOrder(orderFull.getIdOrder(), 
 				orderFull.getIdTransaction(), null);
@@ -266,26 +271,19 @@ public class OrderService implements IOrderService {
 	}
 
 	
-	@Override
-	public OrderFullDTO doPaymentByPayPal(PayPalWrapper wrap, Integer idOrder, GetExpressCheckoutDetailsDTO details)
-			throws StockNotPresentException, PayPalException, PayPalFundingFailureException, PayPalFailureException,
-			PayPalPaymentRefusedException {
-		// TODO Auto-generated method stub
-		List<OrderFullDTO> orders = orderDAO.getOrders(idOrder, null, null);
-		OrderFullDTO order = orders.get(0);
+	
 
-		return doCheckOutPayPal(wrap, order, details);
-	}
 
-	private OrderFullDTO doCheckOutPayPal(PayPalWrapper wrap, OrderFullDTO order, GetExpressCheckoutDetailsDTO details)
+	private OrderFullDTO doCheckOutPayPal(ProfilePayPalDTO profile, OrderFullDTO order, GetExpressCheckoutDetailsDTO details)
 			throws PayPalFundingFailureException, PayPalPaymentRefusedException, PayPalException,
 			PayPalFailureException {
 
-		// effettuo il pagamento paypal
-		DoExpressCheckoutPaymentDTO checkDTO = wrap.doExpressCheckoutPayment(details);
+		// effettuo il pagamento paypal		 
+		 DoExpressCheckoutPaymentDTO checkDTO =paymentService.doExpressCheckoutPayment(details, profile);
 		
 		order.setIdTransaction(checkDTO.getPAYMENTINFO_0_TRANSACTIONID());
 		order.setIdStato(TypeStateOrder.getIdFromDescription(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS()));
+		order.setFlagPendingStatus(checkDTO.getL_PAYMENTINFO_0_FMF());
 
 		return order;
 	}
