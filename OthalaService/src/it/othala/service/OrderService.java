@@ -23,6 +23,7 @@ import it.othala.payment.paypal.exception.PayPalPaymentRefusedException;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.service.interfaces.IMailService;
 import it.othala.service.interfaces.IOrderService;
+import it.othala.service.interfaces.IPaymentService;
 import it.othala.service.template.Template;
 
 import java.io.BufferedWriter;
@@ -217,13 +218,12 @@ public class OrderService implements IOrderService {
 
 		orderDAO.updateStateOrder(stateOrder);
 		
-		switch (stato){
-			case DENIED:
-			case FAILED:
-				updateStock(orderFull,false);
-			default:
-		}
+		IPaymentService payService = OthalaFactory.getPaymentServiceInstance();
 		
+		if (payService.isPaymentKO(stato)){
+			updateStock(orderFull,false);
+		}
+	
 	}
 
 	@Override
