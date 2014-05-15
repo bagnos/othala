@@ -2,6 +2,7 @@ package it.othala.service.factory;
 
 import it.othala.service.interfaces.IAccountService;
 import it.othala.service.interfaces.IMailService;
+import it.othala.service.interfaces.IMessageIpnService;
 import it.othala.service.interfaces.IOrderService;
 import it.othala.service.interfaces.IPaymentService;
 import it.othala.service.interfaces.IProductService;
@@ -22,6 +23,7 @@ public class OthalaFactory {
 	private static IOrderService orderService;
 	private static ISiteImagesService siteImagesService;
 	private static IPaymentService paymentService;
+	private static IMessageIpnService messageIpnService;
 
 	private static ApplicationContext getApplicationContext() {
 
@@ -54,7 +56,7 @@ public class OthalaFactory {
 		}
 		return productService;
 	}
-	
+
 	public static IPaymentService getPaymentServiceInstance() {
 		if (paymentService == null) {
 			paymentService = (IPaymentService) getApplicationContext().getBean(
@@ -85,6 +87,14 @@ public class OthalaFactory {
 					.getBean("siteImagesService");
 		}
 		return siteImagesService;
+	}
+	
+	public static IMessageIpnService getMessageIpnServiceInstance() {
+		if (messageIpnService == null) {
+			messageIpnService = (IMessageIpnService) getApplicationContext()
+					.getBean("messageIpnService");
+		}
+		return messageIpnService;
 	}
 
 }
