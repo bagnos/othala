@@ -4,6 +4,7 @@ import it.othala.account.execption.MailNotSendException;
 import it.othala.dao.interfaces.IMessagelIpnDAO;
 import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.MailConfermaDTO;
+import it.othala.dto.MessageIpnDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.enums.TypeStateOrder;
 import it.othala.payment.paypal.PayPalWrapper;
@@ -15,7 +16,6 @@ import it.othala.service.interfaces.IOrderService;
 import it.othala.service.interfaces.IPaymentService;
 import it.othala.service.template.Template;
 import it.othala.service.template.Template.TipoTemplate;
-import it.othala.util.HelperCrypt;
 import it.othala.util.OthalaCommonUtils;
 
 import java.io.BufferedWriter;
@@ -60,14 +60,15 @@ public class PaymentService implements IPaymentService {
 
 	private Log log = LogFactory.getLog(PaymentService.class);
 
-	private void insertMessage(long idOrder, String idTransaction, String message) {
+	private void insertMessage(MessageIpnDTO ipnDTO) {
 		// TODO Auto-generated method stub
-
+		messageIpnDAO.insertMessageIpn(ipnDTO);
 	}
 
 	private boolean exitsIdTransaction(long idOrder, String idTransaction) {
 		// TODO Auto-generated method stub
-		return false;
+		return messageIpnDAO.getIdTransaction(idOrder, idTransaction)>0;
+		
 	}
 
 	@Override
@@ -76,7 +77,7 @@ public class PaymentService implements IPaymentService {
 
 		String responseRequest = originalRequest + "&cmd=_notify-validate";
 		StringBuilder sb = new StringBuilder();
-		boolean formalMessage = false;
+		boolean errorFormalMessage = false;
 
 		try {
 			// resend message to PayPal for securiry protocol
@@ -97,7 +98,7 @@ public class PaymentService implements IPaymentService {
 					sb.append(String.format(
 							"messagio non elaborato: emailMerchant %s diversa dalla mail %s presente nel messaggio %s",
 							emailMerchant, receiver_email, originalRequest));
-					formalMessage = false;
+					errorFormalMessage = true;
 				}
 
 				// check that payment_amount/payment_currency are correct
@@ -106,17 +107,26 @@ public class PaymentService implements IPaymentService {
 					sb.append(String.format(
 							"messagio non elaborato: importo db %s diverso dalla importo %s presente nel messaggio %s",
 							order.getImOrdine(), mc_gross, order.getImOrdine(), originalRequest));
-					formalMessage = false;
+					errorFormalMessage = true;
 				}
 				if (mc_currency != "EUR") {
 					sb.append(String
 							.format("messagio non elaborato:divisa accetta %s diversa dalla divisa %s presente nel messaggio %s",
 									"EUR", mc_currency, originalRequest));
-					formalMessage = false;
+					errorFormalMessage = true;
 				}
+				
 				// inserisco il messaggio
-				insertMessage(idOrder, txn_id, originalRequest);
-				if (formalMessage == false) {
+				MessageIpnDTO ipnMessage=new MessageIpnDTO();
+				ipnMessage.setIdOrder(order.getIdOrder());
+				ipnMessage.setFgElaborato(!errorFormalMessage);
+				ipnMessage.setIdTransaction(txn_id);
+				ipnMessage.setTxMessage(originalRequest);
+				ipnMessage.setTxStato(payment_status);
+				ipnMessage.setTxNote(sb.toString());				
+				insertMessage(ipnMessage);
+								
+				if (errorFormalMessage) {
 					log.error(String.format("Messagio %s non elaborato, ci sono errori formali", "txn_id"));
 					return;
 				}
