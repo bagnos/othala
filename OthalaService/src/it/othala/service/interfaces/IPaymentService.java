@@ -1,7 +1,7 @@
 package it.othala.service.interfaces;
 
 import it.othala.account.execption.MailNotSendException;
-import it.othala.dto.MailConfermaDTO;
+import it.othala.dto.MailPropertiesDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.ProfilePayPalDTO;
 import it.othala.enums.TypeStateOrder;
@@ -20,7 +20,7 @@ import java.net.MalformedURLException;
 public interface IPaymentService {
 
 	public void processIpnMessage(String originalRequest, String mc_gross, String mc_currency, String payment_status,
-			ProfilePayPalDTO profle) throws PayPalException, PayPalIpnErrorException;
+			ProfilePayPalDTO profle,MailPropertiesDTO mailProps) throws PayPalException, PayPalIpnErrorException;
 
 	public boolean isPaymentKO(TypeStateOrder state);
 
@@ -30,14 +30,14 @@ public interface IPaymentService {
 
 	public boolean isPaymentCompleted(String paypalStatus);
 
-	public void sendMailRefusedPayment(OrderFullDTO order) throws MailNotSendException;
+	public void sendMailRefusedPayment(OrderFullDTO order,MailPropertiesDTO mailProps) throws MailNotSendException;
 
-	public void sendMailRefundedPayment(OrderFullDTO order) throws MailNotSendException;
+	public void sendMailRefundedPayment(OrderFullDTO order,MailPropertiesDTO mailProps) throws MailNotSendException;
 
-	public void sendMailAcceptedPyament(OrderFullDTO order, MailConfermaDTO mailDTO, String status)
+	public void sendMailAcceptedPyament(OrderFullDTO order, MailPropertiesDTO mailDTO, String status)
 			throws MailNotSendException;
 
-	public void sendMailAcceptedPyamentAfterPending(OrderFullDTO order) throws MailNotSendException;
+	public void sendMailAcceptedPyamentAfterPending(OrderFullDTO order, MailPropertiesDTO mailDTO) throws MailNotSendException;
 
 	public SetExpressCheckoutDTO setExpressCheckout(OrderFullDTO order, ProfilePayPalDTO profile)
 			throws MalformedURLException, UnsupportedEncodingException, PayPalException,OthalaException;

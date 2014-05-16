@@ -1,7 +1,7 @@
 package it.othala.cartflow.view;
 
 import it.othala.account.execption.MailNotSendException;
-import it.othala.dto.MailConfermaDTO;
+import it.othala.dto.MailPropertiesDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.ProfilePayPalDTO;
 import it.othala.payment.paypal.dto.DoExpressCheckoutPaymentDTO;
@@ -10,6 +10,7 @@ import it.othala.payment.paypal.exception.PayPalFundingFailureException;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.service.interfaces.IPaymentService;
 import it.othala.view.BaseView;
+import it.othala.web.utils.ConfigurationUtil;
 import it.othala.web.utils.OthalaUtil;
 import it.othala.web.utils.PayPalUtil;
 
@@ -74,10 +75,7 @@ public class CartConfirmationView extends BaseView {
 				if (servicePayment.isPaymentCompleted(order.getTxStato())
 						|| servicePayment.isPaymentPending(order.getTxStato())) {
 
-					MailConfermaDTO mail = new MailConfermaDTO();
-					mail.setBasePathThumbinalsArticle(getBaseImageThumbinals());
-					mail.setPathImgLogo(getLogoHomeMail());
-					mail.setPathImgPayment(getBaseImagePath());
+					MailPropertiesDTO mail = ConfigurationUtil.getMailProps();
 					try {
 						OthalaFactory.getPaymentServiceInstance().sendMailAcceptedPyament(order, mail,
 								order.getTxStato());

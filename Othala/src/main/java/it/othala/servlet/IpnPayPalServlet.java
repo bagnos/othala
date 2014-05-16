@@ -4,6 +4,7 @@ import it.othala.dto.ProfilePayPalDTO;
 import it.othala.payment.paypal.exception.PayPalException;
 import it.othala.payment.paypal.exception.PayPalIpnErrorException;
 import it.othala.service.factory.OthalaFactory;
+import it.othala.web.utils.ConfigurationUtil;
 import it.othala.web.utils.PayPalUtil;
 
 import java.io.BufferedReader;
@@ -61,7 +62,7 @@ public class IpnPayPalServlet extends HttpServlet {
 
 			OthalaFactory.getPaymentServiceInstance().processIpnMessage(originalRequest,
 					request.getParameter("mc_gross"), request.getParameter("mc_currency"),
-					request.getParameter("payment_status"), prof);
+					request.getParameter("payment_status"), prof,ConfigurationUtil.getMailProps());
 
 		} catch (PayPalIpnErrorException | PayPalException e) {
 			// TODO Auto-generated catch block
