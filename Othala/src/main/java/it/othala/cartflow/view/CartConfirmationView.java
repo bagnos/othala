@@ -4,6 +4,7 @@ import it.othala.account.execption.MailNotSendException;
 import it.othala.dto.MailPropertiesDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.ProfilePayPalDTO;
+import it.othala.execption.StockNotPresentException;
 import it.othala.payment.paypal.dto.DoExpressCheckoutPaymentDTO;
 import it.othala.payment.paypal.dto.GetExpressCheckoutDetailsDTO;
 import it.othala.payment.paypal.exception.PayPalFundingFailureException;
@@ -65,20 +66,18 @@ public class CartConfirmationView extends BaseView {
 			int idOrder = Integer.valueOf(details.getCustom());
 			
 			//confirm e docheckOut
-			OrderFullDTO order= OthalaFactory.getOrderServiceInstance().confirmOrderPayment(profile, idOrder, details);
+			//OrderFullDTO order= OthalaFactory.getOrderServiceInstance().confirmOrderPayment(profile, idOrder, details);
+			DoExpressCheckoutPaymentDTO checkDTO= servicePayment.doExpressCheckoutPayment(details, profile, order);
 			
 			try {
-				List<OrderFullDTO> orders = OthalaFactory.getOrderServiceInstance().getOrders(idOrder, null, null);
-				order = orders.get(0);
-
-
-				if (servicePayment.isPaymentCompleted(order.getTxStato())
-						|| servicePayment.isPaymentPending(order.getTxStato())) {
+				
+				if (servicePayment.isPaymentCompleted(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS())
+						|| servicePayment.isPaymentPending(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS())) {
 
 					MailPropertiesDTO mail = ConfigurationUtil.getMailProps();
 					try {
 						OthalaFactory.getPaymentServiceInstance().sendMailAcceptedPyament(order, mail,
-								order.getTxStato());
+								checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS());
 						addInfo(null, OthalaUtil.getWordBundle("catalogo_paySuccess"));
 
 					} catch (MailNotSendException e) {
@@ -107,6 +106,10 @@ public class CartConfirmationView extends BaseView {
 				addError(null, OthalaUtil.getWordBundle("exception_payPalFundingFailureException"));
 			}
 			return null;
+		}
+		catch (StockNotPresentException e)
+		{			
+			addOthalaExceptionError(e, "qta non più presente");
 		}
 		 catch (Exception ex) {
 			log.error("Errore comunicazione PayPal", ex);

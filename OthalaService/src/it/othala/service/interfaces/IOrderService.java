@@ -1,18 +1,11 @@
 package it.othala.service.interfaces;
 
-import it.othala.account.execption.MailNotSendException;
 import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryDTO;
 import it.othala.dto.OrderFullDTO;
-import it.othala.dto.ProfilePayPalDTO;
 import it.othala.enums.TypeStateOrder;
 import it.othala.execption.OthalaException;
 import it.othala.execption.StockNotPresentException;
-import it.othala.payment.paypal.dto.GetExpressCheckoutDetailsDTO;
-import it.othala.payment.paypal.exception.PayPalException;
-import it.othala.payment.paypal.exception.PayPalFailureException;
-import it.othala.payment.paypal.exception.PayPalFundingFailureException;
-import it.othala.payment.paypal.exception.PayPalPaymentRefusedException;
 
 import java.util.List;
 
@@ -22,8 +15,8 @@ public interface IOrderService {
 
 	public OrderFullDTO insertOrder(OrderFullDTO orderFull) throws  OthalaException;
 
-	public OrderFullDTO confirmOrderPayment(ProfilePayPalDTO profile, Integer idOrder, GetExpressCheckoutDetailsDTO details)
-			throws StockNotPresentException, PayPalException, PayPalFundingFailureException, PayPalFailureException, PayPalPaymentRefusedException;
+	public OrderFullDTO confirmOrderPayment(OrderFullDTO order)
+			throws StockNotPresentException;
 
 	
 
@@ -41,6 +34,6 @@ public interface IOrderService {
 
 	public DeliveryAddressDTO updateAddress(DeliveryAddressDTO newAddress, Integer idAddress);
 
-	
+	public OrderFullDTO checkQtaInStock(Integer idOrder, OrderFullDTO orderFull) throws StockNotPresentException;
 
 }
