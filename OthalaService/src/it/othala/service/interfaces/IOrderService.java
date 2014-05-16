@@ -18,11 +18,11 @@ public interface IOrderService {
 	public OrderFullDTO confirmOrderPayment(OrderFullDTO order)
 			throws StockNotPresentException;
 
-	
+	public OrderFullDTO increaseQtaArticle(OrderFullDTO orderFull, TypeStateOrder stato);
 
 	public void confirmOrderDelivery(String idTrackingNumber, Integer idOrder);
 
-	public void updateStateOrder(Integer idOrder, OrderFullDTO orderFull, TypeStateOrder stato);
+	public OrderFullDTO updateStateOrder(Integer idOrder, OrderFullDTO orderFull, TypeStateOrder stato);
 
 	public void deleteAddress(Integer idAddress);
 
