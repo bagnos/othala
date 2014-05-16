@@ -108,12 +108,12 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public OrderFullDTO confirmOrderPayment(ProfilePayPalDTO profile, Integer idOrder, GetExpressCheckoutDetailsDTO details) throws StockNotPresentException, PayPalException, PayPalFundingFailureException, PayPalFailureException, PayPalPaymentRefusedException 
+	public OrderFullDTO confirmOrderPayment(OrderFullDTO order) throws StockNotPresentException
 	{
 		
-		OrderFullDTO orderFull = checkQtaInStock(idOrder,null);
+		OrderFullDTO orderFull = checkQtaInStock(order.getIdOrder(),null);
 			
-		orderFull = doCheckOutPayPal(profile, orderFull, details);
+		//orderFull = doCheckOutPayPal(profile, orderFull, details);
 		
 		orderDAO.updateOrder(orderFull.getIdOrder(), 
 				orderFull.getIdTransaction(), null);
@@ -126,7 +126,7 @@ public class OrderService implements IOrderService {
 
 	}
 	
-	private OrderFullDTO checkQtaInStock(Integer idOrder, OrderFullDTO orderFull) throws StockNotPresentException{
+	public OrderFullDTO checkQtaInStock(Integer idOrder, OrderFullDTO orderFull) throws StockNotPresentException{
 		
 		if (orderFull == null){
 			List<OrderFullDTO> lsOrders = orderDAO.getOrders(idOrder, null, null);
@@ -255,18 +255,6 @@ public class OrderService implements IOrderService {
 	
 
 
-	private OrderFullDTO doCheckOutPayPal(ProfilePayPalDTO profile, OrderFullDTO order, GetExpressCheckoutDetailsDTO details)
-			throws PayPalFundingFailureException, PayPalPaymentRefusedException, PayPalException,
-			PayPalFailureException {
-
-		// effettuo il pagamento paypal		 
-		 DoExpressCheckoutPaymentDTO checkDTO =paymentService.doExpressCheckoutPayment(details, profile);
-		
-		order.setIdTransaction(checkDTO.getPAYMENTINFO_0_TRANSACTIONID());
-		order.setIdStato(TypeStateOrder.getIdFromDescription(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS()));
-		order.setFlagPendingStatus(checkDTO.getL_PAYMENTINFO_0_FMF());
-
-		return order;
-	}
+	
 
 }

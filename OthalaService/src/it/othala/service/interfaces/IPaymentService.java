@@ -6,6 +6,7 @@ import it.othala.dto.OrderFullDTO;
 import it.othala.dto.ProfilePayPalDTO;
 import it.othala.enums.TypeStateOrder;
 import it.othala.execption.OthalaException;
+import it.othala.execption.StockNotPresentException;
 import it.othala.payment.paypal.dto.DoExpressCheckoutPaymentDTO;
 import it.othala.payment.paypal.dto.GetExpressCheckoutDetailsDTO;
 import it.othala.payment.paypal.dto.SetExpressCheckoutDTO;
@@ -43,7 +44,7 @@ public interface IPaymentService {
 			throws MalformedURLException, UnsupportedEncodingException, PayPalException,OthalaException;
 
 	public DoExpressCheckoutPaymentDTO doExpressCheckoutPayment(GetExpressCheckoutDetailsDTO details,
-			ProfilePayPalDTO profile) throws PayPalFundingFailureException, PayPalException, PayPalFailureException;
+			ProfilePayPalDTO profile,OrderFullDTO order) throws PayPalFundingFailureException, PayPalException,StockNotPresentException, PayPalFailureException;
 
 	public GetExpressCheckoutDetailsDTO getExpressCheckoutDetails(String token, ProfilePayPalDTO profile)
 			throws MalformedURLException, UnsupportedEncodingException, PayPalException;
