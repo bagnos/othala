@@ -104,6 +104,7 @@
 							 FROM ${database.schema}states_orders e
 							 WHERE e.idOrder = a.idOrder)
 		</if>
+		and c.idStato &lt;&gt; 1
 		and a.idUser = h.idUser
 		and i.idDeliveryCost = a.idDeliveryCost
 		
