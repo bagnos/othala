@@ -189,7 +189,7 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public void updateStateOrder(Integer idOrder, OrderFullDTO orderFull, TypeStateOrder stato) {
+	public OrderFullDTO updateStateOrder(Integer idOrder, OrderFullDTO orderFull, TypeStateOrder stato) {
 		
 		if (orderFull == null){
 			List<OrderFullDTO> lsOrders = orderDAO.getOrders(idOrder, null, null);
@@ -204,14 +204,26 @@ public class OrderService implements IOrderService {
 
 		orderDAO.updateStateOrder(stateOrder);
 		
-		IPaymentService payService = OthalaFactory.getPaymentServiceInstance();
+/*		IPaymentService payService = OthalaFactory.getPaymentServiceInstance();
 		
 		if (payService.isPaymentKO(stato)){
 			updateStock(orderFull,false);
-		}
+		}*/
 	
+		orderFull.setIdStato(stato.getState());
+		return orderFull;
 	}
 
+	@Override
+	public OrderFullDTO increaseQtaArticle(OrderFullDTO orderFull, TypeStateOrder stato){
+		orderFull = updateStateOrder(null, orderFull, stato);
+		
+		updateStock(orderFull,false);
+		
+		return orderFull;
+		
+	}
+	
 	@Override
 	public DeliveryDTO getDeliveryInfo(String userId) {
 		List<DeliveryAddressDTO> addresses = orderDAO.getDeliveryAddress(userId);
