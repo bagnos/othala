@@ -24,6 +24,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.apache.commons.io.filefilter.OrFileFilter;
 import org.primefaces.context.RequestContext;
 
 @Named
@@ -353,19 +354,12 @@ public class CartWizardView extends BaseView {
 	public void checkout(ActionEvent e) {
 
 		try {
-			try {
-				insertOrder();
-			} catch (Exception ex) {
-				addError(null, OthalaUtil.getWordBundle("exception_base"));
-				log.error("Errore inserimento ordine", ex);
-				return;
-			}
-
 			// checkout paypall
-			OrderPayPalDTO orderPayPal = PayPalUtil.getOrderPayPalDTO(cart, order.getIdOrder().toString(), getLang());
 			ProfilePayPalDTO profile = PayPalUtil.getProfile();
 			IPaymentService service = OthalaFactory.getPaymentServiceInstance();
-			SetExpressCheckoutDTO checkDTO = service.setExpressCheckout(orderPayPal, profile);
+
+			// effettuo il setExpressCheckout
+			SetExpressCheckoutDTO checkDTO = service.setExpressCheckout(valueOrderOfCart(), profile);
 
 			if (checkDTO != null && checkDTO.getToken() != null) {
 				// return null;
@@ -375,18 +369,20 @@ public class CartWizardView extends BaseView {
 				addError(null, OthalaUtil.getWordBundle("exception_payPalException"));
 				log.error(String.format("Paypal, SetExpressCheckout in errore:%s",
 						checkDTO != null ? checkDTO.getKoMessage() : "errore generico nella cominicazione con paypal"));
-				// return null;
 			}
-		} catch (Exception ex) {
+		} catch (Throwable ex) {
 			// TODO Auto-generated catch block
+
 			log.error("Errore comunicazione PayPal", ex);
 			addError(null, OthalaUtil.getWordBundle("exception_payPalException"));
+			RequestContext.getCurrentInstance().execute("lastPage()");
+
 			// return null;
 		}
 
 	}
 
-	private void insertOrder() throws MailNotSendException, OthalaException {
+	private OrderFullDTO valueOrderOfCart() throws MailNotSendException, OthalaException {
 		order = new OrderFullDTO();
 		order.setBillingAddress(cart.getAddressFat());
 		order.setShippingAddress(cart.getAddressSpe());
@@ -396,7 +392,7 @@ public class CartWizardView extends BaseView {
 		order.setSurnameUser(loginBean.getSurname());
 		order.setImOrdine(cart.getTotalPriceOrder());
 		order.setSpeseSpedizione(cart.getDeliveryCost());
-		order = OthalaFactory.getOrderServiceInstance().insertOrder(order);
+		return order;
 
 	}
 

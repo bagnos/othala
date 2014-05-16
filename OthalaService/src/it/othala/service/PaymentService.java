@@ -8,6 +8,7 @@ import it.othala.dto.MessageIpnDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.ProfilePayPalDTO;
 import it.othala.enums.TypeStateOrder;
+import it.othala.execption.OthalaException;
 import it.othala.payment.paypal.dto.DoExpressCheckoutPaymentDTO;
 import it.othala.payment.paypal.dto.GetExpressCheckoutDetailsDTO;
 import it.othala.payment.paypal.dto.OrderPayPalDTO;
@@ -58,6 +59,7 @@ public class PaymentService implements IPaymentService {
 	private IMailService mailService;
 	private IMessagelIpnDAO messageIpnDAO;
 	private PayPalWrapper wrapper;
+	private ProfilePayPalDTO profilePayPal;
 
 	public void setMessageIpnDAO(IMessagelIpnDAO messageIpnDAO) {
 		this.messageIpnDAO = messageIpnDAO;
@@ -450,10 +452,19 @@ public class PaymentService implements IPaymentService {
 	}
 
 	@Override
-	public SetExpressCheckoutDTO setExpressCheckout(OrderPayPalDTO cart, ProfilePayPalDTO profile)
-			throws MalformedURLException, UnsupportedEncodingException, PayPalException {
+	public SetExpressCheckoutDTO setExpressCheckout(OrderFullDTO order, ProfilePayPalDTO profile)
+			throws MalformedURLException, UnsupportedEncodingException, OthalaException {
 		// TODO Auto-generated method stub
-		return getWrapper(profile).setExpressCheckout(cart);
+		
+		//inserisco l'ordine
+		order=orderService.insertOrder(order);
+		
+		//costruisco la busta per PayPal
+		OrderPayPalDTO ordPayPal=valueOf(profile, order);
+		
+		SetExpressCheckoutDTO chechDTO=getWrapper(profile).setExpressCheckout(ordPayPal);
+		return chechDTO;
+		
 	}
 
 	@Override
@@ -472,13 +483,37 @@ public class PaymentService implements IPaymentService {
 
 	private PayPalWrapper getWrapper(ProfilePayPalDTO profile) {
 		if (wrapper == null) {
-
+			this.profilePayPal=profile;
 			Profile prof = new BaseProfile.Builder(profile.getUserName(), profile.getPassword()).signature(
-					profile.getPassword()).build();
+					profile.getSignature()).build();
 			Environment env = PayPalWrapper.getEnvironment(profile.getEnvironment());
 			wrapper = new PayPalWrapper(env, prof);
 		}
 		return wrapper;
 
 	}
+	
+	private OrderPayPalDTO valueOf(ProfilePayPalDTO profile,OrderFullDTO order)
+	{	
+		OrderPayPalDTO ordPp = new OrderPayPalDTO();
+		ordPp.setAricles(order.getCart());		
+		ordPp.setDeliveryCost(order.getSpeseSpedizione());
+		ordPp.setIdOrder(order.getIdOrder().toString());
+		BigDecimal totItem = BigDecimal.ZERO;
+		for (ArticleFullDTO art : order.getCart()) {
+			totItem = totItem.add(art.getTotalPriced());
+		}
+		ordPp.setTotalItemOrder(totItem);
+		ordPp.setTotalPriceOrder(order.getImOrdine());
+		
+		ordPp.setCancelUrl(profile.getCancelUrl());
+		ordPp.setImageUrl(profile.getImageUrl());
+		ordPp.setLocale(profile.getLang());
+		ordPp.setRedirectUrl(profile.getRedirectUrl());
+		ordPp.setReturnUrl(profile.getReturnUrl());
+		return ordPp;
+	}
+	
+	
+	
 }

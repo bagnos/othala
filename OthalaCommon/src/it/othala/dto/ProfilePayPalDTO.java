@@ -6,7 +6,43 @@ public class ProfilePayPalDTO {
 	private	String password;
 	private	String signature;
 	private	String environment;
+	private	String returnUrl;
+	private	String cancelUrl;
+	private	String imageUrl;
+	private	String redirectUrl;
+	private	String lang;
 	
+	
+	public String getLang() {
+		return lang;
+	}
+	public void setLang(String lang) {
+		this.lang = lang;
+	}
+	public String getReturnUrl() {
+		return returnUrl;
+	}
+	public void setReturnUrl(String returnUrl) {
+		this.returnUrl = returnUrl;
+	}
+	public String getCancelUrl() {
+		return cancelUrl;
+	}
+	public void setCancelUrl(String cancelUrl) {
+		this.cancelUrl = cancelUrl;
+	}
+	public String getImageUrl() {
+		return imageUrl;
+	}
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+	public String getRedirectUrl() {
+		return redirectUrl;
+	}
+	public void setRedirectUrl(String redirectUrl) {
+		this.redirectUrl = redirectUrl;
+	}
 	public String getUserName() {
 		return userName;
 	}

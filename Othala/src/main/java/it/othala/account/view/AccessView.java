@@ -170,7 +170,8 @@ public class AccessView extends BaseView {
 				return false;
 
 			} catch (MailNotSendException e) {
-				addGenericError(e, "registration ko");
+				log.error("registration ko",e);
+				addError(null, OthalaUtil.getWordBundle("account_maiRegNotSend"));
 				return false;
 
 			}

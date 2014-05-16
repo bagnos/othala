@@ -59,7 +59,7 @@ public class AccountService implements IAccountService {
 			newsService.insertNewsletter(account.getEmail());
 		}
 
-		//inviaMailRegistrazione(account.getEmail(),account.getName(),account.getPsw());
+		inviaMailRegistrazione(account.getEmail(),account.getName(),account.getPsw());
 
 	}
 

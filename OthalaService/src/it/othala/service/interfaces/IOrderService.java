@@ -20,7 +20,7 @@ public interface IOrderService {
 
 	public List<OrderFullDTO> getOrders(Integer Order, String User, Integer StatoOrdine);
 
-	public OrderFullDTO insertOrder(OrderFullDTO orderFull) throws MailNotSendException, OthalaException;
+	public OrderFullDTO insertOrder(OrderFullDTO orderFull) throws  OthalaException;
 
 	public OrderFullDTO confirmOrderPayment(ProfilePayPalDTO profile, Integer idOrder, GetExpressCheckoutDetailsDTO details)
 			throws StockNotPresentException, PayPalException, PayPalFundingFailureException, PayPalFailureException, PayPalPaymentRefusedException;
