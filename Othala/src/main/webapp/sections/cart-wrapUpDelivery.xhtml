@@ -76,6 +76,11 @@
 				<h:outputText id="lblProvFat" 
 					value="#{cartFlowBean.addressFat.provincia}" />
 			</div>
+			<div>
+				<p:outputLabel value="#{msg.delivery_paese}" styleClass="label-control" for="lblNazFat" />
+				<h:outputText id="lblNazFat" 
+					value="#{cartFlowBean.addressFat.nazione}" />
+			</div>
 
 		</div>
 
@@ -120,6 +125,7 @@
 				<h:outputText id="lblCittaSpe" 
 					value="#{cartFlowBean.addressSpe.comune}" />
 			</div>
+			
 
 			<div>
 				<p:outputLabel value="#{msg.delivery_prov}" styleClass="label-control" for="lblProvSpe" />
@@ -127,7 +133,11 @@
 					value="#{cartFlowBean.addressSpe.provincia}" />
 
 			</div>
-			
+			<div>
+				<p:outputLabel value="#{msg.delivery_paese}" styleClass="label-control" for="lblNazSpe" />
+				<h:outputText id="lblNazSpe" 
+					value="#{cartFlowBean.addressSpe.nazione}" />
+			</div>
 
 		</div>
 

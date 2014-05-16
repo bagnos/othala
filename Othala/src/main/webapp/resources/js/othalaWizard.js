@@ -11,12 +11,12 @@ $(document).ready(function() {
 
 	if ($('#user').length > 0) {
 
-		$('.pager.wizard li.next a').click();
+		nextPage();
 
 	} else {
-		$('.pager.wizard li.next a').click();
+		nextPage();
 
-		$('.pager.wizard li.previous a').click();
+		previousPage();
 
 	}
 
@@ -29,14 +29,28 @@ function changePage(xhr, status, args) {
 	if (args.validationFailed) {
 
 	} else {
-		$('.pager.wizard li.next a').click();
-		$('body').scrollTop(0);
+		nextPage();
+		
 
 	}
 }
 
+function lastPage() {
+
+	$('#last a').click();
+	$('body').scrollTop(0);
+}
+
+function nextPage() {
+
+	$('#next a').click();
+	$('body').scrollTop(0);
+}
+
+
+
 function initDeliverySection() {
-		
+
 	alignfromFattToSped();
 	initAddress();
 	copyAllAddress();
@@ -44,16 +58,16 @@ function initDeliverySection() {
 
 function previousPage(xhr, status, args) {
 
-	$('.pager.wizard li.previous a').click();
+	$('#previous a').click();
 	$('body').scrollTop(0);
 
-} 
+}
 
 function hiedeFatFieldsAddress() {
 	$('#chkSpe').click(function() {
 		if ($('#chkSpe').prop('checked')) {
-			
-			$("#addrFatFields").css("display","none");
+
+			$("#addrFatFields").css("display", "none");
 		} else {
 			$('#addrFatFields').show();
 		}
@@ -146,5 +160,3 @@ function initAddress() {
 		}
 	});
 }
-
-

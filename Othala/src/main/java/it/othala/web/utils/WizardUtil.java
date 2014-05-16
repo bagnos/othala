@@ -2,7 +2,7 @@ package it.othala.web.utils;
 
 public class WizardUtil {
 	public static String NextStepWizard() {
-		return "initDeliverySection();$('.pager.wizard li.next a').click();";
+		return "initDeliverySection();nextPage();";
 	}
 
 	public static String initAccessWizard() {
@@ -15,7 +15,7 @@ public class WizardUtil {
 
 		sb.append("return false;");		
 		sb.append("	}});");
-		sb.append("$('.pager.wizard li.next a').click();$('.pager.wizard li.previous a').click();");
+		sb.append("nextPage();previousPage();");
 
 		sb.append("});");
 		return sb.toString();

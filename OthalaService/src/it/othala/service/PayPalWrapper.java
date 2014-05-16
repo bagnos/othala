@@ -1,5 +1,7 @@
 package it.othala.service;
 
+import it.othala.dto.ArticleFullDTO;
+import it.othala.dto.OrderFullDTO;
 import it.othala.payment.paypal.dto.DoExpressCheckoutPaymentDTO;
 import it.othala.payment.paypal.dto.GetExpressCheckoutDetailsDTO;
 import it.othala.payment.paypal.dto.ItemCartDTO;
@@ -12,8 +14,10 @@ import it.othala.payment.paypal.exception.PayPalIpnErrorException;
 import it.othala.payment.paypal.exception.PayPalIpnInvalidException;
 import it.othala.payment.paypal.exception.PayPalPaymentRefusedException;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.MalformedURLException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -112,15 +116,15 @@ import paypalnvp.request.SetExpressCheckout;
 
 		Payment payment = getPayment(cart);
 
-		SetExpressCheckout setEC = new SetExpressCheckout(payment, returnUrl, cancelUrl);
-		setEC.setImage(imageUrl);
+		SetExpressCheckout setEC = new SetExpressCheckout(payment, cart.getReturnUrl(), cart.getCancelUrl());
+		setEC.setImage(cart.getImageUrl());
 		setEC.setPaymentAction(PaymentAction.SALE);
 
 		pp.setResponse(setEC);
 
 		Map<String, String> response = setEC.getNVPResponse();
 		if (response != null && !response.isEmpty()) {
-			setExpChecktDTO = getExpressCheckOutDTO(response, redirectUrl);
+			setExpChecktDTO = getExpressCheckOutDTO(response, cart.getRedirectUrl());
 		}
 
 		return setExpChecktDTO;
@@ -194,14 +198,14 @@ import paypalnvp.request.SetExpressCheckout;
 			items.add(item);
 		}
 		// Payment payment = new Payment(cart.getTotalPriceOrder().toString());
-		Payment payment = new Payment(cart.getTotalPriceOrder().toString(), items);
+		Payment payment = new Payment(cart.getTotalPriceOrder().setScale(2, RoundingMode.HALF_UP).toString(), items);
 		payment.setCurrency(Currency.EUR);
 		payment.setAllowingNote(true);
 		payment.setLocalCode(cart.getLocale().toUpperCase());
 		// payment.setOverrideShippingAddress();
 		payment.setSuppressingShippingAddress();
 		payment.setCustomField(cart.getIdOrder());
-		payment.setShippingAmount(cart.getDeliveryCost().getImportoSpese().toString());
+		payment.setShippingAmount(cart.getDeliveryCost().getImportoSpese().setScale(2, RoundingMode.HALF_UP).toString());
 		payment.setPaymentRequestITEMAMT(cart.getTotalItemOrder().toString());
 
 		/*
@@ -411,7 +415,8 @@ import paypalnvp.request.SetExpressCheckout;
 		redirectUrl = redirectUrl.replace("token", token);
 		return redirectUrl;
 	}
-
+	
+	
 	/*
 	 * private void updateState(DoExpressCheckoutPaymentDTO checkDTO) {
 	 * checkDTO.setStatePayPal(TypeStatePayPal.COMPLETED); if
