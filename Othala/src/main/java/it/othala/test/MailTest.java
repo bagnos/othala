@@ -2,7 +2,7 @@ package it.othala.test;
 
 import it.othala.account.execption.MailNotSendException;
 import it.othala.dto.ArticleFullDTO;
-import it.othala.dto.MailConfermaDTO;
+import it.othala.dto.MailPropertiesDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.ProductFullDTO;
 import it.othala.service.factory.OthalaFactory;
@@ -38,7 +38,7 @@ public class MailTest {
 			
 
 			
-			MailConfermaDTO mail=new MailConfermaDTO();
+			MailPropertiesDTO mail=new MailPropertiesDTO();
 			mail.setBasePathThumbinalsArticle("C:/progs/Tomcat/apache-tomcat-7.0.53/webapps/Othala/resources/images/cartThumbinals/");
 			mail.setPathImgLogo("C:/progs/Tomcat/apache-tomcat-7.0.53/webapps/Othala/resources/images/logo2-small.png");
 			mail.setPathImgPayment("C:/progs/Tomcat/apache-tomcat-7.0.53/webapps/Othala/resources/images/payment/paypal.gif");

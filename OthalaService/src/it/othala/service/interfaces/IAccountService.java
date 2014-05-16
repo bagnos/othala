@@ -8,15 +8,16 @@ import it.othala.account.execption.UserNotActivatedException;
 import it.othala.account.execption.UserNotFoundException;
 import it.othala.account.execption.UserNotResetStateException;
 import it.othala.dto.AccountDTO;
+import it.othala.dto.MailPropertiesDTO;
 
 public interface IAccountService {
 
 	public AccountDTO loginAccount(String mail, String pswd) throws BadCredentialException;
 
-	public void registerAccount(AccountDTO account) throws DuplicateUserException, BadCredentialException, MailNotSendException;
+	public void registerAccount(AccountDTO account,MailPropertiesDTO mailProps) throws DuplicateUserException, BadCredentialException, MailNotSendException;
 	
 
-	public void resetPasswordAccount(String email)  throws UserNotFoundException,UserNotActivatedException, MailNotSendException;
+	public void resetPasswordAccount(String email,MailPropertiesDTO mailProps)  throws UserNotFoundException,UserNotActivatedException, MailNotSendException;
 	
 	public void changePassworResetdAccount(String email,String psw)  throws UserNotFoundException,UserNotResetStateException;
 	

@@ -9,6 +9,7 @@ import it.othala.account.execption.UserNotFoundException;
 import it.othala.account.execption.UserNotResetStateException;
 import it.othala.dao.interfaces.IAccountDAO;
 import it.othala.dto.AccountDTO;
+import it.othala.dto.MailPropertiesDTO;
 import it.othala.enums.TypeCustomerState;
 import it.othala.service.interfaces.IAccountService;
 import it.othala.service.interfaces.IMailService;
@@ -45,7 +46,7 @@ public class AccountService implements IAccountService {
 	}
 
 	@Override
-	public void registerAccount(AccountDTO account) throws DuplicateUserException, BadCredentialException,
+	public void registerAccount(AccountDTO account,MailPropertiesDTO mailProps) throws DuplicateUserException, BadCredentialException,
 			MailNotSendException {
 
 		if (accountDAO.existAccount(account.getEmail()) > 0) {
@@ -59,12 +60,12 @@ public class AccountService implements IAccountService {
 			newsService.insertNewsletter(account.getEmail());
 		}
 
-		inviaMailRegistrazione(account.getEmail(),account.getName(),account.getPsw());
+		inviaMailRegistrazione(account.getEmail(),account.getName(),account.getPsw(), mailProps);
 
 	}
 
 	@Override
-	public void resetPasswordAccount(String email) throws UserNotFoundException, MailNotSendException,
+	public void resetPasswordAccount(String email,MailPropertiesDTO mailProps) throws UserNotFoundException, MailNotSendException,
 			UserNotActivatedException {
 		// TODO Auto-generated method stub
 
@@ -77,7 +78,7 @@ public class AccountService implements IAccountService {
 		}
 
 		accountDAO.changeStateAccount(email, TypeCustomerState.RESET_PSW.getState());
-		inviaResetMailRegistrazione(email);
+		inviaResetMailRegistrazione(email,mailProps);
 	}
 
 	@Override
@@ -92,7 +93,7 @@ public class AccountService implements IAccountService {
 
 	}
 
-	private void inviaMailRegistrazione(String email,String name,String psw) throws MailNotSendException {
+	private void inviaMailRegistrazione(String email,String name,String psw,MailPropertiesDTO mailProps) throws MailNotSendException {
 		String content;
 		try {
 			content = Template.getContenFile(TipoTemplate.MailRegistrazione);
@@ -103,19 +104,19 @@ public class AccountService implements IAccountService {
 		content = content.replaceAll("<MAIL>", email);
 		content = content.replaceAll("<NAME>", name);
 		content = content.replaceAll("<PSW>", psw);
-		content = content.replaceAll("<SITE>", ConfigurationService.getProperty(ConfigurationService.DNS_SITE));
+		content = content.replaceAll("<SITE>", mailProps.getDnsSite());
 		content = content.replaceAll("<COMPANY_NAME>",
-				ConfigurationService.getProperty(ConfigurationService.COMPANY_NAME));
+				mailProps.getCompanyName());
 		content = content.replaceAll("<CONTEXT_ROOT>",
-				ConfigurationService.getProperty(ConfigurationService.CONTEXT_ROOT));
-		content = content.replaceAll("<BOARD_URL>", ConfigurationService.getProperty(ConfigurationService.BOARD_URL));
+				mailProps.getContextRoot());
+		content = content.replaceAll("<BOARD_URL>",mailProps.getBoardUrl());
 		String encryptMail = HelperCrypt.encrypt(email);
 		content = content.replaceAll("<USER>", encryptMail);
 		mailService.inviaMail(new String[] { email },
-				"Welcome " + ConfigurationService.getProperty(ConfigurationService.COMPANY_NAME), content);
+				"Welcome " + mailProps.getCompanyName(), content,mailProps);
 	}
 
-	private void inviaResetMailRegistrazione(String email) throws MailNotSendException {
+	private void inviaResetMailRegistrazione(String email,MailPropertiesDTO mailPros) throws MailNotSendException {
 		String content = null;
 		String encryptMail = null;
 		try {
@@ -125,16 +126,16 @@ public class AccountService implements IAccountService {
 			throw new MailNotSendException(e);
 		}
 
-		content = content.replaceAll("<SITE>", ConfigurationService.getProperty(ConfigurationService.DNS_SITE));
+		content = content.replaceAll("<SITE>", mailPros.getDnsSite());
 		content = content.replaceAll("<CONTEXT_ROOT>",
-				ConfigurationService.getProperty(ConfigurationService.CONTEXT_ROOT));
+				mailPros.getContextRoot());
 
 		encryptMail = HelperCrypt.encrypt(email);
 		content = content.replaceAll("<USER>", encryptMail);
 		String subject = "Reset Password ";
-		subject += ConfigurationService.getProperty(ConfigurationService.COMPANY_NAME);
+		subject += mailPros.getCompanyName();
 
-		mailService.inviaMail(new String[] { email }, subject, content);
+		mailService.inviaMail(new String[] { email }, subject, content,mailPros);
 	}
 
 	@Override

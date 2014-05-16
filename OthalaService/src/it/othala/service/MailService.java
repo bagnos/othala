@@ -1,6 +1,7 @@
 package it.othala.service;
 
 import it.othala.account.execption.MailNotSendException;
+import it.othala.dto.MailPropertiesDTO;
 import it.othala.service.interfaces.IMailService;
 
 import java.util.Map;
@@ -27,7 +28,7 @@ public class MailService implements IMailService {
 
 	private Session session = null;
 
-	private void inviaMail(String from, String[] tos, String subject, String content, String type)
+	private void inviaMail(String from, String[] tos, String subject, String content, String type,MailPropertiesDTO mailProos)
 			throws MailNotSendException {
 		// TODO Auto-generated method stub
 		{
@@ -62,9 +63,9 @@ public class MailService implements IMailService {
 	}
 
 	@Override
-	public void inviaMail(String[] tos, String subject, String content) throws MailNotSendException {
+	public void inviaMail(String[] tos, String subject, String content,MailPropertiesDTO mailProps) throws MailNotSendException {
 		// TODO Auto-generated method stub
-		inviaMail(ConfigurationService.getProperty(ConfigurationService.FROM_MAIL), tos, subject, content, "text/plain");
+		inviaMail(mailProps.getFromMail(), tos, subject, content, "text/plain",mailProps);
 	}
 
 	final String username = "username@gmail.com";
@@ -90,7 +91,7 @@ public class MailService implements IMailService {
 	}
 
 	@Override
-	public void inviaHTMLMail(String[] tos, String subject, String content, Map<String, String> inlineImages)
+	public void inviaHTMLMail(String[] tos, String subject, String content, Map<String, String> inlineImages,MailPropertiesDTO mailProps)
 			throws MailNotSendException {
 		// TODO Auto-generated method stub
 
@@ -108,7 +109,7 @@ public class MailService implements IMailService {
 					i++;
 				}
 
-				message.setFrom(new InternetAddress(ConfigurationService.getProperty(ConfigurationService.FROM_MAIL)));
+				message.setFrom(new InternetAddress(mailProps.getFromMail()));
 				message.setRecipients(Message.RecipientType.TO, to);
 				message.setSubject(subject);
 

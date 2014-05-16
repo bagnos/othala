@@ -3,7 +3,7 @@ package it.othala.service;
 import it.othala.account.execption.MailNotSendException;
 import it.othala.dao.interfaces.IMessagelIpnDAO;
 import it.othala.dto.ArticleFullDTO;
-import it.othala.dto.MailConfermaDTO;
+import it.othala.dto.MailPropertiesDTO;
 import it.othala.dto.MessageIpnDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.ProfilePayPalDTO;
@@ -88,7 +88,7 @@ public class PaymentService implements IPaymentService {
 
 	@Override
 	public void processIpnMessage(String originalRequest, String mc_gross, String mc_currency, String payment_status,
-			ProfilePayPalDTO profile) throws PayPalException, PayPalIpnErrorException {
+			ProfilePayPalDTO profile,MailPropertiesDTO mailProps) throws PayPalException, PayPalIpnErrorException {
 
 		String responseRequest = originalRequest + "&cmd=_notify-validate";
 		StringBuilder sb = new StringBuilder();
@@ -153,7 +153,7 @@ public class PaymentService implements IPaymentService {
 					// inviare una mail in cui si comunica che PayPal non ha
 					// accettato il pagamento
 					try {
-						sendMailRefusedPayment(order);
+						sendMailRefusedPayment(order,mailProps);
 					} catch (MailNotSendException e) {
 						// TODO Auto-generated catch block
 						log.error(String.format("errore nell'invio della mail di rifuto", order.getIdOrder()), e);
@@ -162,7 +162,7 @@ public class PaymentService implements IPaymentService {
 					// inviare una mail in cui si comunica che PayPal ha
 					// accettato il pagamento
 					try {
-						sendMailAcceptedPyamentAfterPending(order);
+						sendMailAcceptedPyamentAfterPending(order,mailProps);
 					} catch (MailNotSendException e) {
 						// TODO Auto-generated catch block
 						log.error(
@@ -251,7 +251,7 @@ public class PaymentService implements IPaymentService {
 	}
 
 	@Override
-	public void sendMailRefusedPayment(OrderFullDTO order) throws MailNotSendException {
+	public void sendMailRefusedPayment(OrderFullDTO order,MailPropertiesDTO mailProps) throws MailNotSendException {
 		// TODO Auto-generated method stub
 		String content = null;
 		String mail = order.getIdUser();
@@ -263,22 +263,20 @@ public class PaymentService implements IPaymentService {
 		}
 
 		content = content.replaceAll("<COMPANY_NAME>",
-				ConfigurationService.getProperty(ConfigurationService.COMPANY_NAME));
+				mailProps.getCompanyName());
 		content = content.replaceAll("<NAME>", order.getNameUser() + " " + order.getSurnameUser());
 		content = content.replaceAll("<idTransazione>", order.getIdTransaction());
 		content = content.replaceAll("<idOrder>", String.valueOf(order.getIdOrder()));
 		content = content.replaceAll("<importo>", OthalaCommonUtils.getImporto(order.getImOrdine()));
-		content = content.replaceAll("<CONTEXT_ROOT>",
-				ConfigurationService.getProperty(ConfigurationService.CONTEXT_ROOT));
-
+		
 		String subject = "Pagamento Rifiutato ";
-		subject += ConfigurationService.getProperty(ConfigurationService.COMPANY_NAME);
+		subject += mailProps.getCompanyName();
 
-		mailService.inviaMail(new String[] { mail }, subject, content);
+		mailService.inviaMail(new String[] { mail }, subject, content,mailProps);
 	}
 
 	@Override
-	public void sendMailAcceptedPyamentAfterPending(OrderFullDTO order) throws MailNotSendException {
+	public void sendMailAcceptedPyamentAfterPending(OrderFullDTO order,MailPropertiesDTO mailProps) throws MailNotSendException {
 		// TODO Auto-generated method stub
 		String content = null;
 		String mail = order.getIdUser();
@@ -290,30 +288,29 @@ public class PaymentService implements IPaymentService {
 		}
 
 		content = content.replaceAll("<COMPANY_NAME>",
-				ConfigurationService.getProperty(ConfigurationService.COMPANY_NAME));
+				mailProps.getCompanyName());
 		content = content.replaceAll("<NAME>", order.getNameUser() + " " + order.getSurnameUser());
 		content = content.replaceAll("<idTransazione>", order.getIdTransaction());
 		content = content.replaceAll("<idOrder>", String.valueOf(order.getIdOrder()));
 		content = content.replaceAll("<importo>", OthalaCommonUtils.getImporto(order.getImOrdine()));
-		content = content.replaceAll("<CONTEXT_ROOT>",
-				ConfigurationService.getProperty(ConfigurationService.CONTEXT_ROOT));
+		
 
 		String subject = "Pagamento Rifiutato ";
-		subject += ConfigurationService.getProperty(ConfigurationService.COMPANY_NAME);
+		subject += mailProps.getCompanyName();
 
-		mailService.inviaMail(new String[] { mail }, subject, content);
+		mailService.inviaMail(new String[] { mail }, subject, content,mailProps);
 	}
 
 	// TODO Auto-generated method stub
 
 	@Override
-	public void sendMailRefundedPayment(OrderFullDTO order) {
+	public void sendMailRefundedPayment(OrderFullDTO order,MailPropertiesDTO mailProps) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void sendMailAcceptedPyament(OrderFullDTO order, MailConfermaDTO mailDTO, String status)
+	public void sendMailAcceptedPyament(OrderFullDTO order, MailPropertiesDTO mailDTO, String status)
 			throws MailNotSendException {
 		TypeStateOrder state = TypeStateOrder.valueOf(status);
 		URL res = Thread.currentThread().getContextClassLoader().getResource("");
@@ -322,10 +319,10 @@ public class PaymentService implements IPaymentService {
 		basePath = basePath.replace("/", "");
 		String html = generateHtmlOrder(order, mailDTO, inlineImages, state);
 
-		mailService.inviaHTMLMail(new String[] { order.getIdUser() }, "Conferma Ordine", html, inlineImages);
+		mailService.inviaHTMLMail(new String[] { order.getIdUser() }, "Conferma Ordine", html, inlineImages,mailDTO);
 	}
 
-	private String generateHtmlOrder(OrderFullDTO order, MailConfermaDTO mailDTO, Map<String, String> inlineImages,
+	private String generateHtmlOrder(OrderFullDTO order, MailPropertiesDTO mailDTO, Map<String, String> inlineImages,
 			TypeStateOrder state) {
 		BufferedWriter out = null;
 		FileWriter fstream = null;

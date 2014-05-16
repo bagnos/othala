@@ -7,8 +7,10 @@ import it.othala.account.execption.UserNotActivatedException;
 import it.othala.account.execption.UserNotFoundException;
 import it.othala.account.model.CustomerLoginBean;
 import it.othala.dto.AccountDTO;
+import it.othala.dto.MailPropertiesDTO;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
+import it.othala.web.utils.ConfigurationUtil;
 import it.othala.web.utils.OthalaUtil;
 import it.othala.web.utils.WizardUtil;
 
@@ -161,7 +163,7 @@ public class AccessView extends BaseView {
 
 		if (isVerifiedInput()) {
 			try {
-				OthalaFactory.getAccountServiceInstance().registerAccount(getAccountDTO());
+				OthalaFactory.getAccountServiceInstance().registerAccount(getAccountDTO(),ConfigurationUtil.getMailProps());
 				addInfo(OthalaUtil.getWordBundle("account_registerUser"),
 						OthalaUtil.getWordBundle("account_registeredUser", new Object[] { getAccountDTO().getEmail() }));
 
@@ -197,7 +199,7 @@ public class AccessView extends BaseView {
 	public String resetPsw() {
 
 		try {
-			OthalaFactory.getAccountServiceInstance().resetPasswordAccount(getEmail());
+			OthalaFactory.getAccountServiceInstance().resetPasswordAccount(getEmail(),ConfigurationUtil.getMailProps());
 			addInfo(OthalaUtil.getWordBundle("account_checkYourMail"), "");
 		} catch (UserNotFoundException | UserNotActivatedException e) {
 			addOthalaExceptionError(e, "Errore nel reset della password.");
