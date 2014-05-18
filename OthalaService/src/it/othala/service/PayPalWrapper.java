@@ -149,7 +149,7 @@ import paypalnvp.request.SetExpressCheckout;
 			 {
 
 		DoExpressCheckoutPayment doCheck = new DoExpressCheckoutPayment(details.getToken(), PaymentAction.SALE,
-				details.getPayerid(), details.getAmount().toString(), details.getCurrencyCode());
+				details.getPayerid(), details.getAmount(), details.getCurrencyCode(),details.getShipAmount(),details.getItemAmount());
 		// doCheck.setUSESESSIONPAYMENTDETAILS(true);
 		doCheck.setPaymentDetails(paymentDetails);
 		try {
@@ -206,7 +206,7 @@ import paypalnvp.request.SetExpressCheckout;
 		payment.setSuppressingShippingAddress();
 		payment.setCustomField(cart.getIdOrder());
 		payment.setShippingAmount(cart.getDeliveryCost().getImportoSpese().setScale(2, RoundingMode.HALF_UP).toString());
-		payment.setPaymentRequestITEMAMT(cart.getTotalItemOrder().toString());
+		payment.setPaymentRequestITEMAMT(cart.getTotalItemOrder().setScale(2, RoundingMode.HALF_UP).toString());
 
 		/*
 		 * String country = locale;

@@ -17,13 +17,12 @@
 
 package paypalnvp.request;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.text.StyledEditorKit.BoldAction;
-
 import paypalnvp.fields.Address;
-import paypalnvp.fields.Payment;
 import paypalnvp.fields.PaymentAction;
 import paypalnvp.fields.UserSelectedOptions;
 
@@ -53,7 +52,7 @@ public final class DoExpressCheckoutPayment implements Request {
      * @throws IllegalArgumentException
      */
     public DoExpressCheckoutPayment(String token,
-            PaymentAction paymentAction, String payerId,String amount,String currency)
+            PaymentAction paymentAction, String payerId,BigDecimal amount,String currency,BigDecimal shippingAmout,BigDecimal itemAmt)
             throws IllegalArgumentException {
 
         if (token.length() != 20) {
@@ -73,8 +72,11 @@ public final class DoExpressCheckoutPayment implements Request {
         nvpRequest.put("TOKEN", token);
         nvpRequest.put("PAYMENTACTION", paymentAction.getValue());
         nvpRequest.put("PAYERID", payerId);
-        nvpRequest.put("PAYMENTREQUEST_0_AMT", amount);
+        nvpRequest.put("PAYMENTREQUEST_0_AMT", amount.setScale(2, RoundingMode.HALF_UP).toString());
         nvpRequest.put("PAYMENTREQUEST_0_CURRENCYCODE", currency);
+        nvpRequest.put("PAYMENTREQUEST_0_SHIPPINGAMT", shippingAmout.setScale(2, RoundingMode.HALF_UP).toString());
+        nvpRequest.put("PAYMENTREQUEST_0_ITEMAMT", itemAmt.setScale(2, RoundingMode.HALF_UP).toString());
+        
         
        
         

@@ -20,10 +20,10 @@ public class MailTest {
 	public void test() {
 		
 		try {
-			List<OrderFullDTO> orders=OthalaFactory.getOrderServiceInstance().getOrders(1, "1", 2);
+			List<OrderFullDTO> orders=OthalaFactory.getOrderServiceInstance().getOrders(25, "simone.bagnolesi@gmail.com", 3);
 			OrderFullDTO order=orders.get(0);
 	
-			
+			/*
 			ProductFullDTO prd=new ProductFullDTO();
 			prd.setDescription("Prodotto del cazzo");
 			prd.setTxBrand("Brand del cazzo");
@@ -34,7 +34,7 @@ public class MailTest {
 			{
 				art.setPrdFullDTO(prd);
 				art.setQtBooked(1);
-			}
+			}*/
 			
 
 			
@@ -42,6 +42,11 @@ public class MailTest {
 			mail.setBasePathThumbinalsArticle("C:/progs/Tomcat/apache-tomcat-7.0.53/webapps/Othala/resources/images/cartThumbinals/");
 			mail.setPathImgLogo("C:/progs/Tomcat/apache-tomcat-7.0.53/webapps/Othala/resources/images/logo2-small.png");
 			mail.setPathImgPayment("C:/progs/Tomcat/apache-tomcat-7.0.53/webapps/Othala/resources/images/payment/paypal.gif");
+			mail.setFromMail("Degortes Outhlet<noreply@degortes.it>");
+			mail.setBoardUrl("http://www.degortes.it/");
+			mail.setCompanyName("Degortes Outhlet");
+			mail.setContextRoot("Othalse");
+			mail.setDnsSite("localhost");
 			OthalaFactory.getPaymentServiceInstance().sendMailAcceptedPyament(order, mail, "COMPLETED");
 		} catch (MailNotSendException e) {
 			// TODO Auto-generated catch block

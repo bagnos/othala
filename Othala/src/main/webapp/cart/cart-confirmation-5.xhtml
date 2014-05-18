@@ -35,7 +35,7 @@
 						</div>
 						<div class="col-sm-3">
 							<h4>#{msg.catalogo_nrTrans}</h4>
-							#{cartConfirmationView.checkDTO.PAYMENTINFO_0_TRANSACTIONID}
+							#{cartConfirmationView.order.idTransaction}
 						</div>
 						<div class="col-sm-3">
 							<h4>Pagato a</h4>
@@ -123,7 +123,7 @@
 
 
 
-					<h:panelGroup rendered="#{cartConfirmationView.checkDTO.statePayPal.state<3}">
+					<h:panelGroup rendered="#{cartConfirmationView.order.idStato==3}">
 						<div class="row spacer20">
 							<div class="col-sm-12">
 								<blockquote class="blockquote-reverse">

@@ -148,7 +148,7 @@ public class PaymentService implements IPaymentService {
 				}
 
 				// message is correct, process message
-				TypeStateOrder state = TypeStateOrder.valueOf(payment_status);
+				TypeStateOrder state = TypeStateOrder.fromString(payment_status);
 				orderService.updateStateOrder(idOrder, order, state);
 				if (isPaymentKO(payment_status)) {
 					// inviare una mail in cui si comunica che PayPal non ha
@@ -199,56 +199,49 @@ public class PaymentService implements IPaymentService {
 		}
 	}
 
-	@Override
-	public boolean isPaymentKO(TypeStateOrder state) {
-		// TODO Auto-generated method stub
-
-		switch (state) {
-		case DENIED:
-		case FAILED:
-		case EXPIRED:
-			return true;
-
-		default:
-			return false;
-		}
-	}
-
 	public boolean isPaymentKO(String paypalStatus) {
 		// TODO Auto-generated method stub
-		TypeStateOrder state = TypeStateOrder.valueOf(paypalStatus);
 
-		return isPaymentKO(state);
+		if (paypalStatus.equalsIgnoreCase("DENIED")) {
+			return true;
+		}
+
+		if (paypalStatus.equalsIgnoreCase("FAILED")) {
+			return true;
+		}
+
+		if (paypalStatus.equalsIgnoreCase("EXPIRED")) {
+			return true;
+		}
+
+		return false;
+
 	}
 
-	@Override
 	public boolean isPaymentPending(String paypalStatus) {
 		// TODO Auto-generated method stub
-		TypeStateOrder state = TypeStateOrder.valueOf(paypalStatus);
 
-		switch (state) {
-		case PENDING:
-		case PROCESSED:
+		if (paypalStatus.equalsIgnoreCase("PENDING")) {
 			return true;
-
-		default:
-			return false;
 		}
+
+		if (paypalStatus.equalsIgnoreCase("PROCESSED")) {
+			return true;
+		}
+
+		return false;
+
 	}
 
-	@Override
+	
 	public boolean isPaymentCompleted(String paypalStatus) {
 		// TODO Auto-generated method stub
-		TypeStateOrder state = TypeStateOrder.valueOf(paypalStatus);
-
-		switch (state) {
-		case COMPLETED:
-		case REFUNDED:
+		if (paypalStatus.equalsIgnoreCase("COMPLETED")) {
 			return true;
-
-		default:
-			return false;
 		}
+
+		return false;
+
 	}
 
 	@Override
@@ -311,7 +304,7 @@ public class PaymentService implements IPaymentService {
 	@Override
 	public void sendMailAcceptedPyament(OrderFullDTO order, MailPropertiesDTO mailDTO, String status)
 			throws MailNotSendException {
-		TypeStateOrder state = TypeStateOrder.valueOf(status);
+		TypeStateOrder state = TypeStateOrder.fromString(status);
 		URL res = Thread.currentThread().getContextClassLoader().getResource("");
 		Map<String, String> inlineImages = new HashMap<String, String>();
 		String basePath = res.getPath().replace("/WEB-INF/classes", "");
@@ -370,6 +363,7 @@ public class PaymentService implements IPaymentService {
 			out.write("<zipCode>" + order.getBillingAddress().getCap() + "</zipCode>");
 			out.write("<city>" + order.getBillingAddress().getComune() + "</city>");
 			out.write("<prov>" + order.getBillingAddress().getProvincia() + "</prov>");
+			out.write("<country>" + order.getBillingAddress().getNazione() + "</country>");
 			out.write("</billingAddress>");
 			out.write("<shippingAddress>");
 			out.write("<name>" + order.getShippingAddress().getNome() + "</name>");
@@ -379,6 +373,7 @@ public class PaymentService implements IPaymentService {
 			out.write("<zipCode>" + order.getShippingAddress().getCap() + "</zipCode>");
 			out.write("<city>" + order.getShippingAddress().getComune() + "</city>");
 			out.write("<prov>" + order.getShippingAddress().getProvincia() + "</prov>");
+			out.write("<country>" + order.getShippingAddress().getNazione() + "</country>");
 			out.write("</shippingAddress>");
 
 			out.write("<cart>");
@@ -472,16 +467,21 @@ public class PaymentService implements IPaymentService {
 		// VERIFICO LA GIACENZA
 		orderService.checkQtaInStock(order.getIdOrder(), order);
 
-		// effettuo il doCheckOut
+		// effettuo il doCheckOut, si paga...
 		DoExpressCheckoutPaymentDTO checkDTO = getWrapper(profile).doExpressCheckoutPayment(details);
 		order.setIdTransaction(checkDTO.getPAYMENTINFO_0_TRANSACTIONID());
-		order.setIdStato(TypeStateOrder.getIdFromDescription(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS()));
+		order.setIdStato(TypeStateOrder.fromString(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS()).getState());
 		order.setFlagPendingStatus(checkDTO.getL_PAYMENTINFO_0_FMF());
-		
-		// aggiorno l'ordine con lo stato
-		orderService.updateStateOrder(order.getIdOrder(), order,
-				TypeStateOrder.valueOf(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS()));
 
+		// aggiorno l'ordine con lo stato, se completed o pending facciamo anche
+		// il decremento della qta
+		TypeStateOrder state = TypeStateOrder.fromString(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS());
+		if (isPaymentCompleted(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS())
+				|| isPaymentPending(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS())) {
+			orderService.increaseQtaArticle(order, state);
+		} else {
+			orderService.updateStateOrder(order.getIdOrder(), order, state);
+		}
 		return checkDTO;
 	}
 

@@ -4,7 +4,6 @@ import it.othala.account.execption.MailNotSendException;
 import it.othala.dto.MailPropertiesDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.ProfilePayPalDTO;
-import it.othala.enums.TypeStateOrder;
 import it.othala.execption.OthalaException;
 import it.othala.execption.StockNotPresentException;
 import it.othala.payment.paypal.dto.DoExpressCheckoutPaymentDTO;
@@ -23,7 +22,7 @@ public interface IPaymentService {
 	public void processIpnMessage(String originalRequest, String mc_gross, String mc_currency, String payment_status,
 			ProfilePayPalDTO profle,MailPropertiesDTO mailProps) throws PayPalException, PayPalIpnErrorException;
 
-	public boolean isPaymentKO(TypeStateOrder state);
+	
 
 	public boolean isPaymentKO(String paypalStatus);
 
