@@ -53,29 +53,34 @@
 			<result property="linkTracking" column="txLinkTracking" />
 		</collection>
 	</resultMap>
-	
-	
+
+
 	<select id="listOrder" resultMap="Order" parameterType="java.util.HashMap">
 
 		SELECT
 		a.idOrder, a.idUser, a.imOrdine, a.idDeliveryCost,
-		a.idTransaction, a.idAddressFat, a.idAddressSpe, a.idTrackingNumber,
-		b.idProdotto, b.pgArticle, b.qtArticle,
-		c.idStato, c.dtStato, c.txNote, 
-		d.txStato, f.IDAddress as idAddressBilling, 
-		f.txNome as txNomeBilling,f.txCognome as txCognomeBilling, 
-		f.txVia as txViaBilling, f.txComune as txComuneBilling, 
-		f.cdCap as cdCapBilling, f.txProvincia as txProvinciaBilling, 
+		a.idTransaction,
+		a.idAddressFat, a.idAddressSpe, a.idTrackingNumber,
+		b.idProdotto, b.pgArticle,
+		b.qtArticle,
+		c.idStato, c.dtStato, c.txNote,
+		d.txStato, f.IDAddress as idAddressBilling,
+		f.txNome as txNomeBilling,f.txCognome as txCognomeBilling,
+		f.txVia as txViaBilling, f.txComune as txComuneBilling,
+		f.cdCap as cdCapBilling, f.txProvincia as txProvinciaBilling,
 		f.txNazione as txNazioneBilling, f.txTel as txTelBilling,
-		f.txEtichetta as etichettaBilling,   f.fgDeleted,
-		g.IDAddress as idAddressDelivery, 
-		g.txNome as txNomeDelivery, g.txCognome as txCognomeDelivery, 
-		g.txVia as txViaDelivery, g.txComune as txComuneDelivery, 
-		g.cdCap as cdCapDelivery, g.txProvincia as txProvinciaDelivery, 
-		g.txNazione as txNazioneDelivery, g.txTel as txTelDelivery,g.txEtichetta as etichettaDelivery, 
-		g.fgDeleted, h.txNome, h.txCognome, i.idDeliveryCost as deliveryCost, 
+		f.txEtichetta as
+		etichettaBilling, f.fgDeleted,
+		g.IDAddress as idAddressDelivery,
+		g.txNome as txNomeDelivery, g.txCognome as txCognomeDelivery,
+		g.txVia as txViaDelivery, g.txComune as txComuneDelivery,
+		g.cdCap as cdCapDelivery, g.txProvincia as txProvinciaDelivery,
+		g.txNazione as txNazioneDelivery, g.txTel as txTelDelivery,g.txEtichetta as
+		etichettaDelivery,
+		g.fgDeleted, h.txNome, h.txCognome, i.idDeliveryCost as deliveryCost,
 		i.txDescrizione as desSpeseSpedizione, i.imSpese as speseSpedizione,
-		i.txDescrizioneExt, i.txLinkTracking
+		i.txDescrizioneExt,
+		i.txLinkTracking
 		FROM
 		${database.schema}orders a,
 		${database.schema}orders_articles b,
@@ -86,7 +91,8 @@
 		${database.schema}customer h,
 		${database.schema}delivery_cost i
 		WHERE a.idOrder = b.idOrder
-		and a.idOrder = c.idOrder
+		and a.idOrder =
+		c.idOrder
 		<if test="idOrder != null">
 			and a.idOrder = #{idOrder}
 		</if>
@@ -95,42 +101,45 @@
 		</if>
 		and a.idAddressFat = f.idAddress
 		and a.idAddressSpe = g.idAddress
-		and c.idStato = d.idStato
+		and c.idStato
+		= d.idStato
 		<if test="idStato != null">
 			and c.idStato = #{idStato}
 		</if>
 		<if test="idStato == null">
-			and c.dtStato = (SELECT MAX(e.dtStato) 
-							 FROM ${database.schema}states_orders e
-							 WHERE e.idOrder = a.idOrder)
+			and c.dtStato = (SELECT MAX(e.dtStato)
+			FROM ${database.schema}states_orders e
+			WHERE e.idOrder = a.idOrder and c.idStato != 1)
+			
 		</if>
-		and c.idStato &lt;&gt; 1
+
 		and a.idUser = h.idUser
 		and i.idDeliveryCost = a.idDeliveryCost
-		
+
 	</select>
 
 
-	<insert id="insertOrder"   parameterType="it.othala.dto.OrderFullDTO">
-      
+	<insert id="insertOrder" parameterType="it.othala.dto.OrderFullDTO">
+
 		INSERT INTO
 		${database.schema}orders
 		(`idUser`,`imOrdine`,`idTransaction`,`idAddressFat`
 		,`idAddressSpe`,`idDeliveryCost`,`idTrackingNumber` )
 		values (
 		#{idUser},#{imOrdine},null,
-		#{billingAddress.idAddress}, #{shippingAddress.idAddress},
+		#{billingAddress.idAddress},
+		#{shippingAddress.idAddress},
 		#{speseSpedizione.idDeliveryCost},null)
-		
-        <selectKey resultType="java.lang.Integer" keyProperty="idOrder" >
 
-            SELECT LAST_INSERT_ID() AS idOrder
+		<selectKey resultType="java.lang.Integer" keyProperty="idOrder">
 
-        </selectKey>
-    </insert>
+			SELECT LAST_INSERT_ID() AS idOrder
 
-	<update id="updateOrder"   parameterType="java.util.HashMap">
-      
+		</selectKey>
+	</insert>
+
+	<update id="updateOrder" parameterType="java.util.HashMap">
+
 		UPDATE ${database.schema}orders
 		<if test="idTransaction != null">
 			SET idTransaction = #{idTransaction}
@@ -139,15 +148,16 @@
 			SET idTrackingNumber = #{idTrackingNumber}
 		</if>
 		WHERE idOrder = #{idOrder}
-      
-    </update>
+
+	</update>
 
 	<insert id="insertOrdersArticles" parameterType="java.util.HashMap">
 
 		INSERT INTO
 		${database.schema}orders_articles
 		(`idOrder`,`idProdotto`,`pgArticle`,`qtArticle`)
-		values (#{idOrder},#{idProdotto},#{pgArticle},#{qtArticle})
+		values
+		(#{idOrder},#{idProdotto},#{pgArticle},#{qtArticle})
 
 	</insert>
 
@@ -159,7 +169,7 @@
 		(#{idOrder},1,#{txNote});
 
 	</insert>
-	
+
 	<insert id="updateStatesOrders" parameterType="it.othala.dto.StateOrderDTO">
 		INSERT INTO
 		${database.schema}states_orders
@@ -168,78 +178,81 @@
 		(#{idOrder},#{idStato},#{txNote});
 
 	</insert>
-	
+
 	<select id="deliveryAddresses" resultType="it.othala.dto.DeliveryAddressDTO"
 		parameterType="java.lang.String">
-		
+
 		SELECT
 		a.idAddress, a.idUser as userId, a.txNome as nome,a.txCognome as cognome,
-		a.txVia as via, a.txComune as comune, a.cdCap as cap, a.txEtichetta as etichetta,
-		a.txProvincia as provincia, a.txNazione as nazione, 
+		a.txVia as via, a.txComune as comune, a.cdCap as cap, a.txEtichetta as
+		etichetta,
+		a.txProvincia as provincia, a.txNazione as nazione,
 		a.txTel as tel, c.idUser as userId
 		FROM
 		${database.schema}addresses a,
 		${database.schema}customer c
 		WHERE
 		a.idUser = #{userId} and
-		a.idUser = c.idUser and
+		a.idUser = c.idUser
+		and
 		a.fgDeleted = 0
 		order by a.idAddress desc
-	
+
 	</select>
-	
+
 	<select id="deliveryCosts" resultType="it.othala.dto.DeliveryCostDTO">
 
 		SELECT idDeliveryCost,
 		txDescrizione as descrizione,
-		imSpese as importospese, txDescrizioneExt as descrizioneExt,
+		imSpese as importospese, txDescrizioneExt as
+		descrizioneExt,
 		txLinkTracking as linkTracking
-		FROM 
+		FROM
 		${database.schema}delivery_cost
-		WHERE 
+		WHERE
 		fgDeleted = 0
 
 	</select>
-	
+
 	<insert id="insertAddress" parameterType="it.othala.dto.DeliveryAddressDTO">
 		INSERT INTO
 		${database.schema}addresses
-        (`idUser`,`txNome`,`txCognome`,`txVia`,
-         `txComune`,`cdCap`,
-         `txProvincia`,`txNazione`,`txTel`,`fgDeleted`,`txEtichetta`)
+		(`idUser`,`txNome`,`txCognome`,`txVia`,
+		`txComune`,`cdCap`,
+		`txProvincia`,`txNazione`,`txTel`,`fgDeleted`,`txEtichetta`)
 		VALUES
 		(#{userId},#{nome},#{cognome},#{via},
 		#{comune},#{cap},#{provincia},#{nazione},#{tel},0,#{etichetta});
-		
-		<selectKey resultType="java.lang.Integer" keyProperty="idAddress" >
 
-            SELECT LAST_INSERT_ID() AS idAddress
+		<selectKey resultType="java.lang.Integer" keyProperty="idAddress">
 
-        </selectKey>
+			SELECT LAST_INSERT_ID() AS idAddress
+
+		</selectKey>
 
 	</insert>
-	
+
 
 	<delete id="deleteAddress" parameterType="java.lang.Integer">
-		
+
 		UPDATE ${database.schema}addresses
-		SET fgDeleted = 1 
-		WHERE 
+		SET fgDeleted = 1
+		WHERE
 		idAddress = #{idAddress}
-		
+
 
 	</delete>
-	
+
 	<delete id="deleteDeliveryCost" parameterType="java.lang.Integer">
-		
+
 		UPDATE ${database.schema}delivery_cost
-		SET fgDeleted = 1 
-		WHERE 
+		SET fgDeleted = 1
+		WHERE
 		idAddress = #{idDeliveryCost}
-		
+
 
 	</delete>
-	
+
 	<insert id="insertDeliveryCost" parameterType="it.othala.dto.DeliveryCostDTO">
 		INSERT INTO
 		${database.schema}delivery_cost

@@ -2,6 +2,7 @@ package it.othala.web.utils;
 
 import it.othala.dto.MailPropertiesDTO;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -21,7 +22,7 @@ public class ConfigurationUtil {
 	private static String getBaseImagePath()
 	{		
 		String path= FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
-		path+="/resources/images";
+		path+="resources"+File.separator+"images"+File.separator;
 		return path;
 	}
 	private static String getLogoHomeMail()
@@ -32,14 +33,14 @@ public class ConfigurationUtil {
 	}
 	private static String getBaseImageThumbinals()
 	{
-		String path=getBaseImagePath()+"cartThumbinals/";
+		String path=getBaseImagePath()+"cartThumbinals"+File.separator;
 		return path;
 	}
 	
 	private static String getImagePayment()
 	{
 		String path= getBaseImagePath();
-		path+="/payment/paypal.gif";
+		path+="payment"+File.separator+"paypal.gif";
 		return path;
 	}
 

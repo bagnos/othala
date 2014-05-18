@@ -1,8 +1,33 @@
 package it.othala.enums;
 
 public enum TypeStateOrder {
-	INSERITO(1), CANCELEDREVERSAL(2), COMPLETED(3), DENIED(4), EXPIRED(5), FAILED(6), INPROGRESS(7), PARTIALLYREFUNDED(
-			8), PENDING(9), REFUNDED(10), REVERSED(11), PROCESSED(12), VOIDED(13), COMPLETEDFUNDSHELD(14), SPEDITO(15);
+	UNKNOWN(0), INSERITO(1), CANCELEDREVERSAL(2) {
+		@Override
+		public String toString() {
+			return "CANCELED-REVERSAL";
+		}
+
+	},
+	COMPLETED(3), DENIED(4), EXPIRED(5), FAILED(6), INPROGRESS(7) {
+		@Override
+		public String toString() {
+			return "IN-PROGRESS";
+		}
+
+	},
+	PARTIALLYREFUNDED(8) {
+		public String toString() {
+			return "PARTIALLY-REFUNDED";
+		}
+	},
+	PENDING(9), REFUNDED(10), REVERSED(11), PROCESSED(12), VOIDED(13), COMPLETEDFUNDSHELD(14) {
+		@Override
+		public String toString() {
+			return "COMPLETED-FUNDS-HELD";
+		}
+
+	},
+	SPEDITO(15);
 
 	private int stato;
 
@@ -28,9 +53,17 @@ public enum TypeStateOrder {
 		return null;
 	}
 
-	public static int getIdFromDescription(String state) {
-		TypeStateOrder type = TypeStateOrder.valueOf(state.replace("-", "").toUpperCase());
-		return type.getState();
+	public static TypeStateOrder fromString(String dsState) {
+
+		TypeStateOrder result = UNKNOWN;
+		for (TypeStateOrder state : values()) {
+			if (state.toString().equalsIgnoreCase(dsState)) {
+				result = state;
+				;
+				break;
+			}
+		}
+		return result;
 	}
 
 }

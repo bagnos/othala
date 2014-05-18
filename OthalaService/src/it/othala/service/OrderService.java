@@ -52,6 +52,7 @@ public class OrderService implements IOrderService {
 	public List<OrderFullDTO> getOrders(Integer Order, String User, Integer StatoOrdine) {
 
 		List<OrderFullDTO> listaOrdini = orderDAO.getOrders(Order, User, StatoOrdine);
+		
 
 		Iterator<OrderFullDTO> i = listaOrdini.iterator();
 		while (i.hasNext()) {
@@ -219,6 +220,9 @@ public class OrderService implements IOrderService {
 		orderFull = updateStateOrder(null, orderFull, stato);
 		
 		updateStock(orderFull,false);
+		
+		orderDAO.updateOrder(orderFull.getIdOrder(), 
+				orderFull.getIdTransaction(), null);
 		
 		return orderFull;
 		

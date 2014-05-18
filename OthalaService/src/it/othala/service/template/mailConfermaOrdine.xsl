@@ -1,6 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns="http://www.w3.org/TR/REC-html40" version="1.0">
-	<xsl:template match="/">
+	<xsl:template match="/order">
 		<html>
 			<head>
 				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -9,7 +9,8 @@
 			<body
 				style="padding:4px;font-family: Helvetica Neue,Helvetica,Arial,sans-serif;line-height: 1.42857143;">
 				<!-- logo -->
-				<xsl:value-of select="order"/>
+				
+				
 				<div>
 					<img>
 						<xsl:attribute name="src">
@@ -25,25 +26,28 @@
 					,
 					<br />
 					<br />
-					<xsl:when test="pending = false">
-						il tuo ordine è stato ricevuto ed è in corso di elaborazione.
-					</xsl:when>
-					<xsl:otherwise>
-						il tuo ordine è in verifica presso il sistema PayPal, ti informeremo via mail sull' esito del pagamento.
-					</xsl:otherwise>
+					<xsl:choose>
+						<xsl:when test="pending = false">
+							il tuo ordine è stato ricevuto ed è in corso di elaborazione.
+						</xsl:when>
+						<xsl:otherwise>
+							il tuo ordine è in verifica presso il sistema PayPal, ti informeremo via
+							mail sull' esito del pagamento.
+						</xsl:otherwise>
+					</xsl:choose>
 
 				</p>
 
 				<!-- nr ordine e transazione -->
 				<div>
 					<div>
-						<label style="display:inline-block;width:130px">
+						<label style="display:inline-block;width:150px">
 							<b>Numero Ordine</b>
 						</label>
 						<xsl:value-of select="number" />
 					</div>
 					<div>
-						<label style="display:inline-block;width:130px">
+						<label style="display:inline-block;width:150px">
 							<b>Numero Transazione</b>
 						</label>
 						<xsl:value-of select="transaction" />
@@ -54,12 +58,16 @@
 
 				<!-- ringraziamenti -->
 				<p>
-					<xsl:when test="pending = false">
-						Quando il tuo ordine verrà messo in consegna ti informeremo con un'e-mail.
-					</xsl:when>
-					<xsl:otherwise>
-						In caso di pagamento effettuato correttamente ti informeremo con un'e-mail al momento della spedizione del suo ordine.
-					</xsl:otherwise>
+					<xsl:choose>
+						<xsl:when test="pending = false">
+							Quando il tuo ordine verrà messo in consegna ti informeremo con
+							un'e-mail.
+						</xsl:when>
+						<xsl:otherwise>
+							In caso di pagamento effettuato correttamente ti informeremo con
+							un'e-mail al momento della spedizione del suo ordine.
+						</xsl:otherwise>
+					</xsl:choose>
 					<br />
 					<br />
 					Grazie
@@ -68,9 +76,7 @@
 					Ti aspettiamo nei negozi Degortes!
 				</p>
 				<p>
-					<strong>Puoi consultare lo stato del tuo ordine e la fattura d'acquisto
-						dalla sezione
-						Ordini in Il Mio Account.
+					<strong>Puoi consultare lo stato del tuo ordine dalla sezione Ordini in Il Mio Account.
 					</strong>
 				</p>
 
@@ -163,6 +169,11 @@
 									<span>
 										<xsl:value-of select="billingAddress/prov" />
 									</span>
+									<br />
+									<label style="display:inline-block;width:90px">Nazione</label>
+									<span>
+										<xsl:value-of select="billingAddress/country" />
+									</span>
 
 								</p>
 
@@ -209,6 +220,11 @@
 									<label style="display:inline-block;width:90px">Provincia</label>
 									<span>
 										<xsl:value-of select="shippingAddress/prov" />
+									</span>
+									<br />
+									<label style="display:inline-block;width:90px">Nazione</label>
+									<span>
+										<xsl:value-of select="shippingAddress/country" />
 									</span>
 
 								</p>

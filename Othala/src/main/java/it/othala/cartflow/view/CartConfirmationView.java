@@ -4,6 +4,7 @@ import it.othala.account.execption.MailNotSendException;
 import it.othala.dto.MailPropertiesDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.ProfilePayPalDTO;
+import it.othala.enums.TypeStateOrder;
 import it.othala.execption.StockNotPresentException;
 import it.othala.payment.paypal.dto.DoExpressCheckoutPaymentDTO;
 import it.othala.payment.paypal.dto.GetExpressCheckoutDetailsDTO;
@@ -32,6 +33,7 @@ public class CartConfirmationView extends BaseView {
 	private boolean paymentOK;
 	private OrderFullDTO order;
 	private boolean payCompleted;
+	
 
 	public boolean isPayCompleted() {
 		return payCompleted;
@@ -58,6 +60,7 @@ public class CartConfirmationView extends BaseView {
 	public String doInit() {
 		
 		IPaymentService servicePayment = OthalaFactory.getPaymentServiceInstance();
+		paymentOK=false;
 		try {
 			IPaymentService service=OthalaFactory.getPaymentServiceInstance();
 			ProfilePayPalDTO profile=PayPalUtil.getProfile();
@@ -65,10 +68,12 @@ public class CartConfirmationView extends BaseView {
 			details = service.getExpressCheckoutDetails(getQueryStringParm("token"),profile);
 			int idOrder = Integer.valueOf(details.getCustom());
 			
+			order=OthalaFactory.getOrderServiceInstance().getOrders(idOrder, null, TypeStateOrder.INSERITO.getState()).get(0);
+			
 			//confirm e docheckOut
 			//OrderFullDTO order= OthalaFactory.getOrderServiceInstance().confirmOrderPayment(profile, idOrder, details);
 			DoExpressCheckoutPaymentDTO checkDTO= servicePayment.doExpressCheckoutPayment(details, profile, order);
-			
+			paymentOK=true;
 			try {
 				
 				if (servicePayment.isPaymentCompleted(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS())
@@ -80,9 +85,9 @@ public class CartConfirmationView extends BaseView {
 								checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS());
 						addInfo(null, OthalaUtil.getWordBundle("catalogo_paySuccess"));
 
-					} catch (MailNotSendException e) {
+					} catch (Exception e) {
 						log.error("errore nell'invio della mail, pagamento accettato", e);
-						addError("null", OthalaUtil.getWordBundle("exception_postMailAcceptedPostPayPalException"));
+						addError(null, OthalaUtil.getWordBundle("exception_postMailAcceptedPostPayPalException"));
 					}
 				} else {
 					addError(null, OthalaUtil.getWordBundle("catalogo_payKO",
@@ -113,7 +118,7 @@ public class CartConfirmationView extends BaseView {
 		}
 		 catch (Exception ex) {
 			log.error("Errore comunicazione PayPal", ex);
-			addError(null, OthalaUtil.getWordBundle("exception_payPalException"));
+			addError(null, OthalaUtil.getWordBundle("exception_doCheckOutPaPalException"));
 		}
 
 		return null;
