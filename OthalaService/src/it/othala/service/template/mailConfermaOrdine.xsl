@@ -27,7 +27,7 @@
 					<br />
 					<br />
 					<xsl:choose>
-						<xsl:when test="pending = false">
+						<xsl:when test="pending = 'false'">
 							il tuo ordine è stato ricevuto ed è in corso di elaborazione.
 						</xsl:when>
 						<xsl:otherwise>

@@ -1,6 +1,7 @@
 package it.othala.view;
 
 import it.othala.account.model.CustomerLoginBean;
+import it.othala.cartflow.model.CartFlowBean;
 import it.othala.execption.OthalaException;
 import it.othala.model.ApplicationBean;
 import it.othala.web.utils.OthalaUtil;
@@ -130,6 +131,21 @@ public abstract class BaseView implements Serializable {
 		}
 	}
 	
+	
+	protected void deleteCart(CartFlowBean cart)
+	{
+		
+		cart.getCart().clear();
+		cart.setAddressFat(null);
+		cart.setAddressSpe(null);
+		cart.setArticleSel(null);
+		cart.setDeliveryCost(null);
+		cart.setDetailProduct(null);
+		cart.setDetailProductFull(null);
+		cart.setIdPayment(0);
+		cart.setIdTypeDelivery(0);
+
+	}
 	
 	
 
