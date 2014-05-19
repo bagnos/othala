@@ -147,16 +147,8 @@ public class MyAccountView extends BaseView {
 	}
 
 	public void clearCart(ActionEvent ex) {
-		cart.getCart().clear();
-		cart.setAddressFat(null);
-		cart.setAddressSpe(null);
-		cart.setArticleSel(null);
-		cart.setDeliveryCost(null);
-		cart.setDetailProduct(null);
-		cart.setDetailProductFull(null);
-		cart.setIdPayment(0);
-		cart.setIdTypeDelivery(0);
-
+		
+		deleteCart(cart);
 		redirectHome();
 
 	}

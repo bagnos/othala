@@ -1,5 +1,5 @@
 function onlyNumber(id) {
-debugger;
+
 	
 	$("#"+id).keypress(function(e) {
 
@@ -9,4 +9,8 @@ debugger;
 	});
 
 	
+}
+
+function clearCart() {
+	$('#cart').text('(0)');
 }
