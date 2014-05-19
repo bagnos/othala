@@ -19,6 +19,7 @@ import it.othala.payment.paypal.exception.PayPalFailureException;
 import it.othala.payment.paypal.exception.PayPalFundingFailureException;
 import it.othala.payment.paypal.exception.PayPalIpnErrorException;
 import it.othala.payment.paypal.exception.PayPalIpnInvalidException;
+import it.othala.payment.paypal.exception.PayPalPostPaymentException;
 import it.othala.service.interfaces.IMailService;
 import it.othala.service.interfaces.IOrderService;
 import it.othala.service.interfaces.IPaymentService;
@@ -155,7 +156,7 @@ public class PaymentService implements IPaymentService {
 					// accettato il pagamento
 					orderService.increaseQtaArticle(order, state);
 					try {
-						
+
 						sendMailRefusedPayment(order, mailProps);
 					} catch (MailNotSendException e) {
 						// TODO Auto-generated catch block
@@ -235,7 +236,6 @@ public class PaymentService implements IPaymentService {
 
 	}
 
-	
 	public boolean isPaymentCompleted(String paypalStatus) {
 		// TODO Auto-generated method stub
 		if (paypalStatus.equalsIgnoreCase("COMPLETED")) {
@@ -463,7 +463,7 @@ public class PaymentService implements IPaymentService {
 	@Override
 	public DoExpressCheckoutPaymentDTO doExpressCheckoutPayment(GetExpressCheckoutDetailsDTO details,
 			ProfilePayPalDTO profile, OrderFullDTO order) throws PayPalFundingFailureException, PayPalException,
-			PayPalFailureException, StockNotPresentException {
+			PayPalFailureException, StockNotPresentException, PayPalPostPaymentException {
 		// TODO Auto-generated method stub
 
 		// VERIFICO LA GIACENZA
@@ -473,16 +473,37 @@ public class PaymentService implements IPaymentService {
 		DoExpressCheckoutPaymentDTO checkDTO = getWrapper(profile).doExpressCheckoutPayment(details);
 		order.setIdTransaction(checkDTO.getPAYMENTINFO_0_TRANSACTIONID());
 		order.setIdStato(TypeStateOrder.fromString(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS()).getState());
-		order.setFlagPendingStatus(checkDTO.getL_PAYMENTINFO_0_FMF());
+		order.setPendingReason(checkDTO.getPAYMENTINFO_0_PENDINGREASON());
 
-		// aggiorno l'ordine con lo stato, se completed o pending facciamo anche
-		// il decremento della qta
-		TypeStateOrder state = TypeStateOrder.fromString(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS());
-		if (isPaymentCompleted(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS())
-				|| isPaymentPending(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS())) {			
-			orderService.confirmOrderPayment(order);
-		} else {
-			orderService.updateStateOrder(order.getIdOrder(), order, state);
+		try {
+			// aggiorno l'ordine con lo stato, se completed o pending facciamo
+			// anche
+			// il decremento della qta
+			TypeStateOrder state = TypeStateOrder.fromString(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS());
+			if (isPaymentCompleted(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS())
+					|| isPaymentPending(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS())) {
+				orderService.confirmOrderPayment(order);
+			} else {
+				orderService.updateStateOrder(order.getIdOrder(), order, state);
+			}
+
+			if (state.getState() != TypeStateOrder.COMPLETED.getState()) {
+				// salvo il messaggio
+				MessageIpnDTO ipn = new MessageIpnDTO();
+				ipn.setFgElaborato(false);
+				ipn.setIdOrder(order.getIdOrder());
+				ipn.setIdTransaction(order.getIdTransaction());
+				ipn.setTxMessage(checkDTO.getOkMessage());
+				if (state.getState() != TypeStateOrder.PENDING.getState()) {
+					ipn.setTxNote(checkDTO.getPAYMENTINFO_0_PENDINGREASON());
+				}
+				
+				ipn.setTxStato(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS());
+				messageIpnDAO.insertMessageIpn(ipn);
+			}
+		} catch (Throwable e) {
+
+			throw new PayPalPostPaymentException(e, order.getIdOrder(), "errore nel docheckout dopo il pagamento");
 		}
 		return checkDTO;
 	}

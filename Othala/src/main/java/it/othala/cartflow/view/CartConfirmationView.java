@@ -11,6 +11,8 @@ import it.othala.execption.StockNotPresentException;
 import it.othala.payment.paypal.dto.DoExpressCheckoutPaymentDTO;
 import it.othala.payment.paypal.dto.GetExpressCheckoutDetailsDTO;
 import it.othala.payment.paypal.exception.PayPalFundingFailureException;
+import it.othala.payment.paypal.exception.PayPalPaymentRefusedException;
+import it.othala.payment.paypal.exception.PayPalPostPaymentException;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.service.interfaces.IPaymentService;
 import it.othala.view.BaseView;
@@ -111,8 +113,7 @@ public class CartConfirmationView extends BaseView {
 				} else {
 					addError(
 							null,
-							OthalaUtil.getWordBundle("catalogo_payKO", new Object[] { order.getFlagPendingStatus(),
-									order.getTxStato() }));
+							OthalaUtil.getWordBundle("catalogo_payKO", new Object[] { order.getTxStato() }));
 				}
 
 			} catch (Exception e) {
@@ -120,7 +121,12 @@ public class CartConfirmationView extends BaseView {
 				addError(null, OthalaUtil.getWordBundle("exception_postPayPalException", new Object[] { idOrder }));
 			}
 
-		} catch (PayPalFundingFailureException e) {
+		}
+		catch (PayPalPostPaymentException e)
+		{
+			addGenericError(e, "errore dopo il pagamento");
+		}
+		catch (PayPalFundingFailureException e) {
 			// problemi sulla carta, gli chiediamo di scegliere un altro
 			// strumento di pagamento
 
