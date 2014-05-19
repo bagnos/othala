@@ -310,6 +310,7 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Article` (
   `qtStock` INT NULL ,
   `txThumbnailsUrl` VARCHAR(100) NULL ,
   `idShop` INT NULL ,
+  `txBarCode` VARCHAR(45) NULL ,
   PRIMARY KEY (`idProduct`, `pgArticle`) ,
   INDEX `fk_Article_Size1` (`idSize` ASC) ,
   INDEX `fk_Article_Color1` (`idColor` ASC) ,
@@ -488,7 +489,7 @@ DROP TABLE IF EXISTS `othala`.`States_Orders` ;
 CREATE  TABLE IF NOT EXISTS `othala`.`States_Orders` (
   `idOrder` INT NOT NULL ,
   `idStato` INT NOT NULL ,
-  `dtStato` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+  `dtStato` DATE NULL ,
   `txNote` VARCHAR(100) NULL ,
   PRIMARY KEY (`idOrder`, `idStato`) ,
   INDEX `fk_StatesOrders_States1_idx` (`idStato` ASC) ,
