@@ -21,6 +21,7 @@ public class ArticleFullDTO implements Serializable {
 	private BigDecimal totalPriced;
 	private String thumbnailsUrl;
 	private ShopDTO shop;
+	private String txBarCode;
 
 	public BigDecimal getTotalPriced() {
 		if (prdFullDTO != null) {
@@ -109,6 +110,14 @@ public class ArticleFullDTO implements Serializable {
 
 	public void setShop(ShopDTO shop) {
 		this.shop = shop;
+	}
+
+	public String getTxBarCode() {
+		return txBarCode;
+	}
+
+	public void setTxBarCode(String txBarCode) {
+		this.txBarCode = txBarCode;
 	}
 
 }

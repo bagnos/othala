@@ -328,7 +328,8 @@
 
 		txColor,
 		coalesce(a.txThumbnailsUrl,
-		d.txThumbnailsUrl) as thumbnailsUrl
+		d.txThumbnailsUrl) as thumbnailsUrl,
+		a.txBarCode
 
 
 
@@ -371,7 +372,8 @@
 
 		txColor,
 		coalesce(a.txThumbnailsUrl,
-		d.txThumbnailsUrl) as thumbnailsUrl
+		d.txThumbnailsUrl) as thumbnailsUrl,
+		a.txBarCode
 
 
 
@@ -488,10 +490,11 @@
 		`idColor`,
 		`qtStock`,
 		`txThumbnailsUrl`,
-		`idShop`)
+		`idShop`,
+		`txBarCode`)
 		VALUES
 		(#{idProduct},
-		#{pgArticle},#{idSize},#{idColor},#{qtStock},#{thumbnailsUrl},#{idShop});
+		#{pgArticle},#{idSize},#{idColor},#{qtStock},#{thumbnailsUrl},#{idShop},#{txBarCode});
 
 
 	</insert>
