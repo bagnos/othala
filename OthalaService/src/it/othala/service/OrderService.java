@@ -112,18 +112,18 @@ public class OrderService implements IOrderService {
 	public OrderFullDTO confirmOrderPayment(OrderFullDTO order) throws StockNotPresentException
 	{
 		
-		OrderFullDTO orderFull = checkQtaInStock(order.getIdOrder(),null);
+		//OrderFullDTO orderFull = checkQtaInStock(order.getIdOrder(),null);
 			
 		//orderFull = doCheckOutPayPal(profile, orderFull, details);
 		
-		orderDAO.updateOrder(orderFull.getIdOrder(), 
-				orderFull.getIdTransaction(), null);
+		//orderDAO.updateOrder(order.getIdOrder(), 
+		//		order.getIdTransaction(), null);
 		
-		updateStateOrder(null, orderFull, TypeStateOrder.valueOf(orderFull.getIdStato()));
+		updateStateOrder(null, order, TypeStateOrder.valueOf(order.getIdStato()));
 		
-		updateStock(orderFull,true);
+		updateStock(order,true);
 		
-		return orderFull;
+		return order;
 
 	}
 	
@@ -167,7 +167,7 @@ public class OrderService implements IOrderService {
 	@Override
 	public void confirmOrderDelivery(String idTrackingNumber, Integer idOrder) {
 
-		orderDAO.updateOrder(idOrder, null, idTrackingNumber);
+		//orderDAO.updateOrder(idOrder, null, idTrackingNumber);
 
 		updateStateOrder(idOrder, null, TypeStateOrder.SPEDITO);
 
@@ -205,6 +205,9 @@ public class OrderService implements IOrderService {
 
 		orderDAO.updateStateOrder(stateOrder);
 		
+		orderDAO.updateOrder(orderFull.getIdOrder(), 
+				orderFull.getIdTransaction(), null);
+		
 /*		IPaymentService payService = OthalaFactory.getPaymentServiceInstance();
 		
 		if (payService.isPaymentKO(stato)){
@@ -221,8 +224,8 @@ public class OrderService implements IOrderService {
 		
 		updateStock(orderFull,false);
 		
-		orderDAO.updateOrder(orderFull.getIdOrder(), 
-				orderFull.getIdTransaction(), null);
+		//orderDAO.updateOrder(orderFull.getIdOrder(), 
+		//		orderFull.getIdTransaction(), null);
 		
 		return orderFull;
 		
