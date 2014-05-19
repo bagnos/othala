@@ -153,7 +153,9 @@ public class PaymentService implements IPaymentService {
 				if (isPaymentKO(payment_status)) {
 					// inviare una mail in cui si comunica che PayPal non ha
 					// accettato il pagamento
+					orderService.increaseQtaArticle(order, state);
 					try {
+						
 						sendMailRefusedPayment(order, mailProps);
 					} catch (MailNotSendException e) {
 						// TODO Auto-generated catch block
