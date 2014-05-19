@@ -140,14 +140,12 @@
 							<div class="col-sm-3">
 								<div class="thumbnail">
 									
-									<h:outputText styleClass="newFlag" rendered="#{art.fgNewArrivals}"
-										value="#{msg.catalog_novita}" />
+									<h:outputText styleClass="newFlag2" style="float:left" rendered="#{art.fgNewArrivals}"
+										value="NEW" />
 										
-										<h:outputText styleClass="newPromo" rendered="#{art.priceDiscounted!=null}"
-										value="PROMO" />
-										
-										<h:outputText styleClass="newPromo" style="float:right" rendered="#{art.priceDiscounted!=null}"
-										value="-#{art.discount} %" />
+									
+										<h:outputText styleClass="newPromo2" style="float:right" rendered="#{art.priceDiscounted!=null}"
+										value="#{art.discount} %" />
 										
 									<h:link outcome="cart-choice-2">
 										<h:graphicImage styleClass="img-responsive" library="images/cartThumbinals"
