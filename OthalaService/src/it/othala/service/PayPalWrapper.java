@@ -258,6 +258,7 @@ import paypalnvp.request.SetExpressCheckout;
 			checkDTO.setPAYMENTINFO_0_PAYMENTSTATUS(response.get("PAYMENTINFO_0_PAYMENTSTATUS"));
 			checkDTO.setPAYMENTINFO_0_PENDINGREASON(response.get("PAYMENTINFO_0_PENDINGREASON"));
 			checkDTO.setL_PAYMENTINFO_0_FMF(response.get("L_PAYMENTINFO_0_FMF"));
+			checkDTO.setOkMessage(sn.toString());
 			
 		} else {
 			updateError(response);
