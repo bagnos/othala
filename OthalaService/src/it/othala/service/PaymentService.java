@@ -477,8 +477,8 @@ public class PaymentService implements IPaymentService {
 		// il decremento della qta
 		TypeStateOrder state = TypeStateOrder.fromString(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS());
 		if (isPaymentCompleted(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS())
-				|| isPaymentPending(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS())) {
-			orderService.increaseQtaArticle(order, state);
+				|| isPaymentPending(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS())) {			
+			orderService.confirmOrderPayment(order);
 		} else {
 			orderService.updateStateOrder(order.getIdOrder(), order, state);
 		}

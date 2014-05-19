@@ -59,7 +59,7 @@
 				<!-- ringraziamenti -->
 				<p>
 					<xsl:choose>
-						<xsl:when test="pending = false">
+						<xsl:when test="pending = 'false'">
 							Quando il tuo ordine verrà messo in consegna ti informeremo con
 							un'e-mail.
 						</xsl:when>
