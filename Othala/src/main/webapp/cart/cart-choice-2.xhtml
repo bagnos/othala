@@ -1,7 +1,11 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
-	template="/template/masterTemplateBS.xhtml" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/masterTemplateBS.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pe="http://primefaces.org/ui/extensions">
 
 
 	<ui:define name="metadata">
@@ -24,13 +28,18 @@
 				<!-- BREADCRUMB -->
 				<div class="row">
 					<ol class="breadcrumb breadcrumbLink" style="margin-top: 10px">
-						<ui:repeat var="bread" value="#{cartChoice2View.flowBean.breadCrumb}" varStatus="stBread">
-							<li><h:link rendered="#{stBread.last}" outcome="cartFlow" value="#{bread}"
-									styleClass="active">
-								</h:link> <h:outputLink rendered="#{stBread.first}" value="#{request.contextPath}/faces/home.xhtml"
+						<ui:repeat var="bread"
+							value="#{cartChoice2View.flowBean.breadCrumb}"
+							varStatus="stBread">
+							<li><h:link rendered="#{stBread.last}" outcome="cartFlow"
+									value="#{bread}" styleClass="active">
+								</h:link> <h:outputLink rendered="#{stBread.first}"
+									value="#{request.contextPath}/faces/home.xhtml"
 									styleClass="glyphicon glyphicon-home">
 									#{bread}
-									</h:outputLink> <h:outputLink rendered="#{stBread.first==false and stBread.last==false}" value="#">
+									</h:outputLink> <h:outputLink
+									rendered="#{stBread.first==false and stBread.last==false}"
+									value="#">
 									#{bread}
 									</h:outputLink></li>
 						</ui:repeat>
@@ -41,8 +50,10 @@
 					<!-- IMMAGINE PRINCIPALE E GALLERIA -->
 					<div class="col-md-6">
 
-						<p:galleria value="#{cartChoice2View.flowBean.detailProductFull.imagesUrl}" var="image"
-							panelWidth="400" panelHeight="543" showCaption="false" frameWidth="50" frameHeight="66" >
+						<p:galleria
+							value="#{cartChoice2View.flowBean.detailProductFull.imagesUrl}"
+							var="image" panelWidth="400" panelHeight="543"
+							showCaption="false" frameWidth="50" frameHeight="66">
 							<p:graphicImage library="images/cartThumbinals" name="#{image}" />
 						</p:galleria>
 
@@ -58,8 +69,8 @@
 							<div class="row">
 								<div class="col-sm-4">
 									<div id="fb-like" class="form-group">
-										<a class="btn-xs btn-block btn-social btn-facebook">
-											<i class="fa fa-facebook"></i> #{msg.catalog_facebookLikeIt}
+										<a class="btn-xs btn-block btn-social btn-facebook"> <i
+											class="fa fa-facebook"></i> #{msg.catalog_facebookLikeIt}
 										</a>
 									</div>
 								</div>
@@ -69,7 +80,8 @@
 							<div class="row">
 								<div class="col-sm-4">
 
-									<h:outputText value="#{cartChoice2View.flowBean.detailProductFull.price}"
+									<h:outputText
+										value="#{cartChoice2View.flowBean.detailProductFull.price}"
 										styleClass="#{cartChoice2View.flowBean.detailProductFull.priceDiscounted!=null?'onSale':''}">
 										<f:converter converterId="it.othala.BigDecimalConverter" />
 									</h:outputText>
@@ -77,7 +89,8 @@
 								</div>
 
 								<div class="col-sm-4">
-									<h:outputText value="#{cartChoice2View.flowBean.detailProductFull.priceDiscounted}"
+									<h:outputText
+										value="#{cartChoice2View.flowBean.detailProductFull.priceDiscounted}"
 										rendered="#{cartChoice2View.flowBean.detailProductFull.priceDiscounted!=null}">
 										<f:converter converterId="it.othala.BigDecimalConverter" />
 									</h:outputText>
@@ -106,9 +119,10 @@
 										<div class="form-group">
 											<h:outputText value="#{msg.catalog_size}" />
 
-											<h:selectOneMenu id="selSize" styleClass="form-control" value="#{cartChoice2View.idSize}">
-												<f:selectItem itemLabel="#{msg.catalog_chooseSize}" itemValue=""
-													noSelectionOption="true" />
+											<h:selectOneMenu id="selSize" styleClass="form-control"
+												value="#{cartChoice2View.idSize}">
+												<f:selectItem itemLabel="#{msg.catalog_chooseSize}"
+													itemValue="" noSelectionOption="true" />
 												<f:selectItems value="#{cartChoice2View.sizeItems}"></f:selectItems>
 												<f:ajax execute="@form" render="lst-color qtaArt add-cart"
 													listener="#{cartChoice2View.changeSize}"></f:ajax>
@@ -122,10 +136,11 @@
 									<div class="col-sm-5">
 										<div class="form-group">
 											<h:outputText value="#{msg.catalog_color}" />
-											<h:selectOneMenu styleClass="form-control" label="#{msg.catalog_color}" id="lst-color"
+											<h:selectOneMenu styleClass="form-control"
+												label="#{msg.catalog_color}" id="lst-color"
 												value="#{cartChoice2View.idColor}">
-												<f:selectItem itemLabel="#{msg.catalog_chooseColor}" itemValue=""
-													noSelectionOption="true" />
+												<f:selectItem itemLabel="#{msg.catalog_chooseColor}"
+													itemValue="" noSelectionOption="true" />
 												<f:selectItems value="#{cartChoice2View.colorItems}"></f:selectItems>
 												<f:ajax execute="@form" render="qtaArt add-cart"
 													listener="#{cartChoice2View.changeColor}"></f:ajax>
@@ -139,11 +154,13 @@
 									<div class="row">
 										<div class="col-sm-4">
 
-											<h:outputText rendered="#{cartChoice2View.min>0}" value="#{msg.catalog_qta}" />
+											<h:outputText rendered="#{cartChoice2View.min>0}"
+												value="#{msg.catalog_qta}" />
 											<div>
 												<p:spinner id="spQta" rendered="#{cartChoice2View.min>0}"
-													value="#{cartChoice2View.qtaArticle}" maxlength="2" size="2"
-													min="#{cartChoice2View.min}" max="#{cartChoice2View.max}" />
+													value="#{cartChoice2View.qtaArticle}" maxlength="2"
+													size="2" min="#{cartChoice2View.min}"
+													max="#{cartChoice2View.max}" />
 											</div>
 
 										</div>
@@ -161,15 +178,17 @@
 
 
 							<div class="col-sm-6">
-								<p:commandButton icon="ui-icon-triangle-1-w btn-articolo-sel" action="cart-catalog.xhtml?faces-redirect=true"
+								<p:commandButton icon="ui-icon-triangle-1-w btn-articolo-sel"
+									action="cart-catalog.xhtml?faces-redirect=true"
 									value="#{msg.catalog_back}" />
 							</div>
 							<div class="col-sm-6">
 								<p:commandButton
 									disabled="#{cartChoice2View.qtaArticle==null or cartChoice2View.qtaArticle==0 }"
 									id="add-cart" styleClass="ui-priority-primary btn-articolo-sel"
-									value="#{msg.catalog_addToCart}" ajax="false" action="#{cartChoice2View.goToCart}">
-									
+									value="#{msg.catalog_addToCart}" ajax="false"
+									action="#{cartChoice2View.goToCart}">
+
 								</p:commandButton>
 
 
@@ -178,6 +197,26 @@
 						</div>
 					</div>
 				</div>
+
+				<div class="row">
+					<div class="col-md-12" style="padding-top: 30px;" >
+
+						<p:carousel id="carprodfull" rendered="true"
+							value="#{cartFlowBean.catalog.articlesPage}" var="art"
+							headerText="RELATED PRODUCTS">
+
+							<p:graphicImage styleClass="img-responsive"
+								library="images/cartThumbinals" name="#{art.imagesUrl}" />
+
+
+						</p:carousel>
+
+					</div>
+
+				</div>
+
+
+
 			</div>
 		</h:form>
 	</ui:define>
