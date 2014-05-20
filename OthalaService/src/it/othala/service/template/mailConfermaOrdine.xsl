@@ -65,7 +65,7 @@
 						</xsl:when>
 						<xsl:otherwise>
 							In caso di pagamento effettuato correttamente ti informeremo con
-							un'e-mail al momento della spedizione del suo ordine.
+							un'e-mail al momento della spedizione.
 						</xsl:otherwise>
 					</xsl:choose>
 					<br />

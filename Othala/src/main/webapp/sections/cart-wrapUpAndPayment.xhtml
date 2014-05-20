@@ -44,7 +44,7 @@
 			</form> -->
 
 
-			<p:commandLink id="goCheckout" immediate="true" title="#{msg.catalogo_payNowPayPal}"
+			<p:commandLink id="goCheckout" onclick="PF('blockAll').block()" immediate="true" title="#{msg.catalogo_payNowPayPal}"
 				actionListener="#{cartWizardView.checkout}">
 				<img src="https://www.paypal.com/it_IT/IT/i/btn/btn_xpressCheckout.gif" />
 
@@ -58,10 +58,8 @@
 			 
 			
 
-			<p:blockUI block="cart-checkout" trigger="goCheckout">
-        LOADING<br />
-				<p:graphicImage library="images" name="ajax_loading_bar.gif" />
-			</p:blockUI>
+			
+			
 
 
 

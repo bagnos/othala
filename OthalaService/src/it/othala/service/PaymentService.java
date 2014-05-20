@@ -470,7 +470,7 @@ public class PaymentService implements IPaymentService {
 		orderService.checkQtaInStock(order.getIdOrder(), order);
 
 		// effettuo il doCheckOut, si paga...
-		DoExpressCheckoutPaymentDTO checkDTO = getWrapper(profile).doExpressCheckoutPayment(details);
+		DoExpressCheckoutPaymentDTO checkDTO = getWrapper(profile).doExpressCheckoutPayment(details,profilePayPal.getNotifyUrl());
 		order.setIdTransaction(checkDTO.getPAYMENTINFO_0_TRANSACTIONID());
 		order.setIdStato(TypeStateOrder.fromString(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS()).getState());
 		order.setPendingReason(checkDTO.getPAYMENTINFO_0_PENDINGREASON());
@@ -487,20 +487,20 @@ public class PaymentService implements IPaymentService {
 				orderService.updateStateOrder(order.getIdOrder(), order, state);
 			}
 
-			if (state.getState() != TypeStateOrder.COMPLETED.getState()) {
+			
 				// salvo il messaggio
 				MessageIpnDTO ipn = new MessageIpnDTO();
 				ipn.setFgElaborato(false);
 				ipn.setIdOrder(order.getIdOrder());
 				ipn.setIdTransaction(order.getIdTransaction());
 				ipn.setTxMessage(checkDTO.getOkMessage());
-				if (state.getState() != TypeStateOrder.PENDING.getState()) {
+				if (state.getState() == TypeStateOrder.PENDING.getState()) {
 					ipn.setTxNote(checkDTO.getPAYMENTINFO_0_PENDINGREASON());
 				}
 				
 				ipn.setTxStato(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS());
 				messageIpnDAO.insertMessageIpn(ipn);
-			}
+			
 		} catch (Throwable e) {
 
 			throw new PayPalPostPaymentException(e, order.getIdOrder(), "errore nel docheckout dopo il pagamento");
@@ -522,6 +522,7 @@ public class PaymentService implements IPaymentService {
 					profile.getSignature()).build();
 			Environment env = PayPalWrapper.getEnvironment(profile.getEnvironment());
 			wrapper = new PayPalWrapper(env, prof);
+			
 		}
 		return wrapper;
 
