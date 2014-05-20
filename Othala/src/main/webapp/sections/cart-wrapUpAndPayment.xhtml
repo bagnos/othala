@@ -44,18 +44,24 @@
 			</form> -->
 
 
-			<h:commandLink id="goCheckout"   immediate="true" title="#{msg.catalogo_payNowPayPal}" actionListener="#{cartWizardView.checkout}">
+			<p:commandLink id="goCheckout" immediate="true" title="#{msg.catalogo_payNowPayPal}"
+				actionListener="#{cartWizardView.checkout}">
 				<img src="https://www.paypal.com/it_IT/IT/i/btn/btn_xpressCheckout.gif" />
-				
-					
-					<!-- <img  src="https://www.paypalobjects.com/it_IT/IT/i/btn/btn_buynow_LG.gif"
+
+
+				<!-- <img  src="https://www.paypalobjects.com/it_IT/IT/i/btn/btn_buynow_LG.gif"
 						border="0" 
 						alt="PayPal - Il metodo rapido, affidabile e innovativo per pagare e farsi pagare."/> -->
-					
-
-			</h:commandLink>
 
 
+			</p:commandLink>
+			 
+			
+
+			<p:blockUI block="cart-checkout" trigger="goCheckout">
+        LOADING<br />
+				<p:graphicImage library="images" name="ajax_loading_bar.gif" />
+			</p:blockUI>
 
 
 
