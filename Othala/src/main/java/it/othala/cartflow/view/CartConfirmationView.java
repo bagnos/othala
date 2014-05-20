@@ -104,16 +104,18 @@ public class CartConfirmationView extends BaseView {
 					try {
 						OthalaFactory.getPaymentServiceInstance().sendMailAcceptedPyament(order, mail,
 								checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS());
-						addInfo(null, OthalaUtil.getWordBundle("catalogo_paySuccess"));
+						if (servicePayment.isPaymentPending(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS())) {
+							addInfo(null, OthalaUtil.getWordBundle("catalogo_payPending"));
+						} else {
+							addInfo(null, OthalaUtil.getWordBundle("catalogo_paySuccess"));
+						}
 
 					} catch (Exception e) {
 						log.error("errore nell'invio della mail, pagamento accettato", e);
 						addError(null, OthalaUtil.getWordBundle("exception_postMailAcceptedPostPayPalException"));
 					}
 				} else {
-					addError(
-							null,
-							OthalaUtil.getWordBundle("catalogo_payKO", new Object[] { order.getTxStato() }));
+					addError(null, OthalaUtil.getWordBundle("catalogo_payKO", new Object[] { order.getTxStato() }));
 				}
 
 			} catch (Exception e) {
@@ -121,12 +123,9 @@ public class CartConfirmationView extends BaseView {
 				addError(null, OthalaUtil.getWordBundle("exception_postPayPalException", new Object[] { idOrder }));
 			}
 
-		}
-		catch (PayPalPostPaymentException e)
-		{
+		} catch (PayPalPostPaymentException e) {
 			addGenericError(e, "errore dopo il pagamento");
-		}
-		catch (PayPalFundingFailureException e) {
+		} catch (PayPalFundingFailureException e) {
 			// problemi sulla carta, gli chiediamo di scegliere un altro
 			// strumento di pagamento
 

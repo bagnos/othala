@@ -8,7 +8,7 @@ public class PayPalFailureException extends OthalaException {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static final String KEY_MESSAGE = "exception_payPalException";
+	private static final String KEY_MESSAGE = "exception_payPalFailureException";
 
 	public PayPalFailureException(String message,String errorMessage) {
 		super(KEY_MESSAGE, new Object[] {errorMessage}, message);

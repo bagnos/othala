@@ -124,6 +124,13 @@ public final class DoExpressCheckoutPayment implements Request {
 		nvpRequest.put("USESESSIONPAYMENTDETAILS", Boolean.toString(use));
 	}
 	
+	public void setPAYMENTREQUEST_0_NOTIFYURL(String value)
+	{
+		nvpRequest.put("setPAYMENTREQUEST_0_NOTIFYURL", value);
+	}
+	
+	
+	
 	public void setPaymentDetails(Map<String, String> details)
 	{
 		nvpRequest.putAll(details);

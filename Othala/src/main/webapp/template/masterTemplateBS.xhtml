@@ -34,6 +34,7 @@
 </pe:head>
 
 <h:body>
+
 	<h:outputText
 		value="&lt;!--[if lt IE 9]&gt;&lt;script src=&quot;https&#58;&#47;&#47;oss.maxcdn.com&#47;libs&#47;respond.js&#47;1.4.2&#47;respond.min.js&quot; /&gt;
     &lt;script src=&quot;https&#58;&#47;&#47;oss.maxcdn.com&#47;libs&#47;html5shiv&#47;3.7.0&#47;html5shiv.js&quot; /&gt;
@@ -47,12 +48,16 @@
 			<ui:include src="/sections/tabBar.xhtml" />
 		</div>
 		<div class="container">
-			<p:messages autoUpdate="true" globalOnly="true" closable="true" showDetail="true"
-				showSummary="true"></p:messages>
+			<ui:insert name="messageUser">
+				<p:messages autoUpdate="true" globalOnly="true" closable="true" showDetail="true"
+					showSummary="true"></p:messages>
+			</ui:insert>
 		</div>
+				
 		<ui:insert name="content">
 
 		</ui:insert>
+
 
 
 
@@ -75,7 +80,7 @@
 	<h:outputScript name="prettify.js" library="bootstrap/js"></h:outputScript>
 	<h:outputScript name="jquery.bootstrap.wizard.min.js" library="bootstrap/js"></h:outputScript>
 	<h:outputScript name="othalaBase.js" library="js"></h:outputScript>
-	
+
 
 	<script type="text/javascript">
   (function($) {
@@ -99,6 +104,11 @@
 
 	
 </script>
+
+<pe:blockUI  widgetVar="blockAll">
+        LOADING<br />
+				<p:graphicImage library="images" name="ajax_loading_bar.gif" />
+			</pe:blockUI>
 
 </h:body>
 </html>

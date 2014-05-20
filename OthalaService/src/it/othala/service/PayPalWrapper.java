@@ -58,6 +58,8 @@ import paypalnvp.request.SetExpressCheckout;
 	public static final String COMPLETED_STATUS = "Completed";
 	private String username;
 	
+	
+	
 	public String getUsername() {
 		return username;
 	}
@@ -144,7 +146,7 @@ import paypalnvp.request.SetExpressCheckout;
 	 * 
 	 */
 
-	public DoExpressCheckoutPaymentDTO doExpressCheckoutPayment(GetExpressCheckoutDetailsDTO details)
+	public DoExpressCheckoutPaymentDTO doExpressCheckoutPayment(GetExpressCheckoutDetailsDTO details,String notifyUrl )
 			throws PayPalFundingFailureException, PayPalException, PayPalFailureException
 			 {
 
@@ -152,6 +154,8 @@ import paypalnvp.request.SetExpressCheckout;
 				details.getPayerid(), details.getAmount(), details.getCurrencyCode(),details.getShipAmount(),details.getItemAmount());
 		// doCheck.setUSESESSIONPAYMENTDETAILS(true);
 		doCheck.setPaymentDetails(paymentDetails);
+		doCheck.setPAYMENTREQUEST_0_NOTIFYURL(notifyUrl);
+		
 		try {
 			pp.setResponse(doCheck);
 		} catch (MalformedURLException e) {
@@ -396,10 +400,10 @@ import paypalnvp.request.SetExpressCheckout;
 				sb.append(response.get(key));
 				errorCodes.add(response.get(key));
 
-				sb.append(System.getProperty(";"));
+				/*sb.append(System.getProperty("line.separator"));
 				key = L_SHORTMESSAGEn + i;
-				sb.append(response.get(key));
-				sb.append(System.getProperty(";"));
+				sb.append(response.get(key));*/
+				sb.append(System.getProperty("-"));
 				key = L_LONGMESSAGEn + i;
 				sb.append(response.get(key));
 				sb.append(System.getProperty("line.separator"));
