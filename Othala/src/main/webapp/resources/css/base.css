@@ -341,7 +341,7 @@ word-wrap: break-word;
 .carousel {
 	/*border-top: 3px solid #357ebd;*/
 	border-top: none;
-	width: width:100% !important;
+
 	overflow: hidden !important;;
 	position: relative !important;;
 	border-right: none !important;
@@ -357,6 +357,22 @@ word-wrap: break-word;
 	display: none !important;
 }
 
+#carprodfull .ui-carousel-header {
+
+display: block !important;
+height: 40px;
+
+}
+
+#carprodfull .ui-widget-content {
+
+width: 177px !important;
+height: 245px !important;
+padding: 1px;
+
+}
+
+
 .ui-carousel-viewport>li {
 	margin-left: 0px !important;
 }
@@ -364,7 +380,8 @@ word-wrap: break-word;
 .ui-carousel-viewport {
 	position: relative !important;
 	overflow: hidden !important;
-	width: 1100px !important;
+
+
 }
 
 /* ================================================================================================ 
