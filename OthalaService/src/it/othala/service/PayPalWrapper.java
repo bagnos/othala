@@ -1,7 +1,5 @@
 package it.othala.service;
 
-import it.othala.dto.ArticleFullDTO;
-import it.othala.dto.OrderFullDTO;
 import it.othala.payment.paypal.dto.DoExpressCheckoutPaymentDTO;
 import it.othala.payment.paypal.dto.GetExpressCheckoutDetailsDTO;
 import it.othala.payment.paypal.dto.ItemCartDTO;
@@ -12,9 +10,7 @@ import it.othala.payment.paypal.exception.PayPalFailureException;
 import it.othala.payment.paypal.exception.PayPalFundingFailureException;
 import it.othala.payment.paypal.exception.PayPalIpnErrorException;
 import it.othala.payment.paypal.exception.PayPalIpnInvalidException;
-import it.othala.payment.paypal.exception.PayPalPaymentRefusedException;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -39,7 +35,7 @@ import paypalnvp.request.SetExpressCheckout;
 
 //import javax.servlet.http.HttpServletRequest;
 
- class PayPalWrapper {
+class PayPalWrapper {
 
 	private String returnUrl = null;
 	private String cancelUrl = null;
@@ -51,15 +47,13 @@ import paypalnvp.request.SetExpressCheckout;
 	private final String L_PAYMENTREQUEST_0_NUMBERm = "L_PAYMENTREQUEST_0_NUMBER";
 	private final String L_ERRORCODEn = "L_ERRORCODE";
 	private final String L_SHORTMESSAGEn = "L_SHORTMESSAGE";
-	private final String L_LONGMESSAGEn = "StringL_LONGMESSAGE";
+	private final String L_LONGMESSAGEn = "L_LONGMESSAGE";
 	private List<String> errorCodes;
 	private String errorMessage;
 	private Map<String, String> paymentDetails;
 	public static final String COMPLETED_STATUS = "Completed";
 	private String username;
-	
-	
-	
+
 	public String getUsername() {
 		return username;
 	}
@@ -68,7 +62,7 @@ import paypalnvp.request.SetExpressCheckout;
 
 	public PayPalWrapper(Environment env, Profile profile) {
 
-		this.username=profile.getUserName();
+		this.username = profile.getUserName();
 		pp = new PayPal(profile, env);
 	}
 
@@ -111,8 +105,7 @@ import paypalnvp.request.SetExpressCheckout;
 
 	}
 
-	public SetExpressCheckoutDTO setExpressCheckout(OrderPayPalDTO cart) throws MalformedURLException,
-			UnsupportedEncodingException, PayPalException {
+	public SetExpressCheckoutDTO setExpressCheckout(OrderPayPalDTO cart) throws PayPalFailureException, PayPalException {
 
 		SetExpressCheckoutDTO setExpChecktDTO = null;
 
@@ -122,7 +115,12 @@ import paypalnvp.request.SetExpressCheckout;
 		setEC.setImage(cart.getImageUrl());
 		setEC.setPaymentAction(PaymentAction.SALE);
 
-		pp.setResponse(setEC);
+		try {
+			pp.setResponse(setEC);
+		} catch (MalformedURLException | UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			throw new PayPalException(e);
+		}
 
 		Map<String, String> response = setEC.getNVPResponse();
 		if (response != null && !response.isEmpty()) {
@@ -142,29 +140,28 @@ import paypalnvp.request.SetExpressCheckout;
 	 * @throws PayPalException
 	 *             restituito in caso di errore gestito da PayPal, ACK=Failure
 	 * @throws PayPalFailureException
-	 *             Pagamento non effettuato, ack=failure nel messaggio di ritorno
+	 *             Pagamento non effettuato, ack=failure nel messaggio di
+	 *             ritorno
 	 * 
 	 */
 
-	public DoExpressCheckoutPaymentDTO doExpressCheckoutPayment(GetExpressCheckoutDetailsDTO details,String notifyUrl )
-			throws PayPalFundingFailureException, PayPalException, PayPalFailureException
-			 {
+	public DoExpressCheckoutPaymentDTO doExpressCheckoutPayment(GetExpressCheckoutDetailsDTO details, String notifyUrl)
+			throws PayPalFundingFailureException, PayPalException, PayPalFailureException {
 
 		DoExpressCheckoutPayment doCheck = new DoExpressCheckoutPayment(details.getToken(), PaymentAction.SALE,
-				details.getPayerid(), details.getAmount(), details.getCurrencyCode(),details.getShipAmount(),details.getItemAmount());
+				details.getPayerid(), details.getAmount(), details.getCurrencyCode(), details.getShipAmount(),
+				details.getItemAmount());
 		// doCheck.setUSESESSIONPAYMENTDETAILS(true);
 		doCheck.setPaymentDetails(paymentDetails);
 		doCheck.setPAYMENTREQUEST_0_NOTIFYURL(notifyUrl);
-		
+
 		try {
 			pp.setResponse(doCheck);
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			throw new PayPalException(e);
-		} catch (UnsupportedEncodingException e) {
+		} catch (MalformedURLException | UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			throw new PayPalException(e);
 		}
+
 		Map<String, String> response = doCheck.getNVPResponse();
 		return getDoExpressCheckoutPaymentDTO(response);
 	}
@@ -225,7 +222,7 @@ import paypalnvp.request.SetExpressCheckout;
 	}
 
 	private SetExpressCheckoutDTO getExpressCheckOutDTO(Map<String, String> response, String redirectUrl)
-			throws PayPalException {
+			throws PayPalFailureException {
 		StringBuilder sn = new StringBuilder();
 		for (String e : response.keySet()) {
 			sn.append(String.format("%s=%s;", e, response.get(e).toString()));
@@ -241,7 +238,7 @@ import paypalnvp.request.SetExpressCheckout;
 
 		} else {
 			updateError(response);
-			throw new PayPalException(sn.toString(), errorMessage);
+			throw new PayPalFailureException(sn.toString(), errorMessage);
 
 		}
 
@@ -249,8 +246,7 @@ import paypalnvp.request.SetExpressCheckout;
 	}
 
 	private DoExpressCheckoutPaymentDTO getDoExpressCheckoutPaymentDTO(Map<String, String> response)
-			throws PayPalException, PayPalFundingFailureException, PayPalFailureException
-			 {
+			throws PayPalException, PayPalFundingFailureException, PayPalFailureException {
 		StringBuilder sn = new StringBuilder();
 		for (String e : response.keySet()) {
 			sn.append(String.format("%s=%s;", e, response.get(e).toString()));
@@ -263,7 +259,7 @@ import paypalnvp.request.SetExpressCheckout;
 			checkDTO.setPAYMENTINFO_0_PENDINGREASON(response.get("PAYMENTINFO_0_PENDINGREASON"));
 			checkDTO.setL_PAYMENTINFO_0_FMF(response.get("L_PAYMENTINFO_0_FMF"));
 			checkDTO.setOkMessage(sn.toString());
-			
+
 		} else {
 			updateError(response);
 
@@ -277,8 +273,6 @@ import paypalnvp.request.SetExpressCheckout;
 		}
 		return checkDTO;
 	}
-
-	
 
 	private GetExpressCheckoutDetailsDTO getExpressCheckOutDetailsDTO(Map<String, String> response)
 			throws PayPalException {
@@ -400,10 +394,11 @@ import paypalnvp.request.SetExpressCheckout;
 				sb.append(response.get(key));
 				errorCodes.add(response.get(key));
 
-				/*sb.append(System.getProperty("line.separator"));
-				key = L_SHORTMESSAGEn + i;
-				sb.append(response.get(key));*/
-				sb.append(System.getProperty("-"));
+				/*
+				 * sb.append(System.getProperty("line.separator")); key =
+				 * L_SHORTMESSAGEn + i; sb.append(response.get(key));
+				 */
+				sb.append(" - ");
 				key = L_LONGMESSAGEn + i;
 				sb.append(response.get(key));
 				sb.append(System.getProperty("line.separator"));
@@ -420,8 +415,7 @@ import paypalnvp.request.SetExpressCheckout;
 		redirectUrl = redirectUrl.replace("token", token);
 		return redirectUrl;
 	}
-	
-	
+
 	/*
 	 * private void updateState(DoExpressCheckoutPaymentDTO checkDTO) {
 	 * checkDTO.setStatePayPal(TypeStatePayPal.COMPLETED); if
