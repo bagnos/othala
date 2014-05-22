@@ -7,12 +7,15 @@ import it.othala.account.execption.UserNotActivatedException;
 import it.othala.account.execption.UserNotFoundException;
 import it.othala.account.model.CustomerLoginBean;
 import it.othala.dto.AccountDTO;
-import it.othala.dto.MailPropertiesDTO;
 import it.othala.service.factory.OthalaFactory;
+import it.othala.util.HelperCrypt;
 import it.othala.view.BaseView;
 import it.othala.web.utils.ConfigurationUtil;
+import it.othala.web.utils.CookieUtil;
 import it.othala.web.utils.OthalaUtil;
 import it.othala.web.utils.WizardUtil;
+
+import java.util.UUID;
 
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -163,7 +166,8 @@ public class AccessView extends BaseView {
 
 		if (isVerifiedInput()) {
 			try {
-				OthalaFactory.getAccountServiceInstance().registerAccount(getAccountDTO(),ConfigurationUtil.getMailProps());
+				OthalaFactory.getAccountServiceInstance().registerAccount(getAccountDTO(),
+						ConfigurationUtil.getMailProps());
 				addInfo(OthalaUtil.getWordBundle("account_registerUser"),
 						OthalaUtil.getWordBundle("account_registeredUser", new Object[] { getAccountDTO().getEmail() }));
 
@@ -172,7 +176,7 @@ public class AccessView extends BaseView {
 				return false;
 
 			} catch (MailNotSendException e) {
-				log.error("registration ko",e);
+				log.error("registration ko", e);
 				addError(null, OthalaUtil.getWordBundle("account_maiRegNotSend"));
 				return false;
 
@@ -199,7 +203,8 @@ public class AccessView extends BaseView {
 	public String resetPsw() {
 
 		try {
-			OthalaFactory.getAccountServiceInstance().resetPasswordAccount(getEmail(),ConfigurationUtil.getMailProps());
+			OthalaFactory.getAccountServiceInstance()
+					.resetPasswordAccount(getEmail(), ConfigurationUtil.getMailProps());
 			addInfo(OthalaUtil.getWordBundle("account_checkYourMail"), "");
 		} catch (UserNotFoundException | UserNotActivatedException e) {
 			addOthalaExceptionError(e, "Errore nel reset della password.");
@@ -213,33 +218,38 @@ public class AccessView extends BaseView {
 	public String login() {
 		try {
 			AccountDTO acc = OthalaFactory.getAccountServiceInstance().verifyPasswordAccount(getEmail(), getPsw());
-			loginBean.setName(acc.getName());
-			loginBean.setEmail(acc.getEmail());
-			loginBean.setSurname(acc.getSurname());
+			loginBean.updateLoginBean(acc);
+			
 			renderClient = true;
+
+			String cookieName = ConfigurationUtil.getProperty("COOKIE_NAME").trim();
+			int cookieAge = Integer.valueOf(ConfigurationUtil.getProperty("COOKIE_AGE").trim());
+			if (staySignIn) {
+				CookieUtil.addCookie(
+						getResponse(),
+						cookieName,
+						CookieUtil.getCookieValueFromAccount(acc), cookieAge);
+			} else {
+
+				CookieUtil.removeCookie(getResponse(), cookieName);
+			}
+
 		} catch (BadCredentialException e) {
 			// TODO Auto-generated catch block
 			addOthalaExceptionError(e, "login error");
 		}
 		return "home";
 	}
+	
+	
 
 	public void loginWizard(ActionEvent e) {
-		try {
-			AccountDTO acc = OthalaFactory.getAccountServiceInstance().verifyPasswordAccount(email, psw);
-			loginBean.setName(acc.getName());
-			loginBean.setEmail(acc.getEmail());
-			loginBean.setSurname(acc.getSurname());
-			renderClient = true;
-			// disabilitiamo l'accedi ed avanziiamo allo step successivo
-			RequestContext.getCurrentInstance().execute(WizardUtil.NextStepWizard());
 
-			// RequestContext.getCurrentInstance().execute("$('#rootwizard').bootstrapWizard({onTabChange: function(tab, navigation, index) { if(index == 1) { alert('on tab show disabled');return false;	}}});");
+		login();
+		// disabilitiamo l'accedi ed avanziiamo allo step successivo
+		RequestContext.getCurrentInstance().execute(WizardUtil.NextStepWizard());
 
-		} catch (BadCredentialException ex) {
-			// TODO Auto-generated catch block
-			addOthalaExceptionError(ex, "login error");
-		}
+		// RequestContext.getCurrentInstance().execute("$('#rootwizard').bootstrapWizard({onTabChange: function(tab, navigation, index) { if(index == 1) { alert('on tab show disabled');return false;	}}});");
 
 	}
 
@@ -248,9 +258,11 @@ public class AccessView extends BaseView {
 		loginBean.setName(null);
 		renderClient = false;
 
-		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+		HttpSession session = getRequest().getSession(false);
 		if (session != null) {
 			session.invalidate();
+			String cookieName = ConfigurationUtil.getProperty("COOKIE_NAME");
+			CookieUtil.removeCookie(getResponse(), cookieName);
 		}
 		redirectHome();
 	}
@@ -268,10 +280,9 @@ public class AccessView extends BaseView {
 			addError(null, OthalaUtil.getWordBundle("validator_eqMail"));
 			return false;
 		}
-		
-		if (!acceptPrivacy)
-		{
-			addError("privacy", null,OthalaUtil.getWordBundle("validator_privacy"));
+
+		if (!acceptPrivacy) {
+			addError("privacy", null, OthalaUtil.getWordBundle("validator_privacy"));
 			return false;
 		}
 
