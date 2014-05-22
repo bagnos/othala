@@ -83,6 +83,7 @@ public final class Payment implements RequestFields {
 	public Payment(String amount, List<PaymentItem> items) throws IllegalArgumentException {
 
 		this(amount);
+		
 		/* check items */
 		if (items == null || items.size() == 0) {
 			throw new IllegalArgumentException("You have to supply items.");
