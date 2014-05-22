@@ -12,9 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -36,10 +38,10 @@ public abstract class BaseView implements Serializable {
 	 */
 	protected static Log log = LogFactory.getLog(BaseView.class);
 
-	/*@ManagedProperty(value="#{applicationBean}")*/
+	/* @ManagedProperty(value="#{applicationBean}") */
 	@Inject
 	private ApplicationBean beanApplication;
-	
+
 	@Inject
 	private CustomerLoginBean loginBean;
 
@@ -52,8 +54,6 @@ public abstract class BaseView implements Serializable {
 	}
 
 	private List<String> breadCrumb = new ArrayList<>();
-
-	
 
 	public ApplicationBean getBeanApplication() {
 		return beanApplication;
@@ -76,8 +76,8 @@ public abstract class BaseView implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_ERROR, summary, message));
 	}
-	
-	public void addError(String id,String summary, String message) {
+
+	public void addError(String id, String summary, String message) {
 		summary = summary == null ? OthalaUtil.getWordBundle("validator_summary") : summary;
 		FacesContext.getCurrentInstance().addMessage(id,
 				new FacesMessage(FacesMessage.SEVERITY_ERROR, summary, message));
@@ -120,21 +120,23 @@ public abstract class BaseView implements Serializable {
 	protected String getLang() {
 		return OthalaUtil.getLang();
 	}
-	
-	protected void redirectHome() 
-	{
+
+	protected void redirectHome() {
 		try {
-			FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath()+"/faces/home.xhtml");
+			FacesContext
+					.getCurrentInstance()
+					.getExternalContext()
+					.redirect(
+							FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath()
+									+ "/faces/home.xhtml");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
-	
-	protected void deleteCart(CartFlowBean cart)
-	{
-		
+
+	protected void deleteCart(CartFlowBean cart) {
+
 		cart.getCart().clear();
 		cart.setAddressFat(null);
 		cart.setAddressSpe(null);
@@ -146,7 +148,18 @@ public abstract class BaseView implements Serializable {
 		cart.setIdTypeDelivery(0);
 
 	}
-	
-	
 
+	protected HttpServletResponse getResponse()
+	{
+		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();  
+        HttpServletResponse response =  (HttpServletResponse)context.getResponse(); 
+		return response;
+	}
+	
+	protected HttpServletRequest getRequest()
+	{
+		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();  
+		HttpServletRequest request =  (HttpServletRequest)context.getRequest();
+		return request;
+	}
 }

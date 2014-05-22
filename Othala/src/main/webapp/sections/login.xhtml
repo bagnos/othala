@@ -7,15 +7,15 @@
 
 	
 		<div class="form-group">
-			<p:outputLabel value="#{msg.account_email}" for="j_username" />
-			<p:inputText id="j_username" styleClass="form-control" label="#{msg.account_email}"
-				value="#{accessView.email}" required="true" validatorMessage="#{msg.validator_mail}"
+			<p:outputLabel value="#{msg.account_email}" for="username" />
+			<p:inputText id="username" styleClass="form-control" label="#{msg.account_email}"
+				value="#{accessView.email}"  required="true" validatorMessage="#{msg.validator_mail}"
 				maxlength="70">
 
 				<f:validateRegex pattern="[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+\.[a-zA-Z]{2,4}" />
 
 			</p:inputText>
-			<p:message for="j_username" />
+			<p:message for="username" />
 
 		</div>
 
@@ -25,6 +25,15 @@
 				value="#{accessView.psw}" maxlength="10" />
 			<p:message id="err-psw" for="j_password"></p:message>
 
+		</div>
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group checkbox">
+					<h:selectBooleanCheckbox value="#{accessView.staySignIn}" />
+					<h:outputText value="#{msg.account_staySignIn}" />
+
+				</div>
+			</div>
 		</div>
 
 

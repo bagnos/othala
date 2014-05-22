@@ -1,7 +1,10 @@
 package it.othala.account.model;
 
 
+import it.othala.dto.AccountDTO;
+
 import javax.inject.Named;
+
 import java.io.Serializable;
 
 @Named
@@ -34,6 +37,13 @@ public class CustomerLoginBean implements Serializable {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public void updateLoginBean(AccountDTO acc)
+	{
+		this.setName(acc.getName());
+		this.setEmail(acc.getEmail());
+		this.setSurname(acc.getSurname());
 	}
 	
 	

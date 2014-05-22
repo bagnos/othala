@@ -74,6 +74,19 @@
     <servlet-name>IPNServlet</servlet-name>
     <url-pattern>/IPNServlet/*</url-pattern>
   </servlet-mapping>
+  
+  
+  <filter>
+		<filter-name>LoginFilter</filter-name>
+		<filter-class>it.othala.filter.LoginFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>LoginFilter</filter-name>
+		<url-pattern>*.xhtml</url-pattern>		
+	</filter-mapping>
+  
+  
+  
   <listener>
     <listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
   </listener>

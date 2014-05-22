@@ -11,6 +11,8 @@ import it.othala.dto.ProfilePayPalDTO;
 import it.othala.execption.OthalaException;
 import it.othala.payment.paypal.dto.OrderPayPalDTO;
 import it.othala.payment.paypal.dto.SetExpressCheckoutDTO;
+import it.othala.payment.paypal.exception.PayPalException;
+import it.othala.payment.paypal.exception.PayPalFailureException;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.service.interfaces.IPaymentService;
 import it.othala.view.BaseView;
@@ -370,16 +372,24 @@ public class CartWizardView extends BaseView {
 				log.error(String.format("Paypal, SetExpressCheckout in errore:%s",
 						checkDTO != null ? checkDTO.getKoMessage() : "errore generico nella cominicazione con paypal"));
 			}
-		} catch (Throwable ex) {
+		} catch (PayPalFailureException ex) {
+			addOthalaExceptionError(ex, "PayPal failure Response nel SetCheckOutPayment");
+
+		} catch (PayPalException ex) {
+			addOthalaExceptionError(ex, "PayPal communication error");
+
+		}
+
+		catch (Throwable ex) {
 			// TODO Auto-generated catch block
 
-			log.error("Errore comunicazione PayPal", ex);
-			addError(null, OthalaUtil.getWordBundle("exception_payPalException"));
-			RequestContext.getCurrentInstance().execute("lastPage()");
+			log.error("Errore generico", ex);
+
+			addError(null, OthalaUtil.getWordBundle("exception_base"));
 
 			// return null;
 		}
-
+		RequestContext.getCurrentInstance().execute("lastPage();PF('blockAll').unblock();");
 	}
 
 	private OrderFullDTO valueOrderOfCart() throws MailNotSendException, OthalaException {
