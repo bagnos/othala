@@ -53,7 +53,11 @@ public final class GetExpressCheckoutDetails implements Request {
         nvpRequest  = new HashMap<String, String>();
 
         nvpRequest.put("METHOD", METHOD_NAME);
+        
         nvpRequest.put("TOKEN", token);
+        //sample for negative test
+        //nvpRequest.put("TOKEN", "10004");
+        
     }
 
     public Map<String, String> getNVPRequest() {
