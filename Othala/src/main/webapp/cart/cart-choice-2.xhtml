@@ -196,17 +196,137 @@
 
 						</div>
 
-	
+
 
 
 
 
 					</div>
 				</div>
-				
-				
-						
-						
+
+				<div class="row" style="margin-left: 0px; margin-right: 0px; margin-top: 40px;">
+					<div class="col-sm-12" ><h3 class="foot1-title" style="font-size: 28px; border-bottom: 0px; margin-left: -15px; font-style: italic; ">RELATED PRODUCTS:
+					</h3></div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-12">
+
+
+						<div class="row"
+							style="margin-left: 0px; margin-right: 0px; margin-top: 10px;">
+							<div class="carousel slide">
+
+								<div class="carousel-inner">
+
+
+									<ui:repeat var="prod" value="#{cartFlowBean.carouselList}"
+										varStatus="status">
+
+
+										<div class="#{status.first?'item active':'item'}">
+
+
+
+
+
+
+
+											<ul class="thumbnailsCar">
+
+
+
+
+
+												<li class="col-sm-3">
+													<div class="thumbnailCar">
+
+														<h:link outcome="cart-choice-2" rendered="#{prod.product1 != null}">
+															<h:graphicImage rendered="#{prod.product1 != null}"
+																styleClass="img-responsive"
+																library="images/cartThumbinals"
+																name="#{prod.product1.imagesUrl}" />
+															<f:param name="idPrd" value="#{prod.product1.idProduct}"></f:param>
+														</h:link>
+
+
+													</div>
+
+												</li>
+
+												<li class="col-sm-3">
+													<div class="thumbnailCar">
+														<h:link outcome="cart-choice-2" rendered="#{prod.product2 != null}">
+															<h:graphicImage rendered="#{prod.product2 != null}"
+																styleClass="img-responsive"
+																library="images/cartThumbinals"
+																name="#{prod.product2.imagesUrl}" href="#" />
+															<f:param name="idPrd" value="#{prod.product2.idProduct}"></f:param>
+														</h:link>
+													</div>
+
+												</li>
+												<li class="col-sm-3">
+													<div class="thumbnailCar">
+														<h:link outcome="cart-choice-2" rendered="#{prod.product3 != null}">
+															<h:graphicImage rendered="#{prod.product3 != null}"
+																styleClass="img-responsive"
+																library="images/cartThumbinals"
+																name="#{prod.product3.imagesUrl}" href="#" />
+															<f:param name="idPrd" value="#{prod.product3.idProduct}"></f:param>
+														</h:link>
+													</div>
+
+												</li>
+												<li class="col-sm-3">
+													<div class="thumbnailCar">
+														<h:link outcome="cart-choice-2" rendered="#{prod.product4 != null}">
+															<h:graphicImage rendered="#{prod.product4 != null}"
+																styleClass="img-responsive"
+																library="images/cartThumbinals"
+																name="#{prod.product4.imagesUrl}" href="#" />
+															<f:param name="idPrd" value="#{prod.product4.idProduct}"></f:param>
+														</h:link>
+													</div>
+
+												</li>
+											</ul>
+										</div>
+									</ui:repeat>
+
+
+
+
+
+								</div>
+
+
+								<a data-slide="prev" href="#myCarousel"
+									class="left carousel-control" style="width:5%;">‹</a> <a data-slide="next"
+									href="#myCarousel" class="right carousel-control" style="width:5%;" >›</a>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 			</div>
 
