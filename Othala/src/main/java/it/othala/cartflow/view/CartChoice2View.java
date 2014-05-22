@@ -2,6 +2,7 @@ package it.othala.cartflow.view;
 
 import it.othala.cartflow.model.CartFlowBean;
 import it.othala.dto.ArticleFullDTO;
+import it.othala.dto.ProductCarouselDTO;
 import it.othala.dto.ProductDTO;
 import it.othala.dto.ProductFullDTO;
 import it.othala.service.factory.OthalaFactory;
@@ -31,6 +32,7 @@ public class CartChoice2View extends BaseView {
 	private Integer min;
 	private Integer max;
 	private ArticleFullDTO artSel;
+
 
 	public Integer getMin() {
 
@@ -110,6 +112,43 @@ public class CartChoice2View extends BaseView {
 			}
 		}
 
+		
+		
+		List<ProductCarouselDTO> carouselList = new ArrayList<ProductCarouselDTO>();
+		ProductCarouselDTO a = null;
+		for (int i = 0; i <= flowBean.getCatalog().getArticlesPage().size() - 1; i++) {
+
+			if (i % 4 == 0)
+			{
+				a=new ProductCarouselDTO();;
+				carouselList.add(a);
+				a.setProduct1(flowBean.getCatalog().getArticlesPage().get(i));
+				
+			}
+			else if (i % 4 == 1)
+			{
+
+				a.setProduct2(flowBean.getCatalog().getArticlesPage().get(i));
+				
+			}
+			else if (i % 4 == 2)
+			{
+
+				a.setProduct3(flowBean.getCatalog().getArticlesPage().get(i));
+				
+			}
+			else if (i % 4 == 3)
+			{
+
+				a.setProduct4(flowBean.getCatalog().getArticlesPage().get(i));
+				
+			}
+		 
+		
+		}
+		
+		flowBean.setCarouselList(carouselList);
+
 		prdFull = OthalaFactory.getProductServiceInstance().getProductFull(getLang(), idProduct);
 
 		flowBean.setDetailProductFull(prdFull);
@@ -138,6 +177,8 @@ public class CartChoice2View extends BaseView {
 		return null;
 	}
 	
+
+
 	public String goToCart()
 	{
 		flowBean.getCart().add(artSel);
