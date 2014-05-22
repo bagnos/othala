@@ -23,8 +23,6 @@ public class LoginFilter implements Filter {
 	@Inject
 	private CustomerLoginBean loginBean;
 
-
-
 	@Override
 	public void destroy() {
 		// TODO Auto-generated method stub
@@ -36,20 +34,15 @@ public class LoginFilter implements Filter {
 			ServletException {
 		// TODO Auto-generated method stub
 		HttpServletRequest request = (HttpServletRequest) req;
-		
 
 		if (loginBean.getEmail() == null) {
-			String cookieName = ConfigurationUtil.getProperty("COOKIE_NAME");
-			String value = CookieUtil.getCookieValue(request, cookieName);
-			
-			
-			if (value != null) {
-				AccountDTO acc=CookieUtil.getAccountFromCookie(value);				
-				
+
+			AccountDTO acc = CookieUtil.getAccountFromCookie(request);
+			if (acc != null) {
+
 				loginBean.updateLoginBean(acc);
-				
+
 			}
-			
 
 		}
 		chain.doFilter(req, res);

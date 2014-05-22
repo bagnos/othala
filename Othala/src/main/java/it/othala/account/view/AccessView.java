@@ -219,19 +219,14 @@ public class AccessView extends BaseView {
 		try {
 			AccountDTO acc = OthalaFactory.getAccountServiceInstance().verifyPasswordAccount(getEmail(), getPsw());
 			loginBean.updateLoginBean(acc);
-			
+
 			renderClient = true;
 
-			String cookieName = ConfigurationUtil.getProperty("COOKIE_NAME").trim();
-			int cookieAge = Integer.valueOf(ConfigurationUtil.getProperty("COOKIE_AGE").trim());
 			if (staySignIn) {
-				CookieUtil.addCookie(
-						getResponse(),
-						cookieName,
-						CookieUtil.getCookieValueFromAccount(acc), cookieAge);
+				CookieUtil.addCookieLogin(getResponse(), acc);
 			} else {
 
-				CookieUtil.removeCookie(getResponse(), cookieName);
+				CookieUtil.removeCookieLogin(getResponse());
 			}
 
 		} catch (BadCredentialException e) {
@@ -240,8 +235,6 @@ public class AccessView extends BaseView {
 		}
 		return "home";
 	}
-	
-	
 
 	public void loginWizard(ActionEvent e) {
 
@@ -260,9 +253,8 @@ public class AccessView extends BaseView {
 
 		HttpSession session = getRequest().getSession(false);
 		if (session != null) {
-			session.invalidate();
-			String cookieName = ConfigurationUtil.getProperty("COOKIE_NAME");
-			CookieUtil.removeCookie(getResponse(), cookieName);
+			session.invalidate();			
+			CookieUtil.removeCookieLogin(getResponse());
 		}
 		redirectHome();
 	}
