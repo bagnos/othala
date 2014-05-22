@@ -446,7 +446,7 @@ public class PaymentService implements IPaymentService {
 
 	@Override
 	public SetExpressCheckoutDTO setExpressCheckout(OrderFullDTO order, ProfilePayPalDTO profile)
-			throws MalformedURLException, UnsupportedEncodingException, OthalaException {
+			throws PayPalException,PayPalFailureException, OthalaException {
 		// TODO Auto-generated method stub
 
 		// inserisco l'ordine

@@ -40,7 +40,7 @@ public interface IPaymentService {
 			throws MailNotSendException;
 
 	public SetExpressCheckoutDTO setExpressCheckout(OrderFullDTO order, ProfilePayPalDTO profile)
-			throws MalformedURLException, UnsupportedEncodingException, PayPalException, OthalaException;
+			throws PayPalException, PayPalFailureException, OthalaException;
 
 	public DoExpressCheckoutPaymentDTO doExpressCheckoutPayment(GetExpressCheckoutDetailsDTO details,
 			ProfilePayPalDTO profile, OrderFullDTO order) throws PayPalFundingFailureException, PayPalException,
