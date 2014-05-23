@@ -17,7 +17,27 @@
 		where a.idLanguages = #{languages}
 		and
 		b.txGroupImages = 'tabNav'
-		and b.pgGroupImages = a.idGender;
+		and b.pgGroupImages = a.idGender
+		
+		and exists
+		(select 1 from
+		${database.schema}product d,
+		${database.schema}article
+		e
+		where
+		d.idProductState = 1
+
+		and d.idGender = a.idGender
+
+		and e.idProduct =
+		d.idProduct
+		and
+		e.qtStock
+		>
+		0);
+		
+		
+		
 
 
 	</select>
