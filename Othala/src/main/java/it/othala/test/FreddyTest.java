@@ -17,35 +17,58 @@ public class FreddyTest {
 	public void test() {
 
 		try {
-
+			
+			BigDecimal prezzo = new BigDecimal(395);
+			Integer sconto = 30;
+			String immagine1 = "991a.jpg";
+			String immagine2 = "991b.jpg";
+			String immagine3 = "991c.jpg";
+			String immagine4 = "991d.jpg";
+			String descrizione = "DECOLLETÈ IN BROCCATO FLOREALE 105MM";
+			
+			/* 2 donna */
+			Integer genere = 2;
+			/* 5 d&g */
+			Integer brand = 5;
+			/* 12 gonne 20 scarpe */
+			Integer tipo = 20;
+			
+			/* scarpe 24, 25 */
+			/* gonne 17 , 18 */
+			
+			Integer taglia1 = 24;
+			Integer taglia2 = 25;
+			
+			/* bianco 4, nero 11, rosa 13 */ 
+			Integer colore1 = 13;
+			Integer colore2 = 13;
+			
 			ProductFullDTO a = new ProductFullDTO();
 
-			a.setPrice(new BigDecimal(795));
-			a.setDiscount(30);
-			a.setThumbnailsUrl("A1.JPG");
-
+			a.setPrice(prezzo);
+			a.setDiscount(sconto);
+			a.setThumbnailsUrl(immagine1);
+			
 			DescriptionDTO b = new DescriptionDTO();
-			List<DescriptionDTO> c = new ArrayList<DescriptionDTO>();
 			b.setLanguages("it");
+			b.setDescription(descrizione);
 
-			b.setDescription("T-SHIRT IN MISTO VISCOSA E SETA");
-
+			List<DescriptionDTO> c = new ArrayList<DescriptionDTO>();
 			c.add(b);
 
 			a.setLangDescription(c);
-
-			a.setIdGender(1);
-			a.setIdBrand(5);
-			a.setIdType(21);
+			a.setIdGender(genere);
+			a.setIdBrand(brand);
+			a.setIdType(tipo);
+			
 
 			ArticleFullDTO d = new ArticleFullDTO();
 			List<ArticleFullDTO> e = new ArrayList<ArticleFullDTO>();
 
 			d.setPgArticle(1);
 			d.setQtStock(2);
-			d.setIdSize(17);
-
-			d.setIdColor(4);
+			d.setIdSize(taglia1);
+			d.setIdColor(colore1);
 			
 			ShopDTO t = new ShopDTO();
 			t.setIdShop(1);
@@ -57,8 +80,8 @@ public class FreddyTest {
 
 			f.setPgArticle(2);
 			f.setQtStock(2);
-			f.setIdSize(18);
-			f.setIdColor(4);
+			f.setIdSize(taglia2);
+			f.setIdColor(colore2);
 			
 			f.setShop(t);
 			f.setTxBarCode("bbbbb");
@@ -69,10 +92,10 @@ public class FreddyTest {
 			a.setArticles(e);
 
 			List<String> g = new ArrayList<String>();
-			g.add("A1.JPG");
-			g.add("A2.JPG");
-			g.add("A3.JPG");
-			g.add("A4.JPG");
+			g.add(immagine1);
+			g.add(immagine2);
+			g.add(immagine3);
+			g.add(immagine4);
 
 			a.setImagesUrl(g);
 
