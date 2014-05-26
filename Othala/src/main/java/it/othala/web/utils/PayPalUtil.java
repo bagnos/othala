@@ -47,8 +47,9 @@ public class PayPalUtil {
 				.replace("#{request.contextPath}", contextPath));
 		prof.setImageUrl(prop.getProperty("imageUrl").replace("#{request.remoteHost}", remoteHost)
 				.replace("#{request.contextPath}", contextPath));
-		String propertRedirect = "redirectUrl" + prop.getProperty("environment");
-		prof.setRedirectUrl(prop.getProperty(propertRedirect));
+		
+		//String propertRedirect = "redirectUrl" + prop.getProperty("environment");
+		//prof.setRedirectUrl(prop.getProperty(propertRedirect));
 		prof.setNotifyUrl(prop.getProperty("notifyUrl").replace("#{request.remoteHost}", remoteHost)
 				.replace("#{request.contextPath}", contextPath));
 		
