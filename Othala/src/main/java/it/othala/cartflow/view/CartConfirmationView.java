@@ -1,7 +1,5 @@
 package it.othala.cartflow.view;
 
-import it.othala.account.execption.MailNotSendException;
-import it.othala.account.view.MyAccountView;
 import it.othala.cartflow.model.CartFlowBean;
 import it.othala.dto.MailPropertiesDTO;
 import it.othala.dto.OrderFullDTO;
@@ -10,8 +8,9 @@ import it.othala.enums.TypeStateOrder;
 import it.othala.execption.StockNotPresentException;
 import it.othala.payment.paypal.dto.DoExpressCheckoutPaymentDTO;
 import it.othala.payment.paypal.dto.GetExpressCheckoutDetailsDTO;
+import it.othala.payment.paypal.exception.PayPalException;
+import it.othala.payment.paypal.exception.PayPalFailureException;
 import it.othala.payment.paypal.exception.PayPalFundingFailureException;
-import it.othala.payment.paypal.exception.PayPalPaymentRefusedException;
 import it.othala.payment.paypal.exception.PayPalPostPaymentException;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.service.interfaces.IPaymentService;
@@ -19,10 +18,8 @@ import it.othala.view.BaseView;
 import it.othala.web.utils.ConfigurationUtil;
 import it.othala.web.utils.OthalaUtil;
 import it.othala.web.utils.PayPalUtil;
-import it.othala.web.utils.WizardUtil;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -66,23 +63,66 @@ public class CartConfirmationView extends BaseView {
 	}
 
 	public String doInit() {
-
-		IPaymentService servicePayment = OthalaFactory.getPaymentServiceInstance();
-		paymentOK = false;
 		try {
+			IPaymentService servicePayment = OthalaFactory.getPaymentServiceInstance();
+			paymentOK = false;
+
 			IPaymentService service = OthalaFactory.getPaymentServiceInstance();
 			ProfilePayPalDTO profile = PayPalUtil.getProfile();
 
-			details = service.getExpressCheckoutDetails(getQueryStringParm("token"), profile);
-			int idOrder = Integer.valueOf(details.getCustom());
+			if (!getExpressCheckoutDetails(service, profile)) {
+				return null;
+			}
 
-			order = OthalaFactory.getOrderServiceInstance()
-					.getOrders(idOrder, null, TypeStateOrder.INSERITO.getState()).get(0);
+			doExpressCheckoutPayment(servicePayment, profile);
 
-			// confirm e docheckOut
-			// OrderFullDTO order=
-			// OthalaFactory.getOrderServiceInstance().confirmOrderPayment(profile,
-			// idOrder, details);
+		} catch (Throwable ex) {
+			log.error("Errore comunicazione PayPal", ex);
+			addError(null, OthalaUtil.getWordBundle("exception_doCheckOutPaPalException"));
+		}
+
+		return null;
+	}
+
+	private void sendMailAcceptedPayment(String paymentStatus, IPaymentService servicePayment) {
+		MailPropertiesDTO mail = ConfigurationUtil.getMailProps();
+		try {
+			OthalaFactory.getPaymentServiceInstance().sendMailAcceptedPyament(order, mail, paymentStatus);
+			if (servicePayment.isPaymentPending(paymentStatus)) {
+				addInfo(null, OthalaUtil.getWordBundle("catalogo_payPending"));
+			} else {
+				addInfo(null, OthalaUtil.getWordBundle("catalogo_paySuccess"));
+			}
+
+		} catch (Exception e) {
+			log.error("errore nell'invio della mail, pagamento accettato", e);
+			addError(null, OthalaUtil.getWordBundle("exception_postMailAcceptedPostPayPalException"));
+		}
+	}
+
+	private boolean getExpressCheckoutDetails(IPaymentService service, ProfilePayPalDTO profile) {
+		boolean esito = false;
+		try {
+			String token=getQueryStringParm("token");
+			
+			details = service.getExpressCheckoutDetails(token, profile);
+			esito = true;
+		} catch (PayPalFailureException ex) {
+			addOthalaExceptionError(ex, "PayPal failure Response nel getExpressCheckoutDetails");
+			return false;
+		} catch (PayPalException ex) {
+			addOthalaExceptionError(ex, "PayPal communication error in getExpressCheckoutDetails ");
+			return false;
+		}
+		int idOrder = Integer.valueOf(details.getCustom());
+		order = OthalaFactory.getOrderServiceInstance().getOrders(idOrder, null, TypeStateOrder.INSERITO.getState())
+				.get(0);
+		return esito;
+
+	}
+
+	private void doExpressCheckoutPayment(IPaymentService servicePayment, ProfilePayPalDTO profile) {
+		try {
 			DoExpressCheckoutPaymentDTO checkDTO = servicePayment.doExpressCheckoutPayment(details, profile, order);
 			paymentOK = true;
 			try {
@@ -100,27 +140,17 @@ public class CartConfirmationView extends BaseView {
 						log.error("errore nella pulizia del carrello", e);
 					}
 
-					MailPropertiesDTO mail = ConfigurationUtil.getMailProps();
-					try {
-						OthalaFactory.getPaymentServiceInstance().sendMailAcceptedPyament(order, mail,
-								checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS());
-						if (servicePayment.isPaymentPending(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS())) {
-							addInfo(null, OthalaUtil.getWordBundle("catalogo_payPending"));
-						} else {
-							addInfo(null, OthalaUtil.getWordBundle("catalogo_paySuccess"));
-						}
+					// invio mail al cliente
+					sendMailAcceptedPayment(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS(), servicePayment);
 
-					} catch (Exception e) {
-						log.error("errore nell'invio della mail, pagamento accettato", e);
-						addError(null, OthalaUtil.getWordBundle("exception_postMailAcceptedPostPayPalException"));
-					}
 				} else {
 					addError(null, OthalaUtil.getWordBundle("catalogo_payKO", new Object[] { order.getTxStato() }));
 				}
 
 			} catch (Exception e) {
 				log.error("errore nella rilettura oppure nell'update dell'ordine, chiamata paypal effettuata correttamente");
-				addError(null, OthalaUtil.getWordBundle("exception_postPayPalException", new Object[] { idOrder }));
+				addError(null,
+						OthalaUtil.getWordBundle("exception_postPayPalException", new Object[] { order.getIdOrder() }));
 			}
 
 		} catch (PayPalPostPaymentException e) {
@@ -136,14 +166,15 @@ public class CartConfirmationView extends BaseView {
 				log.error("errore redirect funding failure error code 10486", e);
 				addError(null, OthalaUtil.getWordBundle("exception_payPalFundingFailureException"));
 			}
-			return null;
+
 		} catch (StockNotPresentException e) {
 			addOthalaExceptionError(e, "qta non più presente");
-		} catch (Exception ex) {
-			log.error("Errore comunicazione PayPal", ex);
-			addError(null, OthalaUtil.getWordBundle("exception_doCheckOutPaPalException"));
+		} catch (PayPalFailureException ex) {
+			addOthalaExceptionError(ex, "PayPal failure Response nel SetCheckOutPayment");
+
+		} catch (PayPalException ex) {
+			addOthalaExceptionError(ex, "PayPal communication error");
 		}
 
-		return null;
 	}
 }
