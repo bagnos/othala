@@ -47,5 +47,5 @@ public interface IPaymentService {
 			StockNotPresentException, PayPalFailureException, PayPalPostPaymentException;
 
 	public GetExpressCheckoutDetailsDTO getExpressCheckoutDetails(String token, ProfilePayPalDTO profile)
-			throws MalformedURLException, UnsupportedEncodingException, PayPalException;
+			throws PayPalException, PayPalFailureException;
 }

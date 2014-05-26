@@ -470,7 +470,7 @@ public class PaymentService implements IPaymentService {
 		orderService.checkQtaInStock(order.getIdOrder(), order);
 
 		// effettuo il doCheckOut, si paga...
-		DoExpressCheckoutPaymentDTO checkDTO = getWrapper(profile).doExpressCheckoutPayment(details,profilePayPal.getNotifyUrl());
+		DoExpressCheckoutPaymentDTO checkDTO = getWrapper(profile).doExpressCheckoutPayment(details,profilePayPal.getNotifyUrl(),profilePayPal.getRedirectUrl());
 		order.setIdTransaction(checkDTO.getPAYMENTINFO_0_TRANSACTIONID());
 		order.setIdStato(TypeStateOrder.fromString(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS()).getState());
 		order.setPendingReason(checkDTO.getPAYMENTINFO_0_PENDINGREASON());
@@ -510,7 +510,7 @@ public class PaymentService implements IPaymentService {
 
 	@Override
 	public GetExpressCheckoutDetailsDTO getExpressCheckoutDetails(String token, ProfilePayPalDTO profile)
-			throws MalformedURLException, UnsupportedEncodingException, PayPalException {
+			throws  PayPalException, PayPalFailureException {
 		// TODO Auto-generated method stub
 		return getWrapper(profile).getExpressCheckoutDetails(token);
 	}
