@@ -45,9 +45,10 @@ public final class GetExpressCheckoutDetails implements Request {
     public GetExpressCheckoutDetails(String token)
             throws IllegalArgumentException {
 
-        if (token.length() != 20) {
+       /*
+    	if (token.length() != 20) {
             throw new IllegalArgumentException("Invalid token argument");
-        }
+        }*/
 
         nvpResponse = new HashMap<String, String>();
         nvpRequest  = new HashMap<String, String>();
