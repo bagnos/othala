@@ -31,6 +31,7 @@ import paypalnvp.fields.PaymentItem;
 import paypalnvp.profile.Profile;
 import paypalnvp.request.DoExpressCheckoutPayment;
 import paypalnvp.request.GetExpressCheckoutDetails;
+import paypalnvp.request.Request;
 import paypalnvp.request.SetExpressCheckout;
 
 //import javax.servlet.http.HttpServletRequest;
@@ -145,9 +146,10 @@ class PayPalWrapper {
 	 * 
 	 */
 
-	public DoExpressCheckoutPaymentDTO doExpressCheckoutPayment(GetExpressCheckoutDetailsDTO details, String notifyUrl)
+	public DoExpressCheckoutPaymentDTO doExpressCheckoutPayment(GetExpressCheckoutDetailsDTO details, String notifyUrl,String redirectUrl)
 			throws PayPalFundingFailureException, PayPalException, PayPalFailureException {
 
+		this.redirectUrl=redirectUrl;
 		DoExpressCheckoutPayment doCheck = new DoExpressCheckoutPayment(details.getToken(), PaymentAction.SALE,
 				details.getPayerid(), details.getAmount(), details.getCurrencyCode(), details.getShipAmount(),
 				details.getItemAmount());
@@ -163,14 +165,19 @@ class PayPalWrapper {
 		}
 
 		Map<String, String> response = doCheck.getNVPResponse();
-		return getDoExpressCheckoutPaymentDTO(response);
+		return getDoExpressCheckoutPaymentDTO(response,details.getToken());
 	}
 
-	public GetExpressCheckoutDetailsDTO getExpressCheckoutDetails(String token) throws MalformedURLException,
-			UnsupportedEncodingException, PayPalException {
+	public GetExpressCheckoutDetailsDTO getExpressCheckoutDetails(String token) throws 
+			 PayPalException, PayPalFailureException {
 		GetExpressCheckoutDetails getExpress = new GetExpressCheckoutDetails(token);
 
-		pp.setResponse(getExpress);
+		try {
+			pp.setResponse(getExpress);
+		} catch (MalformedURLException | UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			throw new PayPalException(e);
+		}
 		Map<String, String> response = getExpress.getNVPResponse();
 		GetExpressCheckoutDetailsDTO detailDto = getExpressCheckOutDetailsDTO(response);
 		return detailDto;
@@ -181,6 +188,11 @@ class PayPalWrapper {
 		Environment environment = Environment.valueOf(env);
 
 		return environment;
+	}
+	
+	private String getRedirectUrl(String token)
+	{
+		return pp.getRedirectUrl(token);
 	}
 
 	private Payment getPayment(OrderPayPalDTO cart) {
@@ -245,7 +257,7 @@ class PayPalWrapper {
 		return setExpChecktDTO;
 	}
 
-	private DoExpressCheckoutPaymentDTO getDoExpressCheckoutPaymentDTO(Map<String, String> response)
+	private DoExpressCheckoutPaymentDTO getDoExpressCheckoutPaymentDTO(Map<String, String> response,String token)
 			throws PayPalException, PayPalFundingFailureException, PayPalFailureException {
 		StringBuilder sn = new StringBuilder();
 		for (String e : response.keySet()) {
@@ -264,8 +276,7 @@ class PayPalWrapper {
 			updateError(response);
 
 			if (isFundinFailure()) {
-
-				throw new PayPalFundingFailureException(errorMessage, getRedirctUrl(checkDTO.getToken()));
+				throw new PayPalFundingFailureException(errorMessage, getRedirectUrl(checkDTO.getToken()));
 			} else {
 				throw new PayPalFailureException(sn.toString(), errorMessage);
 			}
@@ -275,7 +286,7 @@ class PayPalWrapper {
 	}
 
 	private GetExpressCheckoutDetailsDTO getExpressCheckOutDetailsDTO(Map<String, String> response)
-			throws PayPalException {
+			throws  PayPalFailureException {
 		StringBuilder sn = new StringBuilder();
 		for (String e : response.keySet()) {
 			sn.append(String.format("%s=%s;", e, response.get(e).toString()));
@@ -329,7 +340,7 @@ class PayPalWrapper {
 
 		} else {
 			updateError(response);
-			throw new PayPalException(sn.toString(), errorMessage);
+			throw new PayPalFailureException(sn.toString(), errorMessage);
 
 		}
 
@@ -411,10 +422,7 @@ class PayPalWrapper {
 
 	}
 
-	public String getRedirctUrl(String token) {
-		redirectUrl = redirectUrl.replace("token", token);
-		return redirectUrl;
-	}
+	
 
 	/*
 	 * private void updateState(DoExpressCheckoutPaymentDTO checkDTO) {
