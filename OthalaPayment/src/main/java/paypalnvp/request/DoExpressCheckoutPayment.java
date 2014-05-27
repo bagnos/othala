@@ -72,9 +72,9 @@ public final class DoExpressCheckoutPayment implements Request {
         nvpRequest.put("TOKEN", token);
         nvpRequest.put("PAYMENTACTION", paymentAction.getValue());
         nvpRequest.put("PAYERID", payerId);
-        //nvpRequest.put("PAYMENTREQUEST_0_AMT", amount.setScale(2, RoundingMode.HALF_UP).toString());
+        nvpRequest.put("PAYMENTREQUEST_0_AMT", amount.setScale(2, RoundingMode.HALF_UP).toString());
         //negative test
-        nvpRequest.put("PAYMENTREQUEST_0_AMT", "104.86");
+        //nvpRequest.put("PAYMENTREQUEST_0_AMT", "104.86");
         
         nvpRequest.put("PAYMENTREQUEST_0_CURRENCYCODE", currency);
         nvpRequest.put("PAYMENTREQUEST_0_SHIPPINGAMT", shippingAmout.setScale(2, RoundingMode.HALF_UP).toString());
