@@ -1,5 +1,6 @@
 package it.othala.service.interfaces;
 
+import it.othala.dto.CampaignDTO;
 import it.othala.dto.DomainDTO;
 import it.othala.dto.MenuDTO;
 import it.othala.dto.ProductDTO;
@@ -11,25 +12,27 @@ import java.util.List;
 
 public interface IProductService {
 
-	public List<ProductDTO> getListProduct(String languages, Integer gender,
-			Integer type, Integer brand, BigDecimal minPrice,
-			BigDecimal maxPrice, Integer size, Integer color,
-			Boolean newArrivals, OrderByCartFlow order);
-
 	public DomainDTO getDomain(String languages);
 
 	public List<MenuDTO> getMenu(String languages);
 
 	public ProductFullDTO getProductFull(String languages, Integer idProduct);
 
-	
-	 public Integer insertProduct(ProductFullDTO productFull);
+	public Integer insertProduct(ProductFullDTO productFull);
 
-	public ProductFullDTO getProductArticleFull(String languages, Integer idProduct,
-			Integer pgArticle);
+	public ProductFullDTO getProductArticleFull(String languages,
+			Integer idProduct, Integer pgArticle);
 
 	public DomainDTO insertBrand(String languages, String txBrand);
 
 	public List<ProductDTO> getListProductToPublish();
-	
+
+	public List<CampaignDTO> getListCampaign();
+
+	public List<ProductDTO> getListProduct(String languages, Integer gender,
+			Integer type, Integer brand, BigDecimal minPrice,
+			BigDecimal maxPrice, Integer size, Integer color,
+			Boolean newArrivals, OrderByCartFlow order, Integer idCampaign,
+			Boolean fgCampaign);
+
 }

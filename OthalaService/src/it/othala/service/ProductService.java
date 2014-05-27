@@ -3,6 +3,7 @@ package it.othala.service;
 import it.othala.dao.ProductDAO;
 import it.othala.dao.interfaces.IProductDAO;
 import it.othala.dto.ArticleFullDTO;
+import it.othala.dto.CampaignDTO;
 import it.othala.dto.DomainDTO;
 import it.othala.dto.MenuDTO;
 import it.othala.dto.ProductDTO;
@@ -46,11 +47,11 @@ public class ProductService implements IProductService {
 	public List<ProductDTO> getListProduct(String languages, Integer gender,
 			Integer type, Integer brand, BigDecimal minPrice,
 			BigDecimal maxPrice, Integer size, Integer color,
-			Boolean newArrivals, OrderByCartFlow order) {
+			Boolean newArrivals, OrderByCartFlow order, Integer idCampaign, Boolean fgCampaign) {
 
 		List<ProductDTO> listProduct = productDAO.listProduct(languages, type,
 				gender, brand, minPrice, maxPrice, size, color, newArrivals,
-				order);
+				order, idCampaign, fgCampaign);
 
 		// recupero attributo taglie degli articoli
 
@@ -160,6 +161,16 @@ public class ProductService implements IProductService {
 		return listProduct;
 
 	}
+
+	@Override
+	public List<CampaignDTO> getListCampaign() {
+
+		List<CampaignDTO> listCampaign = productDAO.getListCampaign();
+
+		return listCampaign;
+	}
+	
+	
 	
 	
 }

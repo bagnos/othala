@@ -26,6 +26,7 @@ public class ProductDTO implements Serializable {
 	private String type;
 	private Integer discount;
 	private Boolean fgNewArrivals;
+	private Integer idCampaign;
 
 	public String getColorsAsString() {
 		return StringUtils.collectionToCommaDelimitedString(color);
@@ -129,6 +130,14 @@ public class ProductDTO implements Serializable {
 
 	public void setFgNewArrivals(Boolean fgNewArrivals) {
 		this.fgNewArrivals = fgNewArrivals;
+	}
+
+	public Integer getIdCampaign() {
+		return idCampaign;
+	}
+
+	public void setIdCampaign(Integer idCampaign) {
+		this.idCampaign = idCampaign;
 	}
 
 }

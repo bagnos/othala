@@ -3,6 +3,7 @@ package it.othala.dao.interfaces;
 import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.AttributeDTO;
 import it.othala.dto.AttributeSizeDTO;
+import it.othala.dto.CampaignDTO;
 import it.othala.dto.MenuDTO;
 import it.othala.dto.ProductDTO;
 import it.othala.dto.ProductFullDTO;
@@ -39,7 +40,7 @@ public interface IProductDAO {
 	public List<ProductDTO> listProduct(String languages, Integer type,
 			Integer gender, Integer brand, BigDecimal minPrice,
 			BigDecimal maxPrice, Integer size, Integer color,
-			Boolean newArrivals, OrderByCartFlow order);
+			Boolean newArrivals, OrderByCartFlow order, Integer idCampaign, Boolean fgCampaign);
 
 	public ProductFullDTO getProductFull(String languages, Integer idProduct);
 
@@ -65,6 +66,8 @@ public interface IProductDAO {
 	public Integer updateQtStock(Integer idProduct, Integer pgArticle, Integer qtArticles, Boolean fgVendita);
 
 	public Integer getQtStockLock(Integer idProduct, Integer pgArticle);
+
+	public List<CampaignDTO> getListCampaign();
 	
 	
 
