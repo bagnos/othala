@@ -17,7 +17,7 @@ public class FreddyTest {
 	public void test() {
 
 		try {
-			
+
 			BigDecimal prezzo = new BigDecimal(395);
 			Integer sconto = 30;
 			String immagine1 = "991a.jpg";
@@ -25,30 +25,30 @@ public class FreddyTest {
 			String immagine3 = "991c.jpg";
 			String immagine4 = "991d.jpg";
 			String descrizione = "DECOLLETÈ IN BROCCATO FLOREALE 105MM";
-			
+
 			/* 2 donna */
 			Integer genere = 2;
 			/* 5 d&g */
 			Integer brand = 5;
 			/* 12 gonne 20 scarpe */
 			Integer tipo = 20;
-			
+
 			/* scarpe 24, 25 */
 			/* gonne 17 , 18 */
-			
+
 			Integer taglia1 = 24;
 			Integer taglia2 = 25;
-			
-			/* bianco 4, nero 11, rosa 13 */ 
+
+			/* bianco 4, nero 11, rosa 13 */
 			Integer colore1 = 13;
 			Integer colore2 = 13;
-			
+
 			ProductFullDTO a = new ProductFullDTO();
 
 			a.setPrice(prezzo);
 			a.setDiscount(sconto);
 			a.setThumbnailsUrl(immagine1);
-			
+
 			DescriptionDTO b = new DescriptionDTO();
 			b.setLanguages("it");
 			b.setDescription(descrizione);
@@ -60,7 +60,6 @@ public class FreddyTest {
 			a.setIdGender(genere);
 			a.setIdBrand(brand);
 			a.setIdType(tipo);
-			
 
 			ArticleFullDTO d = new ArticleFullDTO();
 			List<ArticleFullDTO> e = new ArrayList<ArticleFullDTO>();
@@ -69,11 +68,11 @@ public class FreddyTest {
 			d.setQtStock(2);
 			d.setIdSize(taglia1);
 			d.setIdColor(colore1);
-			
+
 			ShopDTO t = new ShopDTO();
 			t.setIdShop(1);
 			d.setShop(t);
-			
+
 			d.setTxBarCode("aaaa");
 
 			ArticleFullDTO f = new ArticleFullDTO();
@@ -82,7 +81,7 @@ public class FreddyTest {
 			f.setQtStock(2);
 			f.setIdSize(taglia2);
 			f.setIdColor(colore2);
-			
+
 			f.setShop(t);
 			f.setTxBarCode("bbbbb");
 
@@ -108,18 +107,17 @@ public class FreddyTest {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Test
 	public void test2() {
 
 		try {
-			
+
 			List<Integer> a = new ArrayList<>();
 			a.add(881);
 			a.add(882);
 
-			OthalaFactory.getProductServiceInstance()
-					.publishProduct(a);
+			OthalaFactory.getProductServiceInstance().publishProduct(a);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

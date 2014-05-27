@@ -681,16 +681,25 @@
 
 	</select>
 
-	<update id="publishProduct" parameterType="java.util.List">
+
+	<update id="publishProduct" parameterType="list">
 
 		UPDATE
 		${database.schema}product
 
-			set idProductState = 1
+		set idProductState = 1
 
-		Where idProductState = 0;
-		
+		Where idProduct
+		in
+
+
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+
 	</update>
+
 
 
 </mapper>
