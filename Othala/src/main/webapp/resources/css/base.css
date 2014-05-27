@@ -66,41 +66,7 @@ margin-left: 0.3em;
 	color: #900;
 }
 
-.newFlag {
-	color: #4c902d;
-	margin: 0px;
-	border-color: #4c902d;
-	background-color: #FFF;
-	border-radius: 4px;
-	-webkit-border-radius: 4px;
-	-o-border-radius: 4px;
-	-moz-border-radius: 4px;
-	border-width: 1px;
-	border-style: solid;
-	padding-left: 4px;
-	padding-right: 4px;
-	font-size: 10px;
-	font-weight: bold;
-	margin-right: 4px;
-}
 
-.newPromo {
-	color: #FFF;
-	font-size: 10px;
-	margin: 0px;
-	border-color: #cd5033;
-	background-color: #cd5033;
-	border-radius: 20px;
-	-webkit-border-radius: 20px;
-	-o-border-radius: 20px;
-	-moz-border-radius: 20px;
-	border-width: 1px;
-	border-style: solid;
-	padding-left: 4px;
-	padding-right: 4px;
-	font-weight: bold;
-	margin-right: 4px;
-}
 
 .newPromo2 {
 	height:40px;
@@ -116,11 +82,33 @@ margin-left: 0.3em;
 	left:6px;
 	margin:0;
 	border-radius:20px;
-	background:#D21F1B;
+	background:orange;
 	-text-shadow:0 -1px 0 #85ad74;
 	color:#fff;
 	-box-shadow:inset 0 1px 0 rgba(255,255,255,.3),inset 0 -1px 0 rgba(0,0,0,.2),0 1px 2px rgba(0,0,0,.2);
 }
+
+
+.newPromo3 {
+	height:40px;
+	width:40px;
+	min-height:32px;
+	min-width:32px;
+	padding:4px;
+	font-size:14px;
+	font-weight:bold;
+	text-align:center;
+	line-height:32px;
+	top:6px;
+	left:6px;
+	margin:0;
+	border-radius:20px;
+	background:red;
+	-text-shadow:0 -1px 0 #85ad74;
+	color:#fff;
+	-box-shadow:inset 0 1px 0 rgba(255,255,255,.3),inset 0 -1px 0 rgba(0,0,0,.2),0 1px 2px rgba(0,0,0,.2);
+}
+
 
 .newFlag2 {
 	height:40px;
@@ -136,7 +124,7 @@ margin-left: 0.3em;
 	left:6px;
 	margin:0;
 	border-radius:20px;
-	background:#4c902d;
+	background:green;
 	-text-shadow:0 -1px 0 #85ad74;
 	color:#fff;
 	-box-shadow:inset 0 1px 0 rgba(255,255,255,.3),inset 0 -1px 0 rgba(0,0,0,.2),0 1px 2px rgba(0,0,0,.2);

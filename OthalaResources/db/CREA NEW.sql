@@ -128,6 +128,21 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `othala`.`Campaigns`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `othala`.`Campaigns` ;
+
+CREATE  TABLE IF NOT EXISTS `othala`.`Campaigns` (
+  `idCampaign` INT NOT NULL ,
+  `txCampaign` VARCHAR(45) NULL ,
+  `dtInizio` DATE NULL ,
+  `dtFine` DATE NULL ,
+  `pcSconto` INT NULL ,
+  PRIMARY KEY (`idCampaign`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `othala`.`Product`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `othala`.`Product` ;
@@ -142,12 +157,14 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Product` (
   `txThumbnailsUrl` VARCHAR(100) NULL ,
   `idProductState` INT NULL ,
   `dtProductState` DATETIME NULL ,
+  `idCampaign` INT NULL ,
   PRIMARY KEY (`idProduct`) ,
   INDEX `idProduct_INDEX1` (`idProduct` ASC) ,
   INDEX `fk_Product_Product_State1` (`idProductState` ASC) ,
   INDEX `fk_Product_Gender1` (`idGender` ASC) ,
   INDEX `fk_Product_Type1` (`idType` ASC) ,
   INDEX `fk_Product_Brand1` (`idBrand` ASC) ,
+  INDEX `fk_Product_Campaigns1` (`idCampaign` ASC) ,
   CONSTRAINT `fk_Product_Product_State1`
     FOREIGN KEY (`idProductState` )
     REFERENCES `othala`.`Product_State` (`idProductState` )
@@ -166,6 +183,11 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Product` (
   CONSTRAINT `fk_Product_Brand1`
     FOREIGN KEY (`idBrand` )
     REFERENCES `othala`.`Brand` (`idBrand` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Product_Campaigns1`
+    FOREIGN KEY (`idCampaign` )
+    REFERENCES `othala`.`Campaigns` (`idCampaign` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -225,28 +247,16 @@ DROP TABLE IF EXISTS `othala`.`Coupons` ;
 
 CREATE  TABLE IF NOT EXISTS `othala`.`Coupons` (
   `idCoupon` INT NOT NULL ,
+  `txCoupon` VARCHAR(45) NULL ,
+  `idUser` VARCHAR(100) NOT NULL ,
   `pcSconto` SMALLINT NULL ,
   `dtScadenza` DATE NULL ,
   `dtUtilizzo` DATE NULL ,
-  PRIMARY KEY (`idCoupon`) )
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `othala`.`Campaigns`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `othala`.`Campaigns` ;
-
-CREATE  TABLE IF NOT EXISTS `othala`.`Campaigns` (
-  `idCampaign` INT NOT NULL ,
-  `dtInizio` DATE NULL ,
-  `dtFine` DATE NULL ,
-  `idCoupon` INT NOT NULL ,
-  PRIMARY KEY (`idCampaign`) ,
-  INDEX `fk_Campaigns_Coupons1` (`idCoupon` ASC) ,
-  CONSTRAINT `fk_Campaigns_Coupons1`
-    FOREIGN KEY (`idCoupon` )
-    REFERENCES `othala`.`Coupons` (`idCoupon` )
+  PRIMARY KEY (`idCoupon`) ,
+  INDEX `fk_Coupons_Customer1` (`idUser` ASC) ,
+  CONSTRAINT `fk_Coupons_Customer1`
+    FOREIGN KEY (`idUser` )
+    REFERENCES `othala`.`Customer` (`idUser` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -334,49 +344,6 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Article` (
   CONSTRAINT `fk_Article_Shops1`
     FOREIGN KEY (`idShop` )
     REFERENCES `othala`.`Shops` (`idShop` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `othala`.`Customer_Campaigns`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `othala`.`Customer_Campaigns` ;
-
-CREATE  TABLE IF NOT EXISTS `othala`.`Customer_Campaigns` (
-  `idUser` VARCHAR(100) NOT NULL ,
-  `idCampaign` INT NOT NULL ,
-  PRIMARY KEY (`idUser`, `idCampaign`) ,
-  INDEX `fk_Customer_has_Campaigns_Campaigns1_idx` (`idCampaign` ASC) ,
-  INDEX `fk_Customer_has_Campaigns_Customer1_idx` (`idUser` ASC) ,
-  CONSTRAINT `fk_Customer_has_Campaigns_Customer1`
-    FOREIGN KEY (`idUser` )
-    REFERENCES `othala`.`Customer` (`idUser` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Customer_has_Campaigns_Campaigns1`
-    FOREIGN KEY (`idCampaign` )
-    REFERENCES `othala`.`Campaigns` (`idCampaign` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `othala`.`Valori_Attributo_Campaigns`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `othala`.`Valori_Attributo_Campaigns` ;
-
-CREATE  TABLE IF NOT EXISTS `othala`.`Valori_Attributo_Campaigns` (
-  `idProductAttribute` INT NOT NULL ,
-  `pgProductAttribute` INT NOT NULL ,
-  `idCampaign` INT NOT NULL ,
-  PRIMARY KEY (`idProductAttribute`, `pgProductAttribute`, `idCampaign`) ,
-  INDEX `fk_ValoriAttributo_has_Campaigns_Campaigns1_idx` (`idCampaign` ASC) ,
-  CONSTRAINT `fk_ValoriAttributo_has_Campaigns_Campaigns1`
-    FOREIGN KEY (`idCampaign` )
-    REFERENCES `othala`.`Campaigns` (`idCampaign` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -489,7 +456,7 @@ DROP TABLE IF EXISTS `othala`.`States_Orders` ;
 CREATE  TABLE IF NOT EXISTS `othala`.`States_Orders` (
   `idOrder` INT NOT NULL ,
   `idStato` INT NOT NULL ,
-  `dtStato` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+  `dtStato` DATE NULL ,
   `txNote` VARCHAR(100) NULL ,
   PRIMARY KEY (`idOrder`, `idStato`) ,
   INDEX `fk_StatesOrders_States1_idx` (`idStato` ASC) ,

@@ -70,6 +70,21 @@
 		parameterType="java.util.HashMap">
 
 		SELECT
+		idProduct ,
+		price,
+		brand,
+		imagesUrl,
+		ceiling(price * (100 - coalesce(pcSconto,discount)) / 100) as
+		priceDiscounted,
+		description,
+		gender,
+		type,
+		coalesce(pcSconto,discount) as discount,
+		fgNewArrivals,
+		tab2.idCampaign
+		FROM
+		(
+		SELECT
 		a.idProduct ,
 		imPrice as price,
 		txBrand as brand,
@@ -86,7 +101,8 @@
 		>
 		current_date - 7 then 'Y'
 		else 'N'
-		end as fgNewArrivals
+		end as fgNewArrivals,
+		a.idCampaign
 		FROM
 
 		${database.schema}product a,
@@ -136,6 +152,21 @@
 			and a.idBrand = #{brand}
 		</if>
 
+		<if test="idCampaign != null">
+			and a.idCampaign = #{idCampaign}
+		</if>
+		
+		<if test="fgCampaign != null and fgCampaign == true">
+			and a.idCampaign is not null
+			and exists (select 1 from
+			${database.schema}campaigns r
+			where
+			r.idCampaign = a.idCampaign
+			and	r.dtInizio &lt; current_date
+			and	r.dtFine &gt; current_date
+			)
+		</if>
+		
 		<if test="size != null">
 			and exists (select 1 from
 			${database.schema}article d
@@ -169,6 +200,13 @@
 				order by priceDiscounted desc
 			</if>
 		</if>
+		) tab1
+		left join
+		${database.schema}campaigns tab2
+		
+		on tab1.idCampaign = tab2.idCampaign
+		and tab2.dtInizio &lt; current_date
+		and	tab2.dtFine &gt; current_date;
 
 
 	</select>
@@ -283,6 +321,7 @@
 		parameterType="java.util.HashMap">
 
 
+
 		SELECT
 		a.idProduct as idProduct,
 		a.imPrice as price,
@@ -300,7 +339,8 @@
 		a.idType,
 		txType,
 		a.idBrand,
-		txBrand
+		txBrand,
+		idCampaign
 
 		FROM
 		${database.schema}product a,
@@ -462,10 +502,11 @@
 		`pcDiscount`,
 		`txThumbnailsUrl`,
 		`idProductState`,
-		`dtProductState`)
+		`dtProductState`,
+		`idCampaign`)
 
 		values (#{idGender},#{idType},#{idBrand},
-		#{price},#{discount},#{thumbnailsUrl},0,now())
+		#{price},#{discount},#{thumbnailsUrl},0,now(),#{idCampaign})
 
 		<selectKey resultType="java.lang.Integer" keyProperty="idProduct">
 
@@ -616,6 +657,16 @@
 
 	</select>
 
+<select id="getListCampaign" resultType="it.othala.dto.CampaignDTO">
+
+
+SELECT * FROM ${database.schema}campaigns
+where dtInizio &lt; current_date
+and dtFine &gt; current_date;
+
+
+	
+	</select>
 
 
 </mapper>

@@ -31,6 +31,8 @@ public class ProductFullDTO implements Serializable {
 	private BigDecimal realPrice;
 	private String merchantCode;
 	
+	private Integer idCampaign;
+	
 
 	public String getMerchantCode() {
 		if (merchantCode==null && idProduct!=null)
@@ -193,6 +195,14 @@ public class ProductFullDTO implements Serializable {
 
 	public void setLangDescription(List<DescriptionDTO> langDescription) {
 		this.langDescription = langDescription;
+	}
+
+	public Integer getIdCampaign() {
+		return idCampaign;
+	}
+
+	public void setIdCampaign(Integer idCampaign) {
+		this.idCampaign = idCampaign;
 	}
 
 

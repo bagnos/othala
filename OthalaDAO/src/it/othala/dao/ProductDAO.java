@@ -4,6 +4,7 @@ import it.othala.dao.interfaces.IProductDAO;
 import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.AttributeDTO;
 import it.othala.dto.AttributeSizeDTO;
+import it.othala.dto.CampaignDTO;
 import it.othala.dto.MenuDTO;
 import it.othala.dto.ProductDTO;
 import it.othala.dto.ProductFullDTO;
@@ -50,7 +51,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	public List<ProductDTO> listProduct(String languages, Integer type,
 			Integer gender, Integer brand, BigDecimal minPrice,
 			BigDecimal maxPrice, Integer size, Integer color,
-			Boolean newArrivals, OrderByCartFlow order) {
+			Boolean newArrivals, OrderByCartFlow order, Integer idCampaign, Boolean fgCampaign) {
 
 		HashMap<String, Object> mapProduct = new HashMap<>();
 		mapProduct.put("languages", languages);
@@ -62,6 +63,9 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		mapProduct.put("size", size);
 		mapProduct.put("color", color);
 		mapProduct.put("newArrivals", newArrivals);
+		mapProduct.put("idCampaign", idCampaign);
+		mapProduct.put("fgCampaign", fgCampaign);
+		
 		if (order == null) {
 			mapProduct.put("order", OrderByCartFlow.PREZZOASC.getState());
 		}
@@ -390,6 +394,15 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 				"it.othala.product.queries.listProductToPublish");
 
 		return listProduct;
+	}
+
+	@Override
+	public List<CampaignDTO> getListCampaign() {
+		
+		List<CampaignDTO> listCampaign = getSqlSession().selectList(
+				"it.othala.product.queries.getListCampaign");
+
+		return listCampaign;
 	}
 	
 	

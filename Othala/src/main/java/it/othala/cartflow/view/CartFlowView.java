@@ -174,7 +174,7 @@ public class CartFlowView extends BaseView {
 						flowBean.getCatalog().getColor(),
 						flowBean.getCatalog().getFgNewArrivals(),
 						flowBean.getCatalog().getOrderPrice() == 1 ? OrderByCartFlow.PREZZODESC
-								: OrderByCartFlow.PREZZOASC));
+								: OrderByCartFlow.PREZZOASC, null, false));
 		initPaginator(page);
 	}
 

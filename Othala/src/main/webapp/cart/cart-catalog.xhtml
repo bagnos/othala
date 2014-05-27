@@ -1,15 +1,21 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
-	template="/template/masterTemplateBS.xhtml" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/masterTemplateBS.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pe="http://primefaces.org/ui/extensions">
 
 
 	<ui:define name="metadata">
 		<f:metadata>
 			<f:viewAction action="#{cartFlowView.doInit}"></f:viewAction>
 			<f:viewParam name="idMenu" value="#{cartFlowBean.catalog.idMenu}"></f:viewParam>
-			<f:viewParam name="idSubMenu" value="#{cartFlowBean.catalog.idSubMenu}"></f:viewParam>
-			<f:viewParam name="fgNewArrivals" value="#{cartFlowBean.catalog.fgNewArrivals}"></f:viewParam>
+			<f:viewParam name="idSubMenu"
+				value="#{cartFlowBean.catalog.idSubMenu}"></f:viewParam>
+			<f:viewParam name="fgNewArrivals"
+				value="#{cartFlowBean.catalog.fgNewArrivals}"></f:viewParam>
 		</f:metadata>
 	</ui:define>
 
@@ -27,13 +33,18 @@
 				<!-- BREADCRUMB -->
 				<div class="row">
 					<ol class="breadcrumb" style="margin-top: 10px">
-						<ui:repeat var="bread" value="#{cartFlowView.flowBean.breadCrumb}" varStatus="stBread">
-							<li><h:outputLink rendered="#{stBread.last}" value="#" styleClass="active">
+						<ui:repeat var="bread" value="#{cartFlowView.flowBean.breadCrumb}"
+							varStatus="stBread">
+							<li><h:outputLink rendered="#{stBread.last}" value="#"
+									styleClass="active">
 							#{bread}
-						</h:outputLink> <h:outputLink rendered="#{stBread.first}" value="#{request.contextPath}/faces/home.xhtml"
+						</h:outputLink> <h:outputLink rendered="#{stBread.first}"
+									value="#{request.contextPath}/faces/home.xhtml"
 									styleClass="glyphicon glyphicon-home">
 						 	#{bread}
-						</h:outputLink> <h:outputLink rendered="#{stBread.first==false and stBread.last==false}" value="#">
+						</h:outputLink> <h:outputLink
+									rendered="#{stBread.first==false and stBread.last==false}"
+									value="#">
 							#{bread}
 						</h:outputLink></li>
 						</ui:repeat>
@@ -49,7 +60,8 @@
 								<div class="col-sm-3">
 									<div class="form-group">
 										<h:outputText value="#{msg.catalog_size}" />
-										<h:selectOneMenu styleClass="form-control" value="#{cartFlowBean.catalog.size}">
+										<h:selectOneMenu styleClass="form-control"
+											value="#{cartFlowBean.catalog.size}">
 											<f:selectItems value="#{applicationBean.sizes}"></f:selectItems>
 										</h:selectOneMenu>
 									</div>
@@ -58,7 +70,8 @@
 								<div class="col-sm-3">
 									<div class="form-group">
 										<h:outputText value="#{msg.catalog_color}" />
-										<h:selectOneMenu styleClass="form-control" value="#{cartFlowBean.catalog.color}">
+										<h:selectOneMenu styleClass="form-control"
+											value="#{cartFlowBean.catalog.color}">
 											<f:selectItems value="#{applicationBean.colors}"></f:selectItems>
 										</h:selectOneMenu>
 									</div>
@@ -67,7 +80,8 @@
 								<div class="col-sm-3">
 									<div class="form-group">
 										<h:outputText value="Brand" />
-										<h:selectOneMenu styleClass="form-control" value="#{cartFlowBean.catalog.brand}">
+										<h:selectOneMenu styleClass="form-control"
+											value="#{cartFlowBean.catalog.brand}">
 											<f:selectItems value="#{applicationBean.brands}"></f:selectItems>
 										</h:selectOneMenu>
 									</div>
@@ -75,22 +89,26 @@
 								<div class="col-sm-3">
 									<div class="form-group">
 										<h:outputText value="#{msg.catalog_price}" />
-										<p:slider for="txt6,txt7" minValue="1" maxValue="5000" display="displayRange" range="true"
+										<p:slider for="txt6,txt7" minValue="1" maxValue="5000"
+											display="displayRange" range="true"
 											displayTemplate="{min} &#8364; - {max} &#8364;" />
 										<h:outputText id="displayRange"
 											value="#{cartFlowBean.catalog.priceMin} &#8364; - #{cartFlowBean.catalog.priceMax} &#8364;" />
 
-										<h:inputHidden id="txt6" value="#{cartFlowBean.catalog.priceMin}" />
-										<h:inputHidden id="txt7" value="#{cartFlowBean.catalog.priceMax}" />
+										<h:inputHidden id="txt6"
+											value="#{cartFlowBean.catalog.priceMin}" />
+										<h:inputHidden id="txt7"
+											value="#{cartFlowBean.catalog.priceMax}" />
 									</div>
 								</div>
 							</div>
 							<div>
-								<p:commandButton styleClass="ui-priority-primary" process="@form" update="products"
-									 id="findPrds" actionListener="#{cartFlowView.find}"
+								<p:commandButton styleClass="ui-priority-primary"
+									process="@form" update="products" id="findPrds"
+									actionListener="#{cartFlowView.find}"
 									value="#{msg.catalog_find}">
 								</p:commandButton>
-								
+
 							</div>
 						</div>
 					</div>
@@ -101,27 +119,32 @@
 					<div class="col-sm-3">
 						<div class="form-group">
 							<h:outputText value="#{msg.catalog_OrderPrice}" />
-							<h:selectOneMenu styleClass="form-control" value="#{cartFlowBean.catalog.orderPrice}">
+							<h:selectOneMenu styleClass="form-control"
+								value="#{cartFlowBean.catalog.orderPrice}">
 								<f:selectItem itemLabel="#{msg.catalog_priceAsc}" itemValue="2"></f:selectItem>
 								<f:selectItem itemLabel="#{msg.catalog_priceDesc}" itemValue="1"></f:selectItem>
-								<f:ajax execute="@form" render="products paginazione" listener="#{cartFlowView.orderListener}"></f:ajax>
+								<f:ajax execute="@form" render="products paginazione"
+									listener="#{cartFlowView.orderListener}"></f:ajax>
 							</h:selectOneMenu>
 						</div>
 					</div>
 					<!-- PAGINAZIONE -->
 					<div class="col-sm-3 pull-right">
-						<h:panelGroup id="paginazione" rendered="#{cartFlowView.flowBean.catalog.renderPaginator}">
+						<h:panelGroup id="paginazione"
+							rendered="#{cartFlowView.flowBean.catalog.renderPaginator}">
 							<ul class="pager">
-								<li class="#{cartFlowView.classBack}"><p:commandLink ajax="true" update="@form"
+								<li class="#{cartFlowView.classBack}"><p:commandLink
+										ajax="true" update="@form"
 										disabled="#{cartFlowView.classBack=='disabled'}"
-										styleClass="glyphicon glyphicon-chevron-left" actionListener="#{cartFlowView.backword}" />
-								</li>
-								<li><span>#{cartFlowView.flowBean.catalog.currentPage} of
-										#{cartFlowView.flowBean.catalog.totPages}</span></li>
-								<li class="#{cartFlowView.classForw}"><p:commandLink ajax="true" update="@form"
+										styleClass="glyphicon glyphicon-chevron-left"
+										actionListener="#{cartFlowView.backword}" /></li>
+								<li><span>#{cartFlowView.flowBean.catalog.currentPage}
+										of #{cartFlowView.flowBean.catalog.totPages}</span></li>
+								<li class="#{cartFlowView.classForw}"><p:commandLink
+										ajax="true" update="@form"
 										disabled="#{cartFlowView.classForw=='disabled'}"
-										styleClass="glyphicon glyphicon-chevron-right" actionListener="#{cartFlowView.forward}" />
-								</li>
+										styleClass="glyphicon glyphicon-chevron-right"
+										actionListener="#{cartFlowView.forward}" /></li>
 							</ul>
 						</h:panelGroup>
 					</div>
@@ -129,38 +152,50 @@
 
 				<!-- PANNELLO PRODOTTI -->
 				<h:panelGroup id="products" styleClass="emptyPnl">
-				
-					
-			
-					
+
+
+
+
 
 					<!-- CATALOGO PRODOTTI -->
 					<div class="row">
-						<ui:repeat var="art" value="#{cartFlowBean.catalog.articlesPage}" varStatus="status">
+						<ui:repeat var="art" value="#{cartFlowBean.catalog.articlesPage}"
+							varStatus="status">
 							<div class="col-sm-3">
 								<div class="thumbnail">
-									
-									<h:outputText styleClass="newFlag2" style="float:left" rendered="#{art.fgNewArrivals}"
-										value="NEW" />
-										
-									
-										<h:outputText styleClass="newPromo2" style="float:right" rendered="#{art.priceDiscounted!=null}"
+
+
+									<h:outputText styleClass="newFlag2" style="float:left"
+										rendered="#{art.fgNewArrivals}" value="NEW" />
+
+
+									<h:outputText styleClass="newPromo2" style="float:right"
+										rendered="#{art.discount != null and art.idCampaign == null}"
 										value="#{art.discount} %" />
-										
+									<h:outputText styleClass="newPromo3" style="float:right"
+										rendered="#{art.discount != null and art.idCampaign != null}"
+										value="#{art.discount} %" />
+
+
+
+
 									<h:link outcome="cart-choice-2">
-										<h:graphicImage styleClass="img-responsive" library="images/cartThumbinals"
-											name="#{art.imagesUrl}" />
+										<h:graphicImage styleClass="img-responsive"
+											library="images/cartThumbinals" name="#{art.imagesUrl}" />
 										<f:param name="idPrd" value="#{art.idProduct}"></f:param>
 									</h:link>
 									<div style="float: right">
-										<p:graphicImage id="imgArt" library="images" name="info-thumb.png" />
+										<p:graphicImage id="imgArt" library="images"
+											name="info-thumb.png" />
 										<p:tooltip for="imgArt">
 
 											<h:outputText value="#{msg.catalog_available}" />
 											<br />
-											<h:outputText value="#{msg.catalog_colors} #{art.colorsAsString}" />
+											<h:outputText
+												value="#{msg.catalog_colors} #{art.colorsAsString}" />
 											<br />
-											<h:outputText value="#{msg.catalog_sizes} #{art.sizesAsString}" />
+											<h:outputText
+												value="#{msg.catalog_sizes} #{art.sizesAsString}" />
 
 										</p:tooltip>
 									</div>
@@ -168,12 +203,13 @@
 										<h5>#{art.brand}</h5>
 										<h6>#{art.description}</h6>
 										<p class="price">
-											<h:outputText value="#{art.price}" styleClass="#{art.priceDiscounted!=null?'onSale':''}">
+											<h:outputText value="#{art.price}"
+												styleClass="#{art.priceDiscounted!=null?'onSale':''}">
 												<f:converter converterId="it.othala.BigDecimalConverter" />
 											</h:outputText>
 
-											<h:outputText value="#{art.priceDiscounted}" rendered="#{art.priceDiscounted!=null}"
-												style="float:right">
+											<h:outputText value="#{art.priceDiscounted}"
+												rendered="#{art.priceDiscounted!=null}" style="float:right">
 												<f:converter converterId="it.othala.BigDecimalConverter" />
 											</h:outputText>
 
