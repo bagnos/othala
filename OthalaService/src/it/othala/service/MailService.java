@@ -68,22 +68,21 @@ public class MailService implements IMailService {
 		inviaMail(mailProps.getFromMail(), tos, subject, content, "text/plain",mailProps);
 	}
 
-	final String username = "username@gmail.com";
-	final String password = "password";
+	
 
-	private Session getSession() {
+	private Session getSession(final MailPropertiesDTO mailProps) {
 
 		if (session == null) {
 
 			Properties props = new Properties();
-			props.put("mail.smtp.auth", "true");
-			props.put("mail.smtp.starttls.enable", "true");
-			props.put("mail.smtp.host", "smtp.gmail.com");
-			props.put("mail.smtp.port", "587");
-
+			props.put("mail.smtp.auth", mailProps.getMailSmtAuth());
+			props.put("mail.smtp.starttls.enable", mailProps.getMailSmtpAtarttlsAnable());
+			props.put("mail.smtp.host", mailProps.getMailSmtpHost());
+			props.put("mail.smtp.port", mailProps.getMailSmtpPort());
+						
 			session = Session.getInstance(props, new javax.mail.Authenticator() {
 				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication(username, password);
+					return new PasswordAuthentication(mailProps.getUsername(), mailProps.getPassword());
 				}
 			});
 		}
@@ -98,9 +97,11 @@ public class MailService implements IMailService {
 		{
 			try {
 
+				/*
 				Context initCtx = new InitialContext();
 				Context envCtx = (Context) initCtx.lookup("java:comp/env");
-				Session session = (Session) envCtx.lookup("mail/othala");
+				Session session = (Session) envCtx.lookup("mail/othala");*/
+				Session session = getSession(mailProps);
 				Message message = new MimeMessage(session);
 				InternetAddress to[] = new InternetAddress[tos.length];
 				int i = 0;
@@ -145,7 +146,7 @@ public class MailService implements IMailService {
 				message.setContent(multipart);
 
 				Transport.send(message);
-			} catch (NamingException | MessagingException e) {
+			} catch (MessagingException e) {
 				throw new MailNotSendException(e);
 			}
 

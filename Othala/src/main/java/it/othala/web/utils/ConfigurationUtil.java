@@ -57,6 +57,13 @@ public class ConfigurationUtil {
 			mailProps.setFromMail(getProperty("FROM_MAIL"));
 			mailProps.setPathImgLogo(getLogoHomeMail());
 			mailProps.setPathImgPayment(getImagePayment());
+			mailProps.setMailSmtAuth(getProperty("mail.smtp.auth"));
+			mailProps.setMailSmtpAtarttlsAnable(getProperty("ail.smtp.starttls.enable"));
+			mailProps.setMailSmtpHost(getProperty("mail.smtp.host"));
+			mailProps.setMailSmtpPort(getProperty("mail.smtp.port"));
+			mailProps.setPassword(getProperty("password"));
+			mailProps.setUsername(getProperty("mail.smtp.user"));
+			
 		}
 		}
 		return mailProps;
