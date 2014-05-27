@@ -1,6 +1,5 @@
 package it.othala.service;
 
-import it.othala.dao.ProductDAO;
 import it.othala.dao.interfaces.IProductDAO;
 import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.CampaignDTO;
@@ -14,7 +13,6 @@ import it.othala.enums.OrderByCartFlow;
 import it.othala.service.interfaces.IProductService;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProductService implements IProductService {
@@ -97,7 +95,7 @@ public class ProductService implements IProductService {
 
 	@Override
 	public ProductFullDTO getProductFull(String languages, Integer idProduct) {
-		// TODO Auto-generated method stub
+	
 		ProductFullDTO productFull = productDAO.getProductFull(languages,
 				idProduct);
 
@@ -123,7 +121,7 @@ public class ProductService implements IProductService {
 
 	@Override
 	public ProductFullDTO getProductArticleFull(String languages, Integer idProduct, Integer pgArticle) {
-		// TODO Auto-generated method stub
+		
 		ProductFullDTO productFull = productDAO.getProductArticleFull(languages,
 				idProduct, pgArticle);
 
@@ -168,6 +166,12 @@ public class ProductService implements IProductService {
 		List<CampaignDTO> listCampaign = productDAO.getListCampaign();
 
 		return listCampaign;
+	}
+
+	@Override
+	public void publishProduct(List<Integer> listIdProduct) {
+		productDAO.publishProduct(listIdProduct);
+		
 	}
 	
 	

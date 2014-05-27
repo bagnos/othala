@@ -13,7 +13,7 @@ import java.util.List;
 import org.junit.Test;
 
 public class FreddyTest {
-	@Test
+
 	public void test() {
 
 		try {
@@ -108,4 +108,24 @@ public class FreddyTest {
 			e.printStackTrace();
 		}
 	}
+	
+	@Test
+	public void test2() {
+
+		try {
+			
+			List<Integer> a = new ArrayList<>();
+			a.add(881);
+			a.add(882);
+
+			OthalaFactory.getProductServiceInstance()
+					.publishProduct(a);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+
+			e.printStackTrace();
+		}
+	}
+
 }

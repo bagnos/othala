@@ -18,7 +18,7 @@
 		and
 		b.txGroupImages = 'tabNav'
 		and b.pgGroupImages = a.idGender
-		
+
 		and exists
 		(select 1 from
 		${database.schema}product d,
@@ -27,7 +27,8 @@
 		where
 		d.idProductState = 1
 
-		and d.idGender = a.idGender
+		and d.idGender =
+		a.idGender
 
 		and e.idProduct =
 		d.idProduct
@@ -35,9 +36,9 @@
 		e.qtStock
 		>
 		0);
-		
-		
-		
+
+
+
 
 
 	</select>
@@ -74,7 +75,8 @@
 		price,
 		brand,
 		imagesUrl,
-		ceiling(price * (100 - coalesce(pcSconto,discount)) / 100) as
+		ceiling(price * (100 -
+		coalesce(pcSconto,discount)) / 100) as
 		priceDiscounted,
 		description,
 		gender,
@@ -87,13 +89,16 @@
 		SELECT
 		a.idProduct ,
 		imPrice as price,
-		txBrand as brand,
+		txBrand as
+		brand,
 		txThumbnailsUrl
 		as imagesUrl,
-		ceiling(imPrice * (100 - pcDiscount) / 100) as
+		ceiling(imPrice * (100 - pcDiscount)
+		/ 100) as
 		priceDiscounted,
 		txDescription as description,
-		txGender as gender,
+		txGender as
+		gender,
 		txType as type,
 		pcDiscount as discount,
 		case
@@ -106,7 +111,8 @@
 		FROM
 
 		${database.schema}product a,
-		${database.schema}product_description b,
+		${database.schema}product_description
+		b,
 		${database.schema}brand c,
 		${database.schema}gender f,
 		`type` g
@@ -155,18 +161,19 @@
 		<if test="idCampaign != null">
 			and a.idCampaign = #{idCampaign}
 		</if>
-		
+
 		<if test="fgCampaign != null and fgCampaign == true">
 			and a.idCampaign is not null
 			and exists (select 1 from
 			${database.schema}campaigns r
 			where
 			r.idCampaign = a.idCampaign
-			and	r.dtInizio &lt; current_date
-			and	r.dtFine &gt; current_date
+			and
+			r.dtInizio &lt; current_date
+			and r.dtFine &gt; current_date
 			)
 		</if>
-		
+
 		<if test="size != null">
 			and exists (select 1 from
 			${database.schema}article d
@@ -203,10 +210,12 @@
 		) tab1
 		left join
 		${database.schema}campaigns tab2
-		
-		on tab1.idCampaign = tab2.idCampaign
+
+		on tab1.idCampaign =
+		tab2.idCampaign
 		and tab2.dtInizio &lt; current_date
-		and	tab2.dtFine &gt; current_date;
+		and tab2.dtFine &gt;
+		current_date;
 
 
 	</select>
@@ -454,12 +463,14 @@
 		#{pgArticle}
 		and a.idSize =
 		b.idSize
-		and c.idColor =
+		and
+		c.idColor =
 		a.idColor
 		and
 		c.idLanguages = #{languages}
 		and
-		d.idProduct = a.idProduct
+		d.idProduct =
+		a.idProduct
 
 
 	</select>
@@ -505,7 +516,8 @@
 		`dtProductState`,
 		`idCampaign`)
 
-		values (#{idGender},#{idType},#{idBrand},
+		values
+		(#{idGender},#{idType},#{idBrand},
 		#{price},#{discount},#{thumbnailsUrl},0,now(),#{idCampaign})
 
 		<selectKey resultType="java.lang.Integer" keyProperty="idProduct">
@@ -583,8 +595,8 @@
 
 
 	</select>
-	
-		<select id="getQtStockLock" resultType="Integer" parameterType="java.util.HashMap">
+
+	<select id="getQtStockLock" resultType="Integer" parameterType="java.util.HashMap">
 
 		SELECT qtStock
 		FROM ${database.schema}article
@@ -606,7 +618,6 @@
 		<if test="txSegno == false">
 			set qtStock = qtStock + #{qtArticles}
 		</if>
-		set qtStock = qtStock - #{qtArticles}
 		Where idProduct =
 		#{idProduct}
 		and
@@ -657,16 +668,29 @@
 
 	</select>
 
-<select id="getListCampaign" resultType="it.othala.dto.CampaignDTO">
+	<select id="getListCampaign" resultType="it.othala.dto.CampaignDTO">
 
 
-SELECT * FROM ${database.schema}campaigns
-where dtInizio &lt; current_date
-and dtFine &gt; current_date;
+		SELECT * FROM
+		${database.schema}campaigns
+		where dtInizio &lt; current_date
+		and dtFine
+		&gt; current_date;
 
 
-	
+
 	</select>
+
+	<update id="publishProduct" parameterType="java.util.List">
+
+		UPDATE
+		${database.schema}product
+
+			set idProductState = 1
+
+		Where idProductState = 0;
+		
+	</update>
 
 
 </mapper>

@@ -35,4 +35,6 @@ public interface IProductService {
 			Boolean newArrivals, OrderByCartFlow order, Integer idCampaign,
 			Boolean fgCampaign);
 
+	public void publishProduct(List<Integer> listIdProduct);
+	
 }
