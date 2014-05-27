@@ -9,9 +9,51 @@ public class MailPropertiesDTO {
 	private String fromMail;
 	private String dnsSite;
 	private String boardUrl;
+	private String mailSmtAuth;
+	private String mailSmtpAtarttlsAnable;
+	private String mailSmtpHost;
+	private String mailSmtpPort;
+	private String password;
+	private String username;
 	
 	
 	
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getMailSmtAuth() {
+		return mailSmtAuth;
+	}
+	public void setMailSmtAuth(String mailSmtAuth) {
+		this.mailSmtAuth = mailSmtAuth;
+	}
+	public String getMailSmtpAtarttlsAnable() {
+		return mailSmtpAtarttlsAnable;
+	}
+	public void setMailSmtpAtarttlsAnable(String mailSmtpAtarttlsAnable) {
+		this.mailSmtpAtarttlsAnable = mailSmtpAtarttlsAnable;
+	}
+	public String getMailSmtpHost() {
+		return mailSmtpHost;
+	}
+	public void setMailSmtpHost(String mailSmtpHost) {
+		this.mailSmtpHost = mailSmtpHost;
+	}
+	public String getMailSmtpPort() {
+		return mailSmtpPort;
+	}
+	public void setMailSmtpPort(String mailSmtpPort) {
+		this.mailSmtpPort = mailSmtpPort;
+	}
 	public String getDnsSite() {
 		return dnsSite;
 	}
