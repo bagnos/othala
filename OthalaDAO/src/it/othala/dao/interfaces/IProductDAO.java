@@ -68,6 +68,8 @@ public interface IProductDAO {
 	public Integer getQtStockLock(Integer idProduct, Integer pgArticle);
 
 	public List<CampaignDTO> getListCampaign();
+
+	public void publishProduct(List<Integer> listIdProduct);
 	
 	
 

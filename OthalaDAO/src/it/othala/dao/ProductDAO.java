@@ -404,6 +404,13 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 
 		return listCampaign;
 	}
+
+	@Override
+	public void publishProduct(List<Integer> listIdProduct) {
+		getSqlSession().update(
+				"it.othala.product.queries.publishProduct", listIdProduct);
+		
+	}
 	
 	
 	
