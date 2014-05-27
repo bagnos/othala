@@ -229,8 +229,10 @@ public final class PayPal implements Serializable {
 		
 		/* return redirect url */
 		return "https://www." + environment.getEnvironmentPartUrl()
-				+ "paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=" + token;
+				+ "paypal.com/cgi-bin/webscr?cmd=_express-checkout&useraction=commit&token=" + token;
 	}
+	
+	
 
 
 	@Override

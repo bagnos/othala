@@ -125,7 +125,7 @@ class PayPalWrapper {
 
 		Map<String, String> response = setEC.getNVPResponse();
 		if (response != null && !response.isEmpty()) {
-			setExpChecktDTO = getExpressCheckOutDTO(response, cart.getRedirectUrl());
+			setExpChecktDTO = getExpressCheckOutDTO(response);
 		}
 
 		return setExpChecktDTO;
@@ -190,10 +190,9 @@ class PayPalWrapper {
 		return environment;
 	}
 	
-	private String getRedirectUrl(String token)
-	{
-		return pp.getRedirectUrl(token);
-	}
+	
+	
+	
 
 	private Payment getPayment(OrderPayPalDTO cart) {
 		PaymentItem item = null;
@@ -233,7 +232,7 @@ class PayPalWrapper {
 		return payment;
 	}
 
-	private SetExpressCheckoutDTO getExpressCheckOutDTO(Map<String, String> response, String redirectUrl)
+	private SetExpressCheckoutDTO getExpressCheckOutDTO(Map<String, String> response)
 			throws PayPalFailureException {
 		StringBuilder sn = new StringBuilder();
 		for (String e : response.keySet()) {
@@ -243,8 +242,8 @@ class PayPalWrapper {
 		SetExpressCheckoutDTO setExpChecktDTO = new SetExpressCheckoutDTO();
 		if (response.get("ACK").toString().equalsIgnoreCase("Success")) {
 			setExpChecktDTO.setToken(response.get("TOKEN").toString());
-			redirectUrl = redirectUrl.replace("#{token}", response.get("TOKEN").toString());
-			setExpChecktDTO.setRedirectUrl(redirectUrl);
+			
+			setExpChecktDTO.setRedirectUrl(pp.getRedirectUrl(response.get("TOKEN").toString()));
 
 			setExpChecktDTO.setOkMessage(sn.toString());
 
@@ -276,7 +275,7 @@ class PayPalWrapper {
 			updateError(response);
 
 			if (isFundinFailure()) {
-				throw new PayPalFundingFailureException(errorMessage, getRedirectUrl(checkDTO.getToken()));
+				throw new PayPalFundingFailureException(errorMessage,  pp.getRedirectUrl(token));
 			} else {
 				throw new PayPalFailureException(sn.toString(), errorMessage);
 			}
