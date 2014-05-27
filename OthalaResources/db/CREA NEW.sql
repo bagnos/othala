@@ -456,7 +456,7 @@ DROP TABLE IF EXISTS `othala`.`States_Orders` ;
 CREATE  TABLE IF NOT EXISTS `othala`.`States_Orders` (
   `idOrder` INT NOT NULL ,
   `idStato` INT NOT NULL ,
-  `dtStato` DATE NULL ,
+  `dtStato` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
   `txNote` VARCHAR(100) NULL ,
   PRIMARY KEY (`idOrder`, `idStato`) ,
   INDEX `fk_StatesOrders_States1_idx` (`idStato` ASC) ,
