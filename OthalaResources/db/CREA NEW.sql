@@ -246,8 +246,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `othala`.`Coupons` ;
 
 CREATE  TABLE IF NOT EXISTS `othala`.`Coupons` (
-  `idCoupon` INT NOT NULL ,
-  `txCoupon` VARCHAR(45) NULL ,
+  `idCoupon` VARCHAR(100) NOT NULL ,
   `idUser` VARCHAR(100) NOT NULL ,
   `pcSconto` SMALLINT NULL ,
   `dtScadenza` DATE NULL ,
