@@ -43,9 +43,10 @@
 						<ui:repeat var="imgCar" value="#{applicationBean.imgsCarousel}"
 							varStatus="staCar">
 							<div class="#{staCar.first?'item active':'item'}">
-								<p:graphicImage styleClass="img-responsive"
-									library="#{imgCar.txLibrary}" name="#{imgCar.txName}" />
-
+								<h:link outcome="#{imgCar.urlRedirect}">
+									<p:graphicImage styleClass="img-responsive"
+										library="#{imgCar.txLibrary}" name="#{imgCar.txName}" />
+								</h:link>
 							</div>
 						</ui:repeat>
 
@@ -73,7 +74,7 @@
 				<ui:repeat var="imgNewArr" value="#{applicationBean.imgsNewArrival}">
 					<div class="col-sm-3">
 						<div class="thumbnail thumbnail-home">
-							<h:link outcome="/cart/cart-catalog.xhtml">
+							<h:link outcome="#{imgNewArr.urlRedirect}">
 								<f:param name="idMenu" value="#{imgNewArr.pgGroupImages}"></f:param>
 								<f:param name="fgNewArrivals" value="true"></f:param>
 								<f:param name="idSubMenu" value=""></f:param>
