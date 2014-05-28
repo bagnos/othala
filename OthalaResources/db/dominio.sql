@@ -14,6 +14,8 @@ INSERT INTO gender VALUES
 (1,'it','UOMO'),(2,'it','DONNA'),(3,'it','BAMBINO'),(4,'it','BAMBINA');
 INSERT INTO brand VALUES    
 (1,'it','LANVIN'),(2,'it','BALMAIN'),(3,'it','DSQUARED'),(4,'it','MOSCHINO'),(5,'it','DOLCE E GABBANA'),(6,'it','STONE ISLAND');
+INSERT INTO `othala`.`brand` (`idBrand`, `idLanguages`, `txBrand`) VALUES (7, 'it', 'BLOCH');
+INSERT INTO `othala`.`brand` (`idBrand`, `idLanguages`, `txBrand`) VALUES (8, 'it', 'ARMANI');
 
 INSERT INTO `type_size`
 VALUES
@@ -59,7 +61,8 @@ INSERT INTO size VALUES
 ;
 
 INSERT INTO `product_state` VALUES (0,'INSERITO'),(1,'PUBBLICATO');
-INSERT INTO `site_images` VALUES (1,'carousel',1,'images/carousel','11.jpg'),(2,'carousel',2,'images/carousel','12.jpg'),(3,'carousel',3,'images/carousel','13.jpg'),(4,'carousel',4,'images/carousel','14.jpg'),(5,'newArrivals',1,'images/newArrivals','newuomo.png'),(6,'newArrivals',2,'images/newArrivals','newdonna.png'),(7,'newArrivals',3,'images/newArrivals','newbambino.png'),(8,'newArrivals',4,'images/newArrivals','newbambina.png');
+INSERT INTO `site_images` VALUES (1,'carousel',1,'images/carousel','11.jpg'),(2,'carousel',2,'images/carousel','12.jpg'),(3,'carousel',3,'images/carousel','13.jpg'),(4,'carousel',4,'images/carousel','14.jpg'),
+(5,'newArrivals',1,'images/newArrivals','newuomo2.png'),(6,'newArrivals',2,'images/newArrivals','newdonna2.png'),(7,'newArrivals',3,'images/newArrivals','newbambino2.png'),(8,'newArrivals',4,'images/newArrivals','newbambina2.png');
 INSERT INTO `site_images` (`idsiteImages`, `txGroupImages`, `pgGroupImages`, `txLibrary`, `txName`) VALUES (9, 'tabNav', 1, 'images/tabNav', 'uomo.png');
 INSERT INTO `site_images` (`idsiteImages`, `txGroupImages`, `pgGroupImages`, `txLibrary`, `txName`) VALUES (10, 'tabNav', 2, 'images/tabNav', 'donna.png');
 INSERT INTO `site_images` (`idsiteImages`, `txGroupImages`, `pgGroupImages`, `txLibrary`, `txName`) VALUES (11, 'tabNav', 3, 'images/tabNav', 'bambino.png');
@@ -70,12 +73,10 @@ INSERT INTO `othala`.`campaigns` (`idCampaign`, `txCampaign`, `dtInizio`, `dtFin
 
 
 
-INSERT INTO `product` VALUES (1,1,8,1,1200,50,'000001_01.JPG',1,'2014-03-18 00:00:00',1),(2,1,8,2,1345,50,'000002_01.JPG',1,'2014-03-01 00:00:00',NULL),(3,1,11,3,463,40,'000003_01.JPG',1,'2014-03-19 00:00:00',NULL),(4,1,21,4,795,30,'A1.JPG',1,'2014-03-26 12:12:51',NULL),(881,1,14,6,800,50,'A881.JPG',1,'2014-03-26 00:00:00',NULL),(882,2,20,5,395,30,'991a.jpg',1,'2014-05-27 16:10:16',NULL);
-INSERT INTO `product_description` VALUES (1,'it','GIACCA SMOKING \"BEVERLY HILLS\" IN VELLUTO'),(2,'it','GIACCA MISTO LANA'),(3,'it','GIACCHETTO IN MUSSOLA DI COTONE GOMMATA TINTA IN CAPO'),(4,'it','T-SHIRT IN MISTO VISCOSA E SETA'),(881,'it','JEANS IN COTONE STRETCH 16.5CM'),(882,'it','DECOLLETÈ IN BROCCATO FLOREALE 105MM');
-INSERT INTO `product_image` VALUES (1,1,'000001_01.JPG'),(1,2,'000001_02.JPG'),(1,3,'000001_03.JPG'),(1,4,'000001_04.JPG'),(2,1,'000002_01.JPG'),(2,2,'000002_02.JPG'),(2,3,'000002_03.JPG'),(2,4,'000002_04.JPG'),(3,1,'000003_01.JPG'),(3,2,'000003_02.JPG'),(3,3,'000003_03.JPG'),(3,4,'000003_04.JPG'),(4,1,'A1.JPG'),(4,2,'A2.JPG'),(4,3,'A3.JPG'),(4,4,'A4.JPG'),(881,1,'A881.JPG'),(881,2,'A882.JPG'),(881,3,'C881.JPG'),(881,4,'C882.JPG'),(882,1,'991a.jpg'),(882,2,'991b.jpg'),(882,3,'991c.jpg'),(882,4,'991d.jpg');
-INSERT INTO `article` VALUES (1,1,9,11,1,NULL,1,'1111111111'),(1,2,10,11,2,NULL,1,'1111111111'),(1,3,11,11,1,NULL,1,'1111111111'),(2,1,9,11,1,NULL,1,'1111111111'),(2,2,10,11,2,NULL,1,'1111111111'),(2,3,11,11,1,NULL,1,'1111111111'),(3,1,17,6,1,NULL,1,'1111111111'),(3,2,18,6,2,NULL,1,'1111111111'),(3,3,19,6,1,NULL,1,'1111111111'),(4,1,17,4,1,NULL,1,'1111111111'),(4,2,18,4,2,NULL,1,'1111111111'),(4,3,19,4,1,NULL,1,'1111111111'),(881,1,17,3,1,'A882.JPG',1,'1111111111'),(881,2,18,3,2,'A882.JPG',1,'1111111111'),(881,3,19,3,1,'A882.JPG',1,'1111111111'),(881,4,20,6,1,'A881.JPG',1,'1111111111'),(881,5,21,6,2,'A881.JPG',1,'1111111111'),(881,6,22,6,1,'A881.JPG',1,'1111111111'),(882,1,24,13,2,NULL,1,'aaaa'),(882,2,25,13,2,NULL,1,'bbbbb');
-
-
+INSERT INTO `product` VALUES (1,1,8,1,1200,50,'000001_01.JPG',1,'2014-03-18 00:00:00',1),(2,1,8,2,1345,50,'000002_01.JPG',1,'2014-03-01 00:00:00',NULL),(3,1,11,3,463,40,'000003_01.JPG',1,'2014-03-19 00:00:00',NULL),(4,1,21,4,795,30,'A1.JPG',1,'2014-03-26 12:12:51',NULL),(881,1,14,6,800,50,'A881.JPG',1,'2014-03-26 00:00:00',NULL),(882,2,20,5,395,30,'991a.jpg',1,'2014-05-27 16:10:16',NULL),(883,4,20,7,85,30,'992a.jpg',1,'2014-05-28 10:29:04',NULL),(885,3,20,8,113,30,'993a.jpg',1,'2014-05-28 10:34:02',NULL);
+INSERT INTO `product_description` VALUES (1,'it','GIACCA SMOKING \"BEVERLY HILLS\" IN VELLUTO'),(2,'it','GIACCA MISTO LANA'),(3,'it','GIACCHETTO IN MUSSOLA DI COTONE GOMMATA TINTA IN CAPO'),(4,'it','T-SHIRT IN MISTO VISCOSA E SETA'),(881,'it','JEANS IN COTONE STRETCH 16.5CM'),(882,'it','DECOLLETÈ IN BROCCATO FLOREALE 105MM'),(883,'it','BALLERINE IN VERNICE'),(885,'it','SNEAKERS IN CAMOSCIO');
+INSERT INTO `product_image` VALUES (1,1,'000001_01.JPG'),(1,2,'000001_02.JPG'),(1,3,'000001_03.JPG'),(1,4,'000001_04.JPG'),(2,1,'000002_01.JPG'),(2,2,'000002_02.JPG'),(2,3,'000002_03.JPG'),(2,4,'000002_04.JPG'),(3,1,'000003_01.JPG'),(3,2,'000003_02.JPG'),(3,3,'000003_03.JPG'),(3,4,'000003_04.JPG'),(4,1,'A1.JPG'),(4,2,'A2.JPG'),(4,3,'A3.JPG'),(4,4,'A4.JPG'),(881,1,'A881.JPG'),(881,2,'A882.JPG'),(881,3,'C881.JPG'),(881,4,'C882.JPG'),(882,1,'991a.jpg'),(882,2,'991b.jpg'),(882,3,'991c.jpg'),(882,4,'991d.jpg'),(883,1,'992a.jpg'),(883,2,'992b.jpg'),(883,3,'992c.jpg'),(883,4,'992d.jpg'),(885,1,'993a.jpg'),(885,2,'993b.jpg'),(885,3,'993c.jpg'),(885,4,'993d.jpg');
+INSERT INTO `article` VALUES (1,1,9,11,1,NULL,1,'1111111111'),(1,2,10,11,2,NULL,1,'1111111111'),(1,3,11,11,1,NULL,1,'1111111111'),(2,1,9,11,1,NULL,1,'1111111111'),(2,2,10,11,2,NULL,1,'1111111111'),(2,3,11,11,1,NULL,1,'1111111111'),(3,1,17,6,1,NULL,1,'1111111111'),(3,2,18,6,2,NULL,1,'1111111111'),(3,3,19,6,1,NULL,1,'1111111111'),(4,1,17,4,1,NULL,1,'1111111111'),(4,2,18,4,2,NULL,1,'1111111111'),(4,3,19,4,1,NULL,1,'1111111111'),(881,1,17,3,1,'A882.JPG',1,'1111111111'),(881,2,18,3,2,'A882.JPG',1,'1111111111'),(881,3,19,3,1,'A882.JPG',1,'1111111111'),(881,4,20,6,1,'A881.JPG',1,'1111111111'),(881,5,21,6,2,'A881.JPG',1,'1111111111'),(881,6,22,6,1,'A881.JPG',1,'1111111111'),(882,1,24,13,2,NULL,1,'aaaa'),(882,2,25,13,2,NULL,1,'bbbbb'),(883,1,24,13,2,NULL,1,'aaaa'),(883,2,25,13,2,NULL,1,'bbbbb'),(885,1,24,11,2,NULL,1,'aaaa'),(885,2,25,11,2,NULL,1,'bbbbb');
 
 
 

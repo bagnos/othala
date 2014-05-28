@@ -22,8 +22,8 @@ public class Catalog implements Serializable {
 	private Integer brand;
 	private Integer color;
 	private Integer size;
-	private Integer priceMin = 100;
-	private Integer priceMax = 1000;
+	private Integer priceMin = 1;
+	private Integer priceMax = 5000;
 	private int orderPrice;
 	private List<ProductDTO> articles;
 	private List<ProductDTO> articlesPage;

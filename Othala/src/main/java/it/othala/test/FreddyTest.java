@@ -13,23 +13,23 @@ import java.util.List;
 import org.junit.Test;
 
 public class FreddyTest {
-
+	@Test
 	public void test() {
 
 		try {
 
-			BigDecimal prezzo = new BigDecimal(395);
+			BigDecimal prezzo = new BigDecimal(113);
 			Integer sconto = 30;
-			String immagine1 = "991a.jpg";
-			String immagine2 = "991b.jpg";
-			String immagine3 = "991c.jpg";
-			String immagine4 = "991d.jpg";
-			String descrizione = "DECOLLETÈ IN BROCCATO FLOREALE 105MM";
+			String immagine1 = "993a.jpg";
+			String immagine2 = "993b.jpg";
+			String immagine3 = "993c.jpg";
+			String immagine4 = "993d.jpg";
+			String descrizione = "SNEAKERS IN CAMOSCIO";
 
 			/* 2 donna */
-			Integer genere = 2;
+			Integer genere = 3;
 			/* 5 d&g */
-			Integer brand = 5;
+			Integer brand = 8;
 			/* 12 gonne 20 scarpe */
 			Integer tipo = 20;
 
@@ -40,8 +40,8 @@ public class FreddyTest {
 			Integer taglia2 = 25;
 
 			/* bianco 4, nero 11, rosa 13 */
-			Integer colore1 = 13;
-			Integer colore2 = 13;
+			Integer colore1 = 11;
+			Integer colore2 = 11;
 
 			ProductFullDTO a = new ProductFullDTO();
 
@@ -108,7 +108,7 @@ public class FreddyTest {
 		}
 	}
 
-	@Test
+	
 	public void test2() {
 
 		try {
