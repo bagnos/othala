@@ -134,6 +134,11 @@ public class ProductService implements IProductService {
 
 	}
 
+	@Override
+	public Integer insertCampaign(CampaignDTO campaign) {
+		return productDAO.insertCampaign(campaign);
+
+	}
 	
 	@Override
 	public DomainDTO insertBrand(String languages, String txBrand) {
@@ -171,6 +176,13 @@ public class ProductService implements IProductService {
 	@Override
 	public void publishProduct(List<Integer> listIdProduct) {
 		productDAO.publishProduct(listIdProduct);
+		
+	}
+
+	@Override
+	public void addProductToCampaign(List<Integer> listIdProduct,
+			Integer idCampaign) {
+		productDAO.addProductToCampaign(listIdProduct, idCampaign);
 		
 	}
 	

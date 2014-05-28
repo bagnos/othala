@@ -13,7 +13,7 @@ import java.util.List;
 import org.junit.Test;
 
 public class FreddyTest {
-	@Test
+
 	public void test() {
 
 		try {
@@ -109,6 +109,7 @@ public class FreddyTest {
 	}
 
 	
+	@Test
 	public void test2() {
 
 		try {
@@ -117,7 +118,7 @@ public class FreddyTest {
 			a.add(881);
 			a.add(882);
 
-			OthalaFactory.getProductServiceInstance().publishProduct(a);
+			OthalaFactory.getProductServiceInstance().addProductToCampaign(a, 1);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
