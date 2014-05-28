@@ -411,6 +411,33 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 				"it.othala.product.queries.publishProduct", listIdProduct);
 		
 	}
+
+	@Override
+	public Integer insertCampaign(CampaignDTO campaign) {
+	
+		getSqlSession().insert("it.othala.product.queries.insertCampaign",
+				campaign);
+
+		
+
+		return campaign.getIdCampaign();
+	}
+
+	@Override
+	public void addProductToCampaign(List<Integer> listIdProduct,
+			Integer idCampaign) {
+		
+		HashMap<String, Object> map4 = new HashMap<>();
+
+			map4.clear();
+			map4.put("listIdProduct", listIdProduct);
+			map4.put("idCampaign", idCampaign);
+			
+		getSqlSession().update(
+				"it.othala.product.queries.addProductToCampaign", map4);
+		
+		
+	}
 	
 	
 	

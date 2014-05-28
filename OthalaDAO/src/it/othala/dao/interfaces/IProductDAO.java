@@ -70,6 +70,11 @@ public interface IProductDAO {
 	public List<CampaignDTO> getListCampaign();
 
 	public void publishProduct(List<Integer> listIdProduct);
+
+	public Integer insertCampaign(CampaignDTO campaign);
+
+	public void addProductToCampaign(List<Integer> listIdProduct,
+			Integer idCampaign);
 	
 	
 

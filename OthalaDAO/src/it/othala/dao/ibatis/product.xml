@@ -700,6 +700,53 @@
 
 	</update>
 
+	<insert id="insertCampaign" parameterType="it.othala.dto.CampaignDTO">
+
+
+
+		INSERT INTO
+		${database.schema}campaigns
+		(`txCampaign`,
+		`dtInizio`,
+		`dtFine`,
+		`pcSconto`)
+
+		values
+		(#{txCampaign},#{dtInizio},#{dtFine},
+		#{pcSconto})
+
+		<selectKey resultType="java.lang.Integer" keyProperty="idCampaign">
+
+			SELECT LAST_INSERT_ID() AS idCampaign
+
+		</selectKey>
+
+
+
+	</insert>
+
+
+	<update id="addProductToCampaign" parameterType="java.util.HashMap">
+
+
+		UPDATE
+		${database.schema}product
+
+		set idCampaign = #{idCampaign}
+
+		Where idProduct
+		in
+
+
+		<foreach item="item" index="index" collection="listIdProduct" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		
+
+	</update>
+	
+	
 
 
 </mapper>
