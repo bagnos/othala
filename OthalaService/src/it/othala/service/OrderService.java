@@ -3,6 +3,7 @@ package it.othala.service;
 import it.othala.dao.interfaces.IOrderDAO;
 import it.othala.dao.interfaces.IProductDAO;
 import it.othala.dto.ArticleFullDTO;
+import it.othala.dto.CouponDTO;
 import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryCostDTO;
 import it.othala.dto.DeliveryDTO;
@@ -24,6 +25,7 @@ import it.othala.service.interfaces.IOrderService;
 import it.othala.service.interfaces.IPaymentService;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -270,6 +272,25 @@ public class OrderService implements IOrderService {
 
 	}
 
+	@Override
+	public CouponDTO checkCoupon(String idCoupon) throws OthalaException {
+		
+		List<CouponDTO> listCoupons = orderDAO.getCoupons(idCoupon, null);
+		
+		if (listCoupons.get(0) != null ){
+			if (listCoupons.get(0).getDtScadenza().compareTo(new Date()) < 0){
+				throw new OthalaException("Il Coupon che stai cercando di utilizzare è scaduto" );
+			}
+			if (listCoupons.get(0).getDtUtilizzo() != null){
+				throw new OthalaException("Il Coupon che stai cercando di utilizzare è stato gia speso" );
+			}
+		}
+		else {
+			throw new OthalaException("Codice Coupon errato" );
+		}
+		
+		return listCoupons.get(0);
+	} 
 	
 	
 
