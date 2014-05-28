@@ -521,6 +521,7 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Site_Images` (
   `pgGroupImages` INT NULL ,
   `txLibrary` VARCHAR(45) NULL ,
   `txName` VARCHAR(45) NULL ,
+  `urlRedirect` VARCHAR(100) NULL ,
   PRIMARY KEY (`idsiteImages`) )
 ENGINE = InnoDB;
 
