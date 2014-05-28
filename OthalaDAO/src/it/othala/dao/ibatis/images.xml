@@ -11,7 +11,8 @@
 		txGroupImages,
 		pgGroupImages,
 		txLibrary,
-		txName
+		txName,
+		urlRedirect
 		FROM
 		${database.schema}site_images
 		where txGroupImages != 'newArrivals'
@@ -23,7 +24,8 @@
 		txGroupImages,
 		pgGroupImages,
 		txLibrary,
-		txName
+		txName,
+		urlRedirect
 		FROM
 		${database.schema}site_images a
 		where txGroupImages = 'newArrivals'
