@@ -14,6 +14,7 @@ public class SiteImagesDTO implements Serializable {
 	private Integer pgGroupImages;
 	private String txLibrary;
 	private String txName;
+	private String urlRedirect;
 
 	public Integer getPgGroupImages() {
 		return pgGroupImages;
@@ -53,6 +54,14 @@ public class SiteImagesDTO implements Serializable {
 
 	public void setTxGroupImages(String txGroupImages) {
 		this.txGroupImages = txGroupImages;
+	}
+
+	public String getUrlRedirect() {
+		return urlRedirect;
+	}
+
+	public void setUrlRedirect(String urlRedirect) {
+		this.urlRedirect = urlRedirect;
 	}
 
 }
