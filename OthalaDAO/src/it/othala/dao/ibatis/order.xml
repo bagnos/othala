@@ -261,5 +261,30 @@
 		(#{descrizione},#{importospese},0,#{descrizioneExt},#{linkTracking});
 
 	</insert>
+	
+	<select id="listCoupons" resultType="it.othala.dto.CouponDTO" parameterType="java.util.HashMap">
+
+		SELECT idCoupon, idUser, pcSconto, dtScadenza, dtUtilizzo
+		FROM
+		${database.schema}coupons
+		WHERE
+		<if test="idCoupon != null">
+			idCoupon = #{idCoupon} 
+		</if>
+		<if test="idUser != null">
+			idUser = #{idUser} 
+		</if>
+
+	</select>
+	
+	<update id="updateCoupon" parameterType="java.lang.String">
+
+		UPDATE ${database.schema}coupons
+		SET dtUtilizzo = current_date
+		WHERE
+		idCoupon = #{idCoupon}
+
+
+	</update>
 
 </mapper>
