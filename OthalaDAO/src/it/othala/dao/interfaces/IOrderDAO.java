@@ -1,5 +1,6 @@
 package it.othala.dao.interfaces;
 
+import it.othala.dto.CouponDTO;
 import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryCostDTO;
 import it.othala.dto.OrderFullDTO;
@@ -34,5 +35,9 @@ public interface IOrderDAO {
 	
 	public void deleteDeliveryCost(Integer idDeliveryCost);
 	
-	public List<DeliveryCostDTO> getDeliveryCost(); 
+	public List<DeliveryCostDTO> getDeliveryCost();
+	
+	public List<CouponDTO> getCoupons(String idCoupon, String idUser);
+	
+	public void burnCoupon(String idCoupon);
 }
