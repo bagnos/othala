@@ -1,5 +1,6 @@
 package it.othala.service.interfaces;
 
+import it.othala.dto.CouponDTO;
 import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryDTO;
 import it.othala.dto.OrderFullDTO;
@@ -36,4 +37,6 @@ public interface IOrderService {
 
 	public OrderFullDTO checkQtaInStock(Integer idOrder, OrderFullDTO orderFull) throws StockNotPresentException;
 
+	public CouponDTO checkCoupon(String idCoupon) throws OthalaException;
+	
 }
