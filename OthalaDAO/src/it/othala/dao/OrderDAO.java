@@ -1,6 +1,7 @@
 package it.othala.dao;
 
 import it.othala.dao.interfaces.IOrderDAO;
+import it.othala.dto.CouponDTO;
 import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryCostDTO;
 import it.othala.dto.OrderFullDTO;
@@ -126,11 +127,37 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO  {
 	
 	@Override
 	public void deleteDeliveryCost(Integer idDeliveryCost) {
-		
 			
 		getSqlSession().delete("it.othala.order.queries.deleteDeliveryCost",
 				idDeliveryCost);
 		
 	}
+	
+	@Override
+	public List<CouponDTO> getCoupons(String idCoupon, String idUser) {
+		
+		HashMap<String, Object> mapOrder = new HashMap<>();
+		if (idCoupon != null)
+			mapOrder.put("idStato", idCoupon);
+		if (idUser != null)
+			mapOrder.put("idUser", idUser);
+
+
+		// recupero prodotti
+		List<CouponDTO> listCoupons = getSqlSession().selectList(
+				"it.othala.order.queries.listCoupons", mapOrder);
+		
+		return listCoupons;
+	}
+
+	@Override
+	public void burnCoupon(String idCoupon) {
+		
+		getSqlSession().selectList(
+				"it.othala.order.queries.updateCoupon", idCoupon);
+		
+	}
+	
+	
 
 }
