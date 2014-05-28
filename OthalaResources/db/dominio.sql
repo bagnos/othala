@@ -61,12 +61,23 @@ INSERT INTO size VALUES
 ;
 
 INSERT INTO `product_state` VALUES (0,'INSERITO'),(1,'PUBBLICATO');
-INSERT INTO `site_images` VALUES (1,'carousel',1,'images/carousel','11.jpg'),(2,'carousel',2,'images/carousel','12.jpg'),(3,'carousel',3,'images/carousel','13.jpg'),(4,'carousel',4,'images/carousel','14.jpg'),
-(5,'newArrivals',1,'images/newArrivals','newuomo2.png'),(6,'newArrivals',2,'images/newArrivals','newdonna2.png'),(7,'newArrivals',3,'images/newArrivals','newbambino2.png'),(8,'newArrivals',4,'images/newArrivals','newbambina2.png');
-INSERT INTO `site_images` (`idsiteImages`, `txGroupImages`, `pgGroupImages`, `txLibrary`, `txName`) VALUES (9, 'tabNav', 1, 'images/tabNav', 'uomo.png');
-INSERT INTO `site_images` (`idsiteImages`, `txGroupImages`, `pgGroupImages`, `txLibrary`, `txName`) VALUES (10, 'tabNav', 2, 'images/tabNav', 'donna.png');
-INSERT INTO `site_images` (`idsiteImages`, `txGroupImages`, `pgGroupImages`, `txLibrary`, `txName`) VALUES (11, 'tabNav', 3, 'images/tabNav', 'bambino.png');
-INSERT INTO `site_images` (`idsiteImages`, `txGroupImages`, `pgGroupImages`, `txLibrary`, `txName`) VALUES (12, 'tabNav', 4, 'images/tabNav', 'bambina.png');
+
+INSERT INTO `site_images` VALUES (1,'carousel',1,'images/carousel','11.jpg','/cart/cart-catalog.xhtml'),
+(2,'carousel',2,'images/carousel','12.jpg','/cart/cart-catalog.xhtml'),
+(3,'carousel',3,'images/carousel','13.jpg','/cart/cart-catalog.xhtml'),
+(4,'carousel',4,'images/carousel','14.jpg','/cart/cart-catalog.xhtml'),
+(5,'newArrivals',1,'images/newArrivals','newuomo2.png','/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=true&idSubMenu='),
+(6,'newArrivals',2,'images/newArrivals','newdonna2.png','/cart/cart-catalog.xhtml?idMenu=2&fgNewArrivals=true&idSubMenu='),
+(7,'newArrivals',3,'images/newArrivals','newbambino2.png','/cart/cart-catalog.xhtml?idMenu=3&fgNewArrivals=true&idSubMenu='),
+(8,'newArrivals',4,'images/newArrivals','newbambina2.png','/cart/cart-catalog.xhtml?idMenu=4&fgNewArrivals=true&idSubMenu=');
+INSERT INTO `site_images` (`idsiteImages`, `txGroupImages`, `pgGroupImages`, `txLibrary`, `txName`,`urlRedirect`) 
+VALUES (9, 'tabNav', 1, 'images/tabNav', 'uomo.png',null);
+INSERT INTO `site_images` (`idsiteImages`, `txGroupImages`, `pgGroupImages`, `txLibrary`, `txName`,`urlRedirect`) 
+VALUES (10, 'tabNav', 2, 'images/tabNav', 'donna.png',null);
+INSERT INTO `site_images` (`idsiteImages`, `txGroupImages`, `pgGroupImages`, `txLibrary`, `txName`,`urlRedirect`) 
+VALUES (11, 'tabNav', 3, 'images/tabNav', 'bambino.png',null);
+INSERT INTO `site_images` (`idsiteImages`, `txGroupImages`, `pgGroupImages`, `txLibrary`, `txName`,`urlRedirect`) 
+VALUES (12, 'tabNav', 4, 'images/tabNav', 'bambina.png',null);
 
 
 INSERT INTO `othala`.`campaigns` (`idCampaign`, `txCampaign`, `dtInizio`, `dtFine`, `pcSconto`) VALUES (1, 'SUMMER SALES', '2014-05-26', '2014-06-15', 75);
