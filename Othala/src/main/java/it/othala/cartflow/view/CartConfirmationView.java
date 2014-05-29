@@ -68,7 +68,7 @@ public class CartConfirmationView extends BaseView {
 			paymentOK = false;
 
 			IPaymentService service = OthalaFactory.getPaymentServiceInstance();
-			ProfilePayPalDTO profile = PayPalUtil.getProfile();
+			ProfilePayPalDTO profile = PayPalUtil.getProfile(getRequest());
 
 			if (!getExpressCheckoutDetails(service, profile)) {
 				return null;
@@ -85,7 +85,7 @@ public class CartConfirmationView extends BaseView {
 	}
 
 	private void sendMailAcceptedPayment(String paymentStatus, IPaymentService servicePayment) {
-		MailPropertiesDTO mail = ConfigurationUtil.getMailProps();
+		MailPropertiesDTO mail = ConfigurationUtil.getMailProps(getRequest());
 		try {
 			OthalaFactory.getPaymentServiceInstance().sendMailAcceptedPyament(order, mail, paymentStatus);
 			if (servicePayment.isPaymentPending(paymentStatus)) {

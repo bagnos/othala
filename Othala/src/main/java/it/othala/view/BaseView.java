@@ -118,7 +118,7 @@ public abstract class BaseView implements Serializable {
 	}
 
 	protected String getLang() {
-		return OthalaUtil.getLang();
+		return OthalaUtil.getLang(getRequest());
 	}
 
 	protected void redirectHome() {

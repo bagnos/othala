@@ -71,7 +71,7 @@ public class ApplicationBean implements Serializable {
 
 	public List<MenuDTO> getMenu() {
 		if (menu.isEmpty()) {
-			menu = OthalaFactory.getProductServiceInstance().getMenu(OthalaUtil.getLang());
+			menu = OthalaFactory.getProductServiceInstance().getMenu(OthalaUtil.getLangFromContextJSF());
 		}
 
 		return menu;

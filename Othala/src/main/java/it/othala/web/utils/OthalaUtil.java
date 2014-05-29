@@ -6,6 +6,7 @@ import java.text.MessageFormat;
 import java.util.ResourceBundle;
 
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 
 public class OthalaUtil {
 
@@ -37,9 +38,15 @@ public class OthalaUtil {
 		return message;
 	}
 	
-	public static String getLang()
+	public static String getLangFromContextJSF()
 	{
 		return FacesContext.getCurrentInstance().getExternalContext().getRequestLocale().getLanguage();
+	}
+	
+	public static String getLang(HttpServletRequest req)
+	{
+		return req.getLocale().getLanguage();
+		
 	}
 	
 	

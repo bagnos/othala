@@ -29,18 +29,16 @@ public class PayPalUtil {
 
 	}
 
-	public static ProfilePayPalDTO getProfile() throws IOException {
+	public static ProfilePayPalDTO getProfile(HttpServletRequest req) throws IOException {
 		loadProp();
 		ProfilePayPalDTO prof = new ProfilePayPalDTO();
 		prof.setEnvironment(prop.getProperty("environment"));
 		prof.setPassword(prop.getProperty("Password"));
 		prof.setSignature(prop.getProperty("Signature"));
 		prof.setUserName(prop.getProperty("Username"));
-		prof.setLang(OthalaUtil.getLang());
-		FacesContext context = FacesContext.getCurrentInstance();
-		HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-		String remoteHost = request.getServerName();
-		String contextPath = request.getContextPath();
+		prof.setLang(OthalaUtil.getLang(req));
+		String remoteHost = req.getServerName();
+		String contextPath = req.getContextPath();
 		prof.setReturnUrl(prop.getProperty("returnUrl").replace("#{request.remoteHost}", remoteHost)
 				.replace("#{request.contextPath}", contextPath));
 		prof.setCancelUrl(prop.getProperty("cancelUrl").replace("#{request.remoteHost}", remoteHost)
