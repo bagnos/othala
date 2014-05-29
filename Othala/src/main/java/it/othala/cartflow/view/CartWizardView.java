@@ -357,7 +357,7 @@ public class CartWizardView extends BaseView {
 
 		try {
 			// checkout paypall
-			ProfilePayPalDTO profile = PayPalUtil.getProfile();
+			ProfilePayPalDTO profile = PayPalUtil.getProfile(getRequest());
 			IPaymentService service = OthalaFactory.getPaymentServiceInstance();
 
 			// effettuo il setExpressCheckout

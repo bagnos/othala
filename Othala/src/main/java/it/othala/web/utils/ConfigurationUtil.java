@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -18,10 +19,11 @@ public class ConfigurationUtil {
 	private static Properties properties = null;
 	private static Log log = LogFactory.getLog(ConfigurationUtil.class);
 	private static MailPropertiesDTO mailProps;
+	private static HttpServletRequest request;
 	
 	private static String getBaseImagePath()
 	{		
-		String path= FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
+		String path= request.getServletContext().getRealPath("/");
 		path+="resources"+File.separator+"images"+File.separator;
 		return path;
 	}
@@ -44,10 +46,12 @@ public class ConfigurationUtil {
 		return path;
 	}
 
-	public static MailPropertiesDTO getMailProps() {
+	public static MailPropertiesDTO getMailProps(HttpServletRequest req) {
+		
 		if (mailProps==null)
 		{
 		if (getProperties() != null) {
+			request=req;
 			mailProps=new MailPropertiesDTO();
 			mailProps.setBasePathThumbinalsArticle(getBaseImageThumbinals());
 			mailProps.setBoardUrl(getProperty("BOARD_URL"));
@@ -58,7 +62,7 @@ public class ConfigurationUtil {
 			mailProps.setPathImgLogo(getLogoHomeMail());
 			mailProps.setPathImgPayment(getImagePayment());
 			mailProps.setMailSmtAuth(getProperty("mail.smtp.auth"));
-			mailProps.setMailSmtpAtarttlsAnable(getProperty("ail.smtp.starttls.enable"));
+			mailProps.setMailSmtpAtarttlsAnable(getProperty("mail.smtp.starttls.enable"));
 			mailProps.setMailSmtpHost(getProperty("mail.smtp.host"));
 			mailProps.setMailSmtpPort(getProperty("mail.smtp.port"));
 			mailProps.setPassword(getProperty("password"));

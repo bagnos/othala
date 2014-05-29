@@ -15,14 +15,14 @@
 	<ui:define name="title">
 		<h:outputText value="Conferma Acquisto"></h:outputText>
 	</ui:define>
-	
+
 	<ui:define name="messageUser">
-			<p:messages autoUpdate="true" globalOnly="true" closable="false" showDetail="true"
-				showSummary="true"></p:messages>
-		</ui:define>
+		<p:messages autoUpdate="true" globalOnly="true" closable="false" showDetail="true"
+			showSummary="true"></p:messages>
+	</ui:define>
 
 	<ui:define name="content">
-		
+
 		<h:form prependId="false">
 
 			<div class="container">
@@ -78,28 +78,33 @@
 							<div class="table-responsive spacer10">
 								<table class="table" id="cartTable">
 									<thead>
+
 										<tr>
-											<th class="col-sm-6">#{msg.catalog_article}</th>
-											<th class="col-sm-2">#{msg.catalog_qta}</th>
+											<th class="col-sm-4">#{msg.catalog_article}</th>
+											<th class="col-sm-2">#{msg.catalog_color}</th>
+											<th class="col-sm-1">#{msg.catalog_size}</th>
 											<th class="col-sm-2">#{msg.catalog_price}</th>
+											<th class="col-sm-1">#{msg.catalog_qta}</th>
+											<th class="col-sm-2">#{msg.catalog_totalPrice}</th>
 
 										</tr>
+
 									</thead>
 									<tfoot>
 										<tr>
-											<td colspan="2" class="text-right">#{msg.catalog_totalItems}</td>
+											<td colspan="5" class="text-right">#{msg.catalog_totalItems}</td>
 											<td><h:outputText value="#{cartConfirmationView.details.itemAmount}">
 													<f:converter converterId="it.othala.BigDecimalConverter" />
 												</h:outputText></td>
 										</tr>
 										<tr>
-											<td colspan="2" class="text-right">#{msg.catalog_deliveryCost}</td>
+											<td colspan="5" class="text-right">#{msg.catalog_deliveryCost}</td>
 											<td><h:outputText value="#{cartConfirmationView.details.shipAmount}">
 													<f:converter converterId="it.othala.BigDecimalConverter" />
 												</h:outputText></td>
 										</tr>
 										<tr>
-											<td colspan="2" class="text-right"><strong>#{msg.catalog_total}</strong></td>
+											<td colspan="5" class="text-right"><strong>#{msg.catalog_total}</strong></td>
 											<td><h:outputText value="#{cartConfirmationView.details.amount}">
 													<f:converter converterId="it.othala.BigDecimalConverter" />
 												</h:outputText></td>
@@ -107,16 +112,41 @@
 
 									</tfoot>
 									<tbody>
-										<ui:repeat var="art" value="#{cartConfirmationView.details.shoppingCartOrder}"
-											varStatus="stBread">
+										<ui:repeat var="art" value="#{cartConfirmationView.order.cart}" varStatus="stBread">
+
 											<tr>
-												<td><h:outputText value="#{art.description}" /></td>
-												<td><h:outputText value="#{art.qta}" /></td>
-												<td><h:outputText value="#{art.price}">
+												<td><div class="row">
+														<div class="col-sm-12">
+															<h:graphicImage styleClass="img-responsive img-small-cart"
+																library="images/cartThumbinals" name="#{art.thumbnailsUrl}" />
+															<div class="articolo">
+																<h5>#{art.prdFullDTO.txBrand}</h5>
+																<h6>#{art.prdFullDTO.description}</h6>
+
+															</div>
+														</div>
+													</div></td>
+												<td><h:outputText value="#{art.txColor}" /></td>
+												<td><h:outputText value="#{art.txSize}" /></td>
+
+												<td><h:outputText value="#{art.prdFullDTO.realPrice}">
+														<f:converter converterId="it.othala.BigDecimalConverter" />
+													</h:outputText></td>
+												<td><h:outputText value="#{art.qtBooked}" /></td>
+												<td><h:outputText value="#{art.totalPriced}">
 														<f:converter converterId="it.othala.BigDecimalConverter" />
 													</h:outputText></td>
 
+
 											</tr>
+
+
+
+
+
+
+
+
 										</ui:repeat>
 									</tbody>
 								</table>

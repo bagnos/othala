@@ -167,7 +167,7 @@ public class AccessView extends BaseView {
 		if (isVerifiedInput()) {
 			try {
 				OthalaFactory.getAccountServiceInstance().registerAccount(getAccountDTO(),
-						ConfigurationUtil.getMailProps());
+						ConfigurationUtil.getMailProps(getRequest()));
 				addInfo(OthalaUtil.getWordBundle("account_registerUser"),
 						OthalaUtil.getWordBundle("account_registeredUser", new Object[] { getAccountDTO().getEmail() }));
 
@@ -204,7 +204,7 @@ public class AccessView extends BaseView {
 
 		try {
 			OthalaFactory.getAccountServiceInstance()
-					.resetPasswordAccount(getEmail(), ConfigurationUtil.getMailProps());
+					.resetPasswordAccount(getEmail(), ConfigurationUtil.getMailProps(getRequest()));
 			addInfo(OthalaUtil.getWordBundle("account_checkYourMail"), "");
 		} catch (UserNotFoundException | UserNotActivatedException e) {
 			addOthalaExceptionError(e, "Errore nel reset della password.");

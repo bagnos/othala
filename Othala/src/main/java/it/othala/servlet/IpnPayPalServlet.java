@@ -53,7 +53,7 @@ public class IpnPayPalServlet extends HttpServlet {
 			IOException {
 		// TODO Auto-generated method stub
 
-		ProfilePayPalDTO prof = PayPalUtil.getProfile();
+		ProfilePayPalDTO prof = PayPalUtil.getProfile(request);
 
 		// recupero body orginario
 		String originalRequest = getBody(request);
@@ -62,7 +62,7 @@ public class IpnPayPalServlet extends HttpServlet {
 
 			OthalaFactory.getPaymentServiceInstance().processIpnMessage(originalRequest,
 					request.getParameter("mc_gross"), request.getParameter("mc_currency"),
-					request.getParameter("payment_status"), prof,ConfigurationUtil.getMailProps());
+					request.getParameter("payment_status"), prof,ConfigurationUtil.getMailProps(request));
 
 		} catch (PayPalIpnErrorException | PayPalException e) {
 			// TODO Auto-generated catch block

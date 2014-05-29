@@ -75,10 +75,10 @@ public class MailService implements IMailService {
 		if (session == null) {
 
 			Properties props = new Properties();
-			props.put("mail.smtp.auth", mailProps.getMailSmtAuth());
-			props.put("mail.smtp.starttls.enable", mailProps.getMailSmtpAtarttlsAnable());
-			props.put("mail.smtp.host", mailProps.getMailSmtpHost());
-			props.put("mail.smtp.port", mailProps.getMailSmtpPort());
+			props.put("mail.smtp.auth", mailProps.getMailSmtAuth().trim());
+			props.put("mail.smtp.starttls.enable", mailProps.getMailSmtpAtarttlsAnable().trim());
+			props.put("mail.smtp.host", mailProps.getMailSmtpHost().trim());
+			props.put("mail.smtp.port", mailProps.getMailSmtpPort().trim());
 						
 			session = Session.getInstance(props, new javax.mail.Authenticator() {
 				protected PasswordAuthentication getPasswordAuthentication() {

@@ -8,6 +8,7 @@ import it.othala.enums.OrderByCartFlow;
 import it.othala.model.ApplicationBean;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
+import it.othala.web.utils.ConfigurationUtil;
 import it.othala.web.utils.OthalaUtil;
 
 import java.math.BigDecimal;
@@ -64,6 +65,8 @@ public class CartFlowView extends BaseView {
 		flowBean.getCatalog().getArticles().clear();
 		flowBean.getCatalog().getArticlesPage().clear();
 		flowBean.setCheckoutCart(false);
+		flowBean.getCatalog().setPriceMin(Integer.valueOf(ConfigurationUtil.getProperty("catalogPriceMin")));
+		flowBean.getCatalog().setPriceMax(Integer.valueOf(ConfigurationUtil.getProperty("catalogPriceMax")));
 
 		appBean.updateSizes(flowBean.getCatalog().getIdSubMenu());
 
