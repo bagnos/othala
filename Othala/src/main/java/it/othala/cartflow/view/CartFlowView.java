@@ -67,11 +67,21 @@ public class CartFlowView extends BaseView {
 		flowBean.setCheckoutCart(false);
 		flowBean.getCatalog().setPriceMin(Integer.valueOf(ConfigurationUtil.getProperty("catalogPriceMin")));
 		flowBean.getCatalog().setPriceMax(Integer.valueOf(ConfigurationUtil.getProperty("catalogPriceMax")));
+		if (flowBean.getCatalog().getIdCampaign()!=null && flowBean.getCatalog().getIdCampaign()!=0)
+		{
+			flowBean.getCatalog().setIncludePromo(true);
+			flowBean.getCatalog().setDisabledNewCampaign(true);
+		}
+		else
+		{
+			flowBean.getCatalog().setIncludePromo(false);
+			flowBean.getCatalog().setDisabledNewCampaign(false);
+		}
+		
 
 		appBean.updateSizes(flowBean.getCatalog().getIdSubMenu());
 
-		callServiceProduct(flowBean.getCatalog().getCurrentPage() == null ? 1 : flowBean.getCatalog()
-				.getCurrentPage());
+		callServiceProduct(flowBean.getCatalog().getCurrentPage() == null ? 1 : flowBean.getCatalog().getCurrentPage());
 
 		updateBreadCrumb();
 
@@ -100,7 +110,8 @@ public class CartFlowView extends BaseView {
 		if (endIndex > flowBean.getCatalog().getArticles().size()) {
 			endIndex = flowBean.getCatalog().getArticles().size();
 		}
-		flowBean.getCatalog().getArticlesPage().addAll(flowBean.getCatalog().getArticles().subList(starIndex, endIndex));
+		flowBean.getCatalog().getArticlesPage()
+				.addAll(flowBean.getCatalog().getArticles().subList(starIndex, endIndex));
 		classBack = "";
 		if (flowBean.getCatalog().getCurrentPage().intValue() == 1) {
 			classBack = "disabled";
@@ -119,11 +130,13 @@ public class CartFlowView extends BaseView {
 
 		if (!flowBean.getCatalog().getArticles().isEmpty()) {
 
-			endIndex = ITEMS_PAGE > flowBean.getCatalog().getArticles().size() ? flowBean.getCatalog().getArticles().size() : ITEMS_PAGE;
+			endIndex = ITEMS_PAGE > flowBean.getCatalog().getArticles().size() ? flowBean.getCatalog().getArticles()
+					.size() : ITEMS_PAGE;
 			double dblPages = (double) flowBean.getCatalog().getArticles().size() / (double) ITEMS_PAGE;
 			flowBean.getCatalog().setTotPages((int) Math.ceil(dblPages));
 			flowBean.getCatalog().getArticlesPage().clear();
-			flowBean.getCatalog().getArticlesPage().addAll(flowBean.getCatalog().getArticles().subList(starIndex, endIndex));
+			flowBean.getCatalog().getArticlesPage()
+					.addAll(flowBean.getCatalog().getArticles().subList(starIndex, endIndex));
 			if (flowBean.getCatalog().getCurrentPage().intValue() == flowBean.getCatalog().getTotPages().intValue()) {
 				classForw = "disabled";
 			}
@@ -165,11 +178,12 @@ public class CartFlowView extends BaseView {
 						: flowBean.getCatalog().getBrand());
 
 		flowBean.getCatalog().getArticles().clear();
-		flowBean.getCatalog().getArticles().addAll(
-				OthalaFactory.getProductServiceInstance().getListProduct(
+		flowBean.getCatalog()
+				.getArticles()
+				.addAll(OthalaFactory.getProductServiceInstance().getListProduct(
 						getLang(),
-						flowBean.getCatalog().getIdMenu(),
-						flowBean.getCatalog().getIdSubMenu()==0?null:flowBean.getCatalog().getIdSubMenu(),
+						flowBean.getCatalog().getIdMenu() == 0 ? null : flowBean.getCatalog().getIdMenu(),
+						flowBean.getCatalog().getIdSubMenu() == 0 ? null : flowBean.getCatalog().getIdSubMenu(),
 						flowBean.getCatalog().getBrand(),
 						new BigDecimal(flowBean.getCatalog().getPriceMin()),
 						new BigDecimal(flowBean.getCatalog().getPriceMax()),
@@ -177,7 +191,9 @@ public class CartFlowView extends BaseView {
 						flowBean.getCatalog().getColor(),
 						flowBean.getCatalog().getFgNewArrivals(),
 						flowBean.getCatalog().getOrderPrice() == 1 ? OrderByCartFlow.PREZZODESC
-								: OrderByCartFlow.PREZZOASC, null, false));
+								: OrderByCartFlow.PREZZOASC,
+						flowBean.getCatalog().getIdCampaign() == 0 ? null : flowBean.getCatalog().getIdCampaign(),
+						flowBean.getCatalog().isIncludePromo()));
 		initPaginator(page);
 	}
 

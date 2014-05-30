@@ -1,11 +1,7 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	template="/template/masterTemplateBS.xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:pe="http://primefaces.org/ui/extensions">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/masterTemplateBS.xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions">
 
 
 	<ui:define name="metadata">
@@ -21,16 +17,15 @@
 
 	<ui:define name="content">
 
-<div class="container" style="margin-top: 20px;">
+		<div class="container" style="margin-top: 20px;">
 
-		<div class="row">
+			<div class="row">
 
-			<div class="col-sm-12">
+				<div class="col-sm-12">
 
-				<div id="carousel-example-generic" class="carousel slide"
-					data-ride="carousel">
-					<!-- Indicators -->
-					<!-- 
+					<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+						<!-- Indicators -->
+						<!-- 
 								<ol class="carousel-indicators">
 									<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
 									<li data-target="#carousel-example-generic" data-slide-to="1"></li>
@@ -38,35 +33,39 @@
 								</ol>
 								 -->
 
-					<!-- Wrapper for slides -->
-					<div class="carousel-inner">
-						<ui:repeat var="imgCar" value="#{applicationBean.imgsCarousel}"
-							varStatus="staCar">
-							<div class="#{staCar.first?'item active':'item'}">
-								<h:link outcome="#{imgCar.urlRedirect}">
-									<p:graphicImage styleClass="img-responsive"
-										library="#{imgCar.txLibrary}" name="#{imgCar.txName}" />
-								</h:link>
-							</div>
-						</ui:repeat>
+						<!-- Wrapper for slides -->
+						<div class="carousel-inner">
+							<ui:repeat var="imgCar" value="#{applicationBean.imgsCarousel}" varStatus="staCar">
+								<div class="#{staCar.first?'item active':'item'}">
+									<h:link outcome="#{imgCar.urlRedirect}">
+										<p:graphicImage styleClass="img-responsive" library="#{imgCar.txLibrary}"
+											name="#{imgCar.txName}" />
 
+										<f:param name="idMenu" value="0"></f:param>
+										<f:param name="idSubMenu" value="0"></f:param>
+										<f:param name="fgNewArrivals" value="false"></f:param>
+										<f:param name="idCampaign" value="0"></f:param>
+
+									</h:link>
+								</div>
+							</ui:repeat>
+
+						</div>
+
+						<!-- Controls -->
+						<a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+							<span class="glyphicon glyphicon-chevron-left"></span>
+						</a>
+						<a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+							<span class="glyphicon glyphicon-chevron-right"></span>
+						</a>
 					</div>
 
-					<!-- Controls -->
-					<a class="left carousel-control" href="#carousel-example-generic"
-						data-slide="prev"> <span
-						class="glyphicon glyphicon-chevron-left"></span>
-					</a> <a class="right carousel-control" href="#carousel-example-generic"
-						data-slide="next"> <span
-						class="glyphicon glyphicon-chevron-right"></span>
-					</a>
 				</div>
 
-			</div>
 
-			
+			</div>
 		</div>
-</div>
 		<div class="container" style="margin-top: 20px;">
 
 
@@ -78,8 +77,8 @@
 								<f:param name="idMenu" value="#{imgNewArr.pgGroupImages}"></f:param>
 								<f:param name="fgNewArrivals" value="true"></f:param>
 								<f:param name="idSubMenu" value=""></f:param>
-								<p:graphicImage styleClass="img-responsive"
-									library="#{imgNewArr.txLibrary}" name="#{imgNewArr.txName}" />
+								<p:graphicImage styleClass="img-responsive" library="#{imgNewArr.txLibrary}"
+									name="#{imgNewArr.txName}" />
 							</h:link>
 						</div>
 					</div>

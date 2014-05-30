@@ -16,6 +16,8 @@
 				value="#{cartFlowBean.catalog.idSubMenu}"></f:viewParam>
 			<f:viewParam name="fgNewArrivals"
 				value="#{cartFlowBean.catalog.fgNewArrivals}"></f:viewParam>
+			<f:viewParam name="idCampaign"
+				value="#{cartFlowBean.catalog.idCampaign}"></f:viewParam>
 		</f:metadata>
 	</ui:define>
 
@@ -57,7 +59,7 @@
 					<div class="panel panel-default">
 						<div class="panel-body">
 							<div class="row">
-								<div class="col-sm-3">
+								<div class="col-sm-2">
 									<div class="form-group">
 										<h:outputText value="#{msg.catalog_size}" />
 										<h:selectOneMenu styleClass="form-control"
@@ -86,7 +88,7 @@
 										</h:selectOneMenu>
 									</div>
 								</div>
-								<div class="col-sm-3">
+								<div class="col-sm-2">
 									<div class="form-group">
 										<h:outputText value="#{msg.catalog_price}" />
 										<p:slider for="txt6,txt7" minValue="1" maxValue="5000"
@@ -101,6 +103,12 @@
 											value="#{cartFlowBean.catalog.priceMax}" />
 									</div>
 								</div>
+																<div class="col-sm-2">
+									<div class="checkbox">
+										<label> <h:selectBooleanCheckbox disabled="#{cartFlowBean.catalog.disabledNewCampaign}" value="#{cartFlowBean.catalog.includePromo}" /> #{msg.catalogo_includePromo} </label>
+									</div>
+								</div>
+								
 							</div>
 							<div>
 								<p:commandButton styleClass="ui-priority-primary"

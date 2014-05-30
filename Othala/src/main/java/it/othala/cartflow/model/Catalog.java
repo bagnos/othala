@@ -27,8 +27,34 @@ public class Catalog implements Serializable {
 	private int orderPrice;
 	private List<ProductDTO> articles;
 	private List<ProductDTO> articlesPage;
-	
-	
+	private boolean includePromo;
+	private Integer idCampaign;
+	private boolean disabledNewCampaign;
+
+	public boolean isDisabledNewCampaign() {
+		return disabledNewCampaign;
+	}
+
+	public void setDisabledNewCampaign(boolean disabledNewCampaign) {
+		this.disabledNewCampaign = disabledNewCampaign;
+	}
+
+	public Integer getIdCampaign() {
+		return idCampaign;
+	}
+
+	public void setIdCampaign(Integer idCampaign) {
+		this.idCampaign = idCampaign;
+	}
+
+	public boolean isIncludePromo() {
+		return includePromo;
+	}
+
+	public void setIncludePromo(boolean includePromo) {
+		this.includePromo = includePromo;
+	}
+
 	public List<ProductDTO> getArticles() {
 		if (articles == null) {
 			articles = new ArrayList<>();
@@ -42,7 +68,6 @@ public class Catalog implements Serializable {
 		}
 		return articlesPage;
 	}
-
 
 	public Integer getCurrentPage() {
 		return currentPage;
