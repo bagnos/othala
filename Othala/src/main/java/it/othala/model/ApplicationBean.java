@@ -2,6 +2,7 @@ package it.othala.model;
 
 import it.othala.dto.AttributeDTO;
 import it.othala.dto.AttributeSizeDTO;
+import it.othala.dto.CampaignDTO;
 import it.othala.dto.DomainDTO;
 import it.othala.dto.MenuDTO;
 import it.othala.dto.SiteImagesDTO;
@@ -36,7 +37,18 @@ public class ApplicationBean implements Serializable {
 	private List<SiteImagesDTO> imgs = null;
 	private List<SiteImagesDTO> imgsNewArrival = new ArrayList<>();;
 	private DomainDTO domain;
+	private List<CampaignDTO> campaigns=new ArrayList<>();;
+
 	
+	public List<CampaignDTO> getCampaigns() {
+		if (campaigns==null)
+		{
+			campaigns=OthalaFactory.getProductServiceInstance().getListCampaign();
+		}
+		return campaigns;
+	}
+
+
 	public List<SelectItem> getSizes() {		
 		return sizes;
 	}
