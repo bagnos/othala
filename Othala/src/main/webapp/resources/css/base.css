@@ -286,9 +286,21 @@ word-wrap: break-word;
 
 .nav-tabs>li>a {
 	font-size: 16px !important;
-	color: rgb(102, 102, 102) !important;
+	color: rgb(102, 102, 102);
 	font-weight: lighter !important;;
 }
+
+#newArr {	
+	color: red !important;
+	font-weight: bold;	
+}
+
+#promo {	
+	color: green !important;
+	font-weight: bold;	
+}
+
+
 
 #tab-content a {
 	font-weight: lighter !important;;

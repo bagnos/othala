@@ -1,0 +1,23 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/merchantTemplate.xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+	<ui:define name="breadcrumb">
+		<div class="col-sm-5 col-sm-offset-5">
+			<ul id="merchant-breadcrumb" class="breadcrumb">
+				<li><a href="#{request.contextPath}/faces/merchant/home.xhtml" title="Vai alla Home">
+						<span class="glyphicon glyphicon-home"></span>
+					</a></li>
+				<li class="active"><ui:insert name="PaginaBreadcrumb"></ui:insert></li>
+			</ul>
+		</div>
+	</ui:define>
+
+	
+		
+	
+
+
+</ui:composition>

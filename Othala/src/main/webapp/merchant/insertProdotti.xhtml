@@ -1,0 +1,79 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/merchantPageTemplate.xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:viewAction action="#{insertProdottiView.doInit}"></f:viewAction>
+		</f:metadata>
+	</ui:define>
+
+
+	<ui:define name="title">
+		<h:outputText value="Inserimento Prodotti"></h:outputText>
+	</ui:define>
+
+	<ui:define name="Pagina">PRODOTTI</ui:define>
+	<ui:define name="PaginaBreadcrumb">Inserimento Prodotti</ui:define>
+
+	<ui:define name="bodyPageContent">
+		<h:form prependId="false">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h5>
+								<strong><h:outputText value="PRODOTTO" /></strong>
+							</h5>
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-sm-12">
+								<div class="row">
+				<div class="col-sm-6">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h5>
+								<strong><h:outputText value="ARTICOLO" /></strong>
+							</h5>
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-sm-12"></div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<div class="col-sm-6">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h5>
+								<strong><h:outputText value="LISTA ARTICOLI" /></strong>
+							</h5>
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-sm-12"></div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				
+
+			</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+			
+		</h:form>
+	</ui:define>
+</ui:composition>
