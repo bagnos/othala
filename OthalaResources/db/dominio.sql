@@ -110,6 +110,7 @@ VALUES
 
 
 INSERT INTO `othala`.`customer` (`idUser`, `txPassword`, `txNome`, `txCognome`, `txFiscale`, `idTypeState`) VALUES ('1', 'ANTANI', 'JACOPO', 'FREDIANI', 'FRDJCP79A28I726A', 2);
+INSERT INTO `othala`.`customer_roles` (`idUser`,`txRole`) VALUES (1,'AMMINISTRATORE');
 INSERT INTO `othala`.`addresses` (`idAddress`, `idUser`, `txNome`, `txCognome`, `txVia`, `txComune`, `cdCap`, `txProvincia`, `txNazione`, `txTel`, `fgDeleted`, `txEtichetta`) VALUES (1, '1', 'JACOPO', 'FREDIANI', 'STRADA CASSIA SUD 15/A', 'SIENA', 53100, 'SI', 'ITALIA', '3392113342', 0, 'CASA');
 INSERT INTO `othala`.`orders` VALUES (1, '1', 1000.00, '1', 1, 1, 1,'ASDF323454');
 INSERT INTO `othala`.`orders_articles` (`idOrder`, `idProdotto`, `pgArticle`, `qtArticle`) VALUES (1, 1, 1, 1);
