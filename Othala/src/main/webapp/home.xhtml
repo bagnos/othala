@@ -40,12 +40,6 @@
 									<h:link outcome="#{imgCar.urlRedirect}">
 										<p:graphicImage styleClass="img-responsive" library="#{imgCar.txLibrary}"
 											name="#{imgCar.txName}" />
-
-										<f:param name="idMenu" value="0"></f:param>
-										<f:param name="idSubMenu" value="0"></f:param>
-										<f:param name="fgNewArrivals" value="false"></f:param>
-										<f:param name="idCampaign" value="0"></f:param>
-
 									</h:link>
 								</div>
 							</ui:repeat>
@@ -74,9 +68,6 @@
 					<div class="col-sm-3">
 						<div class="thumbnail thumbnail-home">
 							<h:link outcome="#{imgNewArr.urlRedirect}">
-								<f:param name="idMenu" value="#{imgNewArr.pgGroupImages}"></f:param>
-								<f:param name="fgNewArrivals" value="true"></f:param>
-								<f:param name="idSubMenu" value=""></f:param>
 								<p:graphicImage styleClass="img-responsive" library="#{imgNewArr.txLibrary}"
 									name="#{imgNewArr.txName}" />
 							</h:link>
