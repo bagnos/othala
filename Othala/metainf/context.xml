@@ -13,9 +13,11 @@
 
 	<!-- configurazione di produzione -->
 
-	<!-- <Realm className="org.apache.catalina.realm.DataSourceRealm" dataSourceName="jdbc/contrada" 
-		userTable="prote923_contrada.utente" userNameCol="tx_user" userCredCol="tx_psw" userRoleTable="prote923_contrada.abilitazione" 
-		roleNameCol="tx_ruolo" localDataSource="true" /> <Resource name="jdbc/contrada" auth="Container" 
+	 <Realm className="org.apache.catalina.realm.DataSourceRealm" dataSourceName="jdbc/othala" 
+		userTable="othala.customer" userNameCol="idUser" userCredCol="txPassword" userRoleTable="othala.customer_roles" 
+		roleNameCol="txRole" localDataSource="true" />
+		
+		<!--  <Resource name="jdbc/contrada" auth="Container" 
 		type="javax.sql.DataSource" validationQuery="SELECT 1" validationInterval="30000" 
 		maxActive="100" maxIdle="30" maxWait="10000" username="prote923_bagnos" password="didone1976" 
 		driverClassName="com.mysql.jdbc.Driver" url="jdbc:mysql://mysql.protettoratonicchio.it:3306/prote923_contrada" 
