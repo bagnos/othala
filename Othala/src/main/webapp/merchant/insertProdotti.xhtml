@@ -19,35 +19,58 @@
 	<ui:define name="PaginaBreadcrumb">Inserimento Prodotti</ui:define>
 
 	<ui:define name="bodyPageContent">
-		<h:form prependId="false">
+		<h:form prependId="false" styleClass="form-horizontal">
 
+			<div class="row">
+				<div class="col-sm-4">
+					<h3 class="form-titoli">
+						<h:outputText value="PRODOTTI" />
+					</h3>
+				</div>
+			</div>
 
-			<h3>PRODOTTI</h3>
-			<form class="form-horizontal">
+			<div class="form-group spacer10">
+				<label for="barcode" class="col-sm-1 control-label">Barcode</label>
+				<div class="col-sm-3">
+					<input type="text" class="form-control" id="barcode" />
+				</div>
+			</div>
 
-
-				<div class="form-group spacer30">
-					<label for="barcode" class="col-sm-1 control-label">Barcode</label>
-					<div class="col-sm-3">
-						<input type="text" class="form-control" id="barcode" />
-					</div>
+			<div class="form-group">
+				<label for="genere" class="col-sm-1 control-label">Genere</label>
+				<div class="col-sm-3">
+					<p:autoComplete required="true" minQueryLength="3" dropdown="true" id="genere"
+						value="#{insertProdottiView.genere}" completeMethod="#{insertProdottiView.completeGenere}"
+						var="menu" itemLabel="#{menu.txGender}" itemValue="#{menu}" converter="#{menuConverter}"
+						forceSelection="true">
+						<p:ajax event="itemSelect" update="tipo" />
+					</p:autoComplete>
 				</div>
 
-				<div class="form-group">
+				<label for="tipo" class="col-sm-1 control-label">Tipo</label>
+				<div class="col-sm-3">
+					<p:autoComplete required="true" minQueryLength="3" dropdown="true" id="tipo"
+						value="#{insertProdottiView.tipo}" completeMethod="#{insertProdottiView.completeTipo}"
+						var="menu" itemLabel="#{menu.txType}" itemValue="#{menu}" converter="sottoMenuConverter"
+						forceSelection="true" />
+				</div>
+			</div>
 
-					<p:outputLabel styleClass="col-sm-1 control-label" value="Genere" for="dd" />
-					<div class="col-sm-3">
-						<p:autoComplete id="dd" dropdown="true" value="#{insertProdottiView.gender}"
-							completeMethod="#{insertProdottiView.completeText}" />
-					</div>
+			<div class="form-group">
+				<label for="brand" class="col-sm-1 control-label">Brand</label>
+				<div class="col-sm-3">
+					<p:autoComplete required="true" minQueryLength="3" dropdown="true" id="brand"
+						value="#{insertProdottiView.brand}" completeMethod="#{insertProdottiView.completeBrand}"
+						var="brand" itemLabel="#{brand.valore}" itemValue="#{brand}" converter="#{brandConverter}"
+						forceSelection="true" />
 				</div>
 
 
- 
+				
 
+			</div>
 
-
-				<!-- 
+			<!-- 
 					<div class="form-group">
 						<label for="genere" class="col-sm-1 control-label">Genere</label>
 						<div class="col-sm-3">
@@ -79,7 +102,7 @@
 						</div>
 					</div>
 -->
-				<!-- 
+			<!-- 
 					<div class="form-group">
 						<label for="brand" class="col-sm-1 control-label">Brand</label>
 						<div class="col-sm-4">
@@ -97,20 +120,33 @@
 						</div>
 					</div>
  -->
-				<div class="form-group">
-					<label for="currencyEuro" class="col-sm-1 control-label">Prezzo</label>
-					<div class="col-sm-2">
+			<div class="form-group">
+				<label for="currencyEuro" class="col-sm-1 control-label">Prezzo</label>
+				<div class="col-sm-2">
 
-						<pe:inputNumber widgetVar="f6" symbol="&#8364; " id="currencyEuro"
-							value="#{inputNumberController.input12}" decimalSeparator="," thousandSeparator="."
-							decimalPlaces="2" />
-
-					</div>
-
+					<pe:inputNumber  widgetVar="f6" symbol="&#8364; " id="currencyEuro"
+						value="#{insertProdottiView.prezzo}" decimalSeparator="," thousandSeparator="."
+						decimalPlaces="2" />
 
 				</div>
+				
+				<label for="sconto" class="col-sm-1 control-label">Sconto</label>
+				<div class="col-sm-1">
+					<p:spinner  suffix=" %" size="4" id="sconto" value="#{insertProdottiView.sconto}" min="0" max="10000" />
+				</div>
+				
+				<label for="totale" class="col-sm-1 control-label">Totale</label>
+				<div class="col-sm-1">
+					<pe:inputNumber  widgetVar="f6" symbol="&#8364; " id="totale"
+						value="#{insertProdottiView.prezzoScontato}" disabled="true" decimalSeparator="," thousandSeparator="."
+						decimalPlaces="2" />
+				</div>
+				
 
-			</form>
+
+			</div>
+
+
 
 
 		</h:form>

@@ -38,8 +38,16 @@ public class ApplicationBean implements Serializable {
 	private List<SiteImagesDTO> imgsNewArrival = new ArrayList<>();;
 	private DomainDTO domain;
 	private List<CampaignDTO> campaigns=new ArrayList<>();;
+	private List<AttributeDTO> brandDTO=new ArrayList<>();
+		
 
 	
+	public List<AttributeDTO> getBrandDTO() {
+		getBrands();
+		return brandDTO;
+	}
+
+
 	public List<CampaignDTO> getCampaigns() {
 		if (campaigns.isEmpty())
 		{
@@ -93,6 +101,7 @@ public class ApplicationBean implements Serializable {
 		if (brands.isEmpty()) {
 
 			brands.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseBrand")));
+			brandDTO=getDomain().getBrand();
 			for (AttributeDTO att : getDomain().getBrand()) {
 				brands.add(new SelectItem(att.getAttributo(), att.getValore()));
 			}

@@ -86,6 +86,7 @@
 	</filter-mapping>
   
   <!-- sicurezza -->
+  <!-- 
   <security-constraint>
 		<web-resource-collection>
 			<web-resource-name>AdminPages</web-resource-name>
@@ -105,7 +106,7 @@
 	<security-role>
 		<role-name>AMMINISTRATORE</role-name>
 	</security-role>
-  
+   -->
   
   <listener>
     <listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
