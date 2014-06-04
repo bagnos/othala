@@ -41,7 +41,7 @@ public class ApplicationBean implements Serializable {
 
 	
 	public List<CampaignDTO> getCampaigns() {
-		if (campaigns==null)
+		if (campaigns.isEmpty())
 		{
 			campaigns=OthalaFactory.getProductServiceInstance().getListCampaign();
 		}
