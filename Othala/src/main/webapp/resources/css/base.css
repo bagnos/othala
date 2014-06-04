@@ -285,25 +285,28 @@ word-wrap: break-word;
 }
 
 .nav-tabs>li>a {
-	font-size: 16px !important;
-	color: rgb(102, 102, 102);
-	font-weight: lighter !important;;
+	font-size: 20px !important;
+	color: black;
+	font-weight: bold !important;;
 }
 
 #newArr {	
 	color: green !important;
-	font-weight: bold !important;	
+	font-weight: bold !important;
+
 }
 
 #promo {	
 	color: red !important;
-	font-weight: bold !important;	
+	font-weight: bold !important;
+
 }
 
 
 
 #tab-content a {
-	font-weight: lighter !important;;
+	font-weight: bold !important;;
+	font-size: 16px !important;;
 	color: #888 !important;;
 	padding: 0 0 0 11px;
 	background: url('./images/tabNav/arw_link.gif') no-repeat left
