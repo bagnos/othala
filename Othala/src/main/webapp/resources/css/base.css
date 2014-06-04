@@ -3,6 +3,9 @@
 ================================================================================================*/
 .ui-widget {
 	font-size: 95% !important;
+    font-family: playregular !important;
+
+
 }
 
 .ui-galleria-panel {
@@ -75,7 +78,7 @@ margin-left: 0.3em;
 	min-width:32px;
 	padding:4px;
 	font-size:14px;
-	font-weight:bold;
+	font-weight:normal;
 	text-align:center;
 	line-height:32px;
 	top:6px;
@@ -96,7 +99,7 @@ margin-left: 0.3em;
 	min-width:32px;
 	padding:4px;
 	font-size:14px;
-	font-weight:bold;
+	font-weight:normal;
 	text-align:center;
 	line-height:32px;
 	top:6px;
@@ -117,7 +120,7 @@ margin-left: 0.3em;
 	min-width:32px;
 	padding:4px;
 	font-size:14px;
-	font-weight:bold;
+	font-weight:normal;
 	text-align:center;
 	line-height:32px;
 	top:6px;
@@ -286,9 +289,11 @@ word-wrap: break-word;
 
 .nav-tabs>li>a {
 	font-family: playbold !important;
+	font-style: italic !important;
 	font-size: 20px !important;
 	color: black;
 	font-weight: bold !important;;
+	
 }
 
 #newArr {	
@@ -307,6 +312,7 @@ word-wrap: break-word;
 
 #tab-content a {
 	font-family: playbold !important;
+	font-style: italic !important;
 	font-weight: bold !important;;
 	font-size: 16px !important;;
 	color: #888 !important;;
@@ -465,6 +471,12 @@ html,body,form {
 /* ================================================================================================ 
 	FINE STICKY FOOTER 
 ================================================================================================*/
+.body {
+
+        font-family: playregular !important;
+
+}
+
 
 /* ================================================================================================ 
 	INIZIO WIZARD CHECKOUT CARELLO 
