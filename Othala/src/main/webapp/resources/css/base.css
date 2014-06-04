@@ -291,13 +291,13 @@ word-wrap: break-word;
 }
 
 #newArr {	
-	color: red !important;
-	font-weight: bold;	
+	color: green !important;
+	font-weight: bold !important;	
 }
 
 #promo {	
-	color: green !important;
-	font-weight: bold;	
+	color: red !important;
+	font-weight: bold !important;	
 }
 
 
