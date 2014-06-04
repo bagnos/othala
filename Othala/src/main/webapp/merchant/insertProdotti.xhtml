@@ -20,60 +20,99 @@
 
 	<ui:define name="bodyPageContent">
 		<h:form prependId="false">
-			<div class="row">
-				<div class="col-sm-12">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h5>
-								<strong><h:outputText value="PRODOTTO" /></strong>
-							</h5>
-						</div>
-						<div class="panel-body">
-							<div class="row">
-								<div class="col-sm-12">
-								<div class="row">
-				<div class="col-sm-6">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h5>
-								<strong><h:outputText value="ARTICOLO" /></strong>
-							</h5>
-						</div>
-						<div class="panel-body">
-							<div class="row">
-								<div class="col-sm-12"></div>
-							</div>
-						</div>
+
+
+			<h3>PRODOTTI</h3>
+			<form class="form-horizontal">
+
+
+				<div class="form-group spacer30">
+					<label for="barcode" class="col-sm-1 control-label">Barcode</label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control" id="barcode" />
 					</div>
-
-				</div>
-				<div class="col-sm-6">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h5>
-								<strong><h:outputText value="LISTA ARTICOLI" /></strong>
-							</h5>
-						</div>
-						<div class="panel-body">
-							<div class="row">
-								<div class="col-sm-12"></div>
-							</div>
-						</div>
-					</div>
-
-				</div>
-				
-
-			</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
 				</div>
 
-			</div>
-			
+				<div class="form-group">
+
+					<p:outputLabel styleClass="col-sm-1 control-label" value="Genere" for="dd" />
+					<div class="col-sm-3">
+						<p:autoComplete id="dd" dropdown="true" value="#{insertProdottiView.gender}"
+							completeMethod="#{insertProdottiView.completeText}" />
+					</div>
+				</div>
+
+
+ 
+
+
+
+				<!-- 
+					<div class="form-group">
+						<label for="genere" class="col-sm-1 control-label">Genere</label>
+						<div class="col-sm-3">
+							<input list="generi" name="genere" class="form-control" id="genere" />
+							<datalist id="generi">
+								<option value="Uomo" />
+								<option value="Donna" />
+								<option value="Bambino" />
+								<option value="Bambina" />
+							</datalist>
+						</div>
+					</div>
+					<div>
+						<label for="tipo" class="col-sm-1 control-label">Tipo</label>
+						<div class="col-sm-4">
+							<div class="input-group">
+								<input list="tipi" name="tipo" class="form-control" id="tipo" placeholder="Tipo" />
+								<span class="input-group-btn">
+									<button class="btn btn-default" type="button">Add...</button>
+								</span>
+							</div>
+							<datalist id="tipi">
+								<option value="Jeans" />
+								<option value="Maglietta" />
+								<option value="Giacchetti" />
+								<option value="Camicie" />
+							</datalist>
+
+						</div>
+					</div>
+-->
+				<!-- 
+					<div class="form-group">
+						<label for="brand" class="col-sm-1 control-label">Brand</label>
+						<div class="col-sm-4">
+							<div class="input-group">
+								<input list="brands" name="brand" class="form-control" id="brand" placeholder="Brand" />
+								<span class="input-group-btn">
+									<button class="btn btn-default" type="button">Add...</button>
+								</span>
+							</div>
+							<datalist id="brands">
+								<option value="Armani" />
+								<option value="Gucci" />
+								<option value="Prada" />
+							</datalist>
+						</div>
+					</div>
+ -->
+				<div class="form-group">
+					<label for="currencyEuro" class="col-sm-1 control-label">Prezzo</label>
+					<div class="col-sm-2">
+
+						<pe:inputNumber widgetVar="f6" symbol="&#8364; " id="currencyEuro"
+							value="#{inputNumberController.input12}" decimalSeparator="," thousandSeparator="."
+							decimalPlaces="2" />
+
+					</div>
+
+
+				</div>
+
+			</form>
+
+
 		</h:form>
 	</ui:define>
 </ui:composition>
