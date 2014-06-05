@@ -101,12 +101,13 @@
 		gender,
 		txType as type,
 		pcDiscount as discount,
+		
 		case
-		when a.dtProductState
-		>
-		current_date - 7 then 'Y'
+		when DATEDIFF(current_date, a.dtProductState) &lt; 10 
+		then 'Y'
 		else 'N'
 		end as fgNewArrivals,
+		
 		a.idCampaign
 		FROM
 
@@ -143,7 +144,7 @@
 			and (imPrice * (100 - pcDiscount) / 100) &lt;= #{maxPrice}
 		</if>
 		<if test="newArrivals != null and newArrivals == true">
-			and a.dtProductState > current_date - 7
+			and DATEDIFF(current_date, a.dtProductState) &lt; 10 
 		</if>
 
 		<if test="type != null">
@@ -339,10 +340,13 @@
 		ceiling(a.imPrice * (100 - a.pcDiscount) /
 		100) as priceDiscounted,
 		b.txDescription as description,
-		case when
-		a.dtProductState >
-		current_date - 7 then 'S' else 'N' end as
-		fgNewArrivals,
+
+		case
+		when DATEDIFF(current_date, a.dtProductState) &lt; 10 
+		then 'Y'
+		else 'N'
+		end as fgNewArrivals,
+		
 		a.idGender,
 		txGender,
 		a.idType,
