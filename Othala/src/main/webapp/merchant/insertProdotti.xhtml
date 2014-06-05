@@ -39,7 +39,7 @@
 			<div class="form-group">
 				<label for="genere" class="col-sm-1 control-label">Genere</label>
 				<div class="col-sm-3">
-					<p:autoComplete required="true" minQueryLength="3" dropdown="true" id="genere"
+					<p:autoComplete required="true" minQueryLength="1" dropdown="true" id="genere"
 						value="#{insertProdottiView.genere}" completeMethod="#{insertProdottiView.completeGenere}"
 						var="menu" itemLabel="#{menu.txGender}" itemValue="#{menu}" converter="#{menuConverter}"
 						forceSelection="true">
@@ -49,7 +49,7 @@
 
 				<label for="tipo" class="col-sm-1 control-label">Tipo</label>
 				<div class="col-sm-3">
-					<p:autoComplete required="true" minQueryLength="3" dropdown="true" id="tipo"
+					<p:autoComplete required="true" minQueryLength="1" dropdown="true" id="tipo"
 						value="#{insertProdottiView.tipo}" completeMethod="#{insertProdottiView.completeTipo}"
 						var="menu" itemLabel="#{menu.txType}" itemValue="#{menu}" converter="sottoMenuConverter"
 						forceSelection="true" />
@@ -59,7 +59,7 @@
 			<div class="form-group">
 				<label for="brand" class="col-sm-1 control-label">Brand</label>
 				<div class="col-sm-3">
-					<p:autoComplete required="true" minQueryLength="3" dropdown="true" id="brand"
+					<p:autoComplete required="true" minQueryLength="1" dropdown="true" id="brand"
 						value="#{insertProdottiView.brand}" completeMethod="#{insertProdottiView.completeBrand}"
 						var="brand" itemLabel="#{brand.valore}" itemValue="#{brand}" converter="#{brandConverter}"
 						forceSelection="true" />
