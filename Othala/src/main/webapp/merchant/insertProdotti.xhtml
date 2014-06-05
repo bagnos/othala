@@ -133,12 +133,12 @@
 				<label for="sconto" class="col-sm-1 control-label">Sconto</label>
 				<div class="col-sm-1">
 					<p:spinner suffix=" %" size="4" id="sconto" value="#{insertProdottiView.sconto}" min="0"
-						max="10000" />
+						max="100" />
 				</div>
 
 				<label for="totPrezzoPrd" class="col-sm-1 control-label">Totale</label>
 				<div class="col-sm-1">
-					<pe:inputNumber widgetVar="f6" symbol="&#8364;" size="6" id="totPrezzoPrd"
+					<pe:inputNumber widgetVar="f6" symbol="&#8364;" size="10" id="totPrezzoPrd"
 						value="#{insertProdottiView.prezzoScontato}" disabled="true" decimalSeparator=","
 						thousandSeparator="." decimalPlaces="2" />
 				</div>
