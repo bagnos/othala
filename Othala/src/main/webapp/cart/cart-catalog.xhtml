@@ -64,7 +64,7 @@
 										<h:outputText value="#{msg.catalog_size}" />
 										<h:selectOneMenu styleClass="form-control"
 											value="#{cartFlowBean.catalog.size}">
-											<f:selectItems value="#{applicationBean.sizes}"></f:selectItems>
+											<f:selectItems value="#{applicationBean.getSizes(cartFlowBean.catalog.idSubMenu)}"></f:selectItems>
 										</h:selectOneMenu>
 									</div>
 								</div>
