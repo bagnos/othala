@@ -5,6 +5,7 @@ import it.othala.dto.AttributeSizeDTO;
 import it.othala.dto.CampaignDTO;
 import it.othala.dto.DomainDTO;
 import it.othala.dto.MenuDTO;
+import it.othala.dto.ShopDTO;
 import it.othala.dto.SiteImagesDTO;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.web.utils.OthalaUtil;
@@ -29,7 +30,7 @@ public class ApplicationBean implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private List<SelectItem> sizes = new ArrayList<>();	
+
 	private List<SelectItem> colors = new ArrayList<>();
 	private List<SelectItem> brands = new ArrayList<>();
 	private List<MenuDTO> menu = new ArrayList<>();
@@ -37,30 +38,59 @@ public class ApplicationBean implements Serializable {
 	private List<SiteImagesDTO> imgs = null;
 	private List<SiteImagesDTO> imgsNewArrival = new ArrayList<>();;
 	private DomainDTO domain;
-	private List<CampaignDTO> campaigns=new ArrayList<>();;
-	private List<AttributeDTO> brandDTO=new ArrayList<>();
-		
+	private List<CampaignDTO> campaigns = new ArrayList<>();;
+	private List<AttributeDTO> brandDTO = new ArrayList<>();	
+	private List<AttributeDTO> colorsDTO = new ArrayList<>();
+	private List<AttributeSizeDTO> sizeDTO = new ArrayList<>();
+	private List<ShopDTO> shopsDTO = new ArrayList<>();
 
-	
+	public List<ShopDTO> getShopsDTO() {
+		if (shopsDTO.isEmpty())
+		{
+			ShopDTO s1=new ShopDTO();
+			s1.setIdShop(1);
+			s1.setTxShop("SIENA");
+			shopsDTO.add(s1);
+			s1=new ShopDTO();
+			s1.setIdShop(2);
+			s1.setTxShop("FOLLONICA");
+			shopsDTO.add(s1);
+			s1=new ShopDTO();
+			s1.setIdShop(3);
+			s1.setTxShop("AREZZO");
+			shopsDTO.add(s1);
+		}
+		return shopsDTO;
+	}
+
+	public List<AttributeSizeDTO> getSizeDTO() {
+		if (sizeDTO.isEmpty())
+		{
+			sizeDTO=getDomain().getSize();
+		}
+		return sizeDTO;
+	}
+
+	public List<AttributeDTO> getColorsDTO() {
+		getColors();
+		return colorsDTO;
+	}
+
+	public void setColors(List<SelectItem> colors) {
+		this.colors = colors;
+	}
+
 	public List<AttributeDTO> getBrandDTO() {
 		getBrands();
 		return brandDTO;
 	}
 
-
 	public List<CampaignDTO> getCampaigns() {
-		if (campaigns.isEmpty())
-		{
-			campaigns=OthalaFactory.getProductServiceInstance().getListCampaign();
+		if (campaigns.isEmpty()) {
+			campaigns = OthalaFactory.getProductServiceInstance().getListCampaign();
 		}
 		return campaigns;
 	}
-
-
-	public List<SelectItem> getSizes() {		
-		return sizes;
-	}
-
 
 	private DomainDTO getDomain() {
 
@@ -101,7 +131,7 @@ public class ApplicationBean implements Serializable {
 		if (brands.isEmpty()) {
 
 			brands.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseBrand")));
-			brandDTO=getDomain().getBrand();
+			brandDTO = getDomain().getBrand();
 			for (AttributeDTO att : getDomain().getBrand()) {
 				brands.add(new SelectItem(att.getAttributo(), att.getValore()));
 			}
@@ -110,17 +140,33 @@ public class ApplicationBean implements Serializable {
 		return brands;
 	}
 
-	public void updateSizes(Integer idSubMenu) {
+	public List<SelectItem> getSizes(Integer idSubMenu) {
 
-		sizes.clear();
+		List<SelectItem> sizes = new ArrayList<SelectItem>();
 		sizes.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseSize")));
 		if (idSubMenu != null && idSubMenu.intValue() != -1) {
 			for (AttributeSizeDTO att : getDomain().getSize()) {
-				if (att.getIdType().intValue() == idSubMenu.intValue() || idSubMenu==0) {
+				if (att.getIdType().intValue() == idSubMenu.intValue() || idSubMenu == 0) {
+				
 					sizes.add(new SelectItem(att.getAttributo(), att.getValore()));
 				}
 			}
 		}
+		return sizes;
+	}
+
+	public List<AttributeDTO> getSizesDTO(Integer idSubMenu) {
+		List<AttributeDTO> sizesDTO = new ArrayList<AttributeDTO>();
+
+		if (idSubMenu != null && idSubMenu.intValue() != -1) {
+			for (AttributeSizeDTO att : getDomain().getSize()) {
+				if (att.getIdType().intValue() == idSubMenu.intValue() || idSubMenu == 0) {
+					sizesDTO.add(att);
+
+				}
+			}
+		}
+		return sizesDTO;
 	}
 
 	public List<SelectItem> getColors() {
@@ -128,6 +174,7 @@ public class ApplicationBean implements Serializable {
 
 			colors.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseColor")));
 			for (AttributeDTO att : getDomain().getColor()) {
+				colorsDTO.add(att);
 				colors.add(new SelectItem(att.getAttributo(), att.getValore()));
 			}
 

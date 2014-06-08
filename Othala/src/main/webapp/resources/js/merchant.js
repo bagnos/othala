@@ -23,5 +23,6 @@ function initPrezzo() {
 		totale = totale.toFixed(2);
 		totale = totale.replace(".", ",");
 		$("#totPrezzoPrd_input").val(totale);
+		$("#totPrezzoPrd_input").change();
 	}
 }

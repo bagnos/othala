@@ -38,6 +38,11 @@
     <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
     <param-value>server</param-value>
   </context-param>
+  <context-param>
+<param-name>primefaces.UPLOADER</param-name>
+<param-value>auto</param-value>
+</context-param>
+
   <servlet>
     <servlet-name>MistletoeServlet</servlet-name>
     <servlet-class>ch.qos.mistletoe.servlet.MistletoeServlet</servlet-class>
@@ -84,6 +89,17 @@
 		<filter-name>LoginFilter</filter-name>
 		<url-pattern>*.xhtml</url-pattern>		
 	</filter-mapping>
+	
+	<filter>
+<filter-name>PrimeFaces FileUpload Filter</filter-name>
+<filter-class>
+org.primefaces.webapp.filter.FileUploadFilter
+</filter-class>
+</filter>
+<filter-mapping>
+<filter-name>PrimeFaces FileUpload Filter</filter-name>
+<servlet-name>Faces Servlet</servlet-name>
+</filter-mapping>
   
   <!-- sicurezza -->
   <!-- 

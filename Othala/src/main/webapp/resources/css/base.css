@@ -3,9 +3,7 @@
 ================================================================================================*/
 .ui-widget {
 	font-size: 95% !important;
-    font-family: playregular !important;
-
-
+	font-family: playregular !important;
 }
 
 .ui-galleria-panel {
@@ -38,6 +36,21 @@
 	margin: 0px !important;
 }
 
+#frmImages .ui-widget-header {
+	border: none !important;;
+	background: transparent !important;
+}
+
+#frmImages .ui-widget-content {
+	border: none !important;;
+}
+
+
+.ui-fileupload-files
+{
+	display: none !important;
+}
+
 /* ================================================================================================ 
 	FINE CUSTOM PRIMEFACES
 ================================================================================================*/
@@ -51,11 +64,8 @@
 	padding-bottom: 10px;
 }
 
-
-
-.mleft-addr
-{
-margin-left: 0.3em;
+.mleft-addr {
+	margin-left: 0.3em;
 }
 
 .emptyPnl {
@@ -69,97 +79,100 @@ margin-left: 0.3em;
 	color: #900;
 }
 
-
-
 .newPromo2 {
-	height:40px;
-	width:40px;
-	min-height:32px;
-	min-width:32px;
-	padding:4px;
-	font-size:14px;
-	font-weight:normal;
-	text-align:center;
-	line-height:32px;
-	top:6px;
-	left:6px;
-	margin:0;
-	border-radius:20px;
-	background:orange;
-	-text-shadow:0 -1px 0 #85ad74;
-	color:#fff;
-	-box-shadow:inset 0 1px 0 rgba(255,255,255,.3),inset 0 -1px 0 rgba(0,0,0,.2),0 1px 2px rgba(0,0,0,.2);
+	height: 40px;
+	width: 40px;
+	min-height: 32px;
+	min-width: 32px;
+	padding: 4px;
+	font-size: 14px;
+	font-weight: normal;
+	text-align: center;
+	line-height: 32px;
+	top: 6px;
+	left: 6px;
+	margin: 0;
+	border-radius: 20px;
+	background: orange;
+	-text-shadow: 0 -1px 0 #85ad74;
+	color: #fff;
+	-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), inset 0 -1px 0
+		rgba(0, 0, 0, .2), 0 1px 2px rgba(0, 0, 0, .2);
 }
-
 
 .newPromo3 {
-	height:40px;
-	width:40px;
-	min-height:32px;
-	min-width:32px;
-	padding:4px;
-	font-size:14px;
-	font-weight:normal;
-	text-align:center;
-	line-height:32px;
-	top:6px;
-	left:6px;
-	margin:0;
-	border-radius:20px;
-	background:red;
-	-text-shadow:0 -1px 0 #85ad74;
-	color:#fff;
-	-box-shadow:inset 0 1px 0 rgba(255,255,255,.3),inset 0 -1px 0 rgba(0,0,0,.2),0 1px 2px rgba(0,0,0,.2);
+	height: 40px;
+	width: 40px;
+	min-height: 32px;
+	min-width: 32px;
+	padding: 4px;
+	font-size: 14px;
+	font-weight: normal;
+	text-align: center;
+	line-height: 32px;
+	top: 6px;
+	left: 6px;
+	margin: 0;
+	border-radius: 20px;
+	background: red;
+	-text-shadow: 0 -1px 0 #85ad74;
+	color: #fff;
+	-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), inset 0 -1px 0
+		rgba(0, 0, 0, .2), 0 1px 2px rgba(0, 0, 0, .2);
 }
-
 
 .newFlag2 {
-	height:40px;
-	width:40px;
-	min-height:32px;
-	min-width:32px;
-	padding:4px;
-	font-size:14px;
-	font-weight:normal;
-	text-align:center;
-	line-height:32px;
-	top:6px;
-	left:6px;
-	margin:0;
-	border-radius:20px;
-	background:green;
-	-text-shadow:0 -1px 0 #85ad74;
-	color:#fff;
-	-box-shadow:inset 0 1px 0 rgba(255,255,255,.3),inset 0 -1px 0 rgba(0,0,0,.2),0 1px 2px rgba(0,0,0,.2);
+	height: 40px;
+	width: 40px;
+	min-height: 32px;
+	min-width: 32px;
+	padding: 4px;
+	font-size: 14px;
+	font-weight: normal;
+	text-align: center;
+	line-height: 32px;
+	top: 6px;
+	left: 6px;
+	margin: 0;
+	border-radius: 20px;
+	background: green;
+	-text-shadow: 0 -1px 0 #85ad74;
+	color: #fff;
+	-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), inset 0 -1px 0
+		rgba(0, 0, 0, .2), 0 1px 2px rgba(0, 0, 0, .2);
 }
-
 
 .thumbnailCar {
-    width: 200px;
-    height: 266px;
-    overflow: hidden; /* contain images within thumbnail boundaries */
-    border: 0; /* removes Bootstrap's default border */
-    box-shadow: 0 12px 12px -10px #c4c4c4;
-    -webkit-box-shadow: 0 17px 22px -20px #c4c4c4;
-    -moz-box-shadow: 0 12px 12px -10px #c4c4c4;
+	width: 200px;
+	height: 266px;
+	overflow: hidden; /* contain images within thumbnail boundaries */
+	border: 0; /* removes Bootstrap's default border */
+	box-shadow: 0 12px 12px -10px #c4c4c4;
+	-webkit-box-shadow: 0 17px 22px -20px #c4c4c4;
+	-moz-box-shadow: 0 12px 12px -10px #c4c4c4;
 }
-.thumbnailCar img { width:100%; height:auto; } /* to keep proportions */
-.thumbnailsCar p { text-align: center; padding: 10px; } /* captions can be styled with an inline element */
 
+.thumbnailCar img {
+	width: 100%;
+	height: auto;
+} /* to keep proportions */
+.thumbnailsCar p {
+	text-align: center;
+	padding: 10px;
+} /* captions can be styled with an inline element */
 .thumbnailsCar {
 	list-style-type: none;
 }
 
-.w120
-{
+.w120 {
 	width: 120px;
 }
-.label-control
-{
+
+.label-control {
 	display: inline-block;
-	width:80px;
-	margin-right:10px;
-word-wrap: break-word;
+	width: 80px;
+	margin-right: 10px;
+	word-wrap: break-word;
 }
 
 .articolo-sel .form-group {
@@ -196,9 +209,9 @@ word-wrap: break-word;
 	text-transform: uppercase;
 }
 
-.paypal-checkout
-{
-	 background-image: url('https://www.paypal.com/it_IT/IT/i/btn/btn_xpressCheckout.gif');   
+.paypal-checkout {
+	background-image:
+		url('https://www.paypal.com/it_IT/IT/i/btn/btn_xpressCheckout.gif');
 }
 
 /* ================================================================================================ 
@@ -293,22 +306,17 @@ word-wrap: break-word;
 	font-size: 20px !important;
 	color: black;
 	font-weight: bold !important;;
-	
 }
 
-#newArr {	
+#newArr {
 	color: green !important;
 	font-weight: bold !important;
-
 }
 
-#promo {	
+#promo {
 	color: red !important;
 	font-weight: bold !important;
-
 }
-
-
 
 #tab-content a {
 	font-family: playbold !important;
@@ -369,7 +377,6 @@ word-wrap: break-word;
 .carousel {
 	/*border-top: 3px solid #357ebd;*/
 	border-top: none;
-
 	overflow: hidden !important;;
 	position: relative !important;;
 	border-right: none !important;
@@ -385,10 +392,6 @@ word-wrap: break-word;
 	display: none !important;
 }
 
-
-
-
-
 .ui-carousel-viewport>li {
 	margin-left: 0px !important;
 }
@@ -396,14 +399,11 @@ word-wrap: break-word;
 .ui-carousel-viewport {
 	position: relative !important;
 	overflow: hidden !important;
-
-
 }
 
 /* ================================================================================================ 
 	FINE CAROSELLO HOME 
 ================================================================================================*/
-
 .foot1-title {
 	font-family: playregular !important;
 	color: #666666;
@@ -431,8 +431,6 @@ word-wrap: break-word;
 	text-transform: uppercase;
 	font-weight: bold;
 	margin-top: 2px;
-	
-	
 }
 
 /* ================================================================================================ 
@@ -472,11 +470,8 @@ html,body,form {
 	FINE STICKY FOOTER 
 ================================================================================================*/
 .body {
-
-        font-family: playregular !important;
-
+	font-family: playregular !important;
 }
-
 
 /* ================================================================================================ 
 	INIZIO WIZARD CHECKOUT CARELLO 
@@ -629,9 +624,15 @@ html,body,form {
 }
 
 .bwizard-steps
+
+
 .clickable
 
+
+
 li
+
+
 
 
 
@@ -639,14 +640,18 @@ li
 :not
 
 
+
  
+
 
 
 (
 .active
 
 
+
  
+
 
 
 )
@@ -656,13 +661,19 @@ cursor
 
 
 
+
+
 :
+
 
 
  
 
 
+
 pointer
+
+
 
 
 
@@ -675,13 +686,19 @@ pointer
 
 
 
+
+
 .clickable
+
 
 
  
 
 
+
 li
+
+
 
 
 
@@ -691,17 +708,23 @@ li
 
 
 
+
+
 :not
 
 
+
  
+
 
 
 (
 .active
 
 
+
  
+
 
 
 )
@@ -711,13 +734,19 @@ background
 
 
 
+
+
 :
+
 
 
  
 
 
+
 #ccc
+
+
 
 
 

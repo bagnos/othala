@@ -19,7 +19,7 @@
 	<ui:define name="PaginaBreadcrumb">Inserimento Prodotti</ui:define>
 
 	<ui:define name="bodyPageContent">
-		<h:form prependId="false" styleClass="form-horizontal">
+		<h:form prependId="false" id="frmProd" styleClass="form-horizontal">
 
 			<div class="row">
 				<div class="col-sm-4">
@@ -28,127 +28,193 @@
 					</h3>
 				</div>
 			</div>
-
-			<div class="form-group spacer10">
-				<label for="barcode" class="col-sm-1 control-label">Barcode</label>
-				<div class="col-sm-3">
-					<input type="text" class="form-control" id="barcode" />
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label for="genere" class="col-sm-1 control-label">Genere</label>
-				<div class="col-sm-3">
-					<p:autoComplete required="true" minQueryLength="1" dropdown="true" id="genere"
-						value="#{insertProdottiView.genere}" completeMethod="#{insertProdottiView.completeGenere}"
-						var="menu" itemLabel="#{menu.txGender}" itemValue="#{menu}" converter="#{menuConverter}"
-						forceSelection="true">
-						<p:ajax event="itemSelect" update="tipo" />
-					</p:autoComplete>
-				</div>
-
-				<label for="tipo" class="col-sm-1 control-label">Tipo</label>
-				<div class="col-sm-3">
-					<p:autoComplete required="true" minQueryLength="1" dropdown="true" id="tipo"
-						value="#{insertProdottiView.tipo}" completeMethod="#{insertProdottiView.completeTipo}"
-						var="menu" itemLabel="#{menu.txType}" itemValue="#{menu}" converter="sottoMenuConverter"
-						forceSelection="true" />
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label for="brand" class="col-sm-1 control-label">Brand</label>
-				<div class="col-sm-3">
-					<p:autoComplete required="true" minQueryLength="1" dropdown="true" id="brand"
-						value="#{insertProdottiView.brand}" completeMethod="#{insertProdottiView.completeBrand}"
-						var="brand" itemLabel="#{brand.valore}" itemValue="#{brand}" converter="#{brandConverter}"
-						forceSelection="true" />
-				</div>
-
-
-
-
-			</div>
-
-			<!-- 
-					<div class="form-group">
-						<label for="genere" class="col-sm-1 control-label">Genere</label>
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="form-group spacer10">
+						<p:outputLabel for="barcode" class="col-sm-1 control-label" value="Barcode" />
 						<div class="col-sm-3">
-							<input list="generi" name="genere" class="form-control" id="genere" />
-							<datalist id="generi">
-								<option value="Uomo" />
-								<option value="Donna" />
-								<option value="Bambino" />
-								<option value="Bambina" />
-							</datalist>
+							<p:inputText styleClass="form-control" id="barcode" required="true" />
 						</div>
 					</div>
-					<div>
-						<label for="tipo" class="col-sm-1 control-label">Tipo</label>
-						<div class="col-sm-4">
-							<div class="input-group">
-								<input list="tipi" name="tipo" class="form-control" id="tipo" placeholder="Tipo" />
-								<span class="input-group-btn">
-									<button class="btn btn-default" type="button">Add...</button>
-								</span>
-							</div>
-							<datalist id="tipi">
-								<option value="Jeans" />
-								<option value="Maglietta" />
-								<option value="Giacchetti" />
-								<option value="Camicie" />
-							</datalist>
 
-						</div>
-					</div>
--->
-			<!-- 
 					<div class="form-group">
-						<label for="brand" class="col-sm-1 control-label">Brand</label>
-						<div class="col-sm-4">
-							<div class="input-group">
-								<input list="brands" name="brand" class="form-control" id="brand" placeholder="Brand" />
-								<span class="input-group-btn">
-									<button class="btn btn-default" type="button">Add...</button>
-								</span>
-							</div>
-							<datalist id="brands">
-								<option value="Armani" />
-								<option value="Gucci" />
-								<option value="Prada" />
-							</datalist>
+						<p:outputLabel for="genere" styleClass="col-sm-1 control-label" value="Genere" />
+						<div class="col-sm-3">
+							<p:autoComplete required="true" minQueryLength="1" dropdown="true" id="genere"
+								value="#{insertProdottiView.genere}" completeMethod="#{insertProdottiView.completeGenere}"
+								var="menu" itemLabel="#{menu.txGender}" itemValue="#{menu}" converter="#{menuConverter}"
+								forceSelection="true">
+								<p:ajax event="itemSelect" update="tipo" />
+							</p:autoComplete>
+						</div>
+
+						<p:outputLabel for="tipo" styleClass="col-sm-1 control-label" value="Tipo" />
+						<div class="col-sm-3">
+							<p:autoComplete required="true" minQueryLength="1" dropdown="true" id="tipo"
+								value="#{insertProdottiView.tipo}" completeMethod="#{insertProdottiView.completeTipo}"
+								var="menu" itemLabel="#{menu.txType}" itemValue="#{menu}" converter="sottoMenuConverter"
+								forceSelection="true">
+								<p:ajax event="itemSelect" update="taglia" />
+							</p:autoComplete>
+
 						</div>
 					</div>
- -->
-			<div class="form-group">
-				<label for="prezzoPrd" class="col-sm-1 control-label">Prezzo</label>
-				<div class="col-sm-2">
 
-					<pe:inputNumber widgetVar="f6"  symbol="&#8364; " id="prezzoPrd"
-						value="#{insertProdottiView.prezzo}" decimalSeparator="," thousandSeparator="."
-						decimalPlaces="2" />
+					<div class="form-group">
+						<p:outputLabel for="brand" styleClass="col-sm-1 control-label" value="Brand" />
+						<div class="col-sm-3">
+							<p:autoComplete required="true" minQueryLength="1" dropdown="true" id="brand"
+								value="#{insertProdottiView.brand}" completeMethod="#{insertProdottiView.completeBrand}"
+								var="brand" itemLabel="#{brand.valore}" itemValue="#{brand}" converter="#{brandConverter}"
+								forceSelection="true" />
+						</div>
+					</div>
 
-				</div>
+					<div class="form-group">
+						<p:outputLabel for="prezzoPrd" styleClass="col-sm-1 control-label" value="Prezzo" />
+						<div class="col-sm-2">
 
-				<label for="sconto" class="col-sm-1 control-label">Sconto</label>
-				<div class="col-sm-1">
-					<p:spinner suffix=" %" size="4" id="sconto" value="#{insertProdottiView.sconto}" min="0"
-						max="100" />
-				</div>
+							<pe:inputNumber widgetVar="f6" symbol="&#8364; " id="prezzoPrd" required="true"
+								value="#{insertProdottiView.prezzo}" decimalSeparator="," thousandSeparator="."
+								decimalPlaces="2" />
 
-				<label for="totPrezzoPrd" class="col-sm-1 control-label">Totale</label>
-				<div class="col-sm-1">
-					<pe:inputNumber widgetVar="f6" symbol="&#8364;" size="10" id="totPrezzoPrd"
-						value="#{insertProdottiView.prezzoScontato}" disabled="true" decimalSeparator=","
-						thousandSeparator="." decimalPlaces="2" />
+						</div>
+
+						<p:outputLabel class="col-sm-1 control-label" for="sconto" styleClass="col-sm-1 control-label"
+							value="Sconto" />
+						<div class="col-sm-1">
+							<p:spinner suffix=" %" required="true" size="4" id="sconto"
+								value="#{insertProdottiView.sconto}" min="0" max="100" />
+						</div>
+
+						<p:outputLabel class="col-sm-1 control-label" for="totPrezzoPrd"
+							styleClass="col-sm-2 control-label" value="Totale (&#8364;)" />
+						<div class="col-sm-1">
+							<pe:inputNumber widgetVar="totWidget" required="true" symbol="&#8364;" size="10"
+								id="totPrezzoPrd" value="#{insertProdottiView.prezzoScontato}" disabled="true"
+								decimalSeparator="," thousandSeparator="." decimalPlaces="2" />
+						</div>
+					</div>
+
+					<div class="form-group">
+						<p:outputLabel styleClass="col-sm-1 control-label" for="desc" value="Descrizione" />
+						<div class="col-sm-6">
+
+							<p:inputText required="true" styleClass="form-control"
+								value="#{insertProdottiView.descrizione}" id="desc"></p:inputText>
+
+						</div>
+
+					</div>
 				</div>
 			</div>
+
+			<!-- ARTICOLI -->
+			<h3>ARTICOLI</h3>
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="form-group">
+						<p:outputLabel for="taglia" class="col-sm-1" value="Taglia" />
+						<div class="col-sm-2">
+
+							<p:autoComplete size="8" required="true" minQueryLength="1" dropdown="true" id="taglia"
+								value="#{insertProdottiView.size}" completeMethod="#{insertProdottiView.completeTaglia}"
+								var="attr" itemLabel="#{attr.valore}" itemValue="#{attr}" converter="#{sizeConverter}"
+								forceSelection="true" />
+						</div>
+
+
+						<p:outputLabel for="colore" class="col-sm-1 control-label" value="Colore" />
+						<div class="col-sm-3">
+
+							<p:autoComplete required="true" minQueryLength="1" dropdown="true" id="colore"
+								value="#{insertProdottiView.color}" completeMethod="#{insertProdottiView.completeColours}"
+								var="attr" itemLabel="#{attr.valore}" itemValue="#{attr}" converter="#{colorConverter}"
+								forceSelection="true" />
+						</div>
+					</div>
+					<div class="form-group">
+						<p:outputLabel for="qta" class="col-sm-1 control-label" value="Quantita" />
+						<div class="col-sm-2">
+
+							<p:spinner required="true" size="3" id="qta" value="#{insertProdottiView.qta}" min="1"
+								max="100" />
+						</div>
+
+
+
+						<p:outputLabel for="negozio" class="col-sm-1 control-label" value="Negozio" />
+						<div class="col-sm-3">
+
+							<p:autoComplete required="true" minQueryLength="1" dropdown="true" id="negozio"
+								value="#{insertProdottiView.shop}" completeMethod="#{insertProdottiView.completeShops}"
+								var="shop" itemLabel="#{shop.txShop}" itemValue="#{shop}" converter="#{shopConverter}"
+								forceSelection="true" />
+
+
+						</div>
+
+						<div class="col-sm-3 ">
+							<p:commandButton styleClass="ui-priority-primary" process="frmProd" update="frmProd"
+								id="addPrds" value="Aggiungi Articolo">
+							</p:commandButton>
+						</div>
+
+
+					</div>
+
+
+
+
+				</div>
+			</div>
+
+
+
 			<script type="text/javascript">
 			$(document).ready(function() {
 				initPrezzo();
 							});
 						
 			</script>
+		</h:form>
+
+		<h:form enctype="multipart/form-data" id="frmImages">
+			<p:growl id="messages" showDetail="true" />
+			<div class="row">
+				<label for="thumbinalPrinc" class="control-label col-sm-1">Thumbinal</label>
+				<div class="col-sm-11">
+
+
+					<p:fileUpload fileUploadListener="#{insertProdottiView.handleFileUploadThumb}"
+						allowTypes="/(\.|\/)(gif|jpe?g|png)$/" update="frmImages" multiple="false" auto="true" />
+
+					<div class="row spacer10">
+						<h:panelGroup rendered="#{insertProdottiView.fileThumb!=null}">
+							<div class="col-sm-1">
+								<h:graphicImage title="#{insertProdottiView.fileThumb}" id="imgThumb" library="images/cartThumbinals" width="80" height="83"
+									name="#{insertProdottiView.fileThumb}" />
+							</div>
+							<div class="col-sm-6">								
+								<p:commandButton title="elimina #{insertProdottiView.fileThumb}" update="frmImages" process="@this"
+									actionListener="#{insertProdottiView.removeThumbinal}" icon="ui-icon-close"></p:commandButton>
+							</div>
+						</h:panelGroup>
+					</div>
+
+				</div>
+
+			</div>
+
+			<div class="row spacer10">
+				<label for="immagini" class="control-label col-sm-1">Immagini</label>
+				<div class="col-sm-11">
+
+
+					<p:fileUpload fileUploadListener="#{insertProdottiView.handleFileUpload}"
+						allowTypes="/(\.|\/)(gif|jpe?g|png)$/" update="messages" multiple="false" auto="false" />
+				</div>
+			</div>
 		</h:form>
 
 
