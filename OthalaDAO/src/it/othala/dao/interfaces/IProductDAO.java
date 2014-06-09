@@ -75,6 +75,8 @@ public interface IProductDAO {
 
 	public void addProductToCampaign(List<Integer> listIdProduct,
 			Integer idCampaign);
+
+	public List<ShopDTO> listShop();
 	
 	
 

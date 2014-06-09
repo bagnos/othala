@@ -101,13 +101,13 @@
 		gender,
 		txType as type,
 		pcDiscount as discount,
-		
+
 		case
-		when DATEDIFF(current_date, a.dtProductState) &lt; 10 
+		when DATEDIFF(current_date, a.dtProductState) &lt; 10
 		then 'Y'
 		else 'N'
 		end as fgNewArrivals,
-		
+
 		a.idCampaign
 		FROM
 
@@ -144,7 +144,7 @@
 			and (imPrice * (100 - pcDiscount) / 100) &lt;= #{maxPrice}
 		</if>
 		<if test="newArrivals != null and newArrivals == true">
-			and DATEDIFF(current_date, a.dtProductState) &lt; 10 
+			and DATEDIFF(current_date, a.dtProductState) &lt; 10
 		</if>
 
 		<if test="type != null">
@@ -279,6 +279,14 @@
 
 	</select>
 
+	<select id="listShop" resultType="it.othala.dto.ShopDTO">
+
+		SELECT idShop, txShop, txMail
+		FROM ${database.schema}shops;
+
+
+	</select>
+
 	<select id="listBrand" resultType="it.othala.dto.AttributeDTO"
 		parameterType="java.util.HashMap">
 
@@ -342,11 +350,12 @@
 		b.txDescription as description,
 
 		case
-		when DATEDIFF(current_date, a.dtProductState) &lt; 10 
+		when DATEDIFF(current_date,
+		a.dtProductState) &lt; 10
 		then 'Y'
 		else 'N'
 		end as fgNewArrivals,
-		
+
 		a.idGender,
 		txGender,
 		a.idType,
@@ -738,19 +747,20 @@
 
 		set idCampaign = #{idCampaign}
 
-		Where idProduct
+		Where
+		idProduct
 		in
 
 
-		<foreach item="item" index="index" collection="listIdProduct" open="("
-			separator="," close=")">
+		<foreach item="item" index="index" collection="listIdProduct"
+			open="(" separator="," close=")">
 			#{item}
 		</foreach>
-		
+
 
 	</update>
-	
-	
+
+
 
 
 </mapper>

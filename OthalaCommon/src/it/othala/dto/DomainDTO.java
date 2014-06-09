@@ -15,6 +15,7 @@ public class DomainDTO implements Serializable {
 	private List<AttributeDTO> brand;
 	private List<AttributeDTO> gender;
 	private List<AttributeDTO> type;
+	private List<ShopDTO> shop;
 
 	
 	public List<AttributeSizeDTO> getSize() {
@@ -55,6 +56,14 @@ public class DomainDTO implements Serializable {
 
 	public void setType(List<AttributeDTO> type) {
 		this.type = type;
+	}
+
+	public List<ShopDTO> getShop() {
+		return shop;
+	}
+
+	public void setShop(List<ShopDTO> shop) {
+		this.shop = shop;
 	}
 
 }

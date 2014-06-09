@@ -86,6 +86,7 @@ public class ProductService implements IProductService {
 		domainDTO.setBrand(productDAO.listBrand(languages));
 		domainDTO.setGender(productDAO.listGender(languages));
 		domainDTO.setType(productDAO.listType(languages));
+		domainDTO.setShop(productDAO.listShop());
 
 		return domainDTO;
 
