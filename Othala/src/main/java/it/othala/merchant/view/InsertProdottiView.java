@@ -36,13 +36,13 @@ public class InsertProdottiView extends BaseView {
 	@Inject
 	private ApplicationBean appBean;
 
-	private MenuDTO genere;
-	private SubMenuDTO tipo;
+	private AttributeDTO genere;
+	private AttributeDTO tipo;
 	private AttributeDTO brand;
 	private int sconto;
 	private BigDecimal prezzo;
 	private BigDecimal prezzoScontato;
-	private List<String> imagesFile = new ArrayList<>();
+	private List<String> imagesFile = new ArrayList<>();	
 	private String descrizione;
 	private AttributeDTO size;
 	private AttributeDTO color;
@@ -51,6 +51,17 @@ public class InsertProdottiView extends BaseView {
 	private ShopDTO shop;
 	private String fileThumb;
 	private final String BASE_IMG_PATH = "//resources//images//cartThumbinals//";
+	private final int SCROLL_WIDTH_AUTOCOMPLETE=100;
+	
+	public List<String> getImagesFile() {
+		return imagesFile;
+	}
+
+	
+
+	public int getSCROLL_WIDTH_AUTOCOMPLETE() {
+		return SCROLL_WIDTH_AUTOCOMPLETE;
+	}
 
 	public String getFileThumb() {
 
@@ -137,19 +148,19 @@ public class InsertProdottiView extends BaseView {
 		this.brand = brand;
 	}
 
-	public SubMenuDTO getTipo() {
+	public AttributeDTO getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(SubMenuDTO tipo) {
+	public void setTipo(AttributeDTO tipo) {
 		this.tipo = tipo;
 	}
 
-	public MenuDTO getGenere() {
+	public AttributeDTO getGenere() {
 		return genere;
 	}
 
-	public void setGenere(MenuDTO genere) {
+	public void setGenere(AttributeDTO genere) {
 		this.genere = genere;
 	}
 
@@ -171,24 +182,24 @@ public class InsertProdottiView extends BaseView {
 		return null;
 	}
 
-	public List<MenuDTO> completeGenere(String query) {
-		List<MenuDTO> allMenues = appBean.getMenu();
-		List<MenuDTO> filteredMenues = new ArrayList<MenuDTO>();
+	public List<AttributeDTO> completeGenere(String query) {
+		List<AttributeDTO> allAttributeDTO = appBean.getGenderDTO();
+		List<AttributeDTO> filteredAttributeDTO = new ArrayList<AttributeDTO>();
 
-		for (int i = 0; i < allMenues.size(); i++) {
-			MenuDTO menu = allMenues.get(i);
-			if (menu.getTxGender().toLowerCase().startsWith(query.toLowerCase())) {
-				filteredMenues.add(menu);
+		for (int i = 0; i < allAttributeDTO.size(); i++) {
+			AttributeDTO attr = allAttributeDTO.get(i);
+			if (attr.getValore().toLowerCase().startsWith(query.toLowerCase())) {
+				filteredAttributeDTO.add(attr);
 			}
 		}
 
-		return filteredMenues;
+		return filteredAttributeDTO;
 	}
 
 	public List<AttributeDTO> completeTaglia(String query) {
 		List<AttributeDTO> filteredSize = new ArrayList<AttributeDTO>();
 		if (tipo != null) {
-			List<AttributeDTO> allSize = appBean.getSizesDTO(tipo.getIdType());
+			List<AttributeDTO> allSize = appBean.getSizesDTO(tipo.getAttributo().intValue());
 
 			for (int i = 0; i < allSize.size(); i++) {
 				AttributeDTO attr = allSize.get(i);
@@ -243,22 +254,19 @@ public class InsertProdottiView extends BaseView {
 		return filteredColours;
 	}
 
-	public List<SubMenuDTO> completeTipo(String query) {
-		if (genere == null) {
-			return null;
-		}
+	public List<AttributeDTO> completeTipo(String query) {
+		
+		List<AttributeDTO> allType = appBean.getTypeDTO();
+		List<AttributeDTO> filteredType = new ArrayList<AttributeDTO>();
 
-		List<SubMenuDTO> allMenues = genere.getSubMenu();
-		List<SubMenuDTO> filteredMenues = new ArrayList<SubMenuDTO>();
-
-		for (int i = 0; i < allMenues.size(); i++) {
-			SubMenuDTO menu = allMenues.get(i);
-			if (menu.getTxType().toLowerCase().startsWith(query.toLowerCase())) {
-				filteredMenues.add(menu);
+		for (int i = 0; i < allType.size(); i++) {
+			AttributeDTO menu = allType.get(i);
+			if (menu.getValore().toLowerCase().startsWith(query.toLowerCase())) {
+				filteredType.add(menu);
 			}
 		}
 
-		return filteredMenues;
+		return filteredType;
 	}
 
 	public void upload(ActionEvent e) {
@@ -274,15 +282,32 @@ public class InsertProdottiView extends BaseView {
 		file.delete();
 		fileThumb = null;
 	}
+	
+	public void removeImgPrd(ActionEvent e) {
+		ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
+		String fileName=(String) e.getComponent().getAttributes().get("img");
+		File file = new File(extContext.getRealPath(BASE_IMG_PATH + fileName));
+		imagesFile.remove(fileName);
+		
+		file.delete();
+		
+	}
 
 	public void handleFileUpload(FileUploadEvent event) {
 		UploadedFile file = event.getFile();
 		if (file != null) {
-			FacesMessage message = new FacesMessage("Succesful", file.getFileName() + " is uploaded.");
+			try {
+				copyFile(file);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				log.error("errore upload", e);
+				addError("Upload", file.getFileName() + " errore nell'upload");
+			}
+			addInfo("Upload", file.getFileName() + " è stata caricata correttamente");
 			imagesFile.add(file.getFileName());
-			FacesContext.getCurrentInstance().addMessage(null, message);
+			
+
 		}
-		// application code
 	}
 
 	public void handleFileUploadThumb(FileUploadEvent event) {
