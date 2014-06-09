@@ -43,22 +43,31 @@ public class ApplicationBean implements Serializable {
 	private List<AttributeDTO> colorsDTO = new ArrayList<>();
 	private List<AttributeSizeDTO> sizeDTO = new ArrayList<>();
 	private List<ShopDTO> shopsDTO = new ArrayList<>();
+	private List<AttributeDTO> genderDTO = new ArrayList<>();
+	private List<AttributeDTO> typeDTO = new ArrayList<>();
+	
+	
+
+	public List<AttributeDTO> getGenderDTO() {
+		if (genderDTO.isEmpty())
+		{
+			genderDTO=getDomain().getGender();
+		}
+		return genderDTO;
+	}
+
+	public List<AttributeDTO> getTypeDTO() {
+		if (typeDTO.isEmpty())
+		{
+			typeDTO=getDomain().getType();
+		}
+		return typeDTO;
+	}
 
 	public List<ShopDTO> getShopsDTO() {
 		if (shopsDTO.isEmpty())
 		{
-			ShopDTO s1=new ShopDTO();
-			s1.setIdShop(1);
-			s1.setTxShop("SIENA");
-			shopsDTO.add(s1);
-			s1=new ShopDTO();
-			s1.setIdShop(2);
-			s1.setTxShop("FOLLONICA");
-			shopsDTO.add(s1);
-			s1=new ShopDTO();
-			s1.setIdShop(3);
-			s1.setTxShop("AREZZO");
-			shopsDTO.add(s1);
+			shopsDTO=getDomain().getShop();			
 		}
 		return shopsDTO;
 	}
@@ -72,7 +81,10 @@ public class ApplicationBean implements Serializable {
 	}
 
 	public List<AttributeDTO> getColorsDTO() {
-		getColors();
+		if (colorsDTO.isEmpty())
+		{
+			colorsDTO=getDomain().getColor();
+		}
 		return colorsDTO;
 	}
 
@@ -81,7 +93,10 @@ public class ApplicationBean implements Serializable {
 	}
 
 	public List<AttributeDTO> getBrandDTO() {
-		getBrands();
+		if (brandDTO.isEmpty())
+		{
+			brandDTO=getDomain().getBrand();
+		}
 		return brandDTO;
 	}
 
@@ -119,7 +134,7 @@ public class ApplicationBean implements Serializable {
 	private final String IMG_NEW_ARRIVALS = "newArrivals";
 	private final String IMG_CAROUSEL = "carousel";
 
-	public List<MenuDTO> getMenu() {
+	public List<MenuDTO> getMenu() {		
 		if (menu.isEmpty()) {
 			menu = OthalaFactory.getProductServiceInstance().getMenu(OthalaUtil.getLangFromContextJSF());
 		}
@@ -131,7 +146,7 @@ public class ApplicationBean implements Serializable {
 		if (brands.isEmpty()) {
 
 			brands.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseBrand")));
-			brandDTO = getDomain().getBrand();
+			
 			for (AttributeDTO att : getDomain().getBrand()) {
 				brands.add(new SelectItem(att.getAttributo(), att.getValore()));
 			}

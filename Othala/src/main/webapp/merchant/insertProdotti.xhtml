@@ -42,17 +42,17 @@
 						<div class="col-sm-3">
 							<p:autoComplete required="true" minQueryLength="1" dropdown="true" id="genere"
 								value="#{insertProdottiView.genere}" completeMethod="#{insertProdottiView.completeGenere}"
-								var="menu" itemLabel="#{menu.txGender}" itemValue="#{menu}" converter="#{menuConverter}"
-								forceSelection="true">
-								<p:ajax event="itemSelect" update="tipo" />
+								var="gender" itemLabel="#{gender.valore}" itemValue="#{gender}"
+								converter="#{genderConverter}" forceSelection="true">
 							</p:autoComplete>
 						</div>
 
 						<p:outputLabel for="tipo" styleClass="col-sm-1 control-label" value="Tipo" />
 						<div class="col-sm-3">
-							<p:autoComplete required="true" minQueryLength="1" dropdown="true" id="tipo"
+							<p:autoComplete scrollHeight="#{insertProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}"
+								required="true" minQueryLength="1" dropdown="true" id="tipo"
 								value="#{insertProdottiView.tipo}" completeMethod="#{insertProdottiView.completeTipo}"
-								var="menu" itemLabel="#{menu.txType}" itemValue="#{menu}" converter="sottoMenuConverter"
+								var="type" itemLabel="#{type.valore}" itemValue="#{type}" converter="#{typeConverter}"
 								forceSelection="true">
 								<p:ajax event="itemSelect" update="taglia" />
 							</p:autoComplete>
@@ -63,7 +63,8 @@
 					<div class="form-group">
 						<p:outputLabel for="brand" styleClass="col-sm-1 control-label" value="Brand" />
 						<div class="col-sm-3">
-							<p:autoComplete required="true" minQueryLength="1" dropdown="true" id="brand"
+							<p:autoComplete scrollHeight="#{insertProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}"
+								required="true" minQueryLength="1" dropdown="true" id="brand"
 								value="#{insertProdottiView.brand}" completeMethod="#{insertProdottiView.completeBrand}"
 								var="brand" itemLabel="#{brand.valore}" itemValue="#{brand}" converter="#{brandConverter}"
 								forceSelection="true" />
@@ -106,6 +107,12 @@
 						</div>
 
 					</div>
+
+					<p:commandButton styleClass="ui-priority-primary" process="frmProd" update="frmProd"
+						value="Aggiungi Prodotto">
+					</p:commandButton>
+
+
 				</div>
 			</div>
 
@@ -117,7 +124,8 @@
 						<p:outputLabel for="taglia" class="col-sm-1" value="Taglia" />
 						<div class="col-sm-2">
 
-							<p:autoComplete size="8" required="true" minQueryLength="1" dropdown="true" id="taglia"
+							<p:autoComplete size="8" scrollHeight="#{insertProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}"
+								required="true" minQueryLength="1" dropdown="true" id="taglia"
 								value="#{insertProdottiView.size}" completeMethod="#{insertProdottiView.completeTaglia}"
 								var="attr" itemLabel="#{attr.valore}" itemValue="#{attr}" converter="#{sizeConverter}"
 								forceSelection="true" />
@@ -127,7 +135,8 @@
 						<p:outputLabel for="colore" class="col-sm-1 control-label" value="Colore" />
 						<div class="col-sm-3">
 
-							<p:autoComplete required="true" minQueryLength="1" dropdown="true" id="colore"
+							<p:autoComplete scrollHeight="#{insertProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}"
+								required="true" minQueryLength="1" dropdown="true" id="colore"
 								value="#{insertProdottiView.color}" completeMethod="#{insertProdottiView.completeColours}"
 								var="attr" itemLabel="#{attr.valore}" itemValue="#{attr}" converter="#{colorConverter}"
 								forceSelection="true" />
@@ -146,7 +155,8 @@
 						<p:outputLabel for="negozio" class="col-sm-1 control-label" value="Negozio" />
 						<div class="col-sm-3">
 
-							<p:autoComplete required="true" minQueryLength="1" dropdown="true" id="negozio"
+							<p:autoComplete scrollHeight="#{insertProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}"
+								required="true" minQueryLength="1" dropdown="true" id="negozio"
 								value="#{insertProdottiView.shop}" completeMethod="#{insertProdottiView.completeShops}"
 								var="shop" itemLabel="#{shop.txShop}" itemValue="#{shop}" converter="#{shopConverter}"
 								forceSelection="true" />
@@ -154,19 +164,19 @@
 
 						</div>
 
-						<div class="col-sm-3 ">
+						
 							<p:commandButton styleClass="ui-priority-primary" process="frmProd" update="frmProd"
 								id="addPrds" value="Aggiungi Articolo">
 							</p:commandButton>
-						</div>
+						
 
 
 					</div>
 
 
 
-
 				</div>
+
 			</div>
 
 
@@ -179,6 +189,7 @@
 			</script>
 		</h:form>
 
+		<h3>IMMAGINI</h3>
 		<h:form enctype="multipart/form-data" id="frmImages">
 			<p:growl id="messages" showDetail="true" />
 			<div class="row">
@@ -188,34 +199,72 @@
 
 					<p:fileUpload fileUploadListener="#{insertProdottiView.handleFileUploadThumb}"
 						allowTypes="/(\.|\/)(gif|jpe?g|png)$/" update="frmImages" multiple="false" auto="true" />
+				</div>
+				<div class="row spacer10">
+					<h:panelGroup layout="block" rendered="#{insertProdottiView.fileThumb!=null}"
+						id="frmImagesThumbs">
+						<div class="col-sm-2 spacer10">
+							<h:graphicImage title="#{insertProdottiView.fileThumb}" id="imgThumb"
+								library="images/cartThumbinals" width="80" height="83"
+								name="#{insertProdottiView.fileThumb}" />
 
-					<div class="row spacer10">
-						<h:panelGroup rendered="#{insertProdottiView.fileThumb!=null}">
-							<div class="col-sm-1">
-								<h:graphicImage title="#{insertProdottiView.fileThumb}" id="imgThumb" library="images/cartThumbinals" width="80" height="83"
-									name="#{insertProdottiView.fileThumb}" />
-							</div>
-							<div class="col-sm-6">								
-								<p:commandButton title="elimina #{insertProdottiView.fileThumb}" update="frmImages" process="@this"
-									actionListener="#{insertProdottiView.removeThumbinal}" icon="ui-icon-close"></p:commandButton>
-							</div>
-						</h:panelGroup>
-					</div>
 
+							<h:commandButton image="/imagesExt/remove.png"
+								title="elimina #{insertProdottiView.fileThumb}"
+								actionListener="#{insertProdottiView.removeThumbinal}">
+
+								<f:ajax execute="@this" render="frmImages"></f:ajax>
+
+							</h:commandButton>
+
+						</div>
+					</h:panelGroup>
 				</div>
 
 			</div>
 
+
+
 			<div class="row spacer10">
+
 				<label for="immagini" class="control-label col-sm-1">Immagini</label>
 				<div class="col-sm-11">
 
 
 					<p:fileUpload fileUploadListener="#{insertProdottiView.handleFileUpload}"
-						allowTypes="/(\.|\/)(gif|jpe?g|png)$/" update="messages" multiple="false" auto="false" />
+						allowTypes="/(\.|\/)(gif|jpe?g|png)$/" process="@this" update="frmImages" multiple="false"
+						auto="true" />
+
 				</div>
+				<h:panelGroup layout="block" rendered="#{insertProdottiView.imagesFile.size()>0}"
+					id="frmImagesPrds">
+					<div class="row spacer20 clearfix">
+
+						<ui:repeat var="imgPrd" value="#{insertProdottiView.imagesFile}">
+
+							<div class="col-sm-2 spacer10">
+								<h:graphicImage title="#{imgPrd}" library="images/cartThumbinals" width="80" height="83"
+									name="#{imgPrd}" />
+
+								<h:commandButton image="/imagesExt/remove.png" title="elimina #{imgPrd}"
+									actionListener="#{insertProdottiView.removeImgPrd}">
+									<f:attribute name="img" value="#{imgPrd}" />
+									<f:ajax execute="@this" render="frmImages"></f:ajax>
+
+								</h:commandButton>
+							</div>
+						</ui:repeat>
+
+
+					</div>
+				</h:panelGroup>
 			</div>
+
+
+
 		</h:form>
+
+
 
 
 

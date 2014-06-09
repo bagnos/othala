@@ -1,5 +1,6 @@
 package it.othala.cartflow.converter;
 
+import it.othala.dto.AttributeDTO;
 import it.othala.dto.MenuDTO;
 import it.othala.model.ApplicationBean;
 
@@ -11,7 +12,7 @@ import javax.inject.Named;
 
 
 @Named
-public class MenuConverter implements Converter {
+public class GenderConverter implements Converter {
 
 	@Inject
 	private ApplicationBean appBean;
@@ -22,10 +23,9 @@ public class MenuConverter implements Converter {
 	public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
 		if (value != null && value.trim().length() > 0) {
 			int intValue = Integer.valueOf(value);
-			for (MenuDTO menu : appBean.getMenu()) {
-				if (menu.getIdGender() == intValue) {
-					fc.getExternalContext().getSessionMap().put("MENUCONVERTER", menu);
-					return menu;
+			for (AttributeDTO attr : appBean.getGenderDTO()) {
+				if (attr.getAttributo() == intValue) {					
+					return attr;
 				}
 			}
 
@@ -37,7 +37,7 @@ public class MenuConverter implements Converter {
 	@Override
 	public String getAsString(FacesContext fc, UIComponent uic, Object object) {
 		if (object != null) {
-			return String.valueOf(((MenuDTO) object).getIdGender());
+			return String.valueOf(((AttributeDTO) object).getAttributo());
 		} else {
 			return null;
 		}

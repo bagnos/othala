@@ -1,25 +1,29 @@
 package it.othala.cartflow.converter;
 
+import it.othala.dto.AttributeDTO;
 import it.othala.dto.MenuDTO;
 import it.othala.dto.SubMenuDTO;
+import it.othala.model.ApplicationBean;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.inject.Inject;
+import javax.inject.Named;
 
-@FacesConverter("sottoMenuConverter")
-public class SottoMenuConverter implements Converter {
+@Named
+public class TypeConverter implements Converter {
+	
+	@Inject
+	private ApplicationBean appBean;
 
 	public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
 		if (value != null && value.trim().length() > 0) {
 			int intValue = Integer.valueOf(value);
-			MenuDTO menu = (MenuDTO) fc.getExternalContext().getSessionMap().get("MENUCONVERTER");
-			if (menu != null) {
-				for (SubMenuDTO subMenu : menu.getSubMenu()) {
-					if (subMenu.getIdType() == intValue) {						
-						return subMenu;
-					}
+			for (AttributeDTO attr : appBean.getTypeDTO()) {
+				if (attr.getAttributo() == intValue) {					
+					return attr;
 				}
 			}
 
@@ -30,7 +34,7 @@ public class SottoMenuConverter implements Converter {
 
 	public String getAsString(FacesContext fc, UIComponent uic, Object object) {
 		if (object != null) {
-			return String.valueOf(((SubMenuDTO) object).getIdType());
+			return String.valueOf(((AttributeDTO) object).getAttributo());
 		} else {
 			return null;
 		}
