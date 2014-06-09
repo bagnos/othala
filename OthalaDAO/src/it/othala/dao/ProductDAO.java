@@ -143,6 +143,19 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	}
 	
 	@Override
+	public List<ShopDTO> listShop() {
+
+
+
+		List<ShopDTO> listShop = getSqlSession().selectList(
+				"it.othala.product.queries.listShop");
+
+		return listShop;
+
+	}
+	
+	
+	@Override
 	public List<AttributeDTO> listType(String languages) {
 
 		HashMap<String, Object> mapAttribute = new HashMap<>();
