@@ -39,7 +39,7 @@ public class ShopConverter implements Converter {
 	@Override
 	public String getAsString(FacesContext fc, UIComponent uic, Object object) {
 		if (object != null) {
-			return String.valueOf(((ShopDTO) object).getTxShop());
+			return String.valueOf(((ShopDTO) object).getIdShop());
 		} else {
 			return null;
 		}
