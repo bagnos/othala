@@ -32,8 +32,13 @@
 				<div class="col-sm-12">
 					<div class="form-group spacer10">
 						<p:outputLabel for="barcode" class="col-sm-1 control-label" value="Barcode" />
-						<div class="col-sm-3">
+						<div class="col-sm-3 ">
 							<p:inputText styleClass="form-control" id="barcode" required="true" />
+						</div>
+						<div class="col-sm-2 col-sm-offset-6">
+							<p:commandButton styleClass="ui-priority-primary" process="frmProd" update="frmProd"
+								value="Aggiungi Prodotto">
+							</p:commandButton>
 						</div>
 					</div>
 
@@ -54,7 +59,7 @@
 								value="#{insertProdottiView.tipo}" completeMethod="#{insertProdottiView.completeTipo}"
 								var="type" itemLabel="#{type.valore}" itemValue="#{type}" converter="#{typeConverter}"
 								forceSelection="true">
-								<p:ajax event="itemSelect" update="taglia" />
+								<p:ajax event="itemSelect" update=":frm-arts" />
 							</p:autoComplete>
 
 						</div>
@@ -108,13 +113,66 @@
 
 					</div>
 
-					<p:commandButton styleClass="ui-priority-primary" process="frmProd" update="frmProd"
-						value="Aggiungi Prodotto">
-					</p:commandButton>
+
 
 
 				</div>
 			</div>
+		</h:form>
+
+		<h:form enctype="multipart/form-data" prependId="false" id="frmImages">
+			<p:growl id="messages" showDetail="true" />
+
+
+
+			<div class="row spacer10">
+
+				<label for="immagini" class="control-label col-sm-1">Immagini</label>
+				<div class="col-sm-11">
+
+
+					<p:fileUpload fileUploadListener="#{insertProdottiView.handleFileUpload}"
+						allowTypes="/(\.|\/)(gif|jpe?g|png)$/" process="@this" update="frmImages :frm-arts"
+						multiple="false" auto="true" />
+
+				</div>
+				<h:panelGroup layout="block" rendered="#{insertProdottiView.imagesFile.size()!=0}">
+					<div class="row spacer20 clearfix">
+
+						<ui:repeat id="lstImgs" var="imgPrd" value="#{insertProdottiView.imagesFile}">
+
+							<div class="col-sm-2 spacer10">
+								<p:graphicImage style="float:left;"
+									styleClass="#{insertProdottiView.fileThumb==imgPrd?'sel-thumbinal':''}"
+									library="images/cartThumbinals" width="80" height="83" name="#{imgPrd}" />
+								<div>
+									<h:commandButton image="/imagesExt/remove.png" title="elimina #{imgPrd}"
+										actionListener="#{insertProdottiView.removeImgPrd}">
+										<f:attribute name="img" value="#{imgPrd}" />
+										<f:ajax execute="@this" render="frmImages :frm-arts"></f:ajax>
+									</h:commandButton>
+									<br />
+
+									<h:commandButton image="/imagesExt/picture_add.png" title="aggiungi thumbinal #{imgPrd}"
+										actionListener="#{insertProdottiView.addThumb}">
+										<f:attribute name="img" value="#{imgPrd}" />
+										<f:ajax execute="@this" render="frmImages :frm-arts"></f:ajax>
+									</h:commandButton>
+								</div>
+
+							</div>
+						</ui:repeat>
+
+
+					</div>
+				</h:panelGroup>
+			</div>
+
+
+
+		</h:form>
+
+		<h:form prependId="false" id="frm-arts" styleClass="form-horizontal">
 
 			<!-- ARTICOLI -->
 			<h3>ARTICOLI</h3>
@@ -156,24 +214,59 @@
 						<div class="col-sm-3">
 
 							<p:autoComplete scrollHeight="#{insertProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}"
-								required="true" minQueryLength="1" dropdown="true" id="negozio"
+								required="true" minQueryLength="1" size="34" dropdown="true" id="negozio"
 								value="#{insertProdottiView.shop}" completeMethod="#{insertProdottiView.completeShops}"
 								var="shop" itemLabel="#{shop.txShop}" itemValue="#{shop}" converter="#{shopConverter}"
 								forceSelection="true" />
 
 
 						</div>
-
-						
-							<p:commandButton styleClass="ui-priority-primary" process="frmProd" update="frmProd"
-								id="addPrds" value="Aggiungi Articolo">
-							</p:commandButton>
-						
+						<p:commandButton process=":frm-arts" update="frm-arts" 
+							actionListener="#{insertProdottiView.addArticle}" id="addPrds" value="Aggiungi Articolo" />
 
 
 					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-1">Thumbinal</label>
+						<div class="clearfix col-sm-1">
+							<div class="sel-thumbinal container-sel-thumbinal ">
+								<p:graphicImage rendered="#{insertProdottiView.fileThumb!=null}"
+									title="#{insertProdottiView.fileThumb}" library="images/cartThumbinals" width="80"
+									height="83" name="#{insertProdottiView.fileThumb}" />
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-1">Elenco Articoli</label>       
+						<p:dataTable id="arts" rendered="#{insertProdottiView.articles.size()!=0}" var="art" value="#{insertProdottiView.articles}">
+      
+        <p:column headerText="Thumbinal">
+           <p:graphicImage title="#{art.thumbnailsUrl}" library="images/cartThumbinals" width="80"
+									height="83" name="#{art.thumbnailsUrl}" />
+        </p:column>
+        <p:column headerText="Taglia">
+            <h:outputText value="#{art.txSize}" />
+        </p:column>
+        <p:column headerText="Colore">
+            <h:outputText value="#{art.txColor}" />
+        </p:column>
+        <p:column headerText="Quantita">
+            <h:outputText value="#{art.qtStock}" />
+        </p:column>
+							<p:column headerText="Negozio">
+            <h:outputText value="#{art.shop.txShop}" />
+        </p:column>
+        <p:column style="width:4%;text-align: center">
+             <p:commandButton update="frm-arts" actionListener="#{insertProdottiView.removeArticle}"
+									icon="ui-icon-search" title="Rimuovi">
+                <f:setPropertyActionListener value="#{art.thumbnailsUrl}"
+										target="#{insertProdottiView.removedArticle}" />
+            </p:commandButton>
+        </p:column>
+    </p:dataTable>
 
 
+					</div>
 
 				</div>
 
@@ -188,85 +281,5 @@
 						
 			</script>
 		</h:form>
-
-		<h3>IMMAGINI</h3>
-		<h:form enctype="multipart/form-data" id="frmImages">
-			<p:growl id="messages" showDetail="true" />
-			<div class="row">
-				<label for="thumbinalPrinc" class="control-label col-sm-1">Thumbinal</label>
-				<div class="col-sm-11">
-
-
-					<p:fileUpload fileUploadListener="#{insertProdottiView.handleFileUploadThumb}"
-						allowTypes="/(\.|\/)(gif|jpe?g|png)$/" update="frmImages" multiple="false" auto="true" />
-				</div>
-				<div class="row spacer10">
-					<h:panelGroup layout="block" rendered="#{insertProdottiView.fileThumb!=null}"
-						id="frmImagesThumbs">
-						<div class="col-sm-2 spacer10">
-							<h:graphicImage title="#{insertProdottiView.fileThumb}" id="imgThumb"
-								library="images/cartThumbinals" width="80" height="83"
-								name="#{insertProdottiView.fileThumb}" />
-
-
-							<h:commandButton image="/imagesExt/remove.png"
-								title="elimina #{insertProdottiView.fileThumb}"
-								actionListener="#{insertProdottiView.removeThumbinal}">
-
-								<f:ajax execute="@this" render="frmImages"></f:ajax>
-
-							</h:commandButton>
-
-						</div>
-					</h:panelGroup>
-				</div>
-
-			</div>
-
-
-
-			<div class="row spacer10">
-
-				<label for="immagini" class="control-label col-sm-1">Immagini</label>
-				<div class="col-sm-11">
-
-
-					<p:fileUpload fileUploadListener="#{insertProdottiView.handleFileUpload}"
-						allowTypes="/(\.|\/)(gif|jpe?g|png)$/" process="@this" update="frmImages" multiple="false"
-						auto="true" />
-
-				</div>
-				<h:panelGroup layout="block" rendered="#{insertProdottiView.imagesFile.size()>0}"
-					id="frmImagesPrds">
-					<div class="row spacer20 clearfix">
-
-						<ui:repeat var="imgPrd" value="#{insertProdottiView.imagesFile}">
-
-							<div class="col-sm-2 spacer10">
-								<h:graphicImage title="#{imgPrd}" library="images/cartThumbinals" width="80" height="83"
-									name="#{imgPrd}" />
-
-								<h:commandButton image="/imagesExt/remove.png" title="elimina #{imgPrd}"
-									actionListener="#{insertProdottiView.removeImgPrd}">
-									<f:attribute name="img" value="#{imgPrd}" />
-									<f:ajax execute="@this" render="frmImages"></f:ajax>
-
-								</h:commandButton>
-							</div>
-						</ui:repeat>
-
-
-					</div>
-				</h:panelGroup>
-			</div>
-
-
-
-		</h:form>
-
-
-
-
-
 	</ui:define>
 </ui:composition>

@@ -45,9 +45,7 @@
 	border: none !important;;
 }
 
-
-.ui-fileupload-files
-{
+.ui-fileupload-files {
 	display: none !important;
 }
 
@@ -58,6 +56,21 @@
 /* ================================================================================================ 
 	GENERICHE
 ================================================================================================*/
+.sel-thumbinal {
+	border-color: #3c763d;
+	border-style: solid;
+	border-width: 3px;
+	padding: 1px;
+	margin-right: 2px;
+}
+
+.container-sel-thumbinal {
+	width: 88px !important;
+	height: 92px !important;
+	border-color: rgb(204, 204, 204);	
+	
+}
+
 .form-titoli {
 	margin-bottom: 15px;
 	border-bottom: 2px solid #357ebd;
@@ -626,7 +639,19 @@ html,body,form {
 .bwizard-steps
 
 
+
+
+
+
+
+
 .clickable
+
+
+
+
+
+
 
 
 
@@ -637,11 +662,23 @@ li
 
 
 
+
+
+
+
+
+
 :not
 
 
 
+
+
+
  
+
+
+
 
 
 
@@ -650,7 +687,13 @@ li
 
 
 
+
+
+
  
+
+
+
 
 
 
@@ -663,7 +706,16 @@ cursor
 
 
 
+
+
+
+
+
+
 :
+
+
+
 
 
 
@@ -671,7 +723,16 @@ cursor
 
 
 
+
+
+
 pointer
+
+
+
+
+
+
 
 
 
@@ -688,7 +749,16 @@ pointer
 
 
 
+
+
+
+
+
+
 .clickable
+
+
+
 
 
 
@@ -696,7 +766,16 @@ pointer
 
 
 
+
+
+
 li
+
+
+
+
+
+
 
 
 
@@ -710,11 +789,23 @@ li
 
 
 
+
+
+
+
+
+
 :not
 
 
 
+
+
+
  
+
+
+
 
 
 
@@ -723,7 +814,13 @@ li
 
 
 
+
+
+
  
+
+
+
 
 
 
@@ -736,7 +833,16 @@ background
 
 
 
+
+
+
+
+
+
 :
+
+
+
 
 
 
@@ -744,7 +850,16 @@ background
 
 
 
+
+
+
 #ccc
+
+
+
+
+
+
 
 
 
