@@ -263,7 +263,7 @@
 		where
 		a.idTypeSize = b.idTypeSize
 		and a.idTypeSize = c.idTypeSize
-		order by 1
+		order by 1,2
 
 	</select>
 
@@ -282,7 +282,8 @@
 	<select id="listShop" resultType="it.othala.dto.ShopDTO">
 
 		SELECT idShop, txShop, txMail
-		FROM ${database.schema}shops;
+		FROM ${database.schema}shops
+		order by 2;
 
 
 	</select>
