@@ -3,10 +3,10 @@ package it.othala.merchant.view;
 import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.AttributeDTO;
 import it.othala.dto.DomainDTO;
-import it.othala.dto.MenuDTO;
+import it.othala.dto.ProductFullDTO;
 import it.othala.dto.ShopDTO;
-import it.othala.dto.SubMenuDTO;
 import it.othala.model.ApplicationBean;
+import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 
 import java.io.File;
@@ -21,7 +21,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import javax.faces.event.ActionListener;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -55,6 +54,15 @@ public class InsertProdottiView extends BaseView {
 	private String fileThumb;
 	private List<ArticleFullDTO> articles = new ArrayList<ArticleFullDTO>();
 	private String removedArticle;
+	private String merchantCode;
+
+	public String getMerchantCode() {
+		return merchantCode;
+	}
+
+	public void setMerchantCode(String merchantCode) {
+		this.merchantCode = merchantCode;
+	}
 
 	public String getRemovedArticle() {
 		return removedArticle;
@@ -200,8 +208,77 @@ public class InsertProdottiView extends BaseView {
 	public String doInit() {
 		// TODO Auto-generated method stub
 		DomainDTO dom = appBean.getDomain();
-		qta=1;
+		qta = 1;
 		return null;
+	}
+
+	public void addProduct(ActionEvent e) {
+		try {
+			if (articles.isEmpty())
+			{
+				addError("Prodotto", "Inserire almeno un articolo");
+				return;
+			}
+			
+			ProductFullDTO prd = new ProductFullDTO();
+			prd.setArticles(articles);
+			prd.setDescription(descrizione);
+			prd.setDiscount(sconto);
+			prd.setIdBrand(brand.getAttributo());
+			prd.setIdGender(genere.getAttributo());
+			prd.setIdType(tipo.getAttributo());
+			prd.setImagesUrl(imagesFile);
+			prd.setMerchantCode(merchantCode);
+			prd.setPrice(prezzo);
+			prd.setThumbnailsUrl(fileThumb);
+			prd.setPriceDiscounted(prezzoScontato);
+			OthalaFactory.getProductServiceInstance().insertProduct(prd);
+			resetPrd();
+			addInfo("Prodotto", "inserimento effettuato correttamente");
+		
+			
+		} catch (Exception ex) {
+			addGenericError(ex, "errore nell'inserimento del prodotto");
+		}
+
+	}
+	
+	private void resetPrd()
+	{		
+		articles.clear();
+		imagesFile.clear();
+		merchantCode=null;
+		prezzo=null;
+		prezzoScontato=null;
+		sconto=0;
+		brand=null;
+		size=null;
+		shop=null;
+		fileThumb=null;
+		descrizione=null;
+		qta=1;
+		color=null;
+		
+	}
+
+	public void addArticle(ActionEvent e) {
+
+		if (fileThumb == null) {
+			addError("thumbinal", "nessun file caricato");
+			return;
+		}
+		
+
+		ArticleFullDTO art = new ArticleFullDTO();
+		art.setThumbnailsUrl(fileThumb);
+		art.setShop(getShop());
+		art.setIdSize(size.getAttributo());
+		art.setTxSize(size.getValore());
+		art.setQtStock(qta);
+		art.setIdColor(color.getAttributo());
+		art.setTxColor(color.getValore());
+		art.setPgArticle(articles.size());
+		articles.add(art);
 	}
 
 	public List<AttributeDTO> completeGenere(String query) {
@@ -305,41 +382,17 @@ public class InsertProdottiView extends BaseView {
 		fileThumb = null;
 	}
 
-	public void addArticle(ActionEvent e) {
-		
-		if (fileThumb==null)
-		{
-			addError("thumbinal", "nessun file caricato" );
-			return;
-				
-		}
-		
-		ArticleFullDTO art = new ArticleFullDTO();
-		art.setThumbnailsUrl(fileThumb);
-		art.setShop(getShop());
-		art.setIdSize(size.getAttributo());
-		art.setTxSize(size.getValore());
-		art.setQtStock(qta);
-		art.setIdColor(color.getAttributo());
-		art.setTxColor(color.getValore());
-		art.setPgArticle(articles.size());
-		articles.add(art);
-	}
-
 	public void removeArticle(ActionEvent e) {
 
 		Integer id = (Integer) e.getComponent().getAttributes().get("idArt");
 
 		if (!articles.isEmpty()) {
-			for (ArticleFullDTO art:articles)
-			{
-				if (art.getPgArticle().intValue()==id.intValue())
-				{
+			for (ArticleFullDTO art : articles) {
+				if (art.getPgArticle().intValue() == id.intValue()) {
 					articles.remove(art);
 					return;
 				}
 			}
-			
 
 		}
 	}
@@ -361,14 +414,13 @@ public class InsertProdottiView extends BaseView {
 	public void handleFileUpload(FileUploadEvent event) {
 		UploadedFile file = event.getFile();
 		if (file != null) {
-			
-			//verifica se il file è già presente
-			if (imagesFile.contains(file.getFileName()))
-			{				
+
+			// verifica se il file è già presente
+			if (imagesFile.contains(file.getFileName())) {
 				addError("Upload", file.getFileName() + "già presente");
 				return;
 			}
-			
+
 			try {
 				copyFile(file);
 				if (fileThumb == null) {
