@@ -20,6 +20,7 @@
 
 	<ui:define name="bodyPageContent">
 		<h:form prependId="false" id="frmProd" styleClass="form-horizontal">
+		<p:growl id="messages" showDetail="true" autoUpdate="true" />
 
 			<div class="row">
 				<div class="col-sm-4">
@@ -33,7 +34,7 @@
 					<div class="form-group spacer10">
 						<p:outputLabel for="barcode" class="col-sm-1 control-label" value="Barcode" />
 						<div class="col-sm-3 ">
-							<p:inputText styleClass="form-control" id="barcode" required="true" />
+							<p:inputText styleClass="form-control" maxlength="30" id="barcode" required="true" />
 						</div>
 						<div class="col-sm-2 col-sm-offset-6">
 							<p:commandButton styleClass="ui-priority-primary" process="frmProd" update="frmProd"
@@ -121,7 +122,7 @@
 		</h:form>
 
 		<h:form enctype="multipart/form-data" prependId="false" id="frmImages">
-			<p:growl id="messages" showDetail="true" />
+			
 
 
 
@@ -132,8 +133,8 @@
 
 
 					<p:fileUpload fileUploadListener="#{insertProdottiView.handleFileUpload}"
-						allowTypes="/(\.|\/)(gif|jpe?g|png)$/" process="@this" update="frmImages :frm-arts"
-						multiple="false" auto="true" />
+						allowTypes="/(\.|\/)(gif|jpe?g|png)$/" process="@this" required="true"  update="frmImages :frm-arts"
+						multiple="true" auto="true" />
 
 				</div>
 				<h:panelGroup layout="block" rendered="#{insertProdottiView.imagesFile.size()!=0}">
@@ -149,14 +150,14 @@
 									<h:commandButton image="/imagesExt/remove.png" title="elimina #{imgPrd}"
 										actionListener="#{insertProdottiView.removeImgPrd}">
 										<f:attribute name="img" value="#{imgPrd}" />
-										<f:ajax execute="@this" render="frmImages :frm-arts"></f:ajax>
+										<f:ajax execute="@this" render="frmImages thumb"></f:ajax>
 									</h:commandButton>
 									<br />
 
 									<h:commandButton image="/imagesExt/picture_add.png" title="aggiungi thumbinal #{imgPrd}"
 										actionListener="#{insertProdottiView.addThumb}">
 										<f:attribute name="img" value="#{imgPrd}" />
-										<f:ajax execute="@this" render="frmImages :frm-arts"></f:ajax>
+										<f:ajax execute="@this" render="frmImages thumb"></f:ajax>
 									</h:commandButton>
 								</div>
 
@@ -203,7 +204,7 @@
 					<div class="form-group">
 						<p:outputLabel for="qta" class="col-sm-1 control-label" value="Quantita" />
 						<div class="col-sm-2">
-
+ 
 							<p:spinner required="true" size="3" id="qta" value="#{insertProdottiView.qta}" min="1"
 								max="100" />
 						</div>
@@ -221,7 +222,7 @@
 
 
 						</div>
-						<p:commandButton process=":frm-arts" update="frm-arts" 
+						<p:commandButton process=":frmProd frm-arts" update="frm-arts"
 							actionListener="#{insertProdottiView.addArticle}" id="addPrds" value="Aggiungi Articolo" />
 
 
@@ -230,15 +231,20 @@
 						<label class="control-label col-sm-1">Thumbinal</label>
 						<div class="clearfix col-sm-1">
 							<div class="sel-thumbinal container-sel-thumbinal ">
-								<p:graphicImage rendered="#{insertProdottiView.fileThumb!=null}"
-									title="#{insertProdottiView.fileThumb}" library="images/cartThumbinals" width="80"
-									height="83" name="#{insertProdottiView.fileThumb}" />
+								<h:panelGroup id="thumb">
+									<p:graphicImage rendered="#{insertProdottiView.fileThumb!=null}"
+										title="#{insertProdottiView.fileThumb}" library="images/cartThumbinals" width="80"
+										height="83" name="#{insertProdottiView.fileThumb}" />
+								</h:panelGroup>
 							</div>
 						</div>
 					</div>
+
+					<!-- elenco articoli -->
 					<div class="form-group">
-						<label class="control-label col-sm-1">Elenco Articoli</label>       
-						<p:dataTable id="arts" rendered="#{insertProdottiView.articles.size()!=0}" var="art" value="#{insertProdottiView.articles}">
+						<label class="control-label col-sm-3">Elenco Articoli</label>       
+						<p:dataTable id="arts" rendered="#{insertProdottiView.articles.size()!=0}" var="art"
+							value="#{insertProdottiView.articles}">
       
         <p:column headerText="Thumbinal">
            <p:graphicImage title="#{art.thumbnailsUrl}" library="images/cartThumbinals" width="80"
@@ -257,11 +263,11 @@
             <h:outputText value="#{art.shop.txShop}" />
         </p:column>
         <p:column style="width:4%;text-align: center">
-             <p:commandButton update="frm-arts" actionListener="#{insertProdottiView.removeArticle}"
-									icon="ui-icon-search" title="Rimuovi">
-                <f:setPropertyActionListener value="#{art.thumbnailsUrl}"
-										target="#{insertProdottiView.removedArticle}" />
-            </p:commandButton>
+           								<h:commandButton title="rimuovi" value="Rimuovi"
+									actionListener="#{insertProdottiView.removeArticle}">
+									<f:attribute name="idArt" value="#{art.pgArticle}" />
+									<f:ajax execute="@this" render="frm-arts"></f:ajax>
+								</h:commandButton>
         </p:column>
     </p:dataTable>
 

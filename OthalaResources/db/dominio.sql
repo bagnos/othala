@@ -1,27 +1,27 @@
-INSERT INTO `othala`.`shops` (`idShop`, `txShop`, `txMail`) VALUES (1, 'Magazzino Badesse', 'magazzino@degortes.it');
+INSERT INTO `aduna937_othala`.`shops` (`idShop`, `txShop`, `txMail`) VALUES (1, 'Magazzino Badesse', 'magazzino@degortes.it');
 
-INSERT INTO `othala`.`shops` (`idShop`, `txShop`, `txMail`) VALUES (2, 'Siena piazza della Posta', 'siena@degortes.it');
-INSERT INTO `othala`.`delivery_cost` VALUES (1, 'Corriere Espresso Bartolini', 5.00,0,'Corriere Espresso Bartolini','http://Stocazzo');
+INSERT INTO `aduna937_othala`.`shops` (`idShop`, `txShop`, `txMail`) VALUES (2, 'Siena piazza della Posta', 'siena@degortes.it');
+INSERT INTO `aduna937_othala`.`delivery_cost` VALUES (1, 'Corriere Espresso Bartolini', 5.00,0,'Corriere Espresso Bartolini','http://Stocazzo');
 
-INSERT INTO `othala`.`delivery_cost`  VALUES (2, 'Corriere Espresso SDA', 5.00,0,'Corriere Espresso SDA','http://Stocazzo');
+INSERT INTO `aduna937_othala`.`delivery_cost`  VALUES (2, 'Corriere Espresso SDA', 5.00,0,'Corriere Espresso SDA','http://Stocazzo');
 
-INSERT INTO `othala`.`delivery_cost`  VALUES (3, 'Posta Ordinaria', 3.00,0,'Posta Ordinaria','http://Stocazzo');
+INSERT INTO `aduna937_othala`.`delivery_cost`  VALUES (3, 'Posta Ordinaria', 3.00,0,'Posta Ordinaria','http://Stocazzo');
 
-INSERT INTO `othala`.`delivery_cost` VALUES (4, 'Posta Raccomandata', 4.00,0,'Posta Raccomandata','http://Stocazzo');
+INSERT INTO `aduna937_othala`.`delivery_cost` VALUES (4, 'Posta Raccomandata', 4.00,0,'Posta Raccomandata','http://Stocazzo');
 
 
 INSERT INTO gender VALUES    
 (1,'it','UOMO'),(2,'it','DONNA'),(3,'it','BAMBINO'),(4,'it','BAMBINA');
 INSERT INTO brand VALUES    
 (1,'it','LANVIN'),(2,'it','BALMAIN'),(3,'it','DSQUARED'),(4,'it','MOSCHINO'),(5,'it','DOLCE E GABBANA'),(6,'it','STONE ISLAND');
-INSERT INTO `othala`.`brand` (`idBrand`, `idLanguages`, `txBrand`) VALUES (7, 'it', 'BLOCH');
-INSERT INTO `othala`.`brand` (`idBrand`, `idLanguages`, `txBrand`) VALUES (8, 'it', 'ARMANI');
+INSERT INTO `aduna937_othala`.`brand` (`idBrand`, `idLanguages`, `txBrand`) VALUES (7, 'it', 'BLOCH');
+INSERT INTO `aduna937_othala`.`brand` (`idBrand`, `idLanguages`, `txBrand`) VALUES (8, 'it', 'ARMANI');
 
 INSERT INTO `type_size`
 VALUES
 (1,'TAGLIE'),(2,'TAGLIE ITA'),(3,'SCARPE EU'),(4,'PANTALONI US');
 
-INSERT INTO `othala`.`size_type_size`
+INSERT INTO `aduna937_othala`.`size_type_size`
 VALUES
 (1,1),(2,4),(3,2),(4,2),(5,2),(6,1),(7,1),(8,2),(9,2),(10,2),(11,2),
 (12,2),(13,1),(14,4),(15,1),(16,4),(17,2),(18,2),(19,1),(20,3),(21,1),(22,2);
@@ -81,7 +81,7 @@ INSERT INTO `site_images` (`idsiteImages`, `txGroupImages`, `pgGroupImages`, `tx
 VALUES (12, 'tabNav', 4, 'images/tabNav', 'bambina.png',null);
 
 
-INSERT INTO `othala`.`campaigns` (`idCampaign`, `txCampaign`, `dtInizio`, `dtFine`, `pcSconto`) VALUES (1, 'SUMMER SALES', '2014-05-26', '2014-06-15', 75);
+INSERT INTO `aduna937_othala`.`campaigns` (`idCampaign`, `txCampaign`, `dtInizio`, `dtFine`, `pcSconto`) VALUES (1, 'SUMMER SALES', '2014-05-26', '2014-06-15', 75);
 
 
 
@@ -109,13 +109,13 @@ VALUES
 
 
 
-INSERT INTO `othala`.`customer` (`idUser`, `txPassword`, `txNome`, `txCognome`, `txFiscale`, `idTypeState`) VALUES ('1', 'ANTANI', 'JACOPO', 'FREDIANI', 'FRDJCP79A28I726A', 2);
-INSERT INTO `othala`.`customer_roles` (`idUser`,`txRole`) VALUES (1,'AMMINISTRATORE');
-INSERT INTO `othala`.`addresses` (`idAddress`, `idUser`, `txNome`, `txCognome`, `txVia`, `txComune`, `cdCap`, `txProvincia`, `txNazione`, `txTel`, `fgDeleted`, `txEtichetta`) VALUES (1, '1', 'JACOPO', 'FREDIANI', 'STRADA CASSIA SUD 15/A', 'SIENA', 53100, 'SI', 'ITALIA', '3392113342', 0, 'CASA');
-INSERT INTO `othala`.`orders` VALUES (1, '1', 1000.00, '1', 1, 1, 1,'ASDF323454');
-INSERT INTO `othala`.`orders_articles` (`idOrder`, `idProdotto`, `pgArticle`, `qtArticle`) VALUES (1, 1, 1, 1);
+INSERT INTO `aduna937_othala`.`customer` (`idUser`, `txPassword`, `txNome`, `txCognome`, `txFiscale`, `idTypeState`) VALUES ('1', 'ANTANI', 'JACOPO', 'FREDIANI', 'FRDJCP79A28I726A', 2);
+INSERT INTO `aduna937_othala`.`customer_roles` (`idUser`,`txRole`) VALUES (1,'AMMINISTRATORE');
+INSERT INTO `aduna937_othala`.`addresses` (`idAddress`, `idUser`, `txNome`, `txCognome`, `txVia`, `txComune`, `cdCap`, `txProvincia`, `txNazione`, `txTel`, `fgDeleted`, `txEtichetta`) VALUES (1, '1', 'JACOPO', 'FREDIANI', 'STRADA CASSIA SUD 15/A', 'SIENA', 53100, 'SI', 'ITALIA', '3392113342', 0, 'CASA');
+INSERT INTO `aduna937_othala`.`orders` VALUES (1, '1', 1000.00, '1', 1, 1, 1,'ASDF323454');
+INSERT INTO `aduna937_othala`.`orders_articles` (`idOrder`, `idProdotto`, `pgArticle`, `qtArticle`) VALUES (1, 1, 1, 1);
 
-INSERT INTO `othala`.`orders_articles` (`idOrder`, `idProdotto`, `pgArticle`, `qtArticle`) VALUES (1, 881, 1, 1);
+INSERT INTO `aduna937_othala`.`orders_articles` (`idOrder`, `idProdotto`, `pgArticle`, `qtArticle`) VALUES (1, 881, 1, 1);
 
-INSERT INTO `othala`.`states_orders` (`idOrder`, `idStato`) VALUES (1, 2);
+INSERT INTO `aduna937_othala`.`states_orders` (`idOrder`, `idStato`) VALUES (1, 2);
 

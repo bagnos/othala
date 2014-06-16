@@ -2,6 +2,7 @@ package it.othala.merchant.view;
 
 import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.AttributeDTO;
+import it.othala.dto.DomainDTO;
 import it.othala.dto.MenuDTO;
 import it.othala.dto.ShopDTO;
 import it.othala.dto.SubMenuDTO;
@@ -44,7 +45,7 @@ public class InsertProdottiView extends BaseView {
 	private int sconto;
 	private BigDecimal prezzo;
 	private BigDecimal prezzoScontato;
-	private List<String> imagesFile = new ArrayList<>();	
+	private List<String> imagesFile = new ArrayList<>();
 	private String descrizione;
 	private AttributeDTO size;
 	private AttributeDTO color;
@@ -52,38 +53,32 @@ public class InsertProdottiView extends BaseView {
 	private String negozio;
 	private ShopDTO shop;
 	private String fileThumb;
-	private List<ArticleFullDTO> articles=new ArrayList<ArticleFullDTO>();
+	private List<ArticleFullDTO> articles = new ArrayList<ArticleFullDTO>();
 	private String removedArticle;
-	
-
-	
-
 
 	public String getRemovedArticle() {
 		return removedArticle;
 	}
 
-
 	public void setRemovedArticle(String removedArticle) {
 		this.removedArticle = removedArticle;
 	}
-
 
 	public List<ArticleFullDTO> getArticles() {
 		return articles;
 	}
 
 	private final String BASE_IMG_PATH = "//resources//images//cartThumbinals//";
-	private final int SCROLL_WIDTH_AUTOCOMPLETE=100;
-	
+	private final int SCROLL_WIDTH_AUTOCOMPLETE = 100;
+
 	public List<String> getImagesFile() {
 		return imagesFile;
 	}
 
-	
 	public void setFileThumb(String fileThumb) {
 		this.fileThumb = fileThumb;
 	}
+
 	public int getSCROLL_WIDTH_AUTOCOMPLETE() {
 		return SCROLL_WIDTH_AUTOCOMPLETE;
 	}
@@ -204,6 +199,8 @@ public class InsertProdottiView extends BaseView {
 	@Override
 	public String doInit() {
 		// TODO Auto-generated method stub
+		DomainDTO dom = appBean.getDomain();
+		qta=1;
 		return null;
 	}
 
@@ -280,7 +277,7 @@ public class InsertProdottiView extends BaseView {
 	}
 
 	public List<AttributeDTO> completeTipo(String query) {
-		
+
 		List<AttributeDTO> allType = appBean.getTypeDTO();
 		List<AttributeDTO> filteredType = new ArrayList<AttributeDTO>();
 
@@ -307,57 +304,76 @@ public class InsertProdottiView extends BaseView {
 		file.delete();
 		fileThumb = null;
 	}
-	
+
 	public void addArticle(ActionEvent e) {
-		ArticleFullDTO art=new ArticleFullDTO();
+		
+		if (fileThumb==null)
+		{
+			addError("thumbinal", "nessun file caricato" );
+			return;
+				
+		}
+		
+		ArticleFullDTO art = new ArticleFullDTO();
 		art.setThumbnailsUrl(fileThumb);
 		art.setShop(getShop());
 		art.setIdSize(size.getAttributo());
+		art.setTxSize(size.getValore());
 		art.setQtStock(qta);
 		art.setIdColor(color.getAttributo());
+		art.setTxColor(color.getValore());
+		art.setPgArticle(articles.size());
 		articles.add(art);
 	}
-	
+
 	public void removeArticle(ActionEvent e) {
-		if (!articles.isEmpty())
-		{
-			ArticleFullDTO artFinded=null;
+
+		Integer id = (Integer) e.getComponent().getAttributes().get("idArt");
+
+		if (!articles.isEmpty()) {
 			for (ArticleFullDTO art:articles)
 			{
-				if (art.getThumbnailsUrl().equalsIgnoreCase(removedArticle))
+				if (art.getPgArticle().intValue()==id.intValue())
 				{
-					artFinded=art;
-					break;
+					articles.remove(art);
+					return;
 				}
 			}
-			if (artFinded!=null)
-			{
-				articles.remove(artFinded);
-			}
 			
+
 		}
 	}
-	
+
 	public void removeImgPrd(ActionEvent e) {
 		ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
-		String fileName=(String) e.getComponent().getAttributes().get("img");
+		String fileName = (String) e.getComponent().getAttributes().get("img");
 		File file = new File(extContext.getRealPath(BASE_IMG_PATH + fileName));
 		imagesFile.remove(fileName);
-		
-		if (fileName.equalsIgnoreCase(fileThumb))
-		{
-			fileThumb=null;
+
+		if (fileName.equalsIgnoreCase(fileThumb)) {
+			fileThumb = null;
 		}
-		
+
 		file.delete();
-		
+
 	}
 
 	public void handleFileUpload(FileUploadEvent event) {
 		UploadedFile file = event.getFile();
 		if (file != null) {
+			
+			//verifica se il file è già presente
+			if (imagesFile.contains(file.getFileName()))
+			{				
+				addError("Upload", file.getFileName() + "già presente");
+				return;
+			}
+			
 			try {
 				copyFile(file);
+				if (fileThumb == null) {
+					fileThumb = file.getFileName();
+				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				log.error("errore upload", e);
@@ -365,7 +381,6 @@ public class InsertProdottiView extends BaseView {
 			}
 			addInfo("Upload", file.getFileName() + " è stata caricata correttamente");
 			imagesFile.add(file.getFileName());
-			
 
 		}
 	}
@@ -386,12 +401,11 @@ public class InsertProdottiView extends BaseView {
 		}
 		// application code
 	}
-	
+
 	public void addThumb(ActionEvent e) {
-		
-		
-		fileThumb=(String) e.getComponent().getAttributes().get("img");
-		
+
+		fileThumb = (String) e.getComponent().getAttributes().get("img");
+
 	}
 
 	private void copyFile(UploadedFile file) throws IOException {

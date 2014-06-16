@@ -67,8 +67,7 @@
 .container-sel-thumbinal {
 	width: 88px !important;
 	height: 92px !important;
-	border-color: rgb(204, 204, 204);	
-	
+	border-color: rgb(204, 204, 204);
 }
 
 .form-titoli {
@@ -645,7 +644,11 @@ html,body,form {
 
 
 
+
+
 .clickable
+
+
 
 
 
@@ -668,6 +671,8 @@ li
 
 
 
+
+
 :not
 
 
@@ -675,7 +680,9 @@ li
 
 
 
+
  
+
 
 
 
@@ -690,7 +697,9 @@ li
 
 
 
+
  
+
 
 
 
@@ -712,7 +721,10 @@ cursor
 
 
 
+
+
 :
+
 
 
 
@@ -726,7 +738,10 @@ cursor
 
 
 
+
 pointer
+
+
 
 
 
@@ -755,7 +770,10 @@ pointer
 
 
 
+
+
 .clickable
+
 
 
 
@@ -769,7 +787,10 @@ pointer
 
 
 
+
 li
+
+
 
 
 
@@ -795,6 +816,8 @@ li
 
 
 
+
+
 :not
 
 
@@ -802,7 +825,9 @@ li
 
 
 
+
  
+
 
 
 
@@ -817,7 +842,9 @@ li
 
 
 
+
  
+
 
 
 
@@ -839,7 +866,10 @@ background
 
 
 
+
+
 :
+
 
 
 
@@ -853,7 +883,10 @@ background
 
 
 
+
 #ccc
+
+
 
 
 
@@ -952,4 +985,11 @@ background
 		margin-top: 6px;
 		margin-bottom: 6px;
 	}
+}
+
+/* ================================================================================================ 
+	CUSTOM BOOTSTRAP 
+================================================================================================*/
+.control-label {
+	text-align: left !important;
 }

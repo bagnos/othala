@@ -14,7 +14,7 @@
 	<!-- configurazione di produzione -->
 
 	 <Realm className="org.apache.catalina.realm.DataSourceRealm" dataSourceName="jdbc/othala" 
-		userTable="othala.customer" userNameCol="idUser" userCredCol="txPassword" userRoleTable="othala.customer_roles" 
+		userTable="aduna937_othala.customer" userNameCol="idUser" userCredCol="txPassword" userRoleTable="aduna937_othala.customer_roles" 
 		roleNameCol="txRole" localDataSource="true" />
 		
 		<!--  <Resource name="jdbc/contrada" auth="Container" 
@@ -23,17 +23,23 @@
 		driverClassName="com.mysql.jdbc.Driver" url="jdbc:mysql://mysql.protettoratonicchio.it:3306/prote923_contrada" 
 		/> -->
 
-
-	<Resource name="jdbc/othala" removeAbandoned="true" logAbandoned="true"
+<!-- PRODUZIONE -->
+	<!-- <Resource name="jdbc/othala" removeAbandoned="true" logAbandoned="true"
+		auth="Container" type="javax.sql.DataSource" maxActive="10" maxIdle="5"
+		validationQuery="SELECT 1" validationInterval="30000" maxWait="10000"
+		username="aduna937_othala" password="othala2014" driverClassName="com.mysql.jdbc.Driver"
+		url="jdbc:mysql://mysql.adunata.org:3306/aduna937_othala" />-->
+		
+		<Resource name="jdbc/othala" removeAbandoned="true" logAbandoned="true"
 		auth="Container" type="javax.sql.DataSource" maxActive="10" maxIdle="5"
 		validationQuery="SELECT 1" validationInterval="30000" maxWait="10000"
 		username="root" password="root" driverClassName="com.mysql.jdbc.Driver"
-		url="jdbc:mysql://localhost:3306/othala" />
+		url="jdbc:mysql://localhost:3306/aduna937_othala" />
 
 
 	<Realm className="org.apache.catalina.realm.DataSourceRealm"
-		dataSourceName="jdbc/othala" userTable="othala.customer" userNameCol="idUser"
-		userCredCol="txPassword" userRoleTable="othala.customer_roles" roleNameCol="txRole"
+		dataSourceName="jdbc/othala" userTable="aduna937_othala.customer" userNameCol="idUser"
+		userCredCol="txPassword" userRoleTable="aduna937_othala.customer_roles" roleNameCol="txRole"
 		localDataSource="true" />
 
 

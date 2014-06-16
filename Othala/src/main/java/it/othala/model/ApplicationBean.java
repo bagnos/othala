@@ -107,7 +107,7 @@ public class ApplicationBean implements Serializable {
 		return campaigns;
 	}
 
-	private DomainDTO getDomain() {
+	public DomainDTO getDomain() {
 
 		if (domain == null) {
 			domain = OthalaFactory.getProductServiceInstance().getDomain("it");
