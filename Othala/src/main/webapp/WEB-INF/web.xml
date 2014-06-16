@@ -18,14 +18,8 @@
     <param-name>primefaces.THEME</param-name>
     <param-value>bootstrap</param-value>
   </context-param>
-  <context-param>
-    <param-name>javax.faces.FACELETS_DEVELOPMENT</param-name>
-    <param-value>true</param-value>
-  </context-param>
-  <context-param>
-    <param-name>PROJECT_STAGE</param-name>
-    <param-value>Development</param-value>
-  </context-param>
+  
+  
   <context-param>
     <param-name>primefaces.PUBLIC_CAPTCHA_KEY</param-name>
     <param-value>6Le1r-8SAAAAAHL3XrpWA7iMtcO2Ne_aszXWI7Y2</param-value>
@@ -43,6 +37,7 @@
 <param-value>auto</param-value>
 </context-param>
 
+  <!-- 
   <servlet>
     <servlet-name>MistletoeServlet</servlet-name>
     <servlet-class>ch.qos.mistletoe.servlet.MistletoeServlet</servlet-class>
@@ -55,6 +50,8 @@
     <servlet-name>MistletoeServlet</servlet-name>
     <url-pattern>/Mistletoe/*</url-pattern>
   </servlet-mapping>
+  -->
+  <!-- 
   <resource-ref>
     <description>
 			Resource reference to a factory for javax.mail.Session
@@ -70,6 +67,7 @@
 		</res-type>
     <res-auth>Container</res-auth>
   </resource-ref>
+  -->
   <servlet>
     <servlet-name>IPNServlet</servlet-name>
     <servlet-class>it.othala.servlet.IpnPayPalServlet</servlet-class>
