@@ -2,16 +2,16 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
 
-DROP SCHEMA IF EXISTS `othala` ;
-CREATE SCHEMA IF NOT EXISTS `othala` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
-USE `othala` ;
+DROP SCHEMA IF EXISTS `aduna937_othala` ;
+CREATE SCHEMA IF NOT EXISTS `aduna937_othala` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
+USE `aduna937_othala` ;
 
 -- -----------------------------------------------------
--- Table `othala`.`Type_State_Account`
+-- Table `aduna937_othala`.`Type_State_Account`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `othala`.`Type_State_Account` ;
+DROP TABLE IF EXISTS `aduna937_othala`.`Type_State_Account` ;
 
-CREATE  TABLE IF NOT EXISTS `othala`.`Type_State_Account` (
+CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Type_State_Account` (
   `idTypeState` INT NOT NULL ,
   `txTypeState` VARCHAR(45) NULL ,
   PRIMARY KEY (`idTypeState`) )
@@ -19,11 +19,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `othala`.`Customer`
+-- Table `aduna937_othala`.`Customer`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `othala`.`Customer` ;
+DROP TABLE IF EXISTS `aduna937_othala`.`Customer` ;
 
-CREATE  TABLE IF NOT EXISTS `othala`.`Customer` (
+CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Customer` (
   `idUser` VARCHAR(100) NOT NULL ,
   `txPassword` VARCHAR(20) NOT NULL ,
   `txNome` VARCHAR(30) NOT NULL ,
@@ -34,18 +34,18 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Customer` (
   INDEX `fk_Customer_Type_State_Account1` (`idTypeState` ASC) ,
   CONSTRAINT `fk_Customer_Type_State_Account1`
     FOREIGN KEY (`idTypeState` )
-    REFERENCES `othala`.`Type_State_Account` (`idTypeState` )
+    REFERENCES `aduna937_othala`.`Type_State_Account` (`idTypeState` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `othala`.`Product_State`
+-- Table `aduna937_othala`.`Product_State`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `othala`.`Product_State` ;
+DROP TABLE IF EXISTS `aduna937_othala`.`Product_State` ;
 
-CREATE  TABLE IF NOT EXISTS `othala`.`Product_State` (
+CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Product_State` (
   `idProductState` INT NOT NULL ,
   `txProductState` VARCHAR(45) NULL ,
   PRIMARY KEY (`idProductState`) )
@@ -53,11 +53,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `othala`.`Gender`
+-- Table `aduna937_othala`.`Gender`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `othala`.`Gender` ;
+DROP TABLE IF EXISTS `aduna937_othala`.`Gender` ;
 
-CREATE  TABLE IF NOT EXISTS `othala`.`Gender` (
+CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Gender` (
   `idGender` INT NOT NULL ,
   `idLanguages` VARCHAR(2) NOT NULL ,
   `txGender` VARCHAR(200) NULL ,
@@ -66,11 +66,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `othala`.`Type_Size`
+-- Table `aduna937_othala`.`Type_Size`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `othala`.`Type_Size` ;
+DROP TABLE IF EXISTS `aduna937_othala`.`Type_Size` ;
 
-CREATE  TABLE IF NOT EXISTS `othala`.`Type_Size` (
+CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Type_Size` (
   `idTypeSize` INT NOT NULL ,
   `txTypeSize` VARCHAR(45) NULL ,
   PRIMARY KEY (`idTypeSize`) )
@@ -78,29 +78,29 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `othala`.`Size_Type_Size`
+-- Table `aduna937_othala`.`Size_Type_Size`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `othala`.`Size_Type_Size` ;
+DROP TABLE IF EXISTS `aduna937_othala`.`Size_Type_Size` ;
 
-CREATE  TABLE IF NOT EXISTS `othala`.`Size_Type_Size` (
+CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Size_Type_Size` (
   `idType` INT NOT NULL ,
   `idTypeSize` INT NOT NULL ,
   PRIMARY KEY (`idType`) ,
   INDEX `fk_idType_Type_Size1` (`idTypeSize` ASC) ,
   CONSTRAINT `fk_idType_Type_Size1`
     FOREIGN KEY (`idTypeSize` )
-    REFERENCES `othala`.`Type_Size` (`idTypeSize` )
+    REFERENCES `aduna937_othala`.`Type_Size` (`idTypeSize` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `othala`.`Type`
+-- Table `aduna937_othala`.`Type`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `othala`.`Type` ;
+DROP TABLE IF EXISTS `aduna937_othala`.`Type` ;
 
-CREATE  TABLE IF NOT EXISTS `othala`.`Type` (
+CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Type` (
   `idType` INT NOT NULL ,
   `idLanguages` VARCHAR(2) NOT NULL ,
   `txType` VARCHAR(200) NULL ,
@@ -108,18 +108,18 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Type` (
   INDEX `fk_Type_idType1` (`idType` ASC) ,
   CONSTRAINT `fk_Type_idType1`
     FOREIGN KEY (`idType` )
-    REFERENCES `othala`.`Size_Type_Size` (`idType` )
+    REFERENCES `aduna937_othala`.`Size_Type_Size` (`idType` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `othala`.`Brand`
+-- Table `aduna937_othala`.`Brand`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `othala`.`Brand` ;
+DROP TABLE IF EXISTS `aduna937_othala`.`Brand` ;
 
-CREATE  TABLE IF NOT EXISTS `othala`.`Brand` (
+CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Brand` (
   `idBrand` INT NOT NULL ,
   `idLanguages` VARCHAR(2) NOT NULL ,
   `txBrand` VARCHAR(200) NULL ,
@@ -128,11 +128,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `othala`.`Campaigns`
+-- Table `aduna937_othala`.`Campaigns`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `othala`.`Campaigns` ;
+DROP TABLE IF EXISTS `aduna937_othala`.`Campaigns` ;
 
-CREATE  TABLE IF NOT EXISTS `othala`.`Campaigns` (
+CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Campaigns` (
   `idCampaign` INT NOT NULL ,
   `txCampaign` VARCHAR(45) NULL ,
   `dtInizio` DATE NULL ,
@@ -143,11 +143,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `othala`.`Product`
+-- Table `aduna937_othala`.`Product`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `othala`.`Product` ;
+DROP TABLE IF EXISTS `aduna937_othala`.`Product` ;
 
-CREATE  TABLE IF NOT EXISTS `othala`.`Product` (
+CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Product` (
   `idProduct` INT NOT NULL AUTO_INCREMENT ,
   `idGender` INT NULL ,
   `idType` INT NULL ,
@@ -167,38 +167,38 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Product` (
   INDEX `fk_Product_Campaigns1` (`idCampaign` ASC) ,
   CONSTRAINT `fk_Product_Product_State1`
     FOREIGN KEY (`idProductState` )
-    REFERENCES `othala`.`Product_State` (`idProductState` )
+    REFERENCES `aduna937_othala`.`Product_State` (`idProductState` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Product_Gender1`
     FOREIGN KEY (`idGender` )
-    REFERENCES `othala`.`Gender` (`idGender` )
+    REFERENCES `aduna937_othala`.`Gender` (`idGender` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Product_Type1`
     FOREIGN KEY (`idType` )
-    REFERENCES `othala`.`Type` (`idType` )
+    REFERENCES `aduna937_othala`.`Type` (`idType` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Product_Brand1`
     FOREIGN KEY (`idBrand` )
-    REFERENCES `othala`.`Brand` (`idBrand` )
+    REFERENCES `aduna937_othala`.`Brand` (`idBrand` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Product_Campaigns1`
     FOREIGN KEY (`idCampaign` )
-    REFERENCES `othala`.`Campaigns` (`idCampaign` )
+    REFERENCES `aduna937_othala`.`Campaigns` (`idCampaign` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `othala`.`Product_Image`
+-- Table `aduna937_othala`.`Product_Image`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `othala`.`Product_Image` ;
+DROP TABLE IF EXISTS `aduna937_othala`.`Product_Image` ;
 
-CREATE  TABLE IF NOT EXISTS `othala`.`Product_Image` (
+CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Product_Image` (
   `idProduct` INT NOT NULL ,
   `pgImage` INT NOT NULL ,
   `txImageUrl` VARCHAR(100) NULL ,
@@ -206,18 +206,18 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Product_Image` (
   INDEX `fk_ProductImage_Product1_idx` (`idProduct` ASC) ,
   CONSTRAINT `fk_ProductImage_Product1`
     FOREIGN KEY (`idProduct` )
-    REFERENCES `othala`.`Product` (`idProduct` )
+    REFERENCES `aduna937_othala`.`Product` (`idProduct` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `othala`.`Addresses`
+-- Table `aduna937_othala`.`Addresses`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `othala`.`Addresses` ;
+DROP TABLE IF EXISTS `aduna937_othala`.`Addresses` ;
 
-CREATE  TABLE IF NOT EXISTS `othala`.`Addresses` (
+CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Addresses` (
   `idAddress` INT NOT NULL AUTO_INCREMENT ,
   `idUser` VARCHAR(100) NOT NULL ,
   `txNome` VARCHAR(45) NOT NULL ,
@@ -234,18 +234,18 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Addresses` (
   PRIMARY KEY (`idAddress`) ,
   CONSTRAINT `fk_Addresses_Customer1`
     FOREIGN KEY (`idUser` )
-    REFERENCES `othala`.`Customer` (`idUser` )
+    REFERENCES `aduna937_othala`.`Customer` (`idUser` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `othala`.`Coupons`
+-- Table `aduna937_othala`.`Coupons`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `othala`.`Coupons` ;
+DROP TABLE IF EXISTS `aduna937_othala`.`Coupons` ;
 
-CREATE  TABLE IF NOT EXISTS `othala`.`Coupons` (
+CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Coupons` (
   `idCoupon` VARCHAR(100) NOT NULL ,
   `idUser` VARCHAR(100) NOT NULL ,
   `pcSconto` SMALLINT NULL ,
@@ -255,18 +255,18 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Coupons` (
   INDEX `fk_Coupons_Customer1` (`idUser` ASC) ,
   CONSTRAINT `fk_Coupons_Customer1`
     FOREIGN KEY (`idUser` )
-    REFERENCES `othala`.`Customer` (`idUser` )
+    REFERENCES `aduna937_othala`.`Customer` (`idUser` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `othala`.`Size`
+-- Table `aduna937_othala`.`Size`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `othala`.`Size` ;
+DROP TABLE IF EXISTS `aduna937_othala`.`Size` ;
 
-CREATE  TABLE IF NOT EXISTS `othala`.`Size` (
+CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Size` (
   `idSize` INT NOT NULL ,
   `idTypeSize` INT NULL ,
   `txSize` VARCHAR(10) NULL ,
@@ -274,18 +274,18 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Size` (
   INDEX `fk_Size_Type_Size1` (`idTypeSize` ASC) ,
   CONSTRAINT `fk_Size_Type_Size1`
     FOREIGN KEY (`idTypeSize` )
-    REFERENCES `othala`.`Type_Size` (`idTypeSize` )
+    REFERENCES `aduna937_othala`.`Type_Size` (`idTypeSize` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `othala`.`Color`
+-- Table `aduna937_othala`.`Color`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `othala`.`Color` ;
+DROP TABLE IF EXISTS `aduna937_othala`.`Color` ;
 
-CREATE  TABLE IF NOT EXISTS `othala`.`Color` (
+CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Color` (
   `idColor` INT NOT NULL ,
   `idLanguages` VARCHAR(2) NOT NULL ,
   `txColor` VARCHAR(200) NULL ,
@@ -294,11 +294,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `othala`.`Shops`
+-- Table `aduna937_othala`.`Shops`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `othala`.`Shops` ;
+DROP TABLE IF EXISTS `aduna937_othala`.`Shops` ;
 
-CREATE  TABLE IF NOT EXISTS `othala`.`Shops` (
+CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Shops` (
   `idShop` INT NOT NULL ,
   `txShop` VARCHAR(100) NULL ,
   `txMail` VARCHAR(100) NULL ,
@@ -307,11 +307,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `othala`.`Article`
+-- Table `aduna937_othala`.`Article`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `othala`.`Article` ;
+DROP TABLE IF EXISTS `aduna937_othala`.`Article` ;
 
-CREATE  TABLE IF NOT EXISTS `othala`.`Article` (
+CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Article` (
   `idProduct` INT NOT NULL ,
   `pgArticle` INT NOT NULL ,
   `idSize` INT NULL ,
@@ -327,33 +327,33 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Article` (
   INDEX `fk_Article_Shops1` (`idShop` ASC) ,
   CONSTRAINT `fk_Article_Product1`
     FOREIGN KEY (`idProduct` )
-    REFERENCES `othala`.`Product` (`idProduct` )
+    REFERENCES `aduna937_othala`.`Product` (`idProduct` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Article_Size1`
     FOREIGN KEY (`idSize` )
-    REFERENCES `othala`.`Size` (`idSize` )
+    REFERENCES `aduna937_othala`.`Size` (`idSize` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Article_Color1`
     FOREIGN KEY (`idColor` )
-    REFERENCES `othala`.`Color` (`idColor` )
+    REFERENCES `aduna937_othala`.`Color` (`idColor` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Article_Shops1`
     FOREIGN KEY (`idShop` )
-    REFERENCES `othala`.`Shops` (`idShop` )
+    REFERENCES `aduna937_othala`.`Shops` (`idShop` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `othala`.`Delivery_Cost`
+-- Table `aduna937_othala`.`Delivery_Cost`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `othala`.`Delivery_Cost` ;
+DROP TABLE IF EXISTS `aduna937_othala`.`Delivery_Cost` ;
 
-CREATE  TABLE IF NOT EXISTS `othala`.`Delivery_Cost` (
+CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Delivery_Cost` (
   `idDeliveryCost` INT NOT NULL AUTO_INCREMENT ,
   `txDescrizione` VARCHAR(45) NULL ,
   `imSpese` DECIMAL(15) NULL ,
@@ -366,11 +366,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `othala`.`Orders`
+-- Table `aduna937_othala`.`Orders`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `othala`.`Orders` ;
+DROP TABLE IF EXISTS `aduna937_othala`.`Orders` ;
 
-CREATE  TABLE IF NOT EXISTS `othala`.`Orders` (
+CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Orders` (
   `idOrder` INT NOT NULL AUTO_INCREMENT ,
   `idUser` VARCHAR(100) NOT NULL ,
   `imOrdine` INT NOT NULL ,
@@ -387,33 +387,33 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Orders` (
   INDEX `fk_Orders_Delivery_Cost1` (`idDeliveryCost` ASC) ,
   CONSTRAINT `fk_Orders_Customer1`
     FOREIGN KEY (`idUser` )
-    REFERENCES `othala`.`Customer` (`idUser` )
+    REFERENCES `aduna937_othala`.`Customer` (`idUser` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Orders_Addresses1`
     FOREIGN KEY (`idAddressFat` )
-    REFERENCES `othala`.`Addresses` (`idAddress` )
+    REFERENCES `aduna937_othala`.`Addresses` (`idAddress` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Orders_Addresses2`
     FOREIGN KEY (`idAddressSpe` )
-    REFERENCES `othala`.`Addresses` (`idAddress` )
+    REFERENCES `aduna937_othala`.`Addresses` (`idAddress` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Orders_Delivery_Cost1`
     FOREIGN KEY (`idDeliveryCost` )
-    REFERENCES `othala`.`Delivery_Cost` (`idDeliveryCost` )
+    REFERENCES `aduna937_othala`.`Delivery_Cost` (`idDeliveryCost` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `othala`.`Orders_Articles`
+-- Table `aduna937_othala`.`Orders_Articles`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `othala`.`Orders_Articles` ;
+DROP TABLE IF EXISTS `aduna937_othala`.`Orders_Articles` ;
 
-CREATE  TABLE IF NOT EXISTS `othala`.`Orders_Articles` (
+CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Orders_Articles` (
   `idOrder` INT NOT NULL ,
   `idProdotto` INT NOT NULL ,
   `pgArticle` INT NOT NULL ,
@@ -423,23 +423,23 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Orders_Articles` (
   INDEX `fk_OrdersArticles_Orders1_idx` (`idOrder` ASC) ,
   CONSTRAINT `fk_OrdersArticles_Orders1`
     FOREIGN KEY (`idOrder` )
-    REFERENCES `othala`.`Orders` (`idOrder` )
+    REFERENCES `aduna937_othala`.`Orders` (`idOrder` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_OrdersArticles_Article1`
     FOREIGN KEY (`idProdotto` , `pgArticle` )
-    REFERENCES `othala`.`Article` (`idProduct` , `pgArticle` )
+    REFERENCES `aduna937_othala`.`Article` (`idProduct` , `pgArticle` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `othala`.`States`
+-- Table `aduna937_othala`.`States`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `othala`.`States` ;
+DROP TABLE IF EXISTS `aduna937_othala`.`States` ;
 
-CREATE  TABLE IF NOT EXISTS `othala`.`States` (
+CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`States` (
   `idStato` INT NOT NULL ,
   `txStato` VARCHAR(45) NULL ,
   PRIMARY KEY (`idStato`) ,
@@ -448,11 +448,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `othala`.`States_Orders`
+-- Table `aduna937_othala`.`States_Orders`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `othala`.`States_Orders` ;
+DROP TABLE IF EXISTS `aduna937_othala`.`States_Orders` ;
 
-CREATE  TABLE IF NOT EXISTS `othala`.`States_Orders` (
+CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`States_Orders` (
   `idOrder` INT NOT NULL ,
   `idStato` INT NOT NULL ,
   `dtStato` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
@@ -462,41 +462,41 @@ CREATE  TABLE IF NOT EXISTS `othala`.`States_Orders` (
   INDEX `fk_StatesOrders_Orders1_idx` (`idOrder` ASC) ,
   CONSTRAINT `fk_StatesOrders_Orders1`
     FOREIGN KEY (`idOrder` )
-    REFERENCES `othala`.`Orders` (`idOrder` )
+    REFERENCES `aduna937_othala`.`Orders` (`idOrder` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_StatesOrders_States1`
     FOREIGN KEY (`idStato` )
-    REFERENCES `othala`.`States` (`idStato` )
+    REFERENCES `aduna937_othala`.`States` (`idStato` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `othala`.`Customer_Roles`
+-- Table `aduna937_othala`.`Customer_Roles`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `othala`.`Customer_Roles` ;
+DROP TABLE IF EXISTS `aduna937_othala`.`Customer_Roles` ;
 
-CREATE  TABLE IF NOT EXISTS `othala`.`Customer_Roles` (
+CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Customer_Roles` (
   `idUser` VARCHAR(100) NOT NULL ,
   `txRole` VARCHAR(20) NOT NULL ,
   PRIMARY KEY (`idUser`, `txRole`) ,
   INDEX `fk_CustomerRoles_Customer1_idx` (`idUser` ASC) ,
   CONSTRAINT `fk_CustomerRoles_Customer1`
     FOREIGN KEY (`idUser` )
-    REFERENCES `othala`.`Customer` (`idUser` )
+    REFERENCES `aduna937_othala`.`Customer` (`idUser` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `othala`.`Product_Description`
+-- Table `aduna937_othala`.`Product_Description`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `othala`.`Product_Description` ;
+DROP TABLE IF EXISTS `aduna937_othala`.`Product_Description` ;
 
-CREATE  TABLE IF NOT EXISTS `othala`.`Product_Description` (
+CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Product_Description` (
   `idProduct` INT NOT NULL ,
   `idLanguages` VARCHAR(2) NOT NULL ,
   `txDescription` VARCHAR(200) NULL ,
@@ -504,18 +504,18 @@ CREATE  TABLE IF NOT EXISTS `othala`.`Product_Description` (
   INDEX `fk_ProductDescription_Product1` (`idProduct` ASC) ,
   CONSTRAINT `fk_ProductDescription_Product1`
     FOREIGN KEY (`idProduct` )
-    REFERENCES `othala`.`Product` (`idProduct` )
+    REFERENCES `aduna937_othala`.`Product` (`idProduct` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `othala`.`Site_Images`
+-- Table `aduna937_othala`.`Site_Images`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `othala`.`Site_Images` ;
+DROP TABLE IF EXISTS `aduna937_othala`.`Site_Images` ;
 
-CREATE  TABLE IF NOT EXISTS `othala`.`Site_Images` (
+CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Site_Images` (
   `idsiteImages` INT NOT NULL ,
   `txGroupImages` VARCHAR(45) NULL ,
   `pgGroupImages` INT NULL ,
@@ -527,11 +527,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `othala`.`IpnMessages`
+-- Table `aduna937_othala`.`IpnMessages`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `othala`.`IpnMessages` ;
+DROP TABLE IF EXISTS `aduna937_othala`.`IpnMessages` ;
 
-CREATE  TABLE IF NOT EXISTS `othala`.`IpnMessages` (
+CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`IpnMessages` (
   `idOrder` INT NOT NULL ,
   `idTransaction` VARCHAR(50) NOT NULL ,
   `tsInserimento` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
