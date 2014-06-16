@@ -20,7 +20,7 @@
 
 	<ui:define name="bodyPageContent">
 		<h:form prependId="false" id="frmProd" styleClass="form-horizontal">
-		<p:growl id="messages" showDetail="true" autoUpdate="true" />
+			<p:growl id="messages" showDetail="true" autoUpdate="true" />
 
 			<div class="row">
 				<div class="col-sm-4">
@@ -34,10 +34,11 @@
 					<div class="form-group spacer10">
 						<p:outputLabel for="barcode" class="col-sm-1 control-label" value="Barcode" />
 						<div class="col-sm-3 ">
-							<p:inputText styleClass="form-control" maxlength="30" id="barcode" required="true" />
+							<p:inputText styleClass="form-control" maxlength="30" id="barcode" required="true"
+								value="#{insertProdottiView.merchantCode}" />
 						</div>
 						<div class="col-sm-2 col-sm-offset-6">
-							<p:commandButton styleClass="ui-priority-primary" process="frmProd" update="frmProd"
+							<p:commandButton styleClass="ui-priority-primary" process="frmProd" actionListener="#{insertProdottiView.addProduct}" update="@all" 
 								value="Aggiungi Prodotto">
 							</p:commandButton>
 						</div>
@@ -122,7 +123,7 @@
 		</h:form>
 
 		<h:form enctype="multipart/form-data" prependId="false" id="frmImages">
-			
+
 
 
 
@@ -133,8 +134,8 @@
 
 
 					<p:fileUpload fileUploadListener="#{insertProdottiView.handleFileUpload}"
-						allowTypes="/(\.|\/)(gif|jpe?g|png)$/" process="@this" required="true"  update="frmImages :frm-arts"
-						multiple="true" auto="true" />
+						allowTypes="/(\.|\/)(gif|jpe?g|png)$/" process="@this" required="true"
+						update="frmImages :frm-arts" multiple="true" auto="true" />
 
 				</div>
 				<h:panelGroup layout="block" rendered="#{insertProdottiView.imagesFile.size()!=0}">
@@ -204,7 +205,7 @@
 					<div class="form-group">
 						<p:outputLabel for="qta" class="col-sm-1 control-label" value="Quantita" />
 						<div class="col-sm-2">
- 
+
 							<p:spinner required="true" size="3" id="qta" value="#{insertProdottiView.qta}" min="1"
 								max="100" />
 						</div>
