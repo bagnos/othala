@@ -1,6 +1,5 @@
 package it.othala.cartflow.view;
 
-import it.othala.cartflow.model.CartFlowBean;
 import it.othala.dto.MailPropertiesDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.ProfilePayPalDTO;
@@ -21,15 +20,15 @@ import it.othala.web.utils.PayPalUtil;
 
 import java.io.IOException;
 
+import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
 
 import org.primefaces.context.RequestContext;
 
-@Named
-@ViewScoped
+/*@Named
+@ViewScoped*/
+@ManagedBean
+@javax.faces.bean.ViewScoped
 public class CartConfirmationView extends BaseView {
 
 	private GetExpressCheckoutDetailsDTO details;
@@ -39,8 +38,7 @@ public class CartConfirmationView extends BaseView {
 	private OrderFullDTO order;
 	private boolean payCompleted;
 
-	@Inject
-	private CartFlowBean cart;
+
 
 	public boolean isPayCompleted() {
 		return payCompleted;
@@ -132,8 +130,8 @@ public class CartConfirmationView extends BaseView {
 
 					// si svuota il carrello
 					try {
-						if (cart != null) {
-							deleteCart(cart);
+						if (getCartFlowBean() != null) {
+							deleteCart(getCartFlowBean());
 						}
 						RequestContext.getCurrentInstance().execute("clearCart();");
 					} catch (Throwable e) {

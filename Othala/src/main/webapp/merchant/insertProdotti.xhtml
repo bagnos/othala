@@ -50,7 +50,7 @@
 							<p:autoComplete required="true" minQueryLength="1" dropdown="true" id="genere"
 								value="#{insertProdottiView.genere}" completeMethod="#{insertProdottiView.completeGenere}"
 								var="gender" itemLabel="#{gender.valore}" itemValue="#{gender}"
-								converter="#{genderConverter}" forceSelection="true">
+								converter="it.othala.GenderConverter" forceSelection="true">
 							</p:autoComplete>
 						</div>
 
@@ -59,7 +59,7 @@
 							<p:autoComplete scrollHeight="#{insertProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}"
 								required="true" minQueryLength="1" dropdown="true" id="tipo"
 								value="#{insertProdottiView.tipo}" completeMethod="#{insertProdottiView.completeTipo}"
-								var="type" itemLabel="#{type.valore}" itemValue="#{type}" converter="#{typeConverter}"
+								var="type" itemLabel="#{type.valore}" itemValue="#{type}" converter="it.othala.TypeConverter"
 								forceSelection="true">
 								<p:ajax event="itemSelect" update=":frm-arts" />
 							</p:autoComplete>
@@ -73,7 +73,7 @@
 							<p:autoComplete scrollHeight="#{insertProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}"
 								required="true" minQueryLength="1" dropdown="true" id="brand"
 								value="#{insertProdottiView.brand}" completeMethod="#{insertProdottiView.completeBrand}"
-								var="brand" itemLabel="#{brand.valore}" itemValue="#{brand}" converter="#{brandConverter}"
+								var="brand" itemLabel="#{brand.valore}" itemValue="#{brand}" converter="it.othala.BrandConverter"
 								forceSelection="true" />
 						</div>
 					</div>
@@ -187,7 +187,7 @@
 							<p:autoComplete size="8" scrollHeight="#{insertProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}"
 								required="true" minQueryLength="1" dropdown="true" id="taglia"
 								value="#{insertProdottiView.size}" completeMethod="#{insertProdottiView.completeTaglia}"
-								var="attr" itemLabel="#{attr.valore}" itemValue="#{attr}" converter="#{sizeConverter}"
+								var="attr" itemLabel="#{attr.valore}" itemValue="#{attr}" converter="it.othala.SizeConverter"
 								forceSelection="true" />
 						</div>
 
@@ -198,7 +198,7 @@
 							<p:autoComplete scrollHeight="#{insertProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}"
 								required="true" minQueryLength="1" dropdown="true" id="colore"
 								value="#{insertProdottiView.color}" completeMethod="#{insertProdottiView.completeColours}"
-								var="attr" itemLabel="#{attr.valore}" itemValue="#{attr}" converter="#{colorConverter}"
+								var="attr" itemLabel="#{attr.valore}" itemValue="#{attr}" converter="it.othala.ColorConverter"
 								forceSelection="true" />
 						</div>
 					</div>
@@ -218,7 +218,7 @@
 							<p:autoComplete scrollHeight="#{insertProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}"
 								required="true" minQueryLength="1" size="34" dropdown="true" id="negozio"
 								value="#{insertProdottiView.shop}" completeMethod="#{insertProdottiView.completeShops}"
-								var="shop" itemLabel="#{shop.txShop}" itemValue="#{shop}" converter="#{shopConverter}"
+								var="shop" itemLabel="#{shop.txShop}" itemValue="#{shop}" converter="it.othala.ShopConverter"
 								forceSelection="true" />
 
 

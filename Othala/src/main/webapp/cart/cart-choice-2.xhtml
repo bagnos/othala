@@ -21,7 +21,7 @@
 	</ui:define>
 
 	<ui:define name="content">
-		<h:form prependId="false">
+		<h:form id="prd-detail" prependId="false">
 
 			<div class="container">
 
@@ -29,7 +29,7 @@
 				<div class="row">
 					<ol class="breadcrumb breadcrumbLink" style="margin-top: 10px">
 						<ui:repeat var="bread"
-							value="#{cartChoice2View.flowBean.breadCrumb}"
+							value="#{cartFlowBean.breadCrumb}"
 							varStatus="stBread">
 							<li><h:link rendered="#{stBread.last}" outcome="cartFlow"
 									value="#{bread}" styleClass="active">
@@ -51,7 +51,7 @@
 					<div class="col-md-6">
 
 						<p:galleria
-							value="#{cartChoice2View.flowBean.detailProductFull.imagesUrl}"
+							value="#{cartFlowBean.detailProductFull.imagesUrl}"
 							var="image" panelWidth="400" panelHeight="543"
 							showCaption="false" frameWidth="50" frameHeight="66">
 							<p:graphicImage library="images/cartThumbinals" name="#{image}" />
@@ -62,8 +62,8 @@
 					<div class="col-md-5 articolo-sel">
 						<div class="row well">
 
-							<h4>#{cartChoice2View.flowBean.detailProductFull.txBrand}</h4>
-							<h5>#{cartChoice2View.flowBean.detailProductFull.description}</h5>
+							<h4>#{cartFlowBean.detailProductFull.txBrand}</h4>
+							<h5>#{cartFlowBean.detailProductFull.description}</h5>
 
 
 							<div class="row">
@@ -81,8 +81,8 @@
 								<div class="col-sm-4">
 
 									<h:outputText
-										value="#{cartChoice2View.flowBean.detailProductFull.price}"
-										styleClass="#{cartChoice2View.flowBean.detailProductFull.priceDiscounted!=null?'onSale':''}">
+										value="#{cartFlowBean.detailProductFull.price}"
+										styleClass="#{cartFlowBean.detailProductFull.priceDiscounted!=null?'onSale':''}">
 										<f:converter converterId="it.othala.BigDecimalConverter" />
 									</h:outputText>
 
@@ -90,8 +90,8 @@
 
 								<div class="col-sm-4">
 									<h:outputText
-										value="#{cartChoice2View.flowBean.detailProductFull.priceDiscounted}"
-										rendered="#{cartChoice2View.flowBean.detailProductFull.priceDiscounted!=null}">
+										value="#{cartFlowBean.detailProductFull.priceDiscounted}"
+										rendered="#{cartFlowBean.detailProductFull.priceDiscounted!=null}">
 										<f:converter converterId="it.othala.BigDecimalConverter" />
 									</h:outputText>
 								</div>
@@ -99,8 +99,8 @@
 							<div class="row">
 								<div class="col-sm-12">
 									<h:outputText
-										value="#{cartChoice2View.flowBean.detailProductFull.discount}% #{msg.catalog_discounted}"
-										rendered="#{cartChoice2View.flowBean.detailProductFull.priceDiscounted!=null}">
+										value="#{cartFlowBean.detailProductFull.discount}% #{msg.catalog_discounted}"
+										rendered="#{cartFlowBean.detailProductFull.priceDiscounted!=null}">
 									</h:outputText>
 								</div>
 							</div>
@@ -120,11 +120,11 @@
 											<h:outputText value="#{msg.catalog_size}" />
 
 											<h:selectOneMenu id="selSize" styleClass="form-control"
-												value="#{cartChoice2View.idSize}">
+												value="#{cartChoice2View.idSize}" >
 												<f:selectItem itemLabel="#{msg.catalog_chooseSize}"
-													itemValue="" noSelectionOption="true" />
+													itemValue="-1" noSelectionOption="true" />
 												<f:selectItems value="#{cartChoice2View.sizeItems}"></f:selectItems>
-												<f:ajax execute="@form" render="lst-color qtaArt add-cart"
+												<f:ajax  render="prd-detail"
 													listener="#{cartChoice2View.changeSize}"></f:ajax>
 											</h:selectOneMenu>
 											<p:message for="selSize" id="errSelSize" />
@@ -179,7 +179,7 @@
 
 							<div class="col-sm-6">
 								<p:commandButton icon="ui-icon-triangle-1-w btn-articolo-sel"
-									action="cart-catalog.xhtml?faces-redirect=true"
+									action="#{cartChoice2View.goToCatalogo}"
 									value="#{msg.catalog_back}" />
 							</div>
 							<div class="col-sm-6">

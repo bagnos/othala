@@ -5,7 +5,6 @@ import it.othala.dto.AttributeDTO;
 import it.othala.dto.DomainDTO;
 import it.othala.dto.ProductFullDTO;
 import it.othala.dto.ShopDTO;
-import it.othala.model.ApplicationBean;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 
@@ -18,25 +17,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import javax.inject.Inject;
-import javax.inject.Named;
 
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
-@Named
-@javax.faces.view.ViewScoped
+@ManagedBean
+@ViewScoped
 public class InsertProdottiView extends BaseView {
 
 	/**
 	 * 
 	 */
 
-	@Inject
-	private ApplicationBean appBean;
+	
 
 	private AttributeDTO genere;
 	private AttributeDTO tipo;
@@ -207,7 +205,7 @@ public class InsertProdottiView extends BaseView {
 	@Override
 	public String doInit() {
 		// TODO Auto-generated method stub
-		DomainDTO dom = appBean.getDomain();
+		DomainDTO dom = getBeanApplication().getDomain();
 		qta = 1;
 		return null;
 	}
@@ -284,7 +282,7 @@ public class InsertProdottiView extends BaseView {
 	}
 
 	public List<AttributeDTO> completeGenere(String query) {
-		List<AttributeDTO> allAttributeDTO = appBean.getGenderDTO();
+		List<AttributeDTO> allAttributeDTO = getBeanApplication().getGenderDTO();
 		List<AttributeDTO> filteredAttributeDTO = new ArrayList<AttributeDTO>();
 
 		for (int i = 0; i < allAttributeDTO.size(); i++) {
@@ -300,7 +298,7 @@ public class InsertProdottiView extends BaseView {
 	public List<AttributeDTO> completeTaglia(String query) {
 		List<AttributeDTO> filteredSize = new ArrayList<AttributeDTO>();
 		if (tipo != null) {
-			List<AttributeDTO> allSize = appBean.getSizesDTO(tipo.getAttributo().intValue());
+			List<AttributeDTO> allSize = getBeanApplication().getSizesDTO(tipo.getAttributo().intValue());
 
 			for (int i = 0; i < allSize.size(); i++) {
 				AttributeDTO attr = allSize.get(i);
@@ -314,7 +312,7 @@ public class InsertProdottiView extends BaseView {
 	}
 
 	public List<AttributeDTO> completeBrand(String query) {
-		List<AttributeDTO> allBrands = appBean.getBrandDTO();
+		List<AttributeDTO> allBrands = getBeanApplication().getBrandDTO();
 		List<AttributeDTO> filteredBrands = new ArrayList<AttributeDTO>();
 
 		for (int i = 0; i < allBrands.size(); i++) {
@@ -328,7 +326,7 @@ public class InsertProdottiView extends BaseView {
 	}
 
 	public List<ShopDTO> completeShops(String query) {
-		List<ShopDTO> allShops = appBean.getShopsDTO();
+		List<ShopDTO> allShops = getBeanApplication().getShopsDTO();
 		List<ShopDTO> filteredShops = new ArrayList<ShopDTO>();
 
 		for (int i = 0; i < allShops.size(); i++) {
@@ -342,7 +340,7 @@ public class InsertProdottiView extends BaseView {
 	}
 
 	public List<AttributeDTO> completeColours(String query) {
-		List<AttributeDTO> allColours = appBean.getColorsDTO();
+		List<AttributeDTO> allColours = getBeanApplication().getColorsDTO();
 		List<AttributeDTO> filteredColours = new ArrayList<AttributeDTO>();
 
 		for (int i = 0; i < allColours.size(); i++) {
@@ -357,7 +355,7 @@ public class InsertProdottiView extends BaseView {
 
 	public List<AttributeDTO> completeTipo(String query) {
 
-		List<AttributeDTO> allType = appBean.getTypeDTO();
+		List<AttributeDTO> allType = getBeanApplication().getTypeDTO();
 		List<AttributeDTO> filteredType = new ArrayList<AttributeDTO>();
 
 		for (int i = 0; i < allType.size(); i++) {

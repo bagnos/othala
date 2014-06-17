@@ -1,20 +1,17 @@
 package it.othala.cartflow.converter;
 
 import it.othala.dto.AttributeDTO;
-import it.othala.model.ApplicationBean;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.inject.Inject;
-import javax.inject.Named;
+import javax.faces.convert.FacesConverter;
 
 
-@Named
-public class ColorConverter implements Converter {
+@FacesConverter("it.othala.ColorConverter")
+public class ColorConverter extends BaseConverter implements Converter {
 
-	@Inject
-	private ApplicationBean appBean;
+	
 	
 	
 
@@ -24,7 +21,7 @@ public class ColorConverter implements Converter {
 			int intValue = Integer.valueOf(value);
 			
 						 
-			for (AttributeDTO attr : appBean.getColorsDTO()) {
+			for (AttributeDTO attr : getAppBean().getColorsDTO()) {
 				if (attr.getAttributo() == intValue) {
 					
 					return attr;

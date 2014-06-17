@@ -1,7 +1,5 @@
 package it.othala.account.view;
 
-import it.othala.account.model.CustomerLoginBean;
-import it.othala.cartflow.model.CartFlowBean;
 import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryDTO;
 import it.othala.dto.OrderFullDTO;
@@ -10,20 +8,17 @@ import it.othala.view.BaseView;
 
 import java.util.List;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
-import javax.inject.Inject;
-import javax.inject.Named;
 
-@Named
-@javax.faces.view.ViewScoped
+@ManagedBean
+@ViewScoped
 public class MyAccountView extends BaseView {
 
-	@Inject
-	private CustomerLoginBean loginBean;
-	@Inject
-	private CartFlowBean cart;
+	
 
 	private List<OrderFullDTO> orders;
 	private DeliveryDTO addresses;
@@ -54,7 +49,7 @@ public class MyAccountView extends BaseView {
 	public DeliveryAddressDTO getAddress() {
 		if (address == null) {
 			address = new DeliveryAddressDTO();
-			address.setUserId(loginBean.getEmail());
+			address.setUserId(getLoginBean().getEmail());
 		}
 		return address;
 	}
@@ -80,8 +75,8 @@ public class MyAccountView extends BaseView {
 	public String doInit() {
 		// TODO Auto-generated method stub
 
-		addresses = OthalaFactory.getOrderServiceInstance().getDeliveryInfo(loginBean.getEmail());
-		orders = OthalaFactory.getOrderServiceInstance().getOrders(null, loginBean.getEmail(), null);
+		addresses = OthalaFactory.getOrderServiceInstance().getDeliveryInfo(getLoginBean().getEmail());
+		orders = OthalaFactory.getOrderServiceInstance().getOrders(null, getLoginBean().getEmail(), null);
 		renderDetails=false;
 
 		return null;
@@ -121,7 +116,7 @@ public class MyAccountView extends BaseView {
 		newAddress = true;
 		address = new DeliveryAddressDTO();
 		address.setNazione("Italia");
-		address.setUserId(loginBean.getEmail());
+		address.setUserId(getLoginBean().getEmail());
 	}
 
 	public void saveAddr(AjaxBehaviorEvent ev) {
@@ -134,7 +129,7 @@ public class MyAccountView extends BaseView {
 			// modifica
 			OthalaFactory.getOrderServiceInstance().updateAddress(address, idAddrSel);
 		}
-		addresses = OthalaFactory.getOrderServiceInstance().getDeliveryInfo(loginBean.getEmail());
+		addresses = OthalaFactory.getOrderServiceInstance().getDeliveryInfo(getLoginBean().getEmail());
 
 		editAddress = false;
 		newAddress = false;
@@ -148,7 +143,7 @@ public class MyAccountView extends BaseView {
 
 	public void clearCart(ActionEvent ex) {
 		
-		deleteCart(cart);
+		deleteCart(getCartFlowBean());
 		redirectHome();
 
 	}

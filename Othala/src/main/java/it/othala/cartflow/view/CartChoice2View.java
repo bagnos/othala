@@ -1,6 +1,5 @@
 package it.othala.cartflow.view;
 
-import it.othala.cartflow.model.CartFlowBean;
 import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.ProductCarouselDTO;
 import it.othala.dto.ProductDTO;
@@ -12,17 +11,18 @@ import it.othala.web.utils.OthalaUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
-import javax.inject.Inject;
-import javax.inject.Named;
 
-@Named
-@javax.faces.view.ViewScoped
+/*@Named
+@javax.faces.view.ViewScoped*/
+@ManagedBean
+@ViewScoped
 public class CartChoice2View extends BaseView {
 
-	@Inject
-	private CartFlowBean flowBean;
+	
 	private List<SelectItem> sizeItems;
 	private List<SelectItem> colorItems;
 	private ProductFullDTO prdFull;
@@ -84,13 +84,6 @@ public class CartChoice2View extends BaseView {
 		return sizeItems;
 	}
 
-	public CartFlowBean getFlowBean() {
-		return flowBean;
-	}
-
-	public void setFlowBean(CartFlowBean flowBean) {
-		this.flowBean = flowBean;
-	}
 
 	private Integer idProduct;
 
@@ -105,9 +98,9 @@ public class CartChoice2View extends BaseView {
 	public String doInit() {
 		// TODO Auto-generated method stub
 
-		for (ProductDTO p : flowBean.getCatalog().getArticlesPage()) {
+		for (ProductDTO p : getCartFlowBean().getCatalog().getArticlesPage()) {
 			if (p.getIdProduct().intValue() == idProduct.intValue()) {
-				flowBean.setDetailProduct(p);
+				getCartFlowBean().setDetailProduct(p);
 				break;
 			}
 		}
@@ -116,42 +109,42 @@ public class CartChoice2View extends BaseView {
 		
 		List<ProductCarouselDTO> carouselList = new ArrayList<ProductCarouselDTO>();
 		ProductCarouselDTO a = null;
-		for (int i = 0; i <= flowBean.getCatalog().getArticlesPage().size() - 1; i++) {
+		for (int i = 0; i <= getCartFlowBean().getCatalog().getArticlesPage().size() - 1; i++) {
 
 			if (i % 4 == 0)
 			{
 				a=new ProductCarouselDTO();;
 				carouselList.add(a);
-				a.setProduct1(flowBean.getCatalog().getArticlesPage().get(i));
+				a.setProduct1(getCartFlowBean().getCatalog().getArticlesPage().get(i));
 				
 			}
 			else if (i % 4 == 1)
 			{
 
-				a.setProduct2(flowBean.getCatalog().getArticlesPage().get(i));
+				a.setProduct2(getCartFlowBean().getCatalog().getArticlesPage().get(i));
 				
 			}
 			else if (i % 4 == 2)
 			{
 
-				a.setProduct3(flowBean.getCatalog().getArticlesPage().get(i));
+				a.setProduct3(getCartFlowBean().getCatalog().getArticlesPage().get(i));
 				
 			}
 			else if (i % 4 == 3)
 			{
 
-				a.setProduct4(flowBean.getCatalog().getArticlesPage().get(i));
+				a.setProduct4(getCartFlowBean().getCatalog().getArticlesPage().get(i));
 				
 			}
 		 
 		
 		}
 		
-		flowBean.setCarouselList(carouselList);
+		getCartFlowBean().setCarouselList(carouselList);
 
 		prdFull = OthalaFactory.getProductServiceInstance().getProductFull(getLang(), idProduct);
 
-		flowBean.setDetailProductFull(prdFull);
+		getCartFlowBean().setDetailProductFull(prdFull);
 
 		sizeItems = new ArrayList<>();
 		// sizeItems.add(new SelectItem(-1,
@@ -181,9 +174,15 @@ public class CartChoice2View extends BaseView {
 
 	public String goToCart()
 	{
-		flowBean.getCart().add(artSel);
+		getCartFlowBean().getCart().add(artSel);
 		artSel.setQtBooked(qtaArticle);
 		return "cart-selected-3?faces-redirect=true";
+	}
+	
+	public String goToCatalogo()
+	{
+	
+		return "cart-catalog?faces-redirect=true";
 	}
 
 	public void changeSize(AjaxBehaviorEvent e) {
@@ -214,7 +213,7 @@ public class CartChoice2View extends BaseView {
 					if (art.getIdSize().intValue() == idSize.intValue()
 							&& art.getIdColor().intValue() == idColor.intValue())
 
-						if (!flowBean.getCart().contains(art)) {
+						if (!getCartFlowBean().getCart().contains(art)) {
 							if (art.getQtStock() > 0) {
 								artSel=art;	
 								artSel.setPrdFullDTO(prdFull);								

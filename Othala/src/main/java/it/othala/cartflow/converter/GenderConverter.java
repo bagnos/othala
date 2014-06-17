@@ -1,21 +1,17 @@
 package it.othala.cartflow.converter;
 
 import it.othala.dto.AttributeDTO;
-import it.othala.dto.MenuDTO;
-import it.othala.model.ApplicationBean;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.inject.Inject;
-import javax.inject.Named;
+import javax.faces.convert.FacesConverter;
 
 
-@Named
-public class GenderConverter implements Converter {
+@FacesConverter("it.othala.GenderConverter")
+public class GenderConverter extends BaseConverter implements Converter {
 
-	@Inject
-	private ApplicationBean appBean;
+	
 	
 	
 
@@ -23,7 +19,7 @@ public class GenderConverter implements Converter {
 	public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
 		if (value != null && value.trim().length() > 0) {
 			int intValue = Integer.valueOf(value);
-			for (AttributeDTO attr : appBean.getGenderDTO()) {
+			for (AttributeDTO attr : getAppBean().getGenderDTO()) {
 				if (attr.getAttributo() == intValue) {					
 					return attr;
 				}

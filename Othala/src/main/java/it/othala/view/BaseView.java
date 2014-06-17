@@ -12,9 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -37,13 +37,37 @@ public abstract class BaseView implements Serializable {
 	 * @return
 	 */
 	protected static Log log = LogFactory.getLog(BaseView.class);
+	private List<String> breadCrumb = new ArrayList<>();
 
-	/* @ManagedProperty(value="#{applicationBean}") */
-	@Inject
+	@ManagedProperty(value="#{applicationBean}")
+	//@Inject
 	private ApplicationBean beanApplication;
 
-	@Inject
+	//@Inject
+	@ManagedProperty(value="#{customerLoginBean}")
 	private CustomerLoginBean loginBean;
+	
+	//@Inject
+	@ManagedProperty(value="#{cartFlowBean}")
+	private CartFlowBean cartFlowBean;
+	
+
+	public CartFlowBean getCartFlowBean() {
+		return cartFlowBean;
+	}
+
+
+	public void setCartFlowBean(CartFlowBean cartFlowBean) {
+		this.cartFlowBean = cartFlowBean;
+	}
+
+
+
+	public void setLoginBean(CustomerLoginBean loginBean) {
+		this.loginBean = loginBean;
+	}
+
+	
 
 	public CustomerLoginBean getLoginBean() {
 		return loginBean;
@@ -53,7 +77,7 @@ public abstract class BaseView implements Serializable {
 		this.beanApplication = beanApplication;
 	}
 
-	private List<String> breadCrumb = new ArrayList<>();
+	
 
 	public ApplicationBean getBeanApplication() {
 		return beanApplication;

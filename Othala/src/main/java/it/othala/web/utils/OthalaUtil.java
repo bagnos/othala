@@ -1,6 +1,7 @@
 package it.othala.web.utils;
 
 import it.othala.execption.OthalaException;
+import it.othala.model.ApplicationBean;
 
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
@@ -19,6 +20,17 @@ public class OthalaUtil {
 	public static String getWordBundle(String key,Object[] parms) {
 		String message=MessageFormat.format(getWordBundle(key),parms);	
 		return message;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static <T> T findBean(String beanName) { 
+	    FacesContext context = FacesContext.getCurrentInstance();
+	    return (T) context.getApplication().evaluateExpressionGet(context, "#{" + beanName + "}", Object.class);
+	}
+	
+	public static ApplicationBean getApplicationBean()
+	{
+		return findBean("applicationBean");
 	}
 	
 	public static String getWordBundle(OthalaException e) {

@@ -1,15 +1,12 @@
 package it.othala.cartflow.view;
 
 import it.othala.account.execption.MailNotSendException;
-import it.othala.account.model.CustomerLoginBean;
-import it.othala.cartflow.model.CartFlowBean;
 import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryCostDTO;
 import it.othala.dto.DeliveryDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.ProfilePayPalDTO;
 import it.othala.execption.OthalaException;
-import it.othala.payment.paypal.dto.OrderPayPalDTO;
 import it.othala.payment.paypal.dto.SetExpressCheckoutDTO;
 import it.othala.payment.paypal.exception.PayPalException;
 import it.othala.payment.paypal.exception.PayPalFailureException;
@@ -19,29 +16,17 @@ import it.othala.view.BaseView;
 import it.othala.web.utils.OthalaUtil;
 import it.othala.web.utils.PayPalUtil;
 
+import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
 
-import org.apache.commons.io.filefilter.OrFileFilter;
 import org.primefaces.context.RequestContext;
 
-@Named
-@ViewScoped
+@ManagedBean
+@javax.faces.bean.ViewScoped
 public class CartWizardView extends BaseView {
 
-	@Inject
-	private CartFlowBean cart;
-
-	public CartFlowBean getCart() {
-		return cart;
-	}
-
-	@Inject
-	private CustomerLoginBean loginBean;
 
 	private DeliveryDTO deliveryDTO;
 	private int idAddressFat;
@@ -127,7 +112,7 @@ public class CartWizardView extends BaseView {
 	}
 
 	public DeliveryDTO getDeliveryDTO() {
-		if (loginBean.getEmail() != null && deliveryDTO.getIndirizzo().isEmpty()) {
+		if (getLoginBean().getEmail() != null && deliveryDTO.getIndirizzo().isEmpty()) {
 			retrieveAddresses();
 		}
 		return deliveryDTO;
@@ -135,22 +120,22 @@ public class CartWizardView extends BaseView {
 
 	public String doInit() {
 		// TODO Auto-generated method stub
-		idAddressFat = cart.getAddressFat() != null && cart.getAddressFat().getIdAddress() == null ? 0 : cart
+		idAddressFat = getCartFlowBean().getAddressFat() != null && getCartFlowBean().getAddressFat().getIdAddress() == null ? 0 : getCartFlowBean()
 				.getAddressFat().getIdAddress();
-		idAddressSpe = cart.getAddressSpe() != null && cart.getAddressSpe().getIdAddress() == null ? 0 : cart
+		idAddressSpe = getCartFlowBean().getAddressSpe() != null && getCartFlowBean().getAddressSpe().getIdAddress() == null ? 0 : getCartFlowBean()
 				.getAddressSpe().getIdAddress();
 
 		retrieveAddresses();
 
 		sameAddress = false;
 
-		cart.setCheckoutCart(true);
+		getCartFlowBean().setCheckoutCart(true);
 
 		// recupero l'indirizzo di fatturazione e spedizione
 
-		if (cart.getDeliveryCost() == null) {
-			cart.setDeliveryCost(deliveryDTO.getSpeseSpedizione().get(0));
-			cart.setIdTypeDelivery(cart.getDeliveryCost().getIdDeliveryCost());
+		if (getCartFlowBean().getDeliveryCost() == null) {
+			getCartFlowBean().setDeliveryCost(deliveryDTO.getSpeseSpedizione().get(0));
+			getCartFlowBean().setIdTypeDelivery(getCartFlowBean().getDeliveryCost().getIdDeliveryCost());
 		}
 
 		newAddrFat = false;
@@ -161,16 +146,16 @@ public class CartWizardView extends BaseView {
 
 	private void retrieveAddresses() {
 
-		deliveryDTO = OthalaFactory.getOrderServiceInstance().getDeliveryInfo(loginBean.getEmail());
+		deliveryDTO = OthalaFactory.getOrderServiceInstance().getDeliveryInfo(getLoginBean().getEmail());
 
 		if (idAddressFat == 0 && idAddressSpe == 0) {
-			cart.getAddressFat().setNazione("Italia");
-			cart.getAddressSpe().setNazione("Italia");
+			getCartFlowBean().getAddressFat().setNazione("Italia");
+			getCartFlowBean().getAddressSpe().setNazione("Italia");
 			if (deliveryDTO != null && deliveryDTO.getIndirizzo().isEmpty() == false) {
 				idAddressFat = deliveryDTO.getIndirizzo().get(0).getIdAddress();
 				idAddressSpe = idAddressFat;
-				cart.setAddressFat(deliveryDTO.getIndirizzo().get(0));
-				cart.setAddressSpe(cart.getAddressFat());
+				getCartFlowBean().setAddressFat(deliveryDTO.getIndirizzo().get(0));
+				getCartFlowBean().setAddressSpe(getCartFlowBean().getAddressFat());
 			}
 		}
 
@@ -185,8 +170,8 @@ public class CartWizardView extends BaseView {
 
 	public void modifyTypeDelivery(AjaxBehaviorEvent ev) {
 		for (DeliveryCostDTO d : deliveryDTO.getSpeseSpedizione()) {
-			if (d.getIdDeliveryCost().intValue() == cart.getIdTypeDelivery()) {
-				cart.setDeliveryCost(d);
+			if (d.getIdDeliveryCost().intValue() == getCartFlowBean().getIdTypeDelivery()) {
+				getCartFlowBean().setDeliveryCost(d);
 				break;
 			}
 		}
@@ -195,14 +180,14 @@ public class CartWizardView extends BaseView {
 	public void changeAddrFat(AjaxBehaviorEvent ev) {
 		if (idAddressFat == 0) { // nuovo indirizzo
 			editAddrFat = true;
-			cart.setAddressFat(new DeliveryAddressDTO());
-			cart.getAddressFat().setUserId(loginBean.getEmail());
+			getCartFlowBean().setAddressFat(new DeliveryAddressDTO());
+			getCartFlowBean().getAddressFat().setUserId(getLoginBean().getEmail());
 
 		} else {
 			editAddrFat = false;
 			for (DeliveryAddressDTO addr : deliveryDTO.getIndirizzo()) {
 				if (addr.getIdAddress().intValue() == idAddressFat) {
-					cart.setAddressFat(addr);
+					getCartFlowBean().setAddressFat(addr);
 					break;
 				}
 			}
@@ -212,13 +197,13 @@ public class CartWizardView extends BaseView {
 	public void changeAddrSpe(AjaxBehaviorEvent ev) {
 		if (idAddressSpe == 0) { // nuovo indirizzo
 			editAddrSpe = true;
-			cart.setAddressSpe(new DeliveryAddressDTO());
-			cart.getAddressSpe().setUserId(loginBean.getEmail());
+			getCartFlowBean().setAddressSpe(new DeliveryAddressDTO());
+			getCartFlowBean().getAddressSpe().setUserId(getLoginBean().getEmail());
 		} else {
 			editAddrSpe = false;
 			for (DeliveryAddressDTO addr : deliveryDTO.getIndirizzo()) {
 				if (addr.getIdAddress().intValue() == idAddressSpe) {
-					cart.setAddressSpe(addr);
+					getCartFlowBean().setAddressSpe(addr);
 					break;
 				}
 			}
@@ -261,26 +246,26 @@ public class CartWizardView extends BaseView {
 	}
 
 	public void saveAddrFat(AjaxBehaviorEvent ev) {
-		cart.getAddressFat().setUserId(loginBean.getEmail());
+		getCartFlowBean().getAddressFat().setUserId(getLoginBean().getEmail());
 		if (newAddrFat) {
 			// ho cliccato su nuovo
-			cart.setAddressSpe(OthalaFactory.getOrderServiceInstance().newAddress(cart.getAddressSpe()));
+			getCartFlowBean().setAddressSpe(OthalaFactory.getOrderServiceInstance().newAddress(getCartFlowBean().getAddressSpe()));
 			newAddrFat = false;
 		} else {
 			// modifica
-			cart.setAddressFat(OthalaFactory.getOrderServiceInstance().updateAddress(cart.getAddressFat(),
-					cart.getAddressFat().getIdAddress()));
+			getCartFlowBean().setAddressFat(OthalaFactory.getOrderServiceInstance().updateAddress(getCartFlowBean().getAddressFat(),
+					getCartFlowBean().getAddressFat().getIdAddress()));
 		}
 		retrieveAddresses();
 
 		if (idAddressFat == idAddressSpe) {
-			idAddressFat = cart.getAddressFat().getIdAddress();
+			idAddressFat = getCartFlowBean().getAddressFat().getIdAddress();
 			idAddressSpe = idAddressFat;
 
 			RequestContext.getCurrentInstance().execute("$('#select-spe').val('" + idAddressSpe + "');");
 			RequestContext.getCurrentInstance().execute("$('#select-fat').val('" + idAddressFat + "');");
 		} else {
-			idAddressFat = cart.getAddressFat().getIdAddress();
+			idAddressFat = getCartFlowBean().getAddressFat().getIdAddress();
 			RequestContext.getCurrentInstance().execute("$('#select-fat').val('" + idAddressFat + "');");
 		}
 
@@ -290,32 +275,32 @@ public class CartWizardView extends BaseView {
 	}
 
 	public void saveAddrSpe(AjaxBehaviorEvent ev) {
-		cart.getAddressSpe().setUserId(loginBean.getEmail());
+		getCartFlowBean().getAddressSpe().setUserId(getLoginBean().getEmail());
 
 		if (newAddrSpe) {
 			// ho cliccato su nuovo
-			cart.setAddressSpe(OthalaFactory.getOrderServiceInstance().newAddress(cart.getAddressSpe()));
+			getCartFlowBean().setAddressSpe(OthalaFactory.getOrderServiceInstance().newAddress(getCartFlowBean().getAddressSpe()));
 			newAddrSpe = false;
 		} else {
 			// ho cliccato su modifica
-			cart.setAddressSpe(OthalaFactory.getOrderServiceInstance().updateAddress(cart.getAddressSpe(),
-					cart.getAddressSpe().getIdAddress()));
+			getCartFlowBean().setAddressSpe(OthalaFactory.getOrderServiceInstance().updateAddress(getCartFlowBean().getAddressSpe(),
+					getCartFlowBean().getAddressSpe().getIdAddress()));
 		}
 
 		retrieveAddresses();
 
 		if (idAddressSpe == idAddressFat) {
-			idAddressSpe = cart.getAddressSpe().getIdAddress();
+			idAddressSpe = getCartFlowBean().getAddressSpe().getIdAddress();
 			idAddressFat = idAddressSpe;
 
 			RequestContext.getCurrentInstance().execute("$('#select-spe').val('" + idAddressSpe + "');");
 			RequestContext.getCurrentInstance().execute("$('#select-fat').val('" + idAddressFat + "');");
 		} else {
-			idAddressSpe = cart.getAddressSpe().getIdAddress();
+			idAddressSpe = getCartFlowBean().getAddressSpe().getIdAddress();
 			RequestContext.getCurrentInstance().execute("$('#select-spe').val('" + idAddressSpe + "');");
 		}
 
-		// idAddressSpe=cart.getAddressSpe().getIdAddress();
+		// idAddressSpe=getCartFlowBean().getAddressSpe().getIdAddress();
 		editAddrSpe = false;
 		saveAddressSpe = false;
 
@@ -323,27 +308,27 @@ public class CartWizardView extends BaseView {
 
 	public void newAddr(ActionEvent ev) {
 		boolean modify = false;
-		if (cart.getAddressSpe().getIdAddress() == null || cart.getAddressSpe().getIdAddress() == 0) {
+		if (getCartFlowBean().getAddressSpe().getIdAddress() == null || getCartFlowBean().getAddressSpe().getIdAddress() == 0) {
 			// nuovo spedizione
-			cart.getAddressSpe().setUserId(loginBean.getEmail());
-			cart.setAddressSpe(OthalaFactory.getOrderServiceInstance().newAddress(cart.getAddressSpe()));
+			getCartFlowBean().getAddressSpe().setUserId(getLoginBean().getEmail());
+			getCartFlowBean().setAddressSpe(OthalaFactory.getOrderServiceInstance().newAddress(getCartFlowBean().getAddressSpe()));
 			modify = true;
 		}
 		if (isSameAddress() == false) {
-			if (cart.getAddressFat().getIdAddress() == null || cart.getAddressFat().getIdAddress() == 0) {
+			if (getCartFlowBean().getAddressFat().getIdAddress() == null || getCartFlowBean().getAddressFat().getIdAddress() == 0) {
 				// nuovo fatturazione
-				cart.getAddressFat().setUserId(loginBean.getEmail());
-				cart.setAddressFat(OthalaFactory.getOrderServiceInstance().newAddress(cart.getAddressFat()));
+				getCartFlowBean().getAddressFat().setUserId(getLoginBean().getEmail());
+				getCartFlowBean().setAddressFat(OthalaFactory.getOrderServiceInstance().newAddress(getCartFlowBean().getAddressFat()));
 				modify = true;
 			}
 		} else {
-			cart.setAddressFat(cart.getAddressSpe());
+			getCartFlowBean().setAddressFat(getCartFlowBean().getAddressSpe());
 		}
 		if (modify) {
 			retrieveAddresses();
 		}
-		idAddressSpe = cart.getAddressSpe().getIdAddress();
-		idAddressFat = cart.getAddressFat().getIdAddress();
+		idAddressSpe = getCartFlowBean().getAddressSpe().getIdAddress();
+		idAddressFat = getCartFlowBean().getAddressFat().getIdAddress();
 		editAddrSpe = false;
 		editAddrFat = false;
 		sameAddress = false;
@@ -361,7 +346,7 @@ public class CartWizardView extends BaseView {
 			IPaymentService service = OthalaFactory.getPaymentServiceInstance();
 
 			// effettuo il setExpressCheckout
-			SetExpressCheckoutDTO checkDTO = service.setExpressCheckout(valueOrderOfCart(), profile);
+			SetExpressCheckoutDTO checkDTO = service.setExpressCheckout(valueOrderOf(), profile);
 
 			if (checkDTO != null && checkDTO.getToken() != null) {
 				// return null;
@@ -392,16 +377,16 @@ public class CartWizardView extends BaseView {
 		RequestContext.getCurrentInstance().execute("lastPage();PF('blockAll').unblock();");
 	}
 
-	private OrderFullDTO valueOrderOfCart() throws MailNotSendException, OthalaException {
+	private OrderFullDTO valueOrderOf() throws MailNotSendException, OthalaException {
 		order = new OrderFullDTO();
-		order.setBillingAddress(cart.getAddressFat());
-		order.setShippingAddress(cart.getAddressSpe());
-		order.setCart(cart.getCart());
-		order.setIdUser(loginBean.getEmail());
-		order.setNameUser(loginBean.getName());
-		order.setSurnameUser(loginBean.getSurname());
-		order.setImOrdine(cart.getTotalPriceOrder());
-		order.setSpeseSpedizione(cart.getDeliveryCost());
+		order.setBillingAddress(getCartFlowBean().getAddressFat());
+		order.setShippingAddress(getCartFlowBean().getAddressSpe());
+		order.setCart(getCartFlowBean().getCart());		
+		order.setIdUser(getLoginBean().getEmail());
+		order.setNameUser(getLoginBean().getName());
+		order.setSurnameUser(getLoginBean().getSurname());
+		order.setImOrdine(getCartFlowBean().getTotalPriceOrder());
+		order.setSpeseSpedizione(getCartFlowBean().getDeliveryCost());
 		return order;
 
 	}
