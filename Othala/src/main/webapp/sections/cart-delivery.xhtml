@@ -16,8 +16,8 @@
 					<h5>
 						<strong>#{msg.delivery_typeShipping}</strong>
 					</h5>
-					<h:selectOneMenu value="#{cartWizardView.cart.idTypeDelivery}" id="typeDelivery"
-						label="#{cartWizardView.cart.idTypeDelivery}" styleClass="form-control">
+					<h:selectOneMenu value="#{cartWizardView.cartFlowBean.idTypeDelivery}" id="typeDelivery"
+						label="#{cartWizardView.cartFlowBean.idTypeDelivery}" styleClass="form-control">
 						<f:selectItems value="#{cartWizardView.deliveryDTO.speseSpedizione}" var="spesa"
 							itemLabel="#{spesa.descrizione}" itemValue="#{spesa.idDeliveryCost}" />
 						<f:ajax execute="@this" render="delivery cartTable-pnl"
@@ -33,7 +33,7 @@
 						<strong>#{msg.delivery_costShipping}</strong>
 					</h5>
 					<h:outputText styleClass="form-control"
-						value="#{cartWizardView.cart.deliveryCost.importoSpese}">
+						value="#{cartWizardView.cartFlowBean.deliveryCost.importoSpese}">
 						<f:converter converterId="it.othala.BigDecimalConverter" />
 					</h:outputText>
 				</div>

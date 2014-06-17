@@ -3,12 +3,15 @@ package it.othala.account.model;
 
 import it.othala.dto.AccountDTO;
 
-import javax.inject.Named;
-
 import java.io.Serializable;
 
-@Named
-@javax.enterprise.context.SessionScoped
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+
+/*@Named
+@javax.enterprise.context.SessionScoped*/
+@ManagedBean
+@SessionScoped
 public class CustomerLoginBean implements Serializable {
 
 	/**

@@ -5,41 +5,28 @@ import it.othala.account.execption.DuplicateUserException;
 import it.othala.account.execption.MailNotSendException;
 import it.othala.account.execption.UserNotActivatedException;
 import it.othala.account.execption.UserNotFoundException;
-import it.othala.account.model.CustomerLoginBean;
 import it.othala.dto.AccountDTO;
 import it.othala.service.factory.OthalaFactory;
-import it.othala.util.HelperCrypt;
 import it.othala.view.BaseView;
 import it.othala.web.utils.ConfigurationUtil;
 import it.othala.web.utils.CookieUtil;
 import it.othala.web.utils.OthalaUtil;
 import it.othala.web.utils.WizardUtil;
 
-import java.util.UUID;
-
-import javax.faces.context.FacesContext;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
-import javax.inject.Inject;
-import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
 import org.primefaces.context.RequestContext;
 
-@Named
-@javax.faces.view.ViewScoped
+@ManagedBean
+@ViewScoped
 public class AccessView extends BaseView {
-
-	/*
-	 * @ManagedProperty(value = "#{accessBean}")
-	 */
 
 	private boolean renderClient;
 
-	/*
-	 * @ManagedProperty(value = "#{customerLoginBean}")
-	 */
-	@Inject
-	private CustomerLoginBean loginBean;
+	
 
 	private String psw;
 	private String email;
@@ -123,9 +110,7 @@ public class AccessView extends BaseView {
 		this.psw = psw;
 	}
 
-	public void setLoginBean(CustomerLoginBean loginBean) {
-		this.loginBean = loginBean;
-	}
+	
 
 	public boolean isRenderClient() {
 		return renderClient;
@@ -203,8 +188,8 @@ public class AccessView extends BaseView {
 	public String resetPsw() {
 
 		try {
-			OthalaFactory.getAccountServiceInstance()
-					.resetPasswordAccount(getEmail(), ConfigurationUtil.getMailProps(getRequest()));
+			OthalaFactory.getAccountServiceInstance().resetPasswordAccount(getEmail(),
+					ConfigurationUtil.getMailProps(getRequest()));
 			addInfo(OthalaUtil.getWordBundle("account_checkYourMail"), "");
 		} catch (UserNotFoundException | UserNotActivatedException e) {
 			addOthalaExceptionError(e, "Errore nel reset della password.");
@@ -218,7 +203,7 @@ public class AccessView extends BaseView {
 	public String login() {
 		try {
 			AccountDTO acc = OthalaFactory.getAccountServiceInstance().verifyPasswordAccount(getEmail(), getPsw());
-			loginBean.updateLoginBean(acc);
+			getLoginBean().updateLoginBean(acc);
 
 			renderClient = true;
 
@@ -247,13 +232,13 @@ public class AccessView extends BaseView {
 	}
 
 	public void logout(ActionEvent e) {
-		loginBean.setEmail(null);
-		loginBean.setName(null);
+		getLoginBean().setEmail(null);
+		getLoginBean().setName(null);
 		renderClient = false;
 
 		HttpSession session = getRequest().getSession(false);
 		if (session != null) {
-			session.invalidate();			
+			session.invalidate();
 			CookieUtil.removeCookieLogin(getResponse());
 		}
 		redirectHome();

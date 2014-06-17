@@ -11,7 +11,7 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
 @FacesConverter("it.othala.BigDecimalConverter")
-public class BigDecimalConverter implements Converter {
+public class BigDecimalConverter extends BaseConverter implements Converter {
 
 	NumberFormat n = NumberFormat.getCurrencyInstance(Locale.ITALY);
 	

@@ -13,14 +13,14 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ManagedBean;
 import javax.faces.event.ActionEvent;
-import javax.inject.Named;
 
-@Named
+//@Named
 // @javax.faces.flow.FlowScoped("cartFlow")
-@SessionScoped
-/* @ManagedBean */
+//@SessionScoped
+@ManagedBean
+@javax.faces.bean.SessionScoped
 public class CartFlowBean implements Serializable {
 
 	/**

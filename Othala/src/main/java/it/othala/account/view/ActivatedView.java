@@ -8,8 +8,10 @@ import it.othala.view.BaseView;
 import it.othala.web.utils.OthalaUtil;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 
 @ManagedBean
+@ViewScoped
 public class ActivatedView extends BaseView {
 
 	private String message;

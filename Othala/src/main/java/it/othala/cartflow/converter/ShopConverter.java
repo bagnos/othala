@@ -1,20 +1,17 @@
 package it.othala.cartflow.converter;
 
 import it.othala.dto.ShopDTO;
-import it.othala.model.ApplicationBean;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.inject.Inject;
-import javax.inject.Named;
+import javax.faces.convert.FacesConverter;
 
 
-@Named
-public class ShopConverter implements Converter {
+@FacesConverter("it.othala.ShopConverter")
+public class ShopConverter extends BaseConverter implements Converter {
 
-	@Inject
-	private ApplicationBean appBean;
+	
 	
 	
 
@@ -24,7 +21,7 @@ public class ShopConverter implements Converter {
 			int intValue = Integer.valueOf(value);
 			
 						 
-			for (ShopDTO sh : appBean.getShopsDTO()) {
+			for (ShopDTO sh : getAppBean().getShopsDTO()) {
 				if (sh.getIdShop().intValue() == intValue) {
 					
 					return sh;

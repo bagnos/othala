@@ -14,16 +14,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.bean.ApplicationScoped;
+import javax.faces.bean.ManagedBean;
 import javax.faces.model.SelectItem;
-import javax.inject.Named;
 
-@Named
-@javax.enterprise.context.ApplicationScoped
-/*
- * @ManagedBean
- * 
- * @ApplicationScoped
- */
+/*@Named
+ @javax.enterprise.context.ApplicationScoped*/
+
+@ManagedBean
+@ApplicationScoped
 public class ApplicationBean implements Serializable {
 
 	/**
@@ -39,51 +38,44 @@ public class ApplicationBean implements Serializable {
 	private List<SiteImagesDTO> imgsNewArrival = new ArrayList<>();;
 	private DomainDTO domain;
 	private List<CampaignDTO> campaigns = new ArrayList<>();;
-	private List<AttributeDTO> brandDTO = new ArrayList<>();	
+	private List<AttributeDTO> brandDTO = new ArrayList<>();
 	private List<AttributeDTO> colorsDTO = new ArrayList<>();
 	private List<AttributeSizeDTO> sizeDTO = new ArrayList<>();
 	private List<ShopDTO> shopsDTO = new ArrayList<>();
 	private List<AttributeDTO> genderDTO = new ArrayList<>();
 	private List<AttributeDTO> typeDTO = new ArrayList<>();
-	
-	
 
 	public List<AttributeDTO> getGenderDTO() {
-		if (genderDTO.isEmpty())
-		{
-			genderDTO=getDomain().getGender();
+		if (genderDTO.isEmpty()) {
+			genderDTO = getDomain().getGender();
 		}
 		return genderDTO;
 	}
 
 	public List<AttributeDTO> getTypeDTO() {
-		if (typeDTO.isEmpty())
-		{
-			typeDTO=getDomain().getType();
+		if (typeDTO.isEmpty()) {
+			typeDTO = getDomain().getType();
 		}
 		return typeDTO;
 	}
 
 	public List<ShopDTO> getShopsDTO() {
-		if (shopsDTO.isEmpty())
-		{
-			shopsDTO=getDomain().getShop();			
+		if (shopsDTO.isEmpty()) {
+			shopsDTO = getDomain().getShop();
 		}
 		return shopsDTO;
 	}
 
 	public List<AttributeSizeDTO> getSizeDTO() {
-		if (sizeDTO.isEmpty())
-		{
-			sizeDTO=getDomain().getSize();
+		if (sizeDTO.isEmpty()) {
+			sizeDTO = getDomain().getSize();
 		}
 		return sizeDTO;
 	}
 
 	public List<AttributeDTO> getColorsDTO() {
-		if (colorsDTO.isEmpty())
-		{
-			colorsDTO=getDomain().getColor();
+		if (colorsDTO.isEmpty()) {
+			colorsDTO = getDomain().getColor();
 		}
 		return colorsDTO;
 	}
@@ -93,9 +85,8 @@ public class ApplicationBean implements Serializable {
 	}
 
 	public List<AttributeDTO> getBrandDTO() {
-		if (brandDTO.isEmpty())
-		{
-			brandDTO=getDomain().getBrand();
+		if (brandDTO.isEmpty()) {
+			brandDTO = getDomain().getBrand();
 		}
 		return brandDTO;
 	}
@@ -134,7 +125,7 @@ public class ApplicationBean implements Serializable {
 	private final String IMG_NEW_ARRIVALS = "newArrivals";
 	private final String IMG_CAROUSEL = "carousel";
 
-	public List<MenuDTO> getMenu() {		
+	public List<MenuDTO> getMenu() {
 		if (menu.isEmpty()) {
 			menu = OthalaFactory.getProductServiceInstance().getMenu(OthalaUtil.getLangFromContextJSF());
 		}
@@ -146,7 +137,7 @@ public class ApplicationBean implements Serializable {
 		if (brands.isEmpty()) {
 
 			brands.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseBrand")));
-			
+
 			for (AttributeDTO att : getDomain().getBrand()) {
 				brands.add(new SelectItem(att.getAttributo(), att.getValore()));
 			}
@@ -162,7 +153,7 @@ public class ApplicationBean implements Serializable {
 		if (idSubMenu != null && idSubMenu.intValue() != -1) {
 			for (AttributeSizeDTO att : getDomain().getSize()) {
 				if (att.getIdType().intValue() == idSubMenu.intValue() || idSubMenu == 0) {
-				
+
 					sizes.add(new SelectItem(att.getAttributo(), att.getValore()));
 				}
 			}

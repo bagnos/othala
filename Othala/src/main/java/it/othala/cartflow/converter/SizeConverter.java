@@ -1,32 +1,25 @@
 package it.othala.cartflow.converter;
 
 import it.othala.dto.AttributeDTO;
-import it.othala.model.ApplicationBean;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.inject.Inject;
-import javax.inject.Named;
+import javax.faces.convert.FacesConverter;
 
+@FacesConverter("it.othala.SizeConverter")
+public class SizeConverter extends BaseConverter implements Converter {
 
-@Named
-public class SizeConverter implements Converter {
-
-	@Inject
-	private ApplicationBean appBean;
-	
 	
 
 	@Override
 	public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
 		if (value != null && value.trim().length() > 0) {
 			int intValue = Integer.valueOf(value);
-			
-						 
-			for (AttributeDTO attr : appBean.getSizeDTO()) {
+
+			for (AttributeDTO attr : getAppBean().getSizeDTO()) {
 				if (attr.getAttributo() == intValue) {
-					
+
 					return attr;
 				}
 			}

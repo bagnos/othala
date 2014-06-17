@@ -1,10 +1,8 @@
 package it.othala.cartflow.view;
 
-import javax.faces.bean.RequestScoped;
-import javax.inject.Named;
+import javax.faces.bean.ManagedBean;
 
-@Named
-@RequestScoped
+@ManagedBean
 public class CartFlowView0 {
 
 	public String preInit() {
