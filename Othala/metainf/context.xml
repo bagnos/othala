@@ -24,17 +24,19 @@
 		/> -->
 
 <!-- PRODUZIONE -->
-	<!-- <Resource name="jdbc/othala" removeAbandoned="true" logAbandoned="true"
+<!-- 
+	 <Resource name="jdbc/othala" removeAbandoned="true" logAbandoned="true"
 		auth="Container" type="javax.sql.DataSource" maxActive="10" maxIdle="5"
 		validationQuery="SELECT 1" validationInterval="30000" maxWait="10000"
-		username="aduna937_othala" password="othala2014" driverClassName="com.mysql.jdbc.Driver"
-		url="jdbc:mysql://mysql.adunata.org:3306/aduna937_othala" />-->
+		username="aduna937_othala" password="StileRagingCoatedAnkh62" driverClassName="com.mysql.jdbc.Driver"
+		url="jdbc:mysql://wc1mysql2.mondoserver.com:3306/aduna937_othala" />-->
 		
+	 
 		<Resource name="jdbc/othala" removeAbandoned="true" logAbandoned="true"
 		auth="Container" type="javax.sql.DataSource" maxActive="10" maxIdle="5"
 		validationQuery="SELECT 1" validationInterval="30000" maxWait="10000"
 		username="root" password="root" driverClassName="com.mysql.jdbc.Driver"
-		url="jdbc:mysql://localhost:3306/aduna937_othala" />
+		url="jdbc:mysql://localhost:3306/aduna937_othala" /> 
 
 
 	<Realm className="org.apache.catalina.realm.DataSourceRealm"

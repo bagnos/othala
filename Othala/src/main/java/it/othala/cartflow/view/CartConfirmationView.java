@@ -152,7 +152,7 @@ public class CartConfirmationView extends BaseView {
 			}
 
 		} catch (PayPalPostPaymentException e) {
-			addGenericError(e, "errore dopo il pagamento");
+			addOthalaExceptionError(e, "errore dopo il pagamento");			
 		} catch (PayPalFundingFailureException e) {
 			// problemi sulla carta, gli chiediamo di scegliere un altro
 			// strumento di pagamento
