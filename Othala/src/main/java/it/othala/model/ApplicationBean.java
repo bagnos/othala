@@ -30,51 +30,51 @@ public class ApplicationBean implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private List<SelectItem> colors = new ArrayList<>();
-	private List<SelectItem> brands = new ArrayList<>();
-	private List<MenuDTO> menu = new ArrayList<>();
-	private List<SiteImagesDTO> imgsCarousel = new ArrayList<>();;
+	private List<SelectItem> colors = null;
+	private List<SelectItem> brands = null;
+	private List<MenuDTO> menu = null;
+	private List<SiteImagesDTO> imgsCarousel = null;
 	private List<SiteImagesDTO> imgs = null;
-	private List<SiteImagesDTO> imgsNewArrival = new ArrayList<>();;
+	private List<SiteImagesDTO> imgsNewArrival = null;
 	private DomainDTO domain;
-	private List<CampaignDTO> campaigns = new ArrayList<>();;
-	private List<AttributeDTO> brandDTO = new ArrayList<>();
-	private List<AttributeDTO> colorsDTO = new ArrayList<>();
-	private List<AttributeSizeDTO> sizeDTO = new ArrayList<>();
-	private List<ShopDTO> shopsDTO = new ArrayList<>();
-	private List<AttributeDTO> genderDTO = new ArrayList<>();
-	private List<AttributeDTO> typeDTO = new ArrayList<>();
+	private List<CampaignDTO> campaigns = null;;
+	private List<AttributeDTO> brandDTO = null;
+	private List<AttributeDTO> colorsDTO = null;
+	private List<AttributeSizeDTO> sizeDTO = null;
+	private List<ShopDTO> shopsDTO = null;
+	private List<AttributeDTO> genderDTO = null;
+	private List<AttributeDTO> typeDTO = null;
 
 	public List<AttributeDTO> getGenderDTO() {
-		if (genderDTO.isEmpty()) {
+		if (genderDTO==null) {
 			genderDTO = getDomain().getGender();
 		}
 		return genderDTO;
 	}
 
 	public List<AttributeDTO> getTypeDTO() {
-		if (typeDTO.isEmpty()) {
+		if (typeDTO==null) {
 			typeDTO = getDomain().getType();
 		}
 		return typeDTO;
 	}
 
 	public List<ShopDTO> getShopsDTO() {
-		if (shopsDTO.isEmpty()) {
+		if (shopsDTO==null) {
 			shopsDTO = getDomain().getShop();
 		}
 		return shopsDTO;
 	}
 
 	public List<AttributeSizeDTO> getSizeDTO() {
-		if (sizeDTO.isEmpty()) {
+		if (sizeDTO==null) {
 			sizeDTO = getDomain().getSize();
 		}
 		return sizeDTO;
 	}
 
 	public List<AttributeDTO> getColorsDTO() {
-		if (colorsDTO.isEmpty()) {
+		if (colorsDTO==null) {
 			colorsDTO = getDomain().getColor();
 		}
 		return colorsDTO;
@@ -85,14 +85,14 @@ public class ApplicationBean implements Serializable {
 	}
 
 	public List<AttributeDTO> getBrandDTO() {
-		if (brandDTO.isEmpty()) {
+		if (brandDTO==null) {
 			brandDTO = getDomain().getBrand();
 		}
 		return brandDTO;
 	}
 
 	public List<CampaignDTO> getCampaigns() {
-		if (campaigns.isEmpty()) {
+		if (campaigns==null) {
 			campaigns = OthalaFactory.getProductServiceInstance().getListCampaign();
 		}
 		return campaigns;
@@ -108,14 +108,14 @@ public class ApplicationBean implements Serializable {
 	}
 
 	public List<SiteImagesDTO> getImgsCarousel() {
-		if (imgsCarousel.isEmpty()) {
+		if (imgsCarousel==null) {
 			updateImgHome();
 		}
 		return imgsCarousel;
 	}
 
 	public List<SiteImagesDTO> getImgsNewArrival() {
-		if (imgsNewArrival.isEmpty()) {
+		if (imgsNewArrival==null) {
 			updateImgHome();
 		}
 		return imgsNewArrival;
@@ -126,7 +126,7 @@ public class ApplicationBean implements Serializable {
 	private final String IMG_CAROUSEL = "carousel";
 
 	public List<MenuDTO> getMenu() {
-		if (menu.isEmpty()) {
+		if (menu==null) {
 			menu = OthalaFactory.getProductServiceInstance().getMenu(OthalaUtil.getLangFromContextJSF());
 		}
 
@@ -134,8 +134,8 @@ public class ApplicationBean implements Serializable {
 	}
 
 	public List<SelectItem> getBrands() {
-		if (brands.isEmpty()) {
-
+		if (brands==null) {
+			brands=new ArrayList<>();
 			brands.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseBrand")));
 
 			for (AttributeDTO att : getDomain().getBrand()) {
@@ -176,8 +176,9 @@ public class ApplicationBean implements Serializable {
 	}
 
 	public List<SelectItem> getColors() {
-		if (colors.isEmpty()) {
-
+		if (colors==null) {
+			colors=new ArrayList<>();
+			colorsDTO=new ArrayList<>();
 			colors.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseColor")));
 			for (AttributeDTO att : getDomain().getColor()) {
 				colorsDTO.add(att);
@@ -189,8 +190,9 @@ public class ApplicationBean implements Serializable {
 	}
 
 	private void updateImgHome() {
-		imgsNewArrival.clear();
-		imgsCarousel.clear();
+		imgsCarousel=new ArrayList<>();
+		imgsNewArrival=new ArrayList<>();
+		
 		imgs = OthalaFactory.getSiteImagesServiceInstance().listSiteImages();
 		for (SiteImagesDTO img : imgs) {
 			if (img.getTxGroupImages().trim().equalsIgnoreCase(IMG_NEW_ARRIVALS)) {
