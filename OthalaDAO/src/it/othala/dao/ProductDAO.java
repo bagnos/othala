@@ -5,6 +5,7 @@ import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.AttributeDTO;
 import it.othala.dto.AttributeSizeDTO;
 import it.othala.dto.CampaignDTO;
+import it.othala.dto.DescriptionDTO;
 import it.othala.dto.MenuDTO;
 import it.othala.dto.ProductDTO;
 import it.othala.dto.ProductFullDTO;
@@ -294,6 +295,18 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		getSqlSession().insert("it.othala.product.queries.insertProduct",
 				productFull);
 
+		if (productFull.getLangDescription() == null ||
+				productFull.getLangDescription().size() == 0);
+		{
+			List<DescriptionDTO> listDescription = new ArrayList<DescriptionDTO>();
+			DescriptionDTO description = new DescriptionDTO();
+			description.setIdProduct(productFull.getIdProduct());
+			description.setDescription(productFull.getDescription());
+			description.setLanguages("it");
+			listDescription.add(description);
+			productFull.setLangDescription(listDescription);
+		}
+		
 		HashMap<String, Object> map2 = new HashMap<>();
 
 		for (int i = 0; i <= productFull.getLangDescription().size() - 1; i++) {

@@ -250,6 +250,8 @@ public class InsertProdottiView extends BaseView {
 		merchantCode=null;
 		prezzo=null;
 		prezzoScontato=null;
+		genere = null;
+		tipo = null;
 		sconto=0;
 		brand=null;
 		size=null;
