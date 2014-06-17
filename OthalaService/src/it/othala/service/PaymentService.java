@@ -502,7 +502,7 @@ public class PaymentService implements IPaymentService {
 				messageIpnDAO.insertMessageIpn(ipn);
 			
 		} catch (Throwable e) {
-
+			log.error("errore PaymentService dopo il pagamento", e);
 			throw new PayPalPostPaymentException(e, order.getIdOrder(), "errore nel docheckout dopo il pagamento");
 		}
 		return checkDTO;

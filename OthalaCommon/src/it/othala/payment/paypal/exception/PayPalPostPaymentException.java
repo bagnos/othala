@@ -19,7 +19,7 @@ public class PayPalPostPaymentException extends OthalaException {
 	}
 	
 	public PayPalPostPaymentException(Throwable e,int idOrder,String dsErrore) {
-		super(KEY_MESSAGE, new Object[] {idOrder}, dsErrore);
+		super(KEY_MESSAGE, new Object[] {idOrder}, dsErrore,e);
 		
 	}
 

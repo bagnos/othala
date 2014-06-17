@@ -1,5 +1,7 @@
 package it.othala.account.view;
 
+import java.io.IOException;
+
 import it.othala.account.execption.BadCredentialException;
 import it.othala.account.execption.DuplicateUserException;
 import it.othala.account.execption.MailNotSendException;
@@ -15,6 +17,7 @@ import it.othala.web.utils.WizardUtil;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
 
@@ -25,8 +28,6 @@ import org.primefaces.context.RequestContext;
 public class AccessView extends BaseView {
 
 	private boolean renderClient;
-
-	
 
 	private String psw;
 	private String email;
@@ -110,8 +111,6 @@ public class AccessView extends BaseView {
 		this.psw = psw;
 	}
 
-	
-
 	public boolean isRenderClient() {
 		return renderClient;
 	}
@@ -140,7 +139,18 @@ public class AccessView extends BaseView {
 	public String registration() {
 
 		if (registrationCore()) {
-			return "home";
+			if (getCartFlowBean().getCart().isEmpty()) {
+				try {
+					FacesContext.getCurrentInstance().getExternalContext().redirect("../home.xhtml");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return null;
+			} else {
+				return null;
+			}
+ 
 		} else {
 			return null;
 		}

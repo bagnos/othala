@@ -23,6 +23,7 @@ public class ConfigurationUtil {
 	private static String getBaseImagePath()
 	{		
 		String path= request.getServletContext().getRealPath("/");
+		 
 		path+="resources"+File.separator+"images"+File.separator;
 		return path;
 	}
@@ -49,6 +50,8 @@ public class ConfigurationUtil {
 		
 		if (mailProps==null)
 		{
+			String prefix="";
+			prefix=isLocalHost(req)?"test":"";
 		if (getProperties() != null) {
 			request=req;
 			mailProps=new MailPropertiesDTO();
@@ -60,12 +63,12 @@ public class ConfigurationUtil {
 			mailProps.setFromMail(getProperty("FROM_MAIL"));
 			mailProps.setPathImgLogo(getLogoHomeMail());
 			mailProps.setPathImgPayment(getImagePayment());
-			mailProps.setMailSmtAuth(getProperty("mail.smtp.auth"));
-			mailProps.setMailSmtpAtarttlsAnable(getProperty("mail.smtp.starttls.enable"));
-			mailProps.setMailSmtpHost(getProperty("mail.smtp.host"));
-			mailProps.setMailSmtpPort(getProperty("mail.smtp.port"));
-			mailProps.setPassword(getProperty("password"));
-			mailProps.setUsername(getProperty("mail.smtp.user"));
+			mailProps.setMailSmtAuth(getProperty(prefix+"mail.smtp.auth"));
+			mailProps.setMailSmtpAtarttlsAnable(getProperty(prefix+"mail.smtp.starttls.enable"));
+			mailProps.setMailSmtpHost(getProperty(prefix+"mail.smtp.host"));
+			mailProps.setMailSmtpPort(getProperty(prefix+"mail.smtp.port"));
+			mailProps.setPassword(getProperty(prefix+"password"));
+			mailProps.setUsername(getProperty(prefix+"mail.smtp.user"));
 			
 		}
 		}
@@ -99,7 +102,7 @@ public class ConfigurationUtil {
 
 	public static String getProperty(String key) {
 		String value = null;
-
+		key=key!=null?key.trim():null;
 		if (getProperties() != null) {
 			if (getProperties().containsKey(key)) {
 				value = getProperties().getProperty(key);
@@ -109,6 +112,10 @@ public class ConfigurationUtil {
 		return value;
 	}
 	
+	private static boolean isLocalHost(HttpServletRequest req)
+	{
+		return req.getRemoteHost().equalsIgnoreCase("127.0.0.1");
+	}
 	
 
 }

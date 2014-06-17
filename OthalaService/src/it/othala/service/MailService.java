@@ -20,23 +20,22 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import javax.naming.Context;
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 public class MailService implements IMailService {
 
 	private Session session = null;
 
-	private void inviaMail(String from, String[] tos, String subject, String content, String type,MailPropertiesDTO mailProos)
+	private void inviaMail(String from, String[] tos, String subject, String content, String type,MailPropertiesDTO mailProps)
 			throws MailNotSendException {
 		// TODO Auto-generated method stub
 		{
 			try {
 
-				Context initCtx = new InitialContext();
-				Context envCtx = (Context) initCtx.lookup("java:comp/env");
-				Session session = (Session) envCtx.lookup("mail/othala");
+				//Context initCtx = new InitialContext();
+				//Context envCtx = (Context) initCtx.lookup("java:comp/env");
+				//Session session = (Session) envCtx.lookup("mail/othala");
+				Session session = getSession(mailProps);
 				Message message = new MimeMessage(session);
 				InternetAddress to[] = new InternetAddress[tos.length];
 				int i = 0;
@@ -54,7 +53,7 @@ public class MailService implements IMailService {
 				message.setContent(content, type);
 
 				Transport.send(message);
-			} catch (NamingException | MessagingException e) {
+			} catch (MessagingException e) {
 				throw new MailNotSendException(e);
 			}
 
