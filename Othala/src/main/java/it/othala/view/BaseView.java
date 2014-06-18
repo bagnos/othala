@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.primefaces.context.RequestContext;
 
 public abstract class BaseView implements Serializable {
 
@@ -186,4 +187,6 @@ public abstract class BaseView implements Serializable {
 		HttpServletRequest request =  (HttpServletRequest)context.getRequest();
 		return request;
 	}
+	
+	
 }

@@ -38,8 +38,8 @@
 					 -->
 
 
-						<p:commandButton styleClass="ui-priority-primary" validateClient="true"
-							value="#{msg.account_create}" actionListener="#{accessView.registration}" ajax="false"></p:commandButton>
+						<p:commandButton styleClass="ui-priority-primary" validateClient="true" onerror="PF('blockAll').unblock();" oncomplete="PF('blockAll').unblock();" onclick="PF('blockAll').block()"
+							value="#{msg.account_create}" action="#{accessView.registration}" ajax="false"></p:commandButton>
 
 					</div>
 
