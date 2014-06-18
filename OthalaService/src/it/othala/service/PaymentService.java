@@ -91,20 +91,19 @@ public class PaymentService implements IPaymentService {
 	}
 
 	@Override
-	public void processIpnMessage(String originalRequest,  ProfilePayPalDTO profile,
-			MailPropertiesDTO mailProps) throws PayPalException, PayPalIpnErrorException {
+	public void processIpnMessage(String originalRequest, ProfilePayPalDTO profile, MailPropertiesDTO mailProps)
+			throws PayPalException, PayPalIpnErrorException {
 
-		log.info("IPN Original Request:"+originalRequest);
+		log.info("IPN Original Request:" + originalRequest);
 		String responseRequest = originalRequest + "&cmd=_notify-validate";
 		StringBuilder sb = new StringBuilder();
 		boolean errorFormalMessage = false;
 
 		try {
 			// resend message to PayPal for securiry protocol
-			HashMap<String, String> responseMap= getWrapper(profile).getNotificationIPN(responseRequest);
-			IpnDTO ipnDTO=valueOf(responseMap);
-			log.info(String.format("prosessIpnMessage, ipnDTO: %s",ipnDTO.toString()));
-			
+			HashMap<String, String> responseMap = getWrapper(profile).getNotificationIPN(responseRequest);
+			IpnDTO ipnDTO = valueOf(responseMap);
+			log.info(String.format("prosessIpnMessage, ipnDTO: %s", ipnDTO.toString()));
 
 			// check that txn_id has not been previously processed
 			String txn_id = ipnDTO.getTxn_id();
@@ -117,7 +116,7 @@ public class PaymentService implements IPaymentService {
 				// check that receiver_email is your Primary PayPal email
 				String emailMerchant = profile.getUserName();
 				String receiver_email = ipnDTO.getReceiver_email();
-				if (!emailMerchant.equalsIgnoreCase(receiver_email)) {
+				if (!emailMerchant.trim().equalsIgnoreCase(receiver_email)) {
 					sb.append(String.format(
 							"messagio non elaborato: emailMerchant %s diversa dalla mail %s presente nel messaggio %s",
 							emailMerchant, receiver_email, ipnDTO.toString()));
@@ -132,7 +131,7 @@ public class PaymentService implements IPaymentService {
 							order.getImOrdine(), ipnDTO.getMc_gross(), order.getImOrdine(), ipnDTO.toString()));
 					errorFormalMessage = true;
 				}
-				if (ipnDTO.getMc_currency() != "EUR") {
+				if (!ipnDTO.getMc_currency().trim().equalsIgnoreCase("EUR")) {
 					sb.append(String
 							.format("messagio non elaborato:divisa accettata %s diversa dalla divisa %s presente nel messaggio %s",
 									"EUR", ipnDTO.getMc_currency(), ipnDTO.toString()));
@@ -150,7 +149,8 @@ public class PaymentService implements IPaymentService {
 				insertMessage(ipnMessage);
 
 				if (errorFormalMessage) {
-					log.error(String.format("Messagio %s non elaborato, ci sono errori formali: %s", ipnDTO.getTxn_id(),sb.toString()));
+					log.error(String.format("Messagio %s non elaborato, ci sono errori formali: %s",
+							ipnDTO.getTxn_id(), sb.toString()));
 					return;
 				}
 
@@ -207,10 +207,9 @@ public class PaymentService implements IPaymentService {
 			throw e;
 		}
 	}
-	
-	private IpnDTO valueOf(HashMap<String, String> req)
-	{
-		IpnDTO ipnDTO=new IpnDTO();
+
+	private IpnDTO valueOf(HashMap<String, String> req) {
+		IpnDTO ipnDTO = new IpnDTO();
 		ipnDTO.setCustom(req.get("custom"));
 		ipnDTO.setMc_currency(req.get("mc_currency"));
 		ipnDTO.setMc_gross(req.get("mc_gross"));
@@ -219,7 +218,6 @@ public class PaymentService implements IPaymentService {
 		ipnDTO.setTxn_id(req.get("txn_id"));
 		return ipnDTO;
 	}
-
 
 	public boolean isPaymentKO(String paypalStatus) {
 		// TODO Auto-generated method stub
@@ -230,7 +228,7 @@ public class PaymentService implements IPaymentService {
 
 		if (paypalStatus.equalsIgnoreCase("FAILED")) {
 			return true;
-		} 
+		}
 
 		if (paypalStatus.equalsIgnoreCase("EXPIRED")) {
 			return true;
