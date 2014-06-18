@@ -42,9 +42,9 @@ public class MailTest {
 			mail.setBasePathThumbinalsArticle("C:/progs/Tomcat/apache-tomcat-7.0.53/webapps/Othala/resources/images/cartThumbinals/");
 			mail.setPathImgLogo("C:/progs/Tomcat/apache-tomcat-7.0.53/webapps/Othala/resources/images/logo2-small.png");
 			mail.setPathImgPayment("C:/progs/Tomcat/apache-tomcat-7.0.53/webapps/Othala/resources/images/payment/paypal.gif");
-			mail.setFromMail("Degortes Outhlet<noreply@degortes.it>");
+			mail.setFromMail("Degortes Outlet<noreply@degortes.it>");
 			mail.setBoardUrl("http://www.degortes.it/");
-			mail.setCompanyName("Degortes Outhlet");
+			mail.setCompanyName("Degortes Outlet");
 			mail.setContextRoot("Othalse");
 			mail.setDnsSite("localhost");
 			OthalaFactory.getPaymentServiceInstance().sendMailAcceptedPyament(order, mail, "COMPLETED");

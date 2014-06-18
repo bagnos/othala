@@ -81,7 +81,7 @@ INSERT INTO `site_images` (`idsiteImages`, `txGroupImages`, `pgGroupImages`, `tx
 VALUES (12, 'tabNav', 4, 'images/tabNav', 'bambina.png',null);
 
 
-INSERT INTO `aduna937_othala`.`campaigns` (`idCampaign`, `txCampaign`, `dtInizio`, `dtFine`, `pcSconto`) VALUES (1, 'SUMMER SALES', '2014-05-26', '2014-06-15', 75);
+INSERT INTO `aduna937_othala`.`campaigns` (`idCampaign`, `txCampaign`, `dtInizio`, `dtFine`, `pcSconto`) VALUES (1, 'SUMMER SALES', '2014-05-26', '2014-08-15', 75);
 
 
 
