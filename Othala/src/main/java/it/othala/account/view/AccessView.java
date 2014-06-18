@@ -140,17 +140,14 @@ public class AccessView extends BaseView {
 
 		if (registrationCore()) {
 			if (getCartFlowBean().getCart().isEmpty()) {
-				try {
-					FacesContext.getCurrentInstance().getExternalContext().redirect("../home.xhtml");
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				return null;
+
+				// FacesContext.getCurrentInstance().getExternalContext().redirect("../home.xhtml");
+				return "home";
+
 			} else {
 				return null;
 			}
- 
+
 		} else {
 			return null;
 		}
@@ -228,6 +225,7 @@ public class AccessView extends BaseView {
 			// TODO Auto-generated catch block
 			addOthalaExceptionError(e, "login error");
 		}
+
 		return "home";
 	}
 
