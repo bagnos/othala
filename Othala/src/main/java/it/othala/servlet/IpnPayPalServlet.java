@@ -1,6 +1,7 @@
 package it.othala.servlet;
 
 import it.othala.dto.ProfilePayPalDTO;
+import it.othala.payment.paypal.dto.IpnDTO;
 import it.othala.payment.paypal.exception.PayPalException;
 import it.othala.payment.paypal.exception.PayPalIpnErrorException;
 import it.othala.service.factory.OthalaFactory;
@@ -54,15 +55,14 @@ public class IpnPayPalServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 
 		ProfilePayPalDTO prof = PayPalUtil.getProfile(request);
-
+ 
 		// recupero body orginario
 		String originalRequest = getBody(request);
-
+		
 		try {
 
 			OthalaFactory.getPaymentServiceInstance().processIpnMessage(originalRequest,
-					request.getParameter("mc_gross"), request.getParameter("mc_currency"),
-					request.getParameter("payment_status"), prof,ConfigurationUtil.getMailProps(request));
+				prof,ConfigurationUtil.getMailProps(request));
 
 		} catch (PayPalIpnErrorException | PayPalException e) {
 			// TODO Auto-generated catch block
@@ -70,7 +70,8 @@ public class IpnPayPalServlet extends HttpServlet {
 		}
 
 	}
-
+	
+	
 	public static String getBody(HttpServletRequest request) throws IOException {
 
 		String body = null;

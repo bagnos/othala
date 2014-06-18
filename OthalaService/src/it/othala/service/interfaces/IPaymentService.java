@@ -8,6 +8,7 @@ import it.othala.execption.OthalaException;
 import it.othala.execption.StockNotPresentException;
 import it.othala.payment.paypal.dto.DoExpressCheckoutPaymentDTO;
 import it.othala.payment.paypal.dto.GetExpressCheckoutDetailsDTO;
+import it.othala.payment.paypal.dto.IpnDTO;
 import it.othala.payment.paypal.dto.SetExpressCheckoutDTO;
 import it.othala.payment.paypal.exception.PayPalException;
 import it.othala.payment.paypal.exception.PayPalFailureException;
@@ -20,7 +21,7 @@ import java.net.MalformedURLException;
 
 public interface IPaymentService {
 
-	public void processIpnMessage(String originalRequest, String mc_gross, String mc_currency, String payment_status,
+	public void processIpnMessage(String originalRequest,
 			ProfilePayPalDTO profle, MailPropertiesDTO mailProps) throws PayPalException, PayPalIpnErrorException;
 
 	public boolean isPaymentKO(String paypalStatus);

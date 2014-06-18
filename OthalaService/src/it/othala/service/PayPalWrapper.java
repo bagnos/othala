@@ -22,6 +22,9 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import paypalnvp.core.PayPal;
 import paypalnvp.core.PayPal.Environment;
 import paypalnvp.fields.Currency;
@@ -54,6 +57,7 @@ class PayPalWrapper {
 	private Map<String, String> paymentDetails;
 	public static final String COMPLETED_STATUS = "Completed";
 	private String username;
+	private static Log log = LogFactory.getLog(PayPalWrapper.class);
 
 	public String getUsername() {
 		return username;
@@ -78,6 +82,7 @@ class PayPalWrapper {
 		HashMap<String, String> responseMap = new HashMap<String, String>();
 		try {
 			response = pp.setResponseIPN(request);
+			log.info("responseIPN:" + response);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			throw new PayPalException(e);
@@ -86,14 +91,18 @@ class PayPalWrapper {
 			throw new PayPalException(e);
 		}
 		if (response.equalsIgnoreCase("VERIFIED")) {
-			String[] pairs = response.split("&"); // split nvp
-			for (String pair : pairs) {
-				String[] nvp = pair.split("="); // split key value
-				try {
-					responseMap.put(nvp[0], URLDecoder.decode(nvp[1], "UTF-8"));
-				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
-					throw new PayPalException(e);
+			String[] pairs = request.split("&"); // split nvp
+			if (pairs != null) {
+				for (String pair : pairs) {
+					String[] nvp = pair.split("="); // split key value
+					try {
+						if (nvp != null && nvp.length > 1) {
+							responseMap.put(nvp[0], URLDecoder.decode(nvp[1], "UTF-8"));
+						}
+					} catch (UnsupportedEncodingException e) {
+						// TODO Auto-generated catch block
+						throw new PayPalException(e);
+					}
 				}
 			}
 			return responseMap;
@@ -146,10 +155,10 @@ class PayPalWrapper {
 	 * 
 	 */
 
-	public DoExpressCheckoutPaymentDTO doExpressCheckoutPayment(GetExpressCheckoutDetailsDTO details, String notifyUrl,String redirectUrl)
-			throws PayPalFundingFailureException, PayPalException, PayPalFailureException {
+	public DoExpressCheckoutPaymentDTO doExpressCheckoutPayment(GetExpressCheckoutDetailsDTO details, String notifyUrl,
+			String redirectUrl) throws PayPalFundingFailureException, PayPalException, PayPalFailureException {
 
-		this.redirectUrl=redirectUrl;
+		this.redirectUrl = redirectUrl;
 		DoExpressCheckoutPayment doCheck = new DoExpressCheckoutPayment(details.getToken(), PaymentAction.SALE,
 				details.getPayerid(), details.getAmount(), details.getCurrencyCode(), details.getShipAmount(),
 				details.getItemAmount());
@@ -165,11 +174,11 @@ class PayPalWrapper {
 		}
 
 		Map<String, String> response = doCheck.getNVPResponse();
-		return getDoExpressCheckoutPaymentDTO(response,details.getToken());
+		return getDoExpressCheckoutPaymentDTO(response, details.getToken());
 	}
 
-	public GetExpressCheckoutDetailsDTO getExpressCheckoutDetails(String token) throws 
-			 PayPalException, PayPalFailureException {
+	public GetExpressCheckoutDetailsDTO getExpressCheckoutDetails(String token) throws PayPalException,
+			PayPalFailureException {
 		GetExpressCheckoutDetails getExpress = new GetExpressCheckoutDetails(token);
 
 		try {
@@ -189,10 +198,6 @@ class PayPalWrapper {
 
 		return environment;
 	}
-	
-	
-	
-	
 
 	private Payment getPayment(OrderPayPalDTO cart) {
 		PaymentItem item = null;
@@ -232,8 +237,7 @@ class PayPalWrapper {
 		return payment;
 	}
 
-	private SetExpressCheckoutDTO getExpressCheckOutDTO(Map<String, String> response)
-			throws PayPalFailureException {
+	private SetExpressCheckoutDTO getExpressCheckOutDTO(Map<String, String> response) throws PayPalFailureException {
 		StringBuilder sn = new StringBuilder();
 		for (String e : response.keySet()) {
 			sn.append(String.format("%s=%s;", e, response.get(e).toString()));
@@ -242,7 +246,7 @@ class PayPalWrapper {
 		SetExpressCheckoutDTO setExpChecktDTO = new SetExpressCheckoutDTO();
 		if (response.get("ACK").toString().equalsIgnoreCase("Success")) {
 			setExpChecktDTO.setToken(response.get("TOKEN").toString());
-			
+
 			setExpChecktDTO.setRedirectUrl(pp.getRedirectUrl(response.get("TOKEN").toString()));
 
 			setExpChecktDTO.setOkMessage(sn.toString());
@@ -256,7 +260,7 @@ class PayPalWrapper {
 		return setExpChecktDTO;
 	}
 
-	private DoExpressCheckoutPaymentDTO getDoExpressCheckoutPaymentDTO(Map<String, String> response,String token)
+	private DoExpressCheckoutPaymentDTO getDoExpressCheckoutPaymentDTO(Map<String, String> response, String token)
 			throws PayPalException, PayPalFundingFailureException, PayPalFailureException {
 		StringBuilder sn = new StringBuilder();
 		for (String e : response.keySet()) {
@@ -275,7 +279,7 @@ class PayPalWrapper {
 			updateError(response);
 
 			if (isFundinFailure()) {
-				throw new PayPalFundingFailureException(errorMessage,  pp.getRedirectUrl(token));
+				throw new PayPalFundingFailureException(errorMessage, pp.getRedirectUrl(token));
 			} else {
 				throw new PayPalFailureException(sn.toString(), errorMessage);
 			}
@@ -285,7 +289,7 @@ class PayPalWrapper {
 	}
 
 	private GetExpressCheckoutDetailsDTO getExpressCheckOutDetailsDTO(Map<String, String> response)
-			throws  PayPalFailureException {
+			throws PayPalFailureException {
 		StringBuilder sn = new StringBuilder();
 		for (String e : response.keySet()) {
 			sn.append(String.format("%s=%s;", e, response.get(e).toString()));
@@ -420,8 +424,6 @@ class PayPalWrapper {
 		errorMessage = sb.toString();
 
 	}
-
-	
 
 	/*
 	 * private void updateState(DoExpressCheckoutPaymentDTO checkDTO) {

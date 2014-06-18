@@ -20,7 +20,7 @@
 
 	<ui:define name="bodyPageContent">
 		<h:form prependId="false" id="frmProd" styleClass="form-horizontal">
-			<p:growl id="messages" showDetail="true" autoUpdate="true" />
+			<p:growl id="messages" showDetail="true" autoUpdate="true"  />
 
 			<div class="row">
 				<div class="col-sm-4">
@@ -38,7 +38,7 @@
 								value="#{insertProdottiView.merchantCode}" />
 						</div>
 						<div class="col-sm-2 col-sm-offset-6">
-							<p:commandButton styleClass="ui-priority-primary" process="frmProd" actionListener="#{insertProdottiView.addProduct}" update="@all" 
+							<p:commandButton styleClass="ui-priority-primary" process="frmProd" onerror="PF('blockAll').unblock();" oncomplete="PF('blockAll').unblock();" onclick="PF('blockAll').block()" actionListener="#{insertProdottiView.addProduct}" update="@all messages" 
 								value="Aggiungi Prodotto">
 							</p:commandButton>
 						</div>
