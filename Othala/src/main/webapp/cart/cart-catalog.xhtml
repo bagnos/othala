@@ -178,10 +178,10 @@
 
 
 									<h:outputText styleClass="newPromo2" style="float:right"
-										rendered="#{art.discount != null and art.idCampaign == null}"
+										rendered="#{art.discount != null and art.discount != 0 and art.idCampaign == null}"
 										value="#{art.discount} %" />
 									<h:outputText styleClass="newPromo3" style="float:right"
-										rendered="#{art.discount != null and art.idCampaign != null}"
+										rendered="#{art.discount != null and art.discount != 0 and art.idCampaign != null}"
 										value="#{art.discount} %" />
 
 
