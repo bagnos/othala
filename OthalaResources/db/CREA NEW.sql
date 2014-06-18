@@ -537,7 +537,7 @@ CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`IpnMessages` (
   `tsInserimento` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
   `txMessage` VARCHAR(10000) NULL ,
   `txStato` VARCHAR(45) NULL ,
-  `txNote` VARCHAR(100) NULL ,
+  `txNote` VARCHAR(1000) NULL ,
   `fgElaborato` TINYINT(1)  NULL ,
   PRIMARY KEY (`idOrder`, `idTransaction`) )
 ENGINE = InnoDB;

@@ -12,6 +12,7 @@ import it.othala.execption.OthalaException;
 import it.othala.execption.StockNotPresentException;
 import it.othala.payment.paypal.dto.DoExpressCheckoutPaymentDTO;
 import it.othala.payment.paypal.dto.GetExpressCheckoutDetailsDTO;
+import it.othala.payment.paypal.dto.IpnDTO;
 import it.othala.payment.paypal.dto.OrderPayPalDTO;
 import it.othala.payment.paypal.dto.SetExpressCheckoutDTO;
 import it.othala.payment.paypal.exception.PayPalException;
@@ -41,6 +42,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -89,20 +91,24 @@ public class PaymentService implements IPaymentService {
 	}
 
 	@Override
-	public void processIpnMessage(String originalRequest, String mc_gross, String mc_currency, String payment_status,
-			ProfilePayPalDTO profile, MailPropertiesDTO mailProps) throws PayPalException, PayPalIpnErrorException {
+	public void processIpnMessage(String originalRequest,  ProfilePayPalDTO profile,
+			MailPropertiesDTO mailProps) throws PayPalException, PayPalIpnErrorException {
 
+		log.info("IPN Original Request:"+originalRequest);
 		String responseRequest = originalRequest + "&cmd=_notify-validate";
 		StringBuilder sb = new StringBuilder();
 		boolean errorFormalMessage = false;
 
 		try {
 			// resend message to PayPal for securiry protocol
-			HashMap<String, String> respMap = getWrapper(profile).getNotificationIPN(responseRequest);
+			HashMap<String, String> responseMap= getWrapper(profile).getNotificationIPN(responseRequest);
+			IpnDTO ipnDTO=valueOf(responseMap);
+			log.info(String.format("prosessIpnMessage, ipnDTO: %s",ipnDTO.toString()));
+			
 
 			// check that txn_id has not been previously processed
-			String txn_id = respMap.get("txn_id");
-			int idOrder = Integer.valueOf(respMap.get("custom"));
+			String txn_id = ipnDTO.getTxn_id();
+			int idOrder = Integer.valueOf(ipnDTO.getCustom());
 			if (!exitsIdTransaction(idOrder, txn_id)) {
 
 				// recupero i dettagli dell'ordine
@@ -110,26 +116,26 @@ public class PaymentService implements IPaymentService {
 
 				// check that receiver_email is your Primary PayPal email
 				String emailMerchant = profile.getUserName();
-				String receiver_email = respMap.get("receiver_email");
+				String receiver_email = ipnDTO.getReceiver_email();
 				if (!emailMerchant.equalsIgnoreCase(receiver_email)) {
 					sb.append(String.format(
 							"messagio non elaborato: emailMerchant %s diversa dalla mail %s presente nel messaggio %s",
-							emailMerchant, receiver_email, originalRequest));
+							emailMerchant, receiver_email, ipnDTO.toString()));
 					errorFormalMessage = true;
 				}
 
 				// check that payment_amount/payment_currency are correct
-				BigDecimal mc_grossBD = new BigDecimal(mc_gross);
+				BigDecimal mc_grossBD = new BigDecimal(ipnDTO.getMc_gross());
 				if (order.getImOrdine().compareTo(mc_grossBD) != 0) {
 					sb.append(String.format(
 							"messagio non elaborato: importo db %s diverso dalla importo %s presente nel messaggio %s",
-							order.getImOrdine(), mc_gross, order.getImOrdine(), originalRequest));
+							order.getImOrdine(), ipnDTO.getMc_gross(), order.getImOrdine(), ipnDTO.toString()));
 					errorFormalMessage = true;
 				}
-				if (mc_currency != "EUR") {
+				if (ipnDTO.getMc_currency() != "EUR") {
 					sb.append(String
-							.format("messagio non elaborato:divisa accetta %s diversa dalla divisa %s presente nel messaggio %s",
-									"EUR", mc_currency, originalRequest));
+							.format("messagio non elaborato:divisa accettata %s diversa dalla divisa %s presente nel messaggio %s",
+									"EUR", ipnDTO.getMc_currency(), ipnDTO.toString()));
 					errorFormalMessage = true;
 				}
 
@@ -139,19 +145,19 @@ public class PaymentService implements IPaymentService {
 				ipnMessage.setFgElaborato(!errorFormalMessage);
 				ipnMessage.setIdTransaction(txn_id);
 				ipnMessage.setTxMessage(originalRequest);
-				ipnMessage.setTxStato(payment_status);
+				ipnMessage.setTxStato(ipnDTO.getPayment_status());
 				ipnMessage.setTxNote(sb.toString());
 				insertMessage(ipnMessage);
 
 				if (errorFormalMessage) {
-					log.error(String.format("Messagio %s non elaborato, ci sono errori formali", "txn_id"));
+					log.error(String.format("Messagio %s non elaborato, ci sono errori formali: %s", ipnDTO.getTxn_id(),sb.toString()));
 					return;
 				}
 
 				// message is correct, process message
-				TypeStateOrder state = TypeStateOrder.fromString(payment_status);
+				TypeStateOrder state = TypeStateOrder.fromString(ipnDTO.getPayment_status());
 				orderService.updateStateOrder(idOrder, order, state);
-				if (isPaymentKO(payment_status)) {
+				if (isPaymentKO(ipnDTO.getPayment_status())) {
 					// inviare una mail in cui si comunica che PayPal non ha
 					// accettato il pagamento
 					orderService.increaseQtaArticle(order, state);
@@ -162,7 +168,7 @@ public class PaymentService implements IPaymentService {
 						// TODO Auto-generated catch block
 						log.error(String.format("errore nell'invio della mail di rifuto", order.getIdOrder()), e);
 					}
-				} else if (isPaymentCompleted(payment_status)) {
+				} else if (isPaymentCompleted(ipnDTO.getPayment_status())) {
 					// inviare una mail in cui si comunica che PayPal ha
 					// accettato il pagamento
 					try {
@@ -177,7 +183,7 @@ public class PaymentService implements IPaymentService {
 					// nessuna elaborazione da fare
 					log.error(String
 							.format("stato del messaggio %s, per il transactionId %s, non ammesso. Nessuna elaborazione da fare, messaggio %s",
-									payment_status, txn_id, originalRequest));
+									ipnDTO.getPayment_status(), ipnDTO.getTxn_id(), ipnDTO.toString()));
 				}
 
 				return;
@@ -201,6 +207,19 @@ public class PaymentService implements IPaymentService {
 			throw e;
 		}
 	}
+	
+	private IpnDTO valueOf(HashMap<String, String> req)
+	{
+		IpnDTO ipnDTO=new IpnDTO();
+		ipnDTO.setCustom(req.get("custom"));
+		ipnDTO.setMc_currency(req.get("mc_currency"));
+		ipnDTO.setMc_gross(req.get("mc_gross"));
+		ipnDTO.setPayment_status(req.get("payment_status"));
+		ipnDTO.setReceiver_email(req.get("receiver_email"));
+		ipnDTO.setTxn_id(req.get("txn_id"));
+		return ipnDTO;
+	}
+
 
 	public boolean isPaymentKO(String paypalStatus) {
 		// TODO Auto-generated method stub
@@ -211,7 +230,7 @@ public class PaymentService implements IPaymentService {
 
 		if (paypalStatus.equalsIgnoreCase("FAILED")) {
 			return true;
-		}
+		} 
 
 		if (paypalStatus.equalsIgnoreCase("EXPIRED")) {
 			return true;
@@ -446,7 +465,7 @@ public class PaymentService implements IPaymentService {
 
 	@Override
 	public SetExpressCheckoutDTO setExpressCheckout(OrderFullDTO order, ProfilePayPalDTO profile)
-			throws PayPalException,PayPalFailureException, OthalaException {
+			throws PayPalException, PayPalFailureException, OthalaException {
 		// TODO Auto-generated method stub
 
 		// inserisco l'ordine
@@ -470,7 +489,8 @@ public class PaymentService implements IPaymentService {
 		orderService.checkQtaInStock(order.getIdOrder(), order);
 
 		// effettuo il doCheckOut, si paga...
-		DoExpressCheckoutPaymentDTO checkDTO = getWrapper(profile).doExpressCheckoutPayment(details,profilePayPal.getNotifyUrl(),profilePayPal.getRedirectUrl());
+		DoExpressCheckoutPaymentDTO checkDTO = getWrapper(profile).doExpressCheckoutPayment(details,
+				profilePayPal.getNotifyUrl(), profilePayPal.getRedirectUrl());
 		order.setIdTransaction(checkDTO.getPAYMENTINFO_0_TRANSACTIONID());
 		order.setIdStato(TypeStateOrder.fromString(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS()).getState());
 		order.setPendingReason(checkDTO.getPAYMENTINFO_0_PENDINGREASON());
@@ -487,20 +507,19 @@ public class PaymentService implements IPaymentService {
 				orderService.updateStateOrder(order.getIdOrder(), order, state);
 			}
 
-			
-				// salvo il messaggio
-				MessageIpnDTO ipn = new MessageIpnDTO();
-				ipn.setFgElaborato(false);
-				ipn.setIdOrder(order.getIdOrder());
-				ipn.setIdTransaction(order.getIdTransaction());
-				ipn.setTxMessage(checkDTO.getOkMessage());
-				if (state.getState() == TypeStateOrder.PENDING.getState()) {
-					ipn.setTxNote(checkDTO.getPAYMENTINFO_0_PENDINGREASON());
-				}
-				
-				ipn.setTxStato(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS());
-				messageIpnDAO.insertMessageIpn(ipn);
-			
+			// salvo il messaggio
+			MessageIpnDTO ipn = new MessageIpnDTO();
+			ipn.setFgElaborato(false);
+			ipn.setIdOrder(order.getIdOrder());
+			ipn.setIdTransaction(order.getIdTransaction());
+			ipn.setTxMessage(checkDTO.getOkMessage());
+			if (state.getState() == TypeStateOrder.PENDING.getState()) {
+				ipn.setTxNote(checkDTO.getPAYMENTINFO_0_PENDINGREASON());
+			}
+
+			ipn.setTxStato(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS());
+			messageIpnDAO.insertMessageIpn(ipn);
+
 		} catch (Throwable e) {
 			log.error("errore PaymentService dopo il pagamento", e);
 			throw new PayPalPostPaymentException(e, order.getIdOrder(), "errore nel docheckout dopo il pagamento");
@@ -510,7 +529,7 @@ public class PaymentService implements IPaymentService {
 
 	@Override
 	public GetExpressCheckoutDetailsDTO getExpressCheckoutDetails(String token, ProfilePayPalDTO profile)
-			throws  PayPalException, PayPalFailureException {
+			throws PayPalException, PayPalFailureException {
 		// TODO Auto-generated method stub
 		return getWrapper(profile).getExpressCheckoutDetails(token);
 	}
@@ -522,7 +541,7 @@ public class PaymentService implements IPaymentService {
 					profile.getSignature()).build();
 			Environment env = PayPalWrapper.getEnvironment(profile.getEnvironment());
 			wrapper = new PayPalWrapper(env, prof);
-			
+
 		}
 		return wrapper;
 

@@ -417,7 +417,7 @@ public class InsertProdottiView extends BaseView {
 
 			// verifica se il file è già presente
 			if (imagesFile.contains(file.getFileName())) {
-				addError("Upload", file.getFileName() + "già presente");
+				addError("Upload", file.getFileName() + " già presente");
 				return;
 			}
 
