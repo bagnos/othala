@@ -44,6 +44,7 @@ public class IpnPayPalServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		doPost(request, response);
 	}
 
 	/**
@@ -58,6 +59,7 @@ public class IpnPayPalServlet extends HttpServlet {
  
 		// recupero body orginario
 		String originalRequest = getBody(request);
+		//String originalRequest = "residence_country=IT&invoice=abc1234&address_city=San+Jose&first_name=John&payer_id=TESTBUYERID01&shipping=3.04&mc_fee=0.44&txn_id=616099981&receiver_email=othalaBusines2_api1.othala.it&quantity=1&custom=1&payment_date=14%3A56%3A44+18+Jun+2014+PDT&address_country_code=US&address_zip=95131&tax=2.02&item_name=something&address_name=John+Smith&last_name=Smith&receiver_id=seller%40paypalsandbox.com&item_number=AK-1234&verify_sign=AFcWxV21C7fd0v3bYYYRCpSSRl31AdjaQWOXh1uA4qBTjfxWKuAn3BGg&address_country=United+States&payment_status=Completed&address_status=unconfirmed&business=seller%40paypalsandbox.com&payer_email=buyer%40paypalsandbox.com¬ify_version=2.1&txn_type=web_accept&test_ipn=1&payer_status=unverified&mc_currency=EUR&mc_gross=1000.00&address_state=CA&mc_gross1=1000&payment_type=echeck&address_street=123%2C+any+street";
 		
 		try {
 
