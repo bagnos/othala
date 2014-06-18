@@ -212,12 +212,12 @@
 										<h6>#{art.description}</h6>
 										<p class="price">
 											<h:outputText value="#{art.price}"
-												styleClass="#{art.priceDiscounted!=null?'onSale':''}">
+												styleClass="#{art.discount != null and art.discount != 0?'onSale':''}">
 												<f:converter converterId="it.othala.BigDecimalConverter" />
 											</h:outputText>
 
 											<h:outputText value="#{art.priceDiscounted}"
-												rendered="#{art.priceDiscounted!=null}" style="float:right">
+												rendered="#{art.discount != null and art.discount != 0}" style="float:right">
 												<f:converter converterId="it.othala.BigDecimalConverter" />
 											</h:outputText>
 
