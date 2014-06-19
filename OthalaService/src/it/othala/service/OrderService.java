@@ -54,7 +54,6 @@ public class OrderService implements IOrderService {
 	public List<OrderFullDTO> getOrders(Integer Order, String User, Integer StatoOrdine) {
 
 		List<OrderFullDTO> listaOrdini = orderDAO.getOrders(Order, User, StatoOrdine);
-		
 
 		Iterator<OrderFullDTO> i = listaOrdini.iterator();
 		while (i.hasNext()) {
@@ -84,8 +83,8 @@ public class OrderService implements IOrderService {
 	@Override
 	public OrderFullDTO insertOrder(OrderFullDTO orderFull) throws OthalaException {
 
-		checkQtaInStock(null,orderFull);
-		
+		checkQtaInStock(null, orderFull);
+
 		orderDAO.insertOrder(orderFull);
 
 		HashMap<String, Object> mapProduct = new HashMap<String, Object>();
@@ -111,27 +110,26 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public OrderFullDTO confirmOrderPayment(OrderFullDTO order) throws StockNotPresentException
-	{
-		
-		//OrderFullDTO orderFull = checkQtaInStock(order.getIdOrder(),null);
-			
-		//orderFull = doCheckOutPayPal(profile, orderFull, details);
-		
-		//orderDAO.updateOrder(order.getIdOrder(), 
-		//		order.getIdTransaction(), null);
-		
+	public OrderFullDTO confirmOrderPayment(OrderFullDTO order) throws StockNotPresentException {
+
+		// OrderFullDTO orderFull = checkQtaInStock(order.getIdOrder(),null);
+
+		// orderFull = doCheckOutPayPal(profile, orderFull, details);
+
+		// orderDAO.updateOrder(order.getIdOrder(),
+		// order.getIdTransaction(), null);
+
 		updateStateOrder(null, order, TypeStateOrder.valueOf(order.getIdStato()));
-		
-		updateStock(order,true);
-		
+
+		updateStock(order, true);
+
 		return order;
 
 	}
-	
-	public OrderFullDTO checkQtaInStock(Integer idOrder, OrderFullDTO orderFull) throws StockNotPresentException{
-		
-		if (orderFull == null){
+
+	public OrderFullDTO checkQtaInStock(Integer idOrder, OrderFullDTO orderFull) throws StockNotPresentException {
+
+		if (orderFull == null) {
 			List<OrderFullDTO> lsOrders = orderDAO.getOrders(idOrder, null, null);
 			Iterator<OrderFullDTO> oi = lsOrders.iterator();
 			orderFull = oi.next();
@@ -142,26 +140,25 @@ public class OrderService implements IOrderService {
 		while (i.hasNext()) {
 			ArticleFullDTO article = i.next();
 
-			Integer qtaProduct = productDAO.getQtStockLock(article.getPrdFullDTO().getIdProduct(), article.getPgArticle());
-			
-			if (qtaProduct < article.getQtBooked()){
+			Integer qtaProduct = productDAO.getQtStockLock(article.getPrdFullDTO().getIdProduct(),
+					article.getPgArticle());
+
+			if (qtaProduct < article.getQtBooked()) {
 				List<String> prodNoStock = new ArrayList<String>();
 				prodNoStock.add(article.getPrdFullDTO().getDescription());
-				throw new StockNotPresentException();}
-	
+				throw new StockNotPresentException();
+			}
+
 		}
 		return orderFull;
 	}
-	
-	private void updateStock(OrderFullDTO orderFull, boolean fgVendita)
-	{
-		List<ArticleFullDTO> lsProd = orderFull.getCart();
-		Iterator<ArticleFullDTO> i = lsProd.iterator();
-		while (i.hasNext()) {
-			ArticleFullDTO article = i.next();
 
-			productDAO.updateQtStock(article.getPrdFullDTO().getIdProduct(), 
-					article.getPgArticle(), article.getQtBooked(), fgVendita);
+	private void updateStock(OrderFullDTO orderFull, boolean fgVendita) {
+		List<ArticleFullDTO> lsProd = orderFull.getCart();
+		for (ArticleFullDTO article : lsProd) {
+
+			productDAO.updateQtStock(article.getPrdFullDTO().getIdProduct(), article.getPgArticle(),
+					article.getQtBooked(), fgVendita);
 
 		}
 	}
@@ -169,7 +166,7 @@ public class OrderService implements IOrderService {
 	@Override
 	public void confirmOrderDelivery(String idTrackingNumber, Integer idOrder) {
 
-		//orderDAO.updateOrder(idOrder, null, idTrackingNumber);
+		// orderDAO.updateOrder(idOrder, null, idTrackingNumber);
 
 		updateStateOrder(idOrder, null, TypeStateOrder.SPEDITO);
 
@@ -193,46 +190,46 @@ public class OrderService implements IOrderService {
 
 	@Override
 	public OrderFullDTO updateStateOrder(Integer idOrder, OrderFullDTO orderFull, TypeStateOrder stato) {
-		
-		if (orderFull == null){
+
+		if (orderFull == null) {
 			List<OrderFullDTO> lsOrders = orderDAO.getOrders(idOrder, null, null);
 			Iterator<OrderFullDTO> oi = lsOrders.iterator();
 			orderFull = oi.next();
 		}
-		
+
 		StateOrderDTO stateOrder = new StateOrderDTO();
 		stateOrder.setIdOrder(orderFull.getIdOrder());
 		stateOrder.setIdStato(stato.getState());
 		stateOrder.setTxNote(null);
 
 		orderDAO.updateStateOrder(stateOrder);
-		
-		orderDAO.updateOrder(orderFull.getIdOrder(), 
-				orderFull.getIdTransaction(), null);
-		
-/*		IPaymentService payService = OthalaFactory.getPaymentServiceInstance();
-		
-		if (payService.isPaymentKO(stato)){
-			updateStock(orderFull,false);
-		}*/
-	
+
+		orderDAO.updateOrder(orderFull.getIdOrder(), orderFull.getIdTransaction(), null);
+
+		/*
+		 * IPaymentService payService =
+		 * OthalaFactory.getPaymentServiceInstance();
+		 * 
+		 * if (payService.isPaymentKO(stato)){ updateStock(orderFull,false); }
+		 */
+
 		orderFull.setIdStato(stato.getState());
 		return orderFull;
 	}
 
 	@Override
-	public OrderFullDTO increaseQtaArticle(OrderFullDTO orderFull, TypeStateOrder stato){
+	public OrderFullDTO increaseQtaArticle(OrderFullDTO orderFull, TypeStateOrder stato) {
 		orderFull = updateStateOrder(null, orderFull, stato);
-		
-		updateStock(orderFull,false);
-		
-		//orderDAO.updateOrder(orderFull.getIdOrder(), 
-		//		orderFull.getIdTransaction(), null);
-		
+
+		updateStock(orderFull, false);
+
+		// orderDAO.updateOrder(orderFull.getIdOrder(),
+		// orderFull.getIdTransaction(), null);
+
 		return orderFull;
-		
+
 	}
-	
+
 	@Override
 	public DeliveryDTO getDeliveryInfo(String userId) {
 		List<DeliveryAddressDTO> addresses = orderDAO.getDeliveryAddress(userId);
@@ -274,27 +271,21 @@ public class OrderService implements IOrderService {
 
 	@Override
 	public CouponDTO checkCoupon(String idCoupon) throws OthalaException {
-		
+
 		List<CouponDTO> listCoupons = orderDAO.getCoupons(idCoupon, null);
-		
-		if (listCoupons.get(0) != null ){
-			if (listCoupons.get(0).getDtScadenza().compareTo(new Date()) < 0){
-				throw new OthalaException("Il Coupon che stai cercando di utilizzare è scaduto" );
+
+		if (listCoupons.get(0) != null) {
+			if (listCoupons.get(0).getDtScadenza().compareTo(new Date()) < 0) {
+				throw new OthalaException("Il Coupon che stai cercando di utilizzare è scaduto");
 			}
-			if (listCoupons.get(0).getDtUtilizzo() != null){
-				throw new OthalaException("Il Coupon che stai cercando di utilizzare è stato gia speso" );
+			if (listCoupons.get(0).getDtUtilizzo() != null) {
+				throw new OthalaException("Il Coupon che stai cercando di utilizzare è stato gia speso");
 			}
+		} else {
+			throw new OthalaException("Codice Coupon errato");
 		}
-		else {
-			throw new OthalaException("Codice Coupon errato" );
-		}
-		
+
 		return listCoupons.get(0);
-	} 
-	
-	
-
-
-	
+	}
 
 }

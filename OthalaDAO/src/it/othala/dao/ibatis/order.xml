@@ -141,12 +141,14 @@
 	<update id="updateOrder" parameterType="java.util.HashMap">
 
 		UPDATE ${database.schema}orders
+		<set>
 		<if test="idTransaction != null">
-			SET idTransaction = #{idTransaction}
+			 idTransaction = #{idTransaction},
 		</if>
 		<if test="idTrackingNumber != null">
-			SET idTrackingNumber = #{idTrackingNumber}
-		</if>
+			idTrackingNumber = #{idTrackingNumber}
+		</if>		
+		</set>
 		WHERE idOrder = #{idOrder}
 
 	</update>
