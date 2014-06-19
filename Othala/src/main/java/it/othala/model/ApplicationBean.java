@@ -106,6 +106,11 @@ public class ApplicationBean implements Serializable {
 
 		return domain;
 	}
+	
+	public void resetDomain()
+	{
+		domain=null;
+	}
 
 	public List<SiteImagesDTO> getImgsCarousel() {
 		if (imgsCarousel==null) {
@@ -124,6 +129,12 @@ public class ApplicationBean implements Serializable {
 
 	private final String IMG_NEW_ARRIVALS = "newArrivals";
 	private final String IMG_CAROUSEL = "carousel";
+	
+	public void resetMenu()
+	{
+		menu=null;
+		
+	}
 
 	public List<MenuDTO> getMenu() {
 		if (menu==null) {
@@ -188,6 +199,8 @@ public class ApplicationBean implements Serializable {
 		}
 		return colors;
 	}
+	
+	
 
 	private void updateImgHome() {
 		imgsCarousel=new ArrayList<>();

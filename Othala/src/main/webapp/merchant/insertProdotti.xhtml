@@ -38,7 +38,7 @@
 								value="#{insertProdottiView.merchantCode}" />
 						</div>
 						<div class="col-sm-2 col-sm-offset-6">
-							<p:commandButton styleClass="ui-priority-primary" process="frmProd" onerror="PF('blockAll').unblock();" oncomplete="PF('blockAll').unblock();" onclick="PF('blockAll').block()" actionListener="#{insertProdottiView.addProduct}" update="@all messages" 
+							<p:commandButton validateClient="true" styleClass="ui-priority-primary"  onerror="PF('blockAll').unblock();" oncomplete="PF('blockAll').unblock();" onclick="PF('blockAll').block()" actionListener="#{insertProdottiView.addProduct}" ajax="false" 
 								value="Aggiungi Prodotto">
 							</p:commandButton>
 						</div>
