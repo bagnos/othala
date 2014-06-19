@@ -220,20 +220,25 @@ public class AccessView extends BaseView {
 
 				CookieUtil.removeCookieLogin(getResponse());
 			}
+			return "home";
 
 		} catch (BadCredentialException e) {
 			// TODO Auto-generated catch block
 			addOthalaExceptionError(e, "login error");
+			return null;
 		}
 
-		return "home";
+		
 	}
 
 	public void loginWizard(ActionEvent e) {
 
-		login();
+		String outcome=login();
+		if (outcome!=null)
+		{
 		// disabilitiamo l'accedi ed avanziiamo allo step successivo
 		RequestContext.getCurrentInstance().execute(WizardUtil.NextStepWizard());
+		}
 
 		// RequestContext.getCurrentInstance().execute("$('#rootwizard').bootstrapWizard({onTabChange: function(tab, navigation, index) { if(index == 1) { alert('on tab show disabled');return false;	}}});");
 
