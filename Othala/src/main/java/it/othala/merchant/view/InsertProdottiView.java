@@ -232,6 +232,7 @@ public class InsertProdottiView extends BaseView {
 			prd.setPriceDiscounted(prezzoScontato);
 			OthalaFactory.getProductServiceInstance().insertProduct(prd);
 			resetPrd();
+			getBeanApplication().resetMenu();
 			addInfo("Prodotto", "inserimento effettuato correttamente");
 		
 			

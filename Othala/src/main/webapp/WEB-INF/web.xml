@@ -101,6 +101,7 @@ org.primefaces.webapp.filter.FileUploadFilter
   
   <!-- sicurezza -->
   <!-- 
+ 
   <security-constraint>
 		<web-resource-collection>
 			<web-resource-name>AdminPages</web-resource-name>
