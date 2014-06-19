@@ -23,6 +23,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
+import org.apache.commons.io.IOUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
@@ -467,32 +468,10 @@ public class InsertProdottiView extends BaseView {
 		File result = new File(extContext.getRealPath(BASE_IMG_PATH + file.getFileName()));
 
 		FileOutputStream fileOutputStream = new FileOutputStream(result);
-
-		byte[] buffer = new byte[2024];
-
-		int bulk;
-
 		InputStream inputStream = file.getInputstream();
+		
+		IOUtils.copy(inputStream, fileOutputStream);
 
-		while (true) {
-
-			bulk = inputStream.read(buffer);
-
-			if (bulk < 0) {
-
-				break;
-
-			}
-
-			fileOutputStream.write(buffer, 0, bulk);
-
-			fileOutputStream.flush();
-
-		}
-
-		fileOutputStream.close();
-
-		inputStream.close();
-
+		
 	}
 }

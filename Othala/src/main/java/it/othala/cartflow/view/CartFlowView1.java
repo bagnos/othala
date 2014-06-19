@@ -31,7 +31,6 @@ public class CartFlowView1 extends BaseView {
 	private String classForw;
 	private String classBack;
 
-	
 	public String getClassForw() {
 		return classForw;
 	}
@@ -43,13 +42,16 @@ public class CartFlowView1 extends BaseView {
 	@Override
 	public String doInit() {
 		// TODO Auto-generated method stub
-
-		getCartFlowBean().getCatalog().getArticles().clear();
-		getCartFlowBean().getCatalog().getArticlesPage().clear();
+		getCartFlowBean().getCatalog().setBrand(null);
+		getCartFlowBean().getCatalog().setColor(null);		
+		getCartFlowBean().getCatalog().setSize(null);
+		getCartFlowBean().getCatalog().setIncludePromo(false);
+		
 		getCartFlowBean().setCheckoutCart(false);
 		getCartFlowBean().getCatalog().setPriceMin(Integer.valueOf(ConfigurationUtil.getProperty("catalogPriceMin")));
 		getCartFlowBean().getCatalog().setPriceMax(Integer.valueOf(ConfigurationUtil.getProperty("catalogPriceMax")));
-		if (getCartFlowBean().getCatalog().getIdCampaign() != null && getCartFlowBean().getCatalog().getIdCampaign() != 0) {
+		if (getCartFlowBean().getCatalog().getIdCampaign() != null
+				&& getCartFlowBean().getCatalog().getIdCampaign() != 0) {
 			getCartFlowBean().getCatalog().setIncludePromo(true);
 			getCartFlowBean().getCatalog().setDisabledNewCampaign(true);
 		} else {
@@ -59,7 +61,8 @@ public class CartFlowView1 extends BaseView {
 
 		// appBean.updateSizes(getCartFlowBean().getCatalog().getIdSubMenu());
 
-		callServiceProduct(getCartFlowBean().getCatalog().getCurrentPage() == null ? 1 : getCartFlowBean().getCatalog().getCurrentPage());
+		callServiceProduct(getCartFlowBean().getCatalog().getCurrentPage() == null ? 1 : getCartFlowBean().getCatalog()
+				.getCurrentPage());
 
 		updateBreadCrumb();
 
@@ -95,7 +98,8 @@ public class CartFlowView1 extends BaseView {
 			classBack = "disabled";
 		}
 		classForw = "";
-		if (getCartFlowBean().getCatalog().getCurrentPage().intValue() == getCartFlowBean().getCatalog().getTotPages().intValue()) {
+		if (getCartFlowBean().getCatalog().getCurrentPage().intValue() == getCartFlowBean().getCatalog().getTotPages()
+				.intValue()) {
 			classForw = "disabled";
 		}
 
@@ -108,14 +112,15 @@ public class CartFlowView1 extends BaseView {
 
 		if (!getCartFlowBean().getCatalog().getArticles().isEmpty()) {
 
-			endIndex = ITEMS_PAGE > getCartFlowBean().getCatalog().getArticles().size() ? getCartFlowBean().getCatalog().getArticles()
-					.size() : ITEMS_PAGE;
+			endIndex = ITEMS_PAGE > getCartFlowBean().getCatalog().getArticles().size() ? getCartFlowBean()
+					.getCatalog().getArticles().size() : ITEMS_PAGE;
 			double dblPages = (double) getCartFlowBean().getCatalog().getArticles().size() / (double) ITEMS_PAGE;
 			getCartFlowBean().getCatalog().setTotPages((int) Math.ceil(dblPages));
 			getCartFlowBean().getCatalog().getArticlesPage().clear();
 			getCartFlowBean().getCatalog().getArticlesPage()
 					.addAll(getCartFlowBean().getCatalog().getArticles().subList(starIndex, endIndex));
-			if (getCartFlowBean().getCatalog().getCurrentPage().intValue() == getCartFlowBean().getCatalog().getTotPages().intValue()) {
+			if (getCartFlowBean().getCatalog().getCurrentPage().intValue() == getCartFlowBean().getCatalog()
+					.getTotPages().intValue()) {
 				classForw = "disabled";
 			}
 			getCartFlowBean().getCatalog().setRenderPaginator(true);
@@ -146,22 +151,30 @@ public class CartFlowView1 extends BaseView {
 	private void callServiceProduct(int page) {
 
 		getCartFlowBean().getCatalog().setSize(
-				getCartFlowBean().getCatalog().getSize() == null || getCartFlowBean().getCatalog().getSize().intValue() == -1 ? null
-						: getCartFlowBean().getCatalog().getSize());
+				getCartFlowBean().getCatalog().getSize() == null
+						|| getCartFlowBean().getCatalog().getSize().intValue() == -1 ? null : getCartFlowBean()
+						.getCatalog().getSize());
 		getCartFlowBean().getCatalog().setColor(
-				getCartFlowBean().getCatalog().getColor() == null || getCartFlowBean().getCatalog().getColor().intValue() == -1 ? null
-						: getCartFlowBean().getCatalog().getColor());
+				getCartFlowBean().getCatalog().getColor() == null
+						|| getCartFlowBean().getCatalog().getColor().intValue() == -1 ? null : getCartFlowBean()
+						.getCatalog().getColor());
 		getCartFlowBean().getCatalog().setBrand(
-				getCartFlowBean().getCatalog().getBrand() == null || getCartFlowBean().getCatalog().getBrand().intValue() == -1 ? null
-						: getCartFlowBean().getCatalog().getBrand());
+				getCartFlowBean().getCatalog().getBrand() == null
+						|| getCartFlowBean().getCatalog().getBrand().intValue() == -1 ? null : getCartFlowBean()
+						.getCatalog().getBrand());
 
 		getCartFlowBean().getCatalog().getArticles().clear();
-		getCartFlowBean().getCatalog()
+		getCartFlowBean()
+				.getCatalog()
 				.getArticles()
 				.addAll(OthalaFactory.getProductServiceInstance().getListProduct(
 						getLang(),
-						getCartFlowBean().getCatalog().getIdMenu() == 0 ? null : getCartFlowBean().getCatalog().getIdMenu(),
-						getCartFlowBean().getCatalog().getIdSubMenu() == 0 ? null : getCartFlowBean().getCatalog().getIdSubMenu(),
+						getCartFlowBean().getCatalog().getIdMenu() == null
+								|| getCartFlowBean().getCatalog().getIdMenu() == 0 ? null : getCartFlowBean()
+								.getCatalog().getIdMenu(),
+						getCartFlowBean().getCatalog().getIdSubMenu() == null
+								|| getCartFlowBean().getCatalog().getIdSubMenu() == 0 ? null : getCartFlowBean()
+								.getCatalog().getIdSubMenu(),
 						getCartFlowBean().getCatalog().getBrand(),
 						new BigDecimal(getCartFlowBean().getCatalog().getPriceMin()),
 						new BigDecimal(getCartFlowBean().getCatalog().getPriceMax()),
@@ -170,8 +183,9 @@ public class CartFlowView1 extends BaseView {
 						getCartFlowBean().getCatalog().getFgNewArrivals(),
 						getCartFlowBean().getCatalog().getOrderPrice() == 1 ? OrderByCartFlow.PREZZODESC
 								: OrderByCartFlow.PREZZOASC,
-						getCartFlowBean().getCatalog().getIdCampaign() == 0 ? null : getCartFlowBean().getCatalog().getIdCampaign(),
-						getCartFlowBean().getCatalog().isIncludePromo()));
+						getCartFlowBean().getCatalog().getIdCampaign() == null
+								|| getCartFlowBean().getCatalog().getIdCampaign() == 0 ? null : getCartFlowBean()
+								.getCatalog().getIdCampaign(), getCartFlowBean().getCatalog().isIncludePromo()));
 		initPaginator(page);
 	}
 
@@ -195,7 +209,8 @@ public class CartFlowView1 extends BaseView {
 					}
 				}
 			}
-		} else if (getCartFlowBean().getCatalog().getIdMenu() != null && getCartFlowBean().getCatalog().getFgNewArrivals() == true) {
+		} else if (getCartFlowBean().getCatalog().getIdMenu() != null
+				&& getCartFlowBean().getCatalog().getFgNewArrivals() == true) {
 			getCartFlowBean().getBreadCrumb().add("");
 			Integer idMenu = getCartFlowBean().getCatalog().getIdMenu();
 			for (MenuDTO m : getBeanApplication().getMenu()) {

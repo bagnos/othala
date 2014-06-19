@@ -44,6 +44,10 @@ public class CartFlowBean implements Serializable {
 	private int idTypeDelivery;
 	private List<ProductCarouselDTO> carouselList;
 	
+	public void setCatalog(Catalog catalog) {
+		this.catalog = catalog;
+	}
+	
 	
 	public int getIdTypeDelivery() {
 		return idTypeDelivery;
