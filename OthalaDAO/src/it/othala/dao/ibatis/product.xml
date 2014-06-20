@@ -626,10 +626,10 @@
 
 		UPDATE
 		${database.schema}article
-		<if test="txSegno == true">
+		<if test="fgVendita == true">
 			set qtStock = qtStock - #{qtArticles}
 		</if>
-		<if test="txSegno == false">
+		<if test="fgVendita == false">
 			set qtStock = qtStock + #{qtArticles}
 		</if>
 		Where idProduct =
