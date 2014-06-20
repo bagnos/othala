@@ -1,9 +1,14 @@
 package it.othala.payment.paypal.dto;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class ItemCartDTO {
+public class ItemCartDTO implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String description;
 	private BigDecimal price;
 	private int qta;

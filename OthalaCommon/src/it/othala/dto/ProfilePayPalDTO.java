@@ -12,8 +12,15 @@ public class ProfilePayPalDTO {
 	private	String redirectUrl;
 	private	String lang;
 	private String notifyUrl;
+	private String receiverEmail;
 	
 	
+	public String getReceiverEmail() {
+		return receiverEmail;
+	}
+	public void setReceiverEmail(String receiverEmail) {
+		this.receiverEmail = receiverEmail;
+	}
 	public String getNotifyUrl() {
 		return notifyUrl;
 	}
