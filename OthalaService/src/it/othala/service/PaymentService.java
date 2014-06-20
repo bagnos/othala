@@ -84,9 +84,9 @@ public class PaymentService implements IPaymentService {
 		messageIpnDAO.insertMessageIpn(ipnDTO);
 	}
 
-	private boolean exitsIdTransaction(long idOrder, String idTransaction) {
+	private boolean exitsIdTransaction(long idOrder, String idTransaction,String status) {
 		// TODO Auto-generated method stub
-		return messageIpnDAO.getIdTransaction(idOrder, idTransaction) > 0;
+		return messageIpnDAO.getIdTransaction(idOrder, idTransaction,status) > 0;
 
 	}
 
@@ -107,19 +107,20 @@ public class PaymentService implements IPaymentService {
 
 			// check that txn_id has not been previously processed
 			String txn_id = ipnDTO.getTxn_id();
+			
 			int idOrder = Integer.valueOf(ipnDTO.getCustom());
-			if (!exitsIdTransaction(idOrder, txn_id)) {
+			if (!exitsIdTransaction(idOrder, txn_id,ipnDTO.getPayment_status())) {
 
 				// recupero i dettagli dell'ordine
 				OrderFullDTO order = orderService.getOrders(idOrder, null, null).get(0);
 
 				// check that receiver_email is your Primary PayPal email
-				String emailMerchant = profile.getUserName();
+				String recEmailMerchant = profile.getReceiverEmail();
 				String receiver_email = ipnDTO.getReceiver_email();
-				if (!emailMerchant.trim().equalsIgnoreCase(receiver_email)) {
+				if (!recEmailMerchant.trim().equalsIgnoreCase(receiver_email)) {
 					sb.append(String.format(
 							"messagio non elaborato: emailMerchant %s diversa dalla mail %s presente nel messaggio %s",
-							emailMerchant, receiver_email, ipnDTO.toString()));
+							recEmailMerchant, receiver_email, ipnDTO.toString()));
 					errorFormalMessage = true;
 				}
 
@@ -306,7 +307,7 @@ public class PaymentService implements IPaymentService {
 		content = content.replaceAll("<idOrder>", String.valueOf(order.getIdOrder()));
 		content = content.replaceAll("<importo>", OthalaCommonUtils.getImporto(order.getImOrdine()));
 
-		String subject = "Pagamento Rifiutato ";
+		String subject = "Pagamento Accettato ";
 		subject += mailProps.getCompanyName();
 
 		mailService.inviaMail(new String[] { mail }, subject, content, mailProps);

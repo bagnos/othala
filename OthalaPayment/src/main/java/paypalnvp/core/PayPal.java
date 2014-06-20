@@ -24,12 +24,12 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import paypalnvp.profile.Profile;
 import paypalnvp.request.Request;
-import paypalnvp.request.SetExpressCheckout;
 
 /**
  * Instance of this class is used for sending requests and returning responses
@@ -48,6 +48,8 @@ public final class PayPal implements Serializable {
 
 	/** version */
 	private static final String VERSION = "112.0";
+	
+	private final Log log=LogFactory.getLog(PayPal.class);
 
 	/** sends request and returns response */
 	private final Transport transport;
@@ -172,8 +174,9 @@ public final class PayPal implements Serializable {
 
 		/* send request and save response */
 		String response = null;
-
+		log.info("input:"+nvpString.toString());
 		response = transport.getResponse(endpointUrl.toString(), nvpString.toString());
+		log.info("output:"+nvpString.toString());
 
 		if (response != null) {
 

@@ -10,7 +10,7 @@ Nr. Transazione: <idTransazione>
 
 Nr. Ordine: <idOrder>
 
-Importo: <Importo>
+Importo: <importo>
 ----------------------------
 
 

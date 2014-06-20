@@ -36,6 +36,7 @@ public class PayPalUtil {
 		prof.setPassword(prop.getProperty("Password"));
 		prof.setSignature(prop.getProperty("Signature"));
 		prof.setUserName(prop.getProperty("Username"));
+		prof.setReceiverEmail(prop.getProperty("receiverEmail"));
 		prof.setLang(OthalaUtil.getLang(req));
 		String remoteHost = req.getServerName();
 		String contextPath = req.getContextPath();

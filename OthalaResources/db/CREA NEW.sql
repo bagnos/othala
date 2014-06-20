@@ -534,12 +534,12 @@ DROP TABLE IF EXISTS `aduna937_othala`.`IpnMessages` ;
 CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`IpnMessages` (
   `idOrder` INT NOT NULL ,
   `idTransaction` VARCHAR(50) NOT NULL ,
+  `txStato` VARCHAR(45) NOT NULL ,
   `tsInserimento` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
-  `txMessage` VARCHAR(10000) NULL ,
-  `txStato` VARCHAR(45) NULL ,
+  `txMessage` VARCHAR(10000) NULL ,  
   `txNote` VARCHAR(1000) NULL ,
   `fgElaborato` TINYINT(1)  NULL ,
-  PRIMARY KEY (`idOrder`, `idTransaction`) )
+  PRIMARY KEY (`idOrder`, `idTransaction`,`txStato`) )
 ENGINE = InnoDB;
 
 
