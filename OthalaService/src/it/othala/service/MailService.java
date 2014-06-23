@@ -48,7 +48,7 @@ public class MailService implements IMailService {
 				message.setRecipients(Message.RecipientType.TO, to);
 				message.setSubject(subject);
 				if (type == null) {
-					type = "text/plain";
+					type = "text/plain; charset=UTF-8";
 				}
 				message.setContent(content, type);
 

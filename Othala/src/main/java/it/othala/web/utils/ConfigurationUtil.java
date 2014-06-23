@@ -105,7 +105,7 @@ public class ConfigurationUtil {
 		key=key!=null?key.trim():null;
 		if (getProperties() != null) {
 			if (getProperties().containsKey(key)) {
-				value = getProperties().getProperty(key);
+				value = getProperties().getProperty(key).trim();
 				return value;
 			}
 		}
