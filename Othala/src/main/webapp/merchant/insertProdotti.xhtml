@@ -153,8 +153,9 @@
 				<div class="col-sm-11">
 
 
-					<p:fileUpload fileUploadListener="#{insertProdottiView.handleFileUpload}"
-						allowTypes="/(\.|\/)(gif|jpe?g|png)$/" process="@this" required="true"
+					<p:fileUpload fileUploadListener="#{insertProdottiView.handleFileUpload}" 
+						allowTypes="/(\.|\/)(gif|jpe?g|png)$/" onerror="PF('blockAll').unblock();" oncomplete="PF('blockAll').unblock();"
+								onstart="PF('blockAll').block()" process="@this" required="true"
 						update="frmImages :frm-arts" multiple="true" auto="true" />
 
 				</div>
