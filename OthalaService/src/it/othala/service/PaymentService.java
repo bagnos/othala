@@ -84,9 +84,9 @@ public class PaymentService implements IPaymentService {
 		messageIpnDAO.insertMessageIpn(ipnDTO);
 	}
 
-	private boolean exitsIdTransaction(long idOrder, String idTransaction,String status) {
+	private boolean exitsIdTransaction(long idOrder, String idTransaction, String status) {
 		// TODO Auto-generated method stub
-		return messageIpnDAO.getIdTransaction(idOrder, idTransaction,status) > 0;
+		return messageIpnDAO.getIdTransaction(idOrder, idTransaction, status) > 0;
 
 	}
 
@@ -107,9 +107,9 @@ public class PaymentService implements IPaymentService {
 
 			// check that txn_id has not been previously processed
 			String txn_id = ipnDTO.getTxn_id();
-			
+
 			int idOrder = Integer.valueOf(ipnDTO.getCustom());
-			if (!exitsIdTransaction(idOrder, txn_id,ipnDTO.getPayment_status())) {
+			if (!exitsIdTransaction(idOrder, txn_id, ipnDTO.getPayment_status())) {
 
 				// recupero i dettagli dell'ordine
 				OrderFullDTO order = orderService.getOrders(idOrder, null, null).get(0);
@@ -126,10 +126,10 @@ public class PaymentService implements IPaymentService {
 
 				// check that payment_amount/payment_currency are correct
 				BigDecimal mc_grossBD = new BigDecimal(ipnDTO.getMc_gross());
-				if (order.getImOrdine().compareTo(mc_grossBD) != 0) {
+				if (order.getImOrdine().compareTo(mc_grossBD.abs()) != 0) {
 					sb.append(String.format(
 							"messagio non elaborato: importo db %s diverso dalla importo %s presente nel messaggio %s",
-							order.getImOrdine(), ipnDTO.getMc_gross(), order.getImOrdine(), ipnDTO.toString()));
+							order.getImOrdine(), ipnDTO.getMc_gross(), ipnDTO.toString()));
 					errorFormalMessage = true;
 				}
 				if (!ipnDTO.getMc_currency().trim().equalsIgnoreCase("EUR")) {
@@ -139,25 +139,27 @@ public class PaymentService implements IPaymentService {
 					errorFormalMessage = true;
 				}
 
-				// inserisco il messaggio
-				MessageIpnDTO ipnMessage = new MessageIpnDTO();
-				ipnMessage.setIdOrder(order.getIdOrder());
-				ipnMessage.setFgElaborato(!errorFormalMessage);
-				ipnMessage.setIdTransaction(txn_id);
-				ipnMessage.setTxMessage(originalRequest);
-				ipnMessage.setTxStato(ipnDTO.getPayment_status());
-				ipnMessage.setTxNote(sb.toString());
-				insertMessage(ipnMessage);
-
+				
 				if (errorFormalMessage) {
 					log.error(String.format("Messagio %s non elaborato, ci sono errori formali: %s",
 							ipnDTO.getTxn_id(), sb.toString()));
 					return;
 				}
+				
+				// inserisco il messaggio
+				MessageIpnDTO ipnMessage = new MessageIpnDTO();
+				ipnMessage.setIdOrder(order.getIdOrder());
+				ipnMessage.setFgElaborato(!errorFormalMessage);
+				ipnMessage.setIdTransaction(txn_id);
+				ipnMessage.setTxMessage(ipnDTO.toString());
+				ipnMessage.setTxStato(ipnDTO.getPayment_status());
+				ipnMessage.setTxNote(sb.toString());
+				insertMessage(ipnMessage);
+
 
 				// message is correct, process message
 				TypeStateOrder state = TypeStateOrder.fromString(ipnDTO.getPayment_status());
-				orderService.updateStateOrder(idOrder, order, state);
+				
 				if (isPaymentKO(ipnDTO.getPayment_status())) {
 					// inviare una mail in cui si comunica che PayPal non ha
 					// accettato il pagamento
@@ -172,6 +174,7 @@ public class PaymentService implements IPaymentService {
 				} else if (isPaymentCompleted(ipnDTO.getPayment_status())) {
 					// inviare una mail in cui si comunica che PayPal ha
 					// accettato il pagamento
+					orderService.updateStateOrder(idOrder, order, state);
 					try {
 						sendMailAcceptedPyamentAfterPending(order, mailProps);
 					} catch (MailNotSendException e) {
@@ -185,6 +188,7 @@ public class PaymentService implements IPaymentService {
 					log.error(String
 							.format("stato del messaggio %s, per il transactionId %s, non ammesso. Nessuna elaborazione da fare, messaggio %s",
 									ipnDTO.getPayment_status(), ipnDTO.getTxn_id(), ipnDTO.toString()));
+					
 				}
 
 				return;
@@ -232,6 +236,10 @@ public class PaymentService implements IPaymentService {
 		}
 
 		if (paypalStatus.equalsIgnoreCase("EXPIRED")) {
+			return true;
+		}
+		
+		if (paypalStatus.equalsIgnoreCase("REVERSED")) {
 			return true;
 		}
 

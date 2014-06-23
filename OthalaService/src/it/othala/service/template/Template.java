@@ -28,8 +28,9 @@ public class Template {
 		case MailResetPSW:
 			nameFile = "MailResetPSW.txt";
 			break;
+		
 		case MailIPNRefusePayment:
-			nameFile = "MailPagamentoRifiutato.txt";
+			nameFile = "MailIPNPagamentoRifiutato.txt";
 			break;
 		case MailIPNAcceptedPaymemtAfetPending:
 			nameFile = "MailIPNPagamentoAccettato.txt";

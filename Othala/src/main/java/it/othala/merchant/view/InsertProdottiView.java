@@ -7,9 +7,9 @@ import it.othala.dto.ProductFullDTO;
 import it.othala.dto.ShopDTO;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
+import it.othala.web.utils.OthalaUtil;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -23,7 +23,6 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
-import org.apache.commons.io.IOUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
@@ -34,8 +33,6 @@ public class InsertProdottiView extends BaseView {
 	/**
 	 * 
 	 */
-
-	
 
 	private AttributeDTO genere;
 	private AttributeDTO tipo;
@@ -51,9 +48,12 @@ public class InsertProdottiView extends BaseView {
 	private String negozio;
 	private ShopDTO shop;
 	private String fileThumb;
+	
 	private List<ArticleFullDTO> articles = new ArrayList<ArticleFullDTO>();
 	private String removedArticle;
 	private String merchantCode;
+
+	
 
 	public String getMerchantCode() {
 		return merchantCode;
@@ -213,12 +213,11 @@ public class InsertProdottiView extends BaseView {
 
 	public void addProduct(ActionEvent e) {
 		try {
-			if (articles.isEmpty())
-			{
+			if (articles.isEmpty()) {
 				addError("Prodotto", "Inserire almeno un articolo");
 				return;
 			}
-			
+
 			ProductFullDTO prd = new ProductFullDTO();
 			prd.setArticles(articles);
 			prd.setDescription(descrizione);
@@ -235,32 +234,30 @@ public class InsertProdottiView extends BaseView {
 			resetPrd();
 			getBeanApplication().resetMenu();
 			addInfo("Prodotto", "inserimento effettuato correttamente");
-		
-			
+
 		} catch (Exception ex) {
 			addGenericError(ex, "errore nell'inserimento del prodotto");
 		}
 
 	}
-	
-	private void resetPrd()
-	{		
+
+	private void resetPrd() {
 		articles.clear();
 		imagesFile.clear();
-		merchantCode=null;
-		prezzo=null;
-		prezzoScontato=null;
+		merchantCode = null;
+		prezzo = null;
+		prezzoScontato = null;
 		genere = null;
 		tipo = null;
-		sconto=0;
-		brand=null;
-		size=null;
-		shop=null;
-		fileThumb=null;
-		descrizione=null;
-		qta=1;
-		color=null;
-		
+		sconto = 0;
+		brand = null;
+		size = null;
+		shop = null;
+		fileThumb = null;
+		descrizione = null;
+		qta = 1;
+		color = null;
+
 	}
 
 	public void addArticle(ActionEvent e) {
@@ -269,7 +266,6 @@ public class InsertProdottiView extends BaseView {
 			addError("thumbinal", "nessun file caricato");
 			return;
 		}
-		
 
 		ArticleFullDTO art = new ArticleFullDTO();
 		art.setThumbnailsUrl(fileThumb);
@@ -377,12 +373,7 @@ public class InsertProdottiView extends BaseView {
 		}
 	}
 
-	public void removeThumbinal(ActionEvent e) {
-		ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
-		File file = new File(extContext.getRealPath(BASE_IMG_PATH + fileThumb));
-		file.delete();
-		fileThumb = null;
-	}
+	
 
 	public void removeArticle(ActionEvent e) {
 
@@ -405,7 +396,8 @@ public class InsertProdottiView extends BaseView {
 		File file = new File(extContext.getRealPath(BASE_IMG_PATH + fileName));
 		imagesFile.remove(fileName);
 
-		if (fileName.equalsIgnoreCase(fileThumb)) {
+		if (fileName.equalsIgnoreCase(fileThumb)) {			
+			OthalaUtil.deleteImageThumb(fileThumb, extContext.getRealPath(BASE_IMG_PATH));
 			fileThumb = null;
 		}
 
@@ -415,6 +407,7 @@ public class InsertProdottiView extends BaseView {
 
 	public void handleFileUpload(FileUploadEvent event) {
 		UploadedFile file = event.getFile();
+		String fileResized = null;
 		if (file != null) {
 
 			// verifica se il file è già presente
@@ -424,54 +417,65 @@ public class InsertProdottiView extends BaseView {
 			}
 
 			try {
-				copyFile(file);
+				fileResized = copyFile(file);
 				if (fileThumb == null) {
-					fileThumb = file.getFileName();
+					fileThumb = fileResized;
+					resizeThumb();
 				}
+		
+
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				log.error("errore upload", e);
 				addError("Upload", file.getFileName() + " errore nell'upload");
 			}
 			addInfo("Upload", file.getFileName() + " è stata caricata correttamente");
-			imagesFile.add(file.getFileName());
+			imagesFile.add(fileResized);
 
 		}
-	}
-
-	public void handleFileUploadThumb(FileUploadEvent event) {
-		UploadedFile file = event.getFile();
-		if (file != null) {
-			try {
-				copyFile(file);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				log.error("errore upload", e);
-				addError("Upload", file.getFileName() + " errore nell'upload");
-			}
-			addInfo("Upload", file.getFileName() + " è stata caricata correttamente");
-			fileThumb = file.getFileName();
-
-		}
-		// application code
 	}
 
 	public void addThumb(ActionEvent e) {
 
 		fileThumb = (String) e.getComponent().getAttributes().get("img");
+		resizeThumb();
 
 	}
 
-	private void copyFile(UploadedFile file) throws IOException {
+	private void deleteFile(UploadedFile file) throws IOException {
 		ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
 
 		File result = new File(extContext.getRealPath(BASE_IMG_PATH + file.getFileName()));
 
-		FileOutputStream fileOutputStream = new FileOutputStream(result);
-		InputStream inputStream = file.getInputstream();
-		
-		IOUtils.copy(inputStream, fileOutputStream);
+		result.delete();
+	}
 
-		
+	private String copyFile(UploadedFile file) throws IOException {
+		ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
+
+		// File result = new File(extContext.getRealPath(BASE_IMG_PATH +
+		// file.getFileName()));
+
+		// FileOutputStream fileOutputStream = new FileOutputStream(result);
+		InputStream inputStream = file.getInputstream();
+
+		// IOUtils.copy(inputStream, fileOutputStream);
+
+		String fileResized = OthalaUtil.resizeAndCopyImage(inputStream, extContext.getRealPath(BASE_IMG_PATH),
+				file.getFileName());
+
+		return fileResized;
+
+	}
+
+	private void resizeThumb() {
+		ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
+		File result = new File(extContext.getRealPath(BASE_IMG_PATH + fileThumb));
+		try {
+			OthalaUtil.resizeImageThumb(result);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			addGenericError(e1, "Errore nel resize dell'immagine thumb");
+		}
 	}
 }
