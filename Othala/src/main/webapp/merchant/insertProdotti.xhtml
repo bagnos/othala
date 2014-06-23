@@ -20,7 +20,7 @@
 
 	<ui:define name="bodyPageContent">
 		<h:form prependId="false" id="frmProd" styleClass="form-horizontal">
-			<p:growl id="messages" showDetail="true" autoUpdate="true"  />
+			<p:growl id="messages" showDetail="true" autoUpdate="true" />
 
 			<div class="row">
 				<div class="col-sm-4">
@@ -38,8 +38,10 @@
 								value="#{insertProdottiView.merchantCode}" />
 						</div>
 						<div class="col-sm-2 col-sm-offset-6">
-							<p:commandButton validateClient="true" styleClass="ui-priority-primary"  onerror="PF('blockAll').unblock();" oncomplete="PF('blockAll').unblock();" onclick="PF('blockAll').block()" actionListener="#{insertProdottiView.addProduct}" ajax="false" 
-								value="Aggiungi Prodotto">
+							<p:commandButton validateClient="true" styleClass="ui-priority-primary"
+								onerror="PF('blockAll').unblock();" oncomplete="PF('blockAll').unblock();"
+								onclick="PF('blockAll').block()" actionListener="#{insertProdottiView.addProduct}"
+								ajax="false" value="Aggiungi Prodotto">
 							</p:commandButton>
 						</div>
 					</div>
@@ -52,6 +54,8 @@
 								var="gender" itemLabel="#{gender.valore}" itemValue="#{gender}"
 								converter="it.othala.GenderConverter" forceSelection="true">
 							</p:autoComplete>
+							<p:commandButton title="Aggiungi Genere" icon="ui-icon-plus" type="button"
+								onclick="PF('dlg2').show();" />
 						</div>
 
 						<p:outputLabel for="tipo" styleClass="col-sm-1 control-label" value="Tipo" />
@@ -59,8 +63,8 @@
 							<p:autoComplete scrollHeight="#{insertProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}"
 								required="true" minQueryLength="1" dropdown="true" id="tipo"
 								value="#{insertProdottiView.tipo}" completeMethod="#{insertProdottiView.completeTipo}"
-								var="type" itemLabel="#{type.valore}" itemValue="#{type}" converter="it.othala.TypeConverter"
-								forceSelection="true">
+								var="type" itemLabel="#{type.valore}" itemValue="#{type}"
+								converter="it.othala.TypeConverter" forceSelection="true">
 								<p:ajax event="itemSelect" update=":frm-arts" />
 							</p:autoComplete>
 
@@ -73,8 +77,8 @@
 							<p:autoComplete scrollHeight="#{insertProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}"
 								required="true" minQueryLength="1" dropdown="true" id="brand"
 								value="#{insertProdottiView.brand}" completeMethod="#{insertProdottiView.completeBrand}"
-								var="brand" itemLabel="#{brand.valore}" itemValue="#{brand}" converter="it.othala.BrandConverter"
-								forceSelection="true" />
+								var="brand" itemLabel="#{brand.valore}" itemValue="#{brand}"
+								converter="it.othala.BrandConverter" forceSelection="true" />
 						</div>
 					</div>
 
@@ -120,6 +124,22 @@
 
 				</div>
 			</div>
+			<p:dialog header="Nuovo Genere" widgetVar="dlg2" modal="true" height="100">
+
+				<div class="row text-center">
+				<div class="col-sm-12 ">
+
+
+					<p:inputText size="40"></p:inputText>
+					<br/><br/>
+					
+						<p:commandButton value="Inserisci"></p:commandButton>
+					
+
+				</div>
+				</div>
+
+			</p:dialog>
 		</h:form>
 
 		<h:form enctype="multipart/form-data" prependId="false" id="frmImages">
@@ -187,8 +207,8 @@
 							<p:autoComplete size="8" scrollHeight="#{insertProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}"
 								required="true" minQueryLength="1" dropdown="true" id="taglia"
 								value="#{insertProdottiView.size}" completeMethod="#{insertProdottiView.completeTaglia}"
-								var="attr" itemLabel="#{attr.valore}" itemValue="#{attr}" converter="it.othala.SizeConverter"
-								forceSelection="true" />
+								var="attr" itemLabel="#{attr.valore}" itemValue="#{attr}"
+								converter="it.othala.SizeConverter" forceSelection="true" />
 						</div>
 
 
@@ -198,8 +218,8 @@
 							<p:autoComplete scrollHeight="#{insertProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}"
 								required="true" minQueryLength="1" dropdown="true" id="colore"
 								value="#{insertProdottiView.color}" completeMethod="#{insertProdottiView.completeColours}"
-								var="attr" itemLabel="#{attr.valore}" itemValue="#{attr}" converter="it.othala.ColorConverter"
-								forceSelection="true" />
+								var="attr" itemLabel="#{attr.valore}" itemValue="#{attr}"
+								converter="it.othala.ColorConverter" forceSelection="true" />
 						</div>
 					</div>
 					<div class="form-group">
@@ -218,8 +238,8 @@
 							<p:autoComplete scrollHeight="#{insertProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}"
 								required="true" minQueryLength="1" size="34" dropdown="true" id="negozio"
 								value="#{insertProdottiView.shop}" completeMethod="#{insertProdottiView.completeShops}"
-								var="shop" itemLabel="#{shop.txShop}" itemValue="#{shop}" converter="it.othala.ShopConverter"
-								forceSelection="true" />
+								var="shop" itemLabel="#{shop.txShop}" itemValue="#{shop}"
+								converter="it.othala.ShopConverter" forceSelection="true" />
 
 
 						</div>
@@ -287,6 +307,7 @@
 							});
 						
 			</script>
+
 		</h:form>
 	</ui:define>
 </ui:composition>
