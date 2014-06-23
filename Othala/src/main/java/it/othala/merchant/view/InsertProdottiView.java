@@ -8,6 +8,7 @@ import it.othala.dto.ShopDTO;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 import it.othala.web.utils.OthalaUtil;
+import it.othala.web.utils.ResizeImageUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -397,7 +398,7 @@ public class InsertProdottiView extends BaseView {
 		imagesFile.remove(fileName);
 
 		if (fileName.equalsIgnoreCase(fileThumb)) {			
-			OthalaUtil.deleteImageThumb(fileThumb, extContext.getRealPath(BASE_IMG_PATH));
+			ResizeImageUtil.deleteImageThumb(fileThumb, extContext.getRealPath(BASE_IMG_PATH));
 			fileThumb = null;
 		}
 
@@ -461,7 +462,7 @@ public class InsertProdottiView extends BaseView {
 
 		// IOUtils.copy(inputStream, fileOutputStream);
 
-		String fileResized = OthalaUtil.resizeAndCopyImage(inputStream, extContext.getRealPath(BASE_IMG_PATH),
+		String fileResized = ResizeImageUtil.resizeAndCopyImage(inputStream, extContext.getRealPath(BASE_IMG_PATH),
 				file.getFileName());
 
 		return fileResized;
@@ -472,7 +473,7 @@ public class InsertProdottiView extends BaseView {
 		ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
 		File result = new File(extContext.getRealPath(BASE_IMG_PATH + fileThumb));
 		try {
-			OthalaUtil.resizeImageThumb(result);
+			ResizeImageUtil.resizeImageThumb(result);
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			addGenericError(e1, "Errore nel resize dell'immagine thumb");

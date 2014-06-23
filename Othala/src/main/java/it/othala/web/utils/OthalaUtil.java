@@ -59,38 +59,5 @@ public class OthalaUtil {
 
 	}
 
-	public static String resizeImageThumb(File fileIn) throws IOException {
-		int w = Integer.valueOf(ConfigurationUtil.getProperty("resizeImageThumbW"));
-		int h = Integer.valueOf(ConfigurationUtil.getProperty("resizeImageThumbH"));
-		String prefix = ConfigurationUtil.getProperty("prefixImageThumb");
-		String fileResized = fileIn.getParent() + File.separator + prefix + fileIn.getName();
-		Thumbnails.of(fileIn).size(w, h).toFile(fileResized);
-		return prefix + fileIn.getName();
-	}
 	
-	public static void deleteImageThumb(String nomeFile,String basePath)
-	{
-		String prefix = ConfigurationUtil.getProperty("prefixImageThumb");
-		String fileToDelete=basePath+File.separator+prefix+nomeFile;
-		File file=new File(fileToDelete);
-		file.delete();
-	}
-
-	public static String resizeAndCopyImage(InputStream fileIS, String basePathToCopy, String nomeFile)
-			throws IOException {
-
-		int w, h = 0;
-
-		w = Integer.valueOf(ConfigurationUtil.getProperty("resizeImageW"));
-		h = Integer.valueOf(ConfigurationUtil.getProperty("resizeImageH"));
-
-		// fileIn.delete();
-
-		String fileResized = basePathToCopy + File.separator + nomeFile;
-
-		Thumbnails.of(fileIS).size(w, h).toFile(fileResized);
-
-		return nomeFile;
-	}
-
 }
