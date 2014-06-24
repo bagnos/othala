@@ -110,6 +110,7 @@ public class ApplicationBean implements Serializable {
 	public void resetDomain()
 	{
 		domain=null;
+		brandDTO=null;
 	}
 
 	public List<SiteImagesDTO> getImgsCarousel() {

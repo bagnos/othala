@@ -54,8 +54,7 @@
 								var="gender" itemLabel="#{gender.valore}" itemValue="#{gender}"
 								converter="it.othala.GenderConverter" forceSelection="true">
 							</p:autoComplete>
-							<p:commandButton title="Aggiungi Genere" icon="ui-icon-plus" type="button"
-								onclick="PF('dlg2').show();" />
+
 						</div>
 
 						<p:outputLabel for="tipo" styleClass="col-sm-1 control-label" value="Tipo" />
@@ -74,11 +73,15 @@
 					<div class="form-group">
 						<p:outputLabel for="brand" styleClass="col-sm-1 control-label" value="Brand" />
 						<div class="col-sm-3">
-							<p:autoComplete scrollHeight="#{insertProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}"
-								required="true" minQueryLength="1" dropdown="true" id="brand"
-								value="#{insertProdottiView.brand}" completeMethod="#{insertProdottiView.completeBrand}"
-								var="brand" itemLabel="#{brand.valore}" itemValue="#{brand}"
-								converter="it.othala.BrandConverter" forceSelection="true" />
+							<h:panelGroup id="brandPnl">
+								<p:autoComplete scrollHeight="#{insertProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}"
+									required="true" minQueryLength="1" dropdown="true" id="brand"
+									value="#{insertProdottiView.brand}" completeMethod="#{insertProdottiView.completeBrand}"
+									var="brand" itemLabel="#{brand.valore}" itemValue="#{brand}"
+									converter="it.othala.BrandConverter" forceSelection="true" />
+							</h:panelGroup>
+							<p:commandButton title="Aggiungi Genere" icon="ui-icon-plus" type="button"
+								onclick="PF('dlgIns').show();" />
 						</div>
 					</div>
 
@@ -124,20 +127,29 @@
 
 				</div>
 			</div>
-			<p:dialog header="Nuovo Genere" widgetVar="dlg2" modal="true" height="100">
+
+		</h:form>
+		<h:form prependId="false" id="frmDialog">
+			<p:dialog header="Nuovo Brand" id="dlgIns" widgetVar="dlgIns" modal="true" height="100">
 
 				<div class="row text-center">
-				<div class="col-sm-12 ">
+					<div class="col-sm-12 ">
 
 
-					<p:inputText size="40"></p:inputText>
-					<br/><br/>
-					
-						<p:commandButton value="Inserisci"></p:commandButton>
-					
+						<p:inputText label="nuovo brand" id="newBrand1" required="true"
+							value="#{insertProdottiView.newBrand}" maxlength="40" size="40" />
 
+
+						<br /> <br />
+
+						<p:commandButton oncomplete="PF('dlgIns').hide();" ajax="true" validateClient="true"
+							process="@this newBrand1" partialSubmit="true" update=":frmProd:brandPnl"
+							actionListener="#{insertProdottiView.addNewBrand}" value="Inserisci"></p:commandButton>
+
+
+					</div>
 				</div>
-				</div>
+
 
 			</p:dialog>
 		</h:form>
@@ -153,10 +165,10 @@
 				<div class="col-sm-11">
 
 
-					<p:fileUpload fileUploadListener="#{insertProdottiView.handleFileUpload}" 
-						allowTypes="/(\.|\/)(gif|jpe?g|png)$/" onerror="PF('blockAll').unblock();" oncomplete="PF('blockAll').unblock();"
-								onstart="PF('blockAll').block()" process="@this" required="true"
-						update="frmImages :frm-arts" multiple="true" auto="true" />
+					<p:fileUpload fileUploadListener="#{insertProdottiView.handleFileUpload}"
+						allowTypes="/(\.|\/)(gif|jpe?g|png)$/" onerror="PF('blockAll').unblock();"
+						oncomplete="PF('blockAll').unblock();" onstart="PF('blockAll').block()" process="@this"
+						required="true" update="frmImages :frm-arts" multiple="true" auto="true" />
 
 				</div>
 				<h:panelGroup layout="block" rendered="#{insertProdottiView.imagesFile.size()!=0}">

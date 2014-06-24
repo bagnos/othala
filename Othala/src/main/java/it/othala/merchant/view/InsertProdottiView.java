@@ -7,7 +7,6 @@ import it.othala.dto.ProductFullDTO;
 import it.othala.dto.ShopDTO;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
-import it.othala.web.utils.OthalaUtil;
 import it.othala.web.utils.ResizeImageUtil;
 
 import java.io.File;
@@ -49,12 +48,19 @@ public class InsertProdottiView extends BaseView {
 	private String negozio;
 	private ShopDTO shop;
 	private String fileThumb;
-	
+
 	private List<ArticleFullDTO> articles = new ArrayList<ArticleFullDTO>();
 	private String removedArticle;
 	private String merchantCode;
+	private String newBrand;
 
-	
+	public String getNewBrand() {
+		return newBrand;
+	}
+
+	public void setNewBrand(String newBrand) {
+		this.newBrand = newBrand;
+	}
 
 	public String getMerchantCode() {
 		return merchantCode;
@@ -374,8 +380,6 @@ public class InsertProdottiView extends BaseView {
 		}
 	}
 
-	
-
 	public void removeArticle(ActionEvent e) {
 
 		Integer id = (Integer) e.getComponent().getAttributes().get("idArt");
@@ -397,7 +401,7 @@ public class InsertProdottiView extends BaseView {
 		File file = new File(extContext.getRealPath(BASE_IMG_PATH + fileName));
 		imagesFile.remove(fileName);
 
-		if (fileName.equalsIgnoreCase(fileThumb)) {			
+		if (fileName.equalsIgnoreCase(fileThumb)) {
 			ResizeImageUtil.deleteImageThumb(fileThumb, extContext.getRealPath(BASE_IMG_PATH));
 			fileThumb = null;
 		}
@@ -423,7 +427,6 @@ public class InsertProdottiView extends BaseView {
 					fileThumb = fileResized;
 					resizeThumb();
 				}
-		
 
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -479,4 +482,21 @@ public class InsertProdottiView extends BaseView {
 			addGenericError(e1, "Errore nel resize dell'immagine thumb");
 		}
 	}
+
+	public void addNewBrand(ActionEvent e) {
+		if (newBrand == null || newBrand.isEmpty()) {
+			addError("New Brand", "inserire il brand");
+			return;
+		}
+		try {
+			OthalaFactory.getProductServiceInstance().insertBrand(getLang(), newBrand);
+			getBeanApplication().resetDomain();
+			addInfo("New Brand", "brand inserito correttamente");
+			
+			
+		} catch (Exception ex) {
+			addGenericError(ex, "errore nell'inserimento del brand");
+		}
+	}
+
 }
