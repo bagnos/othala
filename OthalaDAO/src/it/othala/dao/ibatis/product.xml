@@ -562,7 +562,7 @@
 		INSERT INTO
 		${database.schema}brand
 		(`idLanguages`,`txBrand`)
-		values (,
+		values (
 		#{languages},#{txBrand})
 
 	</insert>
