@@ -9,8 +9,6 @@ USE `aduna937_othala` ;
 -- -----------------------------------------------------
 -- Table `aduna937_othala`.`Type_State_Account`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `aduna937_othala`.`Type_State_Account` ;
-
 CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Type_State_Account` (
   `idTypeState` INT NOT NULL ,
   `txTypeState` VARCHAR(45) NULL ,
@@ -21,8 +19,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `aduna937_othala`.`Customer`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `aduna937_othala`.`Customer` ;
-
 CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Customer` (
   `idUser` VARCHAR(100) NOT NULL ,
   `txPassword` VARCHAR(20) NOT NULL ,
@@ -43,8 +39,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `aduna937_othala`.`Product_State`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `aduna937_othala`.`Product_State` ;
-
 CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Product_State` (
   `idProductState` INT NOT NULL ,
   `txProductState` VARCHAR(45) NULL ,
@@ -55,10 +49,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `aduna937_othala`.`Gender`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `aduna937_othala`.`Gender` ;
-
 CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Gender` (
-  `idGender` INT NOT NULL AUTO_INCREMENT,
+  `idGender` INT NOT NULL ,
   `idLanguages` VARCHAR(2) NOT NULL ,
   `txGender` VARCHAR(200) NULL ,
   PRIMARY KEY (`idGender`, `idLanguages`) )
@@ -68,26 +60,24 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `aduna937_othala`.`Type_Size`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `aduna937_othala`.`Type_Size` ;
-
 CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Type_Size` (
-  `idTypeSize` INT NOT NULL AUTO_INCREMENT ,
+  `idTypeSize` INT NOT NULL ,
   `txTypeSize` VARCHAR(45) NULL ,
   PRIMARY KEY (`idTypeSize`) )
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `aduna937_othala`.`Size_Type_Size`
+-- Table `aduna937_othala`.`Type`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `aduna937_othala`.`Size_Type_Size` ;
-
-CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Size_Type_Size` (
-  `idType` INT NOT NULL AUTO_INCREMENT ,
-  `idTypeSize` INT NOT NULL ,
-  PRIMARY KEY (`idType`) ,
-  INDEX `fk_idType_Type_Size1` (`idTypeSize` ASC) ,
-  CONSTRAINT `fk_idType_Type_Size1`
+CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Type` (
+  `idType` INT NOT NULL ,
+  `idLanguages` VARCHAR(2) NOT NULL ,
+  `txType` VARCHAR(200) NOT NULL ,
+  `idTypeSize` INT NULL ,
+  PRIMARY KEY (`idType`, `idLanguages`) ,
+  INDEX `fk_Type_Type_Size1` (`idTypeSize` ASC) ,
+  CONSTRAINT `fk_Type_Type_Size1`
     FOREIGN KEY (`idTypeSize` )
     REFERENCES `aduna937_othala`.`Type_Size` (`idTypeSize` )
     ON DELETE NO ACTION
@@ -96,31 +86,10 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `aduna937_othala`.`Type`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `aduna937_othala`.`Type` ;
-
-CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Type` (
-  `idType` INT NOT NULL AUTO_INCREMENT ,
-  `idLanguages` VARCHAR(2) NOT NULL ,
-  `txType` VARCHAR(200) NULL ,
-  PRIMARY KEY (`idType`, `idLanguages`) ,
-  INDEX `fk_Type_idType1` (`idType` ASC) ,
-  CONSTRAINT `fk_Type_idType1`
-    FOREIGN KEY (`idType` )
-    REFERENCES `aduna937_othala`.`Size_Type_Size` (`idType` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `aduna937_othala`.`Brand`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `aduna937_othala`.`Brand` ;
-
 CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Brand` (
-  `idBrand` INT NOT NULL AUTO_INCREMENT ,
+  `idBrand` INT NOT NULL ,
   `idLanguages` VARCHAR(2) NOT NULL ,
   `txBrand` VARCHAR(200) NULL ,
   PRIMARY KEY (`idBrand`, `idLanguages`) )
@@ -130,8 +99,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `aduna937_othala`.`Campaigns`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `aduna937_othala`.`Campaigns` ;
-
 CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Campaigns` (
   `idCampaign` INT NOT NULL ,
   `txCampaign` VARCHAR(45) NULL ,
@@ -145,8 +112,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `aduna937_othala`.`Product`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `aduna937_othala`.`Product` ;
-
 CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Product` (
   `idProduct` INT NOT NULL AUTO_INCREMENT ,
   `idGender` INT NULL ,
@@ -196,8 +161,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `aduna937_othala`.`Product_Image`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `aduna937_othala`.`Product_Image` ;
-
 CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Product_Image` (
   `idProduct` INT NOT NULL ,
   `pgImage` INT NOT NULL ,
@@ -215,8 +178,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `aduna937_othala`.`Addresses`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `aduna937_othala`.`Addresses` ;
-
 CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Addresses` (
   `idAddress` INT NOT NULL AUTO_INCREMENT ,
   `idUser` VARCHAR(100) NOT NULL ,
@@ -243,10 +204,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `aduna937_othala`.`Coupons`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `aduna937_othala`.`Coupons` ;
-
 CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Coupons` (
-  `idCoupon` VARCHAR(100) NOT NULL ,
+  `idCoupon` VARCHAR(45) NOT NULL ,
   `idUser` VARCHAR(100) NOT NULL ,
   `pcSconto` SMALLINT NULL ,
   `dtScadenza` DATE NULL ,
@@ -264,10 +223,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `aduna937_othala`.`Size`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `aduna937_othala`.`Size` ;
-
 CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Size` (
-  `idSize` INT NOT NULL AUTO_INCREMENT ,
+  `idSize` INT NOT NULL ,
   `idTypeSize` INT NULL ,
   `txSize` VARCHAR(10) NULL ,
   PRIMARY KEY (`idSize`) ,
@@ -283,10 +240,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `aduna937_othala`.`Color`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `aduna937_othala`.`Color` ;
-
 CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Color` (
-  `idColor` INT NOT NULL AUTO_INCREMENT,
+  `idColor` INT NOT NULL ,
   `idLanguages` VARCHAR(2) NOT NULL ,
   `txColor` VARCHAR(200) NULL ,
   PRIMARY KEY (`idColor`, `idLanguages`) )
@@ -296,8 +251,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `aduna937_othala`.`Shops`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `aduna937_othala`.`Shops` ;
-
 CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Shops` (
   `idShop` INT NOT NULL ,
   `txShop` VARCHAR(100) NULL ,
@@ -309,8 +262,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `aduna937_othala`.`Article`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `aduna937_othala`.`Article` ;
-
 CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Article` (
   `idProduct` INT NOT NULL ,
   `pgArticle` INT NOT NULL ,
@@ -351,8 +302,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `aduna937_othala`.`Delivery_Cost`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `aduna937_othala`.`Delivery_Cost` ;
-
 CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Delivery_Cost` (
   `idDeliveryCost` INT NOT NULL AUTO_INCREMENT ,
   `txDescrizione` VARCHAR(45) NULL ,
@@ -368,8 +317,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `aduna937_othala`.`Orders`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `aduna937_othala`.`Orders` ;
-
 CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Orders` (
   `idOrder` INT NOT NULL AUTO_INCREMENT ,
   `idUser` VARCHAR(100) NOT NULL ,
@@ -411,8 +358,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `aduna937_othala`.`Orders_Articles`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `aduna937_othala`.`Orders_Articles` ;
-
 CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Orders_Articles` (
   `idOrder` INT NOT NULL ,
   `idProdotto` INT NOT NULL ,
@@ -437,8 +382,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `aduna937_othala`.`States`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `aduna937_othala`.`States` ;
-
 CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`States` (
   `idStato` INT NOT NULL ,
   `txStato` VARCHAR(45) NULL ,
@@ -450,12 +393,10 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `aduna937_othala`.`States_Orders`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `aduna937_othala`.`States_Orders` ;
-
 CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`States_Orders` (
   `idOrder` INT NOT NULL ,
   `idStato` INT NOT NULL ,
-  `dtStato` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+  `dtStato` DATE NULL ,
   `txNote` VARCHAR(100) NULL ,
   PRIMARY KEY (`idOrder`, `idStato`) ,
   INDEX `fk_StatesOrders_States1_idx` (`idStato` ASC) ,
@@ -476,8 +417,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `aduna937_othala`.`Customer_Roles`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `aduna937_othala`.`Customer_Roles` ;
-
 CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Customer_Roles` (
   `idUser` VARCHAR(100) NOT NULL ,
   `txRole` VARCHAR(20) NOT NULL ,
@@ -494,8 +433,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `aduna937_othala`.`Product_Description`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `aduna937_othala`.`Product_Description` ;
-
 CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Product_Description` (
   `idProduct` INT NOT NULL ,
   `idLanguages` VARCHAR(2) NOT NULL ,
@@ -513,8 +450,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `aduna937_othala`.`Site_Images`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `aduna937_othala`.`Site_Images` ;
-
 CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Site_Images` (
   `idsiteImages` INT NOT NULL ,
   `txGroupImages` VARCHAR(45) NULL ,
@@ -529,17 +464,15 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `aduna937_othala`.`IpnMessages`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `aduna937_othala`.`IpnMessages` ;
-
 CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`IpnMessages` (
   `idOrder` INT NOT NULL ,
   `idTransaction` VARCHAR(50) NOT NULL ,
-  `txStato` VARCHAR(45) NOT NULL ,
-  `tsInserimento` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
-  `txMessage` VARCHAR(10000) NULL ,  
-  `txNote` VARCHAR(1000) NULL ,
+  `tsInserimento` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+  `txMessage` VARCHAR(10000) NULL ,
+  `txStato` VARCHAR(45) NULL ,
+  `txNote` VARCHAR(100) NULL ,
   `fgElaborato` TINYINT(1)  NULL ,
-  PRIMARY KEY (`idOrder`, `idTransaction`,`txStato`) )
+  PRIMARY KEY (`idOrder`, `idTransaction`) )
 ENGINE = InnoDB;
 
 
