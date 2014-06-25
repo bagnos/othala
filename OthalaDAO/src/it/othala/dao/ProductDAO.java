@@ -464,6 +464,28 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		
 		
 	}
+
+	@Override
+	public void insertColor(String languages, String txColor) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("languages", languages);
+		map.put("txColor", txColor);
+
+		getSqlSession().insert(
+				"it.othala.product.queries.insertColor", map);
+		
+	}
+
+	@Override
+	public void insertType(String languages, String txType) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("languages", languages);
+		map.put("txBrand", txType);
+
+		getSqlSession().insert(
+				"it.othala.product.queries.insertType", map);
+		
+	}
 	
 	
 	

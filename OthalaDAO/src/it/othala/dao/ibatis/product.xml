@@ -566,6 +566,27 @@
 		#{languages},#{txBrand})
 
 	</insert>
+	
+		<insert id="insertColor" parameterType="java.util.HashMap">
+
+		INSERT INTO
+		${database.schema}color
+		(`idLanguages`,`txColor`)
+		values (
+		#{languages},#{txColor})
+
+	</insert>
+	
+			<insert id="insertType" parameterType="java.util.HashMap">
+
+		INSERT INTO
+		${database.schema}type
+		(`idLanguages`,`txType`)
+		values (
+		#{languages},#{txType})
+
+	</insert>
+	
 
 	<insert id="insertArticle" parameterType="java.util.HashMap">
 

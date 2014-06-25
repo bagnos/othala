@@ -158,6 +158,39 @@ public class ProductService implements IProductService {
 	}
 	
 	@Override
+	public DomainDTO insertColor(String languages, String txColor) {
+
+		productDAO.insertColor(languages, txColor);
+		
+		DomainDTO domainDTO = new DomainDTO();
+		domainDTO.setSize(productDAO.listSize());
+		domainDTO.setColor(productDAO.listColor(languages));
+		domainDTO.setBrand(productDAO.listBrand(languages));
+		domainDTO.setGender(productDAO.listGender(languages));
+		domainDTO.setType(productDAO.listType(languages));
+
+		return domainDTO;
+
+	}
+	
+	@Override
+	public DomainDTO insertType(String languages, String txType) {
+
+		productDAO.insertType(languages, txType);
+		
+		DomainDTO domainDTO = new DomainDTO();
+		domainDTO.setSize(productDAO.listSize());
+		domainDTO.setColor(productDAO.listColor(languages));
+		domainDTO.setBrand(productDAO.listBrand(languages));
+		domainDTO.setGender(productDAO.listGender(languages));
+		domainDTO.setType(productDAO.listType(languages));
+
+		return domainDTO;
+
+	}
+	
+	
+	@Override
 	public List<ProductDTO> getListProductToPublish() {
 
 		List<ProductDTO> listProduct = productDAO.listProductToPublish();
