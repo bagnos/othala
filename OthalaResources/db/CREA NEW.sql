@@ -58,7 +58,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `aduna937_othala`.`Gender` ;
 
 CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Gender` (
-  `idGender` INT NOT NULL ,
+  `idGender` INT NOT NULL AUTO_INCREMENT,
   `idLanguages` VARCHAR(2) NOT NULL ,
   `txGender` VARCHAR(200) NULL ,
   PRIMARY KEY (`idGender`, `idLanguages`) )
@@ -71,7 +71,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `aduna937_othala`.`Type_Size` ;
 
 CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Type_Size` (
-  `idTypeSize` INT NOT NULL ,
+  `idTypeSize` INT NOT NULL AUTO_INCREMENT ,
   `txTypeSize` VARCHAR(45) NULL ,
   PRIMARY KEY (`idTypeSize`) )
 ENGINE = InnoDB;
@@ -83,7 +83,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `aduna937_othala`.`Size_Type_Size` ;
 
 CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Size_Type_Size` (
-  `idType` INT NOT NULL ,
+  `idType` INT NOT NULL AUTO_INCREMENT ,
   `idTypeSize` INT NOT NULL ,
   PRIMARY KEY (`idType`) ,
   INDEX `fk_idType_Type_Size1` (`idTypeSize` ASC) ,
@@ -101,7 +101,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `aduna937_othala`.`Type` ;
 
 CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Type` (
-  `idType` INT NOT NULL ,
+  `idType` INT NOT NULL AUTO_INCREMENT ,
   `idLanguages` VARCHAR(2) NOT NULL ,
   `txType` VARCHAR(200) NULL ,
   PRIMARY KEY (`idType`, `idLanguages`) ,
@@ -120,7 +120,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `aduna937_othala`.`Brand` ;
 
 CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Brand` (
-  `idBrand` INT NOT NULL ,
+  `idBrand` INT NOT NULL AUTO_INCREMENT ,
   `idLanguages` VARCHAR(2) NOT NULL ,
   `txBrand` VARCHAR(200) NULL ,
   PRIMARY KEY (`idBrand`, `idLanguages`) )
@@ -267,7 +267,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `aduna937_othala`.`Size` ;
 
 CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Size` (
-  `idSize` INT NOT NULL ,
+  `idSize` INT NOT NULL AUTO_INCREMENT ,
   `idTypeSize` INT NULL ,
   `txSize` VARCHAR(10) NULL ,
   PRIMARY KEY (`idSize`) ,
@@ -286,7 +286,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `aduna937_othala`.`Color` ;
 
 CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Color` (
-  `idColor` INT NOT NULL ,
+  `idColor` INT NOT NULL AUTO_INCREMENT,
   `idLanguages` VARCHAR(2) NOT NULL ,
   `txColor` VARCHAR(200) NULL ,
   PRIMARY KEY (`idColor`, `idLanguages`) )
