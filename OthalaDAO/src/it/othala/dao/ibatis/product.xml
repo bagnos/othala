@@ -259,7 +259,7 @@
 		FROM
 		${database.schema}size a,
 		${database.schema}type_size b,
-		${database.schema}size_type_size c
+		${database.schema}type c
 		where
 		a.idTypeSize = b.idTypeSize
 		and a.idTypeSize = c.idTypeSize
