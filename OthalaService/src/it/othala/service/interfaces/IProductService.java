@@ -40,5 +40,9 @@ public interface IProductService {
 	public void addProductToCampaign(List<Integer> listIdProduct, Integer idCampaign);
 
 	public Integer insertCampaign(CampaignDTO campaign);
+
+	public DomainDTO insertType(String languages, String txType);
+
+	public DomainDTO insertColor(String languages, String txColor);
 	
 }

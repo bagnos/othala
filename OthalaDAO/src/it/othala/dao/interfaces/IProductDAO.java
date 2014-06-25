@@ -77,6 +77,11 @@ public interface IProductDAO {
 			Integer idCampaign);
 
 	public List<ShopDTO> listShop();
+
+	public void insertColor(String languages, String txColor);
+
+	public void insertType(String languages, String txType);
+	
 	
 	
 
