@@ -71,7 +71,7 @@ ENGINE = InnoDB;
 -- Table `aduna937_othala`.`Type`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Type` (
-  `idType` INT NOT NULL ,
+  `idType` INT NOT NULL AUTO_INCREMENT ,
   `idLanguages` VARCHAR(2) NOT NULL ,
   `txType` VARCHAR(200) NOT NULL ,
   `idTypeSize` INT NULL ,
@@ -89,7 +89,7 @@ ENGINE = InnoDB;
 -- Table `aduna937_othala`.`Brand`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Brand` (
-  `idBrand` INT NOT NULL ,
+  `idBrand` INT NOT NULL AUTO_INCREMENT ,
   `idLanguages` VARCHAR(2) NOT NULL ,
   `txBrand` VARCHAR(200) NULL ,
   PRIMARY KEY (`idBrand`, `idLanguages`) )
@@ -241,7 +241,7 @@ ENGINE = InnoDB;
 -- Table `aduna937_othala`.`Color`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `aduna937_othala`.`Color` (
-  `idColor` INT NOT NULL ,
+  `idColor` INT NOT NULL AUTO_INCREMENT ,
   `idLanguages` VARCHAR(2) NOT NULL ,
   `txColor` VARCHAR(200) NULL ,
   PRIMARY KEY (`idColor`, `idLanguages`) )
