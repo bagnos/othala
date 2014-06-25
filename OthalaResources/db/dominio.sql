@@ -21,21 +21,14 @@ INSERT INTO `aduna937_othala`.`type_size`
 VALUES
 (1,'TAGLIE'),(2,'TAGLIE ITA'),(3,'SCARPE EU'),(4,'PANTALONI US');
 
-INSERT INTO `aduna937_othala`.`size_type_size`
-VALUES
-(1,1),(2,4),(3,2),(4,2),(5,2),(6,1),(7,1),(8,2),(9,2),(10,2),(11,2),
-(12,2),(13,1),(14,4),(15,1),(16,4),(17,2),(18,2),(19,1),(20,3),(21,1),(22,2);
-
-
-
 INSERT INTO `aduna937_othala`.`type` VALUES    
-(1,'it','ACCESSORI'),(2,'it','BERMUDA'),
-(3,'it','CAMICIE'),(4,'it','CAPPOTTI'),(5,'it','COMPLETI'),(6,'it','COSTUMI DA BAGNO'),
-(7,'it','FELPE'),(8,'it','GIACCHE'),(9,'it','GIACCHE DI PELLE'),(10,'it','GILET'),
-(11,'it','GIUBBOTTI'),(12,'it','GONNE'),(13,'it','INTIMO'),(14,'it','JEANS'),
-(15,'it','MAGLIERIA'),(16,'it','PANTALONI'),(17,'it','PELLICCE E SHEARLING'),
-(18,'it','PIUMINI'),(19,'it','POLO'),(20,'it','SCARPE'),(21,'it','T-SHIRTS'),
-(22,'it','VESTITI');
+(1,'it','ACCESSORI',1),(2,'it','BERMUDA',4),
+(3,'it','CAMICIE',2),(4,'it','CAPPOTTI',2),(5,'it','COMPLETI',2),(6,'it','COSTUMI DA BAGNO',1),
+(7,'it','FELPE',1),(8,'it','GIACCHE',2),(9,'it','GIACCHE DI PELLE',2),(10,'it','GILET',2),
+(11,'it','GIUBBOTTI',2),(12,'it','GONNE',2),(13,'it','INTIMO',1),(14,'it','JEANS',4),
+(15,'it','MAGLIERIA',1),(16,'it','PANTALONI',4),(17,'it','PELLICCE E SHEARLING',2),
+(18,'it','PIUMINI',2),(19,'it','POLO',1),(20,'it','SCARPE',3),(21,'it','T-SHIRTS',1),
+(22,'it','VESTITI',2);
 
 
 INSERT INTO `aduna937_othala`.`color` VALUES    
