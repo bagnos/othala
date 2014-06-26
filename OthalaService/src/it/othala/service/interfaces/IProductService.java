@@ -4,10 +4,12 @@ import it.othala.dto.CampaignDTO;
 import it.othala.dto.DomainDTO;
 import it.othala.dto.MenuDTO;
 import it.othala.dto.ProductDTO;
+import it.othala.dto.ProductFindDTO;
 import it.othala.dto.ProductFullDTO;
 import it.othala.enums.OrderByCartFlow;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.List;
 
 public interface IProductService {
@@ -45,5 +47,10 @@ public interface IProductService {
 	public DomainDTO insertColor(String languages, String txColor);
 
 	public Integer insertProduct(ProductFullDTO productFull, Boolean fgPubblicazione);
+
+	public List<ProductFindDTO> listFindProduct(String txBarcode, Integer state,
+			Integer shop, Integer gender, Integer type, Integer brand,
+			BigDecimal minPrice, BigDecimal maxPrice, String description,
+			Date dtBegin, Date dtEnd);
 	
 }

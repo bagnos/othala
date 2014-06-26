@@ -6,12 +6,14 @@ import it.othala.dto.AttributeSizeDTO;
 import it.othala.dto.CampaignDTO;
 import it.othala.dto.MenuDTO;
 import it.othala.dto.ProductDTO;
+import it.othala.dto.ProductFindDTO;
 import it.othala.dto.ProductFullDTO;
 import it.othala.dto.ShopDTO;
 import it.othala.dto.SubMenuDTO;
 import it.othala.enums.OrderByCartFlow;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.List;
 
 public interface IProductDAO {
@@ -83,6 +85,15 @@ public interface IProductDAO {
 	public void insertType(String languages, String txType);
 
 	public List<AttributeDTO> listStatesOrder();
+
+	public List<ProductFindDTO> listFindProduct(String txBarcode,
+			Integer state, Integer shop, Integer gender, Integer type,
+			Integer brand, BigDecimal minPrice, BigDecimal maxPrice,
+			String description, Date dtBegin, Date dtEnd);
+
+	public List<String> listDistinctTxBarcode(Integer idProduct);
+
+	public List<ShopDTO> listDistinctShop(Integer idProduct);
 	
 	
 	

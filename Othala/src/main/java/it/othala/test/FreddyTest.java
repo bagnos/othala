@@ -114,11 +114,7 @@ public class FreddyTest {
 
 		try {
 
-			List<Integer> a = new ArrayList<>();
-			a.add(881);
-			a.add(882);
-
-			OthalaFactory.getProductServiceInstance().addProductToCampaign(a, 1);
+			OthalaFactory.getProductServiceInstance().listFindProduct(null, null, null, null, null, null, null, null, null, null, null);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
