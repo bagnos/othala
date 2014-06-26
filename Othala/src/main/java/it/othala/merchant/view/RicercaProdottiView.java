@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.AjaxBehaviorEvent;
 
 import org.primefaces.model.UploadedFile;
 
@@ -25,13 +26,19 @@ public class RicercaProdottiView extends BaseView {
 	private AttributeDTO genere;
 	private AttributeDTO tipo;
 	private AttributeDTO brand;
-
 	private BigDecimal prezzo;
-
 	private String descrizione;
-
 	private String negozio;
 	private ShopDTO shop;
+	private int idStato;
+
+	public int getIdStato() {
+		return idStato;
+	}
+
+	public void setIdStato(int idStato) {
+		this.idStato = idStato;
+	}
 
 	private List<ArticleFullDTO> articles = new ArrayList<ArticleFullDTO>();
 
@@ -132,76 +139,24 @@ public class RicercaProdottiView extends BaseView {
 	}
 
 	public List<AttributeDTO> completeGenere(String query) {
-		List<AttributeDTO> allAttributeDTO = getBeanApplication().getGenderDTO();
-		List<AttributeDTO> filteredAttributeDTO = new ArrayList<AttributeDTO>();
-
-		for (int i = 0; i < allAttributeDTO.size(); i++) {
-			AttributeDTO attr = allAttributeDTO.get(i);
-			if (attr.getValore().toLowerCase().startsWith(query.toLowerCase())) {
-				filteredAttributeDTO.add(attr);
-			}
-		}
-
-		return filteredAttributeDTO;
-	}
-
-	public List<AttributeDTO> completeTaglia(String query) {
-		List<AttributeDTO> filteredSize = new ArrayList<AttributeDTO>();
-		if (tipo != null) {
-			List<AttributeDTO> allSize = getBeanApplication().getSizesDTO(tipo.getAttributo().intValue());
-
-			for (int i = 0; i < allSize.size(); i++) {
-				AttributeDTO attr = allSize.get(i);
-				if (attr.getValore().toLowerCase().startsWith(query.toLowerCase())) {
-					filteredSize.add(attr);
-				}
-			}
-		}
-
-		return filteredSize;
-	}
-
-	public List<AttributeDTO> completeBrand(String query) {
-		List<AttributeDTO> allBrands = getBeanApplication().getBrandDTO();
-		List<AttributeDTO> filteredBrands = new ArrayList<AttributeDTO>();
-
-		for (int i = 0; i < allBrands.size(); i++) {
-			AttributeDTO attr = allBrands.get(i);
-			if (attr.getValore().toLowerCase().startsWith(query.toLowerCase())) {
-				filteredBrands.add(attr);
-			}
-		}
-
-		return filteredBrands;
-	}
-
-	public List<ShopDTO> completeShops(String query) {
-		List<ShopDTO> allShops = getBeanApplication().getShopsDTO();
-		List<ShopDTO> filteredShops = new ArrayList<ShopDTO>();
-
-		for (int i = 0; i < allShops.size(); i++) {
-			ShopDTO attr = allShops.get(i);
-			if (attr.getTxShop().toLowerCase().startsWith(query.toLowerCase())) {
-				filteredShops.add(attr);
-			}
-		}
-
-		return filteredShops;
+		return getAutoUtils().completeGenere(query);
 	}
 
 	public List<AttributeDTO> completeTipo(String query) {
 
-		List<AttributeDTO> allType = getBeanApplication().getTypeDTO();
-		List<AttributeDTO> filteredType = new ArrayList<AttributeDTO>();
+		return getAutoUtils().completeTipo(query);
 
-		for (int i = 0; i < allType.size(); i++) {
-			AttributeDTO menu = allType.get(i);
-			if (menu.getValore().toLowerCase().startsWith(query.toLowerCase())) {
-				filteredType.add(menu);
-			}
-		}
-
-		return filteredType;
 	}
+
+	public List<AttributeDTO> completeBrand(String query) {
+		return getAutoUtils().completeBrand(query);
+
+	}
+
+	public List<ShopDTO> completeShops(String query) {
+		return getAutoUtils().completeShops(query);
+	}
+	
+	
 
 }
