@@ -99,7 +99,7 @@ public class FreddyTest {
 			a.setImagesUrl(g);
 
 			Integer tttttt = OthalaFactory.getProductServiceInstance()
-					.insertProduct(a);
+					.insertProduct(a, true);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

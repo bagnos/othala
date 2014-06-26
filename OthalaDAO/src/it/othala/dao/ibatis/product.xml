@@ -532,7 +532,7 @@
 
 		values
 		(#{idGender},#{idType},#{idBrand},
-		#{price},#{discount},#{thumbnailsUrl},1,now(),#{idCampaign})
+		#{price},#{discount},#{thumbnailsUrl},0,now(),#{idCampaign})
 
 		<selectKey resultType="java.lang.Integer" keyProperty="idProduct">
 

@@ -290,7 +290,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	
 	
 	@Override
-	public Integer insertProduct(ProductFullDTO productFull) {
+	public Integer insertProduct(ProductFullDTO productFull, Boolean fgPubblicazione) {
 
 		getSqlSession().insert("it.othala.product.queries.insertProduct",
 				productFull);
@@ -352,6 +352,13 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 					"it.othala.product.queries.insertProductImage", map2);
 		}
 
+		if (fgPubblicazione == true)
+		{
+			List<Integer> listIdProduct =  new ArrayList<Integer>();
+			listIdProduct.add(productFull.getIdProduct());
+			publishProduct(listIdProduct);
+			
+		}
 		return productFull.getIdProduct();
 
 	}
