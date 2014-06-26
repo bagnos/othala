@@ -81,6 +81,9 @@ public interface IProductDAO {
 	public void insertColor(String languages, String txColor);
 
 	public void insertType(String languages, String txType);
+
+	public List<AttributeDTO> listStatesOrder();
+	
 	
 	
 	
