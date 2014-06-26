@@ -103,10 +103,12 @@
 		pcDiscount as discount,
 
 		case
-		when DATEDIFF(current_date, a.dtProductState) &lt; 10
+		when
+		DATEDIFF(current_date, a.dtProductState) &lt; 10
 		then 'Y'
 		else 'N'
-		end as fgNewArrivals,
+		end as
+		fgNewArrivals,
 
 		a.idCampaign
 		FROM
@@ -119,10 +121,12 @@
 		`type` g
 		where
 		a.idProduct = b.idProduct
-		and b.idLanguages = #{languages}
+		and
+		b.idLanguages = #{languages}
 		and
 		a.idProductState = 1
-		and c.idBrand = a.idBrand
+		and c.idBrand =
+		a.idBrand
 		and f.idGender =
 		a.idGender
 		and g.idType = a.idType
@@ -278,16 +282,17 @@
 		order by 2
 
 	</select>
-	
-		<select id="listStatesOrder" resultType="it.othala.dto.AttributeDTO">
 
-		SELECT idStato as attributo,txStato as valore
+	<select id="listStatesOrder" resultType="it.othala.dto.AttributeDTO">
+
+		SELECT idStato as
+		attributo,txStato as valore
 		FROM
 		${database.schema}states d
 		order by 2
 
 	</select>
-	
+
 
 	<select id="listShop" resultType="it.othala.dto.ShopDTO">
 
@@ -576,8 +581,8 @@
 		#{languages},#{txBrand})
 
 	</insert>
-	
-		<insert id="insertColor" parameterType="java.util.HashMap">
+
+	<insert id="insertColor" parameterType="java.util.HashMap">
 
 		INSERT INTO
 		${database.schema}color
@@ -586,8 +591,8 @@
 		#{languages},#{txColor})
 
 	</insert>
-	
-			<insert id="insertType" parameterType="java.util.HashMap">
+
+	<insert id="insertType" parameterType="java.util.HashMap">
 
 		INSERT INTO
 		${database.schema}type
@@ -596,7 +601,7 @@
 		#{languages},#{txType})
 
 	</insert>
-	
+
 
 	<insert id="insertArticle" parameterType="java.util.HashMap">
 
@@ -792,6 +797,41 @@
 
 	</update>
 
+	<select id="listFindProduct" resultType="it.othala.dto.ProductFindDTO"
+		parameterType="java.util.HashMap">
+
+
+	</select>
+
+
+	<select id="listDistinctTxBarcode" resultType="String"
+		parameterType="java.util.HashMap">
+
+		SELECT distinct(txBarcode) FROM
+		${database.schema}article
+		a
+		where a.idProduct
+		= #{idProduct}
+
+
+	</select>
+
+	<select id="listDistinctShop" resultType="it.othala.dto.ShopDTO"
+		parameterType="java.util.HashMap">
+
+
+		SELECT b.idShop, b.txShop, b.txMail FROM
+		${database.schema}article
+		a,
+		${database.schema}shops b
+		where a.idShop =
+		b.idShop
+		and a.idProduct
+		= #{idProduct}
+		group by 1,2,3
+
+
+	</select>
 
 
 

@@ -6,6 +6,7 @@ import it.othala.dto.CampaignDTO;
 import it.othala.dto.DomainDTO;
 import it.othala.dto.MenuDTO;
 import it.othala.dto.ProductDTO;
+import it.othala.dto.ProductFindDTO;
 import it.othala.dto.ProductFullDTO;
 import it.othala.dto.ShopDTO;
 import it.othala.dto.SubMenuDTO;
@@ -13,6 +14,7 @@ import it.othala.enums.OrderByCartFlow;
 import it.othala.service.interfaces.IProductService;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.List;
 
 public class ProductService implements IProductService {
@@ -45,7 +47,8 @@ public class ProductService implements IProductService {
 	public List<ProductDTO> getListProduct(String languages, Integer gender,
 			Integer type, Integer brand, BigDecimal minPrice,
 			BigDecimal maxPrice, Integer size, Integer color,
-			Boolean newArrivals, OrderByCartFlow order, Integer idCampaign, Boolean fgCampaign) {
+			Boolean newArrivals, OrderByCartFlow order, Integer idCampaign,
+			Boolean fgCampaign) {
 
 		List<ProductDTO> listProduct = productDAO.listProduct(languages, type,
 				gender, brand, minPrice, maxPrice, size, color, newArrivals,
@@ -88,7 +91,7 @@ public class ProductService implements IProductService {
 		domainDTO.setType(productDAO.listType(languages));
 		domainDTO.setShop(productDAO.listShop());
 		domainDTO.setStatesOrder(productDAO.listStatesOrder());
-		
+
 		return domainDTO;
 
 	}
@@ -97,7 +100,7 @@ public class ProductService implements IProductService {
 
 	@Override
 	public ProductFullDTO getProductFull(String languages, Integer idProduct) {
-	
+
 		ProductFullDTO productFull = productDAO.getProductFull(languages,
 				idProduct);
 
@@ -122,16 +125,18 @@ public class ProductService implements IProductService {
 	}
 
 	@Override
-	public ProductFullDTO getProductArticleFull(String languages, Integer idProduct, Integer pgArticle) {
-		
-		ProductFullDTO productFull = productDAO.getProductArticleFull(languages,
-				idProduct, pgArticle);
+	public ProductFullDTO getProductArticleFull(String languages,
+			Integer idProduct, Integer pgArticle) {
+
+		ProductFullDTO productFull = productDAO.getProductArticleFull(
+				languages, idProduct, pgArticle);
 
 		return productFull;
 	}
 
 	@Override
-	public Integer insertProduct(ProductFullDTO productFull, Boolean fgPubblicazione) {
+	public Integer insertProduct(ProductFullDTO productFull,
+			Boolean fgPubblicazione) {
 		return productDAO.insertProduct(productFull, fgPubblicazione);
 
 	}
@@ -141,12 +146,12 @@ public class ProductService implements IProductService {
 		return productDAO.insertCampaign(campaign);
 
 	}
-	
+
 	@Override
 	public DomainDTO insertBrand(String languages, String txBrand) {
 
 		productDAO.insertBrand(languages, txBrand);
-		
+
 		DomainDTO domainDTO = new DomainDTO();
 		domainDTO.setSize(productDAO.listSize());
 		domainDTO.setColor(productDAO.listColor(languages));
@@ -157,12 +162,12 @@ public class ProductService implements IProductService {
 		return domainDTO;
 
 	}
-	
+
 	@Override
 	public DomainDTO insertColor(String languages, String txColor) {
 
 		productDAO.insertColor(languages, txColor);
-		
+
 		DomainDTO domainDTO = new DomainDTO();
 		domainDTO.setSize(productDAO.listSize());
 		domainDTO.setColor(productDAO.listColor(languages));
@@ -173,12 +178,12 @@ public class ProductService implements IProductService {
 		return domainDTO;
 
 	}
-	
+
 	@Override
 	public DomainDTO insertType(String languages, String txType) {
 
 		productDAO.insertType(languages, txType);
-		
+
 		DomainDTO domainDTO = new DomainDTO();
 		domainDTO.setSize(productDAO.listSize());
 		domainDTO.setColor(productDAO.listColor(languages));
@@ -189,8 +194,7 @@ public class ProductService implements IProductService {
 		return domainDTO;
 
 	}
-	
-	
+
 	@Override
 	public List<ProductDTO> getListProductToPublish() {
 
@@ -211,17 +215,47 @@ public class ProductService implements IProductService {
 	@Override
 	public void publishProduct(List<Integer> listIdProduct) {
 		productDAO.publishProduct(listIdProduct);
-		
+
 	}
 
 	@Override
 	public void addProductToCampaign(List<Integer> listIdProduct,
 			Integer idCampaign) {
 		productDAO.addProductToCampaign(listIdProduct, idCampaign);
-		
+
 	}
-	
-	
-	
-	
+
+	@Override
+	public List<ProductFindDTO> listFindProduct(String txBarcode,
+			Integer state, Integer shop, Integer gender, Integer type,
+			Integer brand, BigDecimal minPrice, BigDecimal maxPrice,
+			String description, Date dtBegin, Date dtEnd) {
+
+		List<ProductFindDTO> listProduct = productDAO.listFindProduct(
+				txBarcode, state, shop, gender, type, brand, minPrice,
+				maxPrice, description, dtBegin, dtEnd);
+
+		for (int i = 0; i <= listProduct.size() - 1; i++) {
+
+			List<String> newString = productDAO
+					.listDistinctTxBarcode(listProduct.get(i).getIdProduct());
+
+			listProduct.get(i).setListTxBarcode(newString);
+
+		}
+
+		for (int i = 0; i <= listProduct.size() - 1; i++) {
+
+			List<ShopDTO> newList = productDAO.listDistinctShop(listProduct
+					.get(i).getIdProduct());
+
+			listProduct.get(i).setListShop(newList);
+
+		}
+		;
+
+		return listProduct;
+
+	}
+
 }
