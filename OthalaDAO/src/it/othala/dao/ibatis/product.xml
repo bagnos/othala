@@ -278,6 +278,16 @@
 		order by 2
 
 	</select>
+	
+		<select id="listStatesOrder" resultType="it.othala.dto.AttributeDTO">
+
+		SELECT idStato as attributo,txStato as valore
+		FROM
+		${database.schema}states d
+		order by 2
+
+	</select>
+	
 
 	<select id="listShop" resultType="it.othala.dto.ShopDTO">
 

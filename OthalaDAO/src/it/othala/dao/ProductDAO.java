@@ -493,6 +493,15 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 				"it.othala.product.queries.insertType", map);
 		
 	}
+
+	@Override
+	public List<AttributeDTO> listStatesOrder() {
+
+		List<AttributeDTO> listAttribute = getSqlSession().selectList(
+				"it.othala.product.queries.listStatesOrder");
+
+		return listAttribute;
+	}
 	
 	
 	
