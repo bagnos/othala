@@ -130,8 +130,8 @@ public class ProductService implements IProductService {
 	}
 
 	@Override
-	public Integer insertProduct(ProductFullDTO productFull) {
-		return productDAO.insertProduct(productFull);
+	public Integer insertProduct(ProductFullDTO productFull, Boolean fgPubblicazione) {
+		return productDAO.insertProduct(productFull, fgPubblicazione);
 
 	}
 

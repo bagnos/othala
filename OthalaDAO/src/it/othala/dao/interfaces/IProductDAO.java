@@ -47,7 +47,7 @@ public interface IProductDAO {
 	public List<ArticleFullDTO> listArticleFull(Integer idProduct,
 			String languages);
 
-	public Integer insertProduct(ProductFullDTO productFull);
+	public Integer insertProduct(ProductFullDTO productFull, Boolean fgPubblicazione);
 
 	public Integer getQtStock(Integer idProduct, Integer pgArticle);
 

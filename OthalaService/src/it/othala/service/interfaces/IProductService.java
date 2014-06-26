@@ -18,8 +18,7 @@ public interface IProductService {
 
 	public ProductFullDTO getProductFull(String languages, Integer idProduct);
 
-	public Integer insertProduct(ProductFullDTO productFull);
-
+	
 	public ProductFullDTO getProductArticleFull(String languages,
 			Integer idProduct, Integer pgArticle);
 
@@ -44,5 +43,7 @@ public interface IProductService {
 	public DomainDTO insertType(String languages, String txType);
 
 	public DomainDTO insertColor(String languages, String txColor);
+
+	public Integer insertProduct(ProductFullDTO productFull, Boolean fgPubblicazione);
 	
 }
