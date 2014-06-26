@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface IOrderService {
 
-	public List<OrderFullDTO> getOrders(Integer Order, String User, Integer StatoOrdine);
+	public List<OrderFullDTO> getOrders(Integer Order, String User, TypeStateOrder StatoOrdine);
 
 	public OrderFullDTO insertOrder(OrderFullDTO orderFull) throws  OthalaException;
 
