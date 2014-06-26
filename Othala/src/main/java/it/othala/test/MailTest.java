@@ -5,6 +5,7 @@ import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.MailPropertiesDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.ProductFullDTO;
+import it.othala.enums.TypeStateOrder;
 import it.othala.service.factory.OthalaFactory;
 
 import java.math.BigDecimal;
@@ -20,7 +21,7 @@ public class MailTest {
 	public void test() {
 		
 		try {
-			List<OrderFullDTO> orders=OthalaFactory.getOrderServiceInstance().getOrders(25, "simone.bagnolesi@gmail.com", 3);
+			List<OrderFullDTO> orders=OthalaFactory.getOrderServiceInstance().getOrders(25, "simone.bagnolesi@gmail.com", TypeStateOrder.COMPLETED);
 			OrderFullDTO order=orders.get(0);
 	
 			/*

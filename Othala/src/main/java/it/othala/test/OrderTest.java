@@ -19,7 +19,7 @@ import it.othala.service.factory.OthalaFactory;
 import org.junit.Test;
 
 public class OrderTest {
-	//@Test
+	@Test
 	public void test1() {
 		
 		try {
@@ -84,7 +84,7 @@ public class OrderTest {
 
 		
 	}*/
-	@Test
+	//@Test
 	public void Test4(){
 		
 		OthalaFactory.getOrderServiceInstance().confirmOrderDelivery("PPPPP1234",2);
