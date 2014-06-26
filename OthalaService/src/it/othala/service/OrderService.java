@@ -51,10 +51,16 @@ public class OrderService implements IOrderService {
 	private static Log log = LogFactory.getLog(OrderService.class);
 
 	@Override
-	public List<OrderFullDTO> getOrders(Integer Order, String User, Integer StatoOrdine) {
+	public List<OrderFullDTO> getOrders(Integer Order, String User, TypeStateOrder StatoOrdine) {
 
-		List<OrderFullDTO> listaOrdini = orderDAO.getOrders(Order, User, StatoOrdine);
-
+		List<OrderFullDTO> listaOrdini;
+		if (StatoOrdine == null){
+			listaOrdini = orderDAO.getOrders(Order, User, null);
+		}
+		else{
+			listaOrdini = orderDAO.getOrders(Order, User, StatoOrdine.getState());
+		}
+			
 		Iterator<OrderFullDTO> i = listaOrdini.iterator();
 		while (i.hasNext()) {
 			OrderFullDTO order = i.next();
