@@ -1,0 +1,152 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/merchantPageTemplate.xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:viewAction action="#{ricercaProdottiView.doInit}"></f:viewAction>
+		</f:metadata>
+	</ui:define>
+
+
+	<ui:define name="title">
+		<h:outputText value="Ricerca Prodotti"></h:outputText>
+	</ui:define>
+
+	<ui:define name="Pagina">Ricerca</ui:define>
+	<ui:define name="PaginaBreadcrumb">Ricerca Prodotti</ui:define>
+
+	<ui:define name="bodyPageContent">
+		<h:form prependId="false" id="frmProd" styleClass="form-horizontal">
+			<p:growl id="messages" showDetail="true" autoUpdate="true" />
+
+			<div class="row">
+				<div class="col-sm-4">
+					<h3 class="form-titoli">
+						<h:outputText value="Ricerca Prodotti" />
+					</h3>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="form-group spacer10">
+						<p:outputLabel for="barcode" class="col-sm-1 control-label" value="Barcode" />
+						<div class="col-sm-3 ">
+							<p:inputText styleClass="form-control" maxlength="30" id="barcode" required="true"
+								value="#{ricercaProdottiView.merchantCode}" />
+						</div>
+						<p:outputLabel class="col-sm-1 control-label" for="stato" value="Stato" />
+						<div class="col-sm-2 ">
+							<h:selectOneMenu id="stato" styleClass="form-control" value="#{selectOneMenuView.console}">
+								<f:selectItem itemLabel="Scegli lo stato" noSelectionOption="true"></f:selectItem>
+								<f:selectItem itemLabel="Inserito" itemValue="1" />
+								<f:selectItem itemLabel="Completato" itemValue="3" />
+								<f:selectItem itemLabel="Pending" itemValue="3" />
+
+							</h:selectOneMenu>
+						</div>
+						<p:outputLabel for="negozio" class="col-sm-1 col-sm-offset-1 control-label" value="Negozio" />
+						<div class="col-sm-3">
+
+							<p:autoComplete scrollHeight="#{ricercaProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}"
+								required="true" minQueryLength="1" size="34" dropdown="true" id="negozio"
+								value="#{ricercaProdottiView.shop}" completeMethod="#{ricercaProdottiView.completeShops}"
+								var="shop" itemLabel="#{shop.txShop}" itemValue="#{shop}"
+								converter="it.othala.ShopConverter" forceSelection="true" />
+
+
+						</div>
+
+					</div>
+
+					<div class="form-group">
+						<p:outputLabel for="genere" styleClass="col-sm-1 control-label" value="Genere" />
+						<div class="col-sm-3">
+							<p:autoComplete required="true" minQueryLength="1" dropdown="true" id="genere"
+								value="#{ricercaProdottiView.genere}" completeMethod="#{ricercaProdottiView.completeGenere}"
+								var="gender" itemLabel="#{gender.valore}" itemValue="#{gender}"
+								converter="it.othala.GenderConverter" forceSelection="true">
+							</p:autoComplete>
+
+						</div>
+
+						<p:outputLabel for="tipo" styleClass="col-sm-1 control-label" value="Tipo" />
+						<div class="col-sm-3">
+							<h:panelGroup id="tipoPnl">
+								<p:autoComplete scrollHeight="#{ricercaProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}"
+									required="true" minQueryLength="1" dropdown="true" id="tipo"
+									value="#{ricercaProdottiView.tipo}" completeMethod="#{ricercaProdottiView.completeTipo}"
+									var="type" itemLabel="#{type.valore}" itemValue="#{type}"
+									converter="it.othala.TypeConverter" forceSelection="true">
+
+								</p:autoComplete>
+							</h:panelGroup>
+
+						</div>
+
+
+
+						<p:outputLabel for="brand" styleClass="col-sm-1 control-label" value="Brand" />
+						<div class="col-sm-3">
+							<h:panelGroup id="brandPnl">
+								<p:autoComplete scrollHeight="#{ricercaProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}"
+									required="true" minQueryLength="1" dropdown="true" id="brand"
+									value="#{ricercaProdottiView.brand}" completeMethod="#{ricercaProdottiView.completeBrand}"
+									var="brand" itemLabel="#{brand.valore}" itemValue="#{brand}"
+									converter="it.othala.BrandConverter" forceSelection="true" />
+							</h:panelGroup>
+
+						</div>
+					</div>
+
+					<div class="form-group">
+						<p:outputLabel styleClass="col-sm-1 control-label" value="Prezzo" />
+						<div class="col-sm-2">
+							<p:slider for="txt6,txt7" minValue="1" maxValue="5000" display="displayRange" range="true"
+								displayTemplate="{min} &#8364; - {max} &#8364;" />
+							<h:outputText id="displayRange"
+								value="#{cartFlowBean.catalog.priceMin} &#8364; - #{cartFlowBean.catalog.priceMax} &#8364;" />
+
+							<h:inputHidden id="txt6" value="#{cartFlowBean.catalog.priceMin}" />
+							<h:inputHidden id="txt7" value="#{cartFlowBean.catalog.priceMax}" />
+
+
+						</div>
+
+
+
+						<p:outputLabel styleClass="col-sm-1 col-sm-offset-1 control-label" for="desc"
+							value="Descrizione" />
+						<div class="col-sm-6">
+
+							<p:inputText required="true" styleClass="form-control"
+								value="#{ricercaProdottiView.descrizione}" id="desc"></p:inputText>
+
+						</div>
+
+					</div>
+					<div class="form-group">
+						<p:outputLabel for="buttonDa" styleClass="col-sm-1 control-label" value="Data Da" />
+						<div class="col-sm-3">
+							<p:calendar title="data relativa allo stato selezionato" id="buttonDa" showOn="button" />
+						</div>
+						<p:outputLabel for="buttonA" styleClass="col-sm-1 control-label" value="Data A" />
+						<div class="col-sm-3">
+							<p:calendar title="data relativa allo stato selezionato" id="buttonA" showOn="button" />
+						</div>
+					</div>
+
+					<p:commandButton styleClass="ui-priority-primary" process="@form" update="@form" id="findPrds"
+						value="#{msg.catalog_find}">
+					</p:commandButton>
+
+
+
+				</div>
+			</div>
+
+		</h:form>
+	</ui:define>
+</ui:composition>

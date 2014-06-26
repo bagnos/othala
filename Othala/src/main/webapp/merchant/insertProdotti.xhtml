@@ -59,13 +59,18 @@
 
 						<p:outputLabel for="tipo" styleClass="col-sm-1 control-label" value="Tipo" />
 						<div class="col-sm-3">
-							<p:autoComplete scrollHeight="#{insertProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}"
-								required="true" minQueryLength="1" dropdown="true" id="tipo"
-								value="#{insertProdottiView.tipo}" completeMethod="#{insertProdottiView.completeTipo}"
-								var="type" itemLabel="#{type.valore}" itemValue="#{type}"
-								converter="it.othala.TypeConverter" forceSelection="true">
-								<p:ajax event="itemSelect" update=":frm-arts" />
-							</p:autoComplete>
+							<h:panelGroup id="tipoPnl">
+								<p:autoComplete scrollHeight="#{insertProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}"
+									required="true" minQueryLength="1" dropdown="true" id="tipo"
+									value="#{insertProdottiView.tipo}" completeMethod="#{insertProdottiView.completeTipo}"
+									var="type" itemLabel="#{type.valore}" itemValue="#{type}"
+									converter="it.othala.TypeConverter" forceSelection="true">
+									<p:ajax event="itemSelect" update=":frm-arts" />
+								</p:autoComplete>
+							</h:panelGroup>
+							<!-- 
+							<p:commandButton title="Aggiungi Tipo" icon="ui-icon-plus" type="button"
+								onclick="PF('dlgInsTipo').show();" /> -->
 
 						</div>
 					</div>
@@ -122,7 +127,15 @@
 
 					</div>
 
+					<div class="form-group">
+					<p:outputLabel styleClass="col-sm-1 control-label" for="pubblica" value="Pubblica" />
+					<div class="col-sm-6">
+						<p:selectBooleanCheckbox value="#{insertProdottiView.pubblica}" id="pubblica" />
+						
+					</div>
+					</div>
 
+					
 
 
 				</div>
@@ -130,28 +143,48 @@
 
 		</h:form>
 		<h:form prependId="false" id="frmDialog">
+			<!-- inserimento brand -->
 			<p:dialog header="Nuovo Brand" id="dlgIns" widgetVar="dlgIns" modal="true" height="100">
-
 				<div class="row text-center">
 					<div class="col-sm-12 ">
-
-
 						<p:inputText label="nuovo brand" id="newBrand1" required="true"
 							value="#{insertProdottiView.newBrand}" maxlength="40" size="40" />
-
-
 						<br /> <br />
-
 						<p:commandButton oncomplete="PF('dlgIns').hide();" ajax="true" validateClient="true"
 							process="@this newBrand1" partialSubmit="true" update=":frmProd:brandPnl"
 							actionListener="#{insertProdottiView.addNewBrand}" value="Inserisci"></p:commandButton>
-
-
 					</div>
 				</div>
-
-
 			</p:dialog>
+			<!-- inserimento colore -->
+			<p:dialog header="Nuovo Colore" id="dlgInsCol" widgetVar="dlgInsCol" modal="true" height="100">
+				<div class="row text-center">
+					<div class="col-sm-12 ">
+						<p:inputText label="nuovo colore" id="newCol1" required="true"
+							value="#{insertProdottiView.newColor}" maxlength="40" size="40" />
+						<br /> <br />
+						<p:commandButton id="cmdInsCol" oncomplete="PF('dlgInsCol').hide();" ajax="true"
+							validateClient="true" process="@this newCol1" partialSubmit="true"
+							update=":frm-arts:colorPnl" actionListener="#{insertProdottiView.addNewColor}"
+							value="Inserisci"></p:commandButton>
+					</div>
+				</div>
+			</p:dialog>
+			<!-- inserimento tipo -->
+			<p:dialog header="Nuovo Tipo" id="dlgInsTipo" widgetVar="dlgInsTipo" modal="true" height="100">
+				<div class="row text-center">
+					<div class="col-sm-12 ">
+						<p:inputText label="nuovo tipo" id="newTipo1" required="true"
+							value="#{insertProdottiView.newType}" maxlength="40" size="40" />
+						<br /> <br />
+						<p:commandButton id="cmdInsType" oncomplete="PF('dlgInsTipo').hide();" ajax="true"
+							validateClient="true" process="@this newTipo1" partialSubmit="true" update=":frmProd:tipoPnl"
+							actionListener="#{insertProdottiView.addNewType}" value="Inserisci"></p:commandButton>
+					</div>
+				</div>
+			</p:dialog>
+
+
 		</h:form>
 
 		<h:form enctype="multipart/form-data" prependId="false" id="frmImages">
@@ -227,12 +260,16 @@
 
 						<p:outputLabel for="colore" class="col-sm-1 control-label" value="Colore" />
 						<div class="col-sm-3">
+							<h:panelGroup id="colorPnl">
 
-							<p:autoComplete scrollHeight="#{insertProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}"
-								required="true" minQueryLength="1" dropdown="true" id="colore"
-								value="#{insertProdottiView.color}" completeMethod="#{insertProdottiView.completeColours}"
-								var="attr" itemLabel="#{attr.valore}" itemValue="#{attr}"
-								converter="it.othala.ColorConverter" forceSelection="true" />
+								<p:autoComplete scrollHeight="#{insertProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}"
+									required="true" minQueryLength="1" dropdown="true" id="colore"
+									value="#{insertProdottiView.color}" completeMethod="#{insertProdottiView.completeColours}"
+									var="attr" itemLabel="#{attr.valore}" itemValue="#{attr}"
+									converter="it.othala.ColorConverter" forceSelection="true" />
+								<p:commandButton title="Aggiungi colore" icon="ui-icon-plus" type="button"
+									onclick="PF('dlgInsCol').show();" />
+							</h:panelGroup>
 						</div>
 					</div>
 					<div class="form-group">

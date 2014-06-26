@@ -53,6 +53,33 @@ public class InsertProdottiView extends BaseView {
 	private String removedArticle;
 	private String merchantCode;
 	private String newBrand;
+	private String newColor;
+	private String newType;
+	private boolean pubblica;
+
+	public boolean isPubblica() {
+		return pubblica;
+	}
+
+	public void setPubblica(boolean pubblica) {
+		this.pubblica = pubblica;
+	}
+
+	public String getNewType() {
+		return newType;
+	}
+
+	public void setNewType(String newType) {
+		this.newType = newType;
+	}
+
+	public String getNewColor() {
+		return newColor;
+	}
+
+	public void setNewColor(String newColor) {
+		this.newColor = newColor;
+	}
 
 	public String getNewBrand() {
 		return newBrand;
@@ -485,17 +512,49 @@ public class InsertProdottiView extends BaseView {
 
 	public void addNewBrand(ActionEvent e) {
 		if (newBrand == null || newBrand.isEmpty()) {
-			addError("New Brand", "inserire il brand");
+			addError("Nuovo Brand", "inserire il brand");
 			return;
 		}
 		try {
 			OthalaFactory.getProductServiceInstance().insertBrand(getLang(), newBrand);
 			getBeanApplication().resetDomain();
-			addInfo("New Brand", "brand inserito correttamente");
+			addInfo("Nuovo Brand", "brand inserito correttamente");
 			
 			
 		} catch (Exception ex) {
 			addGenericError(ex, "errore nell'inserimento del brand");
+		}
+	}
+	
+	public void addNewColor(ActionEvent e) {
+		if (newColor == null || newColor.isEmpty()) {
+			addError("Nuovo colore", "inserire il colore");
+			return;
+		}
+		try {
+			OthalaFactory.getProductServiceInstance().insertColor(getLang(), newColor);
+			getBeanApplication().resetDomain();
+			addInfo("Nuovo Colore", "colore inserito correttamente");
+			
+			
+		} catch (Exception ex) {
+			addGenericError(ex, "errore nell'inserimento del colore");
+		}
+	}
+	
+	public void addNewType(ActionEvent e) {
+		if (newType == null || newType.isEmpty()) {
+			addError("Nuovo tipo", "inserire il tipo");
+			return;
+		}
+		try {
+			OthalaFactory.getProductServiceInstance().insertType(getLang(), newType);
+			getBeanApplication().resetDomain();
+			addInfo("Nuovo tipo", "tipo inserito correttamente");
+			
+			
+		} catch (Exception ex) {
+			addGenericError(ex, "errore nell'inserimento del tipo");
 		}
 	}
 
