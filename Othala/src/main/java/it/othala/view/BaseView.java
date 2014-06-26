@@ -4,6 +4,7 @@ import it.othala.account.model.CustomerLoginBean;
 import it.othala.cartflow.model.CartFlowBean;
 import it.othala.execption.OthalaException;
 import it.othala.model.ApplicationBean;
+import it.othala.web.utils.AutoCompleteUtils;
 import it.othala.web.utils.OthalaUtil;
 
 import java.io.IOException;
@@ -39,6 +40,17 @@ public abstract class BaseView implements Serializable {
 	 */
 	protected static Log log = LogFactory.getLog(BaseView.class);
 	private List<String> breadCrumb = new ArrayList<>();
+	private AutoCompleteUtils autoUtils=null;
+	
+	
+
+	public AutoCompleteUtils getAutoUtils() {
+		if (autoUtils==null)
+		{
+			autoUtils=new AutoCompleteUtils(getBeanApplication());
+		}
+		return autoUtils;
+	}
 
 	@ManagedProperty(value="#{applicationBean}")
 	//@Inject

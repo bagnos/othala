@@ -7,6 +7,7 @@ import it.othala.dto.ProductFullDTO;
 import it.othala.dto.ShopDTO;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
+import it.othala.web.utils.AutoCompleteUtils;
 import it.othala.web.utils.ResizeImageUtil;
 
 import java.io.File;
@@ -25,6 +26,7 @@ import javax.faces.event.ActionEvent;
 
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
+import org.primefaces.util.AgentUtils;
 
 @ManagedBean
 @ViewScoped
@@ -241,6 +243,7 @@ public class InsertProdottiView extends BaseView {
 	public String doInit() {
 		// TODO Auto-generated method stub
 		DomainDTO dom = getBeanApplication().getDomain();
+
 		qta = 1;
 		return null;
 	}
@@ -264,9 +267,11 @@ public class InsertProdottiView extends BaseView {
 			prd.setPrice(prezzo);
 			prd.setThumbnailsUrl(fileThumb);
 			prd.setPriceDiscounted(prezzoScontato);
-			OthalaFactory.getProductServiceInstance().insertProduct(prd,true);
+			OthalaFactory.getProductServiceInstance().insertProduct(prd, pubblica);
+
 			resetPrd();
 			getBeanApplication().resetMenu();
+
 			addInfo("Prodotto", "inserimento effettuato correttamente");
 
 		} catch (Exception ex) {
@@ -313,98 +318,31 @@ public class InsertProdottiView extends BaseView {
 		articles.add(art);
 	}
 
-	public List<AttributeDTO> completeGenere(String query) {
-		List<AttributeDTO> allAttributeDTO = getBeanApplication().getGenderDTO();
-		List<AttributeDTO> filteredAttributeDTO = new ArrayList<AttributeDTO>();
-
-		for (int i = 0; i < allAttributeDTO.size(); i++) {
-			AttributeDTO attr = allAttributeDTO.get(i);
-			if (attr.getValore().toLowerCase().startsWith(query.toLowerCase())) {
-				filteredAttributeDTO.add(attr);
-			}
-		}
-
-		return filteredAttributeDTO;
-	}
-
 	public List<AttributeDTO> completeTaglia(String query) {
-		List<AttributeDTO> filteredSize = new ArrayList<AttributeDTO>();
-		if (tipo != null) {
-			List<AttributeDTO> allSize = getBeanApplication().getSizesDTO(tipo.getAttributo().intValue());
-
-			for (int i = 0; i < allSize.size(); i++) {
-				AttributeDTO attr = allSize.get(i);
-				if (attr.getValore().toLowerCase().startsWith(query.toLowerCase())) {
-					filteredSize.add(attr);
-				}
-			}
-		}
-
-		return filteredSize;
+		return getAutoUtils().completeTaglia(query, tipo);
 	}
 
-	public List<AttributeDTO> completeBrand(String query) {
-		List<AttributeDTO> allBrands = getBeanApplication().getBrandDTO();
-		List<AttributeDTO> filteredBrands = new ArrayList<AttributeDTO>();
-
-		for (int i = 0; i < allBrands.size(); i++) {
-			AttributeDTO attr = allBrands.get(i);
-			if (attr.getValore().toLowerCase().startsWith(query.toLowerCase())) {
-				filteredBrands.add(attr);
-			}
-		}
-
-		return filteredBrands;
-	}
-
-	public List<ShopDTO> completeShops(String query) {
-		List<ShopDTO> allShops = getBeanApplication().getShopsDTO();
-		List<ShopDTO> filteredShops = new ArrayList<ShopDTO>();
-
-		for (int i = 0; i < allShops.size(); i++) {
-			ShopDTO attr = allShops.get(i);
-			if (attr.getTxShop().toLowerCase().startsWith(query.toLowerCase())) {
-				filteredShops.add(attr);
-			}
-		}
-
-		return filteredShops;
-	}
-
-	public List<AttributeDTO> completeColours(String query) {
-		List<AttributeDTO> allColours = getBeanApplication().getColorsDTO();
-		List<AttributeDTO> filteredColours = new ArrayList<AttributeDTO>();
-
-		for (int i = 0; i < allColours.size(); i++) {
-			AttributeDTO attr = allColours.get(i);
-			if (attr.getValore().toLowerCase().startsWith(query.toLowerCase())) {
-				filteredColours.add(attr);
-			}
-		}
-
-		return filteredColours;
+	public List<AttributeDTO> completeGenere(String query) {
+		return getAutoUtils().completeGenere(query);
 	}
 
 	public List<AttributeDTO> completeTipo(String query) {
 
-		List<AttributeDTO> allType = getBeanApplication().getTypeDTO();
-		List<AttributeDTO> filteredType = new ArrayList<AttributeDTO>();
+		return getAutoUtils().completeTipo(query);
 
-		for (int i = 0; i < allType.size(); i++) {
-			AttributeDTO menu = allType.get(i);
-			if (menu.getValore().toLowerCase().startsWith(query.toLowerCase())) {
-				filteredType.add(menu);
-			}
-		}
-
-		return filteredType;
 	}
 
-	public void upload(ActionEvent e) {
-		if (file != null) {
-			FacesMessage message = new FacesMessage("Succesful", file.getFileName() + " is uploaded.");
-			FacesContext.getCurrentInstance().addMessage(null, message);
-		}
+	public List<AttributeDTO> completeBrand(String query) {
+		return getAutoUtils().completeBrand(query);
+
+	}
+
+	public List<ShopDTO> completeShops(String query) {
+		return getAutoUtils().completeShops(query);
+	}
+
+	public List<AttributeDTO> completeColours(String query) {
+		return getAutoUtils().completeColours(query);
 	}
 
 	public void removeArticle(ActionEvent e) {
@@ -473,14 +411,6 @@ public class InsertProdottiView extends BaseView {
 
 	}
 
-	private void deleteFile(UploadedFile file) throws IOException {
-		ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
-
-		File result = new File(extContext.getRealPath(BASE_IMG_PATH + file.getFileName()));
-
-		result.delete();
-	}
-
 	private String copyFile(UploadedFile file) throws IOException {
 		ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
 
@@ -519,13 +449,12 @@ public class InsertProdottiView extends BaseView {
 			OthalaFactory.getProductServiceInstance().insertBrand(getLang(), newBrand);
 			getBeanApplication().resetDomain();
 			addInfo("Nuovo Brand", "brand inserito correttamente");
-			
-			
+
 		} catch (Exception ex) {
 			addGenericError(ex, "errore nell'inserimento del brand");
 		}
 	}
-	
+
 	public void addNewColor(ActionEvent e) {
 		if (newColor == null || newColor.isEmpty()) {
 			addError("Nuovo colore", "inserire il colore");
@@ -535,13 +464,12 @@ public class InsertProdottiView extends BaseView {
 			OthalaFactory.getProductServiceInstance().insertColor(getLang(), newColor);
 			getBeanApplication().resetDomain();
 			addInfo("Nuovo Colore", "colore inserito correttamente");
-			
-			
+
 		} catch (Exception ex) {
 			addGenericError(ex, "errore nell'inserimento del colore");
 		}
 	}
-	
+
 	public void addNewType(ActionEvent e) {
 		if (newType == null || newType.isEmpty()) {
 			addError("Nuovo tipo", "inserire il tipo");
@@ -551,8 +479,7 @@ public class InsertProdottiView extends BaseView {
 			OthalaFactory.getProductServiceInstance().insertType(getLang(), newType);
 			getBeanApplication().resetDomain();
 			addInfo("Nuovo tipo", "tipo inserito correttamente");
-			
-			
+
 		} catch (Exception ex) {
 			addGenericError(ex, "errore nell'inserimento del tipo");
 		}
