@@ -108,8 +108,8 @@
 							<h:outputText id="displayRange"
 								value="#{cartFlowBean.catalog.priceMin} &#8364; - #{cartFlowBean.catalog.priceMax} &#8364;" />
 
-							<h:inputHidden id="txt6" value="#{cartFlowBean.catalog.priceMin}" />
-							<h:inputHidden id="txt7" value="#{cartFlowBean.catalog.priceMax}" />
+							<h:inputHidden id="txt6" value="#{ricercaProdottiView.minPrice}" />
+							<h:inputHidden id="txt7" value="#{ricercaProdottiView.maxPrice}" />
 
 
 						</div>
@@ -141,11 +141,51 @@
 					</div>
 
 					<p:commandButton styleClass="ui-priority-primary" process="@form" update="@form" id="findPrds"
-						value="#{msg.catalog_find}">
+						value="#{msg.catalog_find}" actionListener="#{ricercaProdottiView.findProducts}">
 					</p:commandButton>
 
 
 
+				</div>
+			</div>
+
+			<div class="row spacer20">
+				<div class="col-sm-12">
+					<p:contextMenu for="prdTable">
+						<p:menuitem value="View" icon="ui-icon-search" />
+						<p:menuitem value="Elimina" icon="ui-icon-close" />
+
+					</p:contextMenu>
+					<p:dataTable id="prdTable" var="prd" value="#{ricercaProdottiView.products}"
+						selection="#{ricercaProdottiView.selectedProducts}" rowKey="#{prd.idProduct}"
+						style="margin-bottom:0">
+						<f:facet name="header">
+            Elenco prodotti
+        </f:facet>
+						<p:column selectionMode="multiple" style="width:2%;text-align:center" />
+						<p:column headerText="Id">
+							<h:outputText value="#{prd.idProduct}" />
+						</p:column>
+						<p:column headerText="Genere">
+							<h:outputText value="#{prd.txGender}" />
+						</p:column>
+						<p:column headerText="Tipo">
+							<h:outputText value="#{prd.txType}" />
+						</p:column>
+						<p:column headerText="Descrizione">
+							<h:outputText value="#{prd.description}" />
+						</p:column>
+						<p:column headerText="Prezzo">
+							<h:outputText value="#{prd.imPrice}" converter="it.othala.BigDecimalConverter" />
+						</p:column>
+						<p:column headerText="Sconto">
+							<h:outputText value="#{prd.priceDiscounted}" converter="it.othala.BigDecimalConverter" />
+						</p:column>
+
+						<f:facet name="footer">
+							<p:commandButton icon="ui-icon-search" value="View" />
+						</f:facet>
+					</p:dataTable>
 				</div>
 			</div>
 
