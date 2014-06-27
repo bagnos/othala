@@ -31,7 +31,7 @@ public class ProductFindDTO implements Serializable {
 
 	private Integer idBrand;
 	private String txBrand;
-
+	private BigDecimal imPrice;
 	
 	private BigDecimal priceDiscounted;
 	private String description;
@@ -158,6 +158,14 @@ public class ProductFindDTO implements Serializable {
 
 	public void setThumbnailsUrl(String thumbnailsUrl) {
 		this.thumbnailsUrl = thumbnailsUrl;
+	}
+
+	public BigDecimal getImPrice() {
+		return imPrice;
+	}
+
+	public void setImPrice(BigDecimal imPrice) {
+		this.imPrice = imPrice;
 	}
 	
 	
