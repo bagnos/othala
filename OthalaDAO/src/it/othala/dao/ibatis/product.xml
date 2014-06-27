@@ -218,8 +218,8 @@
 
 		on tab1.idCampaign =
 		tab2.idCampaign
-		and tab2.dtInizio &lt; current_date
-		and tab2.dtFine &gt;
+		and tab2.dtInizio &lt;= current_date
+		and tab2.dtFine &gt;=
 		current_date;
 
 
@@ -799,6 +799,122 @@
 
 	<select id="listFindProduct" resultType="it.othala.dto.ProductFindDTO"
 		parameterType="java.util.HashMap">
+
+		SELECT
+		idProduct,
+		idProductState,
+		txProductState,
+		idGender,
+		txGender,
+		idType,
+		txType,
+		idBrand,
+		txBrand,
+		imPrice,
+		ceiling(imPrice * (100 - coalesce(pcDiscount,pcSconto)) / 100) as priceDiscounted,
+		description,
+		dtProductState,
+		thumbnailsUrl
+
+		FROM
+		(
+		SELECT
+		a.idProduct ,
+		a.idProductState,
+		h.txStato as txProductState,
+		a.idGender,
+		txGender,
+		a.idType,
+		txType,
+		a.idBrand,
+		txBrand,
+		imPrice,
+		pcDiscount,
+		txDescription as description,
+		a.dtProductState,
+		txThumbnailsUrl as thumbnailsUrl,
+		idCampaign
+
+		FROM
+
+		${database.schema}product a,
+		${database.schema}product_description b,
+		${database.schema}brand c,
+		${database.schema}gender f,
+		${database.schema}`type` g,
+		${database.schema}states h
+		where
+		a.idProduct = b.idProduct
+		and b.idLanguages = "it"
+		and c.idBrand = a.idBrand
+		and f.idGender =
+		a.idGender
+		and g.idType = a.idType
+		and h.idStato = a.idProductState
+		
+		<if test="txBarcode != null">
+			and a.txBarcode = #{txBarcode}
+		</if>
+
+		<if test="state != null">
+			and a.idProductState = #{state}
+		</if>
+
+		<if test="gender != null">
+			and a.idGender = #{gender}
+		</if>		
+		
+		<if test="type != null">
+			and a.idType = #{type}
+		</if>
+
+		<if test="brand != null">
+			and a.idBrand = #{brand}
+		</if>
+
+		<if test="description != null">
+			and b.txDescription like CONCAT('%', #{description},'%')
+		</if>
+
+		<if test="dtBegin != null">
+			and a.dtProductState &gt;= #{dtBegin}
+		</if>
+		
+		<if test="minPrice != null">
+			and a.imPrice &gt;= #{minPrice}
+		</if>
+		
+		<if test="maxPrice != null">
+			and a.imPrice &gt;= #{maxPrice}
+		</if>
+		
+		<if test="dtEnd != null">
+			and a.dtProductState &gt;= #{dtEnd}
+		</if>
+		
+		
+		
+		<if test="shop != null">
+			and exists (select 1 from
+			${database.schema}article r
+			where
+			r.idProduct = a.idProduct
+			and
+			r.idShop = #{shop}
+			)
+		</if>
+
+	
+
+		) tab1
+
+		left join
+
+		campaigns tab2
+
+		on tab1.idCampaign = tab2.idCampaign
+		and tab2.dtInizio &lt;= current_date
+		and tab2.dtFine &gt;= current_date
 
 
 	</select>

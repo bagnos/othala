@@ -235,22 +235,27 @@ public class ProductService implements IProductService {
 				txBarcode, state, shop, gender, type, brand, minPrice,
 				maxPrice, description, dtBegin, dtEnd);
 
-		for (int i = 0; i <= listProduct.size() - 1; i++) {
+		if (listProduct.equals(null)) {
 
-			List<String> newString = productDAO
-					.listDistinctTxBarcode(listProduct.get(i).getIdProduct());
+		} else {
+			for (int i = 0; i <= listProduct.size() - 1; i++) {
 
-			listProduct.get(i).setListTxBarcode(newString);
+				List<String> newString = productDAO
+						.listDistinctTxBarcode(listProduct.get(i)
+								.getIdProduct());
 
-		}
+				listProduct.get(i).setListTxBarcode(newString);
 
-		for (int i = 0; i <= listProduct.size() - 1; i++) {
+			}
 
-			List<ShopDTO> newList = productDAO.listDistinctShop(listProduct
-					.get(i).getIdProduct());
+			for (int i = 0; i <= listProduct.size() - 1; i++) {
 
-			listProduct.get(i).setListShop(newList);
+				List<ShopDTO> newList = productDAO.listDistinctShop(listProduct
+						.get(i).getIdProduct());
 
+				listProduct.get(i).setListShop(newList);
+
+			}
 		}
 		;
 

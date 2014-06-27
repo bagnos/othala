@@ -28,8 +28,8 @@ public class HomeMerchantView extends BaseView{
 	@Override
 	public String doInit() {
 		// TODO Auto-generated method stub
-		ordersCompleted= OthalaFactory.getOrderServiceInstance().getOrders(null, null, TypeStateOrder.COMPLETED.getState());
-		ordersPending= OthalaFactory.getOrderServiceInstance().getOrders(null, null, TypeStateOrder.PENDING.getState());
+		ordersCompleted= OthalaFactory.getOrderServiceInstance().getOrders(null, null, TypeStateOrder.COMPLETED);
+		ordersPending= OthalaFactory.getOrderServiceInstance().getOrders(null, null, TypeStateOrder.PENDING);
 		return null;
 	}
 

@@ -493,24 +493,22 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		HashMap<String, Object> mapProduct = new HashMap<>();
 		mapProduct.put("txBarcode", txBarcode);
 		mapProduct.put("state", state);
-		mapProduct.put("shop", shop);
 		mapProduct.put("gender", gender);
 		mapProduct.put("type", type);
 		mapProduct.put("brand", brand);
+		
 		mapProduct.put("minPrice", minPrice);
 		mapProduct.put("maxPrice", maxPrice);
 		mapProduct.put("description", description);
+		
+		mapProduct.put("shop", shop);
 		mapProduct.put("dtBegin", dtBegin);
 		mapProduct.put("dtEnd", dtEnd);
 
-		/*
 		List<ProductFindDTO> listProduct = getSqlSession().selectList(
 				"it.othala.product.queries.listFindProduct", mapProduct);
 
 		return listProduct;
-		*/
-		
-		return null;
 	}
 
 	@Override
