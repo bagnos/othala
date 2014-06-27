@@ -2,16 +2,19 @@ package it.othala.merchant.view;
 
 import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.AttributeDTO;
+import it.othala.dto.ProductFindDTO;
 import it.othala.dto.ShopDTO;
+import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.event.ActionEvent;
 
 import org.primefaces.model.UploadedFile;
 
@@ -31,6 +34,57 @@ public class RicercaProdottiView extends BaseView {
 	private String negozio;
 	private ShopDTO shop;
 	private int idStato;
+	private int minPrice;
+	private int maxPrice;
+	private List<ProductFindDTO> products;
+	private List<ProductFindDTO> selectedProducts;
+
+	private Date dtBegin;
+	private Date dtEnd;
+
+	public void setSelectedProducts(List<ProductFindDTO> selectedProducts) {
+		this.selectedProducts = selectedProducts;
+	}
+
+	public Date getDtBegin() {
+		return dtBegin;
+	}
+
+	public void setDtBegin(Date dtBegin) {
+		this.dtBegin = dtBegin;
+	}
+
+	public Date getDtEnd() {
+		return dtEnd;
+	}
+
+	public void setDtEnd(Date dtEnd) {
+		this.dtEnd = dtEnd;
+	}
+
+	public List<ProductFindDTO> getSelectedProducts() {
+		return selectedProducts;
+	}
+
+	public List<ProductFindDTO> getProducts() {
+		return products;
+	}
+
+	public int getMinPrice() {
+		return minPrice;
+	}
+
+	public void setMinPrice(int minPrice) {
+		this.minPrice = minPrice;
+	}
+
+	public int getMaxPrice() {
+		return maxPrice;
+	}
+
+	public void setMaxPrice(int maxPrice) {
+		this.maxPrice = maxPrice;
+	}
 
 	public int getIdStato() {
 		return idStato;
@@ -156,7 +210,17 @@ public class RicercaProdottiView extends BaseView {
 	public List<ShopDTO> completeShops(String query) {
 		return getAutoUtils().completeShops(query);
 	}
-	
-	
+
+	public void findProducts(ActionEvent e) {
+		try {
+
+			products = OthalaFactory.getProductServiceInstance().listFindProduct(merchantCode==null || merchantCode.isEmpty()?null:merchantCode, null,
+					shop != null ? shop.getIdShop() : null, genere != null ? genere.getAttributo() : null,
+					tipo != null ? tipo.getAttributo() : null, brand != null ? brand.getAttributo() : null,
+					BigDecimal.valueOf(minPrice), BigDecimal.valueOf(maxPrice), descrizione, dtBegin, dtEnd);
+		} catch (Exception ex) {
+			addGenericError(ex, "errore ricerca prodotti");
+		}
+	}
 
 }
