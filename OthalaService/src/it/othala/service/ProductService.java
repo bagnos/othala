@@ -263,4 +263,15 @@ public class ProductService implements IProductService {
 
 	}
 
+	@Override
+	public List<String> deleteProduct(Integer idProduct) {
+
+		productDAO.deleteProduct(idProduct);
+		
+		List<String> newString = productDAO.listProductImages(idProduct);
+		
+		return newString;
+		
+	}
+
 }

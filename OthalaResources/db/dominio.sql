@@ -53,7 +53,7 @@ INSERT INTO `aduna937_othala`.`size` VALUES
 (51,4,'38'), (52,4,'39'), (53,4,'40'),(54,4,'41'),(55,4,'42')
 ;
 
-INSERT INTO `aduna937_othala`.`product_state` VALUES (0,'INSERITO'),(1,'PUBBLICATO');
+INSERT INTO `aduna937_othala`.`product_state` VALUES (0,'INSERITO'),(1,'PUBBLICATO'),(2,'CANCELLATO');
 
 INSERT INTO `aduna937_othala`.`site_images` VALUES 
 (1,'carousel',1,'images/carousel','A2.jpg','/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=false&idSubMenu=0&idCampaign=0'),
