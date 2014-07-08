@@ -140,6 +140,12 @@ public class ProductService implements IProductService {
 		return productDAO.insertProduct(productFull, fgPubblicazione);
 
 	}
+	
+	@Override
+	public void updateProduct(ProductFullDTO productFull) {
+		productDAO.updateProduct(productFull);
+
+	}
 
 	@Override
 	public Integer insertCampaign(CampaignDTO campaign) {
