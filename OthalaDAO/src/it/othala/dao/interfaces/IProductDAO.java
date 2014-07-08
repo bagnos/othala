@@ -96,6 +96,8 @@ public interface IProductDAO {
 	public List<ShopDTO> listDistinctShop(Integer idProduct);
 
 	public void deleteProduct(Integer idProduct);
+
+	public void updateProduct(ProductFullDTO productFull);
 	
 	
 	

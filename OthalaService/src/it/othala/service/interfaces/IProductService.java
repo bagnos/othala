@@ -54,5 +54,7 @@ public interface IProductService {
 			Date dtBegin, Date dtEnd);
 			
 	public List<String> deleteProduct (Integer idProduct);
+
+	public void updateProduct(ProductFullDTO productFull);
 	
 }

@@ -925,18 +925,20 @@
 
 	</select>
 
-	<select id="deleteProduct" parameterType="java.util.HashMap">
+	<update id="deleteProduct" parameterType="java.util.HashMap">
 
 
-		UPDATE ${database.schema}product
+		UPDATE
+		${database.schema}product
 		SET
 		idProductState = 2,
-		dtProductState = current_date
+		dtProductState =
+		current_date
 		WHERE idProduct
 		= #{idProduct};
 
 
-	</select>
+	</update>
 
 	<select id="listDistinctTxBarcode" resultType="String"
 		parameterType="java.util.HashMap">
@@ -966,6 +968,54 @@
 
 
 	</select>
+
+
+	<update id="updateProduct" parameterType="it.othala.dto.ProductFullDTO">
+
+		UPDATE
+		${database.schema}product
+		SET
+		`idGender` = #{idGender},
+		`idType` = #{idType},
+		`idBrand` = #{idBrand},
+		`imPrice` = #{price},
+		`pcDiscount` = #{discount},
+		`txThumbnailsUrl` = #{thumbnailsUrl},
+		`idCampaign` = #{idCampaign}
+		WHERE idProduct
+		= #{idProduct}
+
+
+	</update>
+
+	<delete id="deleteProductDescription" parameterType="java.util.HashMap">
+
+		DELETE FROM
+		${database.schema}product_description
+		WHERE idProduct
+		= #{idProduct}
+
+	</delete>
+
+	<delete id="deleteArticle" parameterType="java.util.HashMap">
+
+		DELETE FROM
+		${database.schema}article
+		WHERE idProduct
+		= #{idProduct}
+
+	</delete>
+
+	<delete id="deleteProductImage" parameterType="java.util.HashMap">
+		DELETE FROM
+		${database.schema}product_image
+		WHERE idProduct
+		= #{idProduct}
+	</delete>
+
+
+
+
 
 
 

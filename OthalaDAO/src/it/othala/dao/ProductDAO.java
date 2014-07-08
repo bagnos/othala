@@ -539,4 +539,91 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		
 	}
 
+	@Override
+	public void updateProduct(ProductFullDTO productFull) {
+		getSqlSession().update("it.othala.product.queries.updateProduct",
+				productFull);
+		
+		HashMap<String, Object> map2 = new HashMap<>();
+		
+		map2.clear();
+		map2.put("idProduct", productFull.getIdProduct());
+		
+		getSqlSession().delete(
+				"it.othala.product.queries.deleteProductDescription", map2);
+
+		
+		if (productFull.getLangDescription() == null
+				|| productFull.getLangDescription().size() == 0)
+			;
+		{
+			List<DescriptionDTO> listDescription = new ArrayList<DescriptionDTO>();
+			DescriptionDTO description = new DescriptionDTO();
+			description.setIdProduct(productFull.getIdProduct());
+			description.setDescription(productFull.getDescription());
+			description.setLanguages("it");
+			listDescription.add(description);
+			productFull.setLangDescription(listDescription);
+		}
+
+		
+
+		for (int i = 0; i <= productFull.getLangDescription().size() - 1; i++) {
+			map2.clear();
+			map2.put("idProduct", productFull.getIdProduct());
+			map2.put("idLanguages", productFull.getLangDescription().get(i)
+					.getLanguages());
+			map2.put("txDescription", productFull.getLangDescription().get(i)
+					.getDescription());
+
+			getSqlSession().insert(
+					"it.othala.product.queries.insertProductDescription", map2);
+		}
+
+		map2.clear();
+		map2.put("idProduct", productFull.getIdProduct());
+		getSqlSession().delete(
+				"it.othala.product.queries.deleteArticle", map2);
+		
+		
+		HashMap<String, Object> map4 = new HashMap<>();
+
+		for (int i = 0; i <= productFull.getArticles().size() - 1; i++) {
+			map4.clear();
+			map4.put("idProduct", productFull.getIdProduct());
+			map4.put("pgArticle", productFull.getArticles().get(i)
+					.getPgArticle());
+			map4.put("idSize", productFull.getArticles().get(i).getIdSize());
+			map4.put("idColor", productFull.getArticles().get(i).getIdColor());
+			map4.put("qtStock", productFull.getArticles().get(i).getQtStock());
+			map4.put("thumbnailsUrl", productFull.getArticles().get(i)
+					.getThumbnailsUrl());
+			map4.put("idShop", productFull.getArticles().get(i).getShop()
+					.getIdShop());
+			map4.put("txBarCode", productFull.getArticles().get(i)
+					.getTxBarCode());
+			getSqlSession().insert("it.othala.product.queries.insertArticle",
+					map4);
+
+		}
+		
+		map2.clear();
+		map2.put("idProduct", productFull.getIdProduct());
+		getSqlSession().delete(
+				"it.othala.product.queries.deleteProductImage", map2);
+		
+
+		for (int i = 0; i <= productFull.getImagesUrl().size() - 1; i++) {
+			map2.clear();
+			map2.put("idProduct", productFull.getIdProduct());
+			map2.put("pgImage", i + 1);
+			map2.put("txImageUrl", productFull.getImagesUrl().get(i));
+
+			getSqlSession().insert(
+					"it.othala.product.queries.insertProductImage", map2);
+		}
+
+
+	}
+
 }
