@@ -530,4 +530,13 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		return newList;
 	}
 
+	@Override
+	public void deleteProduct(Integer idProduct) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("idProduct", idProduct.toString());
+		getSqlSession().update(
+				"it.othala.product.queries.deleteProduct", map);
+		
+	}
+
 }

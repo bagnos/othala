@@ -94,6 +94,8 @@ public interface IProductDAO {
 	public List<String> listDistinctTxBarcode(Integer idProduct);
 
 	public List<ShopDTO> listDistinctShop(Integer idProduct);
+
+	public void deleteProduct(Integer idProduct);
 	
 	
 	

@@ -52,5 +52,7 @@ public interface IProductService {
 			Integer shop, Integer gender, Integer type, Integer brand,
 			BigDecimal minPrice, BigDecimal maxPrice, String description,
 			Date dtBegin, Date dtEnd);
+			
+	public List<String> deleteProduct (Integer idProduct);
 	
 }
