@@ -1,25 +1,48 @@
+SET FOREIGN_KEY_CHECKS=0;
+DELETE FROM `aduna937_othala`.`shops`;
+DELETE FROM `aduna937_othala`.`delivery_cost`;
+DELETE FROM `aduna937_othala`.`gender`;
+DELETE FROM `aduna937_othala`.`brand`;
+DELETE FROM `aduna937_othala`.`type_size`;
+DELETE FROM `aduna937_othala`.`type`;
+DELETE FROM `aduna937_othala`.`color`;
+DELETE FROM `aduna937_othala`.`size`;
+DELETE FROM `aduna937_othala`.`product_state`;
+DELETE FROM `aduna937_othala`.`site_images`;
+DELETE FROM `aduna937_othala`.`campaigns` ;
+DELETE FROM `aduna937_othala`.`product` ;
+DELETE FROM `aduna937_othala`.`product_description`;
+DELETE FROM `aduna937_othala`.`product_image` ;
+DELETE FROM `aduna937_othala`.`article`;
+DELETE FROM `aduna937_othala`.`states` ;
+DELETE FROM `aduna937_othala`.`type_state_account`;
+DELETE FROM `aduna937_othala`.`customer` ;
+DELETE FROM `aduna937_othala`.`customer_roles` ;
+DELETE FROM `aduna937_othala`.`addresses` ;
+DELETE FROM `aduna937_othala`.`orders`;
+DELETE FROM `aduna937_othala`.`orders_articles` ;
+DELETE FROM `aduna937_othala`.`states_orders`;
+
+SET FOREIGN_KEY_CHECKS=1;
+
+
+
 INSERT INTO `aduna937_othala`.`shops` (`idShop`, `txShop`, `txMail`) VALUES (1, 'Magazzino Badesse', 'magazzino@degortes.it');
-
 INSERT INTO `aduna937_othala`.`shops` (`idShop`, `txShop`, `txMail`) VALUES (2, 'Siena piazza della Posta', 'siena@degortes.it');
+
 INSERT INTO `aduna937_othala`.`delivery_cost` VALUES (1, 'Corriere Espresso Bartolini', 5.00,0,'Corriere Espresso Bartolini','http://Stocazzo');
-
 INSERT INTO `aduna937_othala`.`delivery_cost`  VALUES (2, 'Corriere Espresso SDA', 5.00,0,'Corriere Espresso SDA','http://Stocazzo');
-
 INSERT INTO `aduna937_othala`.`delivery_cost`  VALUES (3, 'Posta Ordinaria', 3.00,0,'Posta Ordinaria','http://Stocazzo');
-
 INSERT INTO `aduna937_othala`.`delivery_cost` VALUES (4, 'Posta Raccomandata', 4.00,0,'Posta Raccomandata','http://Stocazzo');
 
 
-INSERT INTO `aduna937_othala`.`gender` VALUES    
-(1,'it','UOMO'),(2,'it','DONNA'),(3,'it','BAMBINO'),(4,'it','BAMBINA');
-INSERT INTO `aduna937_othala`.`brand` VALUES    
-(1,'it','LANVIN'),(2,'it','BALMAIN'),(3,'it','DSQUARED'),(4,'it','MOSCHINO'),(5,'it','DOLCE E GABBANA'),(6,'it','STONE ISLAND');
+INSERT INTO `aduna937_othala`.`gender` VALUES (1,'it','UOMO'),(2,'it','DONNA'),(3,'it','BAMBINO'),(4,'it','BAMBINA');
+
+INSERT INTO `aduna937_othala`.`brand` VALUES (1,'it','LANVIN'),(2,'it','BALMAIN'),(3,'it','DSQUARED'),(4,'it','MOSCHINO'),(5,'it','DOLCE E GABBANA'),(6,'it','STONE ISLAND');
 INSERT INTO `aduna937_othala`.`brand` (`idBrand`, `idLanguages`, `txBrand`) VALUES (7, 'it', 'BLOCH');
 INSERT INTO `aduna937_othala`.`brand` (`idBrand`, `idLanguages`, `txBrand`) VALUES (8, 'it', 'ARMANI');
 
-INSERT INTO `aduna937_othala`.`type_size`
-VALUES
-(1,'TAGLIE'),(2,'TAGLIE ITA'),(3,'SCARPE EU'),(4,'PANTALONI US');
+INSERT INTO `aduna937_othala`.`type_size` VALUES (1,'TAGLIE'),(2,'TAGLIE ITA'),(3,'SCARPE EU'),(4,'PANTALONI US');
 
 INSERT INTO `aduna937_othala`.`type` VALUES    
 (1,'it','ACCESSORI',1),(2,'it','BERMUDA',4),
