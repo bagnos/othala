@@ -60,10 +60,10 @@ INSERT INTO `aduna937_othala`.`site_images` VALUES
 (2,'carousel',2,'images/carousel','A1.jpg','/cart/cart-catalog.xhtml?idMenu=2&fgNewArrivals=false&idSubMenu=0&idCampaign=0'),
 (3,'carousel',3,'images/carousel','A3.jpg','/cart/cart-catalog.xhtml?idMenu=3&fgNewArrivals=false&idSubMenu=0&idCampaign=0'),
 (4,'carousel',4,'images/carousel','A4.jpg','/cart/cart-catalog.xhtml?idMenu=4&fgNewArrivals=false&idSubMenu=0&idCampaign=0'),
-(5,'newArrivals',1,'images/newArrivals','newuomo2.png','/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=true&idSubMenu=0&idCampaign=0'),
-(6,'newArrivals',2,'images/newArrivals','newdonna2.png','/cart/cart-catalog.xhtml?idMenu=2&fgNewArrivals=true&idSubMenu=0&idCampaign=0'),
-(7,'newArrivals',3,'images/newArrivals','newbambino2.png','/cart/cart-catalog.xhtml?idMenu=3&fgNewArrivals=true&idSubMenu=0&idCampaign=0'),
-(8,'newArrivals',4,'images/newArrivals','newbambina2.png','/cart/cart-catalog.xhtml?idMenu=4&fgNewArrivals=true&idSubMenu=0&idCampaign=0');
+(5,'newArrivals',1,'images/newArrivals','newuomo2.jpg','/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=true&idSubMenu=0&idCampaign=0'),
+(6,'newArrivals',2,'images/newArrivals','newdonna2.jpg','/cart/cart-catalog.xhtml?idMenu=2&fgNewArrivals=true&idSubMenu=0&idCampaign=0'),
+(7,'newArrivals',3,'images/newArrivals','newbambino2.jpg','/cart/cart-catalog.xhtml?idMenu=3&fgNewArrivals=true&idSubMenu=0&idCampaign=0'),
+(8,'newArrivals',4,'images/newArrivals','newbambina2.jpg','/cart/cart-catalog.xhtml?idMenu=4&fgNewArrivals=true&idSubMenu=0&idCampaign=0');
 INSERT INTO `aduna937_othala`.`site_images` (`idsiteImages`, `txGroupImages`, `pgGroupImages`, `txLibrary`, `txName`,`urlRedirect`) 
 VALUES (9, 'tabNav', 1, 'images/tabNav', 'uomo.png',null);
 INSERT INTO `aduna937_othala`.`site_images` (`idsiteImages`, `txGroupImages`, `pgGroupImages`, `txLibrary`, `txName`,`urlRedirect`) 
