@@ -858,7 +858,15 @@
 		a.idProductState
 
 		<if test="txBarcode != null">
-			and a.txBarcode = #{txBarcode}
+			and exists (select 1 from
+			${database.schema}article u
+			where
+			u.idProduct =
+			a.idProduct
+			and
+			u.txBarcode = #{txBarcode}
+			)
+
 		</if>
 
 		<if test="state != null">
@@ -976,12 +984,15 @@
 		${database.schema}product
 		SET
 		`idGender` = #{idGender},
-		`idType` = #{idType},
+		`idType` =
+		#{idType},
 		`idBrand` = #{idBrand},
 		`imPrice` = #{price},
-		`pcDiscount` = #{discount},
+		`pcDiscount` =
+		#{discount},
 		`txThumbnailsUrl` = #{thumbnailsUrl},
-		`idCampaign` = #{idCampaign}
+		`idCampaign` =
+		#{idCampaign}
 		WHERE idProduct
 		= #{idProduct}
 
