@@ -872,6 +872,10 @@
 		<if test="state != null">
 			and a.idProductState = #{state}
 		</if>
+		
+		<if test="state == null">
+			and a.idProductState in (0,1)
+		</if>
 
 		<if test="gender != null">
 			and a.idGender = #{gender}
