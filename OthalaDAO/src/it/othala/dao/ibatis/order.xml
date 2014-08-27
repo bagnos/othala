@@ -101,18 +101,18 @@
 		</if>
 		and a.idAddressFat = f.idAddress
 		and a.idAddressSpe = g.idAddress
-		and c.idStato
-		= d.idStato
+		and c.idStato = d.idStato
 		<if test="idStato != null">
+			and c.dtStato = (SELECT MAX(e.dtStato)
+			FROM ${database.schema}states_orders e
+			WHERE e.idOrder = a.idOrder and c.idStato != 1)
 			and c.idStato = #{idStato}
 		</if>
 		<if test="idStato == null">
 			and c.dtStato = (SELECT MAX(e.dtStato)
 			FROM ${database.schema}states_orders e
 			WHERE e.idOrder = a.idOrder and c.idStato != 1)
-			
-		</if>
-
+		</if>		
 		and a.idUser = h.idUser
 		and i.idDeliveryCost = a.idDeliveryCost
 
