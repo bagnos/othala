@@ -45,7 +45,7 @@ public enum TypeStateOrder {
 		return stato;
 	}
 
-	public String getDescrState(int idState) {
+	public static String getDescrState(int idState) {
 		String state = valueOf(idState).toString().replace("-", "");
 		return state;
 	}
