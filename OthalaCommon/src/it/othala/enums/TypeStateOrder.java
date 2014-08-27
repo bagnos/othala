@@ -27,7 +27,13 @@ public enum TypeStateOrder {
 		}
 
 	},
-	SPEDITO(15);
+	SPEDITO(15),
+	ANNULLATO_DA_MERCHANT(16){
+		@Override
+		public String toString() {
+			return "ANNULLATO DA MERCHANT";
+		}
+	};
 
 	private int stato;
 
