@@ -116,7 +116,7 @@ INSERT INTO `aduna937_othala`.`states` VALUES (1,'INSERITO'),(2,'CANCELEDREVERSA
                             (9,'PENDING'),(10,'REFUNDED'),
                             (11,'REVERSED'),(12,'PROCESSED'),
                             (13,'VOIDED'),(14,'COMPLETEDFUNDSHELD'),
-                            (15,'SPEDITO');
+                            (15,'SPEDITO'),(16,'ANNULLATO DA MERCHANT');
 
 INSERT INTO `aduna937_othala`.`type_state_account`
 VALUES
