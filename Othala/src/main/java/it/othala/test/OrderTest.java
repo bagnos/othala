@@ -27,7 +27,7 @@ public class OrderTest {
 			//ArticleFullDTO artFull = productDao.getArticleFull(article.getPrdFullDTO().getIdProduct(), 
 			//		article.getPgArticle(), "it");
 			
-			List<OrderFullDTO> lsOf =  OthalaFactory.getOrderServiceInstance().getOrders(1, null, null);
+			List<OrderFullDTO> lsOf =  OthalaFactory.getOrderServiceInstance().getOrders(null, "1", null);
 			
 		
 		} catch (Exception e) {

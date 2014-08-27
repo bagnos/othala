@@ -21,7 +21,7 @@ public class MailTest {
 	public void test() {
 		
 		try {
-			List<OrderFullDTO> orders=OthalaFactory.getOrderServiceInstance().getOrders(25, "simone.bagnolesi@gmail.com", TypeStateOrder.COMPLETED);
+			List<OrderFullDTO> orders=OthalaFactory.getOrderServiceInstance().getOrders(1, null, null);
 			OrderFullDTO order=orders.get(0);
 	
 			/*
