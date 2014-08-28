@@ -35,15 +35,15 @@
 						<p:outputLabel for="barcode" class="col-sm-1 control-label" value="Barcode" />
 						<div class="col-sm-3 ">
 							<p:inputText styleClass="form-control" maxlength="30" id="barcode"
-								value="#{ricercaProdottiView.merchantCode}" />
+								value="#{merchantBean.merchantCode}" />
 						</div>
 						<p:outputLabel class="col-sm-1 control-label" for="stato" value="Stato" />
 						<div class="col-sm-2 ">
-							<h:selectOneMenu id="stato" styleClass="form-control" value="#{ricercaProdottiView.idStato}">
+							<h:selectOneMenu id="stato" styleClass="form-control" value="#{merchantBean.idStato}">
 								<f:selectItem itemLabel="Scegli lo stato" itemValue="-1" noSelectionOption="true"></f:selectItem>
-								<f:selectItem itemLabel="Inserito" itemValue="1" />
-								<f:selectItem itemLabel="Completato" itemValue="2" />
-								<f:selectItem itemLabel="Pending" itemValue="3" />
+								<f:selectItem itemLabel="Inserito" itemValue="0" />
+								<f:selectItem itemLabel="Completato" itemValue="1" />
+								<f:selectItem itemLabel="Pending" itemValue="2" />
 								<f:ajax execute="@this" render="date"></f:ajax>
 							</h:selectOneMenu>
 						</div>
@@ -51,10 +51,9 @@
 						<div class="col-sm-3">
 
 							<p:autoComplete scrollHeight="#{ricercaProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}"
-								minQueryLength="1" size="34" dropdown="true" id="negozio"
-								value="#{ricercaProdottiView.shop}" completeMethod="#{ricercaProdottiView.completeShops}"
-								var="shop" itemLabel="#{shop.txShop}" itemValue="#{shop}"
-								converter="it.othala.ShopConverter" forceSelection="true" />
+								minQueryLength="1" size="34" dropdown="true" id="negozio" value="#{merchantBean.shop}"
+								completeMethod="#{ricercaProdottiView.completeShops}" var="shop" itemLabel="#{shop.txShop}"
+								itemValue="#{shop}" converter="it.othala.ShopConverter" forceSelection="true" />
 
 
 						</div>
@@ -64,10 +63,10 @@
 					<div class="form-group">
 						<p:outputLabel for="genere" styleClass="col-sm-1 control-label" value="Genere" />
 						<div class="col-sm-3">
-							<p:autoComplete minQueryLength="1" dropdown="true" id="genere"
-								value="#{ricercaProdottiView.genere}" completeMethod="#{ricercaProdottiView.completeGenere}"
-								var="gender" itemLabel="#{gender.valore}" itemValue="#{gender}"
-								converter="it.othala.GenderConverter" forceSelection="true">
+							<p:autoComplete minQueryLength="1" dropdown="true" id="genere" value="#{merchantBean.genere}"
+								completeMethod="#{ricercaProdottiView.completeGenere}" var="gender"
+								itemLabel="#{gender.valore}" itemValue="#{gender}" converter="it.othala.GenderConverter"
+								forceSelection="true">
 							</p:autoComplete>
 
 						</div>
@@ -76,7 +75,7 @@
 						<div class="col-sm-3">
 							<h:panelGroup id="tipoPnl">
 								<p:autoComplete scrollHeight="#{ricercaProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}"
-									minQueryLength="1" dropdown="true" id="tipo" value="#{ricercaProdottiView.tipo}"
+									minQueryLength="1" dropdown="true" id="tipo" value="#{merchantBean.tipo}"
 									completeMethod="#{ricercaProdottiView.completeTipo}" var="type" itemLabel="#{type.valore}"
 									itemValue="#{type}" converter="it.othala.TypeConverter" forceSelection="true">
 
@@ -91,7 +90,7 @@
 						<div class="col-sm-3">
 							<h:panelGroup id="brandPnl">
 								<p:autoComplete scrollHeight="#{ricercaProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}"
-									minQueryLength="1" dropdown="true" id="brand" value="#{ricercaProdottiView.brand}"
+									minQueryLength="1" dropdown="true" id="brand" value="#{merchantBean.brand}"
 									completeMethod="#{ricercaProdottiView.completeBrand}" var="brand"
 									itemLabel="#{brand.valore}" itemValue="#{brand}" converter="it.othala.BrandConverter"
 									forceSelection="true" />
@@ -103,13 +102,13 @@
 					<div class="form-group">
 						<p:outputLabel styleClass="col-sm-1 control-label" value="Prezzo" />
 						<div class="col-sm-2">
-							<p:slider for="txt6,txt7" minValue="1" maxValue="5000" display="displayRange" range="true"
+							<p:slider for="txt6,txt7" minValue="0" maxValue="5000" display="displayRange" range="true"
 								displayTemplate="{min} &#8364; - {max} &#8364;" />
 							<h:outputText id="displayRange"
 								value="#{cartFlowBean.catalog.priceMin} &#8364; - #{cartFlowBean.catalog.priceMax} &#8364;" />
 
-							<h:inputHidden id="txt6" value="#{ricercaProdottiView.minPrice}" />
-							<h:inputHidden id="txt7" value="#{ricercaProdottiView.maxPrice}" />
+							<h:inputHidden id="txt6" value="#{merchantBean.minPrice}" />
+							<h:inputHidden id="txt7" value="#{merchantBean.maxPrice}" />
 
 
 						</div>
@@ -120,14 +119,14 @@
 							value="Descrizione" />
 						<div class="col-sm-6">
 
-							<p:inputText styleClass="form-control" value="#{ricercaProdottiView.descrizione}" id="desc"></p:inputText>
+							<p:inputText styleClass="form-control" value="#{merchantBean.descrizione}" id="desc"></p:inputText>
 
 						</div>
 
 					</div>
 					<div class="form-group">
 						<h:panelGroup layout="block" id="date">
-							<h:panelGroup rendered="#{ricercaProdottiView.idStato>0}">
+							<h:panelGroup rendered="#{merchantBean.idStato>0}">
 								<p:outputLabel for="buttonDa" styleClass="col-sm-1 control-label" value="Data Da" />
 								<div class="col-sm-3">
 									<p:calendar title="data relativa allo stato selezionato" id="buttonDa" showOn="button" />
@@ -149,46 +148,74 @@
 				</div>
 			</div>
 
-			<div class="row spacer20">
-				<div class="col-sm-12">
-					<p:contextMenu for="prdTable">
-						<p:menuitem value="View" icon="ui-icon-search" />
-						<p:menuitem value="Elimina" icon="ui-icon-close" />
+			
+				<div class="row spacer20">
+					<div class="col-sm-12">
 
-					</p:contextMenu>
-					<p:dataTable id="prdTable" var="prd" value="#{ricercaProdottiView.products}"
-						selection="#{ricercaProdottiView.selectedProducts}" rowKey="#{prd.idProduct}"
-						style="margin-bottom:0">
-						<f:facet name="header">
+						<p:contextMenu for="prdTable" id="contextMenu">
+							<p:menuitem value="View"
+								url="insertProdotti.xhtml?faces-redirect=true&#38;idPrd=#{merchantBean.selectedProducts[0].idProduct}&#38;read=true"
+								icon="ui-icon-search">
+							</p:menuitem>
+							<p:menuitem onerror="PF('blockAll').unblock();" oncomplete="PF('blockAll').unblock();"
+								onclick="PF('blockAll').block()" value="Elimina"
+								actionListener="#{ricercaProdottiView.eliminaProdotto}" process="@this" update="@form"
+								icon="ui-icon-close">
+								<f:attribute value="#{merchantBean.selectedProducts[0].idProduct}" name="idPrd" />
+							</p:menuitem>
+							<p:menuitem value="Modifica" icon="ui-icon-pencil" ajax="false" includeViewParams="true"
+								url="insertProdotti.xhtml?faces-redirect=true&#38;idPrd=#{merchantBean.selectedProducts[0].idProduct}&#38;mod=true" />
+							<p:menuitem value="Pubblica" rendered="#{merchantBean.selectedProducts[0].idProductState==0}"
+								icon="ui-icon-arrowstop-1-n" ajax="true"
+								actionListener="#{ricercaProdottiView.pubblicaProdotto}">
+								<f:attribute value="#{merchantBean.selectedProducts[0].idProduct}" name="idPrd"></f:attribute>
+							</p:menuitem>
+
+						</p:contextMenu>
+
+						<p:dataTable id="prdTable" var="prd" value="#{merchantBean.products}"
+							selection="#{merchantBean.selectedProducts}" rowKey="#{prd.idProduct}" rows="10"
+							paginator="true" paginatorPosition="bottom" emptyMessage="Nessun prodotto trovato"
+							currentPageReportTemplate="Nr. Elementi {totalRecords}"
+							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
+
+							<p:ajax event="rowSelect" update=":frmProd:contextMenu" />
+
+							<f:facet name="header">
             Elenco prodotti
         </f:facet>
-						<p:column selectionMode="multiple" style="width:2%;text-align:center" />
-						<p:column headerText="Id">
-							<h:outputText value="#{prd.idProduct}" />
-						</p:column>
-						<p:column headerText="Genere">
-							<h:outputText value="#{prd.txGender}" />
-						</p:column>
-						<p:column headerText="Tipo">
-							<h:outputText value="#{prd.txType}" />
-						</p:column>
-						<p:column headerText="Descrizione">
-							<h:outputText value="#{prd.description}" />
-						</p:column>
-						<p:column headerText="Prezzo">
-							<h:outputText value="#{prd.imPrice}" converter="it.othala.BigDecimalConverter" />
-						</p:column>
-						<p:column headerText="Sconto">
-							<h:outputText value="#{prd.priceDiscounted}" converter="it.othala.BigDecimalConverter" />
-						</p:column>
+							<p:column selectionMode="multiple" style="width:2%;text-align:center" />
+							<p:column headerText="Id">
+								<h:outputText value="#{prd.idProduct}" />
+							</p:column>
 
-						<f:facet name="footer">
+							<p:column headerText="Genere">
+								<h:outputText value="#{prd.txGender}" />
+							</p:column>
+							<p:column headerText="Tipo">
+								<h:outputText value="#{prd.txType}" />
+							</p:column>
+							<p:column headerText="Descrizione">
+								<h:outputText value="#{prd.description}" />
+							</p:column>
+							<p:column headerText="Prezzo">
+								<h:outputText value="#{prd.imPrice}" converter="it.othala.BigDecimalConverter" />
+							</p:column>
+							<p:column headerText="Sconto">
+								<h:outputText value="#{prd.priceDiscounted}" converter="it.othala.BigDecimalConverter" />
+							</p:column>
+
+							<f:facet name="footer">
+								<!-- 
+							<h:panelGroup layout="block" style="text-align:left;">
 							<p:commandButton icon="ui-icon-search" value="View" />
-						</f:facet>
-					</p:dataTable>
+							</h:panelGroup>
+							 -->
+							</f:facet>
+						</p:dataTable>
+					</div>
 				</div>
-			</div>
-
+			
 		</h:form>
 	</ui:define>
 </ui:composition>

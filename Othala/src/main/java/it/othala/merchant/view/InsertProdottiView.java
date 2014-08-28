@@ -5,6 +5,7 @@ import it.othala.dto.AttributeDTO;
 import it.othala.dto.DomainDTO;
 import it.othala.dto.ProductFullDTO;
 import it.othala.dto.ShopDTO;
+import it.othala.merchant.model.MerchantBean;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 import it.othala.web.utils.AutoCompleteUtils;
@@ -19,6 +20,7 @@ import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -58,6 +60,47 @@ public class InsertProdottiView extends BaseView {
 	private String newColor;
 	private String newType;
 	private boolean pubblica;
+	private Integer idProdotto;
+	private Boolean fgRead;
+	private Boolean fgMod;
+
+	@ManagedProperty(value = "#{merchantBean}")
+	private MerchantBean merchantBean;
+
+	public MerchantBean getMerchantBean() {
+		return merchantBean;
+	}
+
+	public void setMerchantBean(MerchantBean merchantBean) {
+		this.merchantBean = merchantBean;
+	}
+
+	public Boolean getFgRead() {
+		if (fgRead == null) {
+			fgRead = false;
+		}
+		return fgRead;
+	}
+
+	public void setFgRead(Boolean fgRead) {
+		this.fgRead = fgRead;
+	}
+
+	public Boolean getFgMod() {
+		return fgMod;
+	}
+
+	public void setFgMod(Boolean fgMod) {
+		this.fgMod = fgMod;
+	}
+
+	public Integer getIdProdotto() {
+		return idProdotto;
+	}
+
+	public void setIdProdotto(Integer idProdotto) {
+		this.idProdotto = idProdotto;
+	}
 
 	public boolean isPubblica() {
 		return pubblica;
@@ -243,6 +286,9 @@ public class InsertProdottiView extends BaseView {
 	public String doInit() {
 		// TODO Auto-generated method stub
 		DomainDTO dom = getBeanApplication().getDomain();
+		if (idProdotto != null && idProdotto>0) {
+			initProdotto();
+		}
 
 		qta = 1;
 		return null;
@@ -267,16 +313,50 @@ public class InsertProdottiView extends BaseView {
 			prd.setPrice(prezzo);
 			prd.setThumbnailsUrl(fileThumb);
 			prd.setPriceDiscounted(prezzoScontato);
-			OthalaFactory.getProductServiceInstance().insertProduct(prd, pubblica);
 
-			resetPrd();
-			getBeanApplication().resetMenu();
+			if (fgMod==null || fgMod == false) {
+				OthalaFactory.getProductServiceInstance().insertProduct(prd, pubblica);
+				resetPrd();
+				getBeanApplication().resetMenu();
+				addInfo("Prodotto", "inserimento effettuato correttamente");
+			} else {
+				prd.setIdProduct(getIdProdotto());
+				OthalaFactory.getProductServiceInstance().updateProduct(prd);
+				merchantBean.findProduct();
+				addInfo("Prodotto", "modifica effettuata correttamente");
+			}
 
-			addInfo("Prodotto", "inserimento effettuato correttamente");
+			
+
+			
 
 		} catch (Exception ex) {
 			addGenericError(ex, "errore nell'inserimento del prodotto");
 		}
+
+	}
+
+	private void initProdotto() {
+		ProductFullDTO prd = OthalaFactory.getProductServiceInstance().getProductFull(getLang(), idProdotto);
+		articles = prd.getArticles();
+		descrizione = prd.getDescription();
+		imagesFile = prd.getImagesUrl();		
+		prezzo = prd.getPrice();
+		prezzoScontato = prd.getPriceDiscounted();
+		fileThumb = prd.getThumbnailsUrl();
+		sconto = prd.getDiscount();
+
+		brand = new AttributeDTO();
+		brand.setAttributo(prd.getIdBrand());
+		brand.setValore(prd.getTxBrand());
+
+		genere = new AttributeDTO();
+		genere.setAttributo(prd.getIdGender());
+		genere.setValore(prd.getTxGender());
+
+		tipo = new AttributeDTO();
+		tipo.setAttributo(prd.getIdType());
+		tipo.setValore(prd.getTxType());
 
 	}
 
@@ -315,6 +395,7 @@ public class InsertProdottiView extends BaseView {
 		art.setIdColor(color.getAttributo());
 		art.setTxColor(color.getValore());
 		art.setPgArticle(articles.size());
+		art.setTxBarCode(merchantCode);
 		articles.add(art);
 	}
 

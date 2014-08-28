@@ -27,19 +27,27 @@
 										PRODOTTI <b class="caret"></b>
 									</a>
 									<ul class="dropdown-menu">
-										<li><a href="#{request.contextPath}/faces/merchant/insertProdotti.xhtml">Inserimento</a></li>
-										<li><a href="#">Pubblicazione</a></li>
-										<li><a href="#">Modifica</a></li>
+										<li><a href="#{request.contextPath}/faces/merchant/insertProdotti.xhtml">Inserimento</a></li>										
+										<li><a href="#{request.contextPath}/faces/merchant/cercaProdotti.xhtml">Ricerca</a></li>
 									</ul></li>
 							</ul>
+							<ul class="nav navbar-nav">
+								<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
+										ORDINI <b class="caret"></b>
+									</a>
+									<ul class="dropdown-menu">																			
+										<li><a href="#{request.contextPath}/faces/merchant/cercaOrdini.xhtml">Ricerca</a></li>
+									</ul></li>
+							</ul>
+							
 
 							<ul class="nav navbar-nav navbar-right">
 								<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
-										<h:outputText id="user" value="#{msg.account_hello} Simone!" />
+										<h:outputText id="user" rendered="#{request.remoteUser!=null}" value="#{msg.account_hello} #{request.remoteUser}!" />
 										<b class="caret"></b>
 									</a>
 									<ul class="dropdown-menu">
-										<li><h:commandLink ajax="false" actionListener="#{accessView.logout}">
+										<li><h:commandLink rendered="#{request.remoteUser!=null}" ajax="false" actionListener="#{accessView.logout}">
 												<h:outputText value="#{msg.header_logout}" />
 											</h:commandLink></li>
 									</ul></li>

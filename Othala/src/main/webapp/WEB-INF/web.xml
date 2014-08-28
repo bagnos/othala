@@ -19,7 +19,6 @@
     <param-value>bootstrap</param-value>
   </context-param>
   
-  
   <context-param>
     <param-name>primefaces.PUBLIC_CAPTCHA_KEY</param-name>
     <param-value>6Le1r-8SAAAAAHL3XrpWA7iMtcO2Ne_aszXWI7Y2</param-value>
