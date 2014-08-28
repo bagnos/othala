@@ -17,6 +17,7 @@ public class DomainDTO implements Serializable {
 	private List<AttributeDTO> type;
 	private List<ShopDTO> shop;
 	private List<AttributeDTO> statesOrder;
+	
 
 	
 	public List<AttributeSizeDTO> getSize() {
