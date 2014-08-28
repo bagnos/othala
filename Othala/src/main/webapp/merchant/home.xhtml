@@ -19,87 +19,91 @@
 
 
 	<ui:define name="bodyPageContent">
-		<h:form prependId="false">
+		<h:form prependId="false" id="frmOrd">
 			<div class="row">
 				<div class="col-sm-6">
-					<p:contextMenu for="completed">
-								<p:menuitem value="View" icon="ui-icon-search" />
-								<p:menuitem value="Annulla" icon="ui-icon-close"
-									actionListener="#{dtContextMenuView.deleteCar}" />
-							</p:contextMenu>
-							<p:dataTable var="ord" rowKey="#{ord.idOrder}" id="completed" stickyHeader="true" value="#{homeMerchantView.ordersCompleted}" rows="10"
-                         paginator="true" paginatorPosition="bottom"
-                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-                          selectionMode="single">
-		 						<f:facet name="header">
+					<p:contextMenu for="completed" id="contextMenu">
+						<p:menuitem value="Dettaglio" url="dettaglioOrdine.xhtml" icon="ui-icon-search">
+						</p:menuitem>
+						
+					</p:contextMenu>
+					<p:dataTable var="ord" rowKey="#{ord.idOrder}" id="completed" stickyHeader="true"
+						value="#{merchantBean.ordersCompleted}" rows="10" paginator="true" 
+						paginatorPosition="bottom" selection="#{merchantBean.orderSelected}"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+						selectionMode="single">
+						
+						<p:ajax event="rowSelect"  update=":frmOrd:contextMenu"  />   
+						
+						<f:facet name="header">
 		 						ORDINI DA SPEDIRE
 		 						</f:facet>
-								<p:column headerText="Id" style="width:40px">
-									<h:outputText value="#{ord.idOrder}" />
-								</p:column>
+						<p:column headerText="Id" style="width:40px">
+							<h:outputText value="#{ord.idOrder}" />
+						</p:column>
 
-								<p:column headerText="User" styleClass="truncate">
-									<h:outputText id="user" value="#{ord.idUser}"/>
-									<p:tooltip for="user" value="#{ord.idUser}" />
-									
-								</p:column>
+						<p:column headerText="User" styleClass="truncate">
+							<h:outputText id="user" value="#{ord.idUser}" />
+							<p:tooltip for="user" value="#{ord.idUser}" />
 
-								<p:column headerText="Data"  style="width:90px">
-									<h:outputText value="#{ord.dtStato}">
-										<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
-									</h:outputText>
-								</p:column>
+						</p:column>
 
-								<p:column headerText="Importo" style="width:80px">
-									<h:outputText value="#{ord.imOrdine}" converter="it.othala.BigDecimalConverter" />
-								</p:column>
+						<p:column headerText="Data" style="width:90px">
+							<h:outputText value="#{ord.dtStato}">
+								<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+							</h:outputText>
+						</p:column>
 
-								<p:column headerText="Transazione">
-									<h:outputText value="#{ord.idTransaction}" />
-								</p:column>
-							</p:dataTable>
+						<p:column headerText="Importo" style="width:80px">
+							<h:outputText value="#{ord.imOrdine}" converter="it.othala.BigDecimalConverter" />
+						</p:column>
+
+						<p:column headerText="Transazione">
+							<h:outputText value="#{ord.idTransaction}" />
+						</p:column>
+					</p:dataTable>
 				</div>
 				<div class="col-sm-6">
-					
-						<p:contextMenu for="pending">
-								<p:menuitem value="View" icon="ui-icon-search" />
-								<p:menuitem value="Annulla" icon="ui-icon-close"
-									actionListener="#{dtContextMenuView.deleteCar}" />
-							</p:contextMenu>
-							<p:dataTable var="ord" rowKey="#{ord.idOrder}" id="pending" stickyHeader="true" value="#{homeMerchantView.ordersPending}" rows="10"
-                         paginator="true" paginatorPosition="bottom"
-                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-                          selectionMode="single">
-		 						<f:facet name="header">
+
+					<p:contextMenu for="pending">
+						<p:menuitem value="Dettaglio" url="dettaglioOrdine.xhtml}&#38;status=pending" icon="ui-icon-search" />
+				
+					</p:contextMenu>
+					<p:dataTable var="ord" rowKey="#{ord.idOrder}" id="pending" stickyHeader="true"
+						value="#{merchantBean.ordersPending}" rows="10" paginator="true"
+						paginatorPosition="bottom" selection="#{merchantBean.orderSelected}"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+						selectionMode="single">
+						<f:facet name="header">
 		 						ORDINI IN PENDING
 		 						</f:facet>
-								<p:column headerText="Id" style="width:40px">
-									<h:outputText value="#{ord.idOrder}" />
-								</p:column>
+						<p:column headerText="Id" style="width:40px">
+							<h:outputText value="#{ord.idOrder}" />
+						</p:column>
 
-								<p:column headerText="User" styleClass="truncate">
-									<h:outputText id="user" value="#{ord.idUser}"/>
-									<p:tooltip for="user" value="#{ord.idUser}" />
-									
-								</p:column>
+						<p:column headerText="User" styleClass="truncate">
+							<h:outputText id="user" value="#{ord.idUser}" />
+							<p:tooltip for="user" value="#{ord.idUser}" />
 
-								<p:column headerText="Data"  style="width:90px">
-									<h:outputText value="#{ord.dtStato}">
-										<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
-									</h:outputText>
-								</p:column>
+						</p:column>
 
-								<p:column headerText="Importo" style="width:80px">
-									<h:outputText value="#{ord.imOrdine}" converter="it.othala.BigDecimalConverter" />
-								</p:column>
+						<p:column headerText="Data" style="width:90px">
+							<h:outputText value="#{ord.dtStato}">
+								<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+							</h:outputText>
+						</p:column>
 
-								<p:column headerText="Transazione">
-									<h:outputText value="#{ord.idTransaction}" />
-								</p:column>
-							</p:dataTable>
-						</div>
-					</div>
-				
+						<p:column headerText="Importo" style="width:80px">
+							<h:outputText value="#{ord.imOrdine}" converter="it.othala.BigDecimalConverter" />
+						</p:column>
+
+						<p:column headerText="Transazione">
+							<h:outputText value="#{ord.idTransaction}" />
+						</p:column>
+					</p:dataTable>
+				</div>
+			</div>
+
 		</h:form>
 	</ui:define>
 </ui:composition>

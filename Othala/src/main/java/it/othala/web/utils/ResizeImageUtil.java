@@ -3,10 +3,14 @@ package it.othala.web.utils;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import net.coobird.thumbnailator.Thumbnails;
 
 public class ResizeImageUtil {
+	
+	private final static String BASE_IMG_PATH = "//resources//images//cartThumbinals//";
+	
 	public static String resizeImageThumb(File fileIn) throws IOException {
 		int w = Integer.valueOf(ConfigurationUtil.getProperty("resizeImageThumbW"));
 		int h = Integer.valueOf(ConfigurationUtil.getProperty("resizeImageThumbH"));
@@ -39,6 +43,17 @@ public class ResizeImageUtil {
 		Thumbnails.of(fileIS).size(w, h).outputFormat("jpeg").toFile(fileResized);
 
 		return nomeFile;
+	}
+	
+	public static void deleteImages(List<String> images)
+	{
+		String fileDelete=null;
+		for (String img:images)
+		{
+			fileDelete = BASE_IMG_PATH + File.separator + img;
+			File file=new File(fileDelete);
+			file.delete();
+		}
 	}
 
 }

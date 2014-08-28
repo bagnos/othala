@@ -150,14 +150,14 @@
 										</div>
 									</div>
 								</div>
-								<h:panelGroup layout="block" id="qtaArt">
+								<h:panelGroup style="visibility: hidden;" layout="block" id="qtaArt">
 									<div class="row">
 										<div class="col-sm-4">
 
 											<h:outputText rendered="#{cartChoice2View.min>0}"
 												value="#{msg.catalog_qta}" />
 											<div>
-												<p:spinner id="spQta" rendered="#{cartChoice2View.min>0}"
+												<p:spinner  id="spQta" rendered="#{cartChoice2View.min>0}"
 													value="#{cartChoice2View.qtaArticle}" maxlength="2"
 													size="2" min="#{cartChoice2View.min}"
 													max="#{cartChoice2View.max}" />

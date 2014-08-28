@@ -2,6 +2,7 @@ package it.othala.view;
 
 import it.othala.account.model.CustomerLoginBean;
 import it.othala.cartflow.model.CartFlowBean;
+import it.othala.dto.OrderFullDTO;
 import it.othala.execption.OthalaException;
 import it.othala.model.ApplicationBean;
 import it.othala.web.utils.AutoCompleteUtils;
@@ -198,6 +199,22 @@ public abstract class BaseView implements Serializable {
 		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();  
 		HttpServletRequest request =  (HttpServletRequest)context.getRequest();
 		return request;
+	}
+	
+	protected OrderFullDTO findOrderById(List<OrderFullDTO> orders,int idOrder)
+	{
+		if (orders==null)
+		{
+			return null;
+		}
+		for (OrderFullDTO order:orders)
+		{
+			if (order.getIdOrder().intValue()==idOrder)
+			{
+				return order;
+			}
+		}
+		return null;
 	}
 	
 	
