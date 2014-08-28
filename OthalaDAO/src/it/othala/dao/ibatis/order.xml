@@ -6,6 +6,8 @@
 		<id property="idOrder" column="idOrder" />
 		<result property="idUser" column="idUser" />
 		<result property="imOrdine" column="imOrdine" />
+		<result property="imOrdineConSpese" column="imOrdineConSpese" />
+		
 		<result property="idStato" column="idStato" />
 		<result property="dtStato" column="dtStato" />
 		<result property="txNote" column="txNote" />
@@ -61,7 +63,7 @@
 		a.idOrder, a.idUser, a.imOrdine, a.idDeliveryCost,
 		a.idTransaction,
 		a.idAddressFat, a.idAddressSpe, a.idTrackingNumber,
-		b.idProdotto, b.pgArticle,
+		b.idProdotto, b.pgArticle,(a.imOrdine+i.imSpese) as imOrdineConSpese,
 		b.qtArticle,
 		c.idStato, c.dtStato, c.txNote,
 		d.txStato, f.IDAddress as idAddressBilling,
