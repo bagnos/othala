@@ -8,22 +8,20 @@ import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryCostDTO;
 import it.othala.dto.DeliveryDTO;
 import it.othala.dto.OrderFullDTO;
-import it.othala.dto.ProfilePayPalDTO;
 import it.othala.dto.StateOrderDTO;
 import it.othala.enums.TypeStateOrder;
 import it.othala.execption.OthalaException;
 import it.othala.execption.StockNotPresentException;
-import it.othala.payment.paypal.dto.DoExpressCheckoutPaymentDTO;
-import it.othala.payment.paypal.dto.GetExpressCheckoutDetailsDTO;
-import it.othala.payment.paypal.exception.PayPalException;
-import it.othala.payment.paypal.exception.PayPalFailureException;
-import it.othala.payment.paypal.exception.PayPalFundingFailureException;
-import it.othala.payment.paypal.exception.PayPalPaymentRefusedException;
-import it.othala.service.factory.OthalaFactory;
 import it.othala.service.interfaces.IMailService;
 import it.othala.service.interfaces.IOrderService;
 import it.othala.service.interfaces.IPaymentService;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -32,6 +30,11 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.tool.xml.XMLWorkerHelper;
 
 public class OrderService implements IOrderService {
 
@@ -51,16 +54,17 @@ public class OrderService implements IOrderService {
 	private static Log log = LogFactory.getLog(OrderService.class);
 
 	@Override
-	public List<OrderFullDTO> getOrders(Integer Order, String User, TypeStateOrder StatoOrdine) {
+	public List<OrderFullDTO> getOrders(Integer Order, String User,
+			TypeStateOrder StatoOrdine) {
 
 		List<OrderFullDTO> listaOrdini;
-		if (StatoOrdine == null){
+		if (StatoOrdine == null) {
 			listaOrdini = orderDAO.getOrders(Order, User, null);
+		} else {
+			listaOrdini = orderDAO.getOrders(Order, User,
+					StatoOrdine.getState());
 		}
-		else{
-			listaOrdini = orderDAO.getOrders(Order, User, StatoOrdine.getState());
-		}
-			
+
 		Iterator<OrderFullDTO> i = listaOrdini.iterator();
 		while (i.hasNext()) {
 			OrderFullDTO order = i.next();
@@ -72,10 +76,13 @@ public class OrderService implements IOrderService {
 			while (it.hasNext()) {
 				ArticleFullDTO article = it.next();
 
-				ArticleFullDTO artFull = productDAO.getArticleFull(article.getPrdFullDTO().getIdProduct(),
+				ArticleFullDTO artFull = productDAO.getArticleFull(article
+						.getPrdFullDTO().getIdProduct(),
 						article.getPgArticle(), "it");
-				artFull.setShop(productDAO.getShop(article.getPrdFullDTO().getIdProduct(), article.getPgArticle()));
-				artFull.setPrdFullDTO(productDAO.getProductArticleFull("it", article.getPrdFullDTO().getIdProduct(),
+				artFull.setShop(productDAO.getShop(article.getPrdFullDTO()
+						.getIdProduct(), article.getPgArticle()));
+				artFull.setPrdFullDTO(productDAO.getProductArticleFull("it",
+						article.getPrdFullDTO().getIdProduct(),
 						article.getPgArticle()));
 				artFull.setQtBooked(article.getQtBooked());
 				newlistArticle.add(artFull);
@@ -87,7 +94,8 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public OrderFullDTO insertOrder(OrderFullDTO orderFull) throws OthalaException {
+	public OrderFullDTO insertOrder(OrderFullDTO orderFull)
+			throws OthalaException {
 
 		checkQtaInStock(null, orderFull);
 
@@ -102,7 +110,8 @@ public class OrderService implements IOrderService {
 
 			mapProduct.clear();
 			mapProduct.put("idOrder", orderFull.getIdOrder());
-			mapProduct.put("idProdotto", article.getPrdFullDTO().getIdProduct());
+			mapProduct
+					.put("idProdotto", article.getPrdFullDTO().getIdProduct());
 			mapProduct.put("pgArticle", article.getPgArticle());
 			mapProduct.put("qtArticle", article.getQtBooked());
 
@@ -116,7 +125,8 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public OrderFullDTO confirmOrderPayment(OrderFullDTO order) throws StockNotPresentException {
+	public OrderFullDTO confirmOrderPayment(OrderFullDTO order)
+			throws StockNotPresentException {
 
 		// OrderFullDTO orderFull = checkQtaInStock(order.getIdOrder(),null);
 
@@ -125,7 +135,8 @@ public class OrderService implements IOrderService {
 		// orderDAO.updateOrder(order.getIdOrder(),
 		// order.getIdTransaction(), null);
 
-		updateStateOrder(null, order, TypeStateOrder.valueOf(order.getIdStato()));
+		updateStateOrder(null, order,
+				TypeStateOrder.valueOf(order.getIdStato()));
 
 		updateStock(order, true);
 
@@ -133,10 +144,12 @@ public class OrderService implements IOrderService {
 
 	}
 
-	public OrderFullDTO checkQtaInStock(Integer idOrder, OrderFullDTO orderFull) throws StockNotPresentException {
+	public OrderFullDTO checkQtaInStock(Integer idOrder, OrderFullDTO orderFull)
+			throws StockNotPresentException {
 
 		if (orderFull == null) {
-			List<OrderFullDTO> lsOrders = orderDAO.getOrders(idOrder, null, null);
+			List<OrderFullDTO> lsOrders = orderDAO.getOrders(idOrder, null,
+					null);
 			Iterator<OrderFullDTO> oi = lsOrders.iterator();
 			orderFull = oi.next();
 		}
@@ -146,8 +159,8 @@ public class OrderService implements IOrderService {
 		while (i.hasNext()) {
 			ArticleFullDTO article = i.next();
 
-			Integer qtaProduct = productDAO.getQtStockLock(article.getPrdFullDTO().getIdProduct(),
-					article.getPgArticle());
+			Integer qtaProduct = productDAO.getQtStockLock(article
+					.getPrdFullDTO().getIdProduct(), article.getPgArticle());
 
 			if (qtaProduct < article.getQtBooked()) {
 				List<String> prodNoStock = new ArrayList<String>();
@@ -163,8 +176,8 @@ public class OrderService implements IOrderService {
 		List<ArticleFullDTO> lsProd = orderFull.getCart();
 		for (ArticleFullDTO article : lsProd) {
 
-			productDAO.updateQtStock(article.getPrdFullDTO().getIdProduct(), article.getPgArticle(),
-					article.getQtBooked(), fgVendita);
+			productDAO.updateQtStock(article.getPrdFullDTO().getIdProduct(),
+					article.getPgArticle(), article.getQtBooked(), fgVendita);
 
 		}
 	}
@@ -195,10 +208,12 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public OrderFullDTO updateStateOrder(Integer idOrder, OrderFullDTO orderFull, TypeStateOrder stato) {
+	public OrderFullDTO updateStateOrder(Integer idOrder,
+			OrderFullDTO orderFull, TypeStateOrder stato) {
 
 		if (orderFull == null) {
-			List<OrderFullDTO> lsOrders = orderDAO.getOrders(idOrder, null, null);
+			List<OrderFullDTO> lsOrders = orderDAO.getOrders(idOrder, null,
+					null);
 			Iterator<OrderFullDTO> oi = lsOrders.iterator();
 			orderFull = oi.next();
 		}
@@ -210,7 +225,8 @@ public class OrderService implements IOrderService {
 
 		orderDAO.updateStateOrder(stateOrder);
 
-		orderDAO.updateOrder(orderFull.getIdOrder(), orderFull.getIdTransaction(), null);
+		orderDAO.updateOrder(orderFull.getIdOrder(),
+				orderFull.getIdTransaction(), null);
 
 		/*
 		 * IPaymentService payService =
@@ -224,7 +240,8 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public OrderFullDTO increaseQtaArticle(OrderFullDTO orderFull, TypeStateOrder stato) {
+	public OrderFullDTO increaseQtaArticle(OrderFullDTO orderFull,
+			TypeStateOrder stato) {
 		orderFull = updateStateOrder(null, orderFull, stato);
 
 		updateStock(orderFull, false);
@@ -238,7 +255,8 @@ public class OrderService implements IOrderService {
 
 	@Override
 	public DeliveryDTO getDeliveryInfo(String userId) {
-		List<DeliveryAddressDTO> addresses = orderDAO.getDeliveryAddress(userId);
+		List<DeliveryAddressDTO> addresses = orderDAO
+				.getDeliveryAddress(userId);
 		List<DeliveryCostDTO> costs = orderDAO.getDeliveryCost();
 
 		DeliveryDTO delivery = new DeliveryDTO();
@@ -257,7 +275,8 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public DeliveryAddressDTO updateAddress(DeliveryAddressDTO newAddress, Integer idAddress) {
+	public DeliveryAddressDTO updateAddress(DeliveryAddressDTO newAddress,
+			Integer idAddress) {
 		orderDAO.deleteAddress(idAddress);
 		orderDAO.newAddress(newAddress);
 		return newAddress;
@@ -282,16 +301,73 @@ public class OrderService implements IOrderService {
 
 		if (listCoupons.get(0) != null) {
 			if (listCoupons.get(0).getDtScadenza().compareTo(new Date()) < 0) {
-				throw new OthalaException("Il Coupon che stai cercando di utilizzare è scaduto");
+				throw new OthalaException(
+						"Il Coupon che stai cercando di utilizzare è scaduto");
 			}
 			if (listCoupons.get(0).getDtUtilizzo() != null) {
-				throw new OthalaException("Il Coupon che stai cercando di utilizzare è stato gia speso");
+				throw new OthalaException(
+						"Il Coupon che stai cercando di utilizzare è stato gia speso");
 			}
 		} else {
 			throw new OthalaException("Codice Coupon errato");
 		}
 
 		return listCoupons.get(0);
+	}
+
+	@Override
+	public File stampaOrdine(String sourceHtml) throws Exception {
+
+		File ritorno = null;
+		try {
+		// scrivo un file html temporaneo
+		File htmlTemp = File.createTempFile("htmlTemp", "html");
+
+		FileWriter fstream = new FileWriter(htmlTemp);
+		BufferedWriter out = new BufferedWriter(fstream);
+		out.write(sourceHtml);
+
+		ritorno = generatePdfFromHtml(htmlTemp);
+
+		} catch (Exception e) {
+			throw (e);
+		}
+		return ritorno;
+	}
+
+	public File generatePdfFromHtml(File htmlTemp) throws Exception {
+
+		File pdfTemp = File.createTempFile("pdfTemp", ".pdf");
+		Document document = new Document(PageSize.A4, 30, 30, 5, 5);
+
+		PdfWriter pdfWriter = null;
+		FileInputStream is = null;
+		try {
+			pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(
+					pdfTemp));
+			document.open();
+
+			XMLWorkerHelper worker = XMLWorkerHelper.getInstance();
+
+			is = new FileInputStream(htmlTemp);
+
+			worker.parseXHtml(pdfWriter, document, is, Charset.forName("UTF-8"));
+
+		
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			if (is != null)
+				is.close();
+
+			if (document != null)
+				document.close();
+
+			if (pdfWriter != null)
+				pdfWriter.close();
+		}
+
+		return pdfTemp;
 	}
 
 }

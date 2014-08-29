@@ -8,6 +8,7 @@ import it.othala.enums.TypeStateOrder;
 import it.othala.execption.OthalaException;
 import it.othala.execption.StockNotPresentException;
 
+import java.io.File;
 import java.util.List;
 
 public interface IOrderService {
@@ -38,5 +39,9 @@ public interface IOrderService {
 	public OrderFullDTO checkQtaInStock(Integer idOrder, OrderFullDTO orderFull) throws StockNotPresentException;
 
 	public CouponDTO checkCoupon(String idCoupon) throws OthalaException;
+
+	public File stampaOrdine(String sourceHtml) throws Exception;
+
+
 	
 }
