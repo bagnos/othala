@@ -316,8 +316,10 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public File stampaOrdine(String sourceHtml) throws Exception {
+	public File stampaOrdine(Integer idOrder) throws Exception {
 
+		String sourceHtml = "";
+		
 		File ritorno = null;
 		try {
 		// scrivo un file html temporaneo
