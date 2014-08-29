@@ -40,7 +40,7 @@ public interface IOrderService {
 
 	public CouponDTO checkCoupon(String idCoupon) throws OthalaException;
 
-	public File stampaOrdine(String sourceHtml) throws Exception;
+	public File stampaOrdine(Integer idOrder) throws Exception;
 
 
 	
