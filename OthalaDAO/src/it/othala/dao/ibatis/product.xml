@@ -844,7 +844,7 @@
 		${database.schema}brand c,
 		${database.schema}gender f,
 		${database.schema}`type` g,
-		${database.schema}states h
+		${database.schema}product_state h
 		where
 		a.idProduct
 		= b.idProduct
