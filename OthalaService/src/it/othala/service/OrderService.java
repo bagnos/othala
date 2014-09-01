@@ -48,13 +48,20 @@ public class OrderService implements IOrderService {
 	@Override
 	public List<OrderFullDTO> getOrders(Integer Order, String User,
 			TypeStateOrder StatoOrdine) {
-
+		
+		return getOrders(Order,User,StatoOrdine, null);
+		
+	}
+	
+	@Override
+	public List<OrderFullDTO> getOrders(Integer Order, String User,
+			TypeStateOrder StatoOrdine, String idTransaction) {
+		
 		List<OrderFullDTO> listaOrdini;
 		if (StatoOrdine == null) {
-			listaOrdini = orderDAO.getOrders(Order, User, null);
+			listaOrdini = orderDAO.getOrders(Order, User, null, idTransaction);
 		} else {
-			listaOrdini = orderDAO.getOrders(Order, User,
-					StatoOrdine.getState());
+			listaOrdini = orderDAO.getOrders(Order, User, StatoOrdine.getState(), idTransaction);
 		}
 
 		Iterator<OrderFullDTO> i = listaOrdini.iterator();
@@ -83,6 +90,7 @@ public class OrderService implements IOrderService {
 		}
 
 		return listaOrdini;
+
 	}
 
 	@Override
