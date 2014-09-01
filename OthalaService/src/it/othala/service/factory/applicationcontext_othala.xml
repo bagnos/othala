@@ -66,7 +66,7 @@
 		autowire="byType" />
 	<bean id="messageIpnService" class="it.othala.service.MessageIpnService"
 		autowire="byType" />
-		<bean id="paymentService" class="it.othala.service.PaymentService"
+	<bean id="paymentService" class="it.othala.service.PaymentService"
 		autowire="byType" />
 
 	<bean id="accountDAO" class="it.othala.dao.AccountDAO">
