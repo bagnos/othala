@@ -20,6 +20,13 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO  {
 	public List<OrderFullDTO> getOrders(Integer idOrder, String idUser,
 			Integer idStato) {
 		
+		return getOrders(idOrder,idUser,idStato,null);
+	}
+	
+	@Override
+	public List<OrderFullDTO> getOrders(Integer idOrder, String idUser,
+			Integer idStato, String idTransaction) {
+		
 		HashMap<String, Object> mapOrder = new HashMap<>();
 		if (idOrder != null && idOrder > 0)
 			mapOrder.put("idOrder", idOrder);
@@ -27,14 +34,17 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO  {
 			mapOrder.put("idUser", idUser);
 		if (idStato != null && idStato > 0)
 			mapOrder.put("idStato", idStato);
-
+		if (idTransaction != null && !idTransaction.isEmpty())
+			mapOrder.put("idTransaction", idTransaction);
 
 		// recupero prodotti
 		List<OrderFullDTO> listOrder = getSqlSession().selectList(
 				"it.othala.order.queries.listOrder", mapOrder);
 		
 		return listOrder;
+
 	}
+	
 
 	@Override
 	public OrderFullDTO insertOrder(OrderFullDTO orderFull) {
@@ -157,7 +167,8 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO  {
 				"it.othala.order.queries.updateCoupon", idCoupon);
 		
 	}
-	
+
+
 	
 
 }
