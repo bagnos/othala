@@ -4,6 +4,7 @@ import it.othala.account.execption.MailNotSendException;
 import it.othala.dto.MailPropertiesDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.ProfilePayPalDTO;
+import it.othala.enums.TypeStateOrder;
 import it.othala.execption.OthalaException;
 import it.othala.execption.StockNotPresentException;
 import it.othala.payment.paypal.dto.DoExpressCheckoutPaymentDTO;
@@ -37,7 +38,7 @@ public interface IPaymentService {
 	public void sendMailAcceptedPyament(OrderFullDTO order, MailPropertiesDTO mailDTO, String status)
 			throws MailNotSendException;
 
-	public void sendMailAcceptedPyamentAfterPending(OrderFullDTO order, MailPropertiesDTO mailDTO)
+	public void sendMailAcceptedPyamentAfterPending(OrderFullDTO order, MailPropertiesDTO mailDTO, TypeStateOrder state)
 			throws MailNotSendException;
 
 	public SetExpressCheckoutDTO setExpressCheckout(OrderFullDTO order, ProfilePayPalDTO profile)
