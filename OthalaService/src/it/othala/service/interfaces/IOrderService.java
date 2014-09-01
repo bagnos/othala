@@ -15,6 +15,8 @@ public interface IOrderService {
 
 	public List<OrderFullDTO> getOrders(Integer Order, String User, TypeStateOrder StatoOrdine);
 
+	public List<OrderFullDTO> getOrders(Integer Order, String User, TypeStateOrder StatoOrdine, String idTransaction);
+	
 	public OrderFullDTO insertOrder(OrderFullDTO orderFull) throws  OthalaException;
 
 	public OrderFullDTO confirmOrderPayment(OrderFullDTO order)
