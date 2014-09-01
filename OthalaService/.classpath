@@ -25,6 +25,5 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry combineaccessrules="false" kind="src" path="/OthalaPayment"/>
-	<classpathentry kind="lib" path="C:/Sviluppo/java/Progetti/Othala/OthalaResources/ITEXT___xmlworker-1.2.0.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
