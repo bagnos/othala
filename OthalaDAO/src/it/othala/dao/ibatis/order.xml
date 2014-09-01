@@ -93,17 +93,21 @@
 		${database.schema}customer h,
 		${database.schema}delivery_cost i
 		WHERE a.idOrder = b.idOrder
-		and a.idOrder =
-		c.idOrder
+		and a.idOrder = c.idOrder
+		and a.idAddressFat = f.idAddress
+		and a.idAddressSpe = g.idAddress
+		and a.idDeliveryCost = i.idDeliveryCost
+		and a.idUser = h.idUser
+		and c.idStato = d.idStato
 		<if test="idOrder != null">
 			and a.idOrder = #{idOrder}
 		</if>
 		<if test="idUser != null">
 			and a.idUser = #{idUser}
 		</if>
-		and a.idAddressFat = f.idAddress
-		and a.idAddressSpe = g.idAddress
-		and c.idStato = d.idStato
+		<if test="idTransaction != null">
+			and a.idTransaction = #{idTransaction}
+		</if>			
 		<if test="idStato != null">
 			and c.dtStato = (SELECT MAX(e.dtStato)
 			FROM ${database.schema}states_orders e
@@ -114,9 +118,7 @@
 			and c.dtStato = (SELECT MAX(e.dtStato)
 			FROM ${database.schema}states_orders e
 			WHERE e.idOrder = a.idOrder and c.idStato != 1)
-		</if>		
-		and a.idUser = h.idUser
-		and i.idDeliveryCost = a.idDeliveryCost
+		</if>
 
 	</select>
 

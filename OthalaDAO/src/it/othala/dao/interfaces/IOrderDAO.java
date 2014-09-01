@@ -14,6 +14,8 @@ public interface IOrderDAO {
 
 	public List<OrderFullDTO> getOrders(Integer idOrder,String idUser,Integer idStato);
 	
+	public List<OrderFullDTO> getOrders(Integer idOrder,String idUser,Integer idStato, String idTransaction);
+	
 	public OrderFullDTO insertOrder(OrderFullDTO orderFull);
 	
 	//public void insertOrdersArticles(Integer idOrder, OrderProductDTO orderProduct);
