@@ -1,7 +1,9 @@
 package it.othala.service;
 
 import it.othala.account.execption.MailNotSendException;
+import it.othala.dao.ProductDAO;
 import it.othala.dao.interfaces.IMessagelIpnDAO;
+import it.othala.dao.interfaces.IProductDAO;
 import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.MailPropertiesDTO;
 import it.othala.dto.MessageIpnDTO;
@@ -21,12 +23,14 @@ import it.othala.payment.paypal.exception.PayPalFundingFailureException;
 import it.othala.payment.paypal.exception.PayPalIpnErrorException;
 import it.othala.payment.paypal.exception.PayPalIpnInvalidException;
 import it.othala.payment.paypal.exception.PayPalPostPaymentException;
+import it.othala.service.factory.OthalaFactory;
 import it.othala.service.interfaces.IMailService;
 import it.othala.service.interfaces.IOrderService;
 import it.othala.service.interfaces.IPaymentService;
 import it.othala.service.template.Template;
 import it.othala.service.template.Template.TipoTemplate;
 import it.othala.util.OthalaCommonUtils;
+import it.othala.dto.ShopDTO;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -39,7 +43,9 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -64,6 +70,7 @@ public class PaymentService implements IPaymentService {
 	private IMessagelIpnDAO messageIpnDAO;
 	private PayPalWrapper wrapper;
 	private ProfilePayPalDTO profilePayPal;
+	private IProductDAO productDAO;
 
 	public void setMessageIpnDAO(IMessagelIpnDAO messageIpnDAO) {
 		this.messageIpnDAO = messageIpnDAO;
@@ -176,7 +183,7 @@ public class PaymentService implements IPaymentService {
 					// accettato il pagamento
 					orderService.updateStateOrder(idOrder, order, state);
 					try {
-						sendMailAcceptedPyamentAfterPending(order, mailProps);
+						sendMailAcceptedPyamentAfterPending(order, mailProps, state);
 					} catch (MailNotSendException e) {
 						// TODO Auto-generated catch block
 						log.error(
@@ -297,7 +304,7 @@ public class PaymentService implements IPaymentService {
 	}
 
 	@Override
-	public void sendMailAcceptedPyamentAfterPending(OrderFullDTO order, MailPropertiesDTO mailProps)
+	public void sendMailAcceptedPyamentAfterPending(OrderFullDTO order, MailPropertiesDTO mailProps, TypeStateOrder state)
 			throws MailNotSendException {
 		// TODO Auto-generated method stub
 		String content = null;
@@ -319,6 +326,8 @@ public class PaymentService implements IPaymentService {
 		subject += mailProps.getCompanyName();
 
 		mailService.inviaMail(new String[] { mail }, subject, content, mailProps);
+		//invia le mail al cliente e ai negozi sUll'avvenuta ricezione delpagamento
+		sendMailAcceptedPyament(order,mailProps, TypeStateOrder.getDescrState(state.getState()));
 	}
 
 	// TODO Auto-generated method stub
@@ -337,19 +346,39 @@ public class PaymentService implements IPaymentService {
 		Map<String, String> inlineImages = new HashMap<String, String>();
 		String basePath = res.getPath().replace("/WEB-INF/classes", "");
 		basePath = basePath.replace("/", "");
-		String html = generateHtmlOrder(order, mailDTO, inlineImages, state);
-
-		mailService.inviaHTMLMail(new String[] { order.getIdUser() }, "Conferma Ordine", html, inlineImages, mailDTO);
+		String html = generateHtmlOrder(order, mailDTO, inlineImages, state , "mailConfermaOrdine");
+		
+		//mailService.inviaHTMLMail(new String[] { order.getIdUser() }, "Conferma Ordine", html, inlineImages, mailDTO);
+	
+		//invia la mai di notifica ordine ai negozi
+		List <ShopDTO> lstShop = new ArrayList<ShopDTO>();
+		lstShop =  productDAO.listShop();
+		for (int i=0;i<lstShop.size();i++){
+			
+			OrderFullDTO ordShop =  new OrderFullDTO();
+			ordShop = order;
+			
+			List <ArticleFullDTO> lstArt = ordShop.getCart();
+			for (int x=0;x<lstArt.size();x++){
+				if (lstArt.get(x).getShop().getIdShop() != lstShop.get(i).getIdShop()){
+					lstArt.remove(x);
+				}
+			}
+			
+			html = generateHtmlOrder(ordShop, mailDTO, inlineImages, state , "mailInserimentoOrdine");
+			//mailService.inviaHTMLMail(new String[] { lstShop.get(i).getTxMail() }, "Nuovo Ordine WEB", html, inlineImages, mailDTO);
+		}
+	
 	}
 
 	private String generateHtmlOrder(OrderFullDTO order, MailPropertiesDTO mailDTO, Map<String, String> inlineImages,
-			TypeStateOrder state) {
+			TypeStateOrder state, String xslTemplate) {
 		BufferedWriter out = null;
 		FileWriter fstream = null;
 
 		try {
 
-			File xslFile = Template.getFile("it/othala/service/template/mailConfermaOrdine.xsl");
+			File xslFile = Template.getFile("it/othala/service/template/" + xslTemplate + ".xsl");
 			File xmlTemp = File.createTempFile("xmlTemp", ".xml");
 			fstream = new FileWriter(xmlTemp);
 
