@@ -75,6 +75,10 @@ public class PaymentService implements IPaymentService {
 	public void setMessageIpnDAO(IMessagelIpnDAO messageIpnDAO) {
 		this.messageIpnDAO = messageIpnDAO;
 	}
+	
+	public void setProductDAO(IProductDAO productDAO) {
+		this.productDAO = productDAO;
+	}
 
 	public void setMailService(IMailService mailService) {
 		this.mailService = mailService;
@@ -346,33 +350,26 @@ public class PaymentService implements IPaymentService {
 		Map<String, String> inlineImages = new HashMap<String, String>();
 		String basePath = res.getPath().replace("/WEB-INF/classes", "");
 		basePath = basePath.replace("/", "");
-		String html = generateHtmlOrder(order, mailDTO, inlineImages, state , "mailConfermaOrdine");
+		String html = generateHtmlOrder(order, mailDTO, inlineImages, state , "mailConfermaOrdine", null);
 		
-		//mailService.inviaHTMLMail(new String[] { order.getIdUser() }, "Conferma Ordine", html, inlineImages, mailDTO);
+		mailService.inviaHTMLMail(new String[] { order.getIdUser() }, "Conferma Ordine", html, inlineImages, mailDTO);
 	
 		//invia la mai di notifica ordine ai negozi
 		List <ShopDTO> lstShop = new ArrayList<ShopDTO>();
 		lstShop =  productDAO.listShop();
-		for (int i=0;i<lstShop.size();i++){
-			
-			OrderFullDTO ordShop =  new OrderFullDTO();
-			ordShop = order;
-			
-			List <ArticleFullDTO> lstArt = ordShop.getCart();
-			for (int x=0;x<lstArt.size();x++){
-				if (lstArt.get(x).getShop().getIdShop() != lstShop.get(i).getIdShop()){
-					lstArt.remove(x);
+			for (int i=0;i<lstShop.size();i++){
+				for (ArticleFullDTO art : order.getCart()){
+					if (art.getShop().getIdShop()==lstShop.get(i).getIdShop()){
+						html = generateHtmlOrder(order, mailDTO, inlineImages, state , "mailInserimentoOrdine", lstShop.get(i).getIdShop());
+						mailService.inviaHTMLMail(new String[] { lstShop.get(i).getTxMail() }, "Nuovo Ordine WEB", html, inlineImages, mailDTO);
+						break;
+					}
 				}
 			}
-			
-			html = generateHtmlOrder(ordShop, mailDTO, inlineImages, state , "mailInserimentoOrdine");
-			//mailService.inviaHTMLMail(new String[] { lstShop.get(i).getTxMail() }, "Nuovo Ordine WEB", html, inlineImages, mailDTO);
-		}
-	
 	}
 
 	private String generateHtmlOrder(OrderFullDTO order, MailPropertiesDTO mailDTO, Map<String, String> inlineImages,
-			TypeStateOrder state, String xslTemplate) {
+			TypeStateOrder state, String xslTemplate, Integer idShop) {
 		BufferedWriter out = null;
 		FileWriter fstream = null;
 
@@ -436,7 +433,9 @@ public class PaymentService implements IPaymentService {
 			out.write("<cart>");
 			int i = 0;
 			for (ArticleFullDTO art : order.getCart()) {
-				if (art != null) {
+				if (art != null && idShop == null || 
+					art != null && idShop == art.getShop().getIdShop()) {
+					
 					out.write("<item>");
 					out.write("<number>" + art.getPrdFullDTO().getIdProduct() + "</number>");
 					out.write("<img>cid:imgArt" + i + "</img>");
