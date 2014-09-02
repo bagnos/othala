@@ -236,7 +236,7 @@
 									<br />
 
 									<h:commandButton rendered="#{insertProdottiView.fgRead==false}"
-										image="/imagesExt/picture_add.png" title="aggiungi thumbinal #{imgPrd}"
+										image="/imagesExt/picture_add.png" title="aggiungi thumbnail #{imgPrd}"
 										actionListener="#{insertProdottiView.addThumb}">
 										<f:attribute name="img" value="#{imgPrd}" />
 										<f:ajax execute="@this" render="frmImages thumb"></f:ajax>
@@ -323,7 +323,7 @@
 
 					</h:panelGroup>
 					<h:panelGroup styleClass="form-group" rendered="#{insertProdottiView.fgRead==false}">
-						<label class="control-label col-sm-1">Thumbinal</label>
+						<label class="control-label col-sm-1">Thumbnail</label>
 						<div class="clearfix col-sm-1">
 							<div class="sel-thumbinal container-sel-thumbinal ">
 								<h:panelGroup id="thumb">
