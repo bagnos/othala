@@ -310,7 +310,7 @@
 
 		SELECT idShop, txShop, txMail
 		FROM ${database.schema}shops
-		order by 2;
+		order by 1;
 
 
 	</select>
