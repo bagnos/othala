@@ -45,6 +45,15 @@ public class ApplicationBean implements Serializable {
 	private List<AttributeDTO> genderDTO = null;
 	private List<AttributeDTO> typeDTO = null;
 	private List<AttributeDTO> statesOrder = null;
+	private List<AttributeDTO> statesProduct = null;
+
+	public List<AttributeDTO> getStatesProduct() {
+		if (statesProduct==null)
+		{
+			statesProduct=getDomain().getStatesProduct();
+		}
+		return statesProduct;
+	}
 
 	public List<AttributeDTO> getStatesOrder() {
 		if (statesOrder==null)
