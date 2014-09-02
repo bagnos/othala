@@ -30,11 +30,11 @@ public class MerchantBean implements Serializable {
 	private String descrizione;
 	private String negozio;
 	private ShopDTO shop;
-	private int idStato;
+	
 	private int minPrice;
 	private int maxPrice;
 	private List<ProductFindDTO> products;
-	private List<ProductFindDTO> selectedProducts;
+	private ProductFindDTO selectedProducts;
 	private Date dtBegin;
 	private Date dtEnd;
 	private OrderFullDTO orderSelected;
@@ -48,9 +48,18 @@ public class MerchantBean implements Serializable {
 	private String idTransazione;
 	private List<OrderFullDTO> ordersFounded=null;
 	private AttributeDTO statoOrdine;
+	private AttributeDTO stateProduct;
 	
 
 	
+	public AttributeDTO getStateProduct() {
+		return stateProduct;
+	}
+
+	public void setStateProduct(AttributeDTO stateProduct) {
+		this.stateProduct = stateProduct;
+	}
+
 	public AttributeDTO getStatoOrdine() {
 		return statoOrdine;
 	}
@@ -122,7 +131,7 @@ public class MerchantBean implements Serializable {
 		this.products = products;
 	}
 
-	public void setSelectedProducts(List<ProductFindDTO> selectedProducts) {
+	public void setSelectedProducts(ProductFindDTO selectedProducts) {
 		this.selectedProducts = selectedProducts;
 	}
 
@@ -142,7 +151,7 @@ public class MerchantBean implements Serializable {
 		this.dtEnd = dtEnd;
 	}
 
-	public List<ProductFindDTO> getSelectedProducts() {
+	public ProductFindDTO getSelectedProducts() {
 		return selectedProducts;
 	}
 
@@ -166,13 +175,7 @@ public class MerchantBean implements Serializable {
 		this.maxPrice = maxPrice;
 	}
 
-	public int getIdStato() {
-		return idStato;
-	}
-
-	public void setIdStato(int idStato) {
-		this.idStato = idStato;
-	}
+	
 
 	private List<ArticleFullDTO> articles = new ArrayList<ArticleFullDTO>();
 
@@ -249,11 +252,11 @@ public class MerchantBean implements Serializable {
 	public void findProduct() {
 		products = OthalaFactory.getProductServiceInstance().listFindProduct(
 				getMerchantCode() == null || getMerchantCode().isEmpty() ? null : getMerchantCode(),
-				getIdStato() == -1 ? null : getIdStato(), getShop() != null ? getShop().getIdShop() : null,
+				getStateProduct() == null ? null : getStateProduct().getAttributo(), getShop() != null ? getShop().getIdShop() : null,
 				getGenere() != null ? getGenere().getAttributo() : null,
 				getTipo() != null ? getTipo().getAttributo() : null,
 				getBrand() != null ? getBrand().getAttributo() : null, BigDecimal.valueOf(getMinPrice()),
-				BigDecimal.valueOf(getMaxPrice()), getDescrizione(), getDtBegin(), getDtEnd());
+				BigDecimal.valueOf(getMaxPrice()), getDescrizione()!=null && getDescrizione().isEmpty()?null:getDescrizione(), getDtBegin(), getDtEnd());
 	}
 
 }
