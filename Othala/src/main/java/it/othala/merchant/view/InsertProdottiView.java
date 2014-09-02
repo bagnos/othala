@@ -286,10 +286,10 @@ public class InsertProdottiView extends BaseView {
 	public String doInit() {
 		// TODO Auto-generated method stub
 		DomainDTO dom = getBeanApplication().getDomain();
+		shop=getBeanApplication().getShopsDTO().get(0);
 		if (idProdotto != null && idProdotto>0) {
 			initProdotto();
 		}
-
 		qta = 1;
 		return null;
 	}
