@@ -293,6 +293,17 @@
 		order by 2
 
 	</select>
+	
+	<select id="listStatesProduct" resultType="it.othala.dto.AttributeDTO">
+
+		SELECT idProductState as
+		attributo,txProductState as valore
+		FROM
+		${database.schema}product_state d
+		order by 2
+
+	</select>
+	
 
 
 	<select id="listShop" resultType="it.othala.dto.ShopDTO">
@@ -823,7 +834,7 @@
 		SELECT
 		a.idProduct ,
 		a.idProductState,
-		h.txStato as txProductState,
+		h.txProductState as txProductState,
 		a.idGender,
 		txGender,
 		a.idType,
@@ -854,7 +865,7 @@
 		f.idGender =
 		a.idGender
 		and g.idType = a.idType
-		and h.idStato =
+		and h.idProductState =
 		a.idProductState
 
 		<if test="txBarcode != null">
@@ -902,7 +913,7 @@
 		</if>
 
 		<if test="maxPrice != null">
-			and a.imPrice &gt;= #{maxPrice}
+			and a.imPrice &lt;= #{maxPrice}
 		</if>
 
 		<if test="dtEnd != null">

@@ -85,6 +85,7 @@ public interface IProductDAO {
 	public void insertType(String languages, String txType);
 
 	public List<AttributeDTO> listStatesOrder();
+	public List<AttributeDTO> listStatesProduct();
 
 	public List<ProductFindDTO> listFindProduct(String txBarcode,
 			Integer state, Integer shop, Integer gender, Integer type,

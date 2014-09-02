@@ -483,6 +483,16 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 
 		return listAttribute;
 	}
+	
+	@Override
+	public List<AttributeDTO> listStatesProduct() {
+		// TODO Auto-generated method stub
+		List<AttributeDTO> listAttribute = getSqlSession().selectList(
+				"it.othala.product.queries.listStatesProduct");
+
+		return listAttribute;
+
+	}
 
 	@Override
 	public List<ProductFindDTO> listFindProduct(String txBarcode,
@@ -625,5 +635,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 
 
 	}
+
+	
 
 }
