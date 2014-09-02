@@ -303,7 +303,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 			map2.put("idLanguages", productFull.getLangDescription().get(i)
 					.getLanguages());
 			map2.put("txDescription", productFull.getLangDescription().get(i)
-					.getDescription());
+					.getDescription().toUpperCase());
 
 			getSqlSession().insert(
 					"it.othala.product.queries.insertProductDescription", map2);
@@ -400,7 +400,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("languages", languages);
-		map.put("txBrand", txBrand);
+		map.put("txBrand", txBrand.toUpperCase());
 
 		getSqlSession().insert("it.othala.product.queries.insertBrand", map);
 
