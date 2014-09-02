@@ -17,9 +17,18 @@ public class DomainDTO implements Serializable {
 	private List<AttributeDTO> type;
 	private List<ShopDTO> shop;
 	private List<AttributeDTO> statesOrder;
+	private List<AttributeDTO> statesProduct;
 	
 
 	
+	public List<AttributeDTO> getStatesProduct() {
+		return statesProduct;
+	}
+
+	public void setStatesProduct(List<AttributeDTO> statesProduct) {
+		this.statesProduct = statesProduct;
+	}
+
 	public List<AttributeSizeDTO> getSize() {
 		return size;
 	}
