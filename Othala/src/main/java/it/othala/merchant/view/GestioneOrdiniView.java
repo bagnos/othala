@@ -23,7 +23,7 @@ public class GestioneOrdiniView extends BaseView {
 
 	private Integer idOrdine;
 	private String status;
-	private String cercaOrd=null;
+	private String cercaOrd = null;
 
 	public String getCercaOrd() {
 		return cercaOrd;
@@ -92,24 +92,29 @@ public class GestioneOrdiniView extends BaseView {
 	public String doInit() {
 		// TODO Auto-generated method stub
 		merchantBean.setOrdersFounded(null);
-		cercaOrd=getQueryStringParm("cercaOrd");
+		cercaOrd = getQueryStringParm("cercaOrd");
 		return null;
 	}
-	
-	public void findOrders(ActionEvent e)
-	{
-		TypeStateOrder stateOrder=null;
-		
-		
-		if (merchantBean.getStatoOrdine()!=null)
-		{
-			stateOrder=TypeStateOrder.valueOf(merchantBean.getStatoOrdine().getAttributo());
+
+	public void findOrders(ActionEvent e) {
+		TypeStateOrder stateOrder = null;
+		List<OrderFullDTO> orders = null;
+
+		if (merchantBean.getStatoOrdine() != null) {
+			stateOrder = TypeStateOrder.valueOf(merchantBean.getStatoOrdine().getAttributo());
 		}
-		List<OrderFullDTO> orders=OthalaFactory.getOrderServiceInstance().getOrders(merchantBean.getIdOrdine(), merchantBean.getUser()!=null && merchantBean.getUser().isEmpty()?null: merchantBean.getUser(), stateOrder);
+		if (merchantBean.getIdTransazione() != null && !merchantBean.getIdTransazione().isEmpty()) {
+			orders = OthalaFactory.getOrderServiceInstance().getOrders(null,
+					null,
+					null);
+		} else  {
+			orders = OthalaFactory.getOrderServiceInstance().getOrders(merchantBean.getIdOrdine(),
+					merchantBean.getUser() != null && merchantBean.getUser().isEmpty() ? null : merchantBean.getUser(),
+					stateOrder);
+		}
 		merchantBean.setOrdersFounded(orders);
-		
-		if (merchantBean.getIdOrdine()!=null && merchantBean.getIdOrdine().intValue()==0)
-		{
+
+		if (merchantBean.getIdOrdine() != null && merchantBean.getIdOrdine().intValue() == 0) {
 			merchantBean.setIdOrdine(null);
 		}
 		merchantBean.setOrderSelected(null);

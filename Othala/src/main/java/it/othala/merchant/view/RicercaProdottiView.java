@@ -61,6 +61,13 @@ public class RicercaProdottiView extends BaseView {
 		// TODO Auto-generated method stub
 		
 		DomainDTO dom = getBeanApplication().getDomain();
+		//stato prodotti a -1
+		merchantBean.setStateProduct(null);
+		if (merchantBean.getMaxPrice()==0)
+		{
+			merchantBean.setMaxPrice(5000);
+		}
+		
 
 		return null;
 	}
