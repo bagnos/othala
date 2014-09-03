@@ -325,7 +325,9 @@ public class InsertProdottiView extends BaseView {
 				merchantBean.findProduct();
 				addInfo("Prodotto", "modifica effettuata correttamente");
 			}
-
+			
+			resetPrd();
+ 
 			
 
 			
@@ -397,6 +399,8 @@ public class InsertProdottiView extends BaseView {
 		art.setPgArticle(articles.size());
 		art.setTxBarCode(merchantCode);
 		articles.add(art);
+		
+		shop=getBeanApplication().getShopsDTO().get(0);
 	}
 
 	public List<AttributeDTO> completeTaglia(String query) {
@@ -514,7 +518,7 @@ public class InsertProdottiView extends BaseView {
 		ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
 		File result = new File(extContext.getRealPath(BASE_IMG_PATH + fileThumb));
 		try {
-			ResizeImageUtil.resizeImageThumb(result);
+			fileThumb=ResizeImageUtil.resizeImageThumb(result);
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			addGenericError(e1, "Errore nel resize dell'immagine thumb");
@@ -528,7 +532,8 @@ public class InsertProdottiView extends BaseView {
 		}
 		try {
 			OthalaFactory.getProductServiceInstance().insertBrand(getLang(), newBrand);
-			getBeanApplication().resetDomain();
+			getBeanApplication().resetDomain();			
+			brand=completeBrand(newBrand).get(0);
 			addInfo("Nuovo Brand", "brand inserito correttamente");
 
 		} catch (Exception ex) {
@@ -543,7 +548,8 @@ public class InsertProdottiView extends BaseView {
 		}
 		try {
 			OthalaFactory.getProductServiceInstance().insertColor(getLang(), newColor);
-			getBeanApplication().resetDomain();
+			getBeanApplication().resetDomain();			
+			color=completeColours(newColor).get(0);
 			addInfo("Nuovo Colore", "colore inserito correttamente");
 
 		} catch (Exception ex) {
