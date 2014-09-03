@@ -23,7 +23,6 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/ `aduna937_othala` /*!40100 DEFAULT CHAR
 
 USE `aduna937_othala`;
 SET FOREIGN_KEY_CHECKS = 0;
-
 --
 -- Table structure for table `addresses`
 --
@@ -227,6 +226,7 @@ CREATE TABLE `customer` (
 
 LOCK TABLES `customer` WRITE;
 /*!40000 ALTER TABLE `customer` DISABLE KEYS */;
+INSERT INTO `customer` VALUES ('1','ANTANI','A','A','A',1);
 /*!40000 ALTER TABLE `customer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -746,4 +746,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-09-03 12:04:26
+-- Dump completed on 2014-09-03 16:54:15
