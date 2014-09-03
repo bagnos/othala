@@ -17,12 +17,11 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 
 /*@Named
-@javax.faces.view.ViewScoped*/
+ @javax.faces.view.ViewScoped*/
 @ManagedBean
 @ViewScoped
 public class CartChoice2View extends BaseView {
 
-	
 	private List<SelectItem> sizeItems;
 	private List<SelectItem> colorItems;
 	private ProductFullDTO prdFull;
@@ -32,7 +31,6 @@ public class CartChoice2View extends BaseView {
 	private Integer min;
 	private Integer max;
 	private ArticleFullDTO artSel;
-
 
 	public Integer getMin() {
 
@@ -84,7 +82,6 @@ public class CartChoice2View extends BaseView {
 		return sizeItems;
 	}
 
-
 	private Integer idProduct;
 
 	public Integer getIdProduct() {
@@ -105,41 +102,32 @@ public class CartChoice2View extends BaseView {
 			}
 		}
 
-		
-		
 		List<ProductCarouselDTO> carouselList = new ArrayList<ProductCarouselDTO>();
 		ProductCarouselDTO a = null;
 		for (int i = 0; i <= getCartFlowBean().getCatalog().getArticlesPage().size() - 1; i++) {
 
-			if (i % 4 == 0)
-			{
-				a=new ProductCarouselDTO();;
+			if (i % 4 == 0) {
+				a = new ProductCarouselDTO();
+				;
 				carouselList.add(a);
 				a.setProduct1(getCartFlowBean().getCatalog().getArticlesPage().get(i));
-				
-			}
-			else if (i % 4 == 1)
-			{
+
+			} else if (i % 4 == 1) {
 
 				a.setProduct2(getCartFlowBean().getCatalog().getArticlesPage().get(i));
-				
-			}
-			else if (i % 4 == 2)
-			{
+
+			} else if (i % 4 == 2) {
 
 				a.setProduct3(getCartFlowBean().getCatalog().getArticlesPage().get(i));
-				
-			}
-			else if (i % 4 == 3)
-			{
+
+			} else if (i % 4 == 3) {
 
 				a.setProduct4(getCartFlowBean().getCatalog().getArticlesPage().get(i));
-				
+
 			}
-		 
-		
+
 		}
-		
+
 		getCartFlowBean().setCarouselList(carouselList);
 
 		prdFull = OthalaFactory.getProductServiceInstance().getProductFull(getLang(), idProduct);
@@ -149,12 +137,23 @@ public class CartChoice2View extends BaseView {
 		sizeItems = new ArrayList<>();
 		// sizeItems.add(new SelectItem(-1,
 		// OthalaUtil.getWordBundle("catalog_chooseSize")));
+		boolean foundSize = false;
 		for (ArticleFullDTO art : prdFull.getArticles()) {
-			sizeItems.add(new SelectItem(art.getIdSize(), art.getTxSize()));
+			foundSize = false;
+			for (SelectItem s : sizeItems) {
+				if (s.getValue().toString().equalsIgnoreCase(art.getIdSize().toString())) {
+					foundSize = true;
+					break;
+				}
+
+			}
+			if (!foundSize) {
+				sizeItems.add(new SelectItem(art.getIdSize(), art.getTxSize()));
+			}
 		}
 
 		colorItems = new ArrayList<>();
-		
+
 		/*
 		 * for (ArticleFullDTO art : prdFull.getArticles()) { boolean found =
 		 * false; for (SelectItem item : colorItems) { if
@@ -169,19 +168,15 @@ public class CartChoice2View extends BaseView {
 
 		return null;
 	}
-	
 
-
-	public String goToCart()
-	{
+	public String goToCart() {
 		getCartFlowBean().getCart().add(artSel);
 		artSel.setQtBooked(qtaArticle);
 		return "cart-selected-3?faces-redirect=true";
 	}
-	
-	public String goToCatalogo()
-	{
-	
+
+	public String goToCatalogo() {
+
 		return "cart-catalog?faces-redirect=true";
 	}
 
@@ -215,8 +210,8 @@ public class CartChoice2View extends BaseView {
 
 						if (!getCartFlowBean().getCart().contains(art)) {
 							if (art.getQtStock() > 0) {
-								artSel=art;	
-								artSel.setPrdFullDTO(prdFull);								
+								artSel = art;
+								artSel.setPrdFullDTO(prdFull);
 								min = 1;
 								max = art.getQtStock();
 								qtaArticle = 1;

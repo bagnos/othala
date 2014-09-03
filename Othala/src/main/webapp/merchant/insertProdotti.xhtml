@@ -96,7 +96,7 @@
 									forceSelection="true" />
 							</h:panelGroup>
 							<p:commandButton rendered="#{insertProdottiView.fgRead==false}" title="Aggiungi Genere"
-								icon="ui-icon-plus" type="button" onclick="PF('dlgIns').show();" />
+								icon="ui-icon-plus" type="button" onclick="$('#newBrand1').val('');PF('dlgIns').show();" />
 						</div>
 					</div>
 
@@ -292,7 +292,7 @@
 									var="attr" itemLabel="#{attr.valore}" itemValue="#{attr}"
 									converter="it.othala.ColorConverter" forceSelection="true" />
 								<p:commandButton title="Aggiungi colore" icon="ui-icon-plus" type="button"
-									onclick="PF('dlgInsCol').show();" />
+									onclick="$('#newCol1').val('');PF('dlgInsCol').show();" />
 							</h:panelGroup>
 						</div>
 					</h:panelGroup>
