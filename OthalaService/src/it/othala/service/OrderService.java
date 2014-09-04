@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+/*
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
@@ -29,10 +30,11 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.PdfWriter;*/
 
 public class OrderService implements IOrderService {
 
+	/*
 	private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18,
 			Font.BOLD);
 
@@ -40,7 +42,7 @@ public class OrderService implements IOrderService {
 			Font.BOLD);
 
 	private static Font normalFont = new Font(Font.FontFamily.TIMES_ROMAN, 12,
-			Font.NORMAL);
+			Font.NORMAL);*/
 
 	private IOrderDAO orderDAO;
 	private IProductDAO productDAO;
@@ -320,10 +322,12 @@ public class OrderService implements IOrderService {
 
 		List<OrderFullDTO> listOrderFullDTO = getOrders(idOrder, null, null);
 		OrderFullDTO orderFullDTO = listOrderFullDTO.get(0);
-		stampaPDF(orderFullDTO);
+		//stampaPDF(orderFullDTO);
 		return null;
 
 	}
+	
+	/*
 
 	public File stampaPDF(OrderFullDTO orderFullDTO) throws Exception {
 		try {
@@ -578,6 +582,6 @@ public class OrderService implements IOrderService {
 		for (int i = 0; i < number; i++) {
 			paragraph.add(new Paragraph(" "));
 		}
-	}
+	}*/
 
 }
