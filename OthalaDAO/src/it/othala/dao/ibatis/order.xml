@@ -111,13 +111,13 @@
 		<if test="idStato != null">
 			and c.dtStato = (SELECT MAX(e.dtStato)
 			FROM ${database.schema}states_orders e
-			WHERE e.idOrder = a.idOrder and c.idStato != 1)
+			WHERE e.idOrder = a.idOrder)
 			and c.idStato = #{idStato}
 		</if>
 		<if test="idStato == null">
 			and c.dtStato = (SELECT MAX(e.dtStato)
 			FROM ${database.schema}states_orders e
-			WHERE e.idOrder = a.idOrder and c.idStato != 1)
+			WHERE e.idOrder = a.idOrder)
 		</if>
 
 	</select>
