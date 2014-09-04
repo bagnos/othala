@@ -139,10 +139,13 @@ public class AccessView extends BaseView {
 	public String registration() {
 
 		if (registrationCore()) {
-			if (getCartFlowBean().getCart().isEmpty()) {
-
+			if (getCartFlowBean().getCart().isEmpty()) {				
+				email=getAccountDTO().getEmail();
+				psw=getAccountDTO().getPsw();
+				return login();
+				//return null;
 				// FacesContext.getCurrentInstance().getExternalContext().redirect("../home.xhtml");
-				return "home";
+				
 
 			} else {
 				return null;
