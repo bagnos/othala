@@ -287,6 +287,7 @@ public class InsertProdottiView extends BaseView {
 		// TODO Auto-generated method stub
 		DomainDTO dom = getBeanApplication().getDomain();
 		shop=getBeanApplication().getShopsDTO().get(0);
+		pubblica = true;
 		if (idProdotto != null && idProdotto>0) {
 			initProdotto();
 		}
@@ -373,11 +374,12 @@ public class InsertProdottiView extends BaseView {
 		sconto = 0;
 		brand = null;
 		size = null;
-		shop = null;
+		shop=getBeanApplication().getShopsDTO().get(0);
 		fileThumb = null;
 		descrizione = null;
 		qta = 1;
 		color = null;
+		pubblica = true;
 
 	}
 
@@ -396,7 +398,14 @@ public class InsertProdottiView extends BaseView {
 		art.setQtStock(qta);
 		art.setIdColor(color.getAttributo());
 		art.setTxColor(color.getValore());
-		art.setPgArticle(articles.size());
+		if (articles.size() == 0)
+		{
+			art.setPgArticle(1);
+		}
+		else
+		{
+		art.setPgArticle(articles.get(articles.size() - 1).getPgArticle() + 1);
+		}
 		art.setTxBarCode(merchantCode);
 		articles.add(art);
 		
