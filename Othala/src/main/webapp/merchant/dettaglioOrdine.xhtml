@@ -147,7 +147,7 @@
 						</div>
 						<div class="col-sm-2 col-sm-offset-8">
 							<p:commandButton title="Spedisci e stampa contenuto ordine" process="@this" update="@form"
-								actionListener="#{gestioneOrdiniView.spedisciOrdine}"
+								onclick="window.open('../SpedisciOrdineServlet?idOrder=#{merchantBean.orderSelected.idOrder}');"
 								rendered="#{merchantBean.orderSelected.idStato==3}" styleClass="ui-priority-primary"
 								value="Spedisci">
 							</p:commandButton>
