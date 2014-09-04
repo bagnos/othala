@@ -8,17 +8,18 @@ import it.othala.dto.ShopDTO;
 import it.othala.merchant.model.MerchantBean;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
-import it.othala.web.utils.AutoCompleteUtils;
 import it.othala.web.utils.ResizeImageUtil;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -28,7 +29,6 @@ import javax.faces.event.ActionEvent;
 
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
-import org.primefaces.util.AgentUtils;
 
 @ManagedBean
 @ViewScoped
@@ -45,6 +45,8 @@ public class InsertProdottiView extends BaseView {
 	private BigDecimal prezzo;
 	private BigDecimal prezzoScontato;
 	private List<String> imagesFile = new ArrayList<>();
+	private List<String> imagesGuidFile = new ArrayList<>();
+	
 	private String descrizione;
 	private AttributeDTO size;
 	private AttributeDTO color;
@@ -63,6 +65,9 @@ public class InsertProdottiView extends BaseView {
 	private Integer idProdotto;
 	private Boolean fgRead;
 	private Boolean fgMod;
+	private static DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+	private String separatorDateFormat="&";
+	
 
 	@ManagedProperty(value = "#{merchantBean}")
 	private MerchantBean merchantBean;
@@ -70,6 +75,11 @@ public class InsertProdottiView extends BaseView {
 	public MerchantBean getMerchantBean() {
 		return merchantBean;
 	}
+
+	public List<String> getImagesGuidFile() {
+		return imagesGuidFile;
+	}
+
 
 	public void setMerchantBean(MerchantBean merchantBean) {
 		this.merchantBean = merchantBean;
@@ -309,7 +319,7 @@ public class InsertProdottiView extends BaseView {
 			prd.setIdBrand(brand.getAttributo());
 			prd.setIdGender(genere.getAttributo());
 			prd.setIdType(tipo.getAttributo());
-			prd.setImagesUrl(imagesFile);
+			prd.setImagesUrl(imagesGuidFile);
 			prd.setMerchantCode(merchantCode);
 			prd.setPrice(prezzo);
 			prd.setThumbnailsUrl(fileThumb);
@@ -329,10 +339,6 @@ public class InsertProdottiView extends BaseView {
 			
 			resetPrd();
  
-			
-
-			
-
 		} catch (Exception ex) {
 			addGenericError(ex, "errore nell'inserimento del prodotto");
 		}
@@ -458,7 +464,9 @@ public class InsertProdottiView extends BaseView {
 		ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
 		String fileName = (String) e.getComponent().getAttributes().get("img");
 		File file = new File(extContext.getRealPath(BASE_IMG_PATH + fileName));
-		imagesFile.remove(fileName);
+		String baseName=fileName.split(separatorDateFormat)[1];
+		imagesFile.remove(baseName);
+		imagesGuidFile.remove(fileName);
 
 		if (fileName.equalsIgnoreCase(fileThumb)) {
 			ResizeImageUtil.deleteImageThumb(fileThumb, extContext.getRealPath(BASE_IMG_PATH));
@@ -493,7 +501,8 @@ public class InsertProdottiView extends BaseView {
 				addError("Upload", file.getFileName() + " errore nell'upload");
 			}
 			addInfo("Upload", file.getFileName() + " è stata caricata correttamente");
-			imagesFile.add(fileResized);
+			imagesFile.add(file.getFileName());
+			imagesGuidFile.add(fileResized);
 
 		}
 	}
@@ -515,9 +524,11 @@ public class InsertProdottiView extends BaseView {
 		InputStream inputStream = file.getInputstream();
 
 		// IOUtils.copy(inputStream, fileOutputStream);
+		Date date = new Date();
+		
 
 		String fileResized = ResizeImageUtil.resizeAndCopyImage(inputStream, extContext.getRealPath(BASE_IMG_PATH),
-				file.getFileName());
+				dateFormat.format(date)+separatorDateFormat+file.getFileName().replaceAll(separatorDateFormat, ""));
 
 		return fileResized;
 
