@@ -22,7 +22,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-/*
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
@@ -30,35 +29,29 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;*/
+import com.itextpdf.text.pdf.PdfWriter;
 
 public class OrderService implements IOrderService {
 
-	/*
-	private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18,
-			Font.BOLD);
+	private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
 
-	private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12,
-			Font.BOLD);
+	private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
 
-	private static Font normalFont = new Font(Font.FontFamily.TIMES_ROMAN, 12,
-			Font.NORMAL);*/
+	private static Font normalFont = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.NORMAL);
 
 	private IOrderDAO orderDAO;
 	private IProductDAO productDAO;
 
 	@Override
-	public List<OrderFullDTO> getOrders(Integer Order, String User,
-			TypeStateOrder StatoOrdine) {
-		
-		return getOrders(Order,User,StatoOrdine, null);
-		
+	public List<OrderFullDTO> getOrders(Integer Order, String User, TypeStateOrder StatoOrdine) {
+
+		return getOrders(Order, User, StatoOrdine, null);
+
 	}
-	
+
 	@Override
-	public List<OrderFullDTO> getOrders(Integer Order, String User,
-			TypeStateOrder StatoOrdine, String idTransaction) {
-		
+	public List<OrderFullDTO> getOrders(Integer Order, String User, TypeStateOrder StatoOrdine, String idTransaction) {
+
 		List<OrderFullDTO> listaOrdini;
 		if (StatoOrdine == null) {
 			listaOrdini = orderDAO.getOrders(Order, User, null, idTransaction);
@@ -77,13 +70,10 @@ public class OrderService implements IOrderService {
 			while (it.hasNext()) {
 				ArticleFullDTO article = it.next();
 
-				ArticleFullDTO artFull = productDAO.getArticleFull(article
-						.getPrdFullDTO().getIdProduct(),
+				ArticleFullDTO artFull = productDAO.getArticleFull(article.getPrdFullDTO().getIdProduct(),
 						article.getPgArticle(), "it");
-				artFull.setShop(productDAO.getShop(article.getPrdFullDTO()
-						.getIdProduct(), article.getPgArticle()));
-				artFull.setPrdFullDTO(productDAO.getProductArticleFull("it",
-						article.getPrdFullDTO().getIdProduct(),
+				artFull.setShop(productDAO.getShop(article.getPrdFullDTO().getIdProduct(), article.getPgArticle()));
+				artFull.setPrdFullDTO(productDAO.getProductArticleFull("it", article.getPrdFullDTO().getIdProduct(),
 						article.getPgArticle()));
 				artFull.setQtBooked(article.getQtBooked());
 				newlistArticle.add(artFull);
@@ -96,8 +86,7 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public OrderFullDTO insertOrder(OrderFullDTO orderFull)
-			throws OthalaException {
+	public OrderFullDTO insertOrder(OrderFullDTO orderFull) throws OthalaException {
 
 		checkQtaInStock(null, orderFull);
 
@@ -112,8 +101,7 @@ public class OrderService implements IOrderService {
 
 			mapProduct.clear();
 			mapProduct.put("idOrder", orderFull.getIdOrder());
-			mapProduct
-					.put("idProdotto", article.getPrdFullDTO().getIdProduct());
+			mapProduct.put("idProdotto", article.getPrdFullDTO().getIdProduct());
 			mapProduct.put("pgArticle", article.getPgArticle());
 			mapProduct.put("qtArticle", article.getQtBooked());
 
@@ -127,8 +115,7 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public OrderFullDTO confirmOrderPayment(OrderFullDTO order)
-			throws StockNotPresentException {
+	public OrderFullDTO confirmOrderPayment(OrderFullDTO order) throws StockNotPresentException {
 
 		// OrderFullDTO orderFull = checkQtaInStock(order.getIdOrder(),null);
 
@@ -137,8 +124,7 @@ public class OrderService implements IOrderService {
 		// orderDAO.updateOrder(order.getIdOrder(),
 		// order.getIdTransaction(), null);
 
-		updateStateOrder(null, order,
-				TypeStateOrder.valueOf(order.getIdStato()));
+		updateStateOrder(null, order, TypeStateOrder.valueOf(order.getIdStato()));
 
 		updateStock(order, true);
 
@@ -146,12 +132,10 @@ public class OrderService implements IOrderService {
 
 	}
 
-	public OrderFullDTO checkQtaInStock(Integer idOrder, OrderFullDTO orderFull)
-			throws StockNotPresentException {
+	public OrderFullDTO checkQtaInStock(Integer idOrder, OrderFullDTO orderFull) throws StockNotPresentException {
 
 		if (orderFull == null) {
-			List<OrderFullDTO> lsOrders = orderDAO.getOrders(idOrder, null,
-					null);
+			List<OrderFullDTO> lsOrders = orderDAO.getOrders(idOrder, null, null);
 			Iterator<OrderFullDTO> oi = lsOrders.iterator();
 			orderFull = oi.next();
 		}
@@ -161,8 +145,8 @@ public class OrderService implements IOrderService {
 		while (i.hasNext()) {
 			ArticleFullDTO article = i.next();
 
-			Integer qtaProduct = productDAO.getQtStockLock(article
-					.getPrdFullDTO().getIdProduct(), article.getPgArticle());
+			Integer qtaProduct = productDAO.getQtStockLock(article.getPrdFullDTO().getIdProduct(),
+					article.getPgArticle());
 
 			if (qtaProduct < article.getQtBooked()) {
 				List<String> prodNoStock = new ArrayList<String>();
@@ -178,8 +162,8 @@ public class OrderService implements IOrderService {
 		List<ArticleFullDTO> lsProd = orderFull.getCart();
 		for (ArticleFullDTO article : lsProd) {
 
-			productDAO.updateQtStock(article.getPrdFullDTO().getIdProduct(),
-					article.getPgArticle(), article.getQtBooked(), fgVendita);
+			productDAO.updateQtStock(article.getPrdFullDTO().getIdProduct(), article.getPgArticle(),
+					article.getQtBooked(), fgVendita);
 
 		}
 	}
@@ -210,12 +194,10 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public OrderFullDTO updateStateOrder(Integer idOrder,
-			OrderFullDTO orderFull, TypeStateOrder stato) {
+	public OrderFullDTO updateStateOrder(Integer idOrder, OrderFullDTO orderFull, TypeStateOrder stato) {
 
 		if (orderFull == null) {
-			List<OrderFullDTO> lsOrders = orderDAO.getOrders(idOrder, null,
-					null);
+			List<OrderFullDTO> lsOrders = orderDAO.getOrders(idOrder, null, null);
 			Iterator<OrderFullDTO> oi = lsOrders.iterator();
 			orderFull = oi.next();
 		}
@@ -227,8 +209,7 @@ public class OrderService implements IOrderService {
 
 		orderDAO.updateStateOrder(stateOrder);
 
-		orderDAO.updateOrder(orderFull.getIdOrder(),
-				orderFull.getIdTransaction(), null);
+		orderDAO.updateOrder(orderFull.getIdOrder(), orderFull.getIdTransaction(), null);
 
 		/*
 		 * IPaymentService payService =
@@ -242,8 +223,7 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public OrderFullDTO increaseQtaArticle(OrderFullDTO orderFull,
-			TypeStateOrder stato) {
+	public OrderFullDTO increaseQtaArticle(OrderFullDTO orderFull, TypeStateOrder stato) {
 		orderFull = updateStateOrder(null, orderFull, stato);
 
 		updateStock(orderFull, false);
@@ -257,8 +237,7 @@ public class OrderService implements IOrderService {
 
 	@Override
 	public DeliveryDTO getDeliveryInfo(String userId) {
-		List<DeliveryAddressDTO> addresses = orderDAO
-				.getDeliveryAddress(userId);
+		List<DeliveryAddressDTO> addresses = orderDAO.getDeliveryAddress(userId);
 		List<DeliveryCostDTO> costs = orderDAO.getDeliveryCost();
 
 		DeliveryDTO delivery = new DeliveryDTO();
@@ -277,8 +256,7 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public DeliveryAddressDTO updateAddress(DeliveryAddressDTO newAddress,
-			Integer idAddress) {
+	public DeliveryAddressDTO updateAddress(DeliveryAddressDTO newAddress, Integer idAddress) {
 		orderDAO.deleteAddress(idAddress);
 		orderDAO.newAddress(newAddress);
 		return newAddress;
@@ -303,12 +281,10 @@ public class OrderService implements IOrderService {
 
 		if (listCoupons.get(0) != null) {
 			if (listCoupons.get(0).getDtScadenza().compareTo(new Date()) < 0) {
-				throw new OthalaException(
-						"Il Coupon che stai cercando di utilizzare è scaduto");
+				throw new OthalaException("Il Coupon che stai cercando di utilizzare è scaduto");
 			}
 			if (listCoupons.get(0).getDtUtilizzo() != null) {
-				throw new OthalaException(
-						"Il Coupon che stai cercando di utilizzare è stato gia speso");
+				throw new OthalaException("Il Coupon che stai cercando di utilizzare è stato gia speso");
 			}
 		} else {
 			throw new OthalaException("Codice Coupon errato");
@@ -322,52 +298,44 @@ public class OrderService implements IOrderService {
 
 		List<OrderFullDTO> listOrderFullDTO = getOrders(idOrder, null, null);
 		OrderFullDTO orderFullDTO = listOrderFullDTO.get(0);
-		//stampaPDF(orderFullDTO);
+		// stampaPDF(orderFullDTO);
 		return null;
 
 	}
-	
-	/*
 
 	public File stampaPDF(OrderFullDTO orderFullDTO) throws Exception {
-		try {
-			File pdfTemp = File.createTempFile("pdfTemp", ".pdf");
 
-			Document document = new Document();
-			PdfWriter.getInstance(document, new FileOutputStream(pdfTemp));
-			document.open();
-			addTitlePage(document, orderFullDTO);
-			addCliente(document, orderFullDTO);
-			addCarrello(document, orderFullDTO);
+		File pdfTemp = File.createTempFile("pdfTemp", ".pdf");
 
-			document.close();
-			return pdfTemp;
-		} catch (Exception e) {
-			throw e;
-		}
+		Document document = new Document();
+		PdfWriter.getInstance(document, new FileOutputStream(pdfTemp));
+		document.open();
+		addTitlePage(document, orderFullDTO);
+		addCliente(document, orderFullDTO);
+		addCarrello(document, orderFullDTO);
+
+		document.close();
+		return pdfTemp;
+
 	}
 
-	private static void addTitlePage(Document document,
-			OrderFullDTO orderFullDTO) throws DocumentException {
+	private static void addTitlePage(Document document, OrderFullDTO orderFullDTO) throws DocumentException {
 		Paragraph preface = new Paragraph();
 		// We add one empty line
 		addEmptyLine(preface, 1);
 		// Lets write a big header
-		preface.add(new Paragraph("ORDINE N° "
-				+ orderFullDTO.getIdOrder().toString(), catFont));
+		preface.add(new Paragraph("ORDINE N° " + orderFullDTO.getIdOrder().toString(), catFont));
 
 		addEmptyLine(preface, 1);
 		// Will create: Report generated by: _name, _date
-		preface.add(new Paragraph("TRANSAZIONE N° "
-				+ orderFullDTO.getIdTransaction().toString(), smallBold));
+		preface.add(new Paragraph("TRANSAZIONE N° " + orderFullDTO.getIdTransaction().toString(), smallBold));
 		addEmptyLine(preface, 2);
 
 		document.add(preface);
 
 	}
 
-	private static void addCliente(Document document, OrderFullDTO orderFullDTO)
-			throws DocumentException {
+	private static void addCliente(Document document, OrderFullDTO orderFullDTO) throws DocumentException {
 
 		Paragraph preface = new Paragraph();
 
@@ -416,46 +384,38 @@ public class OrderService implements IOrderService {
 		c1.setBorderWidth(0);
 		table2.addCell(c1);
 
-		c1 = new PdfPCell(new Phrase(orderFullDTO.getBillingAddress().getNome()
-				+ " " + orderFullDTO.getBillingAddress().getCognome(),
-				normalFont));
+		c1 = new PdfPCell(new Phrase(orderFullDTO.getBillingAddress().getNome() + " "
+				+ orderFullDTO.getBillingAddress().getCognome(), normalFont));
 		c1.setBorderWidth(0);
 		table2.addCell(c1);
-		c1 = new PdfPCell(new Phrase(orderFullDTO.getShippingAddress()
-				.getNome()
-				+ " "
+		c1 = new PdfPCell(new Phrase(orderFullDTO.getShippingAddress().getNome() + " "
 				+ orderFullDTO.getBillingAddress().getCognome(), normalFont));
 		c1.setBorderWidth(0);
 		table2.addCell(c1);
 
-		c1 = new PdfPCell(new Phrase(orderFullDTO.getBillingAddress().getVia(),
-				normalFont));
+		c1 = new PdfPCell(new Phrase(orderFullDTO.getBillingAddress().getVia(), normalFont));
 		c1.setBorderWidth(0);
 		table2.addCell(c1);
-		c1 = new PdfPCell(new Phrase(
-				orderFullDTO.getShippingAddress().getVia(), normalFont));
+		c1 = new PdfPCell(new Phrase(orderFullDTO.getShippingAddress().getVia(), normalFont));
 		c1.setBorderWidth(0);
 		table2.addCell(c1);
 
-		c1 = new PdfPCell(new Phrase(orderFullDTO.getBillingAddress().getCap()
-				+ " " + orderFullDTO.getBillingAddress().getComune() + " "
-				+ orderFullDTO.getBillingAddress().getProvincia() + " "
-				+ orderFullDTO.getBillingAddress().getNazione(), normalFont));
+		c1 = new PdfPCell(new Phrase(orderFullDTO.getBillingAddress().getCap() + " "
+				+ orderFullDTO.getBillingAddress().getComune() + " " + orderFullDTO.getBillingAddress().getProvincia()
+				+ " " + orderFullDTO.getBillingAddress().getNazione(), normalFont));
 		c1.setBorderWidth(0);
 		table2.addCell(c1);
-		c1 = new PdfPCell(new Phrase(orderFullDTO.getShippingAddress().getCap()
-				+ " " + orderFullDTO.getShippingAddress().getComune() + " "
+		c1 = new PdfPCell(new Phrase(orderFullDTO.getShippingAddress().getCap() + " "
+				+ orderFullDTO.getShippingAddress().getComune() + " "
 				+ orderFullDTO.getShippingAddress().getProvincia() + " "
 				+ orderFullDTO.getShippingAddress().getNazione(), normalFont));
 		c1.setBorderWidth(0);
 		table2.addCell(c1);
 
-		c1 = new PdfPCell(new Phrase(orderFullDTO.getBillingAddress().getTel(),
-				normalFont));
+		c1 = new PdfPCell(new Phrase(orderFullDTO.getBillingAddress().getTel(), normalFont));
 		c1.setBorderWidth(0);
 		table2.addCell(c1);
-		c1 = new PdfPCell(new Phrase(
-				orderFullDTO.getShippingAddress().getTel(), normalFont));
+		c1 = new PdfPCell(new Phrase(orderFullDTO.getShippingAddress().getTel(), normalFont));
 		c1.setBorderWidth(0);
 		table2.addCell(c1);
 
@@ -465,8 +425,7 @@ public class OrderService implements IOrderService {
 
 	}
 
-	private static void addCarrello(Document document, OrderFullDTO orderFullDTO)
-			throws DocumentException {
+	private static void addCarrello(Document document, OrderFullDTO orderFullDTO) throws DocumentException {
 
 		Paragraph preface = new Paragraph();
 
@@ -499,9 +458,8 @@ public class OrderService implements IOrderService {
 		for (ArticleFullDTO art : orderFullDTO.getCart()) {
 			if (art != null) {
 
-				contenuto = art.getPrdFullDTO().getTxBrand() + " - "
-						+ art.getPrdFullDTO().getDescription() + " " + "Id. "
-						+ art.getPrdFullDTO().getIdProduct().toString();
+				contenuto = art.getPrdFullDTO().getTxBrand() + " - " + art.getPrdFullDTO().getDescription() + " "
+						+ "Id. " + art.getPrdFullDTO().getIdProduct().toString();
 
 				c1 = new PdfPCell(new Phrase(contenuto, normalFont));
 				c1.setBorderWidth(0);
@@ -541,7 +499,6 @@ public class OrderService implements IOrderService {
 
 		}
 
-	
 		contenuto = "TOTALE";
 		c1 = new PdfPCell(new Phrase(contenuto, smallBold));
 		c1.setBorderWidth(0);
@@ -582,6 +539,6 @@ public class OrderService implements IOrderService {
 		for (int i = 0; i < number; i++) {
 			paragraph.add(new Paragraph(" "));
 		}
-	}*/
+	}
 
 }
