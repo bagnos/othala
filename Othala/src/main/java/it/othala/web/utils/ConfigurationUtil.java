@@ -58,8 +58,8 @@ public class ConfigurationUtil {
 			mailProps.setBasePathThumbinalsArticle(getBaseImageThumbinals());
 			mailProps.setBoardUrl(getProperty("BOARD_URL"));
 			mailProps.setCompanyName(getProperty("COMPANY_NAME"));
-			mailProps.setContextRoot(getProperty("CONTEXT_ROOT"));
-			mailProps.setDnsSite(getProperty("DNS_SITE"));
+			mailProps.setContextRoot(getContextPath(req));
+			mailProps.setDnsSite(getServerName(req));
 			mailProps.setFromMail(getProperty("FROM_MAIL"));
 			mailProps.setPathImgLogo(getLogoHomeMail());
 			mailProps.setPathImgPayment(getImagePayment());
@@ -116,6 +116,18 @@ public class ConfigurationUtil {
 	{
 		return req.getRemoteHost().equalsIgnoreCase("127.0.0.1");
 	}
+	
+	public static String getServerName(HttpServletRequest req)
+	{
+		return req.getServerName();
+	}
+	
+	public static String getContextPath(HttpServletRequest req)
+	{
+		return req.getContextPath();
+	}
+	
+	
 	
 
 }
