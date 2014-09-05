@@ -298,8 +298,8 @@ public class OrderService implements IOrderService {
 
 		List<OrderFullDTO> listOrderFullDTO = getOrders(idOrder, null, null);
 		OrderFullDTO orderFullDTO = listOrderFullDTO.get(0);
-		// stampaPDF(orderFullDTO);
-		return null;
+		return stampaPDF(orderFullDTO);
+		
 
 	}
 
