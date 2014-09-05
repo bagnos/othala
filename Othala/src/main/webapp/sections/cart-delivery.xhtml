@@ -98,7 +98,7 @@
 									#{cartFlowBean.addressSpe.via} <br /> #{cartFlowBean.addressSpe.cap}
 									#{cartFlowBean.addressSpe.comune} #{cartFlowBean.addressSpe.provincia}<br /> <span
 										class="glyphicon glyphicon-earphone"></span> #{cartFlowBean.addressSpe.tel}<br />
-										#{cartFlowBean.addressSpe.nazione}
+									#{cartFlowBean.addressSpe.nazione}
 								</address>
 							</div>
 						</div>
@@ -204,7 +204,9 @@
 									for="postaleSpe" />
 								<div class="col-sm-4">
 									<p:inputText id="postaleSpe" styleClass="form-control w120" label="#{msg.delivery_cap}"
-										value="#{cartFlowBean.addressSpe.cap}" required="true" maxlength="10" />
+										value="#{cartFlowBean.addressSpe.cap}" required="true" maxlength="10">
+										<pe:keyFilter mask="num"></pe:keyFilter>
+									</p:inputText>
 									<p:message for="postaleSpe" />
 								</div>
 							</div>
@@ -301,8 +303,8 @@
 									#{cartFlowBean.addressFat.via} <br /> #{cartFlowBean.addressFat.cap}
 									#{cartFlowBean.addressFat.comune} #{cartFlowBean.addressFat.provincia}<br /> <span
 										class="glyphicon glyphicon-earphone"></span> #{cartFlowBean.addressFat.tel}<br />
-										#{cartFlowBean.addressFat.nazione}
-										
+									#{cartFlowBean.addressFat.nazione}
+
 								</address>
 							</div>
 						</div>
@@ -350,7 +352,8 @@
 									<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_type}"
 										for="typeFat" />
 									<div class="col-sm-6">
-										<p:inputText id="typeFat" placeholder="#{msg.delivery_type_hint}" styleClass="form-control" label="#{msg.delivery_type}"
+										<p:inputText id="typeFat" placeholder="#{msg.delivery_type_hint}"
+											styleClass="form-control" label="#{msg.delivery_type}"
 											value="#{cartFlowBean.addressFat.etichetta}" required="true" maxlength="70">
 										</p:inputText>
 										<p:message for="typeFat" />
@@ -403,7 +406,9 @@
 										for="postaleFat" />
 									<div class="col-sm-2">
 										<p:inputText id="postaleFat" styleClass="form-control w120" label="#{msg.delivery_cap}"
-											value="#{cartFlowBean.addressFat.cap}" required="true" maxlength="10" />
+											value="#{cartFlowBean.addressFat.cap}" required="true" maxlength="10">
+											<pe:keyFilter mask="num"></pe:keyFilter>
+										</p:inputText>
 
 										<p:message for="postaleFat" />
 									</div>
@@ -483,7 +488,7 @@
 				<div class="col-sm-2 col-sm-offset-10">
 					<p:commandButton validateClient="true" ajax="true" rendered="#{cartWizardView.rendeRiepilogo}"
 						actionListener="#{cartWizardView.newAddr}" update="delivery wrapUp cartTable-pnl"
-						process="delivery addrFatNew addrSpeNew" oncomplete="changePage(xhr, status, args);"
+						process="delivery addrFatNew addrSpeNew" 
 						styleClass="ui-priority-primary" value="#{msg.delivery_wrapUpOrder}" />
 
 				</div>
