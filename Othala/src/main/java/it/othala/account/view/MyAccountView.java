@@ -18,11 +18,9 @@ import javax.faces.event.AjaxBehaviorEvent;
 @ViewScoped
 public class MyAccountView extends BaseView {
 
-	
-
 	private List<OrderFullDTO> orders;
 	private DeliveryDTO addresses;
-	
+
 	private boolean editAddress;
 	private boolean newAddress;
 	private DeliveryAddressDTO address;
@@ -62,7 +60,6 @@ public class MyAccountView extends BaseView {
 		return newAddress;
 	}
 
-	
 	public List<OrderFullDTO> getOrders() {
 		return orders;
 	}
@@ -77,14 +74,15 @@ public class MyAccountView extends BaseView {
 
 		addresses = OthalaFactory.getOrderServiceInstance().getDeliveryInfo(getLoginBean().getEmail());
 		orders = OthalaFactory.getOrderServiceInstance().getOrders(null, getLoginBean().getEmail(), null);
-		renderDetails=false;
+		renderDetails = false;
 
 		return null;
 
 	}
 
 	public void selectAddr(AjaxBehaviorEvent e) {
-		idAddrSel=Integer.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idAddrSel"));
+		idAddrSel = Integer.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap()
+				.get("idAddrSel"));
 		for (DeliveryAddressDTO d : addresses.getIndirizzo()) {
 			if (d.getIdAddress() == idAddrSel) {
 				address = new DeliveryAddressDTO();
@@ -94,22 +92,21 @@ public class MyAccountView extends BaseView {
 			}
 		}
 	}
-	
-	public void selectOrder(AjaxBehaviorEvent e)
-	{
-		int idOrderSel=Integer.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idOrderSel"));
+
+	public void selectOrder(AjaxBehaviorEvent e) {
+		int idOrderSel = Integer.valueOf(FacesContext.getCurrentInstance().getExternalContext()
+				.getRequestParameterMap().get("idOrderSel"));
 		for (OrderFullDTO ord : orders) {
 			if (ord.getIdOrder() == idOrderSel) {
-				order=ord;
-				renderDetails=true;
+				order = ord;
+				renderDetails = true;
 				break;
 			}
 		}
 	}
-	
-	public void backToOrders(AjaxBehaviorEvent e)
-	{
-		renderDetails=false;
+
+	public void backToOrders(AjaxBehaviorEvent e) {
+		renderDetails = false;
 	}
 
 	public void newAddr(ActionEvent e) {
@@ -120,19 +117,23 @@ public class MyAccountView extends BaseView {
 	}
 
 	public void saveAddr(AjaxBehaviorEvent ev) {
+		try {
 
-		if (newAddress) {
-			// ho cliccato su nuovo
-			OthalaFactory.getOrderServiceInstance().newAddress(address);
+			if (newAddress) {
+				// ho cliccato su nuovo
+				OthalaFactory.getOrderServiceInstance().newAddress(address);
+				newAddress = false;
+			} else {
+				// modifica
+				OthalaFactory.getOrderServiceInstance().updateAddress(address, idAddrSel);
+			}
+			addresses = OthalaFactory.getOrderServiceInstance().getDeliveryInfo(getLoginBean().getEmail());
+
+			editAddress = false;
 			newAddress = false;
-		} else {
-			// modifica
-			OthalaFactory.getOrderServiceInstance().updateAddress(address, idAddrSel);
+		} catch (Exception e) {
+			addGenericError(e, "errore nell'inserimento dell'indirizzo");
 		}
-		addresses = OthalaFactory.getOrderServiceInstance().getDeliveryInfo(getLoginBean().getEmail());
-
-		editAddress = false;
-		newAddress = false;
 
 	}
 
@@ -142,14 +143,10 @@ public class MyAccountView extends BaseView {
 	}
 
 	public void clearCart(ActionEvent ex) {
-		
+
 		deleteCart(getCartFlowBean());
 		redirectHome();
 
 	}
-	
-	
-
-	
 
 }
