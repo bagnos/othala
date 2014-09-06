@@ -37,7 +37,7 @@
 						<p:commandButton icon="ui-icon-triangle-1-w btn-articolo-sel"
 							rendered="#{gestioneOrdiniView.cercaOrd==null}" action="home.xhtml"
 							value="#{msg.catalog_back}" />
-						<p:commandButton icon="ui-icon-triangle-1-w btn-articolo-sel"
+						<p:commandButton icon="ui-icon-triangle-1-w btn-articolo-sel" id="btnTorna"
 							rendered="#{gestioneOrdiniView.cercaOrd!=null}" action="cercaOrdini.xhtml" value="Torna" />
 
 					</div>
@@ -85,7 +85,7 @@
 									<tfoot>
 										<tr>
 											<td colspan="5" class="text-right">Totale Prodotti</td>
-											<td><h:outputText value="#{merchantBean.orderSelected.imOrdine}">
+											<td><h:outputText value="#{merchantBean.orderSelected.imOrdineSenzaSpese}">
 													<f:converter converterId="it.othala.BigDecimalConverter" />
 												</h:outputText></td>
 										</tr>
@@ -99,7 +99,7 @@
 										</tr>
 										<tr>
 											<td colspan="5" class="text-right"><strong>#{msg.catalog_total}</strong></td>
-											<td><h:outputText value="#{merchantBean.orderSelected.imOrdineConSpese}">
+											<td><h:outputText value="#{merchantBean.orderSelected.imOrdine}">
 													<f:converter converterId="it.othala.BigDecimalConverter" />
 												</h:outputText></td>
 										</tr>
@@ -148,14 +148,14 @@
 						<div class="col-sm-2 col-sm-offset-8">
 							<p:commandButton title="Spedisci e stampa contenuto ordine" process="@this" update="@form"
 								onclick="window.open('../SpedisciOrdineServlet?idOrder=#{merchantBean.orderSelected.idOrder}');"
-								rendered="#{merchantBean.orderSelected.idStato==3}" styleClass="ui-priority-primary"
+								rendered="#{merchantBean.orderSelected.idStato==3}" oncomplete="$('#btnTorna').click()"  styleClass="ui-priority-primary"
 								value="Spedisci">
 							</p:commandButton>
 							<div class="col-sm-2 col-sm-offset-8">
 								<p:commandButton title="Stampa contenuto ordine" process="@this" update="@form"
-									actionListener="#{gestioneOrdiniView.stampaBolla}"
-									rendered="#{merchantBean.orderSelected.idStato==15}" styleClass="ui-priority-primary"
-									value="Stampa">
+									actionListener="#{gestioneOrdiniView.stampaBolla}" onclick="window.open('../SpedisciOrdineServlet?fgRis=true&#38;idOrder=#{merchantBean.orderSelected.idOrder}');"
+									rendered="#{merchantBean.orderSelected.idStato==15}" oncomplete="$('#btnTorna').click()" styleClass="ui-priority-primary"
+									value="Ristampa">
 								</p:commandButton>
 							</div>
 						</div>
