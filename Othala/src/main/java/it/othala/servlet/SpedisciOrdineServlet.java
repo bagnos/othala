@@ -37,10 +37,14 @@ public class SpedisciOrdineServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		int idOrder = 0;
+		String fgRis = null;
 		try {
 			idOrder = Integer.valueOf(request.getParameter("idOrder"));
+			fgRis = request.getParameter("fgRis");
 
-			OthalaFactory.getOrderServiceInstance().updateStateOrder(idOrder, null, TypeStateOrder.SPEDITO);
+			if (fgRis == null) {
+				OthalaFactory.getOrderServiceInstance().updateStateOrder(idOrder, null, TypeStateOrder.SPEDITO);
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			warning(response, "errore nella spedizione dell'ordine", e);
@@ -93,20 +97,13 @@ public class SpedisciOrdineServlet extends HttpServlet {
 		out.println("<H3>");
 		out.println(error);
 		out.println("</H3>");
-		
+
 		/*
-		if (e != null) {
-			out.print("<P>Exception is: ");
-			out.println(e.toString());
-			out.print("Traceback is: ");
-			out.print("<PRE>");
-			e.printStackTrace(out);
-			out.print("</PRE>");
-		}
-		System.out.print("StampaPDF: ");
-		System.out.println(error);
-		if (e != null) {
-			System.out.println(e.toString());
-		}*/
+		 * if (e != null) { out.print("<P>Exception is: ");
+		 * out.println(e.toString()); out.print("Traceback is: ");
+		 * out.print("<PRE>"); e.printStackTrace(out); out.print("</PRE>"); }
+		 * System.out.print("StampaPDF: "); System.out.println(error); if (e !=
+		 * null) { System.out.println(e.toString()); }
+		 */
 	}
 }
