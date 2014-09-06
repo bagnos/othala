@@ -31,14 +31,16 @@ public class OrderFullDTO implements Serializable {
 	private String idTransaction;
 	private String idTrackingNumber;
 	private String pendingReason;
-	private BigDecimal imOrdineConSpese;
+	private BigDecimal imOrdineSenzaSpese;
 
-	public void setImOrdineConSpese(BigDecimal imOrdineConSpese) {
-		this.imOrdineConSpese = imOrdineConSpese;
+	
+
+	public BigDecimal getImOrdineSenzaSpese() {
+		return imOrdineSenzaSpese;
 	}
 
-	public BigDecimal getImOrdineConSpese() {
-		return imOrdineConSpese;
+	public void setImOrdineSenzaSpese(BigDecimal imOrdineSenzaSpese) {
+		this.imOrdineSenzaSpese = imOrdineSenzaSpese;
 	}
 
 	public String getPendingReason() {
