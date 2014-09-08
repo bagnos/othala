@@ -28,23 +28,8 @@
 		urlRedirect
 		FROM
 		${database.schema}site_images a
-		where txGroupImages = 'newArrivals'
-		and exists
-		(select 1 from
-		${database.schema}product d,
-		${database.schema}article
-		e
-		where
-		d.idProductState = 1
-
-		and d.idGender = a.pgGroupImages
-
-		and e.idProduct =
-		d.idProduct
-		and
-		e.qtStock
-		>
-		0);
+		where txGroupImages = 'newArrivals';
+		
 
 
 
