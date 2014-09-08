@@ -66,9 +66,9 @@
 			<div class="row">
 
 				<ui:repeat var="imgNewArr" value="#{applicationBean.imgsNewArrival}">
-					<div class="col-sm-3">
-						<div class="thumbnail thumbnail-home">
-							<h:link outcome="#{imgNewArr.urlRedirect}">
+					<div class="col-sm-6">
+						<div class="thumbnail thumbnail-home" >
+							<h:link outcome="#{imgNewArr.urlRedirect}" >
 								<p:graphicImage styleClass="img-responsive" library="#{imgNewArr.txLibrary}"
 									name="#{imgNewArr.txName}" />
 							</h:link>
