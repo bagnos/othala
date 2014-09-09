@@ -7,9 +7,10 @@
 <ui:insert name="metadata" />
 
 
-<pe:head title="Degortes Outlet"
+<pe:head title="Degortes Outlet" pt:prefix="og:http://ogp.me/ns# fb:http://ogp.me/ns/fb# product:http://ogp.me/ns/product#"
 	shortcutIcon="#{request.contextPath}/resources/images/logoscimmia.png">
 	<f:facet name="first">
+	<ui:insert name="fb" />
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta http-equiv="pragma" content="no-cache" />
@@ -17,6 +18,7 @@
 		<meta http-equiv="expires" content="0" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta charset="utf-8" />
+		
 	</f:facet>
 
 
@@ -28,6 +30,8 @@
 	<h:outputStylesheet name="account.css" library="css"></h:outputStylesheet>
 	<h:outputStylesheet name="font-awesome.min.css" library="bootstrap/css"></h:outputStylesheet>
 	<h:outputStylesheet name="prettify.css" library="bootstrap/css"></h:outputStylesheet>
+	
+	
 
 
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -37,6 +41,30 @@
 </pe:head>
 
 <h:body>
+
+	<!-- facebook sdk -->
+	<div id="fb-root"></div>
+
+	<script>
+
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1462056920726471',
+      xfbml      : true,
+      version    : 'v2.1'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+
+      </script>
+
 
 	<h:outputText
 		value="&lt;!--[if lt IE 9]&gt;&lt;script src=&quot;https&#58;&#47;&#47;oss.maxcdn.com&#47;libs&#47;respond.js&#47;1.4.2&#47;respond.min.js&quot; /&gt;
@@ -58,9 +86,9 @@
 	<h:outputScript name="jquery.bootstrap.wizard.min.js" library="bootstrap/js"></h:outputScript>
 	<h:outputScript name="othalaBase.js" library="js"></h:outputScript>
 	<h:outputScript name="merchant.js" library="js"></h:outputScript>
-	
+
 	<ui:insert name="script" />
-	
+
 
 
 	<pe:blockUI widgetVar="blockAll">

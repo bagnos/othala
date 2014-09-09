@@ -54,6 +54,7 @@
     <url-pattern>/SpedisciOrdineServlet/*</url-pattern>
   </servlet-mapping>
   
+  
   <filter>
     <filter-name>LoginFilter</filter-name>
     <filter-class>it.othala.filter.LoginFilter</filter-class>
