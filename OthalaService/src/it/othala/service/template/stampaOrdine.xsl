@@ -21,7 +21,7 @@
 						<xsl:value-of select="transaction" />
 					</div>
 
-				<br></br>
+					<br></br>
 				</div>
 				<!-- dettaglio ordine -->
 
@@ -46,7 +46,7 @@
 						<xsl:value-of select="customer/surname" />
 					</div>
 
-<br></br>
+					<br></br>
 				</div>
 
 
@@ -249,6 +249,10 @@
 					</tbody>
 				</table>
 			</body>
+			<script>
+				window.print();
+			</script>
+
 		</html>
 	</xsl:template>
 </xsl:stylesheet>
