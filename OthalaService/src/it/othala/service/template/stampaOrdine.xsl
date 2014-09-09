@@ -9,48 +9,45 @@
 				style="padding:4px;font-family: Helvetica Neue,Helvetica,Arial,sans-serif;line-height: 1.42857143;">
 				<div>
 					<div>
-						<label style="display:inline-block;width:150px">
+						<label style="display:inline-block;width:250px">
 							<b>Numero Ordine</b>
 						</label>
 						<xsl:value-of select="number" />
 					</div>
 					<div>
-						<label style="display:inline-block;width:150px">
+						<label style="display:inline-block;width:250px">
 							<b>Numero Transazione</b>
 						</label>
 						<xsl:value-of select="transaction" />
 					</div>
 
+				<br></br>
 				</div>
-			<!-- dettaglio ordine -->
+				<!-- dettaglio ordine -->
 
 				<!-- UTENTE -->
-				<table style="width:100%;padding:10px;text-align:left;">
-					<tr>
-						<th>
-							Email
-						</th>
-						<td>
-							<xsl:value-of select="customer/mail" />
-						</td>
-					</tr>
-					<tr>
-						<th>
-							Nome
-						</th>
-						<td>
-							<xsl:value-of select="customer/name" />
-						</td>
-					</tr>
-					<tr>
-						<th>
-							Cognome
-						</th>
-						<td>
-							<xsl:value-of select="customer/surname" />
-						</td>
-					</tr>
-				</table>
+				<div>
+					<div>
+						<label style="display:inline-block;width:150px">
+							<b>Email</b>
+						</label>
+						<xsl:value-of select="customer/mail" />
+					</div>
+					<div>
+						<label style="display:inline-block;width:150px">
+							<b>Nome</b>
+						</label>
+						<xsl:value-of select="customer/name" />
+					</div>
+					<div>
+						<label style="display:inline-block;width:150px">
+							<b>Cognome</b>
+						</label>
+						<xsl:value-of select="customer/surname" />
+					</div>
+
+<br></br>
+				</div>
 
 
 
@@ -180,7 +177,8 @@
 				<!-- CARRELLO -->
 				<h4>CARRELLO</h4>
 
-				<table border="0" style="width:100%;text-align:left;border-spacing:10px;">
+				<table border="0"
+					style="width:100%;text-align:left;border-spacing:10px;">
 					<thead>
 						<tr>
 							<th colspan="2">Articolo</th>
@@ -214,7 +212,7 @@
 					<tbody style="vertical-align: top;">
 						<xsl:for-each select="cart/item">
 							<tr>
-									<td>
+								<td colspan="2">
 
 									<xsl:value-of select="brand" />
 									<br />
