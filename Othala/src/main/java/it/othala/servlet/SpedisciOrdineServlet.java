@@ -2,6 +2,7 @@ package it.othala.servlet;
 
 import it.othala.enums.TypeStateOrder;
 import it.othala.service.factory.OthalaFactory;
+import it.othala.web.utils.ConfigurationUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -51,7 +52,7 @@ public class SpedisciOrdineServlet extends HttpServlet {
 			return;
 		}
 		try {
-			stampaOrdine(idOrder, response);
+			stampaOrdine(idOrder, response,request);
 			return;
 
 		} catch (Exception e) {
@@ -60,26 +61,32 @@ public class SpedisciOrdineServlet extends HttpServlet {
 		}
 	}
 
-	private void stampaOrdine(int idOrder, HttpServletResponse response) throws Exception {
-		File pdfCarrello = OthalaFactory.getOrderServiceInstance().stampaOrdine(idOrder);
+	private void stampaOrdine(int idOrder, HttpServletResponse response,HttpServletRequest request) throws Exception {
+		//File pdfCarrello = OthalaFactory.getOrderServiceInstance().stampaOrdine(idOrder);
+		PrintWriter out = response.getWriter();
+		String img=ConfigurationUtil.getOrderPrintImageUrl(request);
+		String html=OthalaFactory.getOrderServiceInstance().stampaOrdineHTML(idOrder,img);
 
 		response.setHeader("Expires", "0");
 		response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
 		response.setHeader("Pragma", "public");
 		// setting the content type
-		response.setContentType("application/pdf");
-		response.setContentLength((int) pdfCarrello.length());
+		response.setContentType("text/html;charset=UTF-8");
+		//response.setContentLength((int) pdfCarrello.length());
 
 		// Tell browser to try to display inline, but if not,
 		// to save under the given filename.
-		response.setHeader("Content-disposition", "inline; filename=\"Ordine.pdf\"");
+		
 
+		/*
+		 * response.setHeader("Content-disposition", "inline; filename=\"Ordine.pdf\"");
 		FileInputStream fileInputStream = new FileInputStream(pdfCarrello);
 		OutputStream responseOutputStream = response.getOutputStream();
 		int bytes;
 		while ((bytes = fileInputStream.read()) != -1) {
 			responseOutputStream.write(bytes);
-		}
+		}*/
+		out.write(html);
 
 	}
 

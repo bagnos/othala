@@ -6,8 +6,8 @@
 				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 			</head>
 			<body
-				style="padding:4px;font-family: Helvetica Neue,Helvetica,Arial,sans-serif;line-height: 1.42857143;">
-								<div style="margin-bottom:10px; margin-top:10px">
+				style="padding:4px;font-family: Helvetica Neue,Helvetica,Arial,sans-serif;line-height: 1.42857143;font-size:14px;">
+								<div style="margin-bottom:30px; margin-top:20px">
 					<img>
 						<xsl:attribute name="src">
     								<xsl:value-of select="imgLogo" />
@@ -59,7 +59,7 @@
 
 
 
-				<table style="width:100%;padding:10px;text-align:left;">
+				<table style="width:100%;padding:10px;text-align:left;font-size:14px;">
 					<thead>
 						<tr>
 							<th>Indirizzo Fatturazione</th>
@@ -186,7 +186,7 @@
 				<h4>CARRELLO</h4>
 
 				<table border="0"
-					style="width:100%;text-align:left;border-spacing:10px;">
+					style="width:100%;text-align:left;border-spacing:10px;font-size:14px;">
 					<thead>
 						<tr>
 							<th colspan="2">Articolo</th>

@@ -19,6 +19,7 @@ public class ConfigurationUtil {
 	private static Log log = LogFactory.getLog(ConfigurationUtil.class);
 	private static MailPropertiesDTO mailProps;
 	private static HttpServletRequest request;
+		
 	
 	private static String getBaseImagePath()
 	{		
@@ -33,6 +34,7 @@ public class ConfigurationUtil {
 		path+="logo2-small.png";
 		return path;
 	}
+	
 	private static String getBaseImageThumbinals()
 	{
 		String path=getBaseImagePath()+"cartThumbinals"+File.separator;
@@ -125,6 +127,14 @@ public class ConfigurationUtil {
 	public static String getContextPath(HttpServletRequest req)
 	{
 		return req.getContextPath();
+	}
+	
+	public static String getOrderPrintImageUrl(HttpServletRequest req)
+	{
+		String url=getProperty("OrderPrintImageUrl");
+		url=url.replaceAll("request.remoteHost", getServerName(req));
+		url=url.replaceAll("request.contextPath",getContextPath(req));
+		return url;
 	}
 	
 	
