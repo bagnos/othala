@@ -7,7 +7,7 @@
 			</head>
 			<body
 				style="padding:4px;font-family: Helvetica Neue,Helvetica,Arial,sans-serif;line-height: 1.42857143;">
-								<div>
+								<div style="margin-bottom:10px; margin-top:10px">
 					<img>
 						<xsl:attribute name="src">
     								<xsl:value-of select="imgLogo" />
