@@ -7,6 +7,14 @@
 			</head>
 			<body
 				style="padding:4px;font-family: Helvetica Neue,Helvetica,Arial,sans-serif;line-height: 1.42857143;">
+								<div>
+					<img>
+						<xsl:attribute name="src">
+    								<xsl:value-of select="imgLogo" />
+    								</xsl:attribute>
+					</img>
+				</div>
+				
 				<div>
 					<div>
 						<label style="display:inline-block;width:250px">

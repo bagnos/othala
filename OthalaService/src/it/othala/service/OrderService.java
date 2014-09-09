@@ -321,23 +321,18 @@ public class OrderService implements IOrderService {
 	
 	
 	@Override
-	public String stampaOrdineHTML(Integer idOrder) throws Exception {
+	public String stampaOrdineHTML(Integer idOrder, String pathLogo) throws Exception {
 
 		List<OrderFullDTO> listOrderFullDTO = getOrders(idOrder, null, null);
 		OrderFullDTO orderFullDTO = listOrderFullDTO.get(0);
-		return stampaHTML(orderFullDTO);
+		Map<String, String> inlineImages = new HashMap<String, String>();
+		
+		return generateHtmlOrder(orderFullDTO, inlineImages, "stampaOrdine", pathLogo);
 		
 
 	}
 	
-	public String stampaHTML(OrderFullDTO orderFullDTO) throws Exception {
-		
-	
-	return generateHtmlOrder(orderFullDTO, "stampaOrdine");
-	
-	}
-	
-	private String generateHtmlOrder(OrderFullDTO order, String xslTemplate) throws Exception {
+	private String generateHtmlOrder(OrderFullDTO order, Map<String, String> inlineImages, String xslTemplate, String pathLogo) throws Exception {
 		BufferedWriter out = null;
 		FileWriter fstream = null;
 
@@ -351,7 +346,11 @@ public class OrderService implements IOrderService {
 
 			out.write("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
 			out.write("<order>");
-			
+			out.write("<imgLogo>");
+			out.write("cid:imageLogo");
+			inlineImages.put("imageLogo", pathLogo);
+			out.write("</imgLogo>");
+
 			out.write("<customer>");
 			out.write("<name>" + order.getNameUser() + "</name>");
 			out.write("<mail>" + order.getIdUser() + "</mail>");
@@ -435,6 +434,7 @@ public class OrderService implements IOrderService {
 
 	}
 
+	
 	public File stampaPDF(OrderFullDTO orderFullDTO) throws Exception {
 
 		File pdfTemp = File.createTempFile("pdfTemp", ".pdf");
