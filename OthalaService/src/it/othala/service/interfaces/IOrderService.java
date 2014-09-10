@@ -42,8 +42,6 @@ public interface IOrderService {
 
 	public CouponDTO checkCoupon(String idCoupon) throws OthalaException;
 
-	public File stampaOrdine(Integer idOrder) throws Exception;
-	
 	public String stampaOrdineHTML(Integer idOrder, String pathLogo) throws Exception;
 
 
