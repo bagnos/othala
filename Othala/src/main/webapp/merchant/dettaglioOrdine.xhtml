@@ -34,11 +34,11 @@
 				<div class="row spacer20">
 					<div class="col-sm-2">
 						<!-- indietro -->
-						<p:commandButton icon="ui-icon-triangle-1-w btn-articolo-sel"
-							rendered="#{gestioneOrdiniView.cercaOrd==null}" action="home.xhtml"
-							value="#{msg.catalog_back}" />
+						<p:commandButton icon="ui-icon-triangle-1-w btn-articolo-sel" id="btnTornaHome"
+							rendered="#{gestioneOrdiniView.cercaOrd==null}" action="home.xhtml?faces-redirect=true"
+							value="Torna" />
 						<p:commandButton icon="ui-icon-triangle-1-w btn-articolo-sel" id="btnTorna"
-							rendered="#{gestioneOrdiniView.cercaOrd!=null}" action="cercaOrdini.xhtml" value="Torna" />
+							rendered="#{gestioneOrdiniView.cercaOrd!=null}" action="cercaOrdini.xhtml?faces-redirect=true" value="Torna" />
 
 					</div>
 
@@ -148,13 +148,13 @@
 						<div class="col-sm-2 col-sm-offset-8">
 							<p:commandButton title="Spedisci e stampa contenuto ordine" process="@this" update="@form"
 								onclick="window.open('../SpedisciOrdineServlet?idOrder=#{merchantBean.orderSelected.idOrder}');"
-								rendered="#{merchantBean.orderSelected.idStato==3}" oncomplete="$('#btnTorna').click()"  styleClass="ui-priority-primary"
+								rendered="#{merchantBean.orderSelected.idStato==3}" oncomplete="if ($('#btnTorna')) {$('#btnTorna').click()}  else {$('#btnTornaHome').click()}"  styleClass="ui-priority-primary"
 								value="Spedisci">
 							</p:commandButton>
 							<div class="col-sm-2 col-sm-offset-8">
 								<p:commandButton title="Stampa contenuto ordine" process="@this" update="@form"
 									actionListener="#{gestioneOrdiniView.stampaBolla}" onclick="window.open('../SpedisciOrdineServlet?fgRis=true&#38;idOrder=#{merchantBean.orderSelected.idOrder}');"
-									rendered="#{merchantBean.orderSelected.idStato==15}" oncomplete="$('#btnTorna').click()" styleClass="ui-priority-primary"
+									rendered="#{merchantBean.orderSelected.idStato==15}" oncomplete="if ($('#btnTorna')) {$('#btnTorna').click()}  else {$('#btnTornaHome').click()}" styleClass="ui-priority-primary"
 									value="Ristampa">
 								</p:commandButton>
 							</div>

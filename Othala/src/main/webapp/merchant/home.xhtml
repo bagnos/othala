@@ -27,7 +27,7 @@
 						</p:menuitem>
 						
 					</p:contextMenu>
-					<p:dataTable var="ord" rowKey="#{ord.idOrder}" id="completed" stickyHeader="true"
+					<p:dataTable var="ord" rowKey="#{ord.idOrder}" id="completed" 
 						value="#{merchantBean.ordersCompleted}" rows="10" paginator="true" 
 						paginatorPosition="bottom" selection="#{merchantBean.orderSelected}"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
@@ -65,15 +65,17 @@
 				</div>
 				<div class="col-sm-6">
 
-					<p:contextMenu for="pending">
-						<p:menuitem value="Dettaglio" url="dettaglioOrdine.xhtml}&#38;status=pending" icon="ui-icon-search" />
+					<p:contextMenu id="contextMenuPending" for="pending">
+						<p:menuitem value="Dettaglio" url="dettaglioOrdine.xhtml" icon="ui-icon-search" />
+						
 				
 					</p:contextMenu>
-					<p:dataTable var="ord" rowKey="#{ord.idOrder}" id="pending" stickyHeader="true"
+					<p:dataTable var="ord" rowKey="#{ord.idOrder}" id="pending" 
 						value="#{merchantBean.ordersPending}" rows="10" paginator="true"
 						paginatorPosition="bottom" selection="#{merchantBean.orderSelected}"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 						selectionMode="single">
+						<p:ajax event="rowSelect"  update=":frmOrd:contextMenuPending"  />
 						<f:facet name="header">
 		 						ORDINI IN PENDING
 		 						</f:facet>
