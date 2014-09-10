@@ -19,7 +19,7 @@ public class PayPalException extends OthalaException {
 	}
 	
 	public PayPalException(Throwable e) {
-		super(e);
+		super(e,KEY_MESSAGE);
 	}
 
 

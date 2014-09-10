@@ -11,7 +11,7 @@
 				<!-- logo -->
 				
 				
-				<div>
+				<div style="margin-bottom:30px">
 					<img>
 						<xsl:attribute name="src">
     								<xsl:value-of select="imgLogo" />
@@ -21,8 +21,8 @@
 
 				<!-- nr ordine e transazione -->
 				<div>
-					<div>
-						<label style="display:inline-block;width:150px">
+					<div style="margin-bottom:15px">
+						<label style="display:inline-block;width:300px">
 							<b>E' stato appena inserito un nuovo ordine WEB</b>
 						</label>
 					</div>

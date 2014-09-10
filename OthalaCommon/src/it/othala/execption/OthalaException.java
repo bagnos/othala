@@ -22,8 +22,9 @@ public  class OthalaException extends Exception {
 		super(dsErrore);
 	}
 	
-	public OthalaException(Throwable cause) {
+	public OthalaException(Throwable cause,String keyMessage) {
 		super(cause);
+		this.keyMessage=keyMessage;
 	}
 
 	public OthalaException(String keyMessage,Object[] parms) {

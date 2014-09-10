@@ -7,7 +7,7 @@
 <ui:insert name="metadata" />
 
 
-<pe:head title="Degortes Outlet" pt:prefix="og:http://ogp.me/ns# fb:http://ogp.me/ns/fb# product:http://ogp.me/ns/product#"
+<pe:head title="Degortes Outlet" pt:prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# product: http://ogp.me/ns/product#"
 	shortcutIcon="#{request.contextPath}/resources/images/logoscimmia.png">
 	<f:facet name="first">
 	<ui:insert name="fb" />
@@ -41,29 +41,6 @@
 </pe:head>
 
 <h:body>
-
-	<!-- facebook sdk -->
-	<div id="fb-root"></div>
-
-	<script>
-
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '1462056920726471',
-      xfbml      : true,
-      version    : 'v2.1'
-    });
-  };
-
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "//connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
-
-      </script>
 
 
 	<h:outputText
