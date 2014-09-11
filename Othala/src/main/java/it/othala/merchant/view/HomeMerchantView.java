@@ -27,13 +27,17 @@ public class HomeMerchantView extends BaseView {
 	public String doInit() {
 		// TODO Auto-generated method stub
 
-		merchantBean.setOrdersCompleted(OthalaFactory.getOrderServiceInstance().getOrders(null, null,
-				TypeStateOrder.COMPLETED));
+		
+		
+		if (getQueryStringParm("torna") == null || getQueryStringParm("spedito")!=null) {
+			merchantBean.setOrdersCompleted(OthalaFactory.getOrderServiceInstance().getOrders(null, null,
+					TypeStateOrder.COMPLETED));
 
-		merchantBean.setOrdersPending(OthalaFactory.getOrderServiceInstance().getOrders(null, null,
-				TypeStateOrder.PENDING));
+			merchantBean.setOrdersPending(OthalaFactory.getOrderServiceInstance().getOrders(null, null,
+					TypeStateOrder.PENDING));
 
-		merchantBean.setOrderSelected(null);
+			merchantBean.setOrderSelected(null);
+		}
 		return null;
 	}
 

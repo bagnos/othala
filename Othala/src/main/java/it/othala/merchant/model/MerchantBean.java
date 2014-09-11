@@ -5,6 +5,7 @@ import it.othala.dto.AttributeDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.ProductFindDTO;
 import it.othala.dto.ShopDTO;
+import it.othala.enums.TypeStateOrder;
 import it.othala.service.factory.OthalaFactory;
 
 import java.io.Serializable;
@@ -15,6 +16,7 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.event.ActionEvent;
 
 @ManagedBean
 @SessionScoped
@@ -258,5 +260,32 @@ public class MerchantBean implements Serializable {
 				getBrand() != null ? getBrand().getAttributo() : null, BigDecimal.valueOf(getMinPrice()),
 				BigDecimal.valueOf(getMaxPrice()), getDescrizione()!=null && getDescrizione().isEmpty()?null:getDescrizione(), getDtBegin(), getDtEnd());
 	}
+	
+	public void findOrders(ActionEvent e) {
+		TypeStateOrder stateOrder = null;
+		List<OrderFullDTO> orders = null;
+		
+		
+
+		if (getStatoOrdine() != null) {
+			stateOrder = TypeStateOrder.valueOf(getStatoOrdine().getAttributo());
+		}
+		if (getIdTransazione() != null && !getIdTransazione().isEmpty()) {
+			orders = OthalaFactory.getOrderServiceInstance().getOrders(null,
+					null,
+					null,getIdTransazione());
+		} else  {
+			orders = OthalaFactory.getOrderServiceInstance().getOrders(getIdOrdine(),
+					getUser() != null && getUser().isEmpty() ? null : getUser(),
+					stateOrder);
+		}
+		setOrdersFounded(orders);
+
+		if (getIdOrdine() != null && getIdOrdine().intValue() == 0) {
+			setIdOrdine(null);
+		}
+		setOrderSelected(null);
+	}
+
 
 }
