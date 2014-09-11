@@ -516,6 +516,51 @@
 
 	</select>
 
+<select id="getArticleFullBarcode" resultType="it.othala.dto.ArticleFullDTO"
+		parameterType="java.util.HashMap">
+
+
+		SELECT
+		a.pgArticle as pgArticle,
+		a.qtStock as qtStock,
+
+		a.idSize,
+
+		txSize,
+
+		a.idColor,
+
+		txColor,
+		coalesce(a.txThumbnailsUrl,
+		d.txThumbnailsUrl) as thumbnailsUrl,
+		a.txBarCode
+
+
+
+		FROM
+		${database.schema}article a,
+		${database.schema}size b,
+		${database.schema}color c,
+		${database.schema}product d
+
+
+		where
+		a.txBarcode
+		=
+		#{txBarcode}
+		and a.idSize =
+		b.idSize
+		and
+		c.idColor =
+		a.idColor
+		and
+		c.idLanguages = #{languages}
+		and
+		d.idProduct =
+		a.idProduct
+
+
+	</select>
 
 	<select id="getShop" resultType="it.othala.dto.ShopDTO"
 		parameterType="java.util.HashMap">
@@ -670,6 +715,17 @@
 
 	</select>
 
+	<update id="downloadArticle" parameterType="java.util.HashMap">
+
+		UPDATE
+		${database.schema}article
+			set qtStock = qtStock - 1
+		Where txBarcode =
+		#{txBarcode};
+
+
+	</update>
+	
 	<update id="updateQtStock" parameterType="java.util.HashMap">
 
 		UPDATE

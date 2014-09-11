@@ -99,6 +99,8 @@ public interface IProductDAO {
 	public void deleteProduct(Integer idProduct);
 
 	public void updateProduct(ProductFullDTO productFull);
+
+	public void downloadArticle(String txBarcode);
 	
 	
 	
