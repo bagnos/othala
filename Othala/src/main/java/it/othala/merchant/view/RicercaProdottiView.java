@@ -59,15 +59,16 @@ public class RicercaProdottiView extends BaseView {
 	@Override
 	public String doInit() {
 		// TODO Auto-generated method stub
-		
+
 		DomainDTO dom = getBeanApplication().getDomain();
-		//stato prodotti a -1
-		merchantBean.setStateProduct(null);
-		if (merchantBean.getMaxPrice()==0)
-		{
+		// stato prodotti a -1
+		if (getQueryStringParm("torna") == null) {
+			merchantBean.setStateProduct(null);
+			merchantBean.setProducts(null);
+		}
+		if (merchantBean.getMaxPrice() == 0) {
 			merchantBean.setMaxPrice(5000);
 		}
-		
 
 		return null;
 	}
@@ -103,7 +104,7 @@ public class RicercaProdottiView extends BaseView {
 	public void eliminaProdotto(ActionEvent e) {
 		try {
 			Integer idProdotto = (Integer) e.getComponent().getAttributes().get("idPrd");
-			if (idProdotto!=null && idProdotto > 0) {
+			if (idProdotto != null && idProdotto > 0) {
 				List<String> imageToDelete = OthalaFactory.getProductServiceInstance().deleteProduct(idProdotto);
 				ResizeImageUtil.deleteImages(imageToDelete);
 				addInfo("Eliminazione Prodotto", "operazione eseguita correttamente");
@@ -111,26 +112,26 @@ public class RicercaProdottiView extends BaseView {
 			} else {
 				addError("Eliminazione Prodotto", "nessun prodotto selezionato");
 			}
-			idProdotto=0;
+			idProdotto = 0;
 		} catch (Exception ex) {
 			addGenericError(ex, "errore nella cancellazione del prodotto");
 		}
 	}
-	
+
 	public void pubblicaProdotto(ActionEvent e) {
 		try {
 			Integer idProdotto = (Integer) e.getComponent().getAttributes().get("idPrd");
-			List<Integer> idPrds=new ArrayList<>();
+			List<Integer> idPrds = new ArrayList<>();
 			idPrds.add(idProdotto);
-			if (idProdotto!=null && idProdotto > 0) {
+			if (idProdotto != null && idProdotto > 0) {
 				OthalaFactory.getProductServiceInstance().publishProduct(idPrds);
-			
+
 				addInfo("Pubblicazione Prodotto", "operazione eseguita correttamente");
 				findProducts(null);
 			} else {
 				addError("Pubblicazione Prodotto", "nessun prodotto selezionato");
 			}
-			idProdotto=0;
+			idProdotto = 0;
 		} catch (Exception ex) {
 			addGenericError(ex, "errore nella Pubblicazione del prodotto");
 		}

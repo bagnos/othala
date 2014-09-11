@@ -55,6 +55,13 @@ public class GestioneOrdiniView extends BaseView {
 	public MerchantBean getMerchantBean() {
 		return merchantBean;
 	}
+	
+	
+	
+	public void findOrders(ActionEvent e)
+	{
+		merchantBean.findOrders(e);
+	}
 
 	public void spedisciOrdine(ActionEvent e) {
 		try {
@@ -65,6 +72,7 @@ public class GestioneOrdiniView extends BaseView {
 			merchantBean.getOrderSelected().setTxStato(TypeStateOrder.SPEDITO.toString());
 			merchantBean.getOrdersCompleted().clear();
 			merchantBean.getOrdersPending().clear();
+			findOrders(null);
 			addInfo("Spedizione Ordine", "Operazione eseguita correttamente");
 		} catch (Exception ex) {
 			addGenericError(ex, "errore eliminazione ordine");
@@ -79,6 +87,7 @@ public class GestioneOrdiniView extends BaseView {
 			merchantBean.getOrderSelected().setTxStato(TypeStateOrder.ANNULLATO_DA_MERCHANT.toString());
 			merchantBean.getOrdersCompleted().clear();
 			merchantBean.getOrdersPending().clear();
+			findOrders(null);
 			addInfo("Eliminazione Ordine", "Operazione eseguita correttamente");
 		} catch (Exception ex) {
 			addGenericError(ex, "errore eliminazione ordine");
@@ -91,33 +100,26 @@ public class GestioneOrdiniView extends BaseView {
 	@Override
 	public String doInit() {
 		// TODO Auto-generated method stub
-		merchantBean.setOrdersFounded(null);
+
+		if (getQueryStringParm("spedito")!=null)
+		{
+			
+			findOrders(null);
+			return null;
+		}
+		
 		cercaOrd = getQueryStringParm("cercaOrd");
-		return null;
-	}
-
-	public void findOrders(ActionEvent e) {
-		TypeStateOrder stateOrder = null;
-		List<OrderFullDTO> orders = null;
-
-		if (merchantBean.getStatoOrdine() != null) {
-			stateOrder = TypeStateOrder.valueOf(merchantBean.getStatoOrdine().getAttributo());
-		}
-		if (merchantBean.getIdTransazione() != null && !merchantBean.getIdTransazione().isEmpty()) {
-			orders = OthalaFactory.getOrderServiceInstance().getOrders(null,
-					null,
-					null);
-		} else  {
-			orders = OthalaFactory.getOrderServiceInstance().getOrders(merchantBean.getIdOrdine(),
-					merchantBean.getUser() != null && merchantBean.getUser().isEmpty() ? null : merchantBean.getUser(),
-					stateOrder);
-		}
-		merchantBean.setOrdersFounded(orders);
-
-		if (merchantBean.getIdOrdine() != null && merchantBean.getIdOrdine().intValue() == 0) {
+		if (getQueryStringParm("torna")==null && cercaOrd==null && getQueryStringParm("home")==null)
+		{
+			//invocazione diretta, non rientro dal torna e non sto facendo il dettaglio di un ordine
+			merchantBean.setOrdersFounded(null);
+			merchantBean.setOrderSelected(null);
 			merchantBean.setIdOrdine(null);
+			merchantBean.setIdTransazione(null);
+			merchantBean.setUser(null);
+			merchantBean.setStatoOrdine(null);
 		}
-		merchantBean.setOrderSelected(null);
+		return null;
 	}
 
 }
