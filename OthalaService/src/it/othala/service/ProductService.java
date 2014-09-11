@@ -281,4 +281,11 @@ public class ProductService implements IProductService {
 		
 	}
 
+	@Override
+	public void downloadArticle(String txBarcode) {
+		
+		productDAO.downloadArticle(txBarcode);
+		
+	}
+
 }
