@@ -56,6 +56,7 @@ public interface IProductService {
 	public List<String> deleteProduct (Integer idProduct);
 
 	public void updateProduct(ProductFullDTO productFull);
-	public void downloadArticle(String txBarcode);
+
+	public void downloadArticle(List<String> txBarcode);
 	
 }
