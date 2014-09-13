@@ -152,9 +152,9 @@
 			<div class="row spacer20">
 				<div class="col-sm-12">
 
-					<p:contextMenu for="prdTable" id="contextMenu">
+					<p:contextMenu event="click"  for="prdTable" id="contextMenu">
 						<p:menuitem value="View"
-							url="insertProdotti.xhtml?faces-redirect=true&#38;idPrd=#{merchantBean.selectedProducts.idProduct}&#38;read=true"
+							url="insertProdotti.xhtml?faces-redirect=true&#38;detail=true&#38;read=true"
 							icon="ui-icon-search">
 						</p:menuitem>
 						<p:menuitem onerror="PF('blockAll').unblock();" oncomplete="PF('blockAll').unblock();"
@@ -164,7 +164,7 @@
 							<f:attribute value="#{merchantBean.selectedProducts.idProduct}" name="idPrd" />
 						</p:menuitem>
 						<p:menuitem value="Modifica" icon="ui-icon-pencil" ajax="false" includeViewParams="true"
-							url="insertProdotti.xhtml?faces-redirect=true&#38;idPrd=#{merchantBean.selectedProducts.idProduct}&#38;mod=true" />
+							url="insertProdotti.xhtml?faces-redirect=true&#38;detail=true&#38;mod=true" />
 						<p:menuitem value="Pubblica" rendered="#{merchantBean.selectedProducts.idProductState==0}"
 							icon="ui-icon-arrowstop-1-n" ajax="true"
 							actionListener="#{ricercaProdottiView.pubblicaProdotto}">
@@ -178,8 +178,8 @@
 						emptyMessage="Nessun prodotto trovato" currentPageReportTemplate="Nr. Elementi {totalRecords}"
 						selectionMode="single"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
-
-						<p:ajax event="rowSelect" update=":frmProd:contextMenu" />
+ 
+						<p:ajax event="rowSelect" update=":frmProd:prdTable" />
 
 
 
