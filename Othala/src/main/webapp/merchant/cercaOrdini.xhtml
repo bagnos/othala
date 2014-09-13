@@ -71,7 +71,7 @@
 				<h:panelGroup rendered="#{merchantBean.ordersFounded!=null}">
 					<div class="col-sm-12">
 
-						<p:contextMenu for="orders" id="contextMenu">
+						<p:contextMenu event="click" for="orders" id="contextMenu">
 							<p:menuitem value="Dettaglio" url="dettaglioOrdine.xhtml?cercaOrd=true" icon="ui-icon-search">
 							</p:menuitem>
 

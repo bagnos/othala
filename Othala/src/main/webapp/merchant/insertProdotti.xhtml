@@ -7,9 +7,9 @@
 	<ui:define name="metadata">
 		<f:metadata>
 			<f:viewAction action="#{insertProdottiView.doInit}"></f:viewAction>
-			<f:viewParam name="idPrd" value="#{insertProdottiView.idProdotto}"></f:viewParam>
+			<f:viewParam name="detail" value="#{insertProdottiView.detail}"></f:viewParam>
 			<f:viewParam name="read" value="#{insertProdottiView.fgRead}"></f:viewParam>
-			<f:viewParam name="mod" value="#{insertProdottiView.fgMod}"></f:viewParam>			
+			<f:viewParam name="mod" value="#{insertProdottiView.fgMod}"></f:viewParam>
 		</f:metadata>
 	</ui:define>
 
@@ -32,6 +32,22 @@
 					</h3>
 				</div>
 			</div>
+			<h:panelGroup rendered="#{insertProdottiView.detail}">
+				<div class="row">
+
+					<div class="col-sm-12">
+						<div class="form-group">
+							<p:outputLabel for="idProd" styleClass="col-sm-1 control-label" value="Prodotto" />
+							<div class="col-sm-3">
+								<p:inputText readonly="true" style="width:100px" styleClass="form-control"
+									value="#{merchantBean.selectedProducts.idProduct}" id="idProd"></p:inputText>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</h:panelGroup>
+
 			<div class="row">
 				<div class="col-sm-12">
 
