@@ -11,6 +11,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.AjaxBehaviorEvent;
 
 @ManagedBean
 @ViewScoped
@@ -39,6 +40,12 @@ public class HomeMerchantView extends BaseView {
 			merchantBean.setOrderSelected(null);
 		}
 		return null;
+	}
+	
+	public void selectRightClick(org.primefaces.event.SelectEvent e)
+	{
+		Integer idOrder=(Integer) e.getComponent().getAttributes().get("idOrder");
+		
 	}
 
 }

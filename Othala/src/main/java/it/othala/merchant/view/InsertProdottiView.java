@@ -62,12 +62,22 @@ public class InsertProdottiView extends BaseView {
 	private String newColor;
 	private String newType;
 	private boolean pubblica;
-	private Integer idProdotto;
+	
 	private Boolean fgRead;
 	private Boolean fgMod;
 	private static DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
 	private String separatorDateFormat="&";
+	private Boolean detail;
+	private ProductFullDTO prdDetail =null;
 	
+
+	public Boolean getDetail() {
+		return detail;
+	}
+
+	public void setDetail(Boolean detail) {
+		this.detail = detail;
+	}
 
 	@ManagedProperty(value = "#{merchantBean}")
 	private MerchantBean merchantBean;
@@ -104,13 +114,7 @@ public class InsertProdottiView extends BaseView {
 		this.fgMod = fgMod;
 	}
 
-	public Integer getIdProdotto() {
-		return idProdotto;
-	}
-
-	public void setIdProdotto(Integer idProdotto) {
-		this.idProdotto = idProdotto;
-	}
+	
 
 	public boolean isPubblica() {
 		return pubblica;
@@ -298,7 +302,7 @@ public class InsertProdottiView extends BaseView {
 		DomainDTO dom = getBeanApplication().getDomain();
 		shop=getBeanApplication().getShopsDTO().get(0);
 		pubblica = true;
-		if (idProdotto != null && idProdotto>0) {
+		if (detail != null && detail) {
 			initProdotto();
 		}
 		qta = 1;
@@ -331,7 +335,7 @@ public class InsertProdottiView extends BaseView {
 				getBeanApplication().resetMenu();
 				addInfo("Prodotto", "inserimento effettuato correttamente");
 			} else {
-				prd.setIdProduct(getIdProdotto());
+				prd.setIdProduct(prdDetail.getIdProduct());
 				OthalaFactory.getProductServiceInstance().updateProduct(prd);
 				merchantBean.findProduct();
 				addInfo("Prodotto", "modifica effettuata correttamente");
@@ -346,26 +350,26 @@ public class InsertProdottiView extends BaseView {
 	}
 
 	private void initProdotto() {
-		ProductFullDTO prd = OthalaFactory.getProductServiceInstance().getProductFull(getLang(), idProdotto);
-		articles = prd.getArticles();
-		descrizione = prd.getDescription();
-		imagesFile = prd.getImagesUrl();		
-		prezzo = prd.getPrice();
-		prezzoScontato = prd.getPriceDiscounted();
-		fileThumb = prd.getThumbnailsUrl();
-		sconto = prd.getDiscount();
+		prdDetail = OthalaFactory.getProductServiceInstance().getProductFull(getLang(), merchantBean.getSelectedProducts().getIdProduct());
+		articles = prdDetail.getArticles();
+		descrizione = prdDetail.getDescription();
+		imagesFile = prdDetail.getImagesUrl();		
+		prezzo = prdDetail.getPrice();
+		prezzoScontato = prdDetail.getPriceDiscounted();
+		fileThumb = prdDetail.getThumbnailsUrl();
+		sconto = prdDetail.getDiscount();
 
 		brand = new AttributeDTO();
-		brand.setAttributo(prd.getIdBrand());
-		brand.setValore(prd.getTxBrand());
+		brand.setAttributo(prdDetail.getIdBrand());
+		brand.setValore(prdDetail.getTxBrand());
 
 		genere = new AttributeDTO();
-		genere.setAttributo(prd.getIdGender());
-		genere.setValore(prd.getTxGender());
+		genere.setAttributo(prdDetail.getIdGender());
+		genere.setValore(prdDetail.getTxGender());
 
 		tipo = new AttributeDTO();
-		tipo.setAttributo(prd.getIdType());
-		tipo.setValore(prd.getTxType());
+		tipo.setAttributo(prdDetail.getIdType());
+		tipo.setValore(prdDetail.getTxType());
 
 	}
 
