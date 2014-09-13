@@ -1,5 +1,6 @@
 package it.othala.merchant.view;
 
+import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.AttributeDTO;
 import it.othala.dto.DomainDTO;
 import it.othala.dto.ProductFindDTO;
@@ -25,7 +26,7 @@ import org.primefaces.model.UploadedFile;
 @ViewScoped
 public class ScaricaProdottoView extends BaseView {
 
-	private String idBarcode;	
+	private String idBarcode;
 	private ProductFindDTO prdSelected;
 	private List<ProductFindDTO> prdFounded;
 
@@ -56,7 +57,7 @@ public class ScaricaProdottoView extends BaseView {
 	@Override
 	public String doInit() {
 		// TODO Auto-generated method stub
-		prdFounded=new ArrayList<>();
+		prdFounded = new ArrayList<>();
 		return null;
 	}
 
@@ -65,26 +66,23 @@ public class ScaricaProdottoView extends BaseView {
 			// OthalaFactory.getProductServiceInstance().downloadArticle(idBarcode);
 			List<String> idBarcodes = new ArrayList<>();
 			if (prdFounded != null && !prdFounded.isEmpty()) {
-				for (ProductFindDTO prd : prdFounded) {				
-					
+				for (ProductFindDTO prd : prdFounded) {
+
 					idBarcodes.addAll(prd.getListTxBarcode());
 				}
-				 OthalaFactory.getProductServiceInstance().downloadArticle(idBarcodes);
-				 prdFounded.clear();
-			}
-			else
-			{
+				OthalaFactory.getProductServiceInstance().downloadArticle(idBarcodes);
+				prdFounded.clear();
+			} else {
 				addError("Scarico prodotto", "nessun prodotto selezionato");
 			}
-			
+
 			addInfo("Scarico prodotto", "Operazione eseguita correttamente");
 		} catch (Exception ex) {
 			addGenericError(ex, "errore nella cancellazione del prodotto");
 		}
 	}
-	
-	public void rimuoviProdotto(ActionEvent e)
-	{
+
+	public void rimuoviProdotto(ActionEvent e) {
 		prdFounded.remove(prdSelected);
 	}
 
@@ -95,6 +93,19 @@ public class ScaricaProdottoView extends BaseView {
 			List<ProductFindDTO> products = OthalaFactory.getProductServiceInstance().listFindProduct(idBarcode, null,
 					null, null, null, null, null, null, null, null, null);
 			if (products != null && !products.isEmpty()) {
+				List<String> txBarcodeToDelete = null;
+
+				// un prodottto può avere uno o più articoli e quindi barcode,
+				// elimino quelli diversi dal barcode cercato
+				for (ProductFindDTO prd : products) {
+					txBarcodeToDelete = new ArrayList<>();
+					for (String txBarcode : prd.getListTxBarcode()) {
+						if (!txBarcode.equalsIgnoreCase(idBarcode)) {
+							txBarcodeToDelete.add(txBarcode);
+						}
+					}
+					prd.getListTxBarcode().removeAll(txBarcodeToDelete);
+				}
 				prdFounded.addAll(products);
 			} else {
 				addError("Scarico prodotto", "prodotto con barcode " + idBarcode + " non presente");
