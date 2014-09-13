@@ -164,7 +164,7 @@ public class OrderService implements IOrderService {
 			if (qtaProduct < article.getQtBooked()) {
 				List<String> prodNoStock = new ArrayList<String>();
 				prodNoStock.add(article.getPrdFullDTO().getDescription());
-				throw new StockNotPresentException();
+				throw new StockNotPresentException(article.getPrdFullDTO().getIdProduct());
 			}
 
 		}
