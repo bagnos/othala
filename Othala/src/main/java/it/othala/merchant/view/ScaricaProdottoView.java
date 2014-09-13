@@ -2,6 +2,8 @@ package it.othala.merchant.view;
 
 import it.othala.dto.AttributeDTO;
 import it.othala.dto.DomainDTO;
+import it.othala.dto.ProductFindDTO;
+import it.othala.dto.ProductFullDTO;
 import it.othala.dto.ShopDTO;
 import it.othala.merchant.model.MerchantBean;
 import it.othala.service.factory.OthalaFactory;
@@ -23,8 +25,26 @@ import org.primefaces.model.UploadedFile;
 @ViewScoped
 public class ScaricaProdottoView extends BaseView {
 
-	private String idBarcode;
-	
+	private String idBarcode;	
+	private ProductFindDTO prdSelected;
+	private List<ProductFindDTO> prdFounded;
+
+	public List<ProductFindDTO> getPrdFounded() {
+		return prdFounded;
+	}
+
+	public void setPrdFounded(List<ProductFindDTO> prdFounded) {
+		this.prdFounded = prdFounded;
+	}
+
+	public void setPrdSelected(ProductFindDTO prdSelected) {
+		this.prdSelected = prdSelected;
+	}
+
+	public ProductFindDTO getPrdSelected() {
+		return prdSelected;
+	}
+
 	public String getIdBarcode() {
 		return idBarcode;
 	}
@@ -36,20 +56,52 @@ public class ScaricaProdottoView extends BaseView {
 	@Override
 	public String doInit() {
 		// TODO Auto-generated method stub
-
-		
+		prdFounded=new ArrayList<>();
 		return null;
 	}
 
-	
 	public void scarica(ActionEvent e) {
 		try {
-			//OthalaFactory.getProductServiceInstance().downloadArticle(idBarcode);
+			// OthalaFactory.getProductServiceInstance().downloadArticle(idBarcode);
+			List<String> idBarcodes = new ArrayList<>();
+			if (prdFounded != null && !prdFounded.isEmpty()) {
+				for (ProductFindDTO prd : prdFounded) {				
+					
+					idBarcodes.addAll(prd.getListTxBarcode());
+				}
+				 OthalaFactory.getProductServiceInstance().downloadArticle(idBarcodes);
+				 prdFounded.clear();
+			}
+			else
+			{
+				addError("Scarico prodotto", "nessun prodotto selezionato");
+			}
+			
 			addInfo("Scarico prodotto", "Operazione eseguita correttamente");
 		} catch (Exception ex) {
 			addGenericError(ex, "errore nella cancellazione del prodotto");
 		}
 	}
-
 	
+	public void rimuoviProdotto(ActionEvent e)
+	{
+		prdFounded.remove(prdSelected);
+	}
+
+	public void cercaProdottoPerBarcode(ActionEvent e) {
+		try {
+			// OthalaFactory.getProductServiceInstance().downloadArticle(idBarcode);
+			// addInfo("Scarico prodotto", "Operazione eseguita correttamente");
+			List<ProductFindDTO> products = OthalaFactory.getProductServiceInstance().listFindProduct(idBarcode, null,
+					null, null, null, null, null, null, null, null, null);
+			if (products != null && !products.isEmpty()) {
+				prdFounded.addAll(products);
+			} else {
+				addError("Scarico prodotto", "prodotto con barcode " + idBarcode + " non presente");
+			}
+		} catch (Exception ex) {
+			addGenericError(ex, "errore nella cancellazione del prodotto");
+		}
+	}
+
 }

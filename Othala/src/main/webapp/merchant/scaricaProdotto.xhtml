@@ -19,7 +19,7 @@
 	<ui:define name="PaginaBreadcrumb">Scarica Prodotto</ui:define>
 
 	<ui:define name="bodyPageContent">
-		<h:form prependId="false" id="frmOrd"  styleClass="form-horizontal">
+		<h:form prependId="false" id="frmOrd" styleClass="form-horizontal">
 			<p:growl id="messages" showDetail="true" autoUpdate="true" />
 
 			<div class="row">
@@ -34,20 +34,94 @@
 					<div class="form-group spacer10">
 						<p:outputLabel styleClass="col-sm-1 control-label" for="idBarcode" value="Barcode" />
 						<div class="col-sm-2 ">
-							<p:inputText styleClass="form-control" required="true"  value="#{scaricaProdottoView.idBarcode}" id="idBarcode"></p:inputText>
+							<p:inputText styleClass="form-control" required="true"
+								value="#{scaricaProdottoView.idBarcode}" id="idBarcode"></p:inputText>
 						</div>
+						<div class="col-sm-2 ">
+							<p:commandButton styleClass="ui-priority-primary" validateClient="true" process="@form"
+								update="@form" id="findPrds" value="Aggiungi"
+								actionListener="#{scaricaProdottoView.cercaProdottoPerBarcode}">
+							</p:commandButton>
 
+						</div>
 
 					</div>
 
 
-					<p:commandButton styleClass="ui-priority-primary" validateClient="true" process="@form" update="@form" id="findPrds"
-						value="Scarica" actionListener="#{scaricaProdottoView.scarica}">
-					</p:commandButton>
 				</div>
 			</div>
 
-			
+			<!-- TABELLA PRODOTTI -->
+			<div class="row spacer20">
+				<div class="col-sm-12">
+
+					<p:contextMenu event="click" for="prdTable" id="contextMenu">
+						<p:menuitem onerror="PF('blockAll').unblock();" oncomplete="PF('blockAll').unblock();"
+							onclick="PF('blockAll').block()" value="Elimina"
+							actionListener="#{scaricaProdottoView.rimuoviProdotto}" process="@this" update="@form"
+							icon="ui-icon-close">
+
+						</p:menuitem>
+
+
+					</p:contextMenu>
+
+					<p:dataTable id="prdTable" var="prd" value="#{scaricaProdottoView.prdFounded}"
+						rowKey="#{prd.idProduct}" selection="#{scaricaProdottoView.prdSelected}" paginator="true"
+						paginatorPosition="bottom" emptyMessage="Nessun prodotto trovato"
+						currentPageReportTemplate="Nr. Elementi {totalRecords}" selectionMode="single"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
+
+						<p:ajax event="rowSelect" update="@this" />
+
+						<f:facet name="header">
+            Elenco prodotti da scaricare
+        </f:facet>
+						<!-- <p:column selectionMode="multiple" style="width:2%;text-align:center" />-->
+						<p:column headerText="Id">
+							<h:outputText value="#{prd.idProduct}" />
+						</p:column>
+
+						<p:column headerText="Genere">
+							<h:outputText value="#{prd.txGender}" />
+						</p:column>
+						<p:column headerText="Tipo">
+							<h:outputText value="#{prd.txType}" />
+						</p:column>
+						<p:column headerText="Descrizione">
+							<h:outputText value="#{prd.description}" />
+						</p:column>
+						<p:column headerText="Stato">
+							<h:outputText value="#{prd.txProductState}" />
+						</p:column>
+						<p:column headerText="Prezzo">
+							<h:outputText value="#{prd.imPrice}" converter="it.othala.BigDecimalConverter" />
+						</p:column>
+						<p:column headerText="Prezzo scontato">
+							<h:outputText value="#{prd.priceDiscounted}" converter="it.othala.BigDecimalConverter" />
+						</p:column>
+
+						<f:facet name="footer">
+							<!-- 
+							<h:panelGroup layout="block" style="text-align:left;">
+							<p:commandButton icon="ui-icon-search" value="View" />
+							</h:panelGroup>
+							 -->
+						</f:facet>
+					</p:dataTable>
+				</div>
+
+				<div class="col-sm-2 spacer10">
+					<p:commandButton rendered="#{scaricaProdottoView.prdFounded.size()!=0}" styleClass="ui-priority-primary" title="scarica i prodotti selezionati"
+						process="@form" update="@form" id="scaricaPrds" value="Scarica Prodotti"
+						actionListener="#{scaricaProdottoView.scarica}">
+					</p:commandButton>
+				</div>
+
+
+
+			</div>
+
 
 		</h:form>
 	</ui:define>
