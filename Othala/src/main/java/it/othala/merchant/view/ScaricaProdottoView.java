@@ -44,7 +44,7 @@ public class ScaricaProdottoView extends BaseView {
 	
 	public void scarica(ActionEvent e) {
 		try {
-			OthalaFactory.getProductServiceInstance().downloadArticle(idBarcode);
+			//OthalaFactory.getProductServiceInstance().downloadArticle(idBarcode);
 			addInfo("Scarico prodotto", "Operazione eseguita correttamente");
 		} catch (Exception ex) {
 			addGenericError(ex, "errore nella cancellazione del prodotto");
