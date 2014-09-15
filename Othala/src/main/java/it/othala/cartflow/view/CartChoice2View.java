@@ -1,5 +1,6 @@
 package it.othala.cartflow.view;
 
+import it.othala.cartflow.converter.BigDecimalConverter;
 import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.ProductCarouselDTO;
 import it.othala.dto.ProductDTO;
@@ -8,6 +9,8 @@ import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 import it.othala.web.utils.OthalaUtil;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +34,16 @@ public class CartChoice2View extends BaseView {
 	private Integer min;
 	private Integer max;
 	private ArticleFullDTO artSel;
+	private String priceStr;
+	private String priceDiscountedStr;
+
+	public String getPriceStr() {
+		return priceStr;
+	}
+
+	public String getPriceDiscountedStr() {
+		return priceDiscountedStr;
+	}
 
 	public Integer getMin() {
 
@@ -94,79 +107,111 @@ public class CartChoice2View extends BaseView {
 
 	public String doInit() {
 		// TODO Auto-generated method stub
+		try {
 
-		for (ProductDTO p : getCartFlowBean().getCatalog().getArticlesPage()) {
-			if (p.getIdProduct().intValue() == idProduct.intValue()) {
-				getCartFlowBean().setDetailProduct(p);
-				break;
+			if (idProduct==null)
+			{
+				addError("Scelta prodotto", "nessun prodotto selezionato");
+				return null;
 			}
-		}
-
-		List<ProductCarouselDTO> carouselList = new ArrayList<ProductCarouselDTO>();
-		ProductCarouselDTO a = null;
-		for (int i = 0; i <= getCartFlowBean().getCatalog().getArticlesPage().size() - 1; i++) {
-
-			if (i % 4 == 0) {
-				a = new ProductCarouselDTO();
-				;
-				carouselList.add(a);
-				a.setProduct1(getCartFlowBean().getCatalog().getArticlesPage().get(i));
-
-			} else if (i % 4 == 1) {
-
-				a.setProduct2(getCartFlowBean().getCatalog().getArticlesPage().get(i));
-
-			} else if (i % 4 == 2) {
-
-				a.setProduct3(getCartFlowBean().getCatalog().getArticlesPage().get(i));
-
-			} else if (i % 4 == 3) {
-
-				a.setProduct4(getCartFlowBean().getCatalog().getArticlesPage().get(i));
-
-			}
-
-		}
-
-		getCartFlowBean().setCarouselList(carouselList);
-
-		prdFull = OthalaFactory.getProductServiceInstance().getProductFull(getLang(), idProduct);
-
-		getCartFlowBean().setDetailProductFull(prdFull);
-
-		sizeItems = new ArrayList<>();
-		// sizeItems.add(new SelectItem(-1,
-		// OthalaUtil.getWordBundle("catalog_chooseSize")));
-		boolean foundSize = false;
-		for (ArticleFullDTO art : prdFull.getArticles()) {
-			foundSize = false;
-			for (SelectItem s : sizeItems) {
-				if (s.getValue().toString().equalsIgnoreCase(art.getIdSize().toString())) {
-					foundSize = true;
+			
+			for (ProductDTO p : getCartFlowBean().getCatalog().getArticlesPage()) {
+				if (p.getIdProduct().intValue() == idProduct.intValue()) {
+					getCartFlowBean().setDetailProduct(p);
 					break;
 				}
+			}
 
+			//inserita it per il crawler di fb che si presenta in use non trova il prodotto
+			prdFull = OthalaFactory.getProductServiceInstance().getProductFull("it", idProduct);
+			getCartFlowBean().setDetailProductFull(prdFull);
+			
+			if (prdFull==null)
+			{
+				addError("Scelta prodotto", "nessun prodotto selezionato con id="+idProduct);
+				return null;
 			}
-			if (!foundSize) {
-				sizeItems.add(new SelectItem(art.getIdSize(), art.getTxSize()));
+
+			priceStr =getCartFlowBean().getDetailProductFull().getPrice().setScale(2, RoundingMode.HALF_UP).toString();
+					
+			
+			priceDiscountedStr = null;
+			if (getCartFlowBean().getDetailProductFull().getPriceDiscounted() != null
+					&& getCartFlowBean().getDetailProductFull().getPriceDiscounted().compareTo(BigDecimal.ZERO) > 0
+					&& getCartFlowBean().getDetailProductFull().getPriceDiscounted()
+							.compareTo(getCartFlowBean().getDetailProductFull().getPrice()) < 0) {
+				priceDiscountedStr = getCartFlowBean().getDetailProductFull()
+						.getPriceDiscounted().setScale(2, RoundingMode.HALF_UP).toString();
 			}
+
+			List<ProductCarouselDTO> carouselList = new ArrayList<ProductCarouselDTO>();
+			ProductCarouselDTO a = null;
+			if (getCartFlowBean().getCatalog().getArticlesPage() != null) {
+				for (int i = 0; i <= getCartFlowBean().getCatalog().getArticlesPage().size() - 1; i++) {
+
+					if (i % 4 == 0) {
+						a = new ProductCarouselDTO();
+						;
+						carouselList.add(a);
+						a.setProduct1(getCartFlowBean().getCatalog().getArticlesPage().get(i));
+
+					} else if (i % 4 == 1) {
+
+						a.setProduct2(getCartFlowBean().getCatalog().getArticlesPage().get(i));
+
+					} else if (i % 4 == 2) {
+
+						a.setProduct3(getCartFlowBean().getCatalog().getArticlesPage().get(i));
+
+					} else if (i % 4 == 3) {
+
+						a.setProduct4(getCartFlowBean().getCatalog().getArticlesPage().get(i));
+
+					}
+
+				}
+			}
+
+			getCartFlowBean().setCarouselList(carouselList);
+
+			sizeItems = new ArrayList<>();
+			// sizeItems.add(new SelectItem(-1,
+			// OthalaUtil.getWordBundle("catalog_chooseSize")));
+			boolean foundSize = false;
+			for (ArticleFullDTO art : prdFull.getArticles()) {
+				foundSize = false;
+				for (SelectItem s : sizeItems) {
+					if (s.getValue().toString().equalsIgnoreCase(art.getIdSize().toString())) {
+						foundSize = true;
+						break;
+					}
+
+				}
+				if (!foundSize) {
+					sizeItems.add(new SelectItem(art.getIdSize(), art.getTxSize()));
+				}
+			}
+
+			colorItems = new ArrayList<>();
+
+			/*
+			 * for (ArticleFullDTO art : prdFull.getArticles()) { boolean found
+			 * = false; for (SelectItem item : colorItems) { if
+			 * (item.getValue().toString().equalsIgnoreCase(art.getTxColor())) {
+			 * found = true; break; } } if (!found) { colorItems.add(new
+			 * SelectItem(art.getIdColor(), art.getTxColor()));
+			 * 
+			 * }
+			 * 
+			 * }
+			 */
+
+			return null;
+		} catch (Exception e) {
+
+			addGenericError(e, "errore inizializzazione scelta prodotto");
+			return null;
 		}
-
-		colorItems = new ArrayList<>();
-
-		/*
-		 * for (ArticleFullDTO art : prdFull.getArticles()) { boolean found =
-		 * false; for (SelectItem item : colorItems) { if
-		 * (item.getValue().toString().equalsIgnoreCase(art.getTxColor())) {
-		 * found = true; break; } } if (!found) { colorItems.add(new
-		 * SelectItem(art.getIdColor(), art.getTxColor()));
-		 * 
-		 * }
-		 * 
-		 * }
-		 */
-
-		return null;
 	}
 
 	public String goToCart() {

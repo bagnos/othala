@@ -107,9 +107,11 @@ public class ScaricaProdottoView extends BaseView {
 					prd.getListTxBarcode().removeAll(txBarcodeToDelete);
 				}
 				prdFounded.addAll(products);
+				
 			} else {
 				addError("Scarico prodotto", "prodotto con barcode " + idBarcode + " non presente");
 			}
+			idBarcode="";
 		} catch (Exception ex) {
 			addGenericError(ex, "errore nella cancellazione del prodotto");
 		}

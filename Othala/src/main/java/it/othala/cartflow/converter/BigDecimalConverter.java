@@ -13,7 +13,7 @@ import javax.faces.convert.FacesConverter;
 @FacesConverter("it.othala.BigDecimalConverter")
 public class BigDecimalConverter extends BaseConverter implements Converter {
 
-	NumberFormat n = NumberFormat.getCurrencyInstance(Locale.ITALY);
+	private static NumberFormat n = NumberFormat.getCurrencyInstance(Locale.ITALY);
 	
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component,
@@ -26,6 +26,12 @@ public class BigDecimalConverter extends BaseConverter implements Converter {
 	public String getAsString(FacesContext context, UIComponent component,
 			Object value) {
 		// TODO Auto-generated method stub
+		
+		return getValue((BigDecimal)value);
+	}
+	
+	public static String getValue(BigDecimal value)
+	{
 		BigDecimal scaleBD=((BigDecimal)value).setScale(2, RoundingMode.HALF_UP);
 		Double valueDbl=scaleBD.doubleValue();
 		String s = n.format(valueDbl); 

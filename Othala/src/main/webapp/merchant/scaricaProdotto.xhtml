@@ -32,14 +32,15 @@
 			<div class="row">
 				<div class="col-sm-12">
 					<div class="form-group spacer10">
-						<p:outputLabel styleClass="col-sm-1 control-label" for="idBarcode" value="Barcode" />
+						<p:outputLabel styleClass="col-sm-1 control-label" for="barcode" value="Barcode" />
 						<div class="col-sm-2 ">
+						<p:focus for="barcode"></p:focus>
 							<p:inputText styleClass="form-control" required="true"
-								value="#{scaricaProdottoView.idBarcode}" id="idBarcode"></p:inputText>
+								value="#{scaricaProdottoView.idBarcode}" id="barcode"></p:inputText>
 						</div>
 						<div class="col-sm-2 ">
 							<p:commandButton styleClass="ui-priority-primary" validateClient="true" process="@form"
-								update="@form" id="findPrds" value="Aggiungi"
+								update="@form" id="findPrds" value="Aggiungi" onsuccess="$('#barcode').focus();"
 								actionListener="#{scaricaProdottoView.cercaProdottoPerBarcode}">
 							</p:commandButton>
 
@@ -124,5 +125,7 @@
 
 
 		</h:form>
+				
+		
 	</ui:define>
 </ui:composition>

@@ -53,6 +53,7 @@ public class ProductFullDTO implements Serializable {
 	private List<ArticleFullDTO> articles;
 
 	private Boolean fgNewArrivals;
+	
 
 	public Integer getIdProduct() {
 		return idProduct;
@@ -63,6 +64,8 @@ public class ProductFullDTO implements Serializable {
 		realPrice=realPrice.setScale(2, RoundingMode.HALF_UP);
 		return realPrice;
 	}
+	
+	
 
 	public void setIdProduct(Integer idProduct) {
 		this.idProduct = idProduct;
