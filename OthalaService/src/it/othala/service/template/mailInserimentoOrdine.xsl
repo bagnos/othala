@@ -271,7 +271,7 @@
 				</table>
 				<br></br>
 				<div>
-					<label style="display:inline-block;width:150px">
+					<label style="display:inline-block;">
 						<b>Sara possibile gestire lo stato dell'ordine e la spedizione attraverso il Gestionale Ordini</b>
 					</label>
 				</div>
