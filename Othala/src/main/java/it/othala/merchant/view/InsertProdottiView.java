@@ -363,7 +363,7 @@ public class InsertProdottiView extends BaseView {
 	}
 
 	private void initProdotto() {
-		prdDetail = OthalaFactory.getProductServiceInstance().getProductFull(getLang(), merchantBean.getSelectedProducts().getIdProduct());
+		prdDetail = OthalaFactory.getProductServiceInstance().getProductFull(getLang(), merchantBean.getSelectedProducts().get(0).getIdProduct());
 		articles = prdDetail.getArticles();
 		descrizione = prdDetail.getDescription();
 		descrizioneEN = prdDetail.getDescriptionEN();
@@ -487,14 +487,13 @@ public class InsertProdottiView extends BaseView {
 		imagesFile.remove(baseName);
 		imagesGuidFile.remove(fileName);
 
-		if (fileName.equalsIgnoreCase(fileThumb)) {
-			ResizeImageUtil.deleteImageThumb(fileThumb, extContext.getRealPath(BASE_IMG_PATH));
+		if (fileThumb.contains(fileName)) {			
 			fileThumb = null;
 		}
-
+		ResizeImageUtil.deleteImageThumb(fileName);
 		file.delete();
 
-	}
+	} 
 
 	public void handleFileUpload(FileUploadEvent event) {
 		UploadedFile file = event.getFile();
@@ -534,7 +533,7 @@ public class InsertProdottiView extends BaseView {
 	}
 
 	private String copyFile(UploadedFile file) throws IOException {
-		ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
+		
 
 		// File result = new File(extContext.getRealPath(BASE_IMG_PATH +
 		// file.getFileName()));
@@ -546,7 +545,7 @@ public class InsertProdottiView extends BaseView {
 		Date date = new Date();
 		
 
-		String fileResized = ResizeImageUtil.resizeAndCopyImage(inputStream, extContext.getRealPath(BASE_IMG_PATH),
+		String fileResized = ResizeImageUtil.resizeAndCopyImage(inputStream,BASE_IMG_PATH,
 				dateFormat.format(date)+separatorDateFormat+file.getFileName().replaceAll(separatorDateFormat, ""));
 
 		return fileResized;
@@ -554,10 +553,8 @@ public class InsertProdottiView extends BaseView {
 	}
 
 	private void resizeThumb() {
-		ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
-		File result = new File(extContext.getRealPath(BASE_IMG_PATH + fileThumb));
 		try {
-			fileThumb=ResizeImageUtil.resizeImageThumb(result);
+			fileThumb=ResizeImageUtil.resizeImageThumb(fileThumb);
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			addGenericError(e1, "Errore nel resize dell'immagine thumb");

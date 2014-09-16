@@ -5,13 +5,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+
 import net.coobird.thumbnailator.Thumbnails;
 
 public class ResizeImageUtil {
 	
 	private final static String BASE_IMG_PATH = "//resources//images//cartThumbinals//";
 	
-	public static String resizeImageThumb(File fileIn) throws IOException {
+	
+	public static String resizeImageThumb(String fileThumb) throws IOException {
+		File fileIn = new File(getBasePath()+File.separator + fileThumb);
 		int w = Integer.valueOf(ConfigurationUtil.getProperty("resizeImageThumbW"));
 		int h = Integer.valueOf(ConfigurationUtil.getProperty("resizeImageThumbH"));
 		String prefix = ConfigurationUtil.getProperty("prefixImageThumb");
@@ -20,10 +25,10 @@ public class ResizeImageUtil {
 		return prefix + fileIn.getName();
 	}
 	
-	public static void deleteImageThumb(String nomeFile,String basePath)
+	public static void deleteImageThumb(String nomeFile)
 	{
 		String prefix = ConfigurationUtil.getProperty("prefixImageThumb");
-		String fileToDelete=basePath+File.separator+prefix+nomeFile;
+		String fileToDelete=getBasePath()+File.separator+prefix+nomeFile;
 		File file=new File(fileToDelete);
 		file.delete();
 	}
@@ -38,7 +43,7 @@ public class ResizeImageUtil {
 
 		// fileIn.delete();
 
-		String fileResized = basePathToCopy + File.separator + nomeFile;
+		String fileResized = getBasePath() + File.separator + nomeFile;
 
 		Thumbnails.of(fileIS).size(w, h).outputFormat("jpeg").toFile(fileResized);
 
@@ -50,10 +55,17 @@ public class ResizeImageUtil {
 		String fileDelete=null;
 		for (String img:images)
 		{
-			fileDelete = BASE_IMG_PATH + File.separator + img;
+			fileDelete = getBasePath() + File.separator + img;
 			File file=new File(fileDelete);
 			file.delete();
 		}
+	}
+	
+	private static String getBasePath()
+	{
+		ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
+		String path=extContext.getRealPath(BASE_IMG_PATH);
+		return path;
 	}
 
 }

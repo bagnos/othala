@@ -39,11 +39,12 @@
 						</div>
 						<p:outputLabel class="col-sm-1 control-label" for="stato" value="Stato" />
 						<div class="col-sm-2 ">
-							<h:selectOneMenu id="stato" styleClass="form-control" converter="it.othala.StateProductConverter" value="#{merchantBean.stateProduct}">
+							<h:selectOneMenu id="stato" styleClass="form-control"
+								converter="it.othala.StateProductConverter" value="#{merchantBean.stateProduct}">
 								<f:selectItem itemLabel="Scegli lo stato" itemValue="-1" noSelectionOption="true"></f:selectItem>
-									<f:selectItems  value="#{applicationBean.statesProduct}" var="prd" itemValue="#{prd}"
+								<f:selectItems value="#{applicationBean.statesProduct}" var="prd" itemValue="#{prd}"
 									itemLabel="#{prd.valore}"></f:selectItems>
-								
+
 								<f:ajax execute="@this" render="date"></f:ajax>
 							</h:selectOneMenu>
 						</div>
@@ -126,7 +127,8 @@
 					</div>
 					<div class="form-group">
 						<h:panelGroup layout="block" id="date">
-							<h:panelGroup rendered="#{merchantBean.stateProduct!=null and merchantBean.stateProduct.attributo>0}">
+							<h:panelGroup
+								rendered="#{merchantBean.stateProduct!=null and merchantBean.stateProduct.attributo>0}">
 								<p:outputLabel for="buttonDa" styleClass="col-sm-1 control-label" value="Data Da" />
 								<div class="col-sm-3">
 									<p:calendar title="data relativa allo stato selezionato" id="buttonDa" showOn="button" />
@@ -152,41 +154,26 @@
 			<div class="row spacer20">
 				<div class="col-sm-12">
 
-					<p:contextMenu event="click"  for="prdTable" id="contextMenu">
-						<p:menuitem value="View"
-							url="insertProdotti.xhtml?faces-redirect=true&#38;detail=true&#38;read=true"
-							icon="ui-icon-search">
-						</p:menuitem>
-						<p:menuitem onerror="PF('blockAll').unblock();" oncomplete="PF('blockAll').unblock();"
-							onclick="PF('blockAll').block()" value="Elimina"
-							actionListener="#{ricercaProdottiView.eliminaProdotto}" process="@this" update="@form"
-							icon="ui-icon-close">
-							<f:attribute value="#{merchantBean.selectedProducts.idProduct}" name="idPrd" />
-						</p:menuitem>
-						<p:menuitem value="Modifica" icon="ui-icon-pencil" ajax="false" includeViewParams="true"
-							url="insertProdotti.xhtml?faces-redirect=true&#38;detail=true&#38;mod=true" />
-						<p:menuitem value="Pubblica" rendered="#{merchantBean.selectedProducts.idProductState==0}"
-							icon="ui-icon-arrowstop-1-n" ajax="true"
-							actionListener="#{ricercaProdottiView.pubblicaProdotto}">
-							<f:attribute value="#{merchantBean.selectedProducts.idProduct}" name="idPrd"></f:attribute>
-						</p:menuitem>
 
-					</p:contextMenu>
 
 					<p:dataTable id="prdTable" var="prd" value="#{merchantBean.products}" rowKey="#{prd.idProduct}"
 						selection="#{merchantBean.selectedProducts}" paginator="true" paginatorPosition="bottom"
-						emptyMessage="Nessun prodotto trovato" currentPageReportTemplate="Nr. Elementi {totalRecords}"
-						selectionMode="single"
+						emptyMessage="Nessun prodotto trovato" rowSelectMode="add"
+						currentPageReportTemplate="Nr. Elementi {totalRecords}" rows="10"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
- 
-						<p:ajax event="rowSelect" update=":frmProd:prdTable" />
+
+						<p:ajax event="rowSelect" update=":frmProd:prdTable viewBtn" />
+						<p:ajax event="rowUnselect" update=":frmProd:prdTable viewBtn" />
+						<p:ajax event="toggleSelect" update=":frmProd:prdTable viewBtn" />
+						<p:ajax event="rowSelectCheckbox" update=":frmProd:prdTable viewBtn" />
+						<p:ajax event="rowUnselectCheckbox" update=":frmProd:prdTable viewBtn" />
 
 
 
 						<f:facet name="header">
             Elenco prodotti
         </f:facet>
-						<!-- <p:column selectionMode="multiple" style="width:2%;text-align:center" />-->
+						<p:column selectionMode="multiple" style="width:2%;text-align:center" />
 						<p:column headerText="Id">
 							<h:outputText value="#{prd.idProduct}" />
 						</p:column>
@@ -211,11 +198,42 @@
 						</p:column>
 
 						<f:facet name="footer">
-							<!-- 
-							<h:panelGroup layout="block" style="text-align:left;">
-							<p:commandButton icon="ui-icon-search" value="View" />
-							</h:panelGroup>
-							 -->
+
+
+							<div class="row">
+								<div class="col-sm-1">
+									<p:commandButton value="Dettaglio" id="viewBtn"
+										disabled="#{merchantBean.selectedProducts.size()!=1}"
+										action="insertProdotti.xhtml?faces-redirect=true&#38;detail=true&#38;read=true"
+										icon="ui-icon-search" />
+								</div>
+								<div class="col-sm-1">
+									<p:commandButton onerror="PF('blockAll').unblock();" oncomplete="PF('blockAll').unblock();"
+										onclick="PF('blockAll').block()" value="Elimina"
+										disabled="#{merchantBean.selectedProducts.size()==0}"
+										actionListener="#{ricercaProdottiView.eliminaProdotto}" process="@this" update="@form"
+										icon="ui-icon-close">
+									</p:commandButton>
+								</div>
+								<div class="col-sm-1">
+									<p:commandButton value="Modifica" icon="ui-icon-pencil"
+										disabled="#{merchantBean.selectedProducts.size()!=1}"
+										action="insertProdotti.xhtml?faces-redirect=true&#38;detail=true&#38;mod=true" />
+								</div>
+
+								<div class="col-sm-1">
+									<p:commandButton value="Pubblica"  onerror="PF('blockAll').unblock();" oncomplete="PF('blockAll').unblock();"
+										onclick="PF('blockAll').block()" disabled="#{merchantBean.selectedProducts.size()==0}" 
+										icon="ui-icon-arrowstop-1-n" ajax="true" process="@this" update="@form"
+										actionListener="#{ricercaProdottiView.pubblicaProdotto}">
+									
+									</p:commandButton>
+								</div>
+
+
+							</div>
+
+
 						</f:facet>
 					</p:dataTable>
 				</div>
