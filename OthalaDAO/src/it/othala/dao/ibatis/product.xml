@@ -124,6 +124,12 @@
 		and
 		b.idLanguages = #{languages}
 		and
+		b.idLanguages = c.idLanguages
+		and
+		b.idLanguages = f.idLanguages
+			and
+		b.idLanguages = g.idLanguages
+		and
 		a.idProductState = 1
 		and c.idBrand =
 		a.idBrand
@@ -916,6 +922,9 @@
 		a.idProduct
 		= b.idProduct
 		and b.idLanguages = "it"
+		and b.idLanguages = c.idLanguages
+		and b.idLanguages = f.idLanguages
+		and b.idLanguages = g.idLanguages
 		and c.idBrand = a.idBrand
 		and
 		f.idGender =

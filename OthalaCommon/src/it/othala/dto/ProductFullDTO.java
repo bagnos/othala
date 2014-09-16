@@ -17,6 +17,7 @@ public class ProductFullDTO implements Serializable {
 	private Integer discount;
 	private BigDecimal priceDiscounted;
 	private String description;
+	private String descriptionEN;
 	private String thumbnailsUrl;
 
 	private Integer idGender;
@@ -206,6 +207,14 @@ public class ProductFullDTO implements Serializable {
 
 	public void setIdCampaign(Integer idCampaign) {
 		this.idCampaign = idCampaign;
+	}
+
+	public String getDescriptionEN() {
+		return descriptionEN;
+	}
+
+	public void setDescriptionEN(String descriptionEN) {
+		this.descriptionEN = descriptionEN;
 	}
 
 

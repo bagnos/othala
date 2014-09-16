@@ -119,7 +119,7 @@ public class ApplicationBean implements Serializable {
 	public DomainDTO getDomain() {
 
 		if (domain == null) {
-			domain = OthalaFactory.getProductServiceInstance().getDomain("it");
+			domain = OthalaFactory.getProductServiceInstance().getDomain(OthalaUtil.getLangFromContextJSF());
 		}
 
 		return domain;
@@ -159,7 +159,7 @@ public class ApplicationBean implements Serializable {
 
 	public List<MenuDTO> getMenu() {
 		if (menu==null) {
-			menu = OthalaFactory.getProductServiceInstance().getMenu(OthalaUtil.getLangFromContextJSF());
+			menu = OthalaFactory.getProductServiceInstance().getMenu(OthalaUtil.getLangFromContextJSF()); 
 		}
 
 		return menu;

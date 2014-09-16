@@ -30,6 +30,7 @@ public class MerchantBean implements Serializable {
 	private AttributeDTO brand;
 	private BigDecimal prezzo;
 	private String descrizione;
+	private String descrizioneEN;
 	private String negozio;
 	private ShopDTO shop;
 	
@@ -217,6 +218,14 @@ public class MerchantBean implements Serializable {
 
 	public void setDescrizione(String descrizione) {
 		this.descrizione = descrizione;
+	}
+	
+	public String getDescrizioneEN() {
+		return descrizioneEN;
+	}
+
+	public void setDescrizioneEN(String descrizioneEN) {
+		this.descrizioneEN = descrizioneEN;
 	}
 
 	public BigDecimal getPrezzo() {
