@@ -2,6 +2,7 @@ package it.othala.merchant.view;
 
 import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.AttributeDTO;
+import it.othala.dto.DescriptionDTO;
 import it.othala.dto.DomainDTO;
 import it.othala.dto.ProductFullDTO;
 import it.othala.dto.ShopDTO;
@@ -48,6 +49,7 @@ public class InsertProdottiView extends BaseView {
 	private List<String> imagesGuidFile = new ArrayList<>();
 	
 	private String descrizione;
+	private String descrizioneEN;
 	private AttributeDTO size;
 	private AttributeDTO color;
 	private int qta;
@@ -60,6 +62,7 @@ public class InsertProdottiView extends BaseView {
 	private String merchantCode;
 	private String newBrand;
 	private String newColor;
+	private String newColorEN;
 	private String newType;
 	private boolean pubblica;
 	
@@ -236,6 +239,14 @@ public class InsertProdottiView extends BaseView {
 		this.descrizione = descrizione;
 	}
 
+	public String getDescrizioneEN() {
+		return descrizioneEN;
+	}
+
+	public void setDescrizioneEN(String descrizioneEN) {
+		this.descrizioneEN = descrizioneEN;
+	}
+	
 	public BigDecimal getPrezzo() {
 		return prezzo;
 	}
@@ -319,6 +330,8 @@ public class InsertProdottiView extends BaseView {
 			ProductFullDTO prd = new ProductFullDTO();
 			prd.setArticles(articles);
 			prd.setDescription(descrizione);
+			prd.setDescriptionEN(descrizioneEN);
+						
 			prd.setDiscount(sconto);
 			prd.setIdBrand(brand.getAttributo());
 			prd.setIdGender(genere.getAttributo());
@@ -353,6 +366,7 @@ public class InsertProdottiView extends BaseView {
 		prdDetail = OthalaFactory.getProductServiceInstance().getProductFull(getLang(), merchantBean.getSelectedProducts().getIdProduct());
 		articles = prdDetail.getArticles();
 		descrizione = prdDetail.getDescription();
+		descrizioneEN = prdDetail.getDescriptionEN();
 		imagesFile = prdDetail.getImagesUrl();		
 		prezzo = prdDetail.getPrice();
 		prezzoScontato = prdDetail.getPriceDiscounted();
@@ -387,6 +401,7 @@ public class InsertProdottiView extends BaseView {
 		shop=getBeanApplication().getShopsDTO().get(0);
 		fileThumb = null;
 		descrizione = null;
+		descrizioneEN = null;
 		qta = 1;
 		color = null;
 		pubblica = true;
@@ -566,12 +581,12 @@ public class InsertProdottiView extends BaseView {
 	}
 
 	public void addNewColor(ActionEvent e) {
-		if (newColor == null || newColor.isEmpty()) {
+		if (newColor == null || newColor.isEmpty() || newColorEN == null || newColorEN.isEmpty()) {
 			addError("Nuovo colore", "inserire il colore");
 			return;
 		}
 		try {
-			OthalaFactory.getProductServiceInstance().insertColor(getLang(), newColor);
+			OthalaFactory.getProductServiceInstance().insertColor(getLang(), newColor, newColorEN);
 			getBeanApplication().resetDomain();			
 			color=completeColours(newColor).get(0);
 			addInfo("Nuovo Colore", "colore inserito correttamente");
@@ -594,6 +609,14 @@ public class InsertProdottiView extends BaseView {
 		} catch (Exception ex) {
 			addGenericError(ex, "errore nell'inserimento del tipo");
 		}
+	}
+
+	public String getNewColorEN() {
+		return newColorEN;
+	}
+
+	public void setNewColorEN(String newColorEN) {
+		this.newColorEN = newColorEN;
 	}
 
 }

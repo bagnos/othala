@@ -52,10 +52,12 @@ public class OthalaUtil {
 
 	public static String getLangFromContextJSF() {
 		return FacesContext.getCurrentInstance().getExternalContext().getRequestLocale().getLanguage();
+		/* return "en"; */
 	}
 
 	public static String getLang(HttpServletRequest req) {
 		return req.getLocale().getLanguage();
+		/* return "en"; */
 
 	}
 

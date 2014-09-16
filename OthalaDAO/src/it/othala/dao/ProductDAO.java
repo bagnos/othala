@@ -312,11 +312,20 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 			;
 		{
 			List<DescriptionDTO> listDescription = new ArrayList<DescriptionDTO>();
-			DescriptionDTO description = new DescriptionDTO();
-			description.setIdProduct(productFull.getIdProduct());
-			description.setDescription(productFull.getDescription());
-			description.setLanguages("it");
-			listDescription.add(description);
+			
+			DescriptionDTO descriptionIT = new DescriptionDTO();
+			descriptionIT.setIdProduct(productFull.getIdProduct());
+			descriptionIT.setDescription(productFull.getDescription());
+			descriptionIT.setLanguages("it");
+			listDescription.add(descriptionIT);
+			
+			DescriptionDTO descriptionEN = new DescriptionDTO();
+			descriptionEN.setIdProduct(productFull.getIdProduct());
+			descriptionEN.setDescription(productFull.getDescriptionEN());
+			descriptionEN.setLanguages("en");
+			listDescription.add(descriptionEN);
+			
+			
 			productFull.setLangDescription(listDescription);
 		}
 

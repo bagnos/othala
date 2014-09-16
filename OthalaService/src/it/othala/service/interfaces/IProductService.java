@@ -44,8 +44,6 @@ public interface IProductService {
 
 	public DomainDTO insertType(String languages, String txType);
 
-	public DomainDTO insertColor(String languages, String txColor);
-
 	public Integer insertProduct(ProductFullDTO productFull, Boolean fgPubblicazione);
 
 	public List<ProductFindDTO> listFindProduct(String txBarcode, Integer state,
@@ -58,5 +56,7 @@ public interface IProductService {
 	public void updateProduct(ProductFullDTO productFull);
 
 	public void downloadArticle(List<String> txBarcode);
+
+	DomainDTO insertColor(String languages, String txColorIT, String txColorEN);
 	
 }

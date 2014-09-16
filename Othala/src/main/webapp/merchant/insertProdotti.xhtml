@@ -144,7 +144,7 @@
 					</div>
 
 					<div class="form-group">
-						<p:outputLabel styleClass="col-sm-1 control-label" for="desc" value="Descrizione" />
+						<p:outputLabel styleClass="col-sm-1 control-label" for="desc" value="Descrizione IT" />
 						<div class="col-sm-6">
 
 							<p:inputText readonly="#{insertProdottiView.fgRead==true}" required="true"
@@ -153,6 +153,18 @@
 						</div>
 
 					</div>
+					
+					<div class="form-group">
+						<p:outputLabel styleClass="col-sm-1 control-label" for="descEN" value="Descrizione EN" />
+						<div class="col-sm-6">
+
+							<p:inputText readonly="#{insertProdottiView.fgRead==true}" required="true"
+								styleClass="form-control" value="#{insertProdottiView.descrizioneEN}" id="descEN"></p:inputText>
+
+						</div>
+
+					</div>
+					
 
 					<div class="form-group">
 						<p:outputLabel styleClass="col-sm-1 control-label" for="pubblica" value="Pubblica" />
@@ -185,14 +197,19 @@
 				</div>
 			</p:dialog>
 			<!-- inserimento colore -->
-			<p:dialog header="Nuovo Colore" id="dlgInsCol" widgetVar="dlgInsCol" modal="true" height="100">
+			<p:dialog header="Nuovo Colore" id="dlgInsCol" widgetVar="dlgInsCol" modal="true" height="150">
 				<div class="row text-center">
 					<div class="col-sm-12 ">
-						<p:inputText label="nuovo colore" id="newCol1" required="true"
+					<p:outputLabel style="padding-right: 5px;">IT</p:outputLabel>
+						<p:inputText label="nuovo colore IT" id="newCol1" required="true"
 							value="#{insertProdottiView.newColor}" maxlength="40" size="40" />
 						<br /> <br />
+						<p:outputLabel style="padding-right: 5px;">EN</p:outputLabel>
+						<p:inputText label="nuovo colore EN" id="newCol2" required="true"
+							value="#{insertProdottiView.newColorEN}" maxlength="40" size="40" />
+						<br /> <br />
 						<p:commandButton id="cmdInsCol" oncomplete="PF('dlgInsCol').hide();" ajax="true"
-							validateClient="true" process="@this newCol1" partialSubmit="true"
+							validateClient="true" process="@this newCol1 newCol2" partialSubmit="true"
 							update=":frm-arts:colorPnl" actionListener="#{insertProdottiView.addNewColor}"
 							value="Inserisci"></p:commandButton>
 					</div>
@@ -308,7 +325,7 @@
 									var="attr" itemLabel="#{attr.valore}" itemValue="#{attr}"
 									converter="it.othala.ColorConverter" forceSelection="true" />
 								<p:commandButton title="Aggiungi colore" icon="ui-icon-plus" type="button"
-									onclick="$('#newCol1').val('');PF('dlgInsCol').show();" />
+									onclick="$('#newCol1').val('');$('#newCol2').val('');PF('dlgInsCol').show();" />
 							</h:panelGroup>
 						</div>
 					</h:panelGroup>

@@ -157,8 +157,9 @@ public class ProductService implements IProductService {
 	@Override
 	public DomainDTO insertBrand(String languages, String txBrand) {
 
-		productDAO.insertBrand(languages, txBrand);
-
+		productDAO.insertBrand("it", txBrand);
+		productDAO.insertBrand("en", txBrand);
+		
 		DomainDTO domainDTO = new DomainDTO();
 		domainDTO.setSize(productDAO.listSize());
 		domainDTO.setColor(productDAO.listColor(languages));
@@ -171,9 +172,10 @@ public class ProductService implements IProductService {
 	}
 
 	@Override
-	public DomainDTO insertColor(String languages, String txColor) {
+	public DomainDTO insertColor(String languages, String txColorIT, String txColorEN) {
 
-		productDAO.insertColor(languages, txColor);
+		productDAO.insertColor("it", txColorIT);
+		productDAO.insertColor("en", txColorEN);
 
 		DomainDTO domainDTO = new DomainDTO();
 		domainDTO.setSize(productDAO.listSize());
