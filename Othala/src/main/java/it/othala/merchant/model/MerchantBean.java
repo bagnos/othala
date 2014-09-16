@@ -37,7 +37,7 @@ public class MerchantBean implements Serializable {
 	private int minPrice;
 	private int maxPrice;
 	private List<ProductFindDTO> products;
-	private ProductFindDTO selectedProducts;
+	private List<ProductFindDTO> selectedProducts;
 	private Date dtBegin;
 	private Date dtEnd;
 	private OrderFullDTO orderSelected;
@@ -134,7 +134,7 @@ public class MerchantBean implements Serializable {
 		this.products = products;
 	}
 
-	public void setSelectedProducts(ProductFindDTO selectedProducts) {
+	public void setSelectedProducts(List<ProductFindDTO> selectedProducts) {
 		this.selectedProducts = selectedProducts;
 	}
 
@@ -154,7 +154,7 @@ public class MerchantBean implements Serializable {
 		this.dtEnd = dtEnd;
 	}
 
-	public ProductFindDTO getSelectedProducts() {
+	public List<ProductFindDTO> getSelectedProducts() {
 		return selectedProducts;
 	}
 
