@@ -107,9 +107,8 @@ DROP TABLE IF EXISTS `brand`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `brand` (
   `idBrand` int(11) NOT NULL AUTO_INCREMENT,
-  `idLanguages` varchar(2) NOT NULL,
   `txBrand` varchar(200) DEFAULT NULL,
-  PRIMARY KEY (`idBrand`,`idLanguages`)
+  PRIMARY KEY (`idBrand`)
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -119,7 +118,7 @@ CREATE TABLE `brand` (
 
 LOCK TABLES `brand` WRITE;
 /*!40000 ALTER TABLE `brand` DISABLE KEYS */;
-INSERT INTO `brand` VALUES (1,'en','LANVIN'),(1,'it','LANVIN'),(2,'en','BALMAIN'),(2,'it','BALMAIN'),(3,'en','DSQUARED'),(3,'it','DSQUARED'),(4,'en','MOSCHINO'),(4,'it','MOSCHINO'),(5,'en','DOLCE E GABBANA'),(5,'it','DOLCE E GABBANA'),(6,'en','STONE ISLAND'),(6,'it','STONE ISLAND'),(7,'en','BLOCH'),(7,'it','BLOCH'),(8,'en','ARMANI'),(8,'it','ARMANI'),(9,'en','DIOR'),(9,'it','DIOR'),(10,'en','SAINT LAURENT'),(10,'it','SAINT LAURENT'),(11,'en','ALEXANDER MCQUEEN'),(11,'it','ALEXANDER MCQUEEN'),(12,'en','UGG AUSTRALIA'),(12,'it','UGG AUSTRALIA'),(13,'en','GIVENCHY'),(13,'it','GIVENCHY'),(14,'en','APRIL 77'),(14,'it','APRIL 77'),(15,'en','VALENTINO'),(15,'it','VALENTINO'),(16,'en','ANN DEMEULEMEESTER'),(16,'it','ANN DEMEULEMEESTER'),(17,'en','JUST CAVALLI'),(17,'it','JUST CAVALLI'),(18,'en','DIESEL'),(18,'it','DIESEL'),(19,'en','EACH X OTHER'),(19,'it','EACH X OTHER');
+INSERT INTO `brand` VALUES (1,'LANVIN'),(2,'BALMAIN'),(3,'DSQUARED'),(4,'MOSCHINO'),(5,'DOLCE E GABBANA'),(6,'STONE ISLAND'),(7,'BLOCH'),(8,'ARMANI'),(9,'DIOR'),(10,'SAINT LAURENT'),(11,'ALEXANDER MCQUEEN'),(12,'UGG AUSTRALIA'),(13,'GIVENCHY'),(14,'APRIL 77'),(15,'VALENTINO'),(16,'ANN DEMEULEMEESTER'),(17,'JUST CAVALLI'),(18,'DIESEL'),(19,'EACH X OTHER');
 /*!40000 ALTER TABLE `brand` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -867,4 +866,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-09-17 12:57:11
+-- Dump completed on 2014-09-17 15:29:42
