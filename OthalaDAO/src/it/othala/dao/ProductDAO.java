@@ -143,13 +143,10 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	}
 
 	@Override
-	public List<AttributeDTO> listBrand(String languages) {
-
-		HashMap<String, Object> mapAttribute = new HashMap<>();
-		mapAttribute.put("languages", languages);
+	public List<AttributeDTO> listBrand() {
 
 		List<AttributeDTO> listAttribute = getSqlSession().selectList(
-				"it.othala.product.queries.listBrand", mapAttribute);
+				"it.othala.product.queries.listBrand");
 
 		return listAttribute;
 
@@ -492,10 +489,9 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	}
 
 	@Override
-	public void insertBrand(String languages, String txBrand) {
+	public void insertBrand(String txBrand) {
 
 		HashMap<String, Object> map = new HashMap<>();
-		map.put("languages", languages);
 		map.put("txBrand", txBrand.toUpperCase());
 
 		getSqlSession().insert("it.othala.product.queries.insertBrand", map);

@@ -86,7 +86,7 @@ public class ProductService implements IProductService {
 		DomainDTO domainDTO = new DomainDTO();
 		domainDTO.setSize(productDAO.listSize());
 		domainDTO.setColor(productDAO.listColor(languages));
-		domainDTO.setBrand(productDAO.listBrand(languages));
+		domainDTO.setBrand(productDAO.listBrand());
 		domainDTO.setGender(productDAO.listGender(languages));
 		domainDTO.setMaterial(productDAO.listMaterial(languages));
 		domainDTO.setType(productDAO.listType(languages));
@@ -158,13 +158,13 @@ public class ProductService implements IProductService {
 	@Override
 	public DomainDTO insertBrand(String languages, String txBrand) {
 
-		productDAO.insertBrand("it", txBrand);
-		productDAO.insertBrand("en", txBrand);
+		productDAO.insertBrand(txBrand);
+		
 		
 		DomainDTO domainDTO = new DomainDTO();
 		domainDTO.setSize(productDAO.listSize());
 		domainDTO.setColor(productDAO.listColor(languages));
-		domainDTO.setBrand(productDAO.listBrand(languages));
+		domainDTO.setBrand(productDAO.listBrand());
 		domainDTO.setGender(productDAO.listGender(languages));
 		domainDTO.setType(productDAO.listType(languages));
 
@@ -183,7 +183,7 @@ public class ProductService implements IProductService {
 		DomainDTO domainDTO = new DomainDTO();
 		domainDTO.setSize(productDAO.listSize());
 		domainDTO.setColor(productDAO.listColor(languages));
-		domainDTO.setBrand(productDAO.listBrand(languages));
+		domainDTO.setBrand(productDAO.listBrand());
 		domainDTO.setGender(productDAO.listGender(languages));
 		domainDTO.setType(productDAO.listType(languages));
 
@@ -203,7 +203,7 @@ public class ProductService implements IProductService {
 		DomainDTO domainDTO = new DomainDTO();
 		domainDTO.setSize(productDAO.listSize());
 		domainDTO.setColor(productDAO.listColor(languages));
-		domainDTO.setBrand(productDAO.listBrand(languages));
+		domainDTO.setBrand(productDAO.listBrand());
 		domainDTO.setGender(productDAO.listGender(languages));
 		domainDTO.setType(productDAO.listType(languages));
 		domainDTO.setMaterial(productDAO.listMaterial(languages));
@@ -221,7 +221,7 @@ public class ProductService implements IProductService {
 		DomainDTO domainDTO = new DomainDTO();
 		domainDTO.setSize(productDAO.listSize());
 		domainDTO.setColor(productDAO.listColor(languages));
-		domainDTO.setBrand(productDAO.listBrand(languages));
+		domainDTO.setBrand(productDAO.listBrand());
 		domainDTO.setGender(productDAO.listGender(languages));
 		domainDTO.setType(productDAO.listType(languages));
 

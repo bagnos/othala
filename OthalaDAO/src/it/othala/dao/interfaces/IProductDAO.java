@@ -31,7 +31,7 @@ public interface IProductDAO {
 
 	public List<AttributeDTO> listColor(String languages);
 
-	public List<AttributeDTO> listBrand(String languages);
+	public List<AttributeDTO> listBrand();
 
 	public List<AttributeDTO> listType(String languages);
 
@@ -61,7 +61,7 @@ public interface IProductDAO {
 	public ProductFullDTO getProductArticleFull(String languages, Integer idProduct,
 			Integer pgArticle);
 
-	public void insertBrand(String languages, String txBrand);
+	public void insertBrand(String txBrand);
 
 	public List<ProductDTO> listProductToPublish();
 
