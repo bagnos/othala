@@ -34,7 +34,9 @@ public class ProductFullDTO implements Serializable {
 	
 	private Integer idCampaign;
 	
-
+	private Integer idMaterial;
+	private String txMaterial;
+	
 	public String getMerchantCode() {
 		if (merchantCode==null && idProduct!=null)
 		{
@@ -215,6 +217,22 @@ public class ProductFullDTO implements Serializable {
 
 	public void setDescriptionEN(String descriptionEN) {
 		this.descriptionEN = descriptionEN;
+	}
+
+	public Integer getIdMaterial() {
+		return idMaterial;
+	}
+
+	public void setIdMaterial(Integer idMaterial) {
+		this.idMaterial = idMaterial;
+	}
+
+	public String getTxMaterial() {
+		return txMaterial;
+	}
+
+	public void setTxMaterial(String txMaterial) {
+		this.txMaterial = txMaterial;
 	}
 
 

@@ -80,7 +80,7 @@ public interface IProductDAO {
 
 	public List<ShopDTO> listShop();
 
-	public void insertColor(String languages, String txColor);
+
 
 	public void insertType(String languages, String txType);
 
@@ -101,6 +101,15 @@ public interface IProductDAO {
 	public void updateProduct(ProductFullDTO productFull);
 
 	public void downloadArticle(String txBarcode);
+
+	public void insertMaterial(Integer idMaterial,String languages, String txMaterial);
+
+	public List<AttributeDTO> listMaterial(String languages);
+
+	public void insertColor(Integer idColor, String languages, String txColor);
+
+	public Integer getMaxIdColor();
+	public Integer getMaxIdMaterial();
 	
 	
 	

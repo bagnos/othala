@@ -42,6 +42,7 @@ public class InsertProdottiView extends BaseView {
 	private AttributeDTO genere;
 	private AttributeDTO tipo;
 	private AttributeDTO brand;
+	private AttributeDTO material;
 	private int sconto;
 	private BigDecimal prezzo;
 	private BigDecimal prezzoScontato;
@@ -63,6 +64,8 @@ public class InsertProdottiView extends BaseView {
 	private String newBrand;
 	private String newColor;
 	private String newColorEN;
+	private String newMaterial;
+	private String newMaterialEN;
 	private String newType;
 	private boolean pubblica;
 	
@@ -336,6 +339,7 @@ public class InsertProdottiView extends BaseView {
 			prd.setIdBrand(brand.getAttributo());
 			prd.setIdGender(genere.getAttributo());
 			prd.setIdType(tipo.getAttributo());
+			prd.setIdMaterial(material.getAttributo());
 			prd.setImagesUrl(imagesGuidFile);
 			prd.setMerchantCode(merchantCode);
 			prd.setPrice(prezzo);
@@ -377,6 +381,10 @@ public class InsertProdottiView extends BaseView {
 		brand.setAttributo(prdDetail.getIdBrand());
 		brand.setValore(prdDetail.getTxBrand());
 
+		material = new AttributeDTO();
+		material.setAttributo(prdDetail.getIdMaterial());
+		material.setValore(prdDetail.getTxMaterial());
+		
 		genere = new AttributeDTO();
 		genere.setAttributo(prdDetail.getIdGender());
 		genere.setValore(prdDetail.getTxGender());
@@ -397,6 +405,7 @@ public class InsertProdottiView extends BaseView {
 		tipo = null;
 		sconto = 0;
 		brand = null;
+		material = null;
 		size = null;
 		shop=getBeanApplication().getShopsDTO().get(0);
 		fileThumb = null;
@@ -456,6 +465,11 @@ public class InsertProdottiView extends BaseView {
 
 	}
 
+	public List<AttributeDTO> completeMaterial(String query) {
+		return getAutoUtils().completeMaterial(query);
+
+	}
+	
 	public List<ShopDTO> completeShops(String query) {
 		return getAutoUtils().completeShops(query);
 	}
@@ -593,6 +607,22 @@ public class InsertProdottiView extends BaseView {
 		}
 	}
 
+	public void addNewMaterial(ActionEvent e) {
+		if (newMaterial == null || newMaterial.isEmpty() || newMaterialEN == null || newMaterialEN.isEmpty()) {
+			addError("Nuovo materiale", "inserire il materiale");
+			return;
+		}
+		try {
+			OthalaFactory.getProductServiceInstance().insertMaterial(getLang(), newMaterial, newMaterialEN);
+			getBeanApplication().resetDomain();			
+			material=completeColours(newMaterial).get(0);
+			addInfo("Nuovo Materiale", "materiale inserito correttamente");
+
+		} catch (Exception ex) {
+			addGenericError(ex, "errore nell'inserimento del materiale");
+		}
+	}
+	
 	public void addNewType(ActionEvent e) {
 		if (newType == null || newType.isEmpty()) {
 			addError("Nuovo tipo", "inserire il tipo");
@@ -614,6 +644,30 @@ public class InsertProdottiView extends BaseView {
 
 	public void setNewColorEN(String newColorEN) {
 		this.newColorEN = newColorEN;
+	}
+
+	public AttributeDTO getMaterial() {
+		return material;
+	}
+
+	public void setMaterial(AttributeDTO material) {
+		this.material = material;
+	}
+
+	public String getNewMaterial() {
+		return newMaterial;
+	}
+
+	public void setNewMaterial(String newMaterial) {
+		this.newMaterial = newMaterial;
+	}
+
+	public String getNewMaterialEN() {
+		return newMaterialEN;
+	}
+
+	public void setNewMaterialEN(String newMaterialEN) {
+		this.newMaterialEN = newMaterialEN;
 	}
 
 }

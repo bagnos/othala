@@ -114,6 +114,21 @@
 							<p:commandButton rendered="#{insertProdottiView.fgRead==false}" title="Aggiungi Genere"
 								icon="ui-icon-plus" type="button" onclick="$('#newBrand1').val('');PF('dlgIns').show();" />
 						</div>
+						
+						<p:outputLabel for="material" styleClass="col-sm-1 control-label" value="Material" />
+						<div class="col-sm-3">
+							<h:panelGroup id="materialPnl">
+								<p:autoComplete readonly="#{insertProdottiView.fgRead==true}"
+									scrollHeight="#{insertProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}" required="true"
+									minQueryLength="1" dropdown="true" id="material" value="#{insertProdottiView.material}"
+									completeMethod="#{insertProdottiView.completeMaterial}" var="material"
+									itemLabel="#{material.valore}" itemValue="#{material}" converter="it.othala.MaterialConverter"
+									forceSelection="true" />
+							</h:panelGroup>
+							<p:commandButton rendered="#{insertProdottiView.fgRead==false}" title="Aggiungi Materiale"
+								icon="ui-icon-plus" type="button" onclick="$('#newMaterial1').val('');$('#newMaterial2').val('');PF('dlgInsMaterial').show();" />
+						</div>
+						
 					</div>
 
 					<div class="form-group">
@@ -147,7 +162,7 @@
 						<p:outputLabel styleClass="col-sm-1 control-label" for="desc" value="Descrizione IT" />
 						<div class="col-sm-6">
 
-							<p:inputText readonly="#{insertProdottiView.fgRead==true}" required="true"
+							<p:inputText readonly="#{insertProdottiView.fgRead==true}" required="false"
 								styleClass="form-control" value="#{insertProdottiView.descrizione}" id="desc"></p:inputText>
 
 						</div>
@@ -158,7 +173,7 @@
 						<p:outputLabel styleClass="col-sm-1 control-label" for="descEN" value="Descrizione EN" />
 						<div class="col-sm-6">
 
-							<p:inputText readonly="#{insertProdottiView.fgRead==true}" required="true"
+							<p:inputText readonly="#{insertProdottiView.fgRead==true}" required="false"
 								styleClass="form-control" value="#{insertProdottiView.descrizioneEN}" id="descEN"></p:inputText>
 
 						</div>
@@ -193,6 +208,25 @@
 						<p:commandButton oncomplete="PF('dlgIns').hide();" ajax="true" validateClient="true"
 							process="@this newBrand1" partialSubmit="true" update=":frmProd:brandPnl"
 							actionListener="#{insertProdottiView.addNewBrand}" value="Inserisci"></p:commandButton>
+					</div>
+				</div>
+			</p:dialog>
+			<!-- inserimento materiale -->
+			<p:dialog header="Nuovo Materiale" id="dlgInsMaterial" widgetVar="dlgInsMaterial" modal="true" height="150">
+				<div class="row text-center">
+					<div class="col-sm-12 ">
+					<p:outputLabel style="padding-right: 5px;">IT</p:outputLabel>
+						<p:inputText label="nuovo materiale IT" id="newMaterial1" required="true"
+							value="#{insertProdottiView.newMaterial}" maxlength="40" size="40" />
+						<br /> <br />
+						<p:outputLabel style="padding-right: 5px;">EN</p:outputLabel>
+						<p:inputText label="nuovo colore EN" id="newMaterial2" required="true"
+							value="#{insertProdottiView.newMaterialEN}" maxlength="40" size="40" />
+						<br /> <br />
+						<p:commandButton id="cmdInsMaterial" oncomplete="PF('dlgInsMaterial').hide();" ajax="true"
+							validateClient="true" process="@this newMaterial1 newMaterial2" partialSubmit="true"
+							update=":frm-arts:colorPnl" actionListener="#{insertProdottiView.addNewMaterial}"
+							value="Inserisci"></p:commandButton>
 					</div>
 				</div>
 			</p:dialog>

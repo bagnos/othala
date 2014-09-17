@@ -127,7 +127,7 @@
 		b.idLanguages = c.idLanguages
 		and
 		b.idLanguages = f.idLanguages
-			and
+		and
 		b.idLanguages = g.idLanguages
 		and
 		a.idProductState = 1
@@ -290,6 +290,18 @@
 
 	</select>
 
+	<select id="listMaterial" resultType="it.othala.dto.AttributeDTO"
+		parameterType="java.util.HashMap">
+
+		SELECT idMaterial as attributo,txMaterial as valore
+		FROM
+		${database.schema}material d
+		where
+		idLanguages = #{languages}
+		order by 2
+
+	</select>
+
 	<select id="listStatesOrder" resultType="it.othala.dto.AttributeDTO">
 
 		SELECT idStato as
@@ -299,17 +311,18 @@
 		order by 2
 
 	</select>
-	
+
 	<select id="listStatesProduct" resultType="it.othala.dto.AttributeDTO">
 
-		SELECT idProductState as
+		SELECT idProductState
+		as
 		attributo,txProductState as valore
 		FROM
 		${database.schema}product_state d
 		order by 2
 
 	</select>
-	
+
 
 
 	<select id="listShop" resultType="it.othala.dto.ShopDTO">
@@ -396,7 +409,9 @@
 		txType,
 		a.idBrand,
 		txBrand,
-		idCampaign
+		idCampaign,
+		a.idMaterial,
+		txMaterial
 
 		FROM
 		${database.schema}product a,
@@ -404,7 +419,8 @@
 
 		${database.schema}gender c,
 		${database.schema}type d,
-		${database.schema}brand e
+		${database.schema}brand e,
+		${database.schema}material f
 
 		where
 		a.idProduct = #{idProduct}
@@ -417,11 +433,12 @@
 		and a.idGender = c.idGender
 		and a.idBrand = e.idBrand
 		and
-		d.idLanguages = b.idLanguages
-		and c.idLanguages = b.idLanguages
+		f.idMaterial = a.idMaterial
+		and d.idLanguages = b.idLanguages
 		and
-		e.idLanguages = b.idLanguages
-
+		c.idLanguages = b.idLanguages
+		and e.idLanguages = b.idLanguages
+		and f.idLanguages = b.idLanguages
 
 	</select>
 
@@ -522,7 +539,7 @@
 
 	</select>
 
-<select id="getArticleFullBarcode" resultType="it.othala.dto.ArticleFullDTO"
+	<select id="getArticleFullBarcode" resultType="it.othala.dto.ArticleFullDTO"
 		parameterType="java.util.HashMap">
 
 
@@ -606,11 +623,12 @@
 		`txThumbnailsUrl`,
 		`idProductState`,
 		`dtProductState`,
-		`idCampaign`)
+		`idCampaign`,
+		`idMaterial`)
 
 		values
 		(#{idGender},#{idType},#{idBrand},
-		#{price},#{discount},#{thumbnailsUrl},0,now(),#{idCampaign})
+		#{price},#{discount},#{thumbnailsUrl},0,now(),#{idCampaign},#{idMaterial})
 
 		<selectKey resultType="java.lang.Integer" keyProperty="idProduct">
 
@@ -649,11 +667,23 @@
 
 		INSERT INTO
 		${database.schema}color
-		(`idLanguages`,`txColor`)
+		(`idColor`,`idLanguages`,`txColor`)
 		values (
-		#{languages},#{txColor})
+		#{idColor},#{languages},#{txColor})
 
 	</insert>
+
+	<insert id="insertMaterial" parameterType="java.util.HashMap">
+
+		INSERT INTO
+		${database.schema}material
+		(`idMaterial`,`idLanguages`,`txMaterial`)
+		values (
+		#{idMaterial},#{languages},#{txMaterial})
+
+	</insert>
+
+
 
 	<insert id="insertType" parameterType="java.util.HashMap">
 
@@ -709,6 +739,47 @@
 
 	</select>
 
+	<select id="getMaxIdColor" resultType="Integer">
+
+		SELECT MAX(idColor)
+		FROM
+		${database.schema}color;
+
+
+	</select>
+
+	<select id="getDescrizione" resultType="String">
+
+		SELECT CONCAT(txBrand, ' ', txType, ' ', txGender, ' ',txMaterial)
+		as txDescrizione FROM
+		${database.schema}`brand` a,
+		${database.schema}`type` b,
+		${database.schema}`material` c,
+		${database.schema}`gender` d
+		where a.idBrand = #{idBrand}
+		and b.idType = #{idType}
+		and c.idMaterial = #{idMaterial}
+		and d.idGender = #{idGender}
+		and a.idLanguages = #{languages}
+		and b.idLanguages = a.idLanguages
+		and c.idLanguages = a.idLanguages
+		and d.idLanguages = a.idLanguages;
+
+
+	</select>
+
+
+
+
+
+	<select id="getMaxIdMaterial" resultType="Integer">
+
+		SELECT MAX(idMaterial)
+		FROM ${database.schema}material;
+
+
+	</select>
+
 	<select id="getQtStockLock" resultType="Integer" parameterType="java.util.HashMap">
 
 		SELECT qtStock
@@ -725,13 +796,13 @@
 
 		UPDATE
 		${database.schema}article
-			set qtStock = qtStock - 1
+		set qtStock = qtStock - 1
 		Where txBarcode =
 		#{txBarcode};
 
 
 	</update>
-	
+
 	<update id="updateQtStock" parameterType="java.util.HashMap">
 
 		UPDATE
@@ -905,7 +976,8 @@
 		txBrand,
 		imPrice,
 		pcDiscount,
-		txDescription as description,
+		txDescription as
+		description,
 		a.dtProductState,
 		txThumbnailsUrl as thumbnailsUrl,
 		idCampaign
@@ -921,16 +993,20 @@
 		where
 		a.idProduct
 		= b.idProduct
-		and b.idLanguages = "it"
+		and
+		b.idLanguages = "it"
 		and b.idLanguages = c.idLanguages
-		and b.idLanguages = f.idLanguages
+		and b.idLanguages
+		= f.idLanguages
 		and b.idLanguages = g.idLanguages
-		and c.idBrand = a.idBrand
+		and c.idBrand =
+		a.idBrand
 		and
 		f.idGender =
 		a.idGender
 		and g.idType = a.idType
-		and h.idProductState =
+		and
+		h.idProductState =
 		a.idProductState
 
 		<if test="txBarcode != null">
@@ -948,7 +1024,7 @@
 		<if test="state != null">
 			and a.idProductState = #{state}
 		</if>
-		
+
 		<if test="state == null">
 			and a.idProductState in (0,1)
 		</if>
@@ -1072,9 +1148,11 @@
 		#{discount},
 		`txThumbnailsUrl` = #{thumbnailsUrl},
 		`idCampaign` =
-		#{idCampaign}
+		#{idCampaign},
+		`idMaterial` = #{idMaterial}
 		WHERE idProduct
-		= #{idProduct}
+		=
+		#{idProduct}
 
 
 	</update>

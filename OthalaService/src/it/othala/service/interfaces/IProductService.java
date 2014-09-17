@@ -57,6 +57,9 @@ public interface IProductService {
 
 	public void downloadArticle(List<String> txBarcode);
 
-	DomainDTO insertColor(String languages, String txColorIT, String txColorEN);
+	public DomainDTO insertColor(String languages, String txColorIT, String txColorEN);
+
+	public DomainDTO insertMaterial(String languages, String txMaterialIT,
+			String txMaterialEN);
 	
 }
