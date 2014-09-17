@@ -124,8 +124,6 @@
 		and
 		b.idLanguages = #{languages}
 		and
-		b.idLanguages = c.idLanguages
-		and
 		b.idLanguages = f.idLanguages
 		and
 		b.idLanguages = g.idLanguages
@@ -334,14 +332,11 @@
 
 	</select>
 
-	<select id="listBrand" resultType="it.othala.dto.AttributeDTO"
-		parameterType="java.util.HashMap">
+	<select id="listBrand" resultType="it.othala.dto.AttributeDTO">
 
 		SELECT idBrand as attributo,txBrand as valore
 		FROM
 		${database.schema}brand d
-		where
-		idLanguages = #{languages}
 		order by 2
 
 	</select>
@@ -437,7 +432,6 @@
 		and d.idLanguages = b.idLanguages
 		and
 		c.idLanguages = b.idLanguages
-		and e.idLanguages = b.idLanguages
 		and f.idLanguages = b.idLanguages
 
 	</select>
@@ -657,9 +651,8 @@
 
 		INSERT INTO
 		${database.schema}brand
-		(`idLanguages`,`txBrand`)
-		values (
-		#{languages},#{txBrand})
+		(`txBrand`)
+		values (#{txBrand})
 
 	</insert>
 
@@ -760,10 +753,9 @@
 		and b.idType = #{idType}
 		and c.idMaterial = #{idMaterial}
 		and d.idGender = #{idGender}
-		and a.idLanguages = #{languages}
-		and b.idLanguages = a.idLanguages
-		and c.idLanguages = a.idLanguages
-		and d.idLanguages = a.idLanguages;
+		and b.idLanguages = #{languages}
+		and c.idLanguages = b.idLanguages
+		and d.idLanguages = b.idLanguages;
 
 
 	</select>
@@ -852,7 +844,7 @@
 		where
 		a.idProduct = b.idProduct
 		and
-		b.idLanguages = 'it'
+		f.idLanguages = 'it'
 		and
 		a.idProductState = 0
 		and c.idBrand = a.idBrand
@@ -995,7 +987,6 @@
 		= b.idProduct
 		and
 		b.idLanguages = "it"
-		and b.idLanguages = c.idLanguages
 		and b.idLanguages
 		= f.idLanguages
 		and b.idLanguages = g.idLanguages
