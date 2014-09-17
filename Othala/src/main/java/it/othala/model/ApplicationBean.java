@@ -32,6 +32,7 @@ public class ApplicationBean implements Serializable {
 
 	private List<SelectItem> colors = null;
 	private List<SelectItem> brands = null;
+	private List<SelectItem> materials = null;
 	private List<MenuDTO> menu = null;
 	private List<SiteImagesDTO> imgsCarousel = null;
 	private List<SiteImagesDTO> imgs = null;
@@ -39,6 +40,7 @@ public class ApplicationBean implements Serializable {
 	private DomainDTO domain;
 	private List<CampaignDTO> campaigns = null;;
 	private List<AttributeDTO> brandDTO = null;
+	private List<AttributeDTO> materialDTO = null;
 	private List<AttributeDTO> colorsDTO = null;
 	private List<AttributeSizeDTO> sizeDTO = null;
 	private List<ShopDTO> shopsDTO = null;
@@ -70,6 +72,13 @@ public class ApplicationBean implements Serializable {
 		return genderDTO;
 	}
 
+	public List<AttributeDTO> getMaterialDTO() {
+		if (materialDTO==null) {
+			materialDTO = getDomain().getMaterial();
+		}
+		return materialDTO;
+	}
+	
 	public List<AttributeDTO> getTypeDTO() {
 		if (typeDTO==null) {
 			typeDTO = getDomain().getType();
@@ -131,6 +140,7 @@ public class ApplicationBean implements Serializable {
 		brandDTO=null;
 		colorsDTO=null;
 		typeDTO=null;
+		materialDTO=null;
 	}
 
 	public List<SiteImagesDTO> getImgsCarousel() {
@@ -165,6 +175,19 @@ public class ApplicationBean implements Serializable {
 		return menu;
 	}
 
+	public List<SelectItem> getMaterials() {
+		if (materials==null) {
+			materials=new ArrayList<>();
+			materials.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseMaterial")));
+
+			for (AttributeDTO att : getDomain().getMaterial()) {
+				materials.add(new SelectItem(att.getAttributo(), att.getValore()));
+			}
+
+		}
+		return materials;
+	}
+	
 	public List<SelectItem> getBrands() {
 		if (brands==null) {
 			brands=new ArrayList<>();
@@ -177,6 +200,7 @@ public class ApplicationBean implements Serializable {
 		}
 		return brands;
 	}
+	
 
 	public List<SelectItem> getSizes(Integer idSubMenu) {
 

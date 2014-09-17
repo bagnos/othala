@@ -107,6 +107,20 @@ public class AutoCompleteUtils implements Serializable {
 
 		return filteredType;
 	}
+
+	public List<AttributeDTO> completeMaterial(String query) {
+		List<AttributeDTO> allMaterial = getBeanApplication().getMaterialDTO();
+		List<AttributeDTO> filteredMaterial = new ArrayList<AttributeDTO>();
+
+		for (int i = 0; i < allMaterial.size(); i++) {
+			AttributeDTO menu = allMaterial.get(i);
+			if (menu.getValore().toLowerCase().startsWith(query.toLowerCase())) {
+				filteredMaterial.add(menu);
+			}
+		}
+
+		return filteredMaterial;
+	}
 	
 	
 }
