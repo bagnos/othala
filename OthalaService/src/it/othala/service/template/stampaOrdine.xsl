@@ -7,14 +7,14 @@
 			</head>
 			<body
 				style="padding:4px;font-family: Helvetica Neue,Helvetica,Arial,sans-serif;line-height: 1.42857143;font-size:14px;">
-								<div style="margin-bottom:30px; margin-top:20px">
+				<div style="margin-bottom:30px; margin-top:20px">
 					<img>
 						<xsl:attribute name="src">
     								<xsl:value-of select="imgLogo" />
     								</xsl:attribute>
 					</img>
 				</div>
-				
+
 				<div>
 					<div>
 						<label style="display:inline-block;width:250px">
@@ -256,6 +256,57 @@
 						</xsl:for-each>
 					</tbody>
 				</table>
+
+
+				<p style="page-break-before: always;font-size:30px">
+					<label style="display:inline-block;font-size:40px;">INDIRIZZO DI SPEDIZIONE:</label>
+					<br />
+					<span style="padding:10px">
+						<xsl:value-of select="shippingAddress/name" />
+					</span>
+					<span style="padding:10px">
+						<xsl:value-of select="shippingAddress/surname" />
+					</span>
+
+					<br />
+
+					<span style="padding:10px">
+						<xsl:value-of select="shippingAddress/street" />
+					</span>
+
+					<br />
+
+					<span style="padding:10px">
+						<xsl:value-of select="shippingAddress/zipCode" />
+					</span>
+
+					<span style="padding:10px">
+						<xsl:value-of select="shippingAddress/city" />
+					</span>
+
+					<span style="padding:10px">
+						<xsl:value-of select="shippingAddress/prov" />
+					</span>
+
+					<br />
+
+					<span style="padding:10px">
+						<xsl:value-of select="shippingAddress/country" />
+					</span>
+
+					<br />
+					<br />
+					<br />
+
+					<label style="display:inline-block;padding:10px">Telefono</label>
+					<span style="padding:10px">
+						<xsl:value-of select="shippingAddress/tel" />
+					</span>
+
+				</p>
+
+
+
 			</body>
 			<script>
 				window.print();
