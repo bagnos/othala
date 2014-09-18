@@ -5,6 +5,7 @@ import it.othala.dto.CouponDTO;
 import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryCostDTO;
 import it.othala.dto.OrderFullDTO;
+import it.othala.dto.RefoundFullDTO;
 import it.othala.dto.StateOrderDTO;
 import it.othala.enums.TypeStateOrder;
 import it.othala.execption.OthalaException;
@@ -165,6 +166,74 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO  {
 		
 		getSqlSession().selectList(
 				"it.othala.order.queries.updateCoupon", idCoupon);
+		
+	}
+
+	@Override
+	public List<RefoundFullDTO> getRefounds(Integer idRefound, Integer idOrder,
+			String idUser, Integer idStato, String idTransaction) {
+		
+		HashMap<String, Object> mapRefound = new HashMap<>();
+		if (idRefound != null && idOrder > 0)
+			mapRefound.put("idRefound", idRefound);
+		if (idOrder != null && idOrder > 0)
+			mapRefound.put("idOrder", idOrder);
+		if (idUser != null && !idUser.isEmpty())
+			mapRefound.put("idUser", idUser);
+		if (idStato != null && idStato > 0)
+			mapRefound.put("idStato", idStato);
+		if (idTransaction != null && !idTransaction.isEmpty())
+			mapRefound.put("idTransaction", idTransaction);
+
+		// recupero resi
+		List<RefoundFullDTO> listRefounds = getSqlSession().selectList(
+				"it.othala.order.queries.listRefounds", mapRefound);
+		
+		return listRefounds;
+	}
+
+	@Override
+	public RefoundFullDTO insertRefound(RefoundFullDTO refoundFull) {
+		
+		getSqlSession().insert("it.othala.order.queries.insertRefound",
+				refoundFull);
+		
+		return refoundFull;
+	}
+
+	@Override
+	public void updateRefound(Integer idRefound, String idTransaction) {
+		
+		HashMap<String, Object> mapUpdate =  new HashMap<String, Object>();
+		
+		mapUpdate.put("idRefound", idRefound);		
+		if (idTransaction != null)
+			mapUpdate.put("idTransaction", idTransaction);
+		
+		getSqlSession().update("it.othala.order.queries.updateRefound",
+				mapUpdate);
+		
+	}
+
+	@Override
+	public void insertRefoundArticles(HashMap<String, Object> mapProduct) {
+		
+		getSqlSession().insert("it.othala.order.queries.insertRefoundArticles",
+				mapProduct);
+		
+	}
+
+	@Override
+	public void insertStatesRefound(RefoundFullDTO refoundFull) {
+		getSqlSession().insert("it.othala.order.queries.insertStatesRefound",
+				refoundFull);
+		
+	}
+
+	@Override
+	public void updateStateRefound(HashMap<String, Object> mapProduct) {
+		getSqlSession().insert("it.othala.order.queries.updateStatesRefound",
+				mapProduct);
 		
 	}
 
