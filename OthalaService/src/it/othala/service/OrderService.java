@@ -1,5 +1,6 @@
 package it.othala.service;
 
+import it.othala.dao.OrderDAO;
 import it.othala.dao.interfaces.IOrderDAO;
 import it.othala.dao.interfaces.IProductDAO;
 import it.othala.dto.ArticleFullDTO;
@@ -8,6 +9,7 @@ import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryCostDTO;
 import it.othala.dto.DeliveryDTO;
 import it.othala.dto.OrderFullDTO;
+import it.othala.dto.RefoundFullDTO;
 import it.othala.dto.StateOrderDTO;
 import it.othala.enums.TypeStateOrder;
 import it.othala.execption.OthalaException;
@@ -454,6 +456,98 @@ public class OrderService implements IOrderService {
 
 		}
 
+	}
+
+	@Override
+	public List<RefoundFullDTO> getRefounds(Integer idRefound, Integer Order,
+			String User, TypeStateOrder StatoOrdine, String idTransaction) {
+
+		List<RefoundFullDTO> listaRimborsi;
+		if (StatoOrdine == null) {
+			listaRimborsi = 
+				orderDAO.getRefounds(idRefound, Order, User, null, idTransaction);
+		}else{
+			listaRimborsi = 
+				orderDAO.getRefounds(idRefound, Order, User, StatoOrdine.getState(), idTransaction);
+		}
+
+		Iterator<RefoundFullDTO> i = listaRimborsi.iterator();
+		while (i.hasNext()) {
+			RefoundFullDTO rimborso = i.next();
+
+			List<ArticleFullDTO> newlistArticle = new ArrayList<ArticleFullDTO>();
+
+			List<ArticleFullDTO> listArticle = rimborso.getCart();
+			Iterator<ArticleFullDTO> it = listArticle.iterator();
+			while (it.hasNext()) {
+				ArticleFullDTO article = it.next();
+
+				ArticleFullDTO artFull = productDAO.getArticleFull(article
+						.getPrdFullDTO().getIdProduct(),
+						article.getPgArticle(), "it");
+				artFull.setShop(productDAO.getShop(article.getPrdFullDTO()
+						.getIdProduct(), article.getPgArticle()));
+				artFull.setPrdFullDTO(productDAO.getProductArticleFull("it",
+						article.getPrdFullDTO().getIdProduct(),
+						article.getPgArticle()));
+				artFull.setQtBooked(article.getQtBooked());
+				newlistArticle.add(artFull);
+			}
+			rimborso.setCart(newlistArticle);
+		}
+
+		return listaRimborsi;
+	}
+
+	@Override
+	public RefoundFullDTO insertRefound(RefoundFullDTO refoundFull)
+			throws OthalaException {
+		
+		orderDAO.insertRefound(refoundFull);
+
+		HashMap<String, Object> mapProduct = new HashMap<String, Object>();
+
+		List<ArticleFullDTO> lsProd = refoundFull.getCart();
+		Iterator<ArticleFullDTO> i = lsProd.iterator();
+		while (i.hasNext()) {
+			ArticleFullDTO article = i.next();
+
+			mapProduct.clear();
+			mapProduct.put("idRefound", refoundFull.getIdRefound());
+			mapProduct.put("idProdotto", article.getPrdFullDTO().getIdProduct());
+			mapProduct.put("pgArticle", article.getPgArticle());
+			mapProduct.put("qtArticle", article.getQtBooked());
+
+			orderDAO.insertRefoundArticles(mapProduct);
+
+		}
+
+		orderDAO.insertStatesRefound(refoundFull);
+		
+		//Stampare il riepilogo 
+		
+
+		return refoundFull;
+	}
+
+	@Override
+	public void updateStateRefound(Integer idRefound,
+			TypeStateOrder stato, String txNote) {
+		
+		HashMap<String, Object> mapState = new HashMap<String, Object>();
+		mapState.put("idRefound", idRefound);
+		mapState.put("idStato", stato.getState());
+		mapState.put("txNote", txNote);
+		
+		orderDAO.updateStateRefound(mapState);
+		
+	}
+
+	@Override
+	public void setRefoundTransaction(Integer idRefound, String idTransaction) {
+		
+		orderDAO.updateRefound(idRefound, idTransaction);
+		
 	}
 
 }
