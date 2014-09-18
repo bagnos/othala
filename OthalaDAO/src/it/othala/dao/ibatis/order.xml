@@ -292,5 +292,121 @@
 
 
 	</update>
+	
+	<insert id="insertRefound" parameterType="it.othala.dto.RefoundFullDTO">
+
+		INSERT INTO
+		${database.schema}order_refound
+		(`idOrder`,`idUser`,`idTransaction`,`imRefound`)
+		values (
+		#{idOrder},#{idUser},null,
+		#{imRefound})
+
+		<selectKey resultType="java.lang.Integer" keyProperty="idOrder">
+
+			SELECT LAST_INSERT_ID() AS idRefound
+
+		</selectKey>
+	</insert>
+
+	<update id="updateRefound" parameterType="java.util.HashMap">
+
+		UPDATE ${database.schema}order_refound
+		<set>
+		<if test="idTransaction != null">
+			 idTransaction = #{idTransaction},
+		</if>
+			
+		</set>
+		WHERE idRefound = #{idRefound}
+
+	</update>
+
+	<insert id="insertRefoundArticles" parameterType="java.util.HashMap">
+
+		INSERT INTO
+		${database.schema}refound_articles
+		(`idRefound`,`idProdotto`,`pgArticle`,`qtArticle`)
+		values
+		(#{idRefound},#{idProdotto},#{pgArticle},#{qtArticle})
+
+	</insert>
+
+	<insert id="insertStatesRefound" parameterType="it.othala.dto.RefoundFullDTO">
+		INSERT INTO
+		${database.schema}states_refound
+		(`idRefound`,`idStato`,`txNote`)
+		VALUES
+		(#{idOrder},100,#{txNote});
+
+	</insert>
+
+	<insert id="updateStatesRefound" parameterType="java.util.HashMap">
+		INSERT INTO
+		${database.schema}states_refound
+		(`idRefound`,`idStato`,`txNote`)
+		VALUES
+		(#{idRefound},#{idStato},#{txNote});
+
+	</insert>
+
+	<resultMap id="Refound" type="it.othala.dto.RefoundFullDTO">
+		<id property="idRefound" column="idRefound" />
+		<result property="idOrder" column="idOrder" />
+		<result property="idUser" column="idUser" />
+		<result property="idTransaction" column="idTransaction" />
+		<result property="imRefound" column="imRefound" />
+		<result property="idStato" column="idStato" />
+		<result property="dtStato" column="dtStato" />
+		<result property="txNote" column="txNote" />
+		<result property="txStato" column="txStato" />
+		<collection property="cart" ofType="it.othala.dto.ArticleFullDTO">
+			<result property="prdFullDTO.idProduct" column="idProdotto" />
+			<result property="pgArticle" column="pgArticle" />
+			<result property="qtBooked" column="qtArticle" />
+		</collection>
+	</resultMap>
+
+
+	<select id="listRefounds" resultMap="Refound" parameterType="java.util.HashMap">
+
+		SELECT
+		a.idRefound, a.idOrder, a.idUser, a.imRefound, a.idTransaction,
+		b.idProdotto, b.pgArticle, b.qtArticle,
+		c.idStato, c.dtStato, c.txNote, d.txStato
+		FROM
+		${database.schema}order_refound a,
+		${database.schema}refound_articles b,
+		${database.schema}states_refound c,
+		${database.schema}states d
+		WHERE a.idRefound = b.idRefound
+		and a.idRefound = c.idRefound
+		and c.idStato = d.idStato
+		<if test="idRefound != null">
+			and a.idRefound = #{idRefound}
+		</if>
+		<if test="idOrder != null">
+			and a.idOrder = #{idOrder}
+		</if>
+		<if test="idUser != null">
+			and a.idUser = #{idUser}
+		</if>
+		<if test="idTransaction != null">
+			and a.idTransaction = #{idTransaction}
+		</if>			
+		<if test="idStato != null">
+			and c.dtStato = (SELECT MAX(e.dtStato)
+			FROM ${database.schema}states_refound e
+			WHERE e.idRefound = a.idRefound)
+			and c.idStato = #{idStato}
+		</if>
+		<if test="idStato == null">
+			and c.dtStato = (SELECT MAX(e.dtStato)
+			FROM ${database.schema}states_refound e
+			WHERE e.idRefound = a.idRefound)
+		</if>
+
+	</select>
+	
 
 </mapper>

@@ -4,6 +4,7 @@ import it.othala.dto.CouponDTO;
 import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryCostDTO;
 import it.othala.dto.OrderFullDTO;
+import it.othala.dto.RefoundFullDTO;
 import it.othala.dto.StateOrderDTO;
 
 import java.util.HashMap;
@@ -42,4 +43,17 @@ public interface IOrderDAO {
 	public List<CouponDTO> getCoupons(String idCoupon, String idUser);
 	
 	public void burnCoupon(String idCoupon);
+	
+	public List<RefoundFullDTO> getRefounds(Integer idRefound, Integer idOrder,String idUser,Integer idStato, String idTransaction);
+	
+	public RefoundFullDTO insertRefound(RefoundFullDTO refoundFull);
+	
+	public void updateRefound(Integer idRefound, String idTransaction);
+	
+	public void insertRefoundArticles(HashMap<String, Object> mapProduct);
+	
+	public void insertStatesRefound(RefoundFullDTO refoundFull);
+	
+	public void updateStateRefound(HashMap<String, Object> mapProduct);
+
 }
