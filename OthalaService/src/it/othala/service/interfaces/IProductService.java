@@ -3,6 +3,7 @@ package it.othala.service.interfaces;
 import it.othala.dto.CampaignDTO;
 import it.othala.dto.DomainDTO;
 import it.othala.dto.MenuDTO;
+import it.othala.dto.MenuFullDTO;
 import it.othala.dto.ProductDTO;
 import it.othala.dto.ProductFindDTO;
 import it.othala.dto.ProductFullDTO;
@@ -16,7 +17,6 @@ public interface IProductService {
 
 	public DomainDTO getDomain(String languages);
 
-	public List<MenuDTO> getMenu(String languages);
 
 	public ProductFullDTO getProductFull(String languages, Integer idProduct);
 
@@ -25,8 +25,6 @@ public interface IProductService {
 			Integer idProduct, Integer pgArticle);
 
 	public DomainDTO insertBrand(String languages, String txBrand);
-
-	public List<ProductDTO> getListProductToPublish();
 
 	public List<CampaignDTO> getListCampaign();
 
@@ -63,5 +61,7 @@ public interface IProductService {
 			String txMaterialEN);
 
 	public ProductFullDTO listFindBarcode(String txBarcode);
+
+	public MenuFullDTO getMenuFull(String languages);
 	
 }

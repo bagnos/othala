@@ -16,6 +16,35 @@ public class MenuDTO implements Serializable {
 	private String imgName;
 	
 	private List<SubMenuDTO> subMenu;
+	
+	private boolean fgNuoviArrivi;
+	private boolean fgPromozioni;
+	private boolean fgPrezzoSpeciale; 
+	
+
+	public boolean isFgNuoviArrivi() {
+		return fgNuoviArrivi;
+	}
+
+	public void setFgNuoviArrivi(boolean fgNuoviArrivi) {
+		this.fgNuoviArrivi = fgNuoviArrivi;
+	}
+
+	public boolean isFgPromozioni() {
+		return fgPromozioni;
+	}
+
+	public void setFgPromozioni(boolean fgPromozioni) {
+		this.fgPromozioni = fgPromozioni;
+	}
+
+	public boolean isFgPrezzoSpeciale() {
+		return fgPrezzoSpeciale;
+	}
+
+	public void setFgPrezzoSpeciale(boolean fgPrezzoSpeciale) {
+		this.fgPrezzoSpeciale = fgPrezzoSpeciale;
+	}
 
 	public int getIdGender() {
 		return idGender;

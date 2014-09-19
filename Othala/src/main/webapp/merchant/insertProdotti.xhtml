@@ -144,7 +144,7 @@
 						<p:outputLabel class="col-sm-1 control-label" for="sconto" styleClass="col-sm-1 control-label"
 							value="Sconto" />
 						<div class="col-sm-1">
-							<p:spinner readonly="#{insertProdottiView.fgRead==true}" suffix=" %" required="true" size="4"
+							<p:spinner readonly="#{insertProdottiView.fgRead==true}" suffix=" %" required="false" size="4"
 								id="sconto" value="#{insertProdottiView.sconto}" min="0" max="100" />
 						</div>
 
@@ -156,6 +156,18 @@
 								value="#{insertProdottiView.prezzoScontato}" disabled="true" decimalSeparator=","
 								thousandSeparator="." decimalPlaces="2" />
 						</div>
+					</div>
+
+					<div class="form-group">
+						<p:outputLabel for="prezzoSpecialePrd" styleClass="col-sm-1 control-label" value="Prezzo Speciale" />
+						<div class="col-sm-2">
+
+							<pe:inputNumber readonly="#{insertProdottiView.fgRead==true}" widgetVar="f7"
+								symbol="&#8364; " id="prezzoSpecialePrd" required="false" value="#{insertProdottiView.prezzoSpeciale}"
+								decimalSeparator="," thousandSeparator="." decimalPlaces="2" />
+
+						</div>
+
 					</div>
 
 					<div class="form-group">

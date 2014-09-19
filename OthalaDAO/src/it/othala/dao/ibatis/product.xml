@@ -75,15 +75,18 @@
 		price,
 		brand,
 		imagesUrl,
+		coalesce(specialPrice,
 		ceiling(price * (100 -
-		coalesce(pcSconto,discount)) / 100) as
+		coalesce(pcSconto,discount)) / 100)) as
 		priceDiscounted,
 		description,
 		gender,
 		type,
-		coalesce(pcSconto,discount) as discount,
+		coalesce(pcSconto,discount) as
+		discount,
 		fgNewArrivals,
-		tab2.idCampaign
+		tab2.idCampaign,
+		specialPrice
 		FROM
 		(
 		SELECT
@@ -92,25 +95,26 @@
 		txBrand as
 		brand,
 		txThumbnailsUrl
-		as imagesUrl,
-		ceiling(imPrice * (100 - pcDiscount)
-		/ 100) as
-		priceDiscounted,
+		as
+		imagesUrl,
 		txDescription as description,
 		txGender as
 		gender,
-		txType as type,
+		txType as
+		type,
 		pcDiscount as discount,
 
 		case
 		when
-		DATEDIFF(current_date, a.dtProductState) &lt; 10
+		DATEDIFF(current_date,
+		a.dtProductState) &lt; 10
 		then 'Y'
 		else 'N'
 		end as
 		fgNewArrivals,
 
-		a.idCampaign
+		a.idCampaign,
+		a.specialPrice
 		FROM
 
 		${database.schema}product a,
@@ -144,13 +148,7 @@
 		d.qtStock >
 		0)
 
-		<if test="minPrice != null">
-			and (imPrice * (100 - pcDiscount) / 100) &gt;= #{minPrice}
-		</if>
 
-		<if test="maxPrice != null">
-			and (imPrice * (100 - pcDiscount) / 100) &lt;= #{maxPrice}
-		</if>
 		<if test="newArrivals != null and newArrivals == true">
 			and DATEDIFF(current_date, a.dtProductState) &lt; 10
 		</if>
@@ -208,14 +206,7 @@
 			d.qtStock > 0
 			)
 		</if>
-		<if test="order != null">
-			<if test="order == 1">
-				order by priceDiscounted asc
-			</if>
-			<if test="order == 2">
-				order by priceDiscounted desc
-			</if>
-		</if>
+
 		) tab1
 		left join
 		${database.schema}campaigns tab2
@@ -225,7 +216,28 @@
 		and tab2.dtInizio &lt;= current_date
 		and tab2.dtFine
 		&gt;=
-		current_date;
+		current_date
+		<if test="minPrice != null">
+			and coalesce(specialPrice,
+			ceiling(price * (100 -
+			coalesce(pcSconto,discount)) / 100)) &gt;= #{minPrice}
+		</if>
+
+		<if test="maxPrice != null">
+			and coalesce(specialPrice,
+			ceiling(price * (100 -
+			coalesce(pcSconto,discount)) / 100)) &lt;= #{maxPrice}
+		</if>
+
+		<if test="order != null">
+			<if test="order == 1">
+				order by priceDiscounted asc
+			</if>
+			<if test="order == 2">
+				order by priceDiscounted desc
+			</if>
+		</if>
+		;
 
 
 	</select>
@@ -334,7 +346,8 @@
 
 	<select id="listBrand" resultType="it.othala.dto.AttributeDTO">
 
-		SELECT idBrand as attributo,txBrand as valore
+		SELECT idBrand as
+		attributo,txBrand as valore
 		FROM
 		${database.schema}brand d
 		order by 2
@@ -365,7 +378,6 @@
 
 	</select>
 
-
 	<select id="listProductImages" resultType="String"
 		parameterType="java.util.HashMap">
 
@@ -375,27 +387,57 @@
 
 	</select>
 
-
-
 	<select id="getProductFull" resultType="it.othala.dto.ProductFullDTO"
 		parameterType="java.util.HashMap">
 
 
 
 		SELECT
+
+		tab1.idProduct,
+		tab1.price,
+		tab1.thumbnailsUrl,
+		tab1.discount,
+
+		coalesce(specialPrice,
+		ceiling(tab1.price * (100 -
+		coalesce(tab2.pcSconto,tab1.discount)) /
+		100)) as
+		priceDiscounted,
+
+		tab1.description,
+		tab1.fgNewArrivals,
+		tab1.idGender,
+		tab1.txGender,
+		tab1.idType,
+		tab1.txType,
+		tab1.idBrand,
+		tab1.txBrand,
+		tab1.idCampaign,
+		tab1.idMaterial,
+		tab1.txMaterial,
+		tab1.specialPrice
+
+
+
+		FROM
+
+		(
+		SELECT
 		a.idProduct as idProduct,
 		a.imPrice as price,
-		a.txThumbnailsUrl as thumbnailsUrl,
+		a.txThumbnailsUrl as
+		thumbnailsUrl,
 		a.pcDiscount as discount,
-		ceiling(a.imPrice * (100 - a.pcDiscount) /
-		100) as priceDiscounted,
+
 		b.txDescription as description,
 
 		case
 		when DATEDIFF(current_date,
 		a.dtProductState) &lt; 10
 		then 'Y'
-		else 'N'
+		else
+		'N'
 		end as fgNewArrivals,
 
 		a.idGender,
@@ -406,7 +448,8 @@
 		txBrand,
 		idCampaign,
 		a.idMaterial,
-		txMaterial
+		txMaterial,
+		specialPrice
 
 		FROM
 		${database.schema}product a,
@@ -425,19 +468,29 @@
 		b.idLanguages = #{languages}
 		and a.idType =
 		d.idType
-		and a.idGender = c.idGender
+		and a.idGender =
+		c.idGender
 		and a.idBrand = e.idBrand
 		and
 		f.idMaterial = a.idMaterial
-		and d.idLanguages = b.idLanguages
+		and
+		d.idLanguages = b.idLanguages
 		and
 		c.idLanguages = b.idLanguages
-		and f.idLanguages = b.idLanguages
+		and
+		f.idLanguages = b.idLanguages
+		) tab1
+		left join
+		${database.schema}campaigns tab2
+
+		on tab1.idCampaign =
+		tab2.idCampaign
+		and tab2.dtInizio &lt;= current_date
+		and tab2.dtFine
+		&gt;=
+		current_date;
 
 	</select>
-
-
-
 
 	<select id="listArticleFull" resultType="it.othala.dto.ArticleFullDTO"
 		parameterType="java.util.HashMap">
@@ -481,7 +534,6 @@
 
 
 	</select>
-
 
 	<select id="getArticleFull" resultType="it.othala.dto.ArticleFullDTO"
 		parameterType="java.util.HashMap">
@@ -618,11 +670,12 @@
 		`idProductState`,
 		`dtProductState`,
 		`idCampaign`,
-		`idMaterial`)
+		`idMaterial`,
+		`specialPrice`)
 
 		values
 		(#{idGender},#{idType},#{idBrand},
-		#{price},#{discount},#{thumbnailsUrl},0,now(),#{idCampaign},#{idMaterial})
+		#{price},#{discount},#{thumbnailsUrl},0,now(),#{idCampaign},#{idMaterial},#{specialPrice})
 
 		<selectKey resultType="java.lang.Integer" keyProperty="idProduct">
 
@@ -635,7 +688,6 @@
 
 	</insert>
 
-
 	<insert id="insertProductDescription" parameterType="java.util.HashMap">
 
 		INSERT INTO
@@ -645,7 +697,6 @@
 		#{idLanguages},#{txDescription})
 
 	</insert>
-
 
 	<insert id="insertBrand" parameterType="java.util.HashMap">
 
@@ -676,8 +727,6 @@
 
 	</insert>
 
-
-
 	<insert id="insertType" parameterType="java.util.HashMap">
 
 		INSERT INTO
@@ -687,7 +736,6 @@
 		#{languages},#{txType})
 
 	</insert>
-
 
 	<insert id="insertArticle" parameterType="java.util.HashMap">
 
@@ -707,7 +755,6 @@
 
 
 	</insert>
-
 
 	<insert id="insertProductImage" parameterType="java.util.HashMap">
 
@@ -743,26 +790,27 @@
 
 	<select id="getDescrizione" resultType="String">
 
-		SELECT CONCAT(txBrand, ' ', txType, ' ', txGender, ' ',txMaterial)
+		SELECT CONCAT(txBrand, '
+		', txType, ' ', txGender, ' ',txMaterial)
 		as txDescrizione FROM
 		${database.schema}`brand` a,
 		${database.schema}`type` b,
 		${database.schema}`material` c,
 		${database.schema}`gender` d
-		where a.idBrand = #{idBrand}
+		where
+		a.idBrand = #{idBrand}
 		and b.idType = #{idType}
-		and c.idMaterial = #{idMaterial}
+		and c.idMaterial =
+		#{idMaterial}
 		and d.idGender = #{idGender}
-		and b.idLanguages = #{languages}
+		and b.idLanguages =
+		#{languages}
 		and c.idLanguages = b.idLanguages
-		and d.idLanguages = b.idLanguages;
+		and d.idLanguages =
+		b.idLanguages;
 
 
 	</select>
-
-
-
-
 
 	<select id="getMaxIdMaterial" resultType="Integer">
 
@@ -813,48 +861,6 @@
 
 	</update>
 
-	<select id="listProductToPublish" resultType="it.othala.dto.ProductDTO">
-
-		SELECT
-		a.idProduct ,
-		imPrice as price,
-		txBrand as brand,
-		txThumbnailsUrl
-		as imagesUrl,
-		ceiling(imPrice * (100 - pcDiscount) / 100) as
-		priceDiscounted,
-		txDescription as description,
-		txGender as gender,
-		txType as type,
-		pcDiscount as discount,
-		case
-		when a.dtProductState
-		>
-		current_date - 7 then
-		'Y'
-		else 'N'
-		end as fgNewArrivals
-		FROM
-
-		${database.schema}product a,
-		${database.schema}product_description b,
-		${database.schema}brand c,
-		${database.schema}gender f,
-		`type` g
-		where
-		a.idProduct = b.idProduct
-		and
-		f.idLanguages = 'it'
-		and
-		a.idProductState = 0
-		and c.idBrand = a.idBrand
-		and f.idGender =
-		a.idGender
-		and g.idType = a.idType;
-
-
-	</select>
-
 	<select id="getListCampaign" resultType="it.othala.dto.CampaignDTO">
 
 
@@ -867,7 +873,6 @@
 
 
 	</select>
-
 
 	<update id="publishProduct" parameterType="list">
 
@@ -912,7 +917,6 @@
 
 	</insert>
 
-
 	<update id="addProductToCampaign" parameterType="java.util.HashMap">
 
 
@@ -948,11 +952,15 @@
 		idBrand,
 		txBrand,
 		imPrice,
+		coalesce(specialPrice,
 		ceiling(imPrice * (100 -
-		coalesce(pcDiscount,pcSconto)) / 100) as priceDiscounted,
+		coalesce(pcSconto,pcDiscount)) / 100)) as
+		priceDiscounted,
+
 		description,
 		dtProductState,
-		thumbnailsUrl
+		thumbnailsUrl,
+		specialPrice
 
 		FROM
 		(
@@ -971,8 +979,10 @@
 		txDescription as
 		description,
 		a.dtProductState,
-		txThumbnailsUrl as thumbnailsUrl,
-		idCampaign
+		txThumbnailsUrl as
+		thumbnailsUrl,
+		idCampaign,
+		specialPrice
 
 		FROM
 
@@ -989,13 +999,15 @@
 		b.idLanguages = "it"
 		and b.idLanguages
 		= f.idLanguages
-		and b.idLanguages = g.idLanguages
+		and b.idLanguages
+		= g.idLanguages
 		and c.idBrand =
 		a.idBrand
 		and
 		f.idGender =
 		a.idGender
-		and g.idType = a.idType
+		and
+		g.idType = a.idType
 		and
 		h.idProductState =
 		a.idProductState
@@ -1124,7 +1136,6 @@
 
 	</select>
 
-
 	<update id="updateProduct" parameterType="it.othala.dto.ProductFullDTO">
 
 		UPDATE
@@ -1140,7 +1151,9 @@
 		`txThumbnailsUrl` = #{thumbnailsUrl},
 		`idCampaign` =
 		#{idCampaign},
-		`idMaterial` = #{idMaterial}
+		`idMaterial` = #{idMaterial},
+		`specialPrice` =
+		#{specialPrice}
 		WHERE idProduct
 		=
 		#{idProduct}
@@ -1173,9 +1186,7 @@
 		= #{idProduct}
 	</delete>
 
-
-
-<select id="listArticleFullBarcode" resultType="it.othala.dto.ArticleFullDTO"
+	<select id="listArticleFullBarcode" resultType="it.othala.dto.ArticleFullDTO"
 		parameterType="java.util.HashMap">
 
 
@@ -1212,26 +1223,61 @@
 		#{txBarcode}
 		and a.idSize =
 		b.idSize
-		and c.idColor = a.idColor
+		and
+		c.idColor = a.idColor
 		and
 		c.idLanguages = "it"
 		and
-		d.idProduct = a.idProduct
+		d.idProduct =
+		a.idProduct
 
 
 	</select>
 
-<select id="getProductFullBarcode" resultType="it.othala.dto.ProductFullDTO"
+	<select id="getProductFullBarcode" resultType="it.othala.dto.ProductFullDTO"
 		parameterType="java.util.HashMap">
 
+		SELECT
+
+		tab1.idProduct,
+		tab1.price,
+		tab1.thumbnailsUrl,
+		tab1.discount,
+
+		coalesce(specialPrice,
+		ceiling(tab1.price * (100 -
+		coalesce(tab2.pcSconto,tab1.discount)) /
+		100)) as
+		priceDiscounted,
+
+		tab1.description,
+		tab1.fgNewArrivals,
+		tab1.idGender,
+		tab1.txGender,
+		tab1.idType,
+		tab1.txType,
+		tab1.idBrand,
+		tab1.txBrand,
+		tab1.idCampaign,
+		tab1.idMaterial,
+		tab1.txMaterial,
+		tab1.specialPrice
+
+
+
+		FROM
+
+		(
 
 
 		SELECT
 		a.idProduct as idProduct,
 		a.imPrice as price,
-		a.txThumbnailsUrl as thumbnailsUrl,
+		a.txThumbnailsUrl as
+		thumbnailsUrl,
 		a.pcDiscount as discount,
-		ceiling(a.imPrice * (100 - a.pcDiscount) /
+		ceiling(a.imPrice * (100 -
+		a.pcDiscount) /
 		100) as priceDiscounted,
 		b.txDescription as description,
 
@@ -1239,7 +1285,8 @@
 		when DATEDIFF(current_date,
 		a.dtProductState) &lt; 10
 		then 'Y'
-		else 'N'
+		else
+		'N'
 		end as fgNewArrivals,
 
 		a.idGender,
@@ -1250,11 +1297,13 @@
 		txBrand,
 		idCampaign,
 		a.idMaterial,
-		f.txMaterial
+		f.txMaterial,
+		specialPrice
 
 		FROM
 		${database.schema}product a,
-		${database.schema}product_description b,
+		${database.schema}product_description
+		b,
 
 		${database.schema}gender c,
 		${database.schema}type d,
@@ -1274,10 +1323,89 @@
 		and a.idBrand = e.idBrand
 		and
 		f.idMaterial = a.idMaterial
-		and d.idLanguages = b.idLanguages
+		and
+		d.idLanguages = b.idLanguages
 		and
 		c.idLanguages = b.idLanguages
-		and f.idLanguages = b.idLanguages
+		and
+		f.idLanguages = b.idLanguages
+		) tab1
+		left join
+		${database.schema}campaigns tab2
+
+		on tab1.idCampaign =
+		tab2.idCampaign
+		and tab2.dtInizio &lt;= current_date
+		and tab2.dtFine
+		&gt;=
+		current_date;
+
+
+	</select>
+
+	<select id="countNewArrivals" resultType="integer">
+
+		SELECT
+		count(*)
+		FROM
+
+		${database.schema}product a
+		where
+		a.idProductState = 1
+		and exists
+		(select
+		1 from
+		${database.schema}article
+		d where
+		d.idProduct =
+		a.idProduct
+		and
+		d.qtStock >
+		0)
+		and DATEDIFF(current_date, a.dtProductState) &lt; 10
+		;
+
+
+	</select>
+
+	<select id="countSpecialPrice" resultType="integer">
+
+		SELECT
+		count(*)
+		FROM
+
+		${database.schema}product a
+		where
+		a.idProductState = 1
+		and exists
+		(select
+		1 from
+		${database.schema}article
+		d where
+		d.idProduct =
+		a.idProduct
+		and
+		d.qtStock >
+		0)
+		and a.specialPrice is not null
+		;
+
+
+	</select>
+
+	<select id="countPromozioni" resultType="integer">
+
+		SELECT
+		count(*)
+		FROM
+
+		campaigns tab2
+
+		where
+		tab2.dtInizio
+		&lt;= current_date
+		and tab2.dtFine &gt;= current_date
+		;
 
 
 	</select>

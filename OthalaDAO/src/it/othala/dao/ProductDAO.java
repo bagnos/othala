@@ -500,14 +500,6 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 
 	}
 
-	@Override
-	public List<ProductDTO> listProductToPublish() {
-
-		List<ProductDTO> listProduct = getSqlSession().selectList(
-				"it.othala.product.queries.listProductToPublish");
-
-		return listProduct;
-	}
 
 	@Override
 	public List<CampaignDTO> getListCampaign() {
@@ -760,6 +752,50 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 
 		return productFull;
 
+	}
+	
+	@Override
+	public boolean countNewArrivals() {
+
+		Integer newArrivals = getSqlSession().selectOne(
+				"it.othala.product.queries.countNewArrivals");
+
+		if (newArrivals == null || newArrivals ==0)
+				{
+		return false;
+				}
+		else{
+			return true;
+		}
+	}
+	
+	@Override
+	public boolean countPromozioni() {
+
+		Integer promozioni = getSqlSession().selectOne(
+				"it.othala.product.queries.countPromozioni");
+
+		if (promozioni == null || promozioni ==0)
+				{
+		return false;
+				}
+		else{
+			return true;
+		}
+	}
+	@Override
+	public boolean countSpecialPrice() {
+
+		Integer specialPrice = getSqlSession().selectOne(
+				"it.othala.product.queries.countSpecialPrice");
+
+		if (specialPrice == null || specialPrice ==0)
+				{
+		return false;
+				}
+		else{
+			return true;
+		}
 	}
 	
 }
