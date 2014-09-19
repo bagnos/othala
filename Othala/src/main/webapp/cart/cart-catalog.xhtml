@@ -177,11 +177,15 @@
 										rendered="#{art.fgNewArrivals}" value="NEW" />
 
 
+									<h:outputText styleClass="newPromo1" style="float:right"
+										rendered="#{art.specialPrice != null and art.specialPrice != 0}"
+										value="SPECIAL" />
+										
 									<h:outputText styleClass="newPromo2" style="float:right"
-										rendered="#{art.discount != null and art.discount != 0 and art.idCampaign == null}"
+										rendered="#{(art.specialPrice == null or art.specialPrice == 0) and art.discount != null and art.discount != 0 and art.idCampaign == null}"
 										value="#{art.discount} %" />
 									<h:outputText styleClass="newPromo3" style="float:right"
-										rendered="#{art.discount != null and art.discount != 0 and art.idCampaign != null}"
+										rendered="#{(art.specialPrice == null or art.specialPrice == 0) and art.discount != null and art.discount != 0 and art.idCampaign != null}"
 										value="#{art.discount} %" />
 
 
@@ -212,12 +216,12 @@
 										<h6>#{art.description}</h6>
 										<p class="price">
 											<h:outputText value="#{art.price}"
-												styleClass="#{art.discount != null and art.discount != 0?'onSale':''}">
+												styleClass="#{art.price != art.priceDiscounted?'onSale':''}">
 												<f:converter converterId="it.othala.BigDecimalConverter" />
 											</h:outputText>
 
 											<h:outputText value="#{art.priceDiscounted}"
-												rendered="#{art.discount != null and art.discount != 0}" style="float:right">
+												rendered="#{art.price != art.priceDiscounted}" style="float:right">
 												<f:converter converterId="it.othala.BigDecimalConverter" />
 											</h:outputText>
 

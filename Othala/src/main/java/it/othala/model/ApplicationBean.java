@@ -5,6 +5,7 @@ import it.othala.dto.AttributeSizeDTO;
 import it.othala.dto.CampaignDTO;
 import it.othala.dto.DomainDTO;
 import it.othala.dto.MenuDTO;
+import it.othala.dto.MenuFullDTO;
 import it.othala.dto.ShopDTO;
 import it.othala.dto.SiteImagesDTO;
 import it.othala.service.factory.OthalaFactory;
@@ -34,6 +35,7 @@ public class ApplicationBean implements Serializable {
 	private List<SelectItem> brands = null;
 	private List<SelectItem> materials = null;
 	private List<MenuDTO> menu = null;
+	private MenuFullDTO menuFull = null;
 	private List<SiteImagesDTO> imgsCarousel = null;
 	private List<SiteImagesDTO> imgs = null;
 	private List<SiteImagesDTO> imgsNewArrival = null;
@@ -167,9 +169,19 @@ public class ApplicationBean implements Serializable {
 		
 	}
 
+	public MenuFullDTO getMenuFull() {
+		if (menuFull==null) {
+			menuFull = OthalaFactory.getProductServiceInstance().getMenuFull(OthalaUtil.getLangFromContextJSF());
+			
+		}
+
+		return menuFull;
+	}
+	
 	public List<MenuDTO> getMenu() {
 		if (menu==null) {
-			menu = OthalaFactory.getProductServiceInstance().getMenu(OthalaUtil.getLangFromContextJSF()); 
+			menuFull = OthalaFactory.getProductServiceInstance().getMenuFull(OthalaUtil.getLangFromContextJSF());
+			menu = menuFull.getMenu();
 		}
 
 		return menu;

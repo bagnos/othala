@@ -16,6 +16,7 @@ public class ProductFullDTO implements Serializable {
 	private BigDecimal price;
 	private Integer discount;
 	private BigDecimal priceDiscounted;
+	private BigDecimal specialPrice;
 	private String description;
 	private String descriptionEN;
 	private String thumbnailsUrl;
@@ -30,6 +31,7 @@ public class ProductFullDTO implements Serializable {
 	private String txBrand;
 	
 	private BigDecimal realPrice;
+	private BigDecimal imRisparmio;
 	private String merchantCode;
 	
 	private Integer idCampaign;
@@ -68,7 +70,12 @@ public class ProductFullDTO implements Serializable {
 		return realPrice;
 	}
 	
-	
+	public BigDecimal getImRisparmio() {
+		
+		imRisparmio= price.subtract(priceDiscounted);
+		imRisparmio=imRisparmio.setScale(2, RoundingMode.HALF_UP);
+		return imRisparmio;
+	}
 
 	public void setIdProduct(Integer idProduct) {
 		this.idProduct = idProduct;
@@ -233,6 +240,14 @@ public class ProductFullDTO implements Serializable {
 
 	public void setTxMaterial(String txMaterial) {
 		this.txMaterial = txMaterial;
+	}
+
+	public BigDecimal getSpecialPrice() {
+		return specialPrice;
+	}
+
+	public void setSpecialPrice(BigDecimal specialPrice) {
+		this.specialPrice = specialPrice;
 	}
 
 

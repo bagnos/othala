@@ -63,8 +63,6 @@ public interface IProductDAO {
 
 	public void insertBrand(String txBrand);
 
-	public List<ProductDTO> listProductToPublish();
-
 	public Integer updateQtStock(Integer idProduct, Integer pgArticle, Integer qtArticles, Boolean fgVendita);
 
 	public Integer getQtStockLock(Integer idProduct, Integer pgArticle);
@@ -115,6 +113,12 @@ public interface IProductDAO {
 
 	public List<ArticleFullDTO> listArticleFullBarcode(Integer idProduct,
 			String txBarcode);
+
+	public boolean countNewArrivals();
+
+	public boolean countSpecialPrice();
+
+	public boolean countPromozioni();
 	
 	
 	

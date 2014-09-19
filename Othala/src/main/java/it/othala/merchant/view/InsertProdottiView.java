@@ -45,6 +45,7 @@ public class InsertProdottiView extends BaseView {
 	private AttributeDTO material;
 	private int sconto;
 	private BigDecimal prezzo;
+	private BigDecimal prezzoSpeciale;
 	private BigDecimal prezzoScontato;
 	private List<String> imagesFile = new ArrayList<>();
 	private List<String> imagesGuidFile = new ArrayList<>();
@@ -257,6 +258,14 @@ public class InsertProdottiView extends BaseView {
 	public void setPrezzo(BigDecimal prezzo) {
 		this.prezzo = prezzo;
 	}
+	
+	public BigDecimal getPrezzoSpeciale() {
+		return prezzoSpeciale;
+	}
+
+	public void setPrezzoSpeciale(BigDecimal prezzoSpeciale) {
+		this.prezzoSpeciale = prezzoSpeciale;
+	}
 
 	public BigDecimal getPrezzoScontato() {
 		return prezzoScontato;
@@ -343,6 +352,7 @@ public class InsertProdottiView extends BaseView {
 			prd.setImagesUrl(imagesGuidFile);
 			prd.setMerchantCode(merchantCode);
 			prd.setPrice(prezzo);
+			prd.setSpecialPrice(prezzoSpeciale);
 			prd.setThumbnailsUrl(fileThumb);
 			prd.setPriceDiscounted(prezzoScontato);
 
@@ -400,6 +410,7 @@ public class InsertProdottiView extends BaseView {
 		imagesFile.clear();
 		merchantCode = null;
 		prezzo = null;
+		prezzoSpeciale = null;
 		prezzoScontato = null;
 		genere = null;
 		tipo = null;

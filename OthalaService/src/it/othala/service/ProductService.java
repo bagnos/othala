@@ -5,6 +5,7 @@ import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.CampaignDTO;
 import it.othala.dto.DomainDTO;
 import it.othala.dto.MenuDTO;
+import it.othala.dto.MenuFullDTO;
 import it.othala.dto.ProductDTO;
 import it.othala.dto.ProductFindDTO;
 import it.othala.dto.ProductFullDTO;
@@ -25,7 +26,7 @@ public class ProductService implements IProductService {
 		this.productDAO = productDAO;
 	}
 
-	@Override
+
 	public List<MenuDTO> getMenu(String languages) {
 
 		List<MenuDTO> listMenu = productDAO.listMenu(languages);
@@ -38,10 +39,28 @@ public class ProductService implements IProductService {
 			listMenu.get(i).setSubMenu(listSubMenu);
 
 		}
+		
 
 		return listMenu;
 
 	}
+	
+	@Override
+	public MenuFullDTO getMenuFull(String languages) {
+
+		MenuFullDTO menuFullDTO = new MenuFullDTO();
+
+		List<MenuDTO> listMenu = getMenu(languages);
+		menuFullDTO.setMenu(listMenu);
+
+		menuFullDTO.setFgNuoviArrivi(productDAO.countNewArrivals());
+		menuFullDTO.setFgPromozioni(productDAO.countPromozioni());
+		menuFullDTO.setFgPrezzoSpeciale(productDAO.countSpecialPrice());
+
+		return menuFullDTO;
+
+	}
+	
 
 	@Override
 	public List<ProductDTO> getListProduct(String languages, Integer gender,
@@ -226,15 +245,6 @@ public class ProductService implements IProductService {
 		domainDTO.setType(productDAO.listType(languages));
 
 		return domainDTO;
-
-	}
-
-	@Override
-	public List<ProductDTO> getListProductToPublish() {
-
-		List<ProductDTO> listProduct = productDAO.listProductToPublish();
-
-		return listProduct;
 
 	}
 
