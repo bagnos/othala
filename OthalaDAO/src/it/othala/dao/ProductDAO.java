@@ -215,6 +215,8 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 
 	}
 
+
+	
 	@Override
 	public List<ArticleFullDTO> listArticleFull(Integer idProduct,
 			String languages) {
@@ -733,4 +735,31 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 
 	}
 
+	@Override
+	public List<ArticleFullDTO> listArticleFullBarcode(Integer idProduct,
+			String txBarcode) {
+		HashMap<String, Object> map2 = new HashMap<>();
+		map2.put("idProduct", idProduct);
+		map2.put("txBarcode", txBarcode);
+
+		List<ArticleFullDTO> listArticleFull = getSqlSession().selectList(
+				"it.othala.product.queries.listArticleFullBarcode", map2);
+
+		return listArticleFull;
+	}
+
+	@Override
+	public ProductFullDTO getProductFullBarcode(String txBarcode) {
+
+		HashMap<String, Object> mapProduct = new HashMap<>();
+		mapProduct.put("txBarcode", txBarcode);
+
+
+		ProductFullDTO productFull = getSqlSession().selectOne(
+				"it.othala.product.queries.getProductFullBarcode", mapProduct);
+
+		return productFull;
+
+	}
+	
 }

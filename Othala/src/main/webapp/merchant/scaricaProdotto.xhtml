@@ -35,7 +35,7 @@
 						<p:outputLabel styleClass="col-sm-1 control-label" for="barcode" value="Barcode" />
 						<div class="col-sm-2 ">
 						<p:focus for="barcode"></p:focus>
-							<p:inputText styleClass="form-control" required="true"
+							<p:inputText styleClass="form-control" required="false"
 								value="#{scaricaProdottoView.idBarcode}" id="barcode"></p:inputText>
 						</div>
 						<div class="col-sm-2 ">
@@ -92,16 +92,18 @@
 						<p:column headerText="Descrizione">
 							<h:outputText value="#{prd.description}" />
 						</p:column>
-						<p:column headerText="Stato">
-							<h:outputText value="#{prd.txProductState}" />
-						</p:column>
 						<p:column headerText="Prezzo">
-							<h:outputText value="#{prd.imPrice}" converter="it.othala.BigDecimalConverter" />
+							<h:outputText value="#{prd.price}" converter="it.othala.BigDecimalConverter" />
 						</p:column>
 						<p:column headerText="Prezzo scontato">
 							<h:outputText value="#{prd.priceDiscounted}" converter="it.othala.BigDecimalConverter" />
 						</p:column>
-
+						<p:column headerText="Colore">
+							<h:outputText value="#{prd.articles.get(0).txColor}" />
+						</p:column>
+						<p:column headerText="Taglia">
+							<h:outputText value="#{prd.articles.get(0).txSize}" />
+						</p:column>
 						<f:facet name="footer">
 							<!-- 
 							<h:panelGroup layout="block" style="text-align:left;">

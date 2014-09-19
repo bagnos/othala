@@ -1,48 +1,37 @@
 package it.othala.merchant.view;
 
-import it.othala.dto.ArticleFullDTO;
-import it.othala.dto.AttributeDTO;
-import it.othala.dto.DomainDTO;
-import it.othala.dto.ProductFindDTO;
 import it.othala.dto.ProductFullDTO;
-import it.othala.dto.ShopDTO;
-import it.othala.merchant.model.MerchantBean;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
-import it.othala.web.utils.ResizeImageUtil;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
-
-import org.primefaces.model.UploadedFile;
 
 @ManagedBean
 @ViewScoped
 public class ScaricaProdottoView extends BaseView {
 
 	private String idBarcode;
-	private ProductFindDTO prdSelected;
-	private List<ProductFindDTO> prdFounded;
+	private ProductFullDTO prdSelected;
+	private List<ProductFullDTO> prdFounded;
 
-	public List<ProductFindDTO> getPrdFounded() {
+	public List<ProductFullDTO> getPrdFounded() {
 		return prdFounded;
 	}
 
-	public void setPrdFounded(List<ProductFindDTO> prdFounded) {
+	public void setPrdFounded(List<ProductFullDTO> prdFounded) {
 		this.prdFounded = prdFounded;
 	}
 
-	public void setPrdSelected(ProductFindDTO prdSelected) {
+	public void setPrdSelected(ProductFullDTO prdSelected) {
 		this.prdSelected = prdSelected;
 	}
 
-	public ProductFindDTO getPrdSelected() {
+	public ProductFullDTO getPrdSelected() {
 		return prdSelected;
 	}
 
@@ -56,21 +45,23 @@ public class ScaricaProdottoView extends BaseView {
 
 	@Override
 	public String doInit() {
-		// TODO Auto-generated method stub
+
 		prdFounded = new ArrayList<>();
+
 		return null;
 	}
 
 	public void scarica(ActionEvent e) {
 		try {
-			// OthalaFactory.getProductServiceInstance().downloadArticle(idBarcode);
+		
 			List<String> idBarcodes = new ArrayList<>();
 			if (prdFounded != null && !prdFounded.isEmpty()) {
-				for (ProductFindDTO prd : prdFounded) {
+				for (ProductFullDTO prd : prdFounded) {
 
-					idBarcodes.addAll(prd.getListTxBarcode());
+					idBarcodes.add(prd.getArticles().get(0).getTxBarCode());
 				}
-				OthalaFactory.getProductServiceInstance().downloadArticle(idBarcodes);
+				OthalaFactory.getProductServiceInstance().downloadArticle(
+						idBarcodes);
 				prdFounded.clear();
 			} else {
 				addError("Scarico prodotto", "nessun prodotto selezionato");
@@ -78,7 +69,7 @@ public class ScaricaProdottoView extends BaseView {
 
 			addInfo("Scarico prodotto", "Operazione eseguita correttamente");
 		} catch (Exception ex) {
-			addGenericError(ex, "errore nella cancellazione del prodotto");
+			addGenericError(ex, "errore nello scarico del prodotto");
 		}
 	}
 
@@ -88,32 +79,18 @@ public class ScaricaProdottoView extends BaseView {
 
 	public void cercaProdottoPerBarcode(ActionEvent e) {
 		try {
-			// OthalaFactory.getProductServiceInstance().downloadArticle(idBarcode);
-			// addInfo("Scarico prodotto", "Operazione eseguita correttamente");
-			List<ProductFindDTO> products = OthalaFactory.getProductServiceInstance().listFindProduct(idBarcode, null,
-					null, null, null, null, null, null, null, null, null);
-			if (products != null && !products.isEmpty()) {
-				List<String> txBarcodeToDelete = null;
 
-				// un prodottto può avere uno o più articoli e quindi barcode,
-				// elimino quelli diversi dal barcode cercato
-				for (ProductFindDTO prd : products) {
-					txBarcodeToDelete = new ArrayList<>();
-					for (String txBarcode : prd.getListTxBarcode()) {
-						if (!txBarcode.equalsIgnoreCase(idBarcode)) {
-							txBarcodeToDelete.add(txBarcode);
-						}
-					}
-					prd.getListTxBarcode().removeAll(txBarcodeToDelete);
-				}
-				prdFounded.addAll(products);
-				
-			} else {
-				addError("Scarico prodotto", "prodotto con barcode " + idBarcode + " non presente");
+			if (idBarcode != "")
+			{
+			ProductFullDTO products = OthalaFactory.getProductServiceInstance()
+					.listFindBarcode(idBarcode);
+
+			prdFounded.add(products);
+
+			idBarcode = "";
 			}
-			idBarcode="";
 		} catch (Exception ex) {
-			addGenericError(ex, "errore nella cancellazione del prodotto");
+			addGenericError(ex, "errore nella ricerca del prodotto");
 		}
 	}
 

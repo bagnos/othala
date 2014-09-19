@@ -61,5 +61,7 @@ public interface IProductService {
 
 	public DomainDTO insertMaterial(String languages, String txMaterialIT,
 			String txMaterialEN);
+
+	public ProductFullDTO listFindBarcode(String txBarcode);
 	
 }

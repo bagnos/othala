@@ -1175,8 +1175,112 @@
 
 
 
+<select id="listArticleFullBarcode" resultType="it.othala.dto.ArticleFullDTO"
+		parameterType="java.util.HashMap">
 
 
+		SELECT
+		a.pgArticle as pgArticle,
+		a.qtStock as qtStock,
+
+		a.idSize,
+
+		txSize,
+
+		a.idColor,
+
+		txColor,
+		coalesce(a.txThumbnailsUrl,
+		d.txThumbnailsUrl) as thumbnailsUrl,
+		a.txBarCode
+
+
+
+		FROM
+		${database.schema}article a,
+		${database.schema}size b,
+		${database.schema}color c,
+		${database.schema}product d
+
+
+		where
+		a.idProduct
+		=
+		#{idProduct}
+		and a.txBarCode
+		=
+		#{txBarcode}
+		and a.idSize =
+		b.idSize
+		and c.idColor = a.idColor
+		and
+		c.idLanguages = "it"
+		and
+		d.idProduct = a.idProduct
+
+
+	</select>
+
+<select id="getProductFullBarcode" resultType="it.othala.dto.ProductFullDTO"
+		parameterType="java.util.HashMap">
+
+
+
+		SELECT
+		a.idProduct as idProduct,
+		a.imPrice as price,
+		a.txThumbnailsUrl as thumbnailsUrl,
+		a.pcDiscount as discount,
+		ceiling(a.imPrice * (100 - a.pcDiscount) /
+		100) as priceDiscounted,
+		b.txDescription as description,
+
+		case
+		when DATEDIFF(current_date,
+		a.dtProductState) &lt; 10
+		then 'Y'
+		else 'N'
+		end as fgNewArrivals,
+
+		a.idGender,
+		txGender,
+		a.idType,
+		txType,
+		a.idBrand,
+		txBrand,
+		idCampaign,
+		a.idMaterial,
+		f.txMaterial
+
+		FROM
+		${database.schema}product a,
+		${database.schema}product_description b,
+
+		${database.schema}gender c,
+		${database.schema}type d,
+		${database.schema}brand e,
+		${database.schema}material f,
+		${database.schema}article g
+		where
+		a.idProduct = b.idProduct
+		and
+		a.idProduct = g.idProduct
+		and g.txBarCode = #{txBarcode}
+		and
+		b.idLanguages = "it"
+		and a.idType =
+		d.idType
+		and a.idGender = c.idGender
+		and a.idBrand = e.idBrand
+		and
+		f.idMaterial = a.idMaterial
+		and d.idLanguages = b.idLanguages
+		and
+		c.idLanguages = b.idLanguages
+		and f.idLanguages = b.idLanguages
+
+
+	</select>
 
 
 </mapper>
