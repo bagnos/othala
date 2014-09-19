@@ -110,6 +110,11 @@ public interface IProductDAO {
 
 	public Integer getMaxIdColor();
 	public Integer getMaxIdMaterial();
+
+	public ProductFullDTO getProductFullBarcode(String txBarcode);
+
+	public List<ArticleFullDTO> listArticleFullBarcode(Integer idProduct,
+			String txBarcode);
 	
 	
 	

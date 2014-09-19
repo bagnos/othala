@@ -297,6 +297,30 @@ public class ProductService implements IProductService {
 
 	}
 
+	
+	@Override
+	public ProductFullDTO listFindBarcode(String txBarcode) {
+
+		ProductFullDTO productFull = productDAO.getProductFullBarcode(txBarcode);
+
+		if (productFull != null)
+		{
+		List<String> newString = productDAO.listProductImages(productFull.getIdProduct());
+
+		productFull.setImagesUrl(newString);
+
+		List<ArticleFullDTO> listArticleFull = productDAO.listArticleFullBarcode(
+				productFull.getIdProduct(), txBarcode);
+
+
+		productFull.setArticles(listArticleFull);
+		}
+		return productFull;
+
+	}
+
+	
+	
 	@Override
 	public List<String> deleteProduct(Integer idProduct) {
 
