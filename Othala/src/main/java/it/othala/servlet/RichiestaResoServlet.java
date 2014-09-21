@@ -1,7 +1,9 @@
 package it.othala.servlet;
 
+import it.othala.dto.RefoundFullDTO;
 import it.othala.enums.TypeStateOrder;
 import it.othala.service.factory.OthalaFactory;
+import it.othala.util.HelperCrypt;
 import it.othala.web.utils.ConfigurationUtil;
 
 import java.io.File;
@@ -17,16 +19,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class SpedisciOrdineServlet
+ * Servlet implementation class RichiestaResoServlet
  */
-@WebServlet("/SpedisciOrdineServlet")
-public class SpedisciOrdineServlet extends HttpServlet {
+@WebServlet("/RichiestaResoServlet")
+public class RichiestaResoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public SpedisciOrdineServlet() {
+	public RichiestaResoServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -38,21 +40,30 @@ public class SpedisciOrdineServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		int idOrder = 0;
-		String fgRis = null;
+		
 		try {
-			idOrder = Integer.valueOf(request.getParameter("idOrder"));
-			fgRis = request.getParameter("fgRis");
-
-			if (fgRis == null) {
-				OthalaFactory.getOrderServiceInstance().updateStateOrder(idOrder, null, TypeStateOrder.SPEDITO);
+			String keyRefundEncrypt = request.getParameter("keyRefund");
+			if (keyRefundEncrypt != null) {
+				String keyRefund = HelperCrypt.decrypt(keyRefundEncrypt);
+				RefoundFullDTO refundDTO= (RefoundFullDTO) request.getSession().getAttribute("keyRefund");
+				
+				//inserire html per stampa reso
+				String html="";
+				PrintWriter out = response.getWriter();
+				response.setHeader("Expires", "0");
+				response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
+				response.setHeader("Pragma", "public");
+				response.setContentType("text/html;charset=UTF-8");
+				out.write(html);
 			}
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			warning(response, "errore nella spedizione dell'ordine", e);
 			return;
 		}
 		try {
-			stampaOrdine(idOrder, response,request);
+			stampaOrdine(idOrder, response, request);
 			return;
 
 		} catch (Exception e) {
@@ -61,17 +72,30 @@ public class SpedisciOrdineServlet extends HttpServlet {
 		}
 	}
 
-	private void stampaOrdine(int idOrder, HttpServletResponse response,HttpServletRequest request) throws Exception {
-		//File pdfCarrello = OthalaFactory.getOrderServiceInstance().stampaOrdine(idOrder);
-		
-		String img=ConfigurationUtil.getOrderPrintImageUrl(request);
-		String html=OthalaFactory.getOrderServiceInstance().stampaOrdineHTML(idOrder,img);
-		
+	private void stampaOrdine(int idOrder, HttpServletResponse response, HttpServletRequest request) throws Exception {
+		// File pdfCarrello =
+		// OthalaFactory.getOrderServiceInstance().stampaOrdine(idOrder);
 		PrintWriter out = response.getWriter();
+		String img = ConfigurationUtil.getOrderPrintImageUrl(request);
+		String html = OthalaFactory.getOrderServiceInstance().stampaOrdineHTML(idOrder, img);
+
 		response.setHeader("Expires", "0");
 		response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
 		response.setHeader("Pragma", "public");
+		// setting the content type
 		response.setContentType("text/html;charset=UTF-8");
+		// response.setContentLength((int) pdfCarrello.length());
+
+		// Tell browser to try to display inline, but if not,
+		// to save under the given filename.
+
+		/*
+		 * response.setHeader("Content-disposition",
+		 * "inline; filename=\"Ordine.pdf\""); FileInputStream fileInputStream =
+		 * new FileInputStream(pdfCarrello); OutputStream responseOutputStream =
+		 * response.getOutputStream(); int bytes; while ((bytes =
+		 * fileInputStream.read()) != -1) { responseOutputStream.write(bytes); }
+		 */
 		out.write(html);
 
 	}

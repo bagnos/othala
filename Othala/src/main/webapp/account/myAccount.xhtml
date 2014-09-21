@@ -26,15 +26,27 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-sm-8">
+					<div class="col-sm-6">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								<h5>
-									<strong><h:outputText value="#{msg.account_myOrders}" /></strong>
+		 						<h5>
+									<strong><h:outputText style="text-transform: uppercase;" value="Profilo" /></strong>
 								</h5>
 							</div>
 							<div class="panel-body">
-								<ui:include src="/sections/myOrders.xhtml"></ui:include>
+								<div class="row">
+								<div class="col-sm-2"><strong>Utente</strong></div>
+								<div class="col-sm-3">#{myAccountView.loginBean.email}</div>
+								</div>
+								<div class="row">
+								<div class="col-sm-2"><strong>Nome</strong></div>
+								<div class="col-sm-3">#{myAccountView.loginBean.name} </div>
+								</div>
+								<div class="row">
+								<div class="col-sm-2"><strong>Cognome</strong></div>
+								<div class="col-sm-3">#{myAccountView.loginBean.surname} </div>
+								</div>
+								
 							</div>
 						</div>
 
@@ -42,14 +54,14 @@
 
 
 					</div>
-					<div class="col-sm-4">
+					<div class="col-sm-6">
 						<div class="panel panel-default">
 							<div class="panel-heading">
 
 								<div class="row">
 									<div class="col-sm-6">
 										<h5>
-											<strong><h:outputText value=" #{msg.account_myAddresses}" /></strong>
+											<strong><h:outputText style="text-transform: uppercase;" value=" #{msg.account_myAddresses}" /></strong>
 										</h5>
 									</div>
 									<div class="col-sm-6">

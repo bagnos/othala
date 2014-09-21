@@ -22,6 +22,15 @@ public class ArticleFullDTO implements Serializable {
 	private String thumbnailsUrl;
 	private ShopDTO shop;
 	private String txBarCode;
+	private boolean selected;
+
+	public boolean isSelected() {
+		return selected;
+	}
+
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+	}
 
 	public BigDecimal getTotalPriced() {
 		if (prdFullDTO != null) {

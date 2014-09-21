@@ -1,0 +1,251 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/masterTemplateBS.xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+	
+
+
+	<ui:define name="title">
+		<h:outputText value="#{msg.account_richiediReso}"></h:outputText>
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form prependId="false" id="frmResi">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-4">
+						<h3 class="form-titoli">
+							<h:outputText value="#{msg.account_richiediReso}" />
+						</h3>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-2">
+						<p:commandButton icon="ui-icon-triangle-1-w" action="myOrders.xhtml?faces-redirect=true"
+							value="#{msg.catalogo_back}">
+						</p:commandButton>
+					</div>
+					<div class="col-sm-2 col-sm-offset-8">
+						<p:commandButton title="#{msg.account_richiediReso}" styleClass="ui-priority-primary"
+							actionListener="#{richiediResoView.richiediReso}" oncomplete="$(window).scrollTop(0);"
+							process="@form" update="@form" value="#{msg.account_richiediReso}">
+						</p:commandButton>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-12">
+						<h5>
+							<strong><h:outputText
+									value="#{msg_account_nrDetailRefund} #{myAccountBean.orderSelected.idOrder}" /></strong>
+						</h5>
+					</div>
+				</div>
+
+				<div>
+					<!-- indirizzo di ritiro -->
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+
+									<h5>
+										<strong><h:outputText value="#{msg.account_refundShippingAddress}" /></strong>
+									</h5>
+								</div>
+								<div class="panel-body">
+									<div class="form-horizontal spacer10">
+
+										<div class="form-group">
+											<p:outputLabel styleClass="col-sm-1 control-label" value="#{msg.delivery_name}"
+												for="nameSpe" />
+											<div class="col-sm-2">
+												<p:inputText id="nameSpe" styleClass="form-control" label="#{msg.delivery_name}"
+													value="#{myAccountBean.orderSelected.shippingAddress.nome}" required="true"
+													maxlength="70">
+												</p:inputText>
+												<p:message for="nameSpe" />
+											</div>
+											<p:outputLabel styleClass="col-sm-1 control-label" value="#{msg.delivery_surname}"
+												for="cognomeSpe" />
+											<div class="col-sm-2">
+												<p:inputText id="cognomeSpe" styleClass="form-control" label="#{msg.delivery_surname}"
+													value="#{myAccountBean.orderSelected.shippingAddress.cognome}" required="true"
+													maxlength="70">
+												</p:inputText>
+
+												<p:message for="cognomeSpe" />
+											</div>
+										</div>
+
+
+										<div class="form-group">
+											<p:outputLabel styleClass="col-sm-1 control-label" value="#{msg.delivery_address}"
+												for="indirizzoSpe" />
+											<div class="col-sm-4">
+												<p:inputText required="true" maxlength="70" id="indirizzoSpe" styleClass="form-control"
+													label="#{msg.delivery_address}"
+													value="#{myAccountBean.orderSelected.shippingAddress.via}" />
+
+												<p:message for="indirizzoSpe" />
+											</div>
+										</div>
+
+										<div class="form-group">
+											<p:outputLabel styleClass="col-sm-1 control-label" value="#{msg.delivery_cap}"
+												for="postaleSpe" />
+											<div class="col-sm-2">
+												<p:inputText id="postaleSpe" styleClass="form-control w120" label="#{msg.delivery_cap}"
+													value="#{myAccountBean.orderSelected.shippingAddress.cap}" required="true"
+													maxlength="10" />
+												<p:message for="postaleSpe" />
+											</div>
+											<p:outputLabel styleClass="col-sm-1 control-label" value="#{msg.delivery_city}"
+												for="cittaSpe" />
+											<div class="col-sm-3">
+												<p:inputText id="cittaSpe" styleClass="form-control" label="#{msg.delivery_city}"
+													value="#{myAccountBean.orderSelected.shippingAddress.comune}" required="true"
+													maxlength="70">
+												</p:inputText>
+												<p:message for="cittaSpe" />
+											</div>
+											<p:outputLabel styleClass="col-sm-1 control-label" value="#{msg.delivery_prov}"
+												for="provSpe" />
+											<div class="col-sm-1">
+												<p:inputText id="provSpe" styleClass="form-control" label="#{msg.delivery_prov}"
+													value="#{myAccountBean.orderSelected.shippingAddress.provincia}" required="true"
+													maxlength="4">
+												</p:inputText>
+												<p:message for="provSpe" />
+											</div>
+
+											<p:outputLabel styleClass="col-sm-1 control-label" value="#{msg.delivery_paese}" />
+											<div class="col-sm-2">
+												<p:inputText styleClass="form-control" label="#{msg.delivery_prov}"
+													value="#{myAccountBean.orderSelected.shippingAddress.nazione}" required="true"
+													maxlength="4">
+												</p:inputText>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- elenco articoli -->
+					<!-- indirizzo di ritiro -->
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h5>
+										<strong><h:outputText value="#{msg.account_selectReturnArticles}" /></strong>
+									</h5>
+								</div>
+								<div class="panel-body">
+									<div class="table-responsive">
+										<table class="table" id="cartTable">
+											<thead>
+												<tr>
+													<th class="col-sm-1"></th>
+													<th class="col-sm-4">#{msg.catalog_article}</th>
+													<th class="col-sm-2">#{msg.catalog_color}</th>
+													<th class="col-sm-1">#{msg.catalog_size}</th>
+													<th class="col-sm-2">#{msg.catalog_price}</th>
+													<th class="col-sm-1">#{msg.catalog_qta}</th>
+													<th class="col-sm-2">#{msg.catalog_totalPrice}</th>
+
+												</tr>
+											</thead>
+											<tfoot>
+
+												<tr>
+													<td colspan="6" class="text-right"><h:outputText
+															value="#{msg.account_selectNrReturnArticles}" /></td>
+													<td><h:outputText value="#{richiediResoView.artToRefund.size()}">
+
+														</h:outputText></td>
+												</tr>
+
+												<tr>
+													<td colspan="6" class="text-right"><h:outputText value="#{msg.account_shippingCost}" /></td>
+													<td><h:outputText value="0">
+															<f:converter converterId="it.othala.BigDecimalConverter" />
+														</h:outputText></td>
+												</tr>
+
+
+
+
+												<tr>
+													<td colspan="6" class="text-right"><strong>TOTALE DA RESTITUIRE</strong></td>
+													<td><h:outputText value="#{richiediResoView.imRefunded}">
+															<f:converter converterId="it.othala.BigDecimalConverter" />
+														</h:outputText></td>
+												</tr>
+
+											</tfoot>
+											<tbody>
+												<ui:repeat var="art" value="#{myAccountBean.orderSelected.cart}" varStatus="stBread">
+													<tr>
+														<td><h:selectBooleanCheckbox value="#{art.selected}">
+																<f:ajax execute="@this" render="@form" listener="#{richiediResoView.updateReso}"></f:ajax>
+															</h:selectBooleanCheckbox></td>
+														<td><div class="row">
+																<div class="col-sm-12">
+																	<h:graphicImage styleClass="img-responsive img-small-cart"
+																		library="images/cartThumbinals" name="#{art.thumbnailsUrl}" />
+																	<div class="articolo">
+																		<h5>#{art.prdFullDTO.txBrand}</h5>
+																		<h6>#{art.prdFullDTO.description}</h6>
+																	</div>
+																</div>
+															</div></td>
+														<td><h:outputText value="#{art.txColor}" /></td>
+														<td><h:outputText value="#{art.txSize}" /></td>
+
+														<td><h:outputText value="#{art.prdFullDTO.realPrice}">
+																<f:converter converterId="it.othala.BigDecimalConverter" />
+															</h:outputText></td>
+														<td><h:outputText value="#{art.qtBooked}" /></td>
+														<td><h:outputText value="#{art.totalPriced}">
+																<f:converter converterId="it.othala.BigDecimalConverter" />
+															</h:outputText></td>
+													</tr>
+												</ui:repeat>
+											</tbody>
+										</table>
+
+									</div>
+
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+				<div class="row">
+				
+					<div class="col-sm-2">
+						<p:commandButton icon="ui-icon-triangle-1-w" action="myOrders.xhtml?faces-redirect=true"
+							value="#{msg.catalogo_back}">
+						</p:commandButton>
+					</div>
+					<div class="col-sm-2 col-sm-offset-8">
+						<p:commandButton title="#{msg.account_richiediReso}" styleClass="ui-priority-primary"
+							actionListener="#{richiediResoView.richiediReso}" oncomplete="$(window).scrollTop(0);"
+							process="@form" update="@form" value="#{msg.account_richiediReso}">
+						</p:commandButton>
+					</div>
+				</div>
+			</div>
+		</h:form>
+
+
+
+	</ui:define>
+</ui:composition>
