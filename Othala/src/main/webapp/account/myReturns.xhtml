@@ -1,0 +1,230 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/masterTemplateBS.xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:viewAction action="#{richiediResoView.doInitElencaResi}"></f:viewAction>
+		</f:metadata>
+	</ui:define>
+
+
+
+	<ui:define name="title">
+		<h:outputText value="#{msg.account_myReturns}"></h:outputText>
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form prependId="false" id="frmMyAccount">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-4">
+						<h3 class="form-titoli">
+							<h:outputText value="#{msg.account_myReturns}" />
+						</h3>
+					</div>
+				</div>
+
+				<h:panelGroup id="myReturns">
+					<h:panelGroup id="orders" rendered="#{richiediResoView.renderDetails==false}">
+						<h:panelGroup
+							rendered="#{richiediResoView.elencoResi==null or richiediResoView.elencoResi.size()==0}">
+							<div class="col-sm-12">
+								<h5>#{msg.account_myEmptyReturns}</h5>
+							</div>
+						</h:panelGroup>
+						<h:panelGroup rendered="#{richiediResoView.elencoResi.size()>0}">
+							<div class="row">
+								<div class="col-sm-11">
+									<div class="table-responsive spacer10">
+										<table class="table" id="cartTable">
+											<thead>
+												<tr>
+													<th class="col-sm-1"></th>
+													<th class="col-sm-2">#{msg.account_nrReturn}</th>
+													<th class="col-sm-2">#{msg.account_imOrder}</th>
+													<th class="col-sm-2">#{msg.account_nrArticles}</th>
+													<th class="col-sm-2">#{msg.account_dtIns}</th>
+
+
+												</tr>
+											</thead>
+											<tbody>
+												<ui:repeat var="refund" value="#{richiediResoView.elencoResi}" varStatus="stBread">
+													<tr>
+
+														<td><h:commandLink title="#{msg.account_detail}">
+																<span class="glyphicon glyphicon-chevron-right"></span>
+																<f:ajax execute="@this" render="myReturns"
+																	listener="#{richiediResoView.selectRefund}">
+																</f:ajax>
+																<f:param name="idRefund" value="#{refund.idRefound}"></f:param>
+															</h:commandLink></td>
+
+
+														<td><h:outputText value="#{refund.idRefound}" /></td>
+														<td><h:outputText value="#{refund.imRefound}">
+																<f:converter converterId="it.othala.BigDecimalConverter" />
+															</h:outputText></td>
+
+														<td><h:outputText value="#{refund.cart.size()}">
+
+															</h:outputText></td>
+
+														<td><h:outputText value="#{refund.txStato}">
+
+															</h:outputText></td>
+
+
+													</tr>
+												</ui:repeat>
+											</tbody>
+										</table>
+
+									</div>
+								</div>
+							</div>
+						</h:panelGroup>
+
+					</h:panelGroup>
+
+					<!-- dettaglo richiesta rimborso -->
+					<h:panelGroup id="detailRefund" rendered="#{richiediResoView.renderDetails}">
+						<div class="row">
+							<div class="col-sm-2">
+								<p:commandButton process="@this" update="myReturns" icon="ui-icon-triangle-1-w"
+									actionListener="#{richiediResoView.backToRefunds}" value="#{msg.catalogo_back}">
+								</p:commandButton>
+
+							</div>
+						</div>
+
+						<div class="row spacer10">
+							<div class="col-sm-6">
+								<h5>
+									<strong>#{msg.catalogo_nrDetailOrder} <h:outputText
+											value="#{richiediResoView.refundSelected.idRefound}" /></strong>
+								</h5>
+							</div>
+						</div>
+
+
+						<div class="row spacer10">
+							<!-- INDIRIZZO SPEDIZIONE -->
+							<div class="col-sm-6 ">
+								<h5>
+									<strong><h:outputText value="#{msg.delivery_deliveryAddress}" /></strong>
+								</h5>
+
+								<div class="row spacer10">
+									<div class="col-sm-12">
+										<address>
+											#{richiediResoView.refundSelected.shippingAddress.nome}
+											#{richiediResoView.refundSelected.shippingAddress.cognome} <br />
+											#{richiediResoView.refundSelected.shippingAddress.via} <br />
+											#{richiediResoView.refundSelected.shippingAddress.cap}
+											#{richiediResoView.order.shippingAddress.comune}
+											#{richiediResoView.refundSelected.shippingAddress.provincia}<br />
+											#{richiediResoView.refundSelected.shippingAddress.nazione}<br /> <span
+												class="glyphicon glyphicon-earphone"></span>
+											#{richiediResoView.refundSelected.shippingAddress.tel}
+										</address>
+									</div>
+								</div>
+							</div>
+
+
+						</div>
+
+
+						<!-- CARRELLO -->
+						<div class="row">
+							<div class="col-sm-2">
+								<h5>
+									<strong>#{msg.catalogo_cart}</strong>
+								</h5>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="table-responsive">
+									<table class="table" id="cartTable">
+										<thead>
+											<tr>
+												<th class="col-sm-4">#{msg.catalog_article}</th>
+												<th class="col-sm-2">#{msg.catalog_color}</th>
+												<th class="col-sm-1">#{msg.catalog_size}</th>
+												<th class="col-sm-2">#{msg.catalog_price}</th>
+												<th class="col-sm-1">#{msg.catalog_qta}</th>
+												<th class="col-sm-2">#{msg.catalog_totalPrice}</th>
+
+											</tr>
+										</thead>
+										<tfoot>
+
+
+											<tr>
+												<td colspan="5" class="text-right"><strong>#{msg.catalog_total}</strong></td>
+												<td><h:outputText value="#{richiediResoView.refundSelected.imRefound}">
+														<f:converter converterId="it.othala.BigDecimalConverter" />
+													</h:outputText></td>
+											</tr>
+
+										</tfoot>
+										<tbody>
+											<ui:repeat var="art" value="#{richiediResoView.refundSelected.cart}" varStatus="stBread">
+												<tr>
+													<td><div class="row">
+															<div class="col-sm-12">
+																<h:graphicImage styleClass="img-responsive img-small-cart"
+																	library="images/cartThumbinals" name="#{art.thumbnailsUrl}" />
+																<div class="articolo">
+																	<h5>#{art.prdFullDTO.txBrand}</h5>
+																	<h6>#{art.prdFullDTO.description}</h6>
+																</div>
+															</div>
+														</div></td>
+													<td><h:outputText value="#{art.txColor}" /></td>
+													<td><h:outputText value="#{art.txSize}" /></td>
+
+													<td><h:outputText value="#{art.prdFullDTO.realPrice}">
+															<f:converter converterId="it.othala.BigDecimalConverter" />
+														</h:outputText></td>
+													<td><h:outputText value="#{art.qtBooked}" /></td>
+													<td><h:outputText value="#{art.totalPriced}">
+															<f:converter converterId="it.othala.BigDecimalConverter" />
+														</h:outputText></td>
+												</tr>
+											</ui:repeat>
+										</tbody>
+									</table>
+
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-2">
+								<p:commandButton process="@this" update="myReturns" icon="ui-icon-triangle-1-w"
+									actionListener="#{richiediResoView.backToRefunds}" value="#{msg.catalogo_back}">
+								</p:commandButton>
+
+							</div>
+						</div>
+
+
+
+
+					</h:panelGroup>
+				</h:panelGroup>
+
+			</div>
+
+		</h:form>
+
+
+
+	</ui:define>
+</ui:composition>

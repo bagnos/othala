@@ -36,8 +36,12 @@ public class HomeMerchantView extends BaseView {
 
 			merchantBean.setOrdersPending(OthalaFactory.getOrderServiceInstance().getOrders(null, null,
 					TypeStateOrder.PENDING));
+			
+			
 
 			merchantBean.setOrderSelected(null);
+			
+			merchantBean.setRefoundSelected(null);
 		}
 		return null;
 	}

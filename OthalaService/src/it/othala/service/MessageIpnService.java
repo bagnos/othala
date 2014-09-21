@@ -20,10 +20,10 @@ public class MessageIpnService implements IMessageIpnService {
 	}
 
 	@Override
-	public Boolean getIdTransaction(long idOrder, String idTransaction,String status) {
+	public Boolean getIdTransaction(String idTransaction) {
 
-		Integer qtIdTransaction = messageIpnDAO.getIdTransaction(idOrder,
-				idTransaction,status);
+		Integer qtIdTransaction = messageIpnDAO.getIdTransaction(
+				idTransaction);
 
 		if (qtIdTransaction > 0) {
 			return true;

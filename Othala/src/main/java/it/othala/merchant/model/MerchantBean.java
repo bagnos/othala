@@ -4,6 +4,7 @@ import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.AttributeDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.ProductFindDTO;
+import it.othala.dto.RefoundFullDTO;
 import it.othala.dto.ShopDTO;
 import it.othala.enums.TypeStateOrder;
 import it.othala.service.factory.OthalaFactory;
@@ -53,8 +54,23 @@ public class MerchantBean implements Serializable {
 	private AttributeDTO statoOrdine;
 	private AttributeDTO stateProduct;
 	
+	private List<RefoundFullDTO> refoundRequest=null;
+	private RefoundFullDTO refoundSelected=null;
+	
 
 	
+	public RefoundFullDTO getRefoundSelected() {
+		return refoundSelected;
+	}
+
+	public void setRefoundSelected(RefoundFullDTO refoundSelected) {
+		this.refoundSelected = refoundSelected;
+	}
+
+	public List<RefoundFullDTO> getRefoundRequest() {
+		return refoundRequest;
+	}
+
 	public AttributeDTO getStateProduct() {
 		return stateProduct;
 	}

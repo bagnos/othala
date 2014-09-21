@@ -25,7 +25,14 @@ public class RefoundFullDTO implements Serializable {
 	private Timestamp dtStato;
 	private String txNote;
 	private List<ArticleFullDTO> cart;
+	private DeliveryAddressDTO shippingAddress;
 	
+	public DeliveryAddressDTO getShippingAddress() {
+		return shippingAddress;
+	}
+	public void setShippingAddress(DeliveryAddressDTO shippingAddress) {
+		this.shippingAddress = shippingAddress;
+	}
 	public Integer getIdRefound() {
 		return idRefound;
 	}

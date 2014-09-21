@@ -19,12 +19,12 @@ public class MessageIpnDAO extends SqlSessionDaoSupport implements
 	}
 
 	@Override
-	public int getIdTransaction(long idOrder, String idTransaction,String status) {
+	public int getIdTransaction(String idTransaction) {
 		
 		HashMap<String, Object> mapProduct = new HashMap<>();
-		mapProduct.put("idOrder", idOrder);
+		
 		mapProduct.put("idTransaction", idTransaction);
-		mapProduct.put("status", status);
+		
 
 		Integer qtIdTransaction = getSqlSession().selectOne(
 				"it.othala.messageIpn.queries.getIdTransaction", mapProduct);

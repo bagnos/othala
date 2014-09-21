@@ -4,12 +4,14 @@ import it.othala.payment.paypal.dto.DoExpressCheckoutPaymentDTO;
 import it.othala.payment.paypal.dto.GetExpressCheckoutDetailsDTO;
 import it.othala.payment.paypal.dto.ItemCartDTO;
 import it.othala.payment.paypal.dto.OrderPayPalDTO;
+import it.othala.payment.paypal.dto.RefundTransactionDTO;
 import it.othala.payment.paypal.dto.SetExpressCheckoutDTO;
 import it.othala.payment.paypal.exception.PayPalException;
 import it.othala.payment.paypal.exception.PayPalFailureException;
 import it.othala.payment.paypal.exception.PayPalFundingFailureException;
 import it.othala.payment.paypal.exception.PayPalIpnErrorException;
 import it.othala.payment.paypal.exception.PayPalIpnInvalidException;
+import it.othala.util.OthalaCommonUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
@@ -17,6 +19,7 @@ import java.math.RoundingMode;
 import java.net.MalformedURLException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
@@ -34,6 +37,7 @@ import paypalnvp.fields.PaymentItem;
 import paypalnvp.profile.Profile;
 import paypalnvp.request.DoExpressCheckoutPayment;
 import paypalnvp.request.GetExpressCheckoutDetails;
+import paypalnvp.request.RefundTransaction;
 import paypalnvp.request.Request;
 import paypalnvp.request.SetExpressCheckout;
 
@@ -138,6 +142,43 @@ class PayPalWrapper {
 		}
 
 		return setExpChecktDTO;
+	}
+
+	public RefundTransactionDTO refundTransaction(String idTransaction, BigDecimal amt, boolean fgPartial,
+			List<String> articles,String refundId) throws PayPalException, PayPalFailureException {
+		RefundTransaction refTransaction;
+		RefundTransactionDTO refundTransactionDTO = null;
+
+		if (fgPartial) {
+			refTransaction = RefundTransaction.getPartialRefund(idTransaction, OthalaCommonUtils.getImporto(amt));
+			refTransaction.getNVPRequest().put("CURRENCYCODE", "EUR");
+			StringBuilder sb = new StringBuilder();
+			if (articles != null && !articles.isEmpty()) {
+				for (String s : articles) {
+					sb.append(s);
+					sb.append("\t");
+				}
+				refTransaction.setNote(sb.toString());
+
+			}
+		} else {
+			refTransaction = RefundTransaction.getFullRefund(idTransaction);
+		}
+		refTransaction.getNVPRequest().put("STOREID", refundId);
+
+		try {
+			pp.setResponse(refTransaction);
+
+		} catch (MalformedURLException | UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			throw new PayPalException(e);
+		}
+
+		Map<String, String> response = refTransaction.getNVPResponse();
+		if (response != null && !response.isEmpty()) {
+			refundTransactionDTO = getRefundTransactionDTO(response);
+		}
+		return refundTransactionDTO;
 	}
 
 	/**
@@ -258,6 +299,29 @@ class PayPalWrapper {
 		}
 
 		return setExpChecktDTO;
+	}
+
+	private RefundTransactionDTO getRefundTransactionDTO(Map<String, String> response) throws PayPalFailureException {
+		StringBuilder sn = new StringBuilder();
+		for (String e : response.keySet()) {
+			sn.append(String.format("%s=%s;", e, response.get(e).toString()));
+		}
+
+		RefundTransactionDTO refundTransactionDTO = new RefundTransactionDTO();
+		if (response.get("ACK").toString().equalsIgnoreCase("Success")) {
+			refundTransactionDTO.setPENDINGREASON(response.get("PENDINGREASON").toString());
+			refundTransactionDTO.setREFUNDSTATUS(response.get("REFUNDSTATUS").toString());
+			refundTransactionDTO.setREFUNDTRANSACTIONID(response.get("REFUNDTRANSACTIONID").toString());
+			refundTransactionDTO.setTOTALREFUNDEDAMT(new BigDecimal(response.get("TOTALREFUNDEDAMT")));
+			refundTransactionDTO.setOkMessage(sn.toString());
+
+		} else {
+			updateError(response);
+			throw new PayPalFailureException(sn.toString(), errorMessage);
+
+		}
+
+		return refundTransactionDTO;
 	}
 
 	private DoExpressCheckoutPaymentDTO getDoExpressCheckoutPaymentDTO(Map<String, String> response, String token)

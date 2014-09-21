@@ -54,6 +54,16 @@
     <url-pattern>/SpedisciOrdineServlet/*</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <servlet-name>RichiestaResoServlet</servlet-name>
+    <servlet-class>it.othala.servlet.RichiestaResoServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RichiestaResoServlet</servlet-name>
+    <url-pattern>/RichiestaResoServlet/*</url-pattern>
+  </servlet-mapping>
+  
   
   <filter>
     <filter-name>LoginFilter</filter-name>
