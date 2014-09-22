@@ -30,7 +30,7 @@
 					<div class="col-sm-2 col-sm-offset-8">
 						<p:commandButton title="#{msg.account_richiediReso}" styleClass="ui-priority-primary"
 							actionListener="#{richiediResoView.richiediReso}" oncomplete="$(window).scrollTop(0);"
-							process="@form" update="@form" value="#{msg.account_richiediReso}">
+							process="@form" update="@form" value="#{msg.account_conferma}">
 						</p:commandButton>
 					</div>
 				</div>
@@ -181,7 +181,7 @@
 
 
 												<tr>
-													<td colspan="6" class="text-right"><strong>TOTALE DA RESTITUIRE</strong></td>
+													<td colspan="6" class="text-right"><strong><h:outputText value="#{msg.account_returnTotal}"/></strong></td>
 													<td><h:outputText value="#{richiediResoView.imRefunded}">
 															<f:converter converterId="it.othala.BigDecimalConverter" />
 														</h:outputText></td>
@@ -238,7 +238,7 @@
 					<div class="col-sm-2 col-sm-offset-8">
 						<p:commandButton title="#{msg.account_richiediReso}" styleClass="ui-priority-primary"
 							actionListener="#{richiediResoView.richiediReso}" oncomplete="$(window).scrollTop(0);"
-							process="@form" update="@form" value="#{msg.account_richiediReso}">
+							process="@form" update="@form" value="#{msg.account_conferma}">
 						</p:commandButton>
 					</div>
 				</div>
