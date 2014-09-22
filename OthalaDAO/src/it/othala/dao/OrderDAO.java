@@ -89,10 +89,14 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO  {
 
 
 	@Override
-	public List<DeliveryCostDTO> getDeliveryCost() {
-		// recupero spese spedizione
+	public List<DeliveryCostDTO> getDeliveryCost(String idNazione) {
+		
+		HashMap<String, Object> mapUpdate =  new HashMap<String, Object>();
+		
+		mapUpdate.put("idNazione", idNazione);		
+		
 		List<DeliveryCostDTO> listCost = getSqlSession().selectList(
-				"it.othala.order.queries.deliveryCosts");
+				"it.othala.order.queries.deliveryCosts",mapUpdate);
 		
 		return listCost;
 	}

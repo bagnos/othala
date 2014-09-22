@@ -258,16 +258,24 @@ public class OrderService implements IOrderService {
 	public DeliveryDTO getDeliveryInfo(String userId) {
 		List<DeliveryAddressDTO> addresses = orderDAO
 				.getDeliveryAddress(userId);
-		List<DeliveryCostDTO> costs = orderDAO.getDeliveryCost();
+		/*List<DeliveryCostDTO> costs = orderDAO.getDeliveryCost(addresses.get(0).getNazione());*/
 
 		DeliveryDTO delivery = new DeliveryDTO();
 
 		delivery.setIndirizzo(addresses);
-		delivery.setSpeseSpedizione(costs);
+		/*delivery.setSpeseSpedizione(costs);*/
 
 		return delivery;
 	}
 
+	@Override
+	public List<DeliveryCostDTO> getSpeseSpedizione(String idNazione) {
+
+		List<DeliveryCostDTO> costs = orderDAO.getDeliveryCost(idNazione);
+
+	return costs;
+	}
+	
 	@Override
 	public DeliveryAddressDTO newAddress(DeliveryAddressDTO newAddress) {
 		orderDAO.newAddress(newAddress);

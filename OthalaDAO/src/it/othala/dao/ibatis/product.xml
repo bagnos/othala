@@ -873,6 +873,21 @@
 
 
 	</select>
+	
+		<select id="getListNazioni" resultType="it.othala.dto.NazioniDTO">
+
+
+		SELECT idNazione as descrizione,
+		idLanguages as language 
+		FROM
+		${database.schema}nazioni
+		ORDER BY 1;
+
+
+
+	</select>
+	
+	
 
 	<update id="publishProduct" parameterType="list">
 

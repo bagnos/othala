@@ -89,6 +89,8 @@ public class MyAccountView extends BaseView {
 		addresses = OthalaFactory.getOrderServiceInstance().getDeliveryInfo(getLoginBean().getEmail());
 		orders = OthalaFactory.getOrderServiceInstance().getOrders(null, getLoginBean().getEmail(), null);
 		renderDetails = false;
+		
+		getMyAccountBean().setNazioni(getBeanApplication().getDomain().getNazioni());
 
 		return null;
 
@@ -143,7 +145,7 @@ public class MyAccountView extends BaseView {
 	public void newAddr(ActionEvent e) {
 		newAddress = true;
 		address = new DeliveryAddressDTO();
-		address.setNazione("Italia");
+		address.setNazione("ITALIA");
 		address.setUserId(getLoginBean().getEmail());
 	}
 

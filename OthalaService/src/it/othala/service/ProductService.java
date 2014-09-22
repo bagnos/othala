@@ -112,6 +112,7 @@ public class ProductService implements IProductService {
 		domainDTO.setShop(productDAO.listShop());
 		domainDTO.setStatesOrder(productDAO.listStatesOrder());
 		domainDTO.setStatesProduct(productDAO.listStatesProduct());
+		domainDTO.setNazioni(productDAO.listNazioni());
 
 		return domainDTO;
 

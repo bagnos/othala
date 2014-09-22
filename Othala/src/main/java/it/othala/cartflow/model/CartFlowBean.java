@@ -3,6 +3,7 @@ package it.othala.cartflow.model;
 import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryCostDTO;
+import it.othala.dto.NazioniDTO;
 import it.othala.dto.ProductCarouselDTO;
 import it.othala.dto.ProductDTO;
 import it.othala.dto.ProductFullDTO;
@@ -42,7 +43,9 @@ public class CartFlowBean implements Serializable {
 	private DeliveryCostDTO deliveryCost;
 	private BigDecimal totalItemOrder;
 	private int idTypeDelivery;
+
 	private List<ProductCarouselDTO> carouselList;
+	private List <NazioniDTO> nazioni;
 	
 	public void setCatalog(Catalog catalog) {
 		this.catalog = catalog;
@@ -186,5 +189,18 @@ public class CartFlowBean implements Serializable {
 	public void setCarouselList(List<ProductCarouselDTO> carouselList) {
 		this.carouselList = carouselList;
 	}
+
+
+
+	public List <NazioniDTO> getNazioni() {
+		return nazioni;
+	}
+
+
+	public void setNazioni(List <NazioniDTO> nazioni) {
+		this.nazioni = nazioni;
+	}
+
+
 
 }

@@ -7,6 +7,7 @@ import it.othala.dto.AttributeSizeDTO;
 import it.othala.dto.CampaignDTO;
 import it.othala.dto.DescriptionDTO;
 import it.othala.dto.MenuDTO;
+import it.othala.dto.NazioniDTO;
 import it.othala.dto.ProductDTO;
 import it.othala.dto.ProductFindDTO;
 import it.othala.dto.ProductFullDTO;
@@ -796,6 +797,14 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		else{
 			return true;
 		}
+	}
+
+	@Override
+	public List<NazioniDTO> listNazioni() {
+		List<NazioniDTO> listNazioni = getSqlSession().selectList(
+				"it.othala.product.queries.getListNazioni");
+
+		return listNazioni;
 	}
 	
 }

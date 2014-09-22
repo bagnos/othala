@@ -1,9 +1,12 @@
 package it.othala.cartflow.view;
 
+import java.util.List;
+
 import it.othala.account.execption.MailNotSendException;
 import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryCostDTO;
 import it.othala.dto.DeliveryDTO;
+import it.othala.dto.NazioniDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.ProfilePayPalDTO;
 import it.othala.execption.OthalaException;
@@ -136,14 +139,14 @@ public class CartWizardView extends BaseView {
 
 		// recupero l'indirizzo di fatturazione e spedizione
 
-		if (getCartFlowBean().getDeliveryCost() == null) {
-			getCartFlowBean().setDeliveryCost(deliveryDTO.getSpeseSpedizione().get(0));
-			getCartFlowBean().setIdTypeDelivery(getCartFlowBean().getDeliveryCost().getIdDeliveryCost());
-		}
+		getCartFlowBean().setDeliveryCost(deliveryDTO.getSpeseSpedizione().get(0));
+		getCartFlowBean().setIdTypeDelivery(deliveryDTO.getSpeseSpedizione().get(0).getIdDeliveryCost());
 
-		newAddrFat = false;
+			newAddrFat = false;
 		newAddrSpe = false;
 
+		getCartFlowBean().setNazioni(getBeanApplication().getDomain().getNazioni());
+	
 		return null;
 	}
 
@@ -152,8 +155,8 @@ public class CartWizardView extends BaseView {
 		deliveryDTO = OthalaFactory.getOrderServiceInstance().getDeliveryInfo(getLoginBean().getEmail());
 
 		if (idAddressFat == 0 && idAddressSpe == 0) {
-			getCartFlowBean().getAddressFat().setNazione("Italia");
-			getCartFlowBean().getAddressSpe().setNazione("Italia");
+			getCartFlowBean().getAddressFat().setNazione("ITALIA");
+			getCartFlowBean().getAddressSpe().setNazione("ITALIA");
 			if (deliveryDTO != null && deliveryDTO.getIndirizzo().isEmpty() == false) {
 				idAddressFat = deliveryDTO.getIndirizzo().get(0).getIdAddress();
 				idAddressSpe = idAddressFat;
@@ -164,7 +167,12 @@ public class CartWizardView extends BaseView {
 
 		editAddrFat = idAddressFat == 0;
 		editAddrSpe = idAddressSpe == 0;
-
+		
+		deliveryDTO.setSpeseSpedizione(OthalaFactory.getOrderServiceInstance().getSpeseSpedizione(getCartFlowBean().getAddressSpe().getNazione()));
+		
+		getCartFlowBean().setDeliveryCost(deliveryDTO.getSpeseSpedizione().get(0));
+		getCartFlowBean().setIdTypeDelivery(deliveryDTO.getSpeseSpedizione().get(0).getIdDeliveryCost());
+		
 	}
 
 	public void hideAddressFat(AjaxBehaviorEvent ev) {
@@ -172,6 +180,7 @@ public class CartWizardView extends BaseView {
 	}
 
 	public void modifyTypeDelivery(AjaxBehaviorEvent ev) {
+		
 		for (DeliveryCostDTO d : deliveryDTO.getSpeseSpedizione()) {
 			if (d.getIdDeliveryCost().intValue() == getCartFlowBean().getIdTypeDelivery()) {
 				getCartFlowBean().setDeliveryCost(d);
@@ -196,12 +205,14 @@ public class CartWizardView extends BaseView {
 			}
 		}
 	}
+	
 
 	public void changeAddrSpe(AjaxBehaviorEvent ev) {
 		if (idAddressSpe == 0) { // nuovo indirizzo
 			editAddrSpe = true;
 			getCartFlowBean().setAddressSpe(new DeliveryAddressDTO());
 			getCartFlowBean().getAddressSpe().setUserId(getLoginBean().getEmail());
+		
 		} else {
 			editAddrSpe = false;
 			for (DeliveryAddressDTO addr : deliveryDTO.getIndirizzo()) {
@@ -212,6 +223,12 @@ public class CartWizardView extends BaseView {
 			}
 
 		}
+		
+		deliveryDTO.setSpeseSpedizione(OthalaFactory.getOrderServiceInstance().getSpeseSpedizione(getCartFlowBean().getAddressSpe().getNazione()));
+		getCartFlowBean().setDeliveryCost(deliveryDTO.getSpeseSpedizione().get(0));
+		getCartFlowBean().setIdTypeDelivery(deliveryDTO.getSpeseSpedizione().get(0).getIdDeliveryCost());
+
+		
 	}
 
 	public void modifyAddrFat(AjaxBehaviorEvent ev) {
@@ -291,12 +308,16 @@ public class CartWizardView extends BaseView {
 				// ho cliccato su nuovo
 				getCartFlowBean().setAddressSpe(
 						OthalaFactory.getOrderServiceInstance().newAddress(getCartFlowBean().getAddressSpe()));
+			
+
 				newAddrSpe = false;
 			} else {
 				// ho cliccato su modifica
 				getCartFlowBean().setAddressSpe(
 						OthalaFactory.getOrderServiceInstance().updateAddress(getCartFlowBean().getAddressSpe(),
 								getCartFlowBean().getAddressSpe().getIdAddress()));
+			
+
 			}
 
 			retrieveAddresses();
@@ -419,5 +440,6 @@ public class CartWizardView extends BaseView {
 		return order;
 
 	}
+
 
 }

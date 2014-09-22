@@ -19,6 +19,7 @@ public class DomainDTO implements Serializable {
 	private List<ShopDTO> shop;
 	private List<AttributeDTO> statesOrder;
 	private List<AttributeDTO> statesProduct;
+	private List<NazioniDTO> nazioni;
 	
 
 	
@@ -92,6 +93,14 @@ public class DomainDTO implements Serializable {
 
 	public void setMaterial(List<AttributeDTO> material) {
 		this.material = material;
+	}
+
+	public List<NazioniDTO> getNazioni() {
+		return nazioni;
+	}
+
+	public void setNazioni(List<NazioniDTO> nazioni) {
+		this.nazioni = nazioni;
 	}
 
 }
