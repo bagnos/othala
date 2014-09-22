@@ -38,7 +38,7 @@ public interface IOrderDAO {
 	
 	public void deleteDeliveryCost(Integer idDeliveryCost);
 	
-	public List<DeliveryCostDTO> getDeliveryCost();
+	public List<DeliveryCostDTO> getDeliveryCost(String idNazione);
 	
 	public List<CouponDTO> getCoupons(String idCoupon, String idUser);
 	

@@ -5,6 +5,7 @@ import it.othala.dto.AttributeDTO;
 import it.othala.dto.AttributeSizeDTO;
 import it.othala.dto.CampaignDTO;
 import it.othala.dto.MenuDTO;
+import it.othala.dto.NazioniDTO;
 import it.othala.dto.ProductDTO;
 import it.othala.dto.ProductFindDTO;
 import it.othala.dto.ProductFullDTO;
@@ -119,6 +120,8 @@ public interface IProductDAO {
 	public boolean countSpecialPrice();
 
 	public boolean countPromozioni();
+
+	public List<NazioniDTO> listNazioni();
 	
 	
 	

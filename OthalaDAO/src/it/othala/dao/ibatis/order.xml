@@ -208,15 +208,19 @@
 
 	<select id="deliveryCosts" resultType="it.othala.dto.DeliveryCostDTO">
 
-		SELECT idDeliveryCost,
+		SELECT a.idDeliveryCost,
 		txDescrizione as descrizione,
 		imSpese as importospese, txDescrizioneExt as
 		descrizioneExt,
 		txLinkTracking as linkTracking
 		FROM
-		${database.schema}delivery_cost
+		${database.schema}delivery_cost a,
+		${database.schema}delivery_nazioni b
 		WHERE
-		fgDeleted = 0
+		a.fgDeleted = 0
+		and a.idDeliveryCost = b.idDeliveryCost
+		and b.idNazione = #{idNazione}
+		 
 
 	</select>
 

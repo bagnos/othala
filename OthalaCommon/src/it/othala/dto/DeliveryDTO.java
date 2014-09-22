@@ -21,6 +21,7 @@ public class DeliveryDTO implements Serializable {
 	public void setIndirizzo(List<DeliveryAddressDTO> indirizzo) {
 		this.indirizzo = indirizzo;
 	}
+	
 	public List<DeliveryCostDTO> getSpeseSpedizione() {
 		return speseSpedizione;
 	}
@@ -28,5 +29,6 @@ public class DeliveryDTO implements Serializable {
 		this.speseSpedizione = speseSpedizione;
 	}
 	private List <DeliveryCostDTO> speseSpedizione;
+	
 	
 }

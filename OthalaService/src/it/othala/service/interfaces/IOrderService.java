@@ -2,6 +2,7 @@ package it.othala.service.interfaces;
 
 import it.othala.dto.CouponDTO;
 import it.othala.dto.DeliveryAddressDTO;
+import it.othala.dto.DeliveryCostDTO;
 import it.othala.dto.DeliveryDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.RefoundFullDTO;
@@ -52,5 +53,7 @@ public interface IOrderService {
 	public void updateStateRefound(Integer idRefound, TypeStateOrder stato, String txNote);
 	
 	public void setRefoundTransaction(Integer idRefound, String idTransaction);
+
+	public List<DeliveryCostDTO> getSpeseSpedizione(String idNazione);
 
 }
