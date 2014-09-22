@@ -306,7 +306,7 @@
 		#{idOrder},#{idUser},null,
 		#{imRefound})
 
-		<selectKey resultType="java.lang.Integer" keyProperty="idOrder">
+		<selectKey resultType="java.lang.Integer" keyProperty="idRefound">
 
 			SELECT LAST_INSERT_ID() AS idRefound
 
