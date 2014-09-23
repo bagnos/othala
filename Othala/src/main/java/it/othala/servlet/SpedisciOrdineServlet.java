@@ -1,8 +1,12 @@
 package it.othala.servlet;
 
+import it.othala.dto.MailPropertiesDTO;
+import it.othala.dto.OrderFullDTO;
 import it.othala.enums.TypeStateOrder;
 import it.othala.service.factory.OthalaFactory;
+import it.othala.service.interfaces.IPaymentService;
 import it.othala.web.utils.ConfigurationUtil;
+import it.othala.web.utils.OthalaUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -45,6 +49,10 @@ public class SpedisciOrdineServlet extends HttpServlet {
 
 			if (fgRis == null) {
 				OthalaFactory.getOrderServiceInstance().updateStateOrder(idOrder, null, TypeStateOrder.SPEDITO);
+				MailPropertiesDTO mail = ConfigurationUtil.getMailProps(request);
+				OrderFullDTO order = OthalaFactory.getOrderServiceInstance().getOrders(idOrder, null, null).get(0);
+				OthalaFactory.getPaymentServiceInstance().sendMailAcceptedPyament(order, mail, "SPEDITO");
+						
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
