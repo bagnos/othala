@@ -74,7 +74,7 @@
 
 				</div>
 				<div class="col-sm-2 col-sm-offset-8">
-					<p:commandButton  iconPos="right"
+					<p:commandButton  iconPos="right" disabled="#{myAccountView.order.idStato!=15}"
 						icon="ui-icon-triangle-1-e" value="#{msg.account_returnSetRequest}" action="richiediReso.xhtml" />
 				</div>
 
@@ -230,7 +230,7 @@
 
 				</div>
 				<div class="col-sm-2 col-sm-offset-8">
-					<p:commandButton style="margin-top: 6px;" iconPos="right"
+					<p:commandButton style="margin-top: 6px;" iconPos="right" disabled="#{myAccountView.order.idStato!=15}"
 						icon="ui-icon-triangle-1-e" value="#{msg.account_returnSetRequest}"
 						action="richiediReso.xhtml?faces-redirect=true" process="@this">
 
