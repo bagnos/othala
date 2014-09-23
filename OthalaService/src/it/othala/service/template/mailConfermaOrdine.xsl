@@ -30,6 +30,9 @@
 						<xsl:when test="pending = 'false'">
 							il tuo ordine è stato ricevuto ed è in corso di elaborazione.
 						</xsl:when>
+						<xsl:when test="pending = 'spedito'">
+							il tuo ordine è stato spedito.
+						</xsl:when>
 						<xsl:otherwise>
 							il tuo ordine è in verifica presso il sistema PayPal, ti informeremo via
 							mail sull' esito del pagamento.
@@ -62,6 +65,8 @@
 						<xsl:when test="pending = 'false'">
 							Quando il tuo ordine verrà messo in consegna ti informeremo con
 							un'e-mail.
+						</xsl:when>
+						<xsl:when test="pending = 'spedito'">
 						</xsl:when>
 						<xsl:otherwise>
 							In caso di pagamento effettuato correttamente ti informeremo con
