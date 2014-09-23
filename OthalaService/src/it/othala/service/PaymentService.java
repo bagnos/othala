@@ -102,7 +102,8 @@ public class PaymentService implements IPaymentService {
 	}
 
 	@Override
-	public void processIpnMessage(String originalRequest, ProfilePayPalDTO profile, MailPropertiesDTO mailProps)
+	public void processIpnMessage(String originalRequest,
+			ProfilePayPalDTO profile, MailPropertiesDTO mailProps)
 			throws PayPalException, PayPalIpnErrorException {
 
 		log.info("IPN Original Request:" + originalRequest);
@@ -113,9 +114,11 @@ public class PaymentService implements IPaymentService {
 
 		try {
 			// resend message to PayPal for securiry protocol
-			HashMap<String, String> responseMap = getWrapper(profile).getNotificationIPN(responseRequest);
+			HashMap<String, String> responseMap = getWrapper(profile)
+					.getNotificationIPN(responseRequest);
 			IpnDTO ipnDTO = valueOf(responseMap);
-			log.info(String.format("prosessIpnMessage, ipnDTO: %s", ipnDTO.toString()));
+			log.info(String.format("prosessIpnMessage, ipnDTO: %s",
+					ipnDTO.toString()));
 
 			// check that txn_id has not been previously processed
 			String txn_id = ipnDTO.getTxn_id();
@@ -130,7 +133,8 @@ public class PaymentService implements IPaymentService {
 					if (order.getImOrdine().compareTo(mc_grossBD.abs()) != 0) {
 						sb.append(String
 								.format("messagio non elaborato: importo db %s diverso dalla importo %s presente nel messaggio %s",
-										order.getImOrdine(), ipnDTO.getMc_gross(), ipnDTO.toString()));
+										order.getImOrdine(),
+										ipnDTO.getMc_gross(), ipnDTO.toString()));
 						errorFormalMessage = true;
 					}
 				}
@@ -139,22 +143,25 @@ public class PaymentService implements IPaymentService {
 				String recEmailMerchant = profile.getReceiverEmail();
 				String receiver_email = ipnDTO.getReceiver_email();
 				if (!recEmailMerchant.trim().equalsIgnoreCase(receiver_email)) {
-					sb.append(String.format(
-							"messagio non elaborato: emailMerchant %s diversa dalla mail %s presente nel messaggio %s",
-							recEmailMerchant, receiver_email, ipnDTO.toString()));
+					sb.append(String
+							.format("messagio non elaborato: emailMerchant %s diversa dalla mail %s presente nel messaggio %s",
+									recEmailMerchant, receiver_email,
+									ipnDTO.toString()));
 					errorFormalMessage = true;
 				}
 
 				if (!ipnDTO.getMc_currency().trim().equalsIgnoreCase("EUR")) {
 					sb.append(String
 							.format("messagio non elaborato:divisa accettata %s diversa dalla divisa %s presente nel messaggio %s",
-									"EUR", ipnDTO.getMc_currency(), ipnDTO.toString()));
+									"EUR", ipnDTO.getMc_currency(),
+									ipnDTO.toString()));
 					errorFormalMessage = true;
 				}
 
 				if (errorFormalMessage) {
-					log.error(String.format("Messagio %s non elaborato, ci sono errori formali: %s",
-							ipnDTO.getTxn_id(), sb.toString()));
+					log.error(String
+							.format("Messagio %s non elaborato, ci sono errori formali: %s",
+									ipnDTO.getTxn_id(), sb.toString()));
 					return;
 				}
 
@@ -169,7 +176,8 @@ public class PaymentService implements IPaymentService {
 				insertMessage(ipnMessage);
 
 				// message is correct, process message
-				TypeStateOrder state = TypeStateOrder.fromString(ipnDTO.getPayment_status());
+				TypeStateOrder state = TypeStateOrder.fromString(ipnDTO
+						.getPayment_status());
 
 				if (isPaymentKO(ipnDTO.getPayment_status())) {
 					// inviare una mail in cui si comunica che PayPal non ha
@@ -181,7 +189,9 @@ public class PaymentService implements IPaymentService {
 							sendMailRefusedPayment(order, mailProps);
 						} catch (MailNotSendException e) {
 							// TODO Auto-generated catch block
-							log.error(String.format("errore nell'invio della mail di rifuto", order.getIdOrder()), e);
+							log.error(String.format(
+									"errore nell'invio della mail di rifuto",
+									order.getIdOrder()), e);
 						}
 					}
 				} else if (isPaymentCompleted(ipnDTO.getPayment_status())) {
@@ -190,11 +200,13 @@ public class PaymentService implements IPaymentService {
 					if (idOrder != null) {
 						orderService.updateStateOrder(idOrder, order, state);
 						try {
-							sendMailAcceptedPyamentAfterPending(order, mailProps, state);
+							sendMailAcceptedPyamentAfterPending(order,
+									mailProps, state);
 						} catch (MailNotSendException e) {
 							// TODO Auto-generated catch block
 							log.error(
-									String.format("errore nell'invio della mail di accettazione pagamento",
+									String.format(
+											"errore nell'invio della mail di accettazione pagamento",
 											order.getIdOrder()), e);
 						}
 					}
@@ -206,7 +218,8 @@ public class PaymentService implements IPaymentService {
 					// nessuna elaborazione da fare
 					log.error(String
 							.format("stato del messaggio %s, per il transactionId %s, non ammesso. Nessuna elaborazione da fare, messaggio %s",
-									ipnDTO.getPayment_status(), ipnDTO.getTxn_id(), ipnDTO.toString()));
+									ipnDTO.getPayment_status(),
+									ipnDTO.getTxn_id(), ipnDTO.toString()));
 
 				}
 
@@ -214,20 +227,26 @@ public class PaymentService implements IPaymentService {
 
 			} else {
 				// messaggio già elaborato
-				log.error(String.format("transactionId %s del messaggio %s già elaborato ", txn_id, originalRequest));
+				log.error(String.format(
+						"transactionId %s del messaggio %s già elaborato ",
+						txn_id, originalRequest));
 				return;
 			}
 
 		} catch (PayPalIpnInvalidException e) {
 			// TODO Auto-generated catch block
-			log.error("invalid nella ricezione IPN da paypal, messaggion non corretto", e);
+			log.error(
+					"invalid nella ricezione IPN da paypal, messaggion non corretto",
+					e);
 		} catch (PayPalIpnErrorException e) {
 			// TODO Auto-generated catch block
 			log.error("stringa non prevista nella ricezione IPN da paypal", e);
 			throw e;
 		} catch (PayPalException e) {
 			// TODO Auto-generated catch block
-			log.error("errore imprevisto sull'invio del messaggio IPN verso paypal", e);
+			log.error(
+					"errore imprevisto sull'invio del messaggio IPN verso paypal",
+					e);
 			throw e;
 		}
 	}
@@ -302,7 +321,8 @@ public class PaymentService implements IPaymentService {
 	}
 
 	@Override
-	public void sendMailRefusedPayment(OrderFullDTO order, MailPropertiesDTO mailProps) throws MailNotSendException {
+	public void sendMailRefusedPayment(OrderFullDTO order,
+			MailPropertiesDTO mailProps) throws MailNotSendException {
 		// TODO Auto-generated method stub
 		String content = null;
 		String mail = order.getIdUser();
@@ -313,65 +333,92 @@ public class PaymentService implements IPaymentService {
 			throw new MailNotSendException(e);
 		}
 
-		content = content.replaceAll("<COMPANY_NAME>", mailProps.getCompanyName());
-		content = content.replaceAll("<NAME>", order.getNameUser() + " " + order.getSurnameUser());
-		content = content.replaceAll("<idTransazione>", order.getIdTransaction());
-		content = content.replaceAll("<idOrder>", String.valueOf(order.getIdOrder()));
-		content = content.replaceAll("<importo>", OthalaCommonUtils.getImporto(order.getImOrdine()));
+		content = content.replaceAll("<COMPANY_NAME>",
+				mailProps.getCompanyName());
+		content = content.replaceAll("<NAME>", order.getNameUser() + " "
+				+ order.getSurnameUser());
+		content = content.replaceAll("<idTransazione>",
+				order.getIdTransaction());
+		content = content.replaceAll("<idOrder>",
+				String.valueOf(order.getIdOrder()));
+		content = content.replaceAll("<importo>",
+				OthalaCommonUtils.getImporto(order.getImOrdine()));
 
 		String subject = "Pagamento Rifiutato ";
 		subject += mailProps.getCompanyName();
 
-		mailService.inviaMail(new String[] { mail }, subject, content, mailProps);
+		mailService.inviaMail(new String[] { mail }, subject, content,
+				mailProps);
 	}
 
 	@Override
-	public void sendMailAcceptedPyamentAfterPending(OrderFullDTO order, MailPropertiesDTO mailProps,
-			TypeStateOrder state) throws MailNotSendException {
+	public void sendMailAcceptedPyamentAfterPending(OrderFullDTO order,
+			MailPropertiesDTO mailProps, TypeStateOrder state)
+			throws MailNotSendException {
 		// TODO Auto-generated method stub
 		String content = null;
 		String mail = order.getIdUser();
 		try {
-			content = Template.getContenFile(TipoTemplate.MailIPNAcceptedPaymemtAfetPending);
+			content = Template
+					.getContenFile(TipoTemplate.MailIPNAcceptedPaymemtAfetPending);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			throw new MailNotSendException(e);
 		}
 
-		content = content.replaceAll("<COMPANY_NAME>", mailProps.getCompanyName());
-		content = content.replaceAll("<NAME>", order.getNameUser() + " " + order.getSurnameUser());
-		content = content.replaceAll("<idTransazione>", order.getIdTransaction());
-		content = content.replaceAll("<idOrder>", String.valueOf(order.getIdOrder()));
-		content = content.replaceAll("<importo>", OthalaCommonUtils.getImporto(order.getImOrdine()));
+		content = content.replaceAll("<COMPANY_NAME>",
+				mailProps.getCompanyName());
+		content = content.replaceAll("<NAME>", order.getNameUser() + " "
+				+ order.getSurnameUser());
+		content = content.replaceAll("<idTransazione>",
+				order.getIdTransaction());
+		content = content.replaceAll("<idOrder>",
+				String.valueOf(order.getIdOrder()));
+		content = content.replaceAll("<importo>",
+				OthalaCommonUtils.getImporto(order.getImOrdine()));
 
 		String subject = "Pagamento Accettato ";
 		subject += mailProps.getCompanyName();
 
-		mailService.inviaMail(new String[] { mail }, subject, content, mailProps);
+		mailService.inviaMail(new String[] { mail }, subject, content,
+				mailProps);
 		// invia le mail al cliente e ai negozi sUll'avvenuta ricezione
 		// delpagamento
-		sendMailAcceptedPyament(order, mailProps, TypeStateOrder.getDescrState(state.getState()));
+		sendMailAcceptedPyament(order, mailProps,
+				TypeStateOrder.getDescrState(state.getState()));
 	}
 
 	// TODO Auto-generated method stub
 
 	@Override
-	public void sendMailRefundedPayment(OrderFullDTO order, MailPropertiesDTO mailProps) {
+	public void sendMailRefundedPayment(OrderFullDTO order,
+			MailPropertiesDTO mailProps) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void sendMailAcceptedPyament(OrderFullDTO order, MailPropertiesDTO mailDTO, String status)
+	public void sendMailAcceptedPyament(OrderFullDTO order,
+			MailPropertiesDTO mailDTO, String status)
 			throws MailNotSendException {
 		TypeStateOrder state = TypeStateOrder.fromString(status);
-		URL res = Thread.currentThread().getContextClassLoader().getResource("");
+		URL res = Thread.currentThread().getContextClassLoader()
+				.getResource("");
 		Map<String, String> inlineImages = new HashMap<String, String>();
 		String basePath = res.getPath().replace("/WEB-INF/classes", "");
 		basePath = basePath.replace("/", "");
-		String html = generateHtmlOrder(order, mailDTO, inlineImages, state, "mailConfermaOrdine", null);
+		String html = generateHtmlOrder(order, mailDTO, inlineImages, state,
+				"mailConfermaOrdine", null);
 
-		mailService.inviaHTMLMail(new String[] { order.getIdUser() }, "Conferma Ordine", html, inlineImages, mailDTO);
+		String oggetto = null;
+		if (state == TypeStateOrder.SPEDITO) {
+			oggetto = "Spedizione ordine";
+		} else {
+			oggetto = "Conferma ordine";
+		}
+
+		mailService.inviaHTMLMail(new String[] { order.getIdUser() }, oggetto,
+				html, inlineImages, mailDTO);
 
 		// invia la mai di notifica ordine ai negozi
 		List<ShopDTO> lstShop = new ArrayList<ShopDTO>();
@@ -379,9 +426,11 @@ public class PaymentService implements IPaymentService {
 		for (int i = 0; i < lstShop.size(); i++) {
 			for (ArticleFullDTO art : order.getCart()) {
 				if (art.getShop().getIdShop() == lstShop.get(i).getIdShop()) {
-					html = generateHtmlOrder(order, mailDTO, inlineImages, state, "mailInserimentoOrdine",
-							lstShop.get(i).getIdShop());
-					mailService.inviaHTMLMail(new String[] { lstShop.get(i).getTxMail() }, "Nuovo Ordine WEB", html,
+					html = generateHtmlOrder(order, mailDTO, inlineImages,
+							state, "mailInserimentoOrdine", lstShop.get(i)
+									.getIdShop());
+					mailService.inviaHTMLMail(new String[] { lstShop.get(i)
+							.getTxMail() }, "Nuovo Ordine WEB", html,
 							inlineImages, mailDTO);
 					break;
 				}
@@ -389,18 +438,21 @@ public class PaymentService implements IPaymentService {
 		}
 	}
 
-	private String generateHtmlOrder(OrderFullDTO order, MailPropertiesDTO mailDTO, Map<String, String> inlineImages,
+	private String generateHtmlOrder(OrderFullDTO order,
+			MailPropertiesDTO mailDTO, Map<String, String> inlineImages,
 			TypeStateOrder state, String xslTemplate, Integer idShop) {
 		BufferedWriter out = null;
 		FileWriter fstream = null;
 
 		try {
 
-			File xslFile = Template.getFile("it/othala/service/template/" + xslTemplate + ".xsl");
+			File xslFile = Template.getFile("it/othala/service/template/"
+					+ xslTemplate + ".xsl");
 			File xmlTemp = File.createTempFile("xmlTemp", ".xml");
 			fstream = new FileWriter(xmlTemp);
 
-			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(xmlTemp), "UTF8"));
+			out = new BufferedWriter(new OutputStreamWriter(
+					new FileOutputStream(xmlTemp), "UTF8"));
 
 			out.write("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
 			out.write("<order>");
@@ -416,16 +468,14 @@ public class PaymentService implements IPaymentService {
 			out.write("</customer>");
 
 			out.write("<number>" + order.getIdOrder() + "</number>");
-			out.write("<transaction>" + order.getIdTransaction() + "</transaction>");
+			out.write("<transaction>" + order.getIdTransaction()
+					+ "</transaction>");
 			if (state.getState() == TypeStateOrder.PENDING.getState()) {
 				out.write("<pending>true</pending>");
 			} else {
-				if (state.getState() == TypeStateOrder.SPEDITO.getState())
-				{
-				out.write("<pending>spedito</pending>");
-				}
-				else
-				{
+				if (state.getState() == TypeStateOrder.SPEDITO.getState()) {
+					out.write("<pending>spedito</pending>");
+				} else {
 					out.write("<pending>false</pending>");
 				}
 			}
@@ -434,44 +484,71 @@ public class PaymentService implements IPaymentService {
 			out.write("cid:imgPayment");
 			out.write("</imgPayment>");
 			inlineImages.put("imgPayment", mailDTO.getPathImgPayment());
-			out.write("<deliveryCost>" + order.getSpeseSpedizione().getImportoSpese() + "</deliveryCost>");
+			out.write("<deliveryCost>"
+					+ order.getSpeseSpedizione().getImportoSpese()
+					+ "</deliveryCost>");
 			out.write("<totalCost>" + order.getImOrdine() + "</totalCost>");
 
 			out.write("<billingAddress>");
-			out.write("<name>" + order.getBillingAddress().getNome() + "</name>");
-			out.write("<surname>" + order.getBillingAddress().getCognome() + "</surname>");
-			out.write("<telefono>" + order.getBillingAddress().getTel() + "</telefono>");
-			out.write("<street>" + order.getBillingAddress().getVia() + "</street>");
-			out.write("<zipCode>" + order.getBillingAddress().getCap() + "</zipCode>");
-			out.write("<city>" + order.getBillingAddress().getComune() + "</city>");
-			out.write("<prov>" + order.getBillingAddress().getProvincia() + "</prov>");
-			out.write("<country>" + order.getBillingAddress().getNazione() + "</country>");
+			out.write("<name>" + order.getBillingAddress().getNome()
+					+ "</name>");
+			out.write("<surname>" + order.getBillingAddress().getCognome()
+					+ "</surname>");
+			out.write("<telefono>" + order.getBillingAddress().getTel()
+					+ "</telefono>");
+			out.write("<street>" + order.getBillingAddress().getVia()
+					+ "</street>");
+			out.write("<zipCode>" + order.getBillingAddress().getCap()
+					+ "</zipCode>");
+			out.write("<city>" + order.getBillingAddress().getComune()
+					+ "</city>");
+			out.write("<prov>" + order.getBillingAddress().getProvincia()
+					+ "</prov>");
+			out.write("<country>" + order.getBillingAddress().getNazione()
+					+ "</country>");
 			out.write("</billingAddress>");
 			out.write("<shippingAddress>");
-			out.write("<name>" + order.getShippingAddress().getNome() + "</name>");
-			out.write("<surname>" + order.getShippingAddress().getCognome() + "</surname>");
+			out.write("<name>" + order.getShippingAddress().getNome()
+					+ "</name>");
+			out.write("<surname>" + order.getShippingAddress().getCognome()
+					+ "</surname>");
 			out.write("<tel>" + order.getShippingAddress().getTel() + "</tel>");
-			out.write("<street>" + order.getShippingAddress().getVia() + "</street>");
-			out.write("<zipCode>" + order.getShippingAddress().getCap() + "</zipCode>");
-			out.write("<city>" + order.getShippingAddress().getComune() + "</city>");
-			out.write("<prov>" + order.getShippingAddress().getProvincia() + "</prov>");
-			out.write("<country>" + order.getShippingAddress().getNazione() + "</country>");
+			out.write("<street>" + order.getShippingAddress().getVia()
+					+ "</street>");
+			out.write("<zipCode>" + order.getShippingAddress().getCap()
+					+ "</zipCode>");
+			out.write("<city>" + order.getShippingAddress().getComune()
+					+ "</city>");
+			out.write("<prov>" + order.getShippingAddress().getProvincia()
+					+ "</prov>");
+			out.write("<country>" + order.getShippingAddress().getNazione()
+					+ "</country>");
 			out.write("</shippingAddress>");
 
 			out.write("<cart>");
 			int i = 0;
 			for (ArticleFullDTO art : order.getCart()) {
-				if (art != null && idShop == null || art != null && idShop == art.getShop().getIdShop()) {
+				if (art != null && idShop == null || art != null
+						&& idShop == art.getShop().getIdShop()) {
 
 					out.write("<item>");
-					out.write("<number>" + art.getPrdFullDTO().getIdProduct() + "</number>");
+					out.write("<number>" + art.getPrdFullDTO().getIdProduct()
+							+ "</number>");
 					out.write("<img>cid:imgArt" + i + "</img>");
-					inlineImages.put("imgArt" + i, mailDTO.getBasePathThumbinalsArticle() + art.getThumbnailsUrl());
-					out.write("<brand>" + art.getPrdFullDTO().getTxBrand() + "</brand>");
-					out.write("<description>" + art.getPrdFullDTO().getDescription() + "</description>");
+					inlineImages.put(
+							"imgArt" + i,
+							mailDTO.getBasePathThumbinalsArticle()
+									+ art.getThumbnailsUrl());
+					out.write("<brand>" + art.getPrdFullDTO().getTxBrand()
+							+ "</brand>");
+					out.write("<description>"
+							+ art.getPrdFullDTO().getDescription()
+							+ "</description>");
 					out.write("<color>" + art.getTxColor() + "</color>");
 					out.write("<size>" + art.getTxSize() + "</size>");
-					out.write("<unitPrice>" + art.getPrdFullDTO().getRealPrice() + "</unitPrice>");
+					out.write("<unitPrice>"
+							+ art.getPrdFullDTO().getRealPrice()
+							+ "</unitPrice>");
 					out.write("<quantity>" + art.getQtBooked() + "</quantity>");
 					out.write("<price>" + art.getTotalPriced() + "</price>");
 					out.write("</item>");
@@ -490,15 +567,19 @@ public class PaymentService implements IPaymentService {
 			// effetto la conversione xml,xsl to html scrivo il file html
 			// temporaneo
 			TransformerFactory tFactory = TransformerFactory.newInstance();
-			Source xslSource = new javax.xml.transform.stream.StreamSource(xslFile);
-			Source xmlSource = new javax.xml.transform.stream.StreamSource(xmlTemp);
-			javax.xml.transform.stream.StreamResult result = new StreamResult(htmlTemp);
+			Source xslSource = new javax.xml.transform.stream.StreamSource(
+					xslFile);
+			Source xmlSource = new javax.xml.transform.stream.StreamSource(
+					xmlTemp);
+			javax.xml.transform.stream.StreamResult result = new StreamResult(
+					htmlTemp);
 			Transformer transformer;
 			transformer = tFactory.newTransformer(xslSource);
 			transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 			transformer.transform(xmlSource, result);
 
-			String html = IOUtils.toString(new FileInputStream(htmlTemp), "UTF-8");
+			String html = IOUtils.toString(new FileInputStream(htmlTemp),
+					"UTF-8");
 
 			return html;
 
@@ -526,8 +607,9 @@ public class PaymentService implements IPaymentService {
 	}
 
 	@Override
-	public SetExpressCheckoutDTO setExpressCheckout(OrderFullDTO order, ProfilePayPalDTO profile)
-			throws PayPalException, PayPalFailureException, OthalaException {
+	public SetExpressCheckoutDTO setExpressCheckout(OrderFullDTO order,
+			ProfilePayPalDTO profile) throws PayPalException,
+			PayPalFailureException, OthalaException {
 		// TODO Auto-generated method stub
 
 		// inserisco l'ordine
@@ -536,34 +618,42 @@ public class PaymentService implements IPaymentService {
 		// costruisco la busta per PayPal
 		OrderPayPalDTO ordPayPal = valueOf(profile, order);
 
-		SetExpressCheckoutDTO chechDTO = getWrapper(profile).setExpressCheckout(ordPayPal);
+		SetExpressCheckoutDTO chechDTO = getWrapper(profile)
+				.setExpressCheckout(ordPayPal);
 		return chechDTO;
 
 	}
 
 	@Override
-	public DoExpressCheckoutPaymentDTO doExpressCheckoutPayment(GetExpressCheckoutDetailsDTO details,
-			ProfilePayPalDTO profile, OrderFullDTO order) throws PayPalFundingFailureException, PayPalException,
-			PayPalFailureException, StockNotPresentException, PayPalPostPaymentException {
+	public DoExpressCheckoutPaymentDTO doExpressCheckoutPayment(
+			GetExpressCheckoutDetailsDTO details, ProfilePayPalDTO profile,
+			OrderFullDTO order) throws PayPalFundingFailureException,
+			PayPalException, PayPalFailureException, StockNotPresentException,
+			PayPalPostPaymentException {
 		// TODO Auto-generated method stub
 
 		// VERIFICO LA GIACENZA
 		orderService.checkQtaInStock(order.getIdOrder(), order);
 
 		// effettuo il doCheckOut, si paga...
-		DoExpressCheckoutPaymentDTO checkDTO = getWrapper(profile).doExpressCheckoutPayment(details,
-				profilePayPal.getNotifyUrl(), profilePayPal.getRedirectUrl());
+		DoExpressCheckoutPaymentDTO checkDTO = getWrapper(profile)
+				.doExpressCheckoutPayment(details,
+						profilePayPal.getNotifyUrl(),
+						profilePayPal.getRedirectUrl());
 		order.setIdTransaction(checkDTO.getPAYMENTINFO_0_TRANSACTIONID());
-		order.setIdStato(TypeStateOrder.fromString(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS()).getState());
+		order.setIdStato(TypeStateOrder.fromString(
+				checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS()).getState());
 		order.setPendingReason(checkDTO.getPAYMENTINFO_0_PENDINGREASON());
 
 		try {
 			// aggiorno l'ordine con lo stato, se completed o pending facciamo
 			// anche
 			// il decremento della qta
-			TypeStateOrder state = TypeStateOrder.fromString(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS());
+			TypeStateOrder state = TypeStateOrder.fromString(checkDTO
+					.getPAYMENTINFO_0_PAYMENTSTATUS());
 			if (isPaymentCompleted(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS())
-					|| isPaymentPending(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS())) {
+					|| isPaymentPending(checkDTO
+							.getPAYMENTINFO_0_PAYMENTSTATUS())) {
 				orderService.confirmOrderPayment(order);
 			} else {
 				orderService.updateStateOrder(order.getIdOrder(), order, state);
@@ -584,14 +674,16 @@ public class PaymentService implements IPaymentService {
 
 		} catch (Throwable e) {
 			log.error("errore PaymentService dopo il pagamento", e);
-			throw new PayPalPostPaymentException(e, order.getIdOrder(), "errore nel docheckout dopo il pagamento");
+			throw new PayPalPostPaymentException(e, order.getIdOrder(),
+					"errore nel docheckout dopo il pagamento");
 		}
 		return checkDTO;
 	}
 
 	@Override
-	public GetExpressCheckoutDetailsDTO getExpressCheckoutDetails(String token, ProfilePayPalDTO profile)
-			throws PayPalException, PayPalFailureException {
+	public GetExpressCheckoutDetailsDTO getExpressCheckoutDetails(String token,
+			ProfilePayPalDTO profile) throws PayPalException,
+			PayPalFailureException {
 		// TODO Auto-generated method stub
 		return getWrapper(profile).getExpressCheckoutDetails(token);
 	}
@@ -599,9 +691,11 @@ public class PaymentService implements IPaymentService {
 	private PayPalWrapper getWrapper(ProfilePayPalDTO profile) {
 		if (wrapper == null) {
 			this.profilePayPal = profile;
-			Profile prof = new BaseProfile.Builder(profile.getUserName(), profile.getPassword()).signature(
-					profile.getSignature()).build();
-			Environment env = PayPalWrapper.getEnvironment(profile.getEnvironment());
+			Profile prof = new BaseProfile.Builder(profile.getUserName(),
+					profile.getPassword()).signature(profile.getSignature())
+					.build();
+			Environment env = PayPalWrapper.getEnvironment(profile
+					.getEnvironment());
 			wrapper = new PayPalWrapper(env, prof);
 
 		}
