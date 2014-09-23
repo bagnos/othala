@@ -117,7 +117,10 @@ public class RichiediResoView extends BaseView {
 
 	public void richiediReso(ActionEvent e) {
 		try {
+			
+			
 			RefoundFullDTO ref = new RefoundFullDTO();
+			artToRefund.clear();
 
 			imRefunded = BigDecimal.ZERO;
 			for (ArticleFullDTO art : myAccountBean.getOrderSelected().getCart()) {
