@@ -420,7 +420,14 @@ public class PaymentService implements IPaymentService {
 			if (state.getState() == TypeStateOrder.PENDING.getState()) {
 				out.write("<pending>true</pending>");
 			} else {
-				out.write("<pending>false</pending>");
+				if (state.getState() == TypeStateOrder.SPEDITO.getState())
+				{
+				out.write("<pending>spedito</pending>");
+				}
+				else
+				{
+					out.write("<pending>false</pending>");
+				}
 			}
 
 			out.write("<imgPayment>");
