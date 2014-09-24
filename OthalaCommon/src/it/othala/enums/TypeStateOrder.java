@@ -33,7 +33,32 @@ public enum TypeStateOrder {
 		public String toString() {
 			return "ANNULLATO DA MERCHANT";
 		}
-	};
+	},
+	REQUEST_REFOUND(100)
+	{
+		@Override
+		public String toString() {
+			return "RICHIESTO RESO";
+		}
+		
+	},
+	REFOUND_COMPLETED(101)
+	{
+		@Override
+		public String toString() {
+			return "EFFETTUATO RESO";
+		}
+		
+	},
+	REFOUND_REFUSED(102)
+	{
+		@Override
+		public String toString() {
+			return "RESO RIFIUTATO";
+		}
+		
+	}
+	;
 
 	private int stato;
 
