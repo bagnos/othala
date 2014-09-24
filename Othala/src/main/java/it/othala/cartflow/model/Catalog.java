@@ -1,6 +1,6 @@
 package it.othala.cartflow.model;
 
-import it.othala.dto.ProductDTO;
+import it.othala.dto.ProductFullNewDTO;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -25,8 +25,8 @@ public class Catalog implements Serializable {
 	private Integer priceMin = 1;
 	private Integer priceMax = 5000;
 	private int orderPrice;
-	private List<ProductDTO> articles;
-	private List<ProductDTO> articlesPage;
+	private List<ProductFullNewDTO> articles;
+	private List<ProductFullNewDTO> articlesPage;
 	private boolean includePromo;
 	private Integer idCampaign;
 	private boolean disabledNewCampaign;
@@ -55,14 +55,14 @@ public class Catalog implements Serializable {
 		this.includePromo = includePromo;
 	}
 
-	public List<ProductDTO> getArticles() {
+	public List<ProductFullNewDTO> getArticles() {
 		if (articles == null) {
 			articles = new ArrayList<>();
 		}
 		return articles;
 	}
 
-	public List<ProductDTO> getArticlesPage() {
+	public List<ProductFullNewDTO> getArticlesPage() {
 		if (articlesPage == null) {
 			articlesPage = new ArrayList<>();
 		}

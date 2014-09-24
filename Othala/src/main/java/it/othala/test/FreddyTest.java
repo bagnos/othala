@@ -2,7 +2,7 @@ package it.othala.test;
 
 import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.DescriptionDTO;
-import it.othala.dto.ProductFullDTO;
+import it.othala.dto.ProductFullNewDTO;
 import it.othala.dto.ShopDTO;
 import it.othala.service.factory.OthalaFactory;
 
@@ -43,7 +43,7 @@ public class FreddyTest {
 			Integer colore1 = 11;
 			Integer colore2 = 11;
 
-			ProductFullDTO a = new ProductFullDTO();
+			ProductFullNewDTO a = new ProductFullNewDTO();
 
 			a.setPrice(prezzo);
 			a.setDiscount(sconto);

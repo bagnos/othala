@@ -1,10 +1,8 @@
 package it.othala.cartflow.view;
 
-import it.othala.cartflow.converter.BigDecimalConverter;
 import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.ProductCarouselDTO;
-import it.othala.dto.ProductDTO;
-import it.othala.dto.ProductFullDTO;
+import it.othala.dto.ProductFullNewDTO;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 import it.othala.web.utils.OthalaUtil;
@@ -27,7 +25,7 @@ public class CartChoice2View extends BaseView {
 
 	private List<SelectItem> sizeItems;
 	private List<SelectItem> colorItems;
-	private ProductFullDTO prdFull;
+	private ProductFullNewDTO prdFull;
 	private Integer idSize;
 	private Integer idColor;
 	private Integer qtaArticle;
@@ -115,7 +113,7 @@ public class CartChoice2View extends BaseView {
 				return null;
 			}
 			
-			for (ProductDTO p : getCartFlowBean().getCatalog().getArticlesPage()) {
+			for (ProductFullNewDTO p : getCartFlowBean().getCatalog().getArticlesPage()) {
 				if (p.getIdProduct().intValue() == idProduct.intValue()) {
 					getCartFlowBean().setDetailProduct(p);
 					break;

@@ -2,9 +2,8 @@ package it.othala.merchant.view;
 
 import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.AttributeDTO;
-import it.othala.dto.DescriptionDTO;
 import it.othala.dto.DomainDTO;
-import it.othala.dto.ProductFullDTO;
+import it.othala.dto.ProductFullNewDTO;
 import it.othala.dto.ShopDTO;
 import it.othala.merchant.model.MerchantBean;
 import it.othala.service.factory.OthalaFactory;
@@ -49,7 +48,7 @@ public class InsertProdottiView extends BaseView {
 	private BigDecimal prezzoScontato;
 	private List<String> imagesFile = new ArrayList<>();
 	private List<String> imagesGuidFile = new ArrayList<>();
-	
+
 	private String descrizione;
 	private String descrizioneEN;
 	private AttributeDTO size;
@@ -69,14 +68,14 @@ public class InsertProdottiView extends BaseView {
 	private String newMaterialEN;
 	private String newType;
 	private boolean pubblica;
-	
+
 	private Boolean fgRead;
 	private Boolean fgMod;
-	private static DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-	private String separatorDateFormat="&";
+	private static DateFormat dateFormat = new SimpleDateFormat(
+			"yyyyMMddHHmmssSSS");
+	private String separatorDateFormat = "&";
 	private Boolean detail;
-	private ProductFullDTO prdDetail =null;
-	
+	private ProductFullNewDTO prdDetail = null;
 
 	public Boolean getDetail() {
 		return detail;
@@ -96,7 +95,6 @@ public class InsertProdottiView extends BaseView {
 	public List<String> getImagesGuidFile() {
 		return imagesGuidFile;
 	}
-
 
 	public void setMerchantBean(MerchantBean merchantBean) {
 		this.merchantBean = merchantBean;
@@ -120,8 +118,6 @@ public class InsertProdottiView extends BaseView {
 	public void setFgMod(Boolean fgMod) {
 		this.fgMod = fgMod;
 	}
-
-	
 
 	public boolean isPubblica() {
 		return pubblica;
@@ -250,7 +246,7 @@ public class InsertProdottiView extends BaseView {
 	public void setDescrizioneEN(String descrizioneEN) {
 		this.descrizioneEN = descrizioneEN;
 	}
-	
+
 	public BigDecimal getPrezzo() {
 		return prezzo;
 	}
@@ -258,7 +254,7 @@ public class InsertProdottiView extends BaseView {
 	public void setPrezzo(BigDecimal prezzo) {
 		this.prezzo = prezzo;
 	}
-	
+
 	public BigDecimal getPrezzoSpeciale() {
 		return prezzoSpeciale;
 	}
@@ -323,7 +319,7 @@ public class InsertProdottiView extends BaseView {
 	public String doInit() {
 		// TODO Auto-generated method stub
 		DomainDTO dom = getBeanApplication().getDomain();
-		shop=getBeanApplication().getShopsDTO().get(0);
+		shop = getBeanApplication().getShopsDTO().get(0);
 		pubblica = true;
 		if (detail != null && detail) {
 			initProdotto();
@@ -339,11 +335,11 @@ public class InsertProdottiView extends BaseView {
 				return;
 			}
 
-			ProductFullDTO prd = new ProductFullDTO();
+			ProductFullNewDTO prd = new ProductFullNewDTO();
 			prd.setArticles(articles);
 			prd.setDescription(descrizione);
 			prd.setDescriptionEN(descrizioneEN);
-						
+
 			prd.setDiscount(sconto);
 			prd.setIdBrand(brand.getAttributo());
 			prd.setIdGender(genere.getAttributo());
@@ -356,8 +352,9 @@ public class InsertProdottiView extends BaseView {
 			prd.setThumbnailsUrl(fileThumb);
 			prd.setPriceDiscounted(prezzoScontato);
 
-			if (fgMod==null || fgMod == false) {
-				OthalaFactory.getProductServiceInstance().insertProduct(prd, pubblica);
+			if (fgMod == null || fgMod == false) {
+				OthalaFactory.getProductServiceInstance().insertProduct(prd,
+						pubblica);
 				resetPrd();
 				getBeanApplication().resetMenu();
 				addInfo("Prodotto", "inserimento effettuato correttamente");
@@ -367,9 +364,9 @@ public class InsertProdottiView extends BaseView {
 				merchantBean.findProduct();
 				addInfo("Prodotto", "modifica effettuata correttamente");
 			}
-			
+
 			resetPrd();
- 
+
 		} catch (Exception ex) {
 			addGenericError(ex, "errore nell'inserimento del prodotto");
 		}
@@ -377,11 +374,13 @@ public class InsertProdottiView extends BaseView {
 	}
 
 	private void initProdotto() {
-		prdDetail = OthalaFactory.getProductServiceInstance().getProductFull(getLang(), merchantBean.getSelectedProducts().get(0).getIdProduct());
+		prdDetail = OthalaFactory.getProductServiceInstance().getProductFull(
+				getLang(),
+				merchantBean.getSelectedProducts().get(0).getIdProduct());
 		articles = prdDetail.getArticles();
 		descrizione = prdDetail.getDescription();
 		descrizioneEN = prdDetail.getDescriptionEN();
-		imagesFile = prdDetail.getImagesUrl();		
+		imagesFile = prdDetail.getImagesUrl();
 		prezzo = prdDetail.getPrice();
 		prezzoScontato = prdDetail.getPriceDiscounted();
 		fileThumb = prdDetail.getThumbnailsUrl();
@@ -394,7 +393,7 @@ public class InsertProdottiView extends BaseView {
 		material = new AttributeDTO();
 		material.setAttributo(prdDetail.getIdMaterial());
 		material.setValore(prdDetail.getTxMaterial());
-		
+
 		genere = new AttributeDTO();
 		genere.setAttributo(prdDetail.getIdGender());
 		genere.setValore(prdDetail.getTxGender());
@@ -418,7 +417,7 @@ public class InsertProdottiView extends BaseView {
 		brand = null;
 		material = null;
 		size = null;
-		shop=getBeanApplication().getShopsDTO().get(0);
+		shop = getBeanApplication().getShopsDTO().get(0);
 		fileThumb = null;
 		descrizione = null;
 		descrizioneEN = null;
@@ -443,18 +442,15 @@ public class InsertProdottiView extends BaseView {
 		art.setQtStock(qta);
 		art.setIdColor(color.getAttributo());
 		art.setTxColor(color.getValore());
-		if (articles.size() == 0)
-		{
+		if (articles.size() == 0) {
 			art.setPgArticle(1);
-		}
-		else
-		{
-		art.setPgArticle(articles.get(articles.size() - 1).getPgArticle() + 1);
+		} else {
+			art.setPgArticle(articles.get(articles.size() - 1).getPgArticle() + 1);
 		}
 		art.setTxBarCode(merchantCode);
 		articles.add(art);
-		
-		shop=getBeanApplication().getShopsDTO().get(0);
+
+		shop = getBeanApplication().getShopsDTO().get(0);
 	}
 
 	public List<AttributeDTO> completeTaglia(String query) {
@@ -480,7 +476,7 @@ public class InsertProdottiView extends BaseView {
 		return getAutoUtils().completeMaterial(query);
 
 	}
-	
+
 	public List<ShopDTO> completeShops(String query) {
 		return getAutoUtils().completeShops(query);
 	}
@@ -505,20 +501,21 @@ public class InsertProdottiView extends BaseView {
 	}
 
 	public void removeImgPrd(ActionEvent e) {
-		ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
+		ExternalContext extContext = FacesContext.getCurrentInstance()
+				.getExternalContext();
 		String fileName = (String) e.getComponent().getAttributes().get("img");
 		File file = new File(extContext.getRealPath(BASE_IMG_PATH + fileName));
-		String baseName=fileName.split(separatorDateFormat)[1];
+		String baseName = fileName.split(separatorDateFormat)[1];
 		imagesFile.remove(baseName);
 		imagesGuidFile.remove(fileName);
 
-		if (fileThumb.contains(fileName)) {			
+		if (fileThumb.contains(fileName)) {
 			fileThumb = null;
 		}
 		ResizeImageUtil.deleteImageThumb(fileName);
 		file.delete();
 
-	} 
+	}
 
 	public void handleFileUpload(FileUploadEvent event) {
 		UploadedFile file = event.getFile();
@@ -539,11 +536,11 @@ public class InsertProdottiView extends BaseView {
 				}
 
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				log.error("errore upload", e);
 				addError("Upload", file.getFileName() + " errore nell'upload");
 			}
-			addInfo("Upload", file.getFileName() + " è stata caricata correttamente");
+			addInfo("Upload", file.getFileName()
+					+ " è stata caricata correttamente");
 			imagesFile.add(file.getFileName());
 			imagesGuidFile.add(fileResized);
 
@@ -558,7 +555,6 @@ public class InsertProdottiView extends BaseView {
 	}
 
 	private String copyFile(UploadedFile file) throws IOException {
-		
 
 		// File result = new File(extContext.getRealPath(BASE_IMG_PATH +
 		// file.getFileName()));
@@ -568,10 +564,12 @@ public class InsertProdottiView extends BaseView {
 
 		// IOUtils.copy(inputStream, fileOutputStream);
 		Date date = new Date();
-		
 
-		String fileResized = ResizeImageUtil.resizeAndCopyImage(inputStream,BASE_IMG_PATH,
-				dateFormat.format(date)+separatorDateFormat+file.getFileName().replaceAll(separatorDateFormat, ""));
+		String fileResized = ResizeImageUtil.resizeAndCopyImage(inputStream,
+				BASE_IMG_PATH, dateFormat.format(date)
+						+ separatorDateFormat
+						+ file.getFileName()
+								.replaceAll(separatorDateFormat, ""));
 
 		return fileResized;
 
@@ -579,9 +577,8 @@ public class InsertProdottiView extends BaseView {
 
 	private void resizeThumb() {
 		try {
-			fileThumb=ResizeImageUtil.resizeImageThumb(fileThumb);
+			fileThumb = ResizeImageUtil.resizeImageThumb(fileThumb);
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			addGenericError(e1, "Errore nel resize dell'immagine thumb");
 		}
 	}
@@ -592,9 +589,10 @@ public class InsertProdottiView extends BaseView {
 			return;
 		}
 		try {
-			OthalaFactory.getProductServiceInstance().insertBrand(getLang(), newBrand);
-			getBeanApplication().resetDomain();			
-			brand=completeBrand(newBrand).get(0);
+			OthalaFactory.getProductServiceInstance().insertBrand(getLang(),
+					newBrand);
+			getBeanApplication().resetDomain();
+			brand = completeBrand(newBrand).get(0);
 			addInfo("Nuovo Brand", "brand inserito correttamente");
 
 		} catch (Exception ex) {
@@ -603,14 +601,16 @@ public class InsertProdottiView extends BaseView {
 	}
 
 	public void addNewColor(ActionEvent e) {
-		if (newColor == null || newColor.isEmpty() || newColorEN == null || newColorEN.isEmpty()) {
+		if (newColor == null || newColor.isEmpty() || newColorEN == null
+				|| newColorEN.isEmpty()) {
 			addError("Nuovo colore", "inserire il colore");
 			return;
 		}
 		try {
-			OthalaFactory.getProductServiceInstance().insertColor(getLang(), newColor, newColorEN);
-			getBeanApplication().resetDomain();			
-			color=completeColours(newColor).get(0);
+			OthalaFactory.getProductServiceInstance().insertColor(getLang(),
+					newColor, newColorEN);
+			getBeanApplication().resetDomain();
+			color = completeColours(newColor).get(0);
 			addInfo("Nuovo Colore", "colore inserito correttamente");
 
 		} catch (Exception ex) {
@@ -619,28 +619,31 @@ public class InsertProdottiView extends BaseView {
 	}
 
 	public void addNewMaterial(ActionEvent e) {
-		if (newMaterial == null || newMaterial.isEmpty() || newMaterialEN == null || newMaterialEN.isEmpty()) {
+		if (newMaterial == null || newMaterial.isEmpty()
+				|| newMaterialEN == null || newMaterialEN.isEmpty()) {
 			addError("Nuovo materiale", "inserire il materiale");
 			return;
 		}
 		try {
-			OthalaFactory.getProductServiceInstance().insertMaterial(getLang(), newMaterial, newMaterialEN);
-			getBeanApplication().resetDomain();			
-			material=completeColours(newMaterial).get(0);
+			OthalaFactory.getProductServiceInstance().insertMaterial(getLang(),
+					newMaterial, newMaterialEN);
+			getBeanApplication().resetDomain();
+			material = completeColours(newMaterial).get(0);
 			addInfo("Nuovo Materiale", "materiale inserito correttamente");
 
 		} catch (Exception ex) {
 			addGenericError(ex, "errore nell'inserimento del materiale");
 		}
 	}
-	
+
 	public void addNewType(ActionEvent e) {
 		if (newType == null || newType.isEmpty()) {
 			addError("Nuovo tipo", "inserire il tipo");
 			return;
 		}
 		try {
-			OthalaFactory.getProductServiceInstance().insertType(getLang(), newType);
+			OthalaFactory.getProductServiceInstance().insertType(getLang(),
+					newType);
 			getBeanApplication().resetDomain();
 			addInfo("Nuovo tipo", "tipo inserito correttamente");
 

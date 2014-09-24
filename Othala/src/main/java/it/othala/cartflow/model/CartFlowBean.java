@@ -5,8 +5,7 @@ import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryCostDTO;
 import it.othala.dto.NazioniDTO;
 import it.othala.dto.ProductCarouselDTO;
-import it.othala.dto.ProductDTO;
-import it.othala.dto.ProductFullDTO;
+import it.othala.dto.ProductFullNewDTO;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -29,9 +28,9 @@ public class CartFlowBean implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private ProductDTO detailProduct;
+	private ProductFullNewDTO detailProduct;
 	private List<String> breadCrumb = new ArrayList<>();
-	private ProductFullDTO detailProductFull;
+	private ProductFullNewDTO detailProductFull;
 	private DeliveryAddressDTO addressFat;
 	private DeliveryAddressDTO addressSpe;
 	private ArticleFullDTO articleSel;
@@ -45,13 +44,12 @@ public class CartFlowBean implements Serializable {
 	private int idTypeDelivery;
 
 	private List<ProductCarouselDTO> carouselList;
-	private List <NazioniDTO> nazioni;
-	
+	private List<NazioniDTO> nazioni;
+
 	public void setCatalog(Catalog catalog) {
 		this.catalog = catalog;
 	}
-	
-	
+
 	public int getIdTypeDelivery() {
 		return idTypeDelivery;
 	}
@@ -61,15 +59,13 @@ public class CartFlowBean implements Serializable {
 	}
 
 	public BigDecimal getTotalItemOrder() {
-		totalItemOrder=BigDecimal.ZERO;
-		if (cart!=null)
-		{
-			for (ArticleFullDTO art:cart)
-			{
-				totalItemOrder=totalItemOrder.add(art.getTotalPriced());
+		totalItemOrder = BigDecimal.ZERO;
+		if (cart != null) {
+			for (ArticleFullDTO art : cart) {
+				totalItemOrder = totalItemOrder.add(art.getTotalPriced());
 			}
 		}
-		
+
 		return totalItemOrder;
 	}
 
@@ -89,23 +85,21 @@ public class CartFlowBean implements Serializable {
 		this.addressSpe = addressSpe;
 	}
 
-	public void deleteArticol(ActionEvent e)
-	{
-		ArticleFullDTO art=(ArticleFullDTO) e.getComponent().getAttributes().get("art");
+	public void deleteArticol(ActionEvent e) {
+		ArticleFullDTO art = (ArticleFullDTO) e.getComponent().getAttributes()
+				.get("art");
 		getCart().remove(art);
-		
+
 	}
-	
+
 	public BigDecimal getTotalPriceOrder() {
-		totalPriceOrder=BigDecimal.ZERO;
-		
-		if (deliveryCost!=null)
-		{
-			totalPriceOrder=getTotalItemOrder().add(deliveryCost.getImportoSpese());
-		}
-		else
-		{
-			totalPriceOrder=getTotalItemOrder();
+		totalPriceOrder = BigDecimal.ZERO;
+
+		if (deliveryCost != null) {
+			totalPriceOrder = getTotalItemOrder().add(
+					deliveryCost.getImportoSpese());
+		} else {
+			totalPriceOrder = getTotalItemOrder();
 		}
 		return totalPriceOrder.setScale(2, RoundingMode.HALF_UP);
 	}
@@ -162,11 +156,11 @@ public class CartFlowBean implements Serializable {
 		this.articleSel = articleSel;
 	}
 
-	public ProductFullDTO getDetailProductFull() {
+	public ProductFullNewDTO getDetailProductFull() {
 		return detailProductFull;
 	}
 
-	public void setDetailProductFull(ProductFullDTO detailProductFull) {
+	public void setDetailProductFull(ProductFullNewDTO detailProductFull) {
 		this.detailProductFull = detailProductFull;
 	}
 
@@ -174,11 +168,11 @@ public class CartFlowBean implements Serializable {
 		return breadCrumb;
 	}
 
-	public ProductDTO getDetailProduct() {
+	public ProductFullNewDTO getDetailProduct() {
 		return detailProduct;
 	}
 
-	public void setDetailProduct(ProductDTO detailProduct) {
+	public void setDetailProduct(ProductFullNewDTO detailProduct) {
 		this.detailProduct = detailProduct;
 	}
 
@@ -190,17 +184,12 @@ public class CartFlowBean implements Serializable {
 		this.carouselList = carouselList;
 	}
 
-
-
-	public List <NazioniDTO> getNazioni() {
+	public List<NazioniDTO> getNazioni() {
 		return nazioni;
 	}
 
-
-	public void setNazioni(List <NazioniDTO> nazioni) {
+	public void setNazioni(List<NazioniDTO> nazioni) {
 		this.nazioni = nazioni;
 	}
-
-
 
 }

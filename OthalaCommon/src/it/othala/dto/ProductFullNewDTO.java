@@ -3,9 +3,13 @@ package it.othala.dto;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
-public class ProductFullDTO implements Serializable {
+import org.springframework.util.StringUtils;
+
+public class ProductFullNewDTO implements Serializable {
 
 	/**
 	 * 
@@ -17,8 +21,10 @@ public class ProductFullDTO implements Serializable {
 	private Integer discount;
 	private BigDecimal priceDiscounted;
 	private BigDecimal specialPrice;
+
 	private String description;
 	private String descriptionEN;
+
 	private String thumbnailsUrl;
 
 	private Integer idGender;
@@ -30,26 +36,16 @@ public class ProductFullDTO implements Serializable {
 	private Integer idBrand;
 	private String txBrand;
 	
+
 	private BigDecimal realPrice;
 	private BigDecimal imRisparmio;
+
 	private String merchantCode;
-	
+
 	private Integer idCampaign;
-	
+
 	private Integer idMaterial;
 	private String txMaterial;
-	
-	public String getMerchantCode() {
-		if (merchantCode==null && idProduct!=null)
-		{
-			return idProduct.toString();
-		}
-		return merchantCode;
-	}
-
-	public void setMerchantCode(String merchantCode) {
-		this.merchantCode = merchantCode;
-	}
 
 	private List<DescriptionDTO> langDescription;
 
@@ -58,22 +54,74 @@ public class ProductFullDTO implements Serializable {
 	private List<ArticleFullDTO> articles;
 
 	private Boolean fgNewArrivals;
+
+	private List<String> size = new ArrayList<>();
+	private List<String> color = new ArrayList<>();
 	
+	
+	private List<String> listTxBarcode; 
+
+	private Integer idProductState;
+	private String txProductState;
+	
+	private List <ShopDTO> listShop; 
+	
+
+	private Date dtProductstate; 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	public String getColorsAsString() {
+		return StringUtils.collectionToCommaDelimitedString(color);
+	}
+
+	public String getSizesAsString() {
+		return StringUtils.collectionToCommaDelimitedString(size);
+	}
+
+	public void setSize(List<String> size) {
+		this.size = size;
+	}
+
+	public List<String> getColor() {
+		return color;
+	}
+
+	public List<String> getSize() {
+		return size;
+	}
+
+	public void setColor(List<String> color) {
+		this.color = color;
+	}
 
 	public Integer getIdProduct() {
 		return idProduct;
 	}
-	
+
 	public BigDecimal getRealPrice() {
-		realPrice=priceDiscounted!=null?priceDiscounted:price;
-		realPrice=realPrice.setScale(2, RoundingMode.HALF_UP);
+		realPrice = priceDiscounted != null ? priceDiscounted : price;
+		realPrice = realPrice.setScale(2, RoundingMode.HALF_UP);
 		return realPrice;
 	}
-	
+
 	public BigDecimal getImRisparmio() {
-		
-		imRisparmio= price.subtract(priceDiscounted);
-		imRisparmio=imRisparmio.setScale(2, RoundingMode.HALF_UP);
+
+		imRisparmio = price.subtract(priceDiscounted);
+		imRisparmio = imRisparmio.setScale(2, RoundingMode.HALF_UP);
 		return imRisparmio;
 	}
 
@@ -121,7 +169,6 @@ public class ProductFullDTO implements Serializable {
 		this.idGender = idGender;
 	}
 
-	
 	public String getTxGender() {
 		return txGender;
 	}
@@ -137,8 +184,6 @@ public class ProductFullDTO implements Serializable {
 	public void setIdType(Integer idType) {
 		this.idType = idType;
 	}
-
-	
 
 	public String getTxType() {
 		return txType;
@@ -156,7 +201,6 @@ public class ProductFullDTO implements Serializable {
 		this.idBrand = idBrand;
 	}
 
-	
 	public String getTxBrand() {
 		return txBrand;
 	}
@@ -164,7 +208,6 @@ public class ProductFullDTO implements Serializable {
 	public void setTxBrand(String txBrand) {
 		this.txBrand = txBrand;
 	}
-
 
 	public List<ArticleFullDTO> getArticles() {
 		return articles;
@@ -182,8 +225,6 @@ public class ProductFullDTO implements Serializable {
 		this.fgNewArrivals = fgNewArrivals;
 	}
 
-	
-
 	public String getThumbnailsUrl() {
 		return thumbnailsUrl;
 	}
@@ -191,8 +232,6 @@ public class ProductFullDTO implements Serializable {
 	public void setThumbnailsUrl(String thumbnailsUrl) {
 		this.thumbnailsUrl = thumbnailsUrl;
 	}
-
-
 
 	public List<String> getImagesUrl() {
 		return imagesUrl;
@@ -250,6 +289,56 @@ public class ProductFullDTO implements Serializable {
 		this.specialPrice = specialPrice;
 	}
 
+	public String getMerchantCode() {
+		if (merchantCode == null && idProduct != null) {
+			return idProduct.toString();
+		}
+		return merchantCode;
+	}
+
+	public void setMerchantCode(String merchantCode) {
+		this.merchantCode = merchantCode;
+	}
+	
+	public List<String> getListTxBarcode() {
+		return listTxBarcode;
+	}
+
+	public void setListTxBarcode(List<String> listTxBarcode) {
+		this.listTxBarcode = listTxBarcode;
+	}
+
+	public Integer getIdProductState() {
+		return idProductState;
+	}
+
+	public void setIdProductState(Integer idProductState) {
+		this.idProductState = idProductState;
+	}
+
+	public String getTxProductState() {
+		return txProductState;
+	}
+
+	public void setTxProductState(String txProductState) {
+		this.txProductState = txProductState;
+	}
+
+	public List<ShopDTO> getListShop() {
+		return listShop;
+	}
+
+	public void setListShop(List<ShopDTO> listShop) {
+		this.listShop = listShop;
+	}
+
+	public Date getDtProductstate() {
+		return dtProductstate;
+	}
+
+	public void setDtProductstate(Date dtProductstate) {
+		this.dtProductstate = dtProductstate;
+	}
 
 
 }
