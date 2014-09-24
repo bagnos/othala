@@ -178,7 +178,7 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO  {
 			String idUser, Integer idStato, String idTransaction) {
 		
 		HashMap<String, Object> mapRefound = new HashMap<>();
-		if (idRefound != null && idOrder > 0)
+		if (idRefound != null && idRefound > 0)
 			mapRefound.put("idRefound", idRefound);
 		if (idOrder != null && idOrder > 0)
 			mapRefound.put("idOrder", idOrder);
