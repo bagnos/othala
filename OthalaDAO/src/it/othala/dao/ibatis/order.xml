@@ -341,7 +341,7 @@
 		${database.schema}states_refound
 		(`idRefound`,`idStato`,`txNote`)
 		VALUES
-		(#{idOrder},100,#{txNote});
+		(#{idRefound},100,#{txNote});
 
 	</insert>
 
