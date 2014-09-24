@@ -45,8 +45,10 @@
 												<tr>
 													<th class="col-sm-1"></th>
 													<th class="col-sm-2">#{msg.account_nrReturn}</th>
+													<th class="col-sm-2">#{msg.account_nrOrder}</th>
 													<th class="col-sm-2">#{msg.account_imOrder}</th>
 													<th class="col-sm-2">#{msg.account_nrArticles}</th>
+													<th class="col-sm-2">#{msg.account_stato}</th>
 													<th class="col-sm-2">#{msg.account_dtIns}</th>
 
 
@@ -66,6 +68,7 @@
 
 
 														<td><h:outputText value="#{refund.idRefound}" /></td>
+														<td><h:outputText value="#{refund.idOrder}" /></td>
 														<td><h:outputText value="#{refund.imRefound}">
 																<f:converter converterId="it.othala.BigDecimalConverter" />
 															</h:outputText></td>
@@ -76,6 +79,9 @@
 
 														<td><h:outputText value="#{refund.txStato}">
 
+															</h:outputText></td>
+														<td><h:outputText value="#{refund.dtStato}">
+																<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
 															</h:outputText></td>
 
 
@@ -105,49 +111,16 @@
 						<div class="row spacer10">
 							<div class="col-sm-6">
 								<h5>
-									<strong>#{msg.catalogo_nrDetailOrder} <h:outputText
+									<strong>#{msg.account_detailReturn} <h:outputText
 											value="#{richiediResoView.refundSelected.idRefound}" /></strong>
 								</h5>
 							</div>
 						</div>
 
 
-						<div class="row spacer10">
-							<!-- INDIRIZZO SPEDIZIONE -->
-							<div class="col-sm-6 ">
-								<h5>
-									<strong><h:outputText value="#{msg.delivery_deliveryAddress}" /></strong>
-								</h5>
-
-								<div class="row spacer10">
-									<div class="col-sm-12">
-										<address>
-											#{richiediResoView.refundSelected.shippingAddress.nome}
-											#{richiediResoView.refundSelected.shippingAddress.cognome} <br />
-											#{richiediResoView.refundSelected.shippingAddress.via} <br />
-											#{richiediResoView.refundSelected.shippingAddress.cap}
-											#{richiediResoView.order.shippingAddress.comune}
-											#{richiediResoView.refundSelected.shippingAddress.provincia}<br />
-											#{richiediResoView.refundSelected.shippingAddress.nazione}<br /> <span
-												class="glyphicon glyphicon-earphone"></span>
-											#{richiediResoView.refundSelected.shippingAddress.tel}
-										</address>
-									</div>
-								</div>
-							</div>
 
 
-						</div>
 
-
-						<!-- CARRELLO -->
-						<div class="row">
-							<div class="col-sm-2">
-								<h5>
-									<strong>#{msg.catalogo_cart}</strong>
-								</h5>
-							</div>
-						</div>
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="table-responsive">
