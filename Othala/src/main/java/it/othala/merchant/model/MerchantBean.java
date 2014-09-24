@@ -46,6 +46,7 @@ public class MerchantBean implements Serializable {
 	private List<OrderFullDTO> ordersCompleted=null;
 	private List<OrderFullDTO> ordersPending=null;
 	
+	
 	/* dato per carca ordine*/
 	private String user;
 	private Integer idOrdine ;
@@ -55,8 +56,15 @@ public class MerchantBean implements Serializable {
 	private AttributeDTO stateProduct;
 	
 	private List<RefoundFullDTO> refoundRequest=null;
+	
 	private RefoundFullDTO refoundSelected=null;
 	
+
+	public void setRefoundRequest(List<RefoundFullDTO> refoundRequest) {
+		this.refoundRequest = refoundRequest;
+	}
+
+
 
 	
 	public RefoundFullDTO getRefoundSelected() {
