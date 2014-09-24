@@ -1,7 +1,7 @@
 package it.othala.cartflow.view;
 
 import it.othala.dto.MenuDTO;
-import it.othala.dto.ProductDTO;
+import it.othala.dto.ProductFullNewDTO;
 import it.othala.dto.SubMenuDTO;
 import it.othala.enums.OrderByCartFlow;
 import it.othala.service.factory.OthalaFactory;
@@ -136,7 +136,7 @@ public class CartFlowView1 extends BaseView {
 
 	}
 
-	public String detailProduct(ProductDTO p) {
+	public String detailProduct(ProductFullNewDTO p) {
 
 		return "cart-choice-2";
 

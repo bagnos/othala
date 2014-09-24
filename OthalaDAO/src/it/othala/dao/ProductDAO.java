@@ -8,9 +8,7 @@ import it.othala.dto.CampaignDTO;
 import it.othala.dto.DescriptionDTO;
 import it.othala.dto.MenuDTO;
 import it.othala.dto.NazioniDTO;
-import it.othala.dto.ProductDTO;
-import it.othala.dto.ProductFindDTO;
-import it.othala.dto.ProductFullDTO;
+import it.othala.dto.ProductFullNewDTO;
 import it.othala.dto.ShopDTO;
 import it.othala.dto.SubMenuDTO;
 import it.othala.enums.OrderByCartFlow;
@@ -52,7 +50,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	}
 
 	@Override
-	public List<ProductDTO> listProduct(String languages, Integer type,
+	public List<ProductFullNewDTO> listProduct(String languages, Integer type,
 			Integer gender, Integer brand, BigDecimal minPrice,
 			BigDecimal maxPrice, Integer size, Integer color,
 			Boolean newArrivals, OrderByCartFlow order, Integer idCampaign,
@@ -79,7 +77,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		}
 
 		// recupero prodotti
-		List<ProductDTO> listProduct = getSqlSession().selectList(
+		List<ProductFullNewDTO> listProduct = getSqlSession().selectList(
 				"it.othala.product.queries.listProduct", mapProduct);
 
 		return listProduct;
@@ -203,13 +201,13 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	}
 
 	@Override
-	public ProductFullDTO getProductFull(String languages, Integer idProduct) {
+	public ProductFullNewDTO getProductFull(String languages, Integer idProduct) {
 
 		HashMap<String, Object> mapProduct = new HashMap<>();
 		mapProduct.put("languages", languages);
 		mapProduct.put("idProduct", idProduct);
 
-		ProductFullDTO productFull = getSqlSession().selectOne(
+		ProductFullNewDTO productFull = getSqlSession().selectOne(
 				"it.othala.product.queries.getProductFull", mapProduct);
 
 		return productFull;
@@ -272,10 +270,10 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	}
 
 	@Override
-	public ProductFullDTO getProductArticleFull(String languages,
+	public ProductFullNewDTO getProductArticleFull(String languages,
 			Integer idProduct, Integer pgArticle) {
 
-		ProductFullDTO productFull = getProductFull(languages, idProduct);
+		ProductFullNewDTO productFull = getProductFull(languages, idProduct);
 
 		List<String> newString = listProductImages(idProduct);
 
@@ -311,7 +309,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	}
 
 	@Override
-	public Integer insertProduct(ProductFullDTO productFull,
+	public Integer insertProduct(ProductFullNewDTO productFull,
 			Boolean fgPubblicazione) {
 
 		getSqlSession().insert("it.othala.product.queries.insertProduct",
@@ -595,7 +593,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	}
 
 	@Override
-	public List<ProductFindDTO> listFindProduct(String txBarcode,
+	public List<ProductFullNewDTO> listFindProduct(String txBarcode,
 			Integer state, Integer shop, Integer gender, Integer type,
 			Integer brand, BigDecimal minPrice, BigDecimal maxPrice,
 			String description, Date dtBegin, Date dtEnd) {
@@ -615,7 +613,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		mapProduct.put("dtBegin", dtBegin);
 		mapProduct.put("dtEnd", dtEnd);
 
-		List<ProductFindDTO> listProduct = getSqlSession().selectList(
+		List<ProductFullNewDTO> listProduct = getSqlSession().selectList(
 				"it.othala.product.queries.listFindProduct", mapProduct);
 
 		return listProduct;
@@ -649,7 +647,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	}
 
 	@Override
-	public void updateProduct(ProductFullDTO productFull) {
+	public void updateProduct(ProductFullNewDTO productFull) {
 		getSqlSession().update("it.othala.product.queries.updateProduct",
 				productFull);
 
@@ -742,13 +740,13 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	}
 
 	@Override
-	public ProductFullDTO getProductFullBarcode(String txBarcode) {
+	public ProductFullNewDTO getProductFullBarcode(String txBarcode) {
 
 		HashMap<String, Object> mapProduct = new HashMap<>();
 		mapProduct.put("txBarcode", txBarcode);
 
 
-		ProductFullDTO productFull = getSqlSession().selectOne(
+		ProductFullNewDTO productFull = getSqlSession().selectOne(
 				"it.othala.product.queries.getProductFullBarcode", mapProduct);
 
 		return productFull;

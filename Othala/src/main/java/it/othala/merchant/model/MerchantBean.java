@@ -3,7 +3,7 @@ package it.othala.merchant.model;
 import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.AttributeDTO;
 import it.othala.dto.OrderFullDTO;
-import it.othala.dto.ProductFindDTO;
+import it.othala.dto.ProductFullNewDTO;
 import it.othala.dto.RefoundFullDTO;
 import it.othala.dto.ShopDTO;
 import it.othala.enums.TypeStateOrder;
@@ -37,8 +37,8 @@ public class MerchantBean implements Serializable {
 	
 	private int minPrice;
 	private int maxPrice;
-	private List<ProductFindDTO> products;
-	private List<ProductFindDTO> selectedProducts;
+	private List<ProductFullNewDTO> products;
+	private List<ProductFullNewDTO> selectedProducts;
 	private Date dtBegin;
 	private Date dtEnd;
 	private OrderFullDTO orderSelected;
@@ -146,11 +146,11 @@ public class MerchantBean implements Serializable {
 		return orderSelected;
 	}
 
-	public void setProducts(List<ProductFindDTO> products) {
+	public void setProducts(List<ProductFullNewDTO> products) {
 		this.products = products;
 	}
 
-	public void setSelectedProducts(List<ProductFindDTO> selectedProducts) {
+	public void setSelectedProducts(List<ProductFullNewDTO> selectedProducts) {
 		this.selectedProducts = selectedProducts;
 	}
 
@@ -170,11 +170,11 @@ public class MerchantBean implements Serializable {
 		this.dtEnd = dtEnd;
 	}
 
-	public List<ProductFindDTO> getSelectedProducts() {
+	public List<ProductFullNewDTO> getSelectedProducts() {
 		return selectedProducts;
 	}
 
-	public List<ProductFindDTO> getProducts() {
+	public List<ProductFullNewDTO> getProducts() {
 		return products;
 	}
 

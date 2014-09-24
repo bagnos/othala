@@ -193,7 +193,7 @@
 
 									<h:link outcome="cart-choice-2">
 										<h:graphicImage styleClass="img-responsive"
-											library="images/cartThumbinals" name="#{art.imagesUrl}" />
+											library="images/cartThumbinals" name="#{art.thumbnailsUrl}" />
 										<f:param name="idPrd" value="#{art.idProduct}"></f:param>
 									</h:link>
 									<div style="float: right">
@@ -212,7 +212,7 @@
 										</p:tooltip>
 									</div>
 									<div class="caption articolo">
-										<h5>#{art.brand}</h5>
+										<h5>#{art.txBrand}</h5>
 										<h6>#{art.description}</h6>
 										<p class="price">
 											<h:outputText value="#{art.price}"

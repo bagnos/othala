@@ -1,18 +1,11 @@
 package it.othala.test;
 
 import it.othala.account.execption.MailNotSendException;
-import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.MailPropertiesDTO;
 import it.othala.dto.OrderFullDTO;
-import it.othala.dto.ProductFullDTO;
-import it.othala.enums.TypeStateOrder;
 import it.othala.service.factory.OthalaFactory;
 
-import java.math.BigDecimal;
 import java.util.List;
-
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 
 import org.junit.Test;
 
@@ -25,7 +18,7 @@ public class MailTest {
 			OrderFullDTO order=orders.get(0);
 	
 			/*
-			ProductFullDTO prd=new ProductFullDTO();
+			ProductFullNewDTO prd=new ProductFullNewDTO();
 			prd.setDescription("Prodotto del cazzo");
 			prd.setTxBrand("Brand del cazzo");
 			prd.setIdProduct(2);

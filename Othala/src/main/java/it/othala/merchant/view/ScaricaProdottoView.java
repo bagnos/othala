@@ -1,6 +1,6 @@
 package it.othala.merchant.view;
 
-import it.othala.dto.ProductFullDTO;
+import it.othala.dto.ProductFullNewDTO;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 
@@ -16,22 +16,22 @@ import javax.faces.event.ActionEvent;
 public class ScaricaProdottoView extends BaseView {
 
 	private String idBarcode;
-	private ProductFullDTO prdSelected;
-	private List<ProductFullDTO> prdFounded;
+	private ProductFullNewDTO prdSelected;
+	private List<ProductFullNewDTO> prdFounded;
 
-	public List<ProductFullDTO> getPrdFounded() {
+	public List<ProductFullNewDTO> getPrdFounded() {
 		return prdFounded;
 	}
 
-	public void setPrdFounded(List<ProductFullDTO> prdFounded) {
+	public void setPrdFounded(List<ProductFullNewDTO> prdFounded) {
 		this.prdFounded = prdFounded;
 	}
 
-	public void setPrdSelected(ProductFullDTO prdSelected) {
+	public void setPrdSelected(ProductFullNewDTO prdSelected) {
 		this.prdSelected = prdSelected;
 	}
 
-	public ProductFullDTO getPrdSelected() {
+	public ProductFullNewDTO getPrdSelected() {
 		return prdSelected;
 	}
 
@@ -53,10 +53,10 @@ public class ScaricaProdottoView extends BaseView {
 
 	public void scarica(ActionEvent e) {
 		try {
-		
+
 			List<String> idBarcodes = new ArrayList<>();
 			if (prdFounded != null && !prdFounded.isEmpty()) {
-				for (ProductFullDTO prd : prdFounded) {
+				for (ProductFullNewDTO prd : prdFounded) {
 
 					idBarcodes.add(prd.getArticles().get(0).getTxBarCode());
 				}
@@ -80,14 +80,13 @@ public class ScaricaProdottoView extends BaseView {
 	public void cercaProdottoPerBarcode(ActionEvent e) {
 		try {
 
-			if (idBarcode != "")
-			{
-			ProductFullDTO products = OthalaFactory.getProductServiceInstance()
-					.listFindBarcode(idBarcode);
+			if (idBarcode != "") {
+				ProductFullNewDTO products = OthalaFactory
+						.getProductServiceInstance().listFindBarcode(idBarcode);
 
-			prdFounded.add(products);
+				prdFounded.add(products);
 
-			idBarcode = "";
+				idBarcode = "";
 			}
 		} catch (Exception ex) {
 			addGenericError(ex, "errore nella ricerca del prodotto");

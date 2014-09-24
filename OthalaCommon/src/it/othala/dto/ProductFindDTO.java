@@ -13,41 +13,22 @@ public class ProductFindDTO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Integer idProduct;
 	
-	private List<String> listTxBarcode;
+	private List<String> listTxBarcode; /* ok */
 
-	private Integer idProductState;
-	private String txProductState;
+	private Integer idProductState;/* ok */
+	private String txProductState;/* ok */
 	
-	private List <ShopDTO> listShop;
+	private List <ShopDTO> listShop; /* ok */
 	
 
-	private Integer idGender;
-	private String txGender;
-
-	private Integer idType;
-	private String txType;
-
-	private Integer idBrand;
-	private String txBrand;
-	private BigDecimal imPrice;
-	private BigDecimal specialPrice;
+		private BigDecimal imPrice; /* price */
 	
-	private BigDecimal priceDiscounted;
-	private String description;
-	
-	private Date dtProductstate;
+	private Date dtProductstate; /* ok */
 		
-	private String thumbnailsUrl;
 
-	public Integer getIdProduct() {
-		return idProduct;
-	}
 
-	public void setIdProduct(Integer idProduct) {
-		this.idProduct = idProduct;
-	}
+
 
 	public List<String> getListTxBarcode() {
 		return listTxBarcode;
@@ -81,70 +62,8 @@ public class ProductFindDTO implements Serializable {
 		this.listShop = listShop;
 	}
 
-	public Integer getIdGender() {
-		return idGender;
-	}
-
-	public void setIdGender(Integer idGender) {
-		this.idGender = idGender;
-	}
-
-	public String getTxGender() {
-		return txGender;
-	}
-
-	public void setTxGender(String txGender) {
-		this.txGender = txGender;
-	}
-
-	public Integer getIdType() {
-		return idType;
-	}
-
-	public void setIdType(Integer idType) {
-		this.idType = idType;
-	}
-
-	public String getTxType() {
-		return txType;
-	}
-
-	public void setTxType(String txType) {
-		this.txType = txType;
-	}
-
-	public Integer getIdBrand() {
-		return idBrand;
-	}
-
-	public void setIdBrand(Integer idBrand) {
-		this.idBrand = idBrand;
-	}
-
-	public String getTxBrand() {
-		return txBrand;
-	}
-
-	public void setTxBrand(String txBrand) {
-		this.txBrand = txBrand;
-	}
-
-	public BigDecimal getPriceDiscounted() {
-		return priceDiscounted;
-	}
-
-	public void setPriceDiscounted(BigDecimal priceDiscounted) {
-		this.priceDiscounted = priceDiscounted;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
+	
+	
 	public Date getDtProductstate() {
 		return dtProductstate;
 	}
@@ -153,14 +72,7 @@ public class ProductFindDTO implements Serializable {
 		this.dtProductstate = dtProductstate;
 	}
 
-	public String getThumbnailsUrl() {
-		return thumbnailsUrl;
-	}
-
-	public void setThumbnailsUrl(String thumbnailsUrl) {
-		this.thumbnailsUrl = thumbnailsUrl;
-	}
-
+	
 	public BigDecimal getImPrice() {
 		return imPrice;
 	}
@@ -169,13 +81,6 @@ public class ProductFindDTO implements Serializable {
 		this.imPrice = imPrice;
 	}
 
-	public BigDecimal getSpecialPrice() {
-		return specialPrice;
-	}
-
-	public void setSpecialPrice(BigDecimal specialPrice) {
-		this.specialPrice = specialPrice;
-	}
 	
 	
 

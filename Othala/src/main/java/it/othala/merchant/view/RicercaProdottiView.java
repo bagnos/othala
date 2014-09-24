@@ -2,7 +2,7 @@ package it.othala.merchant.view;
 
 import it.othala.dto.AttributeDTO;
 import it.othala.dto.DomainDTO;
-import it.othala.dto.ProductFindDTO;
+import it.othala.dto.ProductFullNewDTO;
 import it.othala.dto.ShopDTO;
 import it.othala.enums.TypeStateProduct;
 import it.othala.merchant.model.MerchantBean;
@@ -10,7 +10,6 @@ import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 import it.othala.web.utils.ResizeImageUtil;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -108,7 +107,7 @@ public class RicercaProdottiView extends BaseView {
 		try {
 
 			if (merchantBean.getSelectedProducts() != null) {
-				for (ProductFindDTO prd : merchantBean.getSelectedProducts()) {
+				for (ProductFullNewDTO prd : merchantBean.getSelectedProducts()) {
 
 					List<String> imageToDelete = OthalaFactory.getProductServiceInstance().deleteProduct(
 							prd.getIdProduct());
@@ -138,7 +137,7 @@ public class RicercaProdottiView extends BaseView {
 		try {
 		
 			List<Integer> idPrds = new ArrayList<>();
-			for (ProductFindDTO prd : merchantBean.getSelectedProducts()) {
+			for (ProductFullNewDTO prd : merchantBean.getSelectedProducts()) {
 				if (prd.getIdProductState() == TypeStateProduct.INSERITO.getState()) {
 					idPrds.add(prd.getIdProduct());
 				}

@@ -1,20 +1,5 @@
 package it.othala.test;
 
-import it.othala.account.execption.MailNotSendException;
-import it.othala.dto.ArticleFullDTO;
-import it.othala.dto.MailPropertiesDTO;
-import it.othala.dto.OrderFullDTO;
-import it.othala.dto.ProductFullDTO;
-import it.othala.dto.ProfilePayPalDTO;
-import it.othala.service.factory.OthalaFactory;
-import it.othala.web.utils.PayPalUtil;
-
-import java.math.BigDecimal;
-import java.util.List;
-
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-
 import org.junit.Test;
 
 public class IPNTest {

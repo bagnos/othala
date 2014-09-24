@@ -67,14 +67,14 @@
 	</select>
 
 
-	<select id="listProduct" resultType="it.othala.dto.ProductDTO"
+	<select id="listProduct" resultType="it.othala.dto.ProductFullNewDTO"
 		parameterType="java.util.HashMap">
 
 		SELECT
 		idProduct ,
 		price,
-		brand,
-		imagesUrl,
+		txBrand,
+		thumbnailsUrl,
 		coalesce(specialPrice,
 		ceiling(price * (100 -
 		coalesce(pcSconto,discount)) / 100)) as
@@ -92,11 +92,10 @@
 		SELECT
 		a.idProduct ,
 		imPrice as price,
-		txBrand as
-		brand,
+		txBrand,
 		txThumbnailsUrl
 		as
-		imagesUrl,
+		thumbnailsUrl,
 		txDescription as description,
 		txGender as
 		gender,
@@ -387,7 +386,7 @@
 
 	</select>
 
-	<select id="getProductFull" resultType="it.othala.dto.ProductFullDTO"
+	<select id="getProductFull" resultType="it.othala.dto.ProductFullNewDTO"
 		parameterType="java.util.HashMap">
 
 
@@ -655,7 +654,7 @@
 
 	</select>
 
-	<insert id="insertProduct" parameterType="it.othala.dto.ProductFullDTO">
+	<insert id="insertProduct" parameterType="it.othala.dto.ProductFullNewDTO">
 
 
 
@@ -953,7 +952,7 @@
 
 	</update>
 
-	<select id="listFindProduct" resultType="it.othala.dto.ProductFindDTO"
+	<select id="listFindProduct" resultType="it.othala.dto.ProductFullNewDTO"
 		parameterType="java.util.HashMap">
 
 		SELECT
@@ -966,7 +965,7 @@
 		txType,
 		idBrand,
 		txBrand,
-		imPrice,
+		imPrice as price,
 		coalesce(specialPrice,
 		ceiling(imPrice * (100 -
 		coalesce(pcSconto,pcDiscount)) / 100)) as
@@ -1151,7 +1150,7 @@
 
 	</select>
 
-	<update id="updateProduct" parameterType="it.othala.dto.ProductFullDTO">
+	<update id="updateProduct" parameterType="it.othala.dto.ProductFullNewDTO">
 
 		UPDATE
 		${database.schema}product
@@ -1249,7 +1248,7 @@
 
 	</select>
 
-	<select id="getProductFullBarcode" resultType="it.othala.dto.ProductFullDTO"
+	<select id="getProductFullBarcode" resultType="it.othala.dto.ProductFullNewDTO"
 		parameterType="java.util.HashMap">
 
 		SELECT

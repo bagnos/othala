@@ -9,7 +9,6 @@ import it.othala.dto.StateOrderDTO;
 
 import java.util.HashMap;
 import java.util.List;
-import java.sql.Date;
 
 public interface IOrderDAO {
 
@@ -19,7 +18,6 @@ public interface IOrderDAO {
 	
 	public OrderFullDTO insertOrder(OrderFullDTO orderFull);
 	
-	//public void insertOrdersArticles(Integer idOrder, OrderProductDTO orderProduct);
 	public void insertOrdersArticles(HashMap<String, Object> mapProduct);
 	
 	public void insertStatesOrders(OrderFullDTO orderFull);

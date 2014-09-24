@@ -16,7 +16,7 @@ public class ArticleFullDTO implements Serializable {
 	private String txSize;
 	private Integer idColor;
 	private String txColor;
-	private ProductFullDTO prdFullDTO;
+	private ProductFullNewDTO prdFullDTO;
 	private Integer qtBooked;
 	private BigDecimal totalPriced;
 	private String thumbnailsUrl;
@@ -34,9 +34,9 @@ public class ArticleFullDTO implements Serializable {
 
 	public BigDecimal getTotalPriced() {
 		if (prdFullDTO != null) {
-			totalPriced = prdFullDTO.getPriceDiscounted() != null ? prdFullDTO.getPriceDiscounted() : prdFullDTO
-					.getPrice();
-			totalPriced=totalPriced.multiply(new BigDecimal(qtBooked));			
+			totalPriced = prdFullDTO.getPriceDiscounted() != null ? prdFullDTO
+					.getPriceDiscounted() : prdFullDTO.getPrice();
+			totalPriced = totalPriced.multiply(new BigDecimal(qtBooked));
 		}
 		return totalPriced;
 	}
@@ -49,11 +49,11 @@ public class ArticleFullDTO implements Serializable {
 		this.qtBooked = qtBooked;
 	}
 
-	public ProductFullDTO getPrdFullDTO() {
+	public ProductFullNewDTO getPrdFullDTO() {
 		return prdFullDTO;
 	}
 
-	public void setPrdFullDTO(ProductFullDTO prdFullDTO) {
+	public void setPrdFullDTO(ProductFullNewDTO prdFullDTO) {
 		this.prdFullDTO = prdFullDTO;
 	}
 

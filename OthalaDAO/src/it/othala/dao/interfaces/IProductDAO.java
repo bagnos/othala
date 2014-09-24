@@ -6,9 +6,7 @@ import it.othala.dto.AttributeSizeDTO;
 import it.othala.dto.CampaignDTO;
 import it.othala.dto.MenuDTO;
 import it.othala.dto.NazioniDTO;
-import it.othala.dto.ProductDTO;
-import it.othala.dto.ProductFindDTO;
-import it.othala.dto.ProductFullDTO;
+import it.othala.dto.ProductFullNewDTO;
 import it.othala.dto.ShopDTO;
 import it.othala.dto.SubMenuDTO;
 import it.othala.enums.OrderByCartFlow;
@@ -40,17 +38,17 @@ public interface IProductDAO {
 
 	public List<String> listProductImages(Integer idProduct);
 
-	public List<ProductDTO> listProduct(String languages, Integer type,
+	public List<ProductFullNewDTO> listProduct(String languages, Integer type,
 			Integer gender, Integer brand, BigDecimal minPrice,
 			BigDecimal maxPrice, Integer size, Integer color,
 			Boolean newArrivals, OrderByCartFlow order, Integer idCampaign, Boolean fgCampaign);
 
-	public ProductFullDTO getProductFull(String languages, Integer idProduct);
+	public ProductFullNewDTO getProductFull(String languages, Integer idProduct);
 
 	public List<ArticleFullDTO> listArticleFull(Integer idProduct,
 			String languages);
 
-	public Integer insertProduct(ProductFullDTO productFull, Boolean fgPubblicazione);
+	public Integer insertProduct(ProductFullNewDTO productFull, Boolean fgPubblicazione);
 
 	public Integer getQtStock(Integer idProduct, Integer pgArticle);
 
@@ -59,7 +57,7 @@ public interface IProductDAO {
 	public ArticleFullDTO getArticleFull(Integer idProduct, Integer pgArticle,
 			String languages);
 
-	public ProductFullDTO getProductArticleFull(String languages, Integer idProduct,
+	public ProductFullNewDTO getProductArticleFull(String languages, Integer idProduct,
 			Integer pgArticle);
 
 	public void insertBrand(String txBrand);
@@ -86,7 +84,7 @@ public interface IProductDAO {
 	public List<AttributeDTO> listStatesOrder();
 	public List<AttributeDTO> listStatesProduct();
 
-	public List<ProductFindDTO> listFindProduct(String txBarcode,
+	public List<ProductFullNewDTO> listFindProduct(String txBarcode,
 			Integer state, Integer shop, Integer gender, Integer type,
 			Integer brand, BigDecimal minPrice, BigDecimal maxPrice,
 			String description, Date dtBegin, Date dtEnd);
@@ -97,7 +95,7 @@ public interface IProductDAO {
 
 	public void deleteProduct(Integer idProduct);
 
-	public void updateProduct(ProductFullDTO productFull);
+	public void updateProduct(ProductFullNewDTO productFull);
 
 	public void downloadArticle(String txBarcode);
 
@@ -110,7 +108,7 @@ public interface IProductDAO {
 	public Integer getMaxIdColor();
 	public Integer getMaxIdMaterial();
 
-	public ProductFullDTO getProductFullBarcode(String txBarcode);
+	public ProductFullNewDTO getProductFullBarcode(String txBarcode);
 
 	public List<ArticleFullDTO> listArticleFullBarcode(Integer idProduct,
 			String txBarcode);
