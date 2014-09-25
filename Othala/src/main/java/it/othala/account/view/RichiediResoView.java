@@ -36,6 +36,11 @@ public class RichiediResoView extends BaseView {
 	private List<RefoundFullDTO> elencoResi;
 	private RefoundFullDTO refundSelected;
 	private boolean renderDetails;
+	private boolean disabledConferma;
+
+	public boolean isDisabledConferma() {
+		return disabledConferma;
+	}
 
 	public RefoundFullDTO getRefundSelected() {
 		return refundSelected;
@@ -142,6 +147,7 @@ public class RichiediResoView extends BaseView {
 			ref.setIdUser(myAccountBean.getOrderSelected().getIdUser());
 
 			ref = OthalaFactory.getOrderServiceInstance().insertRefound(ref);
+			disabledConferma=true;
 
 			keyRefund = getLoginBean().getEmail() + "-" + myAccountBean.getOrderSelected().getIdOrder();
 			keyRefund = HelperCrypt.encrypt(keyRefund);
@@ -150,7 +156,7 @@ public class RichiediResoView extends BaseView {
 			addInfo("Richesta Reso",
 					"LA richiesta è stata effettuata correttamente, nella sezione 'Miei Resi' portà verificare lo stato della sua richiesta. \n Stampare la ricevuta ed inserirla all'interno del pacco");
 			RequestContext.getCurrentInstance().execute(
-					"$(window).scrollTop();window.open('../SpedisciOrdineServlet?keyRefund=" + keyRefund + "');");
+					"$(window).scrollTop();window.open('../RichiestaResoServlet?keyRefund=" + keyRefund + "');");
 
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block

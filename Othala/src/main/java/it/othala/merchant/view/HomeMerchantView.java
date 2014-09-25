@@ -1,17 +1,19 @@
 package it.othala.merchant.view;
 
-import it.othala.dto.OrderFullDTO;
 import it.othala.enums.TypeStateOrder;
 import it.othala.merchant.model.MerchantBean;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 
-import java.util.List;
+import java.io.IOException;
 
+import javax.faces.application.ConfigurableNavigationHandler;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.context.FacesContext;
+
+import org.primefaces.event.SelectEvent;
 
 @ManagedBean
 @ViewScoped
@@ -50,5 +52,27 @@ public class HomeMerchantView extends BaseView {
 		Integer idOrder = (Integer) e.getComponent().getAttributes().get("idOrder");
 
 	}
+	
+	public void onRowSelectNavigate(SelectEvent event) {  
+        //FacesContext.getCurrentInstance().getExternalContext().getFlash().put("selectedCar", event.getObject());  
+		
+			//FacesContext.getCurrentInstance().getExternalContext().redirect("dettaglioOrdine.xhtml?home=true");
+			 ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();
+			 configurableNavigationHandler.performNavigation("dettaglioOrdine.xhtml?home=true");
+
+		
+        
+    }  
+	
+	public void onRowSelectNavigateReso(SelectEvent event) {  
+        //FacesContext.getCurrentInstance().getExternalContext().getFlash().put("selectedCar", event.getObject());  
+		
+			//FacesContext.getCurrentInstance().getExternalContext().redirect("dettaglioOrdine.xhtml?home=true");
+			 ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();
+			 configurableNavigationHandler.performNavigation("detailRequetRefund.xhtml?home=true");
+
+		
+        
+    }  
 
 }
