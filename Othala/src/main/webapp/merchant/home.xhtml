@@ -22,18 +22,16 @@
 		<h:form prependId="false" id="frmOrd">
 			<div class="row">
 				<div class="col-sm-6">
-					<p:contextMenu event="click" for="completed" id="contextMenu">
-						<p:menuitem value="Dettaglio" url="dettaglioOrdine.xhtml?home=true" icon="ui-icon-search">
-						</p:menuitem>
 
-					</p:contextMenu>
 					<p:dataTable var="ord" rowKey="#{ord.idOrder}" id="completed"
 						value="#{merchantBean.ordersCompleted}" rows="10" paginator="true" paginatorPosition="bottom"
 						selection="#{merchantBean.orderSelected}"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 						selectionMode="single">
 
-						<p:ajax event="rowSelect"/>
+						<p:ajax event="rowDblselect"  listener="#{homeMerchantView.onRowSelectNavigate}"/>
+
+				
 
 						<f:facet name="header">
 		 						ORDINI DA SPEDIRE
@@ -65,18 +63,13 @@
 				</div>
 				<div class="col-sm-6">
 
-					<p:contextMenu event="click" id="contextMenuPending" for="pending">
-						<p:menuitem value="Dettaglio" url="dettaglioOrdine.xhtml?home=true" icon="ui-icon-search" />
-
-
-					</p:contextMenu>
 					<p:dataTable var="ord" rowKey="#{ord.idOrder}" id="pending"
 						value="#{merchantBean.ordersPending}" rows="10" paginator="true" paginatorPosition="bottom"
 						selection="#{merchantBean.orderSelected}"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 						selectionMode="single">
 
-						<p:ajax event="rowSelect" />
+						<p:ajax event="rowDblselect" listener="#{homeMerchantView.onRowSelectNavigate}"/>
 						<f:facet name="header">
 		 						ORDINI IN PENDING
 		 						</f:facet>
@@ -111,31 +104,26 @@
 			<div class="row">
 				<div class="col-sm-6">
 
-					<p:contextMenu event="click"  id="contextMenurefund" for="refund">
-						<p:menuitem value="Dettaglio" url="detailRequetRefund.xhtml?home=true" icon="ui-icon-search">
-						
-						</p:menuitem>
-
-
-					</p:contextMenu>
+				
+				
 					<p:dataTable var="ref" rowKey="#{ref.idRefound}" id="refund"
 						value="#{merchantBean.refoundRequest}" rows="10" paginator="true" paginatorPosition="bottom"
 						selection="#{merchantBean.refoundSelected}"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 						selectionMode="single">
-<p:ajax event="rowSelect" />
-					
+						<p:ajax event="rowDblselect" listener="#{homeMerchantView.onRowSelectNavigateReso}"/>
+
 						<f:facet name="header">
 		 						RICHIESTE DI RIMBORSO
 		 						</f:facet>
 						<p:column headerText="Id" style="width:40px">
 							<h:outputText value="#{ref.idRefound}" />
 						</p:column>
-						
+
 						<p:column headerText="Ordine">
 							<h:outputText value="#{ref.idOrder}" />
 						</p:column>
-						
+
 
 						<p:column headerText="User" styleClass="truncate">
 							<h:outputText id="user" value="#{ref.idUser}" />
