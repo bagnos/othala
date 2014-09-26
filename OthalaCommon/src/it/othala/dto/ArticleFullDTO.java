@@ -23,6 +23,15 @@ public class ArticleFullDTO implements Serializable {
 	private ShopDTO shop;
 	private String txBarCode;
 	private boolean selected;
+	private String note;
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
 
 	public boolean isSelected() {
 		return selected;
