@@ -24,7 +24,8 @@ public class RefoundFullDTO implements Serializable {
 	private String txStato;
 	private Timestamp dtStato;
 	private String txNote;
-	private List<ArticleFullDTO> cart;
+	private String txMotivoReso;
+	private List<ArticleRefounded> cart;
 
 	public Integer getIdRefound() {
 		return idRefound;
@@ -80,11 +81,17 @@ public class RefoundFullDTO implements Serializable {
 	public void setTxNote(String txNote) {
 		this.txNote = txNote;
 	}
-	public List<ArticleFullDTO> getCart() {
+	public List<ArticleRefounded> getCart() {
 		return cart;
 	}
-	public void setCart(List<ArticleFullDTO> cart) {
+	public void setCart(List<ArticleRefounded> cart) {
 		this.cart = cart;
+	}
+	public String getTxMotivoReso() {
+		return txMotivoReso;
+	}
+	public void setTxMotivoReso(String txMotivoReso) {
+		this.txMotivoReso = txMotivoReso;
 	}
 	
 	
