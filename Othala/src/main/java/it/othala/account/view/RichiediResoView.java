@@ -2,6 +2,7 @@ package it.othala.account.view;
 
 import it.othala.account.model.MyAccountBean;
 import it.othala.dto.ArticleFullDTO;
+import it.othala.dto.ArticleRefounded;
 import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.RefoundFullDTO;
@@ -32,7 +33,7 @@ public class RichiediResoView extends BaseView {
 	private Integer idOrder;
 	private String keyRefund = null;
 	private BigDecimal imRefunded = BigDecimal.ZERO;
-	private List<ArticleFullDTO> artToRefund = new ArrayList<>();
+	private List<ArticleRefounded> artToRefund = new ArrayList<>();
 	private List<RefoundFullDTO> elencoResi;
 	private RefoundFullDTO refundSelected;
 	private boolean renderDetails;
@@ -58,7 +59,7 @@ public class RichiediResoView extends BaseView {
 		return elencoResi;
 	}
 
-	public List<ArticleFullDTO> getArtToRefund() {
+	public List<ArticleRefounded> getArtToRefund() {
 		return artToRefund;
 	}
 
@@ -114,7 +115,8 @@ public class RichiediResoView extends BaseView {
 		artToRefund = new ArrayList<>();
 		for (ArticleFullDTO art : myAccountBean.getOrderSelected().getCart()) {
 			if (art.isSelected()) {
-				artToRefund.add(art);
+				ArticleRefounded artref = new ArticleRefounded(art);
+				artToRefund.add(artref);
 				imRefunded = imRefunded.add(art.getTotalPriced());
 			}
 		}
@@ -130,7 +132,8 @@ public class RichiediResoView extends BaseView {
 			imRefunded = BigDecimal.ZERO;
 			for (ArticleFullDTO art : myAccountBean.getOrderSelected().getCart()) {
 				if (art.isSelected()) {
-					artToRefund.add(art);
+					ArticleRefounded artref = new ArticleRefounded(art);
+					artToRefund.add(artref);
 					imRefunded = imRefunded.add(art.getTotalPriced());
 				}
 			}
