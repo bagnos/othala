@@ -2,6 +2,7 @@ package it.othala.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 
 public class ArticleFullDTO implements Serializable {
 
@@ -23,7 +24,28 @@ public class ArticleFullDTO implements Serializable {
 	private ShopDTO shop;
 	private String txBarCode;
 	private boolean selected;
-	private String note;
+	private String note;	
+	private String changeSelected;
+	private List<ChangeArticleDTO> changesAvailable;
+	
+
+	public List<ChangeArticleDTO> getChangesAvailable() {
+		return changesAvailable;
+	}
+
+	public void setChangesAvailable(List<ChangeArticleDTO> changesAvailable) {
+		this.changesAvailable = changesAvailable;
+	}
+
+	public String getChangeSelected() {
+		return changeSelected;
+	}
+
+	public void setChangeSelected(String changeSelected) {
+		this.changeSelected = changeSelected;
+	}
+
+	
 
 	public String getNote() {
 		return note;

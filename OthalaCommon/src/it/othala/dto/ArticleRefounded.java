@@ -28,6 +28,8 @@ public class ArticleRefounded extends ArticleFullDTO {
 		this.setTxBarCode(artFull.getTxBarCode());
 		this.setTxColor(artFull.getTxColor());
 		this.setTxSize(artFull.getTxSize());
+		this.setChangesAvailable(artFull.getChangesAvailable());
+		this.setChangeSelected(artFull.getChangeSelected());
 		
 	};
 	
