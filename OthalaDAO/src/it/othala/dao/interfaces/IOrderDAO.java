@@ -3,6 +3,7 @@ package it.othala.dao.interfaces;
 import it.othala.dto.CouponDTO;
 import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryCostDTO;
+import it.othala.dto.FidelityCardDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.RefoundFullDTO;
 import it.othala.dto.StateOrderDTO;
@@ -53,5 +54,12 @@ public interface IOrderDAO {
 	public void insertStatesRefound(RefoundFullDTO refoundFull);
 	
 	public void updateStateRefound(HashMap<String, Object> mapProduct);
+	
+	public void newFidelityCard(FidelityCardDTO fidelity);
+	
+	public void updateScontoFidelity(String idFidelity, int pcSconto);
+	
+	public FidelityCardDTO getFidelityCard(String idFidelity);
+	
 
 }
