@@ -583,11 +583,24 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public FidelityCardDTO checkFidelityCard(String idFidelity, String idUser)
+	public FidelityCardDTO checkFidelityCard(String idFidelity, String eMail, String celNum )
 			throws FidelityCardNotPresentException,
 			FidelityCardNotValidException {
 		FidelityCardDTO fCard = orderDAO.getFidelityCard(idFidelity);
 		if (fCard == null) throw new FidelityCardNotPresentException(idFidelity);
+		
+		if (eMail != null && !eMail.isEmpty()){
+			if (fCard.getTxEmail() == null || fCard.getTxEmail().isEmpty()) 
+				throw new FidelityCardNotValidException(idFidelity);
+			if (fCard.getTxEmail() != eMail)
+				throw new FidelityCardNotValidException(idFidelity);
+		}
+		if (celNum != null && !celNum.isEmpty()){
+			if (fCard.getTxTel() == null || fCard.getTxTel().isEmpty()) 
+				throw new FidelityCardNotValidException(idFidelity);
+			if (fCard.getTxTel() != celNum)
+				throw new FidelityCardNotValidException(idFidelity);
+		}		
 		
 		return fCard;
 	}
