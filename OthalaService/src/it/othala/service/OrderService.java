@@ -1,17 +1,23 @@
 package it.othala.service;
 
 import it.othala.dao.OrderDAO;
+import it.othala.dao.interfaces.IAccountDAO;
 import it.othala.dao.interfaces.IOrderDAO;
 import it.othala.dao.interfaces.IProductDAO;
+import it.othala.dto.AccountDTO;
 import it.othala.dto.ArticleFullDTO;
+import it.othala.dto.ArticleRefounded;
 import it.othala.dto.CouponDTO;
 import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryCostDTO;
 import it.othala.dto.DeliveryDTO;
+import it.othala.dto.FidelityCardDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.RefoundFullDTO;
 import it.othala.dto.StateOrderDTO;
 import it.othala.enums.TypeStateOrder;
+import it.othala.execption.FidelityCardNotPresentException;
+import it.othala.execption.FidelityCardNotValidException;
 import it.othala.execption.OthalaException;
 import it.othala.execption.StockNotPresentException;
 import it.othala.service.interfaces.IOrderService;
@@ -37,6 +43,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.io.IOUtils;
+import org.aspectj.weaver.reflect.InternalUseOnlyPointcutParser;
 
 
 public class OrderService implements IOrderService {
@@ -44,6 +51,7 @@ public class OrderService implements IOrderService {
 
 	private IOrderDAO orderDAO;
 	private IProductDAO productDAO;
+	private IAccountDAO accountDAO;
 
 	@Override
 	public List<OrderFullDTO> getOrders(Integer Order, String User,
@@ -483,23 +491,31 @@ public class OrderService implements IOrderService {
 		while (i.hasNext()) {
 			RefoundFullDTO rimborso = i.next();
 
-			List<ArticleFullDTO> newlistArticle = new ArrayList<ArticleFullDTO>();
+			List<ArticleRefounded> newlistArticle = new ArrayList<ArticleRefounded>();
 
-			List<ArticleFullDTO> listArticle = rimborso.getCart();
-			Iterator<ArticleFullDTO> it = listArticle.iterator();
+			List<ArticleRefounded> listArticle = rimborso.getCart();
+			Iterator<ArticleRefounded> it = listArticle.iterator();
 			while (it.hasNext()) {
-				ArticleFullDTO article = it.next();
+				ArticleRefounded article = it.next();
 
 				ArticleFullDTO artFull = productDAO.getArticleFull(article
 						.getPrdFullDTO().getIdProduct(),
 						article.getPgArticle(), "it");
-				artFull.setShop(productDAO.getShop(article.getPrdFullDTO()
+				
+				ArticleRefounded artRef =  new ArticleRefounded(artFull);
+				
+				artRef.setShop(productDAO.getShop(article.getPrdFullDTO()
 						.getIdProduct(), article.getPgArticle()));
-				artFull.setPrdFullDTO(productDAO.getProductArticleFull("it",
+				
+				artRef.setPrdFullDTO(productDAO.getProductArticleFull("it",
 						article.getPrdFullDTO().getIdProduct(),
 						article.getPgArticle()));
-				artFull.setQtBooked(article.getQtBooked());
-				newlistArticle.add(artFull);
+				
+				artRef.setQtBooked(article.getQtBooked());
+				artRef.setFgChangeRefound(article.getFgChangeRefound());
+				artRef.setTxChangeRefound(article.getTxChangeRefound());
+				
+				newlistArticle.add(artRef);
 			}
 			rimborso.setCart(newlistArticle);
 		}
@@ -515,17 +531,19 @@ public class OrderService implements IOrderService {
 
 		HashMap<String, Object> mapProduct = new HashMap<String, Object>();
 
-		List<ArticleFullDTO> lsProd = refoundFull.getCart();
-		Iterator<ArticleFullDTO> i = lsProd.iterator();
+		List<ArticleRefounded> lsProd = refoundFull.getCart();
+		Iterator<ArticleRefounded> i = lsProd.iterator();
 		while (i.hasNext()) {
-			ArticleFullDTO article = i.next();
+			ArticleRefounded article = i.next();
 
 			mapProduct.clear();
 			mapProduct.put("idRefound", refoundFull.getIdRefound());
 			mapProduct.put("idProdotto", article.getPrdFullDTO().getIdProduct());
 			mapProduct.put("pgArticle", article.getPgArticle());
 			mapProduct.put("qtArticle", article.getQtBooked());
-
+			mapProduct.put("fgChangeRefound", article.getFgChangeRefound());
+			mapProduct.put("txChangeRefound", article.getTxChangeRefound());
+			
 			orderDAO.insertRefoundArticles(mapProduct);
 
 		}
@@ -555,6 +573,28 @@ public class OrderService implements IOrderService {
 	public void setRefoundTransaction(Integer idRefound, String idTransaction) {
 		
 		orderDAO.updateRefound(idRefound, idTransaction);
+		
+	}
+
+	@Override
+	public void addFidelityCard(FidelityCardDTO carta) {
+		orderDAO.newFidelityCard(carta);
+		
+	}
+
+	@Override
+	public FidelityCardDTO checkFidelityCard(String idFidelity, String idUser)
+			throws FidelityCardNotPresentException,
+			FidelityCardNotValidException {
+		FidelityCardDTO fCard = orderDAO.getFidelityCard(idFidelity);
+		if (fCard == null) throw new FidelityCardNotPresentException(idFidelity);
+		
+		return fCard;
+	}
+
+	@Override
+	public void aggiornaScontoFidelity(String idFidelity, int pcSconto) {
+		orderDAO.updateScontoFidelity(idFidelity, pcSconto);
 		
 	}
 
