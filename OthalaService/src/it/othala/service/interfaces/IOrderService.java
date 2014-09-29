@@ -4,9 +4,12 @@ import it.othala.dto.CouponDTO;
 import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryCostDTO;
 import it.othala.dto.DeliveryDTO;
+import it.othala.dto.FidelityCardDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.RefoundFullDTO;
 import it.othala.enums.TypeStateOrder;
+import it.othala.execption.FidelityCardNotPresentException;
+import it.othala.execption.FidelityCardNotValidException;
 import it.othala.execption.OthalaException;
 import it.othala.execption.StockNotPresentException;
 
@@ -55,5 +58,11 @@ public interface IOrderService {
 	public void setRefoundTransaction(Integer idRefound, String idTransaction);
 
 	public List<DeliveryCostDTO> getSpeseSpedizione(String idNazione);
-
+	
+	public void addFidelityCard(FidelityCardDTO carta);
+	
+	public FidelityCardDTO checkFidelityCard(String idFidelity, String idUser) throws FidelityCardNotPresentException, FidelityCardNotValidException;
+	
+	public void aggiornaScontoFidelity(String idFidelity, int pcSconto);
+	
 }
