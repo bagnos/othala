@@ -4,6 +4,7 @@ import it.othala.dao.interfaces.IOrderDAO;
 import it.othala.dto.CouponDTO;
 import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryCostDTO;
+import it.othala.dto.FidelityCardDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.RefoundFullDTO;
 import it.othala.dto.StateOrderDTO;
@@ -168,7 +169,7 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO  {
 	@Override
 	public void burnCoupon(String idCoupon) {
 		
-		getSqlSession().selectList(
+		getSqlSession().update(
 				"it.othala.order.queries.updateCoupon", idCoupon);
 		
 	}
@@ -239,6 +240,35 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO  {
 		getSqlSession().insert("it.othala.order.queries.updateStatesRefound",
 				mapProduct);
 		
+	}
+
+	@Override
+	public void newFidelityCard(FidelityCardDTO fidelity) {
+		getSqlSession().insert("it.othala.order.queries.insertFidelityCard",
+				fidelity);
+		
+	}
+
+	@Override
+	public void updateScontoFidelity(String idFidelity, int pcSconto) {
+		
+		HashMap<String, Object> mapUpdate =  new HashMap<String, Object>();
+		
+		mapUpdate.put("idFidelity", idFidelity);		
+		mapUpdate.put("pcSconto", pcSconto);
+		
+		getSqlSession().insert("it.othala.order.queries.updateFidelityCard",
+				mapUpdate);
+		
+	}
+
+	@Override
+	public FidelityCardDTO getFidelityCard(String idFidelity) {
+		// recupero resi
+		FidelityCardDTO fidelityCard = getSqlSession().selectOne(
+				"it.othala.order.queries.selectFidelityCard", idFidelity);
+		
+		return fidelityCard;
 	}
 
 
