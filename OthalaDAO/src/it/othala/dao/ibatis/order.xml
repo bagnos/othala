@@ -301,10 +301,10 @@
 
 		INSERT INTO
 		${database.schema}order_refound
-		(`idOrder`,`idUser`,`idTransaction`,`imRefound`)
+		(`idOrder`,`idUser`,`idTransaction`,`imRefound`,`txChangeRefound`)
 		values (
 		#{idOrder},#{idUser},null,
-		#{imRefound})
+		#{imRefound},#{txChangeRefound})
 
 		<selectKey resultType="java.lang.Integer" keyProperty="idRefound">
 
@@ -330,9 +330,9 @@
 
 		INSERT INTO
 		${database.schema}refound_articles
-		(`idRefound`,`idProdotto`,`pgArticle`,`qtArticle`)
+		(`idRefound`,`idProdotto`,`pgArticle`,`qtArticle`,`fgChangeRefound`, `txChangeRefound`)
 		values
-		(#{idRefound},#{idProdotto},#{pgArticle},#{qtArticle})
+		(#{idRefound},#{idProdotto},#{pgArticle},#{qtArticle},#{fgChangeRefound},#{txChangeRefound})
 
 	</insert>
 
@@ -364,10 +364,13 @@
 		<result property="dtStato" column="dtStato" />
 		<result property="txNote" column="txNote" />
 		<result property="txStato" column="txStato" />
-		<collection property="cart" ofType="it.othala.dto.ArticleFullDTO">
+		<result property="txMotivoReso" column="MotivoReso" />
+		<collection property="cart" ofType="it.othala.dto.ArticleRefounded">
 			<result property="prdFullDTO.idProduct" column="idProdotto" />
 			<result property="pgArticle" column="pgArticle" />
 			<result property="qtBooked" column="qtArticle" />
+			<result property="fgChangeRefound" column="fgChangeRefound" />
+			<result property="txChangeRefound" column="txChangeRefound" />
 		</collection>
 	</resultMap>
 
@@ -375,8 +378,8 @@
 	<select id="listRefounds" resultMap="Refound" parameterType="java.util.HashMap">
 
 		SELECT
-		a.idRefound, a.idOrder, a.idUser, a.imRefound, a.idTransaction,
-		b.idProdotto, b.pgArticle, b.qtArticle,
+		a.idRefound, a.idOrder, a.idUser, a.imRefound, a.idTransaction, a.txChangeRefound as MotivoReso,
+		b.idProdotto, b.pgArticle, b.qtArticle, b.fgChangeRefound, b.txChangeRefound,
 		c.idStato, c.dtStato, c.txNote, d.txStato
 		FROM
 		${database.schema}order_refound a,
@@ -409,6 +412,34 @@
 			FROM ${database.schema}states_refound e
 			WHERE e.idRefound = a.idRefound)
 		</if>
+
+	</select>
+	
+	<insert id="insertFidelityCard" parameterType="it.othala.dto.FidelityCardDTO">
+
+		INSERT INTO
+		${database.schema}FidelityCards
+		(`idFidelity`,`txNome`,`txCognome`,`dtRilascio`,`txEmail`,`txTel`,`pcSconto`)
+		values
+		(#{idFidelity},#{txNome},#{txCognome},#{dtRilascio},#{txEmail},#{txTel},#{pcSconto})
+
+	</insert>
+	
+	<update id="updateFidelityCard" parameterType="java.util.HashMap">
+
+		UPDATE ${database.schema}FidelityCards
+		SET pcSconto = #{pcSconto}
+		WHERE
+		idFidelity = #{idFidelity}
+
+
+	</update>
+	
+	<select id="selectFidelityCard" resultType="it.othala.dto.FidelityCardDTO" parameterType="java.lang.String">
+
+		SELECT * FROM
+		${database.schema}FidelityCards
+		WHERE idFidelity = #{idFidelity}
 
 	</select>
 	
