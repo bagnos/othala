@@ -16,6 +16,8 @@
 		<result property="surnameUser" column="txCognome" />
 		<result property="idTransaction" column="idTransaction" />
 		<result property="idTrackingNumber" column="idTrackingNumber" />
+		<result property="idFidelity" column="idFidelity" />
+		<result property="idCoupon" column="idCoupon" />
 		<collection property="billingAddress" ofType="it.othala.dto.DeliveryAddressDTO">
 			<result property="idAddress" column="idAddressBilling" />
 			<result property="userId" column="idUser" />
@@ -62,7 +64,7 @@
 		SELECT
 		a.idOrder, a.idUser, a.imOrdine, a.idDeliveryCost,
 		a.idTransaction,
-		a.idAddressFat, a.idAddressSpe, a.idTrackingNumber,
+		a.idAddressFat, a.idAddressSpe, a.idTrackingNumber, a.idFidelity, a.idCoupon,
 		b.idProdotto, b.pgArticle,(a.imOrdine-i.imSpese) as imOrdineSenzaSpese,
 		b.qtArticle,
 		c.idStato, c.dtStato, c.txNote,
@@ -128,12 +130,12 @@
 		INSERT INTO
 		${database.schema}orders
 		(`idUser`,`imOrdine`,`idTransaction`,`idAddressFat`
-		,`idAddressSpe`,`idDeliveryCost`,`idTrackingNumber` )
+		,`idAddressSpe`,`idDeliveryCost`,`idTrackingNumber`,`idFidelity`, `idCoupon` )
 		values (
 		#{idUser},#{imOrdine},null,
 		#{billingAddress.idAddress},
 		#{shippingAddress.idAddress},
-		#{speseSpedizione.idDeliveryCost},null)
+		#{speseSpedizione.idDeliveryCost},null, #{idFidelity}, #{idCoupon})
 
 		<selectKey resultType="java.lang.Integer" keyProperty="idOrder">
 
@@ -330,9 +332,9 @@
 
 		INSERT INTO
 		${database.schema}refound_articles
-		(`idRefound`,`idProdotto`,`pgArticle`,`qtArticle`,`fgChangeRefound`, `txChangeRefound`)
+		(`idRefound`,`idProdotto`,`pgArticle`,`qtArticle`,`fgChangeRefound`, `txNewBarCode`)
 		values
-		(#{idRefound},#{idProdotto},#{pgArticle},#{qtArticle},#{fgChangeRefound},#{txChangeRefound})
+		(#{idRefound},#{idProdotto},#{pgArticle},#{qtArticle},#{fgChangeRefound},#{txChangeRefound},#{txNewBarCode})
 
 	</insert>
 
@@ -371,6 +373,7 @@
 			<result property="qtBooked" column="qtArticle" />
 			<result property="fgChangeRefound" column="fgChangeRefound" />
 			<result property="txChangeRefound" column="txChangeRefound" />
+			<result property="txNewBarCode" column="txNewBarCode" />
 		</collection>
 	</resultMap>
 
@@ -379,7 +382,7 @@
 
 		SELECT
 		a.idRefound, a.idOrder, a.idUser, a.imRefound, a.idTransaction, a.txChangeRefound as MotivoReso,
-		b.idProdotto, b.pgArticle, b.qtArticle, b.fgChangeRefound, b.txChangeRefound,
+		b.idProdotto, b.pgArticle, b.qtArticle, b.fgChangeRefound, b.txChangeRefound, b.txNewBarCode,
 		c.idStato, c.dtStato, c.txNote, d.txStato
 		FROM
 		${database.schema}order_refound a,
