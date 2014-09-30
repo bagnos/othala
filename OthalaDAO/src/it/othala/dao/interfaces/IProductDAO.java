@@ -120,6 +120,9 @@ public interface IProductDAO {
 	public boolean countPromozioni();
 
 	public List<NazioniDTO> listNazioni();
+
+	Integer updateQtStock(String txBarcode, Integer qtArticles,
+			Boolean fgVendita);
 	
 	
 	

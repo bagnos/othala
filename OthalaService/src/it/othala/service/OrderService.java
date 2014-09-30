@@ -611,4 +611,12 @@ public class OrderService implements IOrderService {
 		
 	}
 
+	@Override
+	public void aggiornaQtaCambio(String txBarcodeIn, String txBarcodeOut) {
+
+		productDAO.updateQtStock(txBarcodeIn, 1, false);
+		productDAO.updateQtStock(txBarcodeOut, 1, true);
+		
+	}
+
 }
