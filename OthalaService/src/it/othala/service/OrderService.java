@@ -543,6 +543,7 @@ public class OrderService implements IOrderService {
 			mapProduct.put("qtArticle", article.getQtBooked());
 			mapProduct.put("fgChangeRefound", article.getFgChangeRefound());
 			mapProduct.put("txChangeRefound", article.getTxChangeRefound());
+			mapProduct.put("txNewBarCode", article.getTxNewBarcode());
 			
 			orderDAO.insertRefoundArticles(mapProduct);
 
