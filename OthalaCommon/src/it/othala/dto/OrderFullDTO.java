@@ -32,8 +32,24 @@ public class OrderFullDTO implements Serializable {
 	private String idTrackingNumber;
 	private String pendingReason;
 	private BigDecimal imOrdineSenzaSpese;
-
+	private String idFidelity;
+	private String idCoupon;	
 	
+	public String getIdFidelity() {
+		return idFidelity;
+	}
+
+	public void setIdFidelity(String idFidelity) {
+		this.idFidelity = idFidelity;
+	}
+
+	public String getIdCoupon() {
+		return idCoupon;
+	}
+
+	public void setIdCoupon(String idCoupon) {
+		this.idCoupon = idCoupon;
+	}
 
 	public BigDecimal getImOrdineSenzaSpese() {
 		return imOrdineSenzaSpese;

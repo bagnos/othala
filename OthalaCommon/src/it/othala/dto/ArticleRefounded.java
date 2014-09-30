@@ -9,7 +9,8 @@ public class ArticleRefounded extends ArticleFullDTO {
 	private static final long serialVersionUID = 1L;
 	
 	private String fgChangeRefound;
-	private String txChangeRefound;	
+	private String txChangeRefound;
+	private String txNewBarcode;
 	
 	public ArticleRefounded(){
 		super();
@@ -44,6 +45,14 @@ public class ArticleRefounded extends ArticleFullDTO {
 	}
 	public void setTxChangeRefound(String txChangeRefound) {
 		this.txChangeRefound = txChangeRefound;
+	}
+
+	public String getTxNewBarcode() {
+		return txNewBarcode;
+	}
+
+	public void setTxNewBarcode(String txNewBarcode) {
+		this.txNewBarcode = txNewBarcode;
 	}
 
 	
