@@ -859,6 +859,24 @@
 
 
 	</update>
+	
+		<update id="updateQtStockBarcode" parameterType="java.util.HashMap">
+
+		UPDATE
+		${database.schema}article
+		<if test="fgVendita == true">
+			set qtStock = qtStock - #{qtArticles}
+		</if>
+		<if test="fgVendita == false">
+			set qtStock = qtStock + #{qtArticles}
+		</if>
+		Where txBarCode =
+		#{txBarcode};
+
+
+	</update>
+	
+	
 
 	<select id="getListCampaign" resultType="it.othala.dto.CampaignDTO">
 
