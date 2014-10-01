@@ -86,22 +86,30 @@ public class MyAccountView extends BaseView {
 	public String doInit() {
 		// TODO Auto-generated method stub
 
-		addresses = OthalaFactory.getOrderServiceInstance().getDeliveryInfo(getLoginBean().getEmail());
-		orders = OthalaFactory.getOrderServiceInstance().getOrders(null, getLoginBean().getEmail(), null);
-		renderDetails = false;
-		
-		getMyAccountBean().setNazioni(getBeanApplication().getDomain().getNazioni());
+		try {
+			addresses = OthalaFactory.getOrderServiceInstance().getDeliveryInfo(getLoginBean().getEmail());
+			orders = OthalaFactory.getOrderServiceInstance().getOrders(null, getLoginBean().getEmail(), null);
+			renderDetails = false;
 
+			getMyAccountBean().setNazioni(getBeanApplication().getDomain().getNazioni());
+
+		} catch (Exception e) {
+			addGenericError(e, "errore nella inizializzazione della myAccount");
+		}
 		return null;
 
 	}
 
 	public String doInitMyOrders() {
 		// TODO Auto-generated method stub
+		try {
+			orders = OthalaFactory.getOrderServiceInstance().getOrders(null, getLoginBean().getEmail(), null);
+			renderDetails = false;
+		}
 
-		orders = OthalaFactory.getOrderServiceInstance().getOrders(null, getLoginBean().getEmail(), null);
-		renderDetails = false;
-
+		catch (Exception e) {
+			addGenericError(e, "errore nella inizializzazione dei miei ordini");
+		}
 		return null;
 
 	}
