@@ -140,14 +140,42 @@ public class RichiediResoView extends BaseView {
 	public void setOrder(OrderFullDTO order) {
 		this.order = order;
 	}
-
-	public String doInitElencaResi() {
+	
+	@Override
+	public String doInit() {
 		// TODO Auto-generated method stub
 		elencoResi = OthalaFactory.getOrderServiceInstance().getRefounds(null, null, getLoginBean().getEmail(), null,
 				null);
+		if (richiediCambio!=null && richiediCambio==true)
+		{
+			doInitElencaCambi();
+		}
+		else
+		{
+			doInitElencaResi();
+		}
+		return null;
+	}
+
+	public String doInitElencaResi() {
+		// TODO Auto-generated method stub
+		
+		
 		return null;
 
 	}
+	
+	public String doInitElencaCambi() {
+		// TODO Auto-generated method stub
+		
+		
+		
+		
+		return null;
+
+	}
+	
+	
 
 	public void updateReso(AjaxBehaviorEvent e) {
 		try {
@@ -163,7 +191,7 @@ public class RichiediResoView extends BaseView {
 					artToRefund.add(artref);
 					imRefunded = imRefunded.add(art.getTotalPriced());
 					
-					if (richiediCambio && art.getPgArticle().intValue()==pgArt && art.getPrdFullDTO().getIdProduct().intValue()==idPrd) {
+					if (richiediCambio!=null && richiediCambio && art.getPgArticle().intValue()==pgArt && art.getPrdFullDTO().getIdProduct().intValue()==idPrd) {
 						ProductFullNewDTO prd = OthalaFactory.getProductServiceInstance().getProductFull(getLang(),
 								art.getPrdFullDTO().getIdProduct());
 						updateChangeableArticle(prd, art);
@@ -190,7 +218,7 @@ public class RichiediResoView extends BaseView {
 				}
 			}
 			if (artToRefund.isEmpty()) {
-				addError(OthalaUtil.getWordBundle("account_noArticleSelected"), null);
+				addError(OthalaUtil.getWordBundle("account_changeRequest"), OthalaUtil.getWordBundle("account_noArticleSelected"));
 				return;
 			}
 
@@ -206,7 +234,7 @@ public class RichiediResoView extends BaseView {
 				getChange(ref);
 			}
 			
-			
+			addInfo(OthalaUtil.getWordBundle("othala_okExceution"), null);
 			
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
@@ -215,7 +243,7 @@ public class RichiediResoView extends BaseView {
 		}
 	}
 	
-	private void getChange(RefoundFullDTO ref)
+	private void getChange(RefoundFullDTO ref) throws OthalaException
 	{
 		//verifica se per gli articoli selezionati è presenta un articolo da cambiare
 		for (ArticleRefounded art:ref.getCart())
@@ -232,10 +260,11 @@ public class RichiediResoView extends BaseView {
 					art.setTxChangeRefound(chArt.getNoteMerchant());
 					//inserire barcode su artRefounded
 				}
-			}
-			
+			}			
 			
 		}
+		OthalaFactory.getOrderServiceInstance().insertRefound(ref);
+		
 		
 	}
 	
@@ -257,11 +286,7 @@ public class RichiediResoView extends BaseView {
 
 	}
 
-	@Override
-	public String doInit() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	public void selectRefund(AjaxBehaviorEvent e) {
 		int idRefund = Integer.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap()

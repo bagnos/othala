@@ -77,11 +77,18 @@
 											<h:outputText value="#{msg.account_myOrders}" />
 										</a>
 									</li>
-									<li><a href="#{request.contextPath}/faces/account/myReturns.xhtml"
+									<li><a href="#{request.contextPath}/faces/account/myMerchantRequest.xhtml?richiedireso=true"
 											class="dropdown-toggle">
 											<h:outputText value="#{msg.account_myReturns}" />
 										</a>
 									</li>
+									<li><a href="#{request.contextPath}/faces/account/myMerchantRequest.xhtml?richiediCambio=true"
+											class="dropdown-toggle">
+											<h:outputText value="#{msg.account_myChanges}" />
+										</a>
+									</li>
+									
+								
 
 								</ul></li>
 						</h:panelGroup>
