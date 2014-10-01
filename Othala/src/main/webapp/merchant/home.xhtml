@@ -63,6 +63,7 @@
 				</div>
 				<div class="col-sm-6">
 
+					
 					<p:dataTable var="ord" rowKey="#{ord.idOrder}" id="pending"
 						value="#{merchantBean.ordersPending}" rows="10" paginator="true" paginatorPosition="bottom"
 						selection="#{merchantBean.orderSelected}"
@@ -73,13 +74,14 @@
 						<f:facet name="header">
 		 						ORDINI IN PENDING
 		 						</f:facet>
-						<p:column headerText="Id" style="width:40px">
-							<h:outputText value="#{ord.idOrder}" />
+						<p:column headerText="Id"  style="width:40px">
+							<h:outputText id="idOrd" value="#{ord.idOrder}" />
+							
 						</p:column>
 
 						<p:column headerText="User" styleClass="truncate">
 							<h:outputText id="user" value="#{ord.idUser}" />
-							<p:tooltip for="user" value="#{ord.idUser}" />
+						
 
 						</p:column>
 
@@ -97,6 +99,9 @@
 							<h:outputText value="#{ord.idTransaction}" />
 						</p:column>
 					</p:dataTable>
+					<pe:tooltip value="doppio click per selezionare un ordine" for="@(#pending tr[role=row][data-ri=#{rowIndex}])"  
+            shared="true" atPosition="top center" myPosition="bottom center"/>  
+						
 				</div>
 			</div>
 
@@ -110,7 +115,7 @@
 						value="#{merchantBean.refoundRequest}" rows="10" paginator="true" paginatorPosition="bottom"
 						selection="#{merchantBean.refoundSelected}"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-						selectionMode="single">
+						selectionMode="single" >
 						<p:ajax event="rowDblselect" listener="#{homeMerchantView.onRowSelectNavigateReso}"/>
 
 						<f:facet name="header">
