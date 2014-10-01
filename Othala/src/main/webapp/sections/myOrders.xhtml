@@ -73,33 +73,56 @@
 					</p:commandButton>
 
 				</div>
-				<div class="col-sm-2 col-sm-offset-8">
-					<p:commandButton  iconPos="right" disabled="#{myAccountView.order.idStato!=15}"
-						icon="ui-icon-triangle-1-e" value="#{msg.account_returnSetRequest}" action="richiediReso.xhtml" />
+				<div class="col-sm-3 col-sm-offset-7">
+
+					<p:menuButton disabled="#{myAccountView.order.idStato!=15}" styleClass="ui-priority-primary"
+						iconPos="right" value="#{msg.account_optionRequest}">
+						<p:menuitem icon="ui-icon-triangle-1-e" url="richiediReso.xhtml?richiedireso=true"
+							value="#{msg.account_returnSetRequest}">
+
+						</p:menuitem>
+						<p:menuitem icon="ui-icon-triangle-1-e" value="#{msg.account_changeRequest}"
+							url="richiediReso.xhtml?richiediCambio=true">
+						
+
+						</p:menuitem>
+					</p:menuButton>
+
 				</div>
 
 			</div>
 
-			<div class="row spacer10">
-				<div class="col-sm-6">
-					<h5>
-						<strong>#{msg.catalogo_nrDetailOrder} <h:outputText
-								value="#{myAccountView.order.idOrder}" /></strong>
-					</h5>
-				</div>
-			</div>
 
 
 			<!-- tipo di spedizione -->
-			<div class="row spacer10">
 
-				<div class="col-sm-12">
-					<h5>
-						<strong>#{msg.delivery_typeShipping}</strong>
-					</h5>
-					<h:outputText value="#{myAccountView.order.speseSpedizione.descrizione}" />
+
+			<div class="row spacer20">
+				<div class="col-sm-3">
+					<h4>
+						<strong>#{msg.catalogo_nrOrder}</strong>
+					</h4>
+					#{myAccountView.order.idOrder}
 				</div>
+				<div class="col-sm-3">
+					<h4>
+						<strong>#{msg.catalogo_nrTrans}</strong>
+					</h4>
+					#{myAccountView.order.idTransaction}
+				</div>
+				<div class="col-sm-3">
+					<h4>
+						<strong>Utente</strong>
+					</h4>
+					#{myAccountView.order.idUser}
+				</div>
+				<div class="col-sm-3">
+					<h4>
+						<strong>Stato</strong>
+					</h4>
+					#{myAccountView.order.txStato}
 
+				</div>
 			</div>
 
 
@@ -229,12 +252,20 @@
 					</p:commandButton>
 
 				</div>
-				<div class="col-sm-2 col-sm-offset-8">
-					<p:commandButton style="margin-top: 6px;" iconPos="right" disabled="#{myAccountView.order.idStato!=15}"
-						icon="ui-icon-triangle-1-e" value="#{msg.account_returnSetRequest}"
-						action="richiediReso.xhtml?faces-redirect=true" process="@this">
+				<div class="col-sm-3 col-sm-offset-7">
+					<p:menuButton disabled="#{myAccountView.order.idStato!=15}" iconPos="right"
+						value="#{msg.account_optionRequest}" styleClass="ui-priority-primary">
+						<p:menuitem icon="ui-icon-triangle-1-e" value="#{msg.account_returnSetRequest}"
+							action="richiediReso.xhtml">
+							<f:setPropertyActionListener target="#{richiediResoView.richiedireso}" value="true"></f:setPropertyActionListener>
+						</p:menuitem>
+						<p:menuitem icon="ui-icon-triangle-1-e" value="#{msg.account_changeRequest}"
+							action="richiediReso.xhtml">
+							<f:setPropertyActionListener target="#{richiediResoView.richiediCambio}" value="true"></f:setPropertyActionListener>
+						</p:menuitem>
+					</p:menuButton>
 
-					</p:commandButton>
+
 				</div>
 			</div>
 
