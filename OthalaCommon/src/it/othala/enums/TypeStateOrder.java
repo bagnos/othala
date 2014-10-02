@@ -57,7 +57,32 @@ public enum TypeStateOrder {
 			return "RESO RIFIUTATO";
 		}
 		
+	},
+	REQUEST_CHANGE(200)
+	{
+		@Override
+		public String toString() {
+			return "RICHIESTO RESO";
+		}
+		
+	},
+	CHANGE_COMPLETED(201)
+	{
+		@Override
+		public String toString() {
+			return "EFFETTUATO RESO";
+		}
+		
+	},
+	CHANGE_REFUSED(202)
+	{
+		@Override
+		public String toString() {
+			return "RESO RIFIUTATO";
+		}
+		
 	}
+
 	;
 
 	private int stato;
