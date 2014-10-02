@@ -476,15 +476,15 @@ public class OrderService implements IOrderService {
 
 	@Override
 	public List<RefoundFullDTO> getRefounds(Integer idRefound, Integer Order,
-			String User, TypeStateOrder StatoOrdine, String idTransaction) {
+			String User, TypeStateOrder StatoOrdine, String idTransaction, String fgChangeRefound) {
 
 		List<RefoundFullDTO> listaRimborsi;
 		if (StatoOrdine == null) {
 			listaRimborsi = 
-				orderDAO.getRefounds(idRefound, Order, User, null, idTransaction);
+				orderDAO.getRefounds(idRefound, Order, User, null, idTransaction, fgChangeRefound);
 		}else{
 			listaRimborsi = 
-				orderDAO.getRefounds(idRefound, Order, User, StatoOrdine.getState(), idTransaction);
+				orderDAO.getRefounds(idRefound, Order, User, StatoOrdine.getState(), idTransaction, fgChangeRefound);
 		}
 
 		Iterator<RefoundFullDTO> i = listaRimborsi.iterator();

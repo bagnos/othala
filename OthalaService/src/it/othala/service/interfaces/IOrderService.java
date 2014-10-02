@@ -49,7 +49,7 @@ public interface IOrderService {
 
 	public String stampaOrdineHTML(Integer idOrder, String pathLogo) throws Exception;
 
-	public List<RefoundFullDTO> getRefounds(Integer idRefound, Integer Order, String User, TypeStateOrder StatoOrdine, String idTransaction);
+	public List<RefoundFullDTO> getRefounds(Integer idRefound, Integer Order, String User, TypeStateOrder StatoOrdine, String idTransaction, String fgChangeRefound);
 	
 	public RefoundFullDTO insertRefound(RefoundFullDTO refoundFull) throws  OthalaException;
 
@@ -64,6 +64,7 @@ public interface IOrderService {
 	public FidelityCardDTO checkFidelityCard(String idFidelity, String eMail, String celNum) throws FidelityCardNotPresentException, FidelityCardNotValidException;
 	
 	public void aggiornaScontoFidelity(String idFidelity, int pcSconto);
+	
 	public void aggiornaQtaCambio(String txBarcodeIn, String txBarcodeOut);
 	
 }
