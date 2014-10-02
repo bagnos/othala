@@ -106,7 +106,7 @@
 			</div>
 
 			<!-- richiesta ri rimborsi -->
-			<div class="row">
+			<div class="row spacer20">
 				<div class="col-sm-6">
 
 				
@@ -151,6 +151,52 @@
 						</p:column>
 					</p:dataTable>
 				</div>
+				
+				<div class="col-sm-6">
+
+				
+				
+					<p:dataTable var="ref" rowKey="#{ref.idRefound}" id="change"
+						value="#{merchantBean.refoundRequest}" rows="10" paginator="true" paginatorPosition="bottom"
+						selection="#{merchantBean.refoundSelected}"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+						selectionMode="single" >
+						<p:ajax event="rowDblselect" listener="#{homeMerchantView.onRowSelectNavigateChange}"/>
+
+						<f:facet name="header">
+		 						RICHIESTE DI CAMBIO
+		 						</f:facet>
+						<p:column headerText="Id" style="width:40px">
+							<h:outputText value="#{ref.idRefound}" />
+						</p:column>
+
+						<p:column headerText="Ordine">
+							<h:outputText value="#{ref.idOrder}" />
+						</p:column>
+
+
+						<p:column headerText="User" styleClass="truncate">
+							<h:outputText id="user" value="#{ref.idUser}" />
+
+
+						</p:column>
+
+						<p:column headerText="Data" style="width:90px">
+							<h:outputText value="#{ref.dtStato}">
+								<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="Importo" style="width:80px">
+							<h:outputText value="#{ref.imRefound}" converter="it.othala.BigDecimalConverter" />
+						</p:column>
+
+						<p:column headerText="Nr. Articoli">
+							<h:outputText value="#{ref.cart.size()}" />
+						</p:column>
+					</p:dataTable>
+				</div>
+				
 
 			</div>
 		</h:form>

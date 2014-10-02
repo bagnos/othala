@@ -55,18 +55,30 @@ public class MerchantBean implements Serializable {
 	private AttributeDTO statoOrdine;
 	private AttributeDTO stateProduct;
 	
-	private List<RefoundFullDTO> refoundRequest=null;
-	
+	private List<RefoundFullDTO> refoundRequest=null;	
 	private RefoundFullDTO refoundSelected=null;
+	private List<RefoundFullDTO> changeRequest=null;
+	private boolean change;
 	
 
-	public void setRefoundRequest(List<RefoundFullDTO> refoundRequest) {
-		this.refoundRequest = refoundRequest;
+	public boolean isChange() {
+		return change;
 	}
 
+	public void setChange(boolean change) {
+		this.change = change;
+	}
 
+	public List<RefoundFullDTO> getChangeRequest() {
+		return changeRequest;
+	}
 
-	
+	public void setChangeRequest(List<RefoundFullDTO> changeRequest) {
+		this.changeRequest = changeRequest;
+	}
+	public void setRefoundRequest(List<RefoundFullDTO> refoundRequest) {
+		this.refoundRequest = refoundRequest;
+	}	
 	public RefoundFullDTO getRefoundSelected() {
 		return refoundSelected;
 	}
