@@ -303,10 +303,10 @@
 
 		INSERT INTO
 		${database.schema}order_refound
-		(`idOrder`,`idUser`,`idTransaction`,`imRefound`,`txChangeRefound`)
+		(`idOrder`,`idUser`,`idTransaction`,`imRefound`,`txChangeRefound`, `fgChangeRefound`)
 		values (
 		#{idOrder},#{idUser},null,
-		#{imRefound},#{txChangeRefound})
+		#{imRefound},#{txMotivoReso},#{fgChangeRefound})
 
 		<selectKey resultType="java.lang.Integer" keyProperty="idRefound">
 
@@ -367,6 +367,7 @@
 		<result property="txNote" column="txNote" />
 		<result property="txStato" column="txStato" />
 		<result property="txMotivoReso" column="MotivoReso" />
+		<result property="fgChangeRefound" column="fgChangeRefound" />
 		<collection property="cart" ofType="it.othala.dto.ArticleRefounded">
 			<result property="prdFullDTO.idProduct" column="idProdotto" />
 			<result property="pgArticle" column="pgArticle" />
@@ -382,8 +383,8 @@
 
 		SELECT
 		a.idRefound, a.idOrder, a.idUser, a.imRefound, a.idTransaction, a.txChangeRefound as MotivoReso,
-		b.idProdotto, b.pgArticle, b.qtArticle, b.fgChangeRefound, b.txChangeRefound, b.txNewBarCode,
-		c.idStato, c.dtStato, c.txNote, d.txStato
+		a.fgChangeRefound, b.idProdotto, b.pgArticle, b.qtArticle, b.fgChangeRefound, b.txChangeRefound, 
+		b.txNewBarCode, c.idStato, c.dtStato, c.txNote, d.txStato
 		FROM
 		${database.schema}order_refound a,
 		${database.schema}refound_articles b,
@@ -403,7 +404,10 @@
 		</if>
 		<if test="idTransaction != null">
 			and a.idTransaction = #{idTransaction}
-		</if>			
+		</if>
+		<if test="fgChangeRefound != null">
+			and a.fgChangeRefound = #{fgChangeRefound}
+		</if>					
 		<if test="idStato != null">
 			and c.dtStato = (SELECT MAX(e.dtStato)
 			FROM ${database.schema}states_refound e
