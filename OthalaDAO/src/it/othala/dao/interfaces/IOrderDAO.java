@@ -43,7 +43,7 @@ public interface IOrderDAO {
 	
 	public void burnCoupon(String idCoupon);
 	
-	public List<RefoundFullDTO> getRefounds(Integer idRefound, Integer idOrder,String idUser,Integer idStato, String idTransaction);
+	public List<RefoundFullDTO> getRefounds(Integer idRefound, Integer idOrder,String idUser,Integer idStato, String idTransaction, String fgChangeRefound);
 	
 	public RefoundFullDTO insertRefound(RefoundFullDTO refoundFull);
 	

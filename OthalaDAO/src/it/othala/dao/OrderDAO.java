@@ -176,7 +176,7 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO  {
 
 	@Override
 	public List<RefoundFullDTO> getRefounds(Integer idRefound, Integer idOrder,
-			String idUser, Integer idStato, String idTransaction) {
+			String idUser, Integer idStato, String idTransaction, String fgChangeRefound) {
 		
 		HashMap<String, Object> mapRefound = new HashMap<>();
 		if (idRefound != null && idRefound > 0)
@@ -189,6 +189,8 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO  {
 			mapRefound.put("idStato", idStato);
 		if (idTransaction != null && !idTransaction.isEmpty())
 			mapRefound.put("idTransaction", idTransaction);
+		if (fgChangeRefound != null && !fgChangeRefound.isEmpty())
+			mapRefound.put("fgChangeRefound", fgChangeRefound);
 
 		// recupero resi
 		List<RefoundFullDTO> listRefounds = getSqlSession().selectList(
