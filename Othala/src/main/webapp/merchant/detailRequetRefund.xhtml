@@ -13,7 +13,11 @@
 
 
 	<ui:define name="Pagina">Ricerca</ui:define>
-	<ui:define name="PaginaBreadcrumb">Dettaglio Richiesta Reso</ui:define>
+	<ui:define name="PaginaBreadcrumb">
+
+		<h:outputText value="Dettaglio Richiesta Reso" rendered="#{merchantBean.change==false}" />
+		<h:outputText value="Dettaglio Richiesta Cambio" rendered="#{merchantBean.change=}" />
+	</ui:define>
 
 	<ui:define name="bodyPageContent">
 
@@ -23,7 +27,8 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<h3 class="form-titoli">
-							<h:outputText value="Dettaglio Richiesta Reso" />
+							<h:outputText value="Dettaglio Richiesta Reso" rendered="#{merchantBean.change==false}" />
+							<h:outputText value="Dettaglio Richiesta Cambio" rendered="#{merchantBean.change=}" />
 						</h3>
 					</div>
 				</div>
@@ -107,6 +112,10 @@
 																<h5>#{art.prdFullDTO.txBrand}</h5>
 																<h6>#{art.prdFullDTO.description}</h6>
 															</div>
+															<h:panelGroup rendered="#{merchantBean.change}">
+															<h4>Da cambiare con</h4>
+															<h5>#{art.txChangeRefound}</h5>
+															</h:panelGroup>
 														</div>
 													</div></td>
 												<td><h:outputText value="#{art.txColor}" /></td>
@@ -134,8 +143,16 @@
 								oncomplete="if ($('#btnTorna').length) {$('#btnTorna').click()}  else {$('#btnTornaHome').click()}">
 							</p:commandButton>
 						</div>
+						<div class="col-sm-2 col-sm-offset-6">
+							<p:commandButton title="Conferma Cambio"  process="@this" update="@form"
+								rendered="#{merchantBean.refoundSelected.idStato==100}"
+								oncomplete="if ($('#btnSpedito').length) {$('#btnSpedito').click()}  else {$('#btnSpeditoHome').click()}"
+								styleClass="ui-priority-primary" value="Rimborsa">
+							</p:commandButton>
+
+						</div>
 						<div class="col-sm-2 col-sm-offset-8">
-							<p:commandButton title="Rimborsa Ordine" process="@this" update="@form"
+							<p:commandButton title="Rimborsa Ordine"  process="@this" update="@form"
 								rendered="#{merchantBean.refoundSelected.idStato==100}"
 								oncomplete="if ($('#btnSpedito').length) {$('#btnSpedito').click()}  else {$('#btnSpeditoHome').click()}"
 								styleClass="ui-priority-primary" value="Rimborsa">

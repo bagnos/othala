@@ -140,58 +140,54 @@ public class RichiediResoView extends BaseView {
 	public void setOrder(OrderFullDTO order) {
 		this.order = order;
 	}
-	
+
 	@Override
 	public String doInit() {
 		// TODO Auto-generated method stub
+
+		try {
+			if (richiediCambio != null && richiediCambio == true) {
+				doInitElencaCambi();
+			} else {
+				doInitElencaResi();
+			}
+		} catch (Exception e) {
+			addGenericError(e, "errore nella int ri richiesta reso");
+		}
+		return null;
+	}
+
+	private void doInitElencaResi() {
+		// TODO Auto-generated method stub
 		elencoResi = OthalaFactory.getOrderServiceInstance().getRefounds(null, null, getLoginBean().getEmail(), null,
-				null);
-		if (richiediCambio!=null && richiediCambio==true)
-		{
-			doInitElencaCambi();
-		}
-		else
-		{
-			doInitElencaResi();
-		}
-		return null;
+				null, "R");
+
 	}
 
-	public String doInitElencaResi() {
+	private void doInitElencaCambi() {
 		// TODO Auto-generated method stub
-		
-		
-		return null;
+
+		elencoResi = OthalaFactory.getOrderServiceInstance().getRefounds(null, null, getLoginBean().getEmail(), null,
+				null, "C");
 
 	}
-	
-	public String doInitElencaCambi() {
-		// TODO Auto-generated method stub
-		
-		
-		
-		
-		return null;
-
-	}
-	
-	
 
 	public void updateReso(AjaxBehaviorEvent e) {
 		try {
 			imRefunded = BigDecimal.ZERO;
 			artToRefund = new ArrayList<>();
-			String idArt= (String) e.getComponent().getAttributes().get("pgArt");
-			String[] items=idArt.split("-");
-			int pgArt=Integer.valueOf(items[1].trim());
-			int idPrd=Integer.valueOf(items[0].trim());
+			String idArt = (String) e.getComponent().getAttributes().get("pgArt");
+			String[] items = idArt.split("-");
+			int pgArt = Integer.valueOf(items[1].trim());
+			int idPrd = Integer.valueOf(items[0].trim());
 			for (ArticleFullDTO art : myAccountBean.getOrderSelected().getCart()) {
 				if (art.isSelected()) {
 					ArticleRefounded artref = new ArticleRefounded(art);
 					artToRefund.add(artref);
 					imRefunded = imRefunded.add(art.getTotalPriced());
-					
-					if (richiediCambio!=null && richiediCambio && art.getPgArticle().intValue()==pgArt && art.getPrdFullDTO().getIdProduct().intValue()==idPrd) {
+
+					if (richiediCambio != null && richiediCambio && art.getPgArticle().intValue() == pgArt
+							&& art.getPrdFullDTO().getIdProduct().intValue() == idPrd) {
 						ProductFullNewDTO prd = OthalaFactory.getProductServiceInstance().getProductFull(getLang(),
 								art.getPrdFullDTO().getIdProduct());
 						updateChangeableArticle(prd, art);
@@ -218,60 +214,55 @@ public class RichiediResoView extends BaseView {
 				}
 			}
 			if (artToRefund.isEmpty()) {
-				addError(OthalaUtil.getWordBundle("account_changeRequest"), OthalaUtil.getWordBundle("account_noArticleSelected"));
+				addError(OthalaUtil.getWordBundle("account_changeRequest"),
+						OthalaUtil.getWordBundle("account_noArticleSelected"));
 				return;
 			}
 
 			ref.setCart(artToRefund);
 			ref.setIdOrder(myAccountBean.getOrderSelected().getIdOrder());
 			ref.setIdUser(myAccountBean.getOrderSelected().getIdUser());
-			if (richiedireso!=null && richiedireso==true)
-			{
-				 getRefund(ref);
-			}
-			else
-			{
+			if (richiedireso != null && richiedireso == true) {
+				getRefund(ref);
+			} else {
 				getChange(ref);
 			}
-			
+
 			addInfo(OthalaUtil.getWordBundle("othala_okExceution"), null);
-			
+
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			addGenericError(e1, "errore nella richesto del reso per l'ordine "
 					+ myAccountBean.getOrderSelected().getIdOrder());
 		}
 	}
-	
-	private void getChange(RefoundFullDTO ref) throws OthalaException
-	{
-		//verifica se per gli articoli selezionati è presenta un articolo da cambiare
-		for (ArticleRefounded art:ref.getCart())
-		{
-			if (art.getChangeSelected()==null)
-			{
-				addError(OthalaUtil.getWordBundle("account_changeRequest"), OthalaUtil.getWordBundle("account_noArticleChangeSelected"));
+
+	private void getChange(RefoundFullDTO ref) throws OthalaException {
+		// verifica se per gli articoli selezionati è presenta un articolo da
+		// cambiare
+		for (ArticleRefounded art : ref.getCart()) {
+			if (art.getChangeSelected() == null) {
+				addError(OthalaUtil.getWordBundle("account_changeRequest"),
+						OthalaUtil.getWordBundle("account_noArticleChangeSelected"));
 				return;
 			}
-			for (ChangeArticleDTO chArt:art.getChangesAvailable())
-			{
-				if (chArt.getCdBarcode().equalsIgnoreCase(art.getChangeSelected()))
-				{
+			for (ChangeArticleDTO chArt : art.getChangesAvailable()) {
+				if (chArt.getCdBarcode().equalsIgnoreCase(art.getChangeSelected())) {
 					art.setTxChangeRefound(chArt.getNoteMerchant());
-					//inserire barcode su artRefounded
+					// inserire barcode su artRefounded
 				}
-			}			
-			
+			}
+
 		}
+		ref.setFgChangeRefound("C");
 		OthalaFactory.getOrderServiceInstance().insertRefound(ref);
-		
-		
+
 	}
-	
-	private void getRefund(RefoundFullDTO ref) throws OthalaException
-	{
+
+	private void getRefund(RefoundFullDTO ref) throws OthalaException {
 		ref.setImRefound(imRefunded);
-		ref.setIdTransaction(myAccountBean.getOrderSelected().getIdTransaction());			
+		ref.setIdTransaction(myAccountBean.getOrderSelected().getIdTransaction());
+		ref.setFgChangeRefound("R");
 		ref = OthalaFactory.getOrderServiceInstance().insertRefound(ref);
 		disabledConferma = true;
 
@@ -285,8 +276,6 @@ public class RichiediResoView extends BaseView {
 				"$(window).scrollTop();window.open('../RichiestaResoServlet?keyRefund=" + keyRefund + "');");
 
 	}
-
-	
 
 	public void selectRefund(AjaxBehaviorEvent e) {
 		int idRefund = Integer.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap()
@@ -305,23 +294,23 @@ public class RichiediResoView extends BaseView {
 	}
 
 	private void updateChangeableArticle(ProductFullNewDTO prd, ArticleFullDTO artSel) {
-		ChangeArticleDTO artRef=null;
+		ChangeArticleDTO artRef = null;
 		if (artSel.getChangesAvailable() == null) {
 			artSel.setChangesAvailable(new ArrayList<ChangeArticleDTO>());
-			List<SelectItem> sel=new ArrayList<SelectItem>();
+			List<SelectItem> sel = new ArrayList<SelectItem>();
 			for (ArticleFullDTO art : prd.getArticles()) {
 				if (art.getPgArticle() != artSel.getPgArticle() && art.getQtStock() > 0) {
-					artRef=valueOfArticle(art);
+					artRef = valueOfArticle(art);
 					artSel.getChangesAvailable().add(valueOfArticle(art));
-					sel.add(new SelectItem(art.getTxBarCode(), String.format("%s, %s",artRef.getSize(),artRef.getColor())));
+					sel.add(new SelectItem(art.getTxBarCode(), String.format("%s, %s", artRef.getSize(),
+							artRef.getColor())));
 				}
 			}
 			if (!artSel.getChangesAvailable().isEmpty()) {
 				artSel.setChangeSelected(artSel.getChangesAvailable().get(0).getCdBarcode());
 				map.put(artSel.getTxBarCode(), sel);
 			}
-			
-			
+
 		}
 
 	}

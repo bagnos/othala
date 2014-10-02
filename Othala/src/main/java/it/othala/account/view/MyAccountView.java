@@ -85,11 +85,13 @@ public class MyAccountView extends BaseView {
 	@Override
 	public String doInit() {
 		// TODO Auto-generated method stub
-
 		try {
+
 			addresses = OthalaFactory.getOrderServiceInstance().getDeliveryInfo(getLoginBean().getEmail());
-			orders = OthalaFactory.getOrderServiceInstance().getOrders(null, getLoginBean().getEmail(), null);
+
 			renderDetails = false;
+
+			getMyAccountBean().setNazioni(getBeanApplication().getDomain().getNazioni());
 
 			getMyAccountBean().setNazioni(getBeanApplication().getDomain().getNazioni());
 
