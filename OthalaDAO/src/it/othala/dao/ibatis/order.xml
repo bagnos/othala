@@ -332,7 +332,7 @@
 
 		INSERT INTO
 		${database.schema}refound_articles
-		(`idRefound`,`idProdotto`,`pgArticle`,`qtArticle`,`fgChangeRefound`, `txNewBarCode`)
+		(`idRefound`,`idProdotto`,`pgArticle`,`qtArticle`,`fgChangeRefound`,`txChangeRefound`,`txNewBarCode`)
 		values
 		(#{idRefound},#{idProdotto},#{pgArticle},#{qtArticle},#{fgChangeRefound},#{txChangeRefound},#{txNewBarCode})
 
