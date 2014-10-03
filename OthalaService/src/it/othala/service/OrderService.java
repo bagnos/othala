@@ -553,7 +553,10 @@ public class OrderService implements IOrderService {
 
 		StateOrderDTO stateOrder = new StateOrderDTO();
 		stateOrder.setIdOrder(refoundFull.getIdOrder());
-		stateOrder.setIdStato(TypeStateOrder.REQUEST_REFOUND.getState());
+		if (refoundFull.getFgChangeRefound() == "R")
+			stateOrder.setIdStato(TypeStateOrder.REQUEST_REFOUND.getState());
+		else
+			stateOrder.setIdStato(TypeStateOrder.REQUEST_CHANGE.getState());
 		stateOrder.setTxNote(null);
 
 		orderDAO.updateStateOrder(stateOrder);
