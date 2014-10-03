@@ -550,10 +550,15 @@ public class OrderService implements IOrderService {
 		}
 
 		orderDAO.insertStatesRefound(refoundFull);
+
+		StateOrderDTO stateOrder = new StateOrderDTO();
+		stateOrder.setIdOrder(refoundFull.getIdOrder());
+		stateOrder.setIdStato(TypeStateOrder.REQUEST_REFOUND.getState());
+		stateOrder.setTxNote(null);
+
+		orderDAO.updateStateOrder(stateOrder);
 		
 		//Stampare il riepilogo 
-		
-
 		return refoundFull;
 	}
 
@@ -567,6 +572,16 @@ public class OrderService implements IOrderService {
 		mapState.put("txNote", txNote);
 		
 		orderDAO.updateStateRefound(mapState);
+		
+		//Aggionro anche lo stato dell'ordine
+		List<RefoundFullDTO> ref = orderDAO.getRefounds(idRefound, null, null, null, null, null);
+		
+		StateOrderDTO stateOrder = new StateOrderDTO();
+		stateOrder.setIdOrder(ref.get(0).getIdOrder());
+		stateOrder.setIdStato(stato.getState());
+		stateOrder.setTxNote(null);
+
+		orderDAO.updateStateOrder(stateOrder);
 		
 	}
 
