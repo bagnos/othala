@@ -303,10 +303,10 @@
 
 		INSERT INTO
 		${database.schema}order_refound
-		(`idOrder`,`idUser`,`idTransaction`,`imRefound`,`txChangeRefound`, `fgChangeRefound`)
+		(`idOrder`,`idUser`,`idTransaction`,`imRefound`,`txChangeRefound`, `fgChangeRefound`, `fgPartialRefound`)
 		values (
 		#{idOrder},#{idUser},#{idTransaction},
-		#{imRefound},#{txMotivoReso},#{fgChangeRefound})
+		#{imRefound},#{txMotivoReso},#{fgChangeRefound},#{fgPartialRefound})
 
 		<selectKey resultType="java.lang.Integer" keyProperty="idRefound">
 
@@ -368,6 +368,7 @@
 		<result property="txStato" column="txStato" />
 		<result property="txMotivoReso" column="MotivoReso" />
 		<result property="fgChangeRefound" column="fgChangeRefound" />
+		<result property="fgPartialRefound" column="fgPartialRefound" />
 		<collection property="cart" ofType="it.othala.dto.ArticleRefounded">
 			<result property="prdFullDTO.idProduct" column="idProdotto" />
 			<result property="pgArticle" column="pgArticle" />
@@ -383,7 +384,7 @@
 
 		SELECT
 		a.idRefound, a.idOrder, a.idUser, a.imRefound, a.idTransaction, a.txChangeRefound as MotivoReso,
-		a.fgChangeRefound, b.idProdotto, b.pgArticle, b.qtArticle, b.fgChangeRefound, b.txChangeRefound, 
+		a.fgChangeRefound, a.fgPartialRefound, b.idProdotto, b.pgArticle, b.qtArticle, b.fgChangeRefound, b.txChangeRefound, 
 		b.txNewBarCode, c.idStato, c.dtStato, c.txNote, d.txStato
 		FROM
 		${database.schema}order_refound a,
