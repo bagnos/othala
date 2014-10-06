@@ -305,7 +305,7 @@
 		${database.schema}order_refound
 		(`idOrder`,`idUser`,`idTransaction`,`imRefound`,`txChangeRefound`, `fgChangeRefound`)
 		values (
-		#{idOrder},#{idUser},null,
+		#{idOrder},#{idUser},#{idTransaction},
 		#{imRefound},#{txMotivoReso},#{fgChangeRefound})
 
 		<selectKey resultType="java.lang.Integer" keyProperty="idRefound">
