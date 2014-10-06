@@ -26,6 +26,7 @@ public class RefoundFullDTO implements Serializable {
 	private String txNote;
 	private String txMotivoReso;
 	private String fgChangeRefound;
+	private boolean fgPartialRefound;
 	private List<ArticleRefounded> cart;
 
 	public Integer getIdRefound() {
@@ -99,6 +100,12 @@ public class RefoundFullDTO implements Serializable {
 	}
 	public void setFgChangeRefound(String fgChangeRefound) {
 		this.fgChangeRefound = fgChangeRefound;
+	}
+	public boolean isFgPartialRefound() {
+		return fgPartialRefound;
+	}
+	public void setFgPartialRefound(boolean fgPartialRefound) {
+		this.fgPartialRefound = fgPartialRefound;
 	}
 	
 	
