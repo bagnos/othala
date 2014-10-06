@@ -58,11 +58,19 @@ public enum TypeStateOrder {
 		}
 		
 	},
+	REFOUND_CANCELED(103)
+	{
+		@Override
+		public String toString() {
+			return "RESO ANNULLATO";
+		}
+		
+	},
 	REQUEST_CHANGE(200)
 	{
 		@Override
 		public String toString() {
-			return "RICHIESTO RESO";
+			return "RICHIESTO CAMBIO";
 		}
 		
 	},
@@ -70,7 +78,7 @@ public enum TypeStateOrder {
 	{
 		@Override
 		public String toString() {
-			return "EFFETTUATO RESO";
+			return "EFFETTUATO CAMBIO";
 		}
 		
 	},
@@ -78,7 +86,15 @@ public enum TypeStateOrder {
 	{
 		@Override
 		public String toString() {
-			return "RESO RIFIUTATO";
+			return "CAMBIO RIFIUTATO";
+		}
+		
+	},
+	CHANGE_CANCELED(203)
+	{
+		@Override
+		public String toString() {
+			return "CAMBIO ANNULLATO";
 		}
 		
 	}
