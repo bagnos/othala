@@ -528,7 +528,7 @@ public class InsertProdottiView extends BaseView {
 			for (ArticleFullDTO art : articles) {
 				if (art.getPgArticle().intValue() == id.intValue()) {
 					art.setSelected(false);
-					if (art.getArticleUpdate().getStato() != ArticleUpdate.NUOVO.getStato()) {
+					if (art.getArticleUpdate()==null || art.getArticleUpdate().getStato() != ArticleUpdate.NUOVO.getStato()) {
 						art.setArticleUpdate(ArticleUpdate.MODIFICATO);
 					}
 					return;
