@@ -11,6 +11,7 @@ import it.othala.payment.paypal.exception.PayPalFailureException;
 import it.othala.payment.paypal.exception.PayPalFundingFailureException;
 import it.othala.payment.paypal.exception.PayPalIpnErrorException;
 import it.othala.payment.paypal.exception.PayPalIpnInvalidException;
+import it.othala.payment.paypal.exception.PayPalPostRefundPaymentException;
 import it.othala.util.OthalaCommonUtils;
 
 import java.io.UnsupportedEncodingException;
@@ -145,12 +146,12 @@ class PayPalWrapper {
 	}
 
 	public RefundTransactionDTO refundTransaction(String idTransaction, BigDecimal amt, boolean fgPartial,
-			List<String> articles,String refundId) throws PayPalException, PayPalFailureException {
+			List<String> articles,String refundId) throws PayPalException, PayPalFailureException, PayPalPostRefundPaymentException {
 		RefundTransaction refTransaction;
 		RefundTransactionDTO refundTransactionDTO = null;
 
 		if (fgPartial) {
-			refTransaction = RefundTransaction.getPartialRefund(idTransaction, OthalaCommonUtils.getImporto(amt));
+			refTransaction = RefundTransaction.getPartialRefund(idTransaction, OthalaCommonUtils.getImportoNoCurrency(amt));
 			refTransaction.getNVPRequest().put("CURRENCYCODE", "EUR");
 			StringBuilder sb = new StringBuilder();
 			if (articles != null && !articles.isEmpty()) {
@@ -301,7 +302,8 @@ class PayPalWrapper {
 		return setExpChecktDTO;
 	}
 
-	private RefundTransactionDTO getRefundTransactionDTO(Map<String, String> response) throws PayPalFailureException {
+	private RefundTransactionDTO getRefundTransactionDTO(Map<String, String> response) throws PayPalFailureException,
+			PayPalPostRefundPaymentException {
 		StringBuilder sn = new StringBuilder();
 		for (String e : response.keySet()) {
 			sn.append(String.format("%s=%s;", e, response.get(e).toString()));
@@ -309,11 +311,18 @@ class PayPalWrapper {
 
 		RefundTransactionDTO refundTransactionDTO = new RefundTransactionDTO();
 		if (response.get("ACK").toString().equalsIgnoreCase("Success")) {
+			try
+			{
 			refundTransactionDTO.setPENDINGREASON(response.get("PENDINGREASON").toString());
 			refundTransactionDTO.setREFUNDSTATUS(response.get("REFUNDSTATUS").toString());
 			refundTransactionDTO.setREFUNDTRANSACTIONID(response.get("REFUNDTRANSACTIONID").toString());
-			refundTransactionDTO.setTOTALREFUNDEDAMT(new BigDecimal(response.get("TOTALREFUNDEDAMT")));
+			refundTransactionDTO.setTOTALREFUNDEDAMT(new BigDecimal(response.get("GROSSREFUNDAMT")));
 			refundTransactionDTO.setOkMessage(sn.toString());
+			}
+			catch (Exception e)
+			{
+				throw new PayPalPostRefundPaymentException(e,"","errore nella costruzione di RefundTransactionDTO ");
+			}
 
 		} else {
 			updateError(response);

@@ -53,7 +53,7 @@
 													<th class="col-sm-2">#{msg.account_nrReturn}</th>
 													<th class="col-sm-2">#{msg.account_nrOrder}</th>
 													<c:if test="#{richiediResoView.richiedireso}">
-													<th class="col-sm-2">#{msg.account_imOrder}</th>
+														<th class="col-sm-2">#{msg.account_imOrder}</th>
 													</c:if>
 													<th class="col-sm-2">#{msg.account_nrArticles}</th>
 													<th class="col-sm-2">#{msg.account_stato}</th>
@@ -78,12 +78,10 @@
 														<td><h:outputText value="#{refund.idRefound}" /></td>
 														<td><h:outputText value="#{refund.idOrder}" /></td>
 														<c:if test="#{richiediResoView.richiedireso}">
-														<td><h:outputText value="#{refund.imRefound}">
-																<f:converter converterId="it.othala.BigDecimalConverter" />
-															</h:outputText>
-															
-															</td>
-															</c:if>
+															<td><h:outputText value="#{refund.imRefound}">
+																	<f:converter converterId="it.othala.BigDecimalConverter" />
+																</h:outputText></td>
+														</c:if>
 
 														<td><h:outputText value="#{refund.cart.size()}">
 
@@ -120,15 +118,59 @@
 							</div>
 						</div>
 
-						<div class="row spacer10">
-							<div class="col-sm-6">
-								<h5>
-									<strong>#{msg.account_detailReturn} <h:outputText
-											value="#{richiediResoView.refundSelected.idRefound}" /></strong>
-								</h5>
+
+						<div class="row spacer20">
+						
+							<div class="col-sm-3">
+								<h4>
+									<strong>ID. RICHIESTA</strong>
+								</h4>
+								#{richiediResoView.refundSelected.idRefound}
+							</div>
+
+							<div class="col-sm-3">
+								<h4>
+									<strong>#{msg.catalogo_nrOrder}</strong>
+								</h4>
+								#{richiediResoView.refundSelected.idOrder}
+							</div>
+
+							<div class="col-sm-3">
+								<h4>
+									<strong>Utente</strong>
+								</h4>
+								#{richiediResoView.refundSelected.idUser}
+							</div>
+							<div class="col-sm-3">
+								<h4>
+									<strong>Stato</strong>
+								</h4>
+								#{richiediResoView.refundSelected.txStato}
+
 							</div>
 						</div>
 
+
+						<div class="row spacer10">
+							<div class="col-sm-12">
+								<div class="form-horizontal spacer10">
+
+									<div class="form-group ">
+
+										<p:outputLabel styleClass="col-sm-2 control-label" style="text-transform: uppercase; "
+											value="#{msg.account_notesToMerchant}" for="note" />
+										<div class="col-sm-10">
+											<h:outputText id="note" style="word-wrap:break-word;"
+												value="#{richiediResoView.refundSelected.txMotivoReso}" maxlength="70" />
+
+
+										</div>
+
+									</div>
+								</div>
+							</div>
+
+						</div>
 
 
 
@@ -152,8 +194,10 @@
 
 
 											<tr>
-												<td colspan="5" class="text-right"><strong>#{msg.catalog_total}</strong></td>
-												<td><h:outputText value="#{richiediResoView.refundSelected.imRefound}">
+												<td colspan="5" class="text-right"><strong><h:outputText
+															rendered="#{richiediResoView.richiedireso}" value="#{msg.catalog_total}" /></strong></td>
+												<td><h:outputText rendered="#{richiediResoView.richiedireso}"
+														value="#{richiediResoView.refundSelected.imRefound}">
 														<f:converter converterId="it.othala.BigDecimalConverter" />
 													</h:outputText></td>
 											</tr>
@@ -170,11 +214,15 @@
 																	<h5>#{art.prdFullDTO.txBrand}</h5>
 																	<h6>#{art.prdFullDTO.description}</h6>
 																</div>
-																<h:panelGroup rendered="#{art.fgChangeRefound.equalsIgnoreCase('S')}">
-																<h4>#{msg.account_newArticle}</h4>
-																
-																<h:outputText value="#{art.txNewBarcode - art.txSize - art.txColor}" />
+																<h:panelGroup rendered="#{richiediResoView.richiediCambio}">
+																	<div class="articolo spacer20">
+																		<h5>
+																			DA CAMBIARE CON<br /> #{art.txChangeRefound}
+																		</h5>
+																	</div>
 																</h:panelGroup>
+
+
 															</div>
 														</div></td>
 													<td><h:outputText value="#{art.txColor}" /></td>

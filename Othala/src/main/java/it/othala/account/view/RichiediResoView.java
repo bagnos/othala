@@ -9,6 +9,7 @@ import it.othala.dto.OrderFullDTO;
 import it.othala.dto.ProductFullNewDTO;
 import it.othala.dto.RefoundFullDTO;
 import it.othala.execption.OthalaException;
+import it.othala.merchant.model.MerchantBean;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.util.HelperCrypt;
 import it.othala.view.BaseView;
@@ -180,9 +181,10 @@ public class RichiediResoView extends BaseView {
 			String[] items = idArt.split("-");
 			int pgArt = Integer.valueOf(items[1].trim());
 			int idPrd = Integer.valueOf(items[0].trim());
+			ArticleRefounded artref=null;
 			for (ArticleFullDTO art : myAccountBean.getOrderSelected().getCart()) {
 				if (art.isSelected()) {
-					ArticleRefounded artref = new ArticleRefounded(art);
+					artref = new ArticleRefounded(art);
 					artToRefund.add(artref);
 					imRefunded = imRefunded.add(art.getTotalPriced());
 
@@ -194,6 +196,8 @@ public class RichiediResoView extends BaseView {
 					}
 				}
 			}
+			
+			
 		} catch (Exception ex) {
 			addGenericError(ex, "errore nella selezione del camnbio");
 		}
@@ -222,19 +226,28 @@ public class RichiediResoView extends BaseView {
 			ref.setCart(artToRefund);
 			ref.setIdOrder(myAccountBean.getOrderSelected().getIdOrder());
 			ref.setIdUser(myAccountBean.getOrderSelected().getIdUser());
+			ref.setTxMotivoReso(note);
 			if (richiedireso != null && richiedireso == true) {
 				getRefund(ref);
 			} else {
 				getChange(ref);
 			}
-
-			addInfo(OthalaUtil.getWordBundle("othala_okExceution"), null);
+			disabledConferma=true;
 
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			addGenericError(e1, "errore nella richesto del reso per l'ordine "
 					+ myAccountBean.getOrderSelected().getIdOrder());
 		}
+	}
+
+	private void stampa(RefoundFullDTO ref) {
+		keyRefund = getLoginBean().getEmail() + "-" + myAccountBean.getOrderSelected().getIdOrder();
+		keyRefund = HelperCrypt.encrypt(keyRefund);
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("", ref);
+
+		RequestContext.getCurrentInstance().execute(
+				"$(window).scrollTop();window.open('../RichiestaResoServlet?keyRefund=" + keyRefund + "');");
 	}
 
 	private void getChange(RefoundFullDTO ref) throws OthalaException {
@@ -249,6 +262,7 @@ public class RichiediResoView extends BaseView {
 			for (ChangeArticleDTO chArt : art.getChangesAvailable()) {
 				if (chArt.getCdBarcode().equalsIgnoreCase(art.getChangeSelected())) {
 					art.setTxChangeRefound(chArt.getNoteMerchant());
+					art.setTxNewBarcode(chArt.getCdBarcode());
 					// inserire barcode su artRefounded
 				}
 			}
@@ -256,25 +270,23 @@ public class RichiediResoView extends BaseView {
 		}
 		ref.setFgChangeRefound("C");
 		OthalaFactory.getOrderServiceInstance().insertRefound(ref);
-
+		addInfo("Richesta Cambio",
+				"La richiesta è stata effettuata correttamente, nella sezione 'Miei Cambi' portà verificare lo stato della sua richiesta. \n Stampare la ricevuta ed inserirla all'interno del pacco insieme all'atricoli da cambiare");
+		stampa(ref);
 	}
 
 	private void getRefund(RefoundFullDTO ref) throws OthalaException {
 		ref.setImRefound(imRefunded);
 		ref.setIdTransaction(myAccountBean.getOrderSelected().getIdTransaction());
 		ref.setFgChangeRefound("R");
-		ref = OthalaFactory.getOrderServiceInstance().insertRefound(ref);
+		ref.setFgPartialRefound(ref.getCart().size()!=myAccountBean.getOrderSelected().getCart().size());	
+		ref = OthalaFactory.getOrderServiceInstance().insertRefound(ref);		
+		
 		disabledConferma = true;
 
-		keyRefund = getLoginBean().getEmail() + "-" + myAccountBean.getOrderSelected().getIdOrder();
-		keyRefund = HelperCrypt.encrypt(keyRefund);
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("", ref);
-
 		addInfo("Richesta Reso",
-				"LA richiesta è stata effettuata correttamente, nella sezione 'Miei Resi' portà verificare lo stato della sua richiesta. \n Stampare la ricevuta ed inserirla all'interno del pacco");
-		RequestContext.getCurrentInstance().execute(
-				"$(window).scrollTop();window.open('../RichiestaResoServlet?keyRefund=" + keyRefund + "');");
-
+				"LA richiesta è stata effettuata correttamente, nella sezione 'Miei Resi' portà verificare lo stato della sua richiesta. \n Stampare la ricevuta ed inserirla all'interno del pacco insieme all'articoli da rimborsare");
+		stampa(ref);
 	}
 
 	public void selectRefund(AjaxBehaviorEvent e) {

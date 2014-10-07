@@ -16,7 +16,7 @@
 	</ui:define>
 
 	<ui:define name="content">
-		<h:form prependId="false"  id="cart-checkout">
+		<h:form prependId="false" id="cart-checkout">
 			<div class="container">
 				<div class="row spacer20">
 
@@ -40,7 +40,10 @@
 												<span class="label">3</span> #{msg.catalogo_delivery}
 											</a></li>
 										<li><a href="#tab3" data-toggle="tab">
-												<span class="label">4</span> #{msg.catalogo_payment}
+												<span class="label">4</span> #{msg.catalogo_discounted}
+											</a></li>
+										<li><a href="#tab4" data-toggle="tab">
+												<span class="label">5</span> #{msg.catalogo_payment}
 											</a></li>
 										<!-- 
 										<li><a href="#tab4" data-toggle="tab">
@@ -71,11 +74,13 @@
 												<h:panelGroup id="registration">
 													<ui:include src="/sections/registration.xhtml" />
 													<p:commandButton id="ajaxReg" process="registration" validateClient="true"
-														  update="registration @(form:first)" onerror="PF('blockAll').unblock();" oncomplete="PF('blockAll').unblock();" onclick="PF('blockAll').block()" styleClass="ui-priority-primary"
-														actionListener="#{accessView.registrationWizard}" value="#{msg.account_create}">
+														update="registration @(form:first)" onerror="PF('blockAll').unblock();"
+														oncomplete="PF('blockAll').unblock();" onclick="PF('blockAll').block()"
+														styleClass="ui-priority-primary" actionListener="#{accessView.registrationWizard}"
+														value="#{msg.account_create}">
 													</p:commandButton>
 												</h:panelGroup>
-											</div> 
+											</div>
 
 
 											<div style="clear: both"></div>
@@ -83,18 +88,20 @@
 
 										</div>
 										<div class="tab-pane" id="tab2">
-										<ui:include src="/sections/cart-delivery.xhtml" />
+											<ui:include src="/sections/cart-delivery.xhtml" />
 										</div>
 										<div class="tab-pane" id="tab3">
-										<ui:include src="/sections/cart-wrapUpAndPayment.xhtml" />
+											<ui:include src="/sections/cart-discount.xhtml" />
 										</div>
-										
-										<div class="tab-pane" id="tab4">4</div>
+
+										<div class="tab-pane" id="tab4">
+											<ui:include src="/sections/cart-wrapUpAndPayment.xhtml" />
+										</div>
 
 
 										<ul class="pager wizard">
 											<!-- <li class="previous first" style="display: none;"><a href="#">First</a></li>-->
-											<li class="previous" id="previous"  style="display: none;"><a href="#">Previous</a></li>
+											<li class="previous" id="previous" style="display: none;"><a href="#">Previous</a></li>
 											<li class="next last" id="last" style="display: none;"><a href="#">Last</a></li>
 											<li class="next" id="next" style="display: none;"><a href="#">Next</a></li>
 										</ul>

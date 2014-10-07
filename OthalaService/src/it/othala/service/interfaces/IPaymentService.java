@@ -4,21 +4,20 @@ import it.othala.account.execption.MailNotSendException;
 import it.othala.dto.MailPropertiesDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.ProfilePayPalDTO;
+import it.othala.dto.RefoundFullDTO;
 import it.othala.enums.TypeStateOrder;
 import it.othala.execption.OthalaException;
 import it.othala.execption.StockNotPresentException;
 import it.othala.payment.paypal.dto.DoExpressCheckoutPaymentDTO;
 import it.othala.payment.paypal.dto.GetExpressCheckoutDetailsDTO;
-import it.othala.payment.paypal.dto.IpnDTO;
+import it.othala.payment.paypal.dto.RefundTransactionDTO;
 import it.othala.payment.paypal.dto.SetExpressCheckoutDTO;
 import it.othala.payment.paypal.exception.PayPalException;
 import it.othala.payment.paypal.exception.PayPalFailureException;
 import it.othala.payment.paypal.exception.PayPalFundingFailureException;
 import it.othala.payment.paypal.exception.PayPalIpnErrorException;
 import it.othala.payment.paypal.exception.PayPalPostPaymentException;
-
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
+import it.othala.payment.paypal.exception.PayPalPostRefundPaymentException;
 
 public interface IPaymentService {
 
@@ -50,4 +49,6 @@ public interface IPaymentService {
 
 	public GetExpressCheckoutDetailsDTO getExpressCheckoutDetails(String token, ProfilePayPalDTO profile)
 			throws PayPalException, PayPalFailureException;
+	
+	public RefundTransactionDTO requestRefund(RefoundFullDTO ref,ProfilePayPalDTO profile) throws PayPalException, PayPalFailureException,PayPalPostRefundPaymentException;
 }

@@ -20,7 +20,7 @@ public class ChangeArticleDTO implements Serializable {
 		this.cdBarcode = cdBarcode;
 	}
 	public String getNoteMerchant() {
-		noteMerchant=String.format("%s %s %s", getSize(), getColor(), getShop());
+		noteMerchant=String.format("Barcode %s, Taglia %s, Colore %s presso Negozio %s",getCdBarcode(), getSize(), getColor(), getShop());
 		return noteMerchant;
 	}
 	public String getShop() {

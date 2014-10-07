@@ -11,10 +11,16 @@ public class OthalaCommonUtils {
 
 	public static String getImporto(BigDecimal value) {
 		// TODO Auto-generated method stub
-		BigDecimal scaleBD = value.setScale(2, RoundingMode.HALF_UP);
-		Double valueDbl = scaleBD.doubleValue();
-		String s = n.format(valueDbl);
+
+		String s = n.format(getImportoNoCurrency(value));
 		return s;
+	}
+
+	public static String getImportoNoCurrency(BigDecimal value) {
+		// TODO Auto-generated method stub
+		BigDecimal scaleBD = value.setScale(2, RoundingMode.HALF_UP);
+		return scaleBD.toString();
+
 	}
 
 }

@@ -13,7 +13,21 @@ public class RefundTransactionDTO extends PayPalResponseDTO {
 	private BigDecimal TOTALREFUNDEDAMT;
 	private String REFUNDSTATUS;
 	private String PENDINGREASON;
+	private boolean pending;
+	private boolean failed;
 	
+	public boolean isFailed() {
+		return failed;
+	}
+	public void setFailed(boolean failed) {
+		this.failed = failed;
+	}
+	public boolean isPending() {
+		return pending;
+	}
+	public void setPending(boolean pending) {
+		this.pending = pending;
+	}
 	public String getREFUNDTRANSACTIONID() {
 		return REFUNDTRANSACTIONID;
 	}
