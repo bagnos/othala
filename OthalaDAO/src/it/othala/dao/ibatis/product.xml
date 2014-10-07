@@ -842,6 +842,22 @@
 
 	</update>
 
+
+
+	<update id="setNewQtStock" parameterType="java.util.HashMap">
+
+		UPDATE
+		${database.schema}article
+		set qtStock = #{qtArticles}
+		Where idProduct =
+		#{idProduct}
+		and
+		pgArticle =
+		#{pgArticle};
+
+
+	</update>
+
 	<update id="updateQtStock" parameterType="java.util.HashMap">
 
 		UPDATE
@@ -859,8 +875,8 @@
 
 
 	</update>
-	
-		<update id="updateQtStockBarcode" parameterType="java.util.HashMap">
+
+	<update id="updateQtStockBarcode" parameterType="java.util.HashMap">
 
 		UPDATE
 		${database.schema}article
@@ -875,8 +891,8 @@
 
 
 	</update>
-	
-	
+
+
 
 	<select id="getListCampaign" resultType="it.othala.dto.CampaignDTO">
 
@@ -890,21 +906,23 @@
 
 
 	</select>
-	
-		<select id="getListNazioni" resultType="it.othala.dto.NazioniDTO">
+
+	<select id="getListNazioni" resultType="it.othala.dto.NazioniDTO">
 
 
-		SELECT idNazione as descrizione,
-		idLanguages as language 
+		SELECT idNazione as
+		descrizione,
+		idLanguages as language
 		FROM
 		${database.schema}nazioni
-		ORDER BY 1;
+		ORDER
+		BY 1;
 
 
 
 	</select>
-	
-	
+
+
 
 	<update id="publishProduct" parameterType="list">
 
@@ -999,7 +1017,8 @@
 		SELECT
 		a.idProduct ,
 		a.idProductState,
-		h.txProductState as txProductState,
+		h.txProductState as
+		txProductState,
 		a.idGender,
 		txGender,
 		a.idType,
@@ -1030,7 +1049,8 @@
 		and
 		b.idLanguages = "it"
 		and b.idLanguages
-		= f.idLanguages
+		=
+		f.idLanguages
 		and b.idLanguages
 		= g.idLanguages
 		and c.idBrand =
@@ -1436,7 +1456,8 @@
 		where
 		tab2.dtInizio
 		&lt;= current_date
-		and tab2.dtFine &gt;= current_date
+		and tab2.dtFine
+		&gt;= current_date
 		;
 
 
