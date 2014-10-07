@@ -5,6 +5,7 @@ import it.othala.dto.AttributeDTO;
 import it.othala.dto.DomainDTO;
 import it.othala.dto.ProductFullNewDTO;
 import it.othala.dto.ShopDTO;
+import it.othala.enums.ArticleUpdate;
 import it.othala.merchant.model.MerchantBean;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
@@ -71,8 +72,7 @@ public class InsertProdottiView extends BaseView {
 
 	private Boolean fgRead;
 	private Boolean fgMod;
-	private static DateFormat dateFormat = new SimpleDateFormat(
-			"yyyyMMddHHmmssSSS");
+	private static DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
 	private String separatorDateFormat = "&";
 	private Boolean detail;
 	private ProductFullNewDTO prdDetail = null;
@@ -353,8 +353,7 @@ public class InsertProdottiView extends BaseView {
 			prd.setPriceDiscounted(prezzoScontato);
 
 			if (fgMod == null || fgMod == false) {
-				OthalaFactory.getProductServiceInstance().insertProduct(prd,
-						pubblica);
+				OthalaFactory.getProductServiceInstance().insertProduct(prd, pubblica);
 				resetPrd();
 				getBeanApplication().resetMenu();
 				addInfo("Prodotto", "inserimento effettuato correttamente");
@@ -374,8 +373,7 @@ public class InsertProdottiView extends BaseView {
 	}
 
 	private void initProdotto() {
-		prdDetail = OthalaFactory.getProductServiceInstance().getProductFull(
-				getLang(),
+		prdDetail = OthalaFactory.getProductServiceInstance().getProductFull(getLang(),
 				merchantBean.getSelectedProducts().get(0).getIdProduct());
 		articles = prdDetail.getArticles();
 		descrizione = prdDetail.getDescription();
@@ -485,24 +483,62 @@ public class InsertProdottiView extends BaseView {
 		return getAutoUtils().completeColours(query);
 	}
 
-	public void removeArticle(ActionEvent e) {
+	/*
+	 * public void removeArticle(ActionEvent e) {
+	 * 
+	 * Integer id = (Integer) e.getComponent().getAttributes().get("idArt");
+	 * 
+	 * if (!articles.isEmpty()) { for (ArticleFullDTO art : articles) { if
+	 * (art.getPgArticle().intValue() == id.intValue()) {
+	 * //articles.remove(art); //art.setQtBooked(0); return; } }
+	 * 
+	 * } }
+	 */
+
+	public void modifyArticle(ActionEvent e) {
 
 		Integer id = (Integer) e.getComponent().getAttributes().get("idArt");
-
 		if (!articles.isEmpty()) {
 			for (ArticleFullDTO art : articles) {
 				if (art.getPgArticle().intValue() == id.intValue()) {
-					articles.remove(art);
+					art.setSelected(true);
 					return;
 				}
 			}
+		}
+	}
 
+	public void closeArticle(ActionEvent e) {
+
+		Integer id = (Integer) e.getComponent().getAttributes().get("idArt");
+		if (!articles.isEmpty()) {
+			for (ArticleFullDTO art : articles) {
+				if (art.getPgArticle().intValue() == id.intValue()) {
+					art.setSelected(false);
+					return;
+				}
+			}
+		}
+	}
+
+	public void confirmArticle(ActionEvent e) {
+
+		Integer id = (Integer) e.getComponent().getAttributes().get("idArt");
+		if (!articles.isEmpty()) {
+			for (ArticleFullDTO art : articles) {
+				if (art.getPgArticle().intValue() == id.intValue()) {
+					art.setSelected(false);
+					if (art.getArticleUpdate().getStato() != ArticleUpdate.NUOVO.getStato()) {
+						art.setArticleUpdate(ArticleUpdate.MODIFICATO);
+					}
+					return;
+				}
+			}
 		}
 	}
 
 	public void removeImgPrd(ActionEvent e) {
-		ExternalContext extContext = FacesContext.getCurrentInstance()
-				.getExternalContext();
+		ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
 		String fileName = (String) e.getComponent().getAttributes().get("img");
 		File file = new File(extContext.getRealPath(BASE_IMG_PATH + fileName));
 		String baseName = fileName.split(separatorDateFormat)[1];
@@ -539,8 +575,7 @@ public class InsertProdottiView extends BaseView {
 				log.error("errore upload", e);
 				addError("Upload", file.getFileName() + " errore nell'upload");
 			}
-			addInfo("Upload", file.getFileName()
-					+ " è stata caricata correttamente");
+			addInfo("Upload", file.getFileName() + " è stata caricata correttamente");
 			imagesFile.add(file.getFileName());
 			imagesGuidFile.add(fileResized);
 
@@ -565,11 +600,8 @@ public class InsertProdottiView extends BaseView {
 		// IOUtils.copy(inputStream, fileOutputStream);
 		Date date = new Date();
 
-		String fileResized = ResizeImageUtil.resizeAndCopyImage(inputStream,
-				BASE_IMG_PATH, dateFormat.format(date)
-						+ separatorDateFormat
-						+ file.getFileName()
-								.replaceAll(separatorDateFormat, ""));
+		String fileResized = ResizeImageUtil.resizeAndCopyImage(inputStream, BASE_IMG_PATH, dateFormat.format(date)
+				+ separatorDateFormat + file.getFileName().replaceAll(separatorDateFormat, ""));
 
 		return fileResized;
 
@@ -589,8 +621,7 @@ public class InsertProdottiView extends BaseView {
 			return;
 		}
 		try {
-			OthalaFactory.getProductServiceInstance().insertBrand(getLang(),
-					newBrand);
+			OthalaFactory.getProductServiceInstance().insertBrand(getLang(), newBrand);
 			getBeanApplication().resetDomain();
 			brand = completeBrand(newBrand).get(0);
 			addInfo("Nuovo Brand", "brand inserito correttamente");
@@ -601,14 +632,12 @@ public class InsertProdottiView extends BaseView {
 	}
 
 	public void addNewColor(ActionEvent e) {
-		if (newColor == null || newColor.isEmpty() || newColorEN == null
-				|| newColorEN.isEmpty()) {
+		if (newColor == null || newColor.isEmpty() || newColorEN == null || newColorEN.isEmpty()) {
 			addError("Nuovo colore", "inserire il colore");
 			return;
 		}
 		try {
-			OthalaFactory.getProductServiceInstance().insertColor(getLang(),
-					newColor, newColorEN);
+			OthalaFactory.getProductServiceInstance().insertColor(getLang(), newColor, newColorEN);
 			getBeanApplication().resetDomain();
 			color = completeColours(newColor).get(0);
 			addInfo("Nuovo Colore", "colore inserito correttamente");
@@ -619,14 +648,12 @@ public class InsertProdottiView extends BaseView {
 	}
 
 	public void addNewMaterial(ActionEvent e) {
-		if (newMaterial == null || newMaterial.isEmpty()
-				|| newMaterialEN == null || newMaterialEN.isEmpty()) {
+		if (newMaterial == null || newMaterial.isEmpty() || newMaterialEN == null || newMaterialEN.isEmpty()) {
 			addError("Nuovo materiale", "inserire il materiale");
 			return;
 		}
 		try {
-			OthalaFactory.getProductServiceInstance().insertMaterial(getLang(),
-					newMaterial, newMaterialEN);
+			OthalaFactory.getProductServiceInstance().insertMaterial(getLang(), newMaterial, newMaterialEN);
 			getBeanApplication().resetDomain();
 			material = completeColours(newMaterial).get(0);
 			addInfo("Nuovo Materiale", "materiale inserito correttamente");
@@ -642,8 +669,7 @@ public class InsertProdottiView extends BaseView {
 			return;
 		}
 		try {
-			OthalaFactory.getProductServiceInstance().insertType(getLang(),
-					newType);
+			OthalaFactory.getProductServiceInstance().insertType(getLang(), newType);
 			getBeanApplication().resetDomain();
 			addInfo("Nuovo tipo", "tipo inserito correttamente");
 
