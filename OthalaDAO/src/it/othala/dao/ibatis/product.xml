@@ -848,7 +848,7 @@
 
 		UPDATE
 		${database.schema}article
-		set qtStock = #{qtArticles}
+		set qtStock = #{qtStock}
 		Where idProduct =
 		#{idProduct}
 		and
