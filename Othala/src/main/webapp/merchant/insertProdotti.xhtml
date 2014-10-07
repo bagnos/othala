@@ -114,7 +114,7 @@
 							<p:commandButton rendered="#{insertProdottiView.fgRead==false}" title="Aggiungi Genere"
 								icon="ui-icon-plus" type="button" onclick="$('#newBrand1').val('');PF('dlgIns').show();" />
 						</div>
-						
+
 						<p:outputLabel for="material" styleClass="col-sm-1 control-label" value="Material" />
 						<div class="col-sm-3">
 							<h:panelGroup id="materialPnl">
@@ -122,13 +122,14 @@
 									scrollHeight="#{insertProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}" required="true"
 									minQueryLength="1" dropdown="true" id="material" value="#{insertProdottiView.material}"
 									completeMethod="#{insertProdottiView.completeMaterial}" var="material"
-									itemLabel="#{material.valore}" itemValue="#{material}" converter="it.othala.MaterialConverter"
-									forceSelection="true" />
+									itemLabel="#{material.valore}" itemValue="#{material}"
+									converter="it.othala.MaterialConverter" forceSelection="true" />
 							</h:panelGroup>
 							<p:commandButton rendered="#{insertProdottiView.fgRead==false}" title="Aggiungi Materiale"
-								icon="ui-icon-plus" type="button" onclick="$('#newMaterial1').val('');$('#newMaterial2').val('');PF('dlgInsMaterial').show();" />
+								icon="ui-icon-plus" type="button"
+								onclick="$('#newMaterial1').val('');$('#newMaterial2').val('');PF('dlgInsMaterial').show();" />
 						</div>
-						
+
 					</div>
 
 					<div class="form-group">
@@ -144,8 +145,8 @@
 						<p:outputLabel class="col-sm-1 control-label" for="sconto" styleClass="col-sm-1 control-label"
 							value="Sconto" />
 						<div class="col-sm-1">
-							<p:spinner readonly="#{insertProdottiView.fgRead==true}" suffix=" %" required="false" size="4"
-								id="sconto" value="#{insertProdottiView.sconto}" min="0" max="100" />
+							<p:spinner readonly="#{insertProdottiView.fgRead==true}" suffix=" %" required="false"
+								size="4" id="sconto" value="#{insertProdottiView.sconto}" min="0" max="100" />
 						</div>
 
 						<p:outputLabel class="col-sm-1 control-label" for="totPrezzoPrd"
@@ -159,12 +160,14 @@
 					</div>
 
 					<div class="form-group">
-						<p:outputLabel for="prezzoSpecialePrd" styleClass="col-sm-1 control-label" value="Prezzo Speciale" />
+						<p:outputLabel for="prezzoSpecialePrd" styleClass="col-sm-1 control-label"
+							value="Prezzo Speciale" />
 						<div class="col-sm-2">
 
 							<pe:inputNumber readonly="#{insertProdottiView.fgRead==true}" widgetVar="f7"
-								symbol="&#8364; " id="prezzoSpecialePrd" required="false" value="#{insertProdottiView.prezzoSpeciale}"
-								decimalSeparator="," thousandSeparator="." decimalPlaces="2" />
+								symbol="&#8364; " id="prezzoSpecialePrd" required="false"
+								value="#{insertProdottiView.prezzoSpeciale}" decimalSeparator="," thousandSeparator="."
+								decimalPlaces="2" />
 
 						</div>
 
@@ -180,7 +183,7 @@
 						</div>
 
 					</div>
-					
+
 					<div class="form-group">
 						<p:outputLabel styleClass="col-sm-1 control-label" for="descEN" value="Descrizione EN" />
 						<div class="col-sm-6">
@@ -191,7 +194,7 @@
 						</div>
 
 					</div>
-					
+
 
 					<div class="form-group">
 						<p:outputLabel styleClass="col-sm-1 control-label" for="pubblica" value="Pubblica" />
@@ -224,10 +227,11 @@
 				</div>
 			</p:dialog>
 			<!-- inserimento materiale -->
-			<p:dialog header="Nuovo Materiale" id="dlgInsMaterial" widgetVar="dlgInsMaterial" modal="true" height="150">
+			<p:dialog header="Nuovo Materiale" id="dlgInsMaterial" widgetVar="dlgInsMaterial" modal="true"
+				height="150">
 				<div class="row text-center">
 					<div class="col-sm-12 ">
-					<p:outputLabel style="padding-right: 5px;">IT</p:outputLabel>
+						<p:outputLabel style="padding-right: 5px;">IT</p:outputLabel>
 						<p:inputText label="nuovo materiale IT" id="newMaterial1" required="true"
 							value="#{insertProdottiView.newMaterial}" maxlength="40" size="40" />
 						<br /> <br />
@@ -246,7 +250,7 @@
 			<p:dialog header="Nuovo Colore" id="dlgInsCol" widgetVar="dlgInsCol" modal="true" height="150">
 				<div class="row text-center">
 					<div class="col-sm-12 ">
-					<p:outputLabel style="padding-right: 5px;">IT</p:outputLabel>
+						<p:outputLabel style="padding-right: 5px;">IT</p:outputLabel>
 						<p:inputText label="nuovo colore IT" id="newCol1" required="true"
 							value="#{insertProdottiView.newColor}" maxlength="40" size="40" />
 						<br /> <br />
@@ -428,23 +432,35 @@
 								<h:outputText value="#{art.txBarCode}" />
         </p:column>
         <p:column headerText="Taglia">
-            <h:outputText value="#{art.txSize}" />
+            <h:outputText value="#{art.txSize}" />		
         </p:column>
         <p:column headerText="Colore">
             <h:outputText value="#{art.txColor}" />
         </p:column>
         <p:column headerText="Quantita">
-            <h:outputText value="#{art.qtStock}" />
+            <h:outputText rendered="#{art.selected==false}" value="#{art.qtStock}" />
+								<p:spinner rendered="#{art.selected}" id="minMax" value="#{art.qtStock}" min="0" max="10000" />
         </p:column>
 							<p:column headerText="Negozio">
             <h:outputText value="#{art.shop.txShop}" />
         </p:column>
-        <p:column style="width:4%;text-align: center" rendered="#{insertProdottiView.fgRead==false}">
-           								<h:commandButton title="rimuovi" value="Rimuovi"
-									actionListener="#{insertProdottiView.removeArticle}">
-									<f:attribute name="idArt" value="#{art.pgArticle}" />
-									<f:ajax execute="@this" render="frm-arts"></f:ajax>
-								</h:commandButton>
+        <p:column style="width:6%;padding:0px;text-align:center"
+								rendered="#{insertProdottiView.fgRead==false}">           								
+								<div>
+									
+									<p:commandButton title="modifica quantità" process="@this" icon="ui-icon-wrench"
+										update="arts" rendered="#{art.selected==false}" actionListener="#{insertProdottiView.modifyArticle}">
+										<f:attribute name="idArt" value="#{art.pgArticle}" />
+									</p:commandButton>
+									<p:commandButton title="annulla" rendered="#{art.selected}" icon="ui-icon-circle-close"
+										update="arts" immediate="true" process="arts" actionListener="#{insertProdottiView.closeArticle}">
+										<f:attribute name="idArt" value="#{art.pgArticle}" />
+									</p:commandButton>
+									<p:commandButton title="conferma" rendered="#{art.selected}" process="arts" icon="ui-icon-circle-check"
+										update="arts" actionListener="#{insertProdottiView.confirmArticle}">
+										<f:attribute name="idArt" value="#{art.pgArticle}" />
+									</p:commandButton>
+								</div>
         </p:column>
     </p:dataTable>
 
