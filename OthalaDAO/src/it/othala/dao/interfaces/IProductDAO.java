@@ -121,8 +121,11 @@ public interface IProductDAO {
 
 	public List<NazioniDTO> listNazioni();
 
-	Integer updateQtStock(String txBarcode, Integer qtArticles,
+	public Integer updateQtStock(String txBarcode, Integer qtArticles,
 			Boolean fgVendita);
+
+	public Integer setNewQtStock(Integer idProduct, Integer pgArticle,
+			Integer qtArticles);
 	
 	
 	

@@ -1,5 +1,7 @@
 package it.othala.dto;
 
+import it.othala.enums.ArticleUpdate;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
@@ -27,6 +29,7 @@ public class ArticleFullDTO implements Serializable {
 	private String note;	
 	private String changeSelected;
 	private List<ChangeArticleDTO> changesAvailable;
+	private ArticleUpdate articleUpdate;
 	
 
 	public List<ChangeArticleDTO> getChangesAvailable() {
@@ -158,6 +161,14 @@ public class ArticleFullDTO implements Serializable {
 
 	public void setTxBarCode(String txBarCode) {
 		this.txBarCode = txBarCode;
+	}
+
+	public ArticleUpdate getArticleUpdate() {
+		return articleUpdate;
+	}
+
+	public void setArticleUpdate(ArticleUpdate articleUpdate) {
+		this.articleUpdate = articleUpdate;
 	}
 
 }
