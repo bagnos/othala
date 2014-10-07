@@ -29,24 +29,28 @@ public class HomeMerchantView extends BaseView {
 	@Override
 	public String doInit() {
 		// TODO Auto-generated method stub
+		try {
 
-		if (getQueryStringParm("torna") == null || getQueryStringParm("spedito") != null
-				|| getQueryStringParm("rimborsato") != null) {
-			merchantBean.setOrdersCompleted(OthalaFactory.getOrderServiceInstance().getOrders(null, null,
-					TypeStateOrder.COMPLETED));
+			if (getQueryStringParm("torna") == null || getQueryStringParm("spedito") != null
+					|| getQueryStringParm("rimborsato") != null) {
+				merchantBean.setOrdersCompleted(OthalaFactory.getOrderServiceInstance().getOrders(null, null,
+						TypeStateOrder.COMPLETED));
 
-			merchantBean.setOrdersPending(OthalaFactory.getOrderServiceInstance().getOrders(null, null,
-					TypeStateOrder.PENDING));
+				merchantBean.setOrdersPending(OthalaFactory.getOrderServiceInstance().getOrders(null, null,
+						TypeStateOrder.PENDING));
 
-			merchantBean.setRefoundRequest(OthalaFactory.getOrderServiceInstance().getRefounds(null, null, null,
-					TypeStateOrder.REQUEST_REFOUND, null,"R"));
-			
-			merchantBean.setChangeRequest(OthalaFactory.getOrderServiceInstance().getRefounds(null, null, null,
-					TypeStateOrder.REQUEST_REFOUND, null,"C"));
+				merchantBean.setRefoundRequest(OthalaFactory.getOrderServiceInstance().getRefounds(null, null, null,
+						TypeStateOrder.REQUEST_REFOUND, null, "R"));
 
-			merchantBean.setOrderSelected(null); 
+				merchantBean.setChangeRequest(OthalaFactory.getOrderServiceInstance().getRefounds(null, null, null,
+						TypeStateOrder.REQUEST_REFOUND, null, "C"));
 
-			merchantBean.setRefoundSelected(null);
+				merchantBean.setOrderSelected(null);
+
+				merchantBean.setRefoundSelected(null);
+			}
+		} catch (Exception e) {
+			addGenericError(e, "errore inizializzazione merchant home");
 		}
 		return null;
 	}
@@ -55,40 +59,40 @@ public class HomeMerchantView extends BaseView {
 		Integer idOrder = (Integer) e.getComponent().getAttributes().get("idOrder");
 
 	}
-	
-	public void onRowSelectNavigate(SelectEvent event) {  
-        //FacesContext.getCurrentInstance().getExternalContext().getFlash().put("selectedCar", event.getObject());  
-		
-			//FacesContext.getCurrentInstance().getExternalContext().redirect("dettaglioOrdine.xhtml?home=true");
-			 ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();
-			 configurableNavigationHandler.performNavigation("dettaglioOrdine.xhtml?home=true");
 
-		
-        
-    }  
-	
-	public void onRowSelectNavigateReso(SelectEvent event) {  
-        //FacesContext.getCurrentInstance().getExternalContext().getFlash().put("selectedCar", event.getObject());  
-		
-			//FacesContext.getCurrentInstance().getExternalContext().redirect("dettaglioOrdine.xhtml?home=true");
-			 ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();
-			 configurableNavigationHandler.performNavigation("detailRequetRefund.xhtml?home=true");
-			 merchantBean.setChange(false);
-		
-        
-    }  
-	
-	public void onRowSelectNavigateChange(SelectEvent event) {  
-        //FacesContext.getCurrentInstance().getExternalContext().getFlash().put("selectedCar", event.getObject());  
-		
-			//FacesContext.getCurrentInstance().getExternalContext().redirect("dettaglioOrdine.xhtml?home=true");
-			 ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();
-			 configurableNavigationHandler.performNavigation("detailRequetRefund.xhtml?home=true");
-			 merchantBean.setChange(true);
+	public void onRowSelectNavigate(SelectEvent event) {
+		// FacesContext.getCurrentInstance().getExternalContext().getFlash().put("selectedCar",
+		// event.getObject());
 
-		
-        
-    }  
-	
+		// FacesContext.getCurrentInstance().getExternalContext().redirect("dettaglioOrdine.xhtml?home=true");
+		ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext
+				.getCurrentInstance().getApplication().getNavigationHandler();
+		configurableNavigationHandler.performNavigation("dettaglioOrdine.xhtml?home=true");
+
+	}
+
+	public void onRowSelectNavigateReso(SelectEvent event) {
+		// FacesContext.getCurrentInstance().getExternalContext().getFlash().put("selectedCar",
+		// event.getObject());
+
+		// FacesContext.getCurrentInstance().getExternalContext().redirect("detailMerchantRequest.xhtml?home=true");
+		ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext
+				.getCurrentInstance().getApplication().getNavigationHandler();
+		configurableNavigationHandler.performNavigation("detailMerchantRequest.xhtml?home=true");
+		merchantBean.setChange(false);
+
+	}
+
+	public void onRowSelectNavigateChange(SelectEvent event) {
+		// FacesContext.getCurrentInstance().getExternalContext().getFlash().put("selectedCar",
+		// event.getObject());
+
+		// FacesContext.getCurrentInstance().getExternalContext().redirect("detailMerchantRequest.xhtml?home=true");
+		ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext
+				.getCurrentInstance().getApplication().getNavigationHandler();
+		configurableNavigationHandler.performNavigation("detailMerchantRequest.xhtml?home=true");
+		merchantBean.setChange(true);
+
+	}
 
 }

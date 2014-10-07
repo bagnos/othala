@@ -364,7 +364,7 @@ public class InsertProdottiView extends BaseView {
 				addInfo("Prodotto", "modifica effettuata correttamente");
 			}
 
-			resetPrd();
+			
 
 		} catch (Exception ex) {
 			addGenericError(ex, "errore nell'inserimento del prodotto");

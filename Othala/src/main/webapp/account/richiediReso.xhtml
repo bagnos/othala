@@ -40,7 +40,7 @@
 					</div>
 					<div class="col-sm-2 col-sm-offset-8">
 						<p:commandButton title="#{msg.account_richiediReso}" styleClass="ui-priority-primary"
-							actionListener="#{richiediResoView.richiediReso}"
+							actionListener="#{richiediResoView.richiediReso}" 
 							disabled="#{richiediResoView.disabledConferma}" oncomplete="$(window).scrollTop(0);"
 							process="@form" update="@form" value="#{msg.account_conferma}">
 						</p:commandButton>
@@ -102,7 +102,7 @@
 
 				<!-- elenco articoli -->
 				<!-- indirizzo di ritiro -->
-				<h:panelGroup>
+				<h:panelGroup id="pnlArts">
 					<div class="row">
 						<div class="col-sm-12">
 							<div class="panel panel-default">
@@ -123,7 +123,7 @@
 
 												</f:facet>
 												<h:selectBooleanCheckbox value="#{art.selected}">
-													<f:ajax execute="@this" render="@form" listener="#{richiediResoView.updateReso}"></f:ajax>
+													<f:ajax execute="@this" render="pnlArts" listener="#{richiediResoView.updateReso}"></f:ajax>
 													<f:attribute value="#{art.prdFullDTO.idProduct} - #{art.pgArticle}" name="pgArt"></f:attribute>
 
 												</h:selectBooleanCheckbox>

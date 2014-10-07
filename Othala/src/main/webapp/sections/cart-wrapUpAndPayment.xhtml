@@ -22,13 +22,11 @@
 	<ui:include src="cart-selected.xhtml" />
 	<div class="row spacer10">
 		<div class="col-sm-2">
-
-
 			<p:commandButton icon="ui-icon-triangle-1-w btn-articolo-sel" onclick="previousPage();"
-				value="#{msg.catalogo_gotoDelivery}" />
+				value="#{msg.catalogo_back}" />
 		</div>
 
-		<div class="col-sm-2 col-sm-offset-8 text-right">
+		<div class="col-sm-2 col-sm-offset-10 text-right">
 			<!-- 
 			<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
 				<input type="hidden" name="cmd" value="_xclick"/>
@@ -44,8 +42,8 @@
 			</form> -->
 
 
-			<p:commandLink id="goCheckout" onclick="PF('blockAll').block()" immediate="true" title="#{msg.catalogo_payNowPayPal}"
-				actionListener="#{cartWizardView.checkout}">
+			<p:commandLink id="goCheckout" onclick="PF('blockAll').block()" immediate="true"
+				title="#{msg.catalogo_payNowPayPal}" actionListener="#{cartWizardView.checkout}">
 				<img src="https://www.paypal.com/it_IT/IT/i/btn/btn_xpressCheckout.gif" />
 
 
@@ -54,16 +52,7 @@
 						alt="PayPal - Il metodo rapido, affidabile e innovativo per pagare e farsi pagare."/> -->
 
 
-			</p:commandLink>
-			 
-			
-
-			
-			
-
-
-
-
+			</p:commandLink>		 
 		</div>
 	</div>
 

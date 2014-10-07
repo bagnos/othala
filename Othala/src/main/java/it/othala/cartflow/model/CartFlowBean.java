@@ -42,9 +42,28 @@ public class CartFlowBean implements Serializable {
 	private DeliveryCostDTO deliveryCost;
 	private BigDecimal totalItemOrder;
 	private int idTypeDelivery;
-
+	private String fidelityCard;
+	private String coupon;
 	private List<ProductCarouselDTO> carouselList;
 	private List<NazioniDTO> nazioni;
+	
+	
+
+	public String getFidelityCard() {
+		return fidelityCard;
+	}
+
+	public void setFidelityCard(String fidelityCard) {
+		this.fidelityCard = fidelityCard;
+	}
+
+	public String getCoupon() {
+		return coupon;
+	}
+
+	public void setCoupon(String coupon) {
+		this.coupon = coupon;
+	}
 
 	public void setCatalog(Catalog catalog) {
 		this.catalog = catalog;
