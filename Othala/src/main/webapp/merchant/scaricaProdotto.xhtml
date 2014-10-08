@@ -7,6 +7,7 @@
 	<ui:define name="metadata">
 		<f:metadata>
 			<f:viewAction action="#{scaricaProdottoView.doInit}"></f:viewAction>
+			<f:viewParam name="carico" value="#{scaricaProdottoView.carico}" />
 		</f:metadata>
 	</ui:define>
 
@@ -16,7 +17,10 @@
 	</ui:define>
 
 	<ui:define name="Pagina">Scarica</ui:define>
-	<ui:define name="PaginaBreadcrumb">Scarica Prodotto</ui:define>
+	<ui:define name="PaginaBreadcrumb">
+		<h:outputText rendered="#{scaricaProdottoView.carico==false}" value="Scarica Prodotto" />
+		<h:outputText rendered="#{scaricaProdottoView.carico==true}" value="Carica Prodotto" />
+	</ui:define>
 
 	<ui:define name="bodyPageContent">
 		<h:form prependId="false" id="frmOrd" styleClass="form-horizontal">
@@ -25,7 +29,8 @@
 			<div class="row">
 				<div class="col-sm-4">
 					<h3 class="form-titoli">
-						<h:outputText value="Scarica Prodotto" />
+						<h:outputText rendered="#{scaricaProdottoView.carico==false}" value="Scarica Prodotto" />
+						<h:outputText rendered="#{scaricaProdottoView.carico==true}" value="Carica Prodotto" />
 					</h3>
 				</div>
 			</div>
@@ -34,7 +39,7 @@
 					<div class="form-group spacer10">
 						<p:outputLabel styleClass="col-sm-1 control-label" for="barcode" value="Barcode" />
 						<div class="col-sm-2 ">
-						<p:focus for="barcode"></p:focus>
+							<p:focus for="barcode"></p:focus>
 							<p:inputText styleClass="form-control" required="false"
 								value="#{scaricaProdottoView.idBarcode}" id="barcode"></p:inputText>
 						</div>
@@ -76,11 +81,14 @@
 						<p:ajax event="rowSelect" update="@this" />
 
 						<f:facet name="header">
-            Elenco prodotti da scaricare
-        </f:facet>
+							<h:outputText rendered="#{scaricaProdottoView.carico==false}"
+								value=" Elenco prodotti da scaricare" />
+							<h:outputText rendered="#{scaricaProdottoView.carico==true}"
+								value=" Elenco prodotti da caricare" />
+						</f:facet>
 						<!-- <p:column selectionMode="multiple" style="width:2%;text-align:center" />-->
-						<p:column headerText="Id">
-							<h:outputText value="#{prd.idProduct}" />
+						<p:column headerText="Barcode">
+							<h:outputText value="#{prd.articles.get(0).txBarCode}" />
 						</p:column>
 
 						<p:column headerText="Genere">
@@ -92,17 +100,24 @@
 						<p:column headerText="Descrizione">
 							<h:outputText value="#{prd.description}" />
 						</p:column>
+						<p:column headerText="Quantità">
+							<h:outputText value="#{prd.price}" converter="it.othala.BigDecimalConverter" />
+						</p:column>
+						<!-- 
 						<p:column headerText="Prezzo">
 							<h:outputText value="#{prd.price}" converter="it.othala.BigDecimalConverter" />
 						</p:column>
 						<p:column headerText="Prezzo scontato">
 							<h:outputText value="#{prd.priceDiscounted}" converter="it.othala.BigDecimalConverter" />
-						</p:column>
+						</p:column>-->
 						<p:column headerText="Colore">
 							<h:outputText value="#{prd.articles.get(0).txColor}" />
 						</p:column>
 						<p:column headerText="Taglia">
 							<h:outputText value="#{prd.articles.get(0).txSize}" />
+						</p:column>
+						<p:column headerText="Negozio">
+							<h:outputText value="#{prd.articles.get(0).shop.txShop}" />
 						</p:column>
 						<f:facet name="footer">
 							<!-- 
@@ -115,8 +130,16 @@
 				</div>
 
 				<div class="col-sm-2 spacer10">
-					<p:commandButton rendered="#{scaricaProdottoView.prdFounded.size()!=0}" styleClass="ui-priority-primary" title="scarica i prodotti selezionati"
-						process="@form" update="@form" id="scaricaPrds" value="Scarica Prodotti"
+					<p:commandButton
+						rendered="#{scaricaProdottoView.prdFounded.size()!=0 and scaricaProdottoView.carico==false}"
+						styleClass="ui-priority-primary" title="scarica i prodotti selezionati" process="@form"
+						update="@form" id="scaricaPrds" value="Scarica Prodotti"
+						actionListener="#{scaricaProdottoView.scarica}">
+					</p:commandButton>
+					<p:commandButton
+						rendered="#{scaricaProdottoView.prdFounded.size()!=0 and scaricaProdottoView.carico==true}"
+						styleClass="ui-priority-primary" title="carica i prodotti selezionati" process="@form"
+						update="@form" id="caricaPrds" value="Carica Prodotti"
 						actionListener="#{scaricaProdottoView.scarica}">
 					</p:commandButton>
 				</div>
@@ -127,7 +150,7 @@
 
 
 		</h:form>
-				
-		
+
+
 	</ui:define>
 </ui:composition>
