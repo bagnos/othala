@@ -343,6 +343,11 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	public Integer insertProduct(ProductFullNewDTO productFull,
 			Boolean fgPubblicazione) {
 
+		if (productFull.getSpecialPrice().intValue() == 0)
+	
+		{
+			productFull.setSpecialPrice(null);
+		}
 		getSqlSession().insert("it.othala.product.queries.insertProduct",
 				productFull);
 
