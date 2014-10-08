@@ -260,6 +260,29 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		}
 
 	}
+	
+	@Override
+	public void uploadArticle(String txBarcode) {
+
+		HashMap<String, Object> map2 = new HashMap<>();
+		map2.put("txBarcode", txBarcode);
+		map2.put("languages", "it");
+
+		ArticleFullDTO articleFull = getSqlSession().selectOne(
+				"it.othala.product.queries.getArticleFullBarcode", map2);
+
+		if (articleFull != null) {
+
+			HashMap<String, Object> mapProduct = new HashMap<>();
+			mapProduct.put("txBarcode", txBarcode);
+
+			getSqlSession().update("it.othala.product.queries.uploadArticle",
+					mapProduct);
+
+		}
+
+	}
+	
 
 	@Override
 	public ArticleFullDTO getArticleFull(Integer idProduct, Integer pgArticle,

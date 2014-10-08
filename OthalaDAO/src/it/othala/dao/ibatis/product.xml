@@ -843,7 +843,16 @@
 
 	</update>
 
+	<update id="uploadArticle" parameterType="java.util.HashMap">
 
+		UPDATE
+		${database.schema}article
+		set qtStock = qtStock + 1
+		Where txBarcode =
+		#{txBarcode};
+
+
+	</update>
 
 	<update id="updateArticle" parameterType="java.util.HashMap">
 
