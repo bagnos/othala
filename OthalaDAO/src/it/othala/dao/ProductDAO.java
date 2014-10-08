@@ -226,6 +226,15 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		List<ArticleFullDTO> listArticleFull = getSqlSession().selectList(
 				"it.othala.product.queries.listArticleFull", map2);
 
+		ShopDTO shop = new ShopDTO();
+		
+		for (int i = 0; i <= listArticleFull.size() - 1; i++) {
+			
+			shop=getShop(idProduct, listArticleFull.get(i).getPgArticle());
+			listArticleFull.get(i).setShop(shop);
+			
+		}
+		
 		return listArticleFull;
 
 	}
@@ -781,7 +790,18 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		List<ArticleFullDTO> listArticleFull = getSqlSession().selectList(
 				"it.othala.product.queries.listArticleFullBarcode", map2);
 
+		
+		ShopDTO shop = new ShopDTO();
+		
+		for (int i = 0; i <= listArticleFull.size() - 1; i++) {
+			
+			shop=getShop(idProduct, listArticleFull.get(i).getPgArticle());
+			listArticleFull.get(i).setShop(shop);
+			
+		}
+
 		return listArticleFull;
+		
 	}
 
 	@Override

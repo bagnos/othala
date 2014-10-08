@@ -601,7 +601,8 @@
 		txColor,
 		coalesce(a.txThumbnailsUrl,
 		d.txThumbnailsUrl) as thumbnailsUrl,
-		a.txBarCode
+		a.txBarCode,
+		a.idShop
 
 
 
