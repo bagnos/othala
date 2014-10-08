@@ -28,7 +28,7 @@ public class RefoundFullDTO implements Serializable {
 	private String fgChangeRefound;
 	private boolean fgPartialRefound;
 	private List<ArticleRefounded> cart;
-
+	
 	public Integer getIdRefound() {
 		return idRefound;
 	}

@@ -14,6 +14,24 @@ public class IpnDTO implements Serializable {
 	private String txn_id;
 	private String custom;
 	private String receiver_email;
+	private String parent_txn_id;
+	private String reason_code;
+
+	public String getReason_code() {
+		return reason_code;
+	}
+
+	public void setReason_code(String reason_code) {
+		this.reason_code = reason_code;
+	}
+
+	public String getParent_txn_id() {
+		return parent_txn_id;
+	}
+
+	public void setParent_txn_id(String parent_txn_id) {
+		this.parent_txn_id = parent_txn_id;
+	}
 
 	public String getMc_gross() {
 		return mc_gross;
@@ -74,10 +92,15 @@ public class IpnDTO implements Serializable {
 		sb.append(payment_status != null ? payment_status : "");
 		sb.append(";txn_id=");
 		sb.append(txn_id != null ? txn_id : "");
+		sb.append(";parent_txn_id=");
+		sb.append(parent_txn_id != null ? parent_txn_id : "");
 		sb.append(";custom=");
 		sb.append(custom != null ? custom : "");
 		sb.append(";receiver_email=");
 		sb.append(receiver_email != null ? receiver_email : "");
+		sb.append(";reason_code=");
+		sb.append(reason_code != null ? reason_code : "");
+		
 		return sb.toString();
 
 	}
