@@ -107,10 +107,11 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	}
 
 	@Override
-	public List<AttributeSizeDTO> listSize() {
-
+	public List<AttributeSizeDTO> listSize(String languages) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("languages", languages);
 		List<AttributeSizeDTO> listAttribute = getSqlSession().selectList(
-				"it.othala.product.queries.listSize");
+				"it.othala.product.queries.listSize",map);
 
 		return listAttribute;
 

@@ -283,6 +283,7 @@
 		where
 		a.idTypeSize = b.idTypeSize
 		and a.idTypeSize = c.idTypeSize
+		and C.IDLANGUAGES=#{languages}
 		order by 1,2
 
 	</select>
