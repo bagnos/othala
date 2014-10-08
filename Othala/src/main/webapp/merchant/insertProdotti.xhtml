@@ -442,22 +442,30 @@
 								<p:spinner rendered="#{art.selected}" id="minMax" value="#{art.qtStock}" min="0" max="10000" />
         </p:column>
 							<p:column headerText="Negozio">
-            <h:outputText value="#{art.shop.txShop}" />
+            <h:outputText rendered="#{art.selected==false}" value="#{art.shop.txShop}" />
+								<p:autoComplete rendered="#{art.selected}"
+									scrollHeight="#{insertProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}" required="true"
+									minQueryLength="1" size="34" dropdown="true" id="negozioNew"
+									value="#{art.shop}" completeMethod="#{insertProdottiView.completeShops}"
+									var="shop" itemLabel="#{shop.txShop}" itemValue="#{shop}"
+									converter="it.othala.ShopConverter" forceSelection="true" />
         </p:column>
         <p:column style="width:6%;padding:0px;text-align:center"
 								rendered="#{insertProdottiView.fgRead==false}">           								
 								<div>
-									
-									<p:commandButton title="modifica quantità" process="@this" icon="ui-icon-wrench"
-										update="arts" rendered="#{art.selected==false}" actionListener="#{insertProdottiView.modifyArticle}">
+
+									<p:commandButton title="modifica" process="@this" icon="ui-icon-wrench" update="arts"
+										rendered="#{art.selected==false}" actionListener="#{insertProdottiView.modifyArticle}">
 										<f:attribute name="idArt" value="#{art.pgArticle}" />
 									</p:commandButton>
 									<p:commandButton title="annulla" rendered="#{art.selected}" icon="ui-icon-circle-close"
-										update="arts" immediate="true" process="arts" actionListener="#{insertProdottiView.closeArticle}">
+										update="arts" immediate="true" process="arts"
+										actionListener="#{insertProdottiView.closeArticle}">
 										<f:attribute name="idArt" value="#{art.pgArticle}" />
 									</p:commandButton>
-									<p:commandButton title="conferma" rendered="#{art.selected}" process="arts" icon="ui-icon-circle-check"
-										update="arts" actionListener="#{insertProdottiView.confirmArticle}">
+									<p:commandButton title="conferma" rendered="#{art.selected}" process="arts"
+										icon="ui-icon-circle-check" update="arts"
+										actionListener="#{insertProdottiView.confirmArticle}">
 										<f:attribute name="idArt" value="#{art.pgArticle}" />
 									</p:commandButton>
 								</div>

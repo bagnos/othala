@@ -66,6 +66,7 @@ public class RicercaProdottiView extends BaseView {
 		if (getQueryStringParm("torna") == null) {
 			merchantBean.setStateProduct(null);
 			merchantBean.setProducts(null);
+			merchantBean.setSelectedProducts(null);
 		}
 		if (merchantBean.getMaxPrice() == 0) {
 			merchantBean.setMaxPrice(5000);
