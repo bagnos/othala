@@ -26,7 +26,7 @@ public interface IProductDAO {
 	public List<String> listDistinctArticleColor(Integer idProduct,
 			String languages);
 
-	public List<AttributeSizeDTO> listSize();
+	public List<AttributeSizeDTO> listSize(String languages);
 
 	public List<AttributeDTO> listColor(String languages);
 
