@@ -98,6 +98,7 @@ public interface IProductDAO {
 	public void updateProduct(ProductFullNewDTO productFull);
 
 	public void downloadArticle(String txBarcode);
+	public void uploadArticle(String txBarcode);
 
 	public void insertMaterial(Integer idMaterial,String languages, String txMaterial);
 

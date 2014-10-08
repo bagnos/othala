@@ -50,8 +50,6 @@ public interface IProductService {
 
 	public void updateProduct(ProductFullNewDTO productFull);
 
-	public void downloadArticle(List<String> txBarcode);
-
 	public DomainDTO insertColor(String languages, String txColorIT, String txColorEN);
 
 	public DomainDTO insertMaterial(String languages, String txMaterialIT,
@@ -60,5 +58,8 @@ public interface IProductService {
 	public ProductFullNewDTO listFindBarcode(String txBarcode);
 
 	public MenuFullDTO getMenuFull(String languages);
+
+
+	public void downloadArticle(List<String> txBarcode, Boolean fgScarico);
 	
 }

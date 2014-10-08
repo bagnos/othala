@@ -335,12 +335,20 @@ public class ProductService implements IProductService {
 	}
 
 	@Override
-	public void downloadArticle(List<String> txBarcode) {
+	public void downloadArticle(List<String> txBarcode, Boolean fgScarico) {
 
-		for (int i = 0; i <= txBarcode.size() - 1; i++) {
+		if (fgScarico == true) {
+			for (int i = 0; i <= txBarcode.size() - 1; i++) {
 
-			productDAO.downloadArticle(txBarcode.get(i));
+				productDAO.downloadArticle(txBarcode.get(i));
 
+			}
+		} else {
+			for (int i = 0; i <= txBarcode.size() - 1; i++) {
+
+				productDAO.uploadArticle(txBarcode.get(i));
+
+			}
 		}
 
 	}
