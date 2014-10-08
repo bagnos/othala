@@ -121,19 +121,6 @@ public class PaymentService implements IPaymentService {
 			Integer idOrder = Integer.valueOf(ipnDTO.getCustom());
 			if (!exitsIdTransaction(txn_id)) {
 
-				// è presente un ordine, recupero i dettagli
-				if (idOrder != null) {
-					order = orderService.getOrders(idOrder, null, null).get(0);
-					// check that payment_amount/payment_currency are correct
-					BigDecimal mc_grossBD = new BigDecimal(ipnDTO.getMc_gross());
-					if (order.getImOrdine().compareTo(mc_grossBD.abs()) != 0) {
-						sb.append(String
-								.format("messagio non elaborato: importo db %s diverso dalla importo %s presente nel messaggio %s",
-										order.getImOrdine(), ipnDTO.getMc_gross(), ipnDTO.toString()));
-						errorFormalMessage = true;
-					}
-				}
-
 				// check that receiver_email is your Primary PayPal email
 				String recEmailMerchant = profile.getReceiverEmail();
 				String receiver_email = ipnDTO.getReceiver_email();
@@ -157,6 +144,19 @@ public class PaymentService implements IPaymentService {
 					return;
 				}
 
+				// è presente un ordine, recupero i dettagli
+				if (idOrder != null) {
+					order = orderService.getOrders(idOrder, null, null).get(0);
+					// check that payment_amount/payment_currency are correct
+					BigDecimal mc_grossBD = new BigDecimal(ipnDTO.getMc_gross());
+					if (order.getImOrdine().compareTo(mc_grossBD.abs()) != 0) {
+						sb.append(String
+								.format("messagio non elaborato: importo db %s diverso dalla importo %s presente nel messaggio %s",
+										order.getImOrdine(), ipnDTO.getMc_gross(), ipnDTO.toString()));
+						errorFormalMessage = true;
+					}
+				}
+
 				// inserisco il messaggio
 				MessageIpnDTO ipnMessage = new MessageIpnDTO();
 				ipnMessage.setIdOrder(idOrder);
@@ -170,10 +170,18 @@ public class PaymentService implements IPaymentService {
 				// message is correct, process message
 				TypeStateOrder state = TypeStateOrder.fromString(ipnDTO.getPayment_status());
 
+				// verifica se richiesta di rimborso
+				if (ipnDTO.getParent_txn_id() != null && ipnDTO.getReason_code().equalsIgnoreCase("refund")) {
+					log.info("refund trovato txtId = "+ipnDTO.getParent_txn_id());
+					updateStateRefund(ipnDTO.getPayment_status(), null, ipnDTO.getParent_txn_id(), null, null);
+					return;
+				}
+
 				if (isPaymentKO(ipnDTO.getPayment_status())) {
 					// inviare una mail in cui si comunica che PayPal non ha
 					// accettato il pagamento
 					if (idOrder != null) {
+						// siamo nel caso di express checkout
 						orderService.increaseQtaArticle(order, state);
 						try {
 
@@ -197,8 +205,6 @@ public class PaymentService implements IPaymentService {
 											order.getIdOrder()), e);
 						}
 					}
-				} else if (isPaymenRefunded(ipnDTO.getPayment_status())) {
-					updateStateRefund(ipnDTO.getPayment_status(), null, 0,null,null);
 				}
 
 				else {
@@ -239,6 +245,8 @@ public class PaymentService implements IPaymentService {
 		ipnDTO.setPayment_status(req.get("payment_status"));
 		ipnDTO.setReceiver_email(req.get("receiver_email"));
 		ipnDTO.setTxn_id(req.get("txn_id"));
+		ipnDTO.setParent_txn_id(req.get("parent_txn_id"));
+		ipnDTO.setReason_code(req.get("reason_code"));
 		return ipnDTO;
 	}
 
@@ -649,22 +657,20 @@ public class PaymentService implements IPaymentService {
 		}
 		RefundTransactionDTO refTrans = getWrapper(profile).refundTransaction(ref.getIdTransaction(),
 				ref.getImRefound(), true, articles, ref.getIdRefound().toString());
-		try
-		{
-		updateStateRefund(refTrans.getREFUNDSTATUS(), refTrans.getPENDINGREASON(), ref.getIdRefound(), ref, refTrans);
-		}
-		catch (Exception e)
-		{
-			throw new PayPalPostRefundPaymentException(e, ref.getIdRefound()!=null?ref.getIdRefound().toString():"", "errore nella'aggiornamento dello stato dopo il rimborso");
+		try {
+			updateStateRefund(refTrans.getREFUNDSTATUS(), refTrans.getPENDINGREASON(), null, ref, refTrans);
+		} catch (Exception e) {
+			throw new PayPalPostRefundPaymentException(e, ref.getIdRefound() != null ? ref.getIdRefound().toString()
+					: "", "errore nella'aggiornamento dello stato dopo il rimborso");
 		}
 
 		return refTrans;
 	}
 
-	private RefundTransactionDTO updateStateRefund(String paypalStatus, String pendingReason, int idRef,
-			RefoundFullDTO ref, RefundTransactionDTO refTrans) throws PayPalException {
+	private RefundTransactionDTO updateStateRefund(String paypalStatus, String pendingReason,
+			String parentTransactionID, RefoundFullDTO ref, RefundTransactionDTO refTrans) throws PayPalException {
 		if (ref == null) {
-			ref = orderService.getRefounds(ref.getIdRefound(), null, null, null, null, null).get(0);
+			ref = orderService.getRefounds(null, null, null, null, parentTransactionID, null).get(0);
 		}
 		if (refTrans == null) {
 			refTrans = new RefundTransactionDTO();

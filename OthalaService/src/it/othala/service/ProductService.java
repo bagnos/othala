@@ -61,7 +61,7 @@ public class ProductService implements IProductService {
 	public DomainDTO getDomain(String languages) {
 
 		DomainDTO domainDTO = new DomainDTO();
-		domainDTO.setSize(productDAO.listSize());
+		domainDTO.setSize(productDAO.listSize(languages));
 		domainDTO.setColor(productDAO.listColor(languages));
 		domainDTO.setBrand(productDAO.listBrand());
 		domainDTO.setGender(productDAO.listGender(languages));
@@ -96,7 +96,7 @@ public class ProductService implements IProductService {
 		productDAO.insertBrand(txBrand);
 
 		DomainDTO domainDTO = new DomainDTO();
-		domainDTO.setSize(productDAO.listSize());
+		domainDTO.setSize(productDAO.listSize(languages));
 		domainDTO.setColor(productDAO.listColor(languages));
 		domainDTO.setBrand(productDAO.listBrand());
 		domainDTO.setGender(productDAO.listGender(languages));
@@ -116,7 +116,7 @@ public class ProductService implements IProductService {
 		productDAO.insertColor(maxIdColor, "en", txColorEN);
 
 		DomainDTO domainDTO = new DomainDTO();
-		domainDTO.setSize(productDAO.listSize());
+		domainDTO.setSize(productDAO.listSize(languages));
 		domainDTO.setColor(productDAO.listColor(languages));
 		domainDTO.setBrand(productDAO.listBrand());
 		domainDTO.setGender(productDAO.listGender(languages));
@@ -137,7 +137,7 @@ public class ProductService implements IProductService {
 		productDAO.insertMaterial(maxIdMaterial, "en", txMaterialEN);
 
 		DomainDTO domainDTO = new DomainDTO();
-		domainDTO.setSize(productDAO.listSize());
+		domainDTO.setSize(productDAO.listSize(languages));
 		domainDTO.setColor(productDAO.listColor(languages));
 		domainDTO.setBrand(productDAO.listBrand());
 		domainDTO.setGender(productDAO.listGender(languages));
@@ -154,7 +154,7 @@ public class ProductService implements IProductService {
 		productDAO.insertType(languages, txType);
 
 		DomainDTO domainDTO = new DomainDTO();
-		domainDTO.setSize(productDAO.listSize());
+		domainDTO.setSize(productDAO.listSize(languages));
 		domainDTO.setColor(productDAO.listColor(languages));
 		domainDTO.setBrand(productDAO.listBrand());
 		domainDTO.setGender(productDAO.listGender(languages));

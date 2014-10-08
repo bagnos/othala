@@ -316,7 +316,7 @@ class PayPalWrapper {
 			refundTransactionDTO.setPENDINGREASON(response.get("PENDINGREASON").toString());
 			refundTransactionDTO.setREFUNDSTATUS(response.get("REFUNDSTATUS").toString());
 			refundTransactionDTO.setREFUNDTRANSACTIONID(response.get("REFUNDTRANSACTIONID").toString());
-			refundTransactionDTO.setTOTALREFUNDEDAMT(new BigDecimal(response.get("GROSSREFUNDAMT")));
+			refundTransactionDTO.setTOTALREFUNDEDAMT(new BigDecimal(response.get("GROSSREFUNDAMT")));			
 			refundTransactionDTO.setOkMessage(sn.toString());
 			}
 			catch (Exception e)
