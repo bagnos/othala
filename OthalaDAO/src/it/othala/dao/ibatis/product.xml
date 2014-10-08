@@ -844,11 +844,12 @@
 
 
 
-	<update id="setNewQtStock" parameterType="java.util.HashMap">
+	<update id="updateArticle" parameterType="java.util.HashMap">
 
 		UPDATE
 		${database.schema}article
-		set qtStock = #{qtStock}
+		set qtStock = #{qtStock},
+		`idShop` = #{idShop}
 		Where idProduct =
 		#{idProduct}
 		and
