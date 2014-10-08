@@ -3,7 +3,7 @@
 	xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:pe="http://primefaces.org/ui/extensions">
-
+<f:view locale="#{facesContex.externalContext.requestLocale}">
 <ui:insert name="metadata" />
 
 
@@ -75,6 +75,6 @@
 	</pe:blockUI>
 
 </h:body>
-
+</f:view>
 
 </html>

@@ -18,6 +18,15 @@ public class ScaricaProdottoView extends BaseView {
 	private String idBarcode;
 	private ProductFullNewDTO prdSelected;
 	private List<ProductFullNewDTO> prdFounded;
+	private boolean carico;
+
+	public boolean isCarico() {
+		return carico;
+	}
+
+	public void setCarico(boolean carico) {
+		this.carico = carico;
+	}
 
 	public List<ProductFullNewDTO> getPrdFounded() {
 		return prdFounded;
@@ -60,14 +69,18 @@ public class ScaricaProdottoView extends BaseView {
 
 					idBarcodes.add(prd.getArticles().get(0).getTxBarCode());
 				}
-				OthalaFactory.getProductServiceInstance().downloadArticle(
-						idBarcodes);
+				OthalaFactory.getProductServiceInstance().downloadArticle(idBarcodes,!carico);
+
 				prdFounded.clear();
 			} else {
 				addError("Scarico prodotto", "nessun prodotto selezionato");
 			}
+			if (carico) {
+				addInfo("Carico prodotto", "Operazione eseguita correttamente");
+			} else {
+				addInfo("Scarico prodotto", "Operazione eseguita correttamente");
+			}
 
-			addInfo("Scarico prodotto", "Operazione eseguita correttamente");
 		} catch (Exception ex) {
 			addGenericError(ex, "errore nello scarico del prodotto");
 		}
@@ -81,12 +94,18 @@ public class ScaricaProdottoView extends BaseView {
 		try {
 
 			if (idBarcode != "") {
-				ProductFullNewDTO products = OthalaFactory
-						.getProductServiceInstance().listFindBarcode(idBarcode);
+				ProductFullNewDTO products = OthalaFactory.getProductServiceInstance().listFindBarcode(idBarcode);
 
+				if (products!=null)
+				{
 				prdFounded.add(products);
-
 				idBarcode = "";
+				}
+				else
+				{
+					addError("Aggiungi articolo", "Articolo non presente");
+				}
+				
 			}
 		} catch (Exception ex) {
 			addGenericError(ex, "errore nella ricerca del prodotto");

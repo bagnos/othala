@@ -29,7 +29,9 @@
 									<ul class="dropdown-menu">
 										<li><a href="#{request.contextPath}/faces/merchant/insertProdotti.xhtml">Inserimento</a></li>
 										<li><a href="#{request.contextPath}/faces/merchant/cercaProdotti.xhtml">Ricerca</a></li>
-										<li><a href="#{request.contextPath}/faces/merchant/scaricaProdotto.xhtml">Scarico</a></li>
+										<li><a
+												href="#{request.contextPath}/faces/merchant/scaricaProdotto.xhtml?carico=false">Scarico</a></li>
+										<li><a href="#{request.contextPath}/faces/merchant/scaricaProdotto.xhtml?carico=true">Carico</a></li>
 									</ul></li>
 							</ul>
 							<ul class="nav navbar-nav">
@@ -120,7 +122,7 @@
 
 			<div class="row">
 				<p:messages autoUpdate="true" globalOnly="true" closable="true" showDetail="true"
-						showSummary="true"></p:messages>
+					showSummary="true"></p:messages>
 				<p:ajaxStatus style="display:block;height:24px;float:right">
 
 					<f:facet name="start">
