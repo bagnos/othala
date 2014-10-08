@@ -1,7 +1,11 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
-	template="/template/masterTemplateBS.xhtml" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/masterTemplateBS.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pe="http://primefaces.org/ui/extensions">
 
 
 	<ui:define name="metadata">
@@ -23,7 +27,8 @@
 
 				<div class="col-sm-12">
 
-					<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+					<div id="carousel-example-generic" class="carousel slide"
+						data-ride="carousel">
 						<!-- Indicators -->
 						<!-- 
 								<ol class="carousel-indicators">
@@ -35,11 +40,12 @@
 
 						<!-- Wrapper for slides -->
 						<div class="carousel-inner">
-							<ui:repeat var="imgCar" value="#{applicationBean.imgsCarousel}" varStatus="staCar">
+							<ui:repeat var="imgCar" value="#{applicationBean.imgsCarousel}"
+								varStatus="staCar">
 								<div class="#{staCar.first?'item active':'item'}">
 									<h:link outcome="#{imgCar.urlRedirect}">
-										<p:graphicImage styleClass="img-responsive" library="#{imgCar.txLibrary}"
-											name="#{imgCar.txName}" />
+										<p:graphicImage styleClass="img-responsive"
+											library="#{imgCar.txLibrary}" name="#{imgCar.txName}" />
 									</h:link>
 								</div>
 							</ui:repeat>
@@ -47,11 +53,12 @@
 						</div>
 
 						<!-- Controls -->
-						<a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-							<span class="glyphicon glyphicon-chevron-left"></span>
-						</a>
-						<a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-							<span class="glyphicon glyphicon-chevron-right"></span>
+						<a class="left carousel-control" href="#carousel-example-generic"
+							data-slide="prev"> <span
+							class="glyphicon glyphicon-chevron-left"></span>
+						</a> <a class="right carousel-control"
+							href="#carousel-example-generic" data-slide="next"> <span
+							class="glyphicon glyphicon-chevron-right"></span>
 						</a>
 					</div>
 
@@ -62,15 +69,24 @@
 		</div>
 		<div class="container" style="margin-top: 20px;">
 
+			<div class="row">
+			<div class="col-sm-12">
 
+				<h1 style="text-align: center; background-color: black; font-size: 72px">
+					<h:outputText value="NEW ARRIVALS" style="color:white"/>
+				</h1>
+			</div>
+			</div>
+		</div>
+		<div class="container" style="margin-top: 5px;">
 			<div class="row">
 
 				<ui:repeat var="imgNewArr" value="#{applicationBean.imgsNewArrival}">
 					<div class="col-sm-6">
-						<div class="thumbnail thumbnail-home" >
-							<h:link outcome="#{imgNewArr.urlRedirect}" >
-								<p:graphicImage styleClass="img-responsive" library="#{imgNewArr.txLibrary}"
-									name="#{imgNewArr.txName}" />
+						<div class="thumbnail thumbnail-home">
+							<h:link outcome="#{imgNewArr.urlRedirect}">
+								<p:graphicImage styleClass="img-responsive"
+									library="#{imgNewArr.txLibrary}" name="#{imgNewArr.txName}" />
 							</h:link>
 						</div>
 					</div>
