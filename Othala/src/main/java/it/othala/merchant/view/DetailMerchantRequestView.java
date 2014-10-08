@@ -40,13 +40,24 @@ public class DetailMerchantRequestView extends BaseView {
 	@Override
 	public String doInit() {
 		// TODO Auto-generated method stub
-		disabledConferma=false;
+		disabledConferma = false;
 		return null;
+	}
+
+	public void cambia(ActionEvent e) {
+
+		try {
+			RefoundFullDTO ref = merchantBean.getRefoundSelected();
+			OthalaFactory.getOrderServiceInstance().updateStateRefound(ref.getIdRefound(),
+					TypeStateOrder.CHANGE_COMPLETED, null);
+		} catch (Exception ex) {
+			addGenericError(ex, "errore nella fase di cambio");
+		}
 	}
 
 	public void rimborsa(ActionEvent e) {
 		try {
-			
+
 			RefoundFullDTO ref = merchantBean.getRefoundSelected();
 			RefundTransactionDTO refTrans = OthalaFactory.getPaymentServiceInstance().requestRefund(ref,
 					PayPalUtil.getProfile(getRequest()));
@@ -58,7 +69,7 @@ public class DetailMerchantRequestView extends BaseView {
 				addError("Richiesta Rimborso", "Il sistema PayPal ha negato l'autorizzazione al rimborso");
 			} else {
 				addInfo("Richiesta di Rimborso", "Operazione eseguita correttamente");
-				disabledConferma=true;
+				disabledConferma = true;
 				try {
 					merchantBean.setRefoundRequest(OthalaFactory.getOrderServiceInstance().getRefounds(null, null,
 							null, TypeStateOrder.REQUEST_REFOUND, null, "R"));
@@ -67,12 +78,10 @@ public class DetailMerchantRequestView extends BaseView {
 				}
 			}
 
-		} 
-		catch (PayPalPostRefundPaymentException ex)
-		{
+		} catch (PayPalPostRefundPaymentException ex) {
 			addOthalaExceptionError(ex, "errore dopo il rimborso");
 		}
-		
+
 		catch (PayPalFailureException ex) {
 			addOthalaExceptionError(ex, "PayPal failure Response nel requestRefund");
 

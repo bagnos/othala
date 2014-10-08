@@ -422,6 +422,9 @@ public class InsertProdottiView extends BaseView {
 		qta = 1;
 		color = null;
 		pubblica = true;
+		imagesGuidFile.clear();
+		imagesFile.clear();
+		fileThumb=null;
 
 	}
 
