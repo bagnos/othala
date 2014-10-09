@@ -338,7 +338,14 @@
 
 	<select id="listShop" resultType="it.othala.dto.ShopDTO">
 
-		SELECT idShop, txShop, txMail
+		SELECT idShop, txShop, txMail,
+		txNome,
+		txVia,
+		txComune,
+		cdCap,
+		txProvincia,
+		txNazione,
+		txTel
 		FROM ${database.schema}shops
 		order by 1;
 
@@ -640,7 +647,14 @@
 		SELECT
 		a.idShop,
 		a.txShop,
-		a.txMail
+		a.txMail,
+		txNome,
+		txVia,
+		txComune,
+		cdCap,
+		txProvincia,
+		txNazione,
+		txTel
 
 		FROM
 		${database.schema}shops a,
@@ -914,7 +928,8 @@
 		idConfiguration,
 		txConfiguration,
 		nrConfiguration
-		FROM ${database.schema}configuration;
+		FROM
+		${database.schema}configuration;
 
 	</select>
 
@@ -1171,7 +1186,16 @@
 		parameterType="java.util.HashMap">
 
 
-		SELECT b.idShop, b.txShop, b.txMail FROM
+		SELECT b.idShop, b.txShop, b.txMail, 
+		b.txNome,
+		b.txVia,
+		b.txComune,
+		b.cdCap,
+		b.txProvincia,
+		b.txNazione,
+		b.txTel
+		
+		FROM
 		${database.schema}article
 		a,
 		${database.schema}shops b
