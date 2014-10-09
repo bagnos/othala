@@ -10,7 +10,7 @@ public class ArticleRefounded extends ArticleFullDTO {
 	
 	private String fgChangeRefound;
 	private String txChangeRefound;
-	private Integer pgArticleNew;
+	
 	
 	public ArticleRefounded(){
 		super();
@@ -30,7 +30,7 @@ public class ArticleRefounded extends ArticleFullDTO {
 		this.setTxColor(artFull.getTxColor());
 		this.setTxSize(artFull.getTxSize());
 		this.setChangesAvailable(artFull.getChangesAvailable());
-		this.setChangeSelected(artFull.getChangeSelected());
+		this.setPgArticleChangeSelected(artFull.getPgArticleChangeSelected());
 		
 	};
 	
@@ -47,13 +47,7 @@ public class ArticleRefounded extends ArticleFullDTO {
 		this.txChangeRefound = txChangeRefound;
 	}
 
-	public Integer getPgArticleNew() {
-		return pgArticleNew;
-	}
-
-	public void setPgArticleNew(Integer pgArticleNew) {
-		this.pgArticleNew = pgArticleNew;
-	}
+	
 
 	
 }

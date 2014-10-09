@@ -26,11 +26,18 @@ public class ArticleFullDTO implements Serializable {
 	private ShopDTO shop;
 	private String txBarCode;
 	private boolean selected;
-	private String note;	
-	private String changeSelected;
+	private String note;
 	private List<ChangeArticleDTO> changesAvailable;
 	private ArticleUpdate articleUpdate;
-	
+	private Integer pgArticleChangeSelected;
+
+	public Integer getPgArticleChangeSelected() {
+		return pgArticleChangeSelected;
+	}
+
+	public void setPgArticleChangeSelected(Integer pgArticleChangeSelected) {
+		this.pgArticleChangeSelected = pgArticleChangeSelected;
+	}
 
 	public List<ChangeArticleDTO> getChangesAvailable() {
 		return changesAvailable;
@@ -39,16 +46,6 @@ public class ArticleFullDTO implements Serializable {
 	public void setChangesAvailable(List<ChangeArticleDTO> changesAvailable) {
 		this.changesAvailable = changesAvailable;
 	}
-
-	public String getChangeSelected() {
-		return changeSelected;
-	}
-
-	public void setChangeSelected(String changeSelected) {
-		this.changeSelected = changeSelected;
-	}
-
-	
 
 	public String getNote() {
 		return note;
@@ -68,8 +65,8 @@ public class ArticleFullDTO implements Serializable {
 
 	public BigDecimal getTotalPriced() {
 		if (prdFullDTO != null) {
-			totalPriced = prdFullDTO.getPriceDiscounted() != null ? prdFullDTO
-					.getPriceDiscounted() : prdFullDTO.getPrice();
+			totalPriced = prdFullDTO.getPriceDiscounted() != null ? prdFullDTO.getPriceDiscounted() : prdFullDTO
+					.getPrice();
 			totalPriced = totalPriced.multiply(new BigDecimal(qtBooked));
 		}
 		return totalPriced;
