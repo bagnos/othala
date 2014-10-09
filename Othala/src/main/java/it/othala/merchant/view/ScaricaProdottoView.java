@@ -1,5 +1,7 @@
 package it.othala.merchant.view;
 
+import it.othala.dto.ArticleDTO;
+import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.ProductFullNewDTO;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
@@ -63,13 +65,19 @@ public class ScaricaProdottoView extends BaseView {
 	public void scarica(ActionEvent e) {
 		try {
 
-			List<String> idBarcodes = new ArrayList<>();
+			List<ArticleDTO> pgArticles = new ArrayList<>();
+			ArticleDTO art=null;
 			if (prdFounded != null && !prdFounded.isEmpty()) {
 				for (ProductFullNewDTO prd : prdFounded) {
-
-					idBarcodes.add(prd.getArticles().get(0).getTxBarCode());
+					art=new ArticleDTO();
+					art.setIdProduct(prd.getIdProduct());
+					art.setPgArticle(prd.getArticles().get(0).getPgArticle());
+					pgArticles.add(art);
 				}
-				OthalaFactory.getProductServiceInstance().downloadArticle(idBarcodes,!carico);
+				
+					OthalaFactory.getProductServiceInstance().downloadArticle(pgArticles, !carico);
+					
+				
 
 				prdFounded.clear();
 			} else {
@@ -95,17 +103,15 @@ public class ScaricaProdottoView extends BaseView {
 
 			if (idBarcode != "") {
 				ProductFullNewDTO products = OthalaFactory.getProductServiceInstance().listFindBarcode(idBarcode);
+				
 
-				if (products!=null)
-				{
-				prdFounded.add(products);
-				idBarcode = "";
-				}
-				else
-				{
+				if (products != null) {
+					prdFounded.add(products);
+					idBarcode = "";
+				} else {
 					addError("Aggiungi articolo", "Articolo non presente");
 				}
-				
+
 			}
 		} catch (Exception ex) {
 			addGenericError(ex, "errore nella ricerca del prodotto");
