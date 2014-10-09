@@ -1,6 +1,7 @@
 package it.othala.service;
 
 import it.othala.dao.interfaces.IProductDAO;
+import it.othala.dto.ArticleDTO;
 import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.CampaignDTO;
 import it.othala.dto.DomainDTO;
@@ -71,6 +72,7 @@ public class ProductService implements IProductService {
 		domainDTO.setStatesOrder(productDAO.listStatesOrder());
 		domainDTO.setStatesProduct(productDAO.listStatesProduct());
 		domainDTO.setNazioni(productDAO.listNazioni());
+		domainDTO.setConfiguration(productDAO.listConfiguration());
 
 		return domainDTO;
 
@@ -289,26 +291,29 @@ public class ProductService implements IProductService {
 	}
 
 	@Override
-	public ProductFullNewDTO listFindBarcode(String txBarcode) {
+	public List<ProductFullNewDTO> listFindBarcode(String txBarcode) {
 
-		ProductFullNewDTO productFull = productDAO
+		List<ProductFullNewDTO> productFull = productDAO
 				.getProductFullBarcode(txBarcode);
 
-		if (productFull != null) {
-			List<String> newString = productDAO.listProductImages(productFull
+		for (int i = 0; i <= productFull.size() - 1; i++) {
+
+			List<String> newString = productDAO.listProductImages(productFull.get(i)
 					.getIdProduct());
-
-			productFull.setImagesUrl(newString);
-
+			productFull.get(i).setImagesUrl(newString);
+			
 			List<ArticleFullDTO> listArticleFull = productDAO
-					.listArticleFullBarcode(productFull.getIdProduct(),
+					.listArticleFullBarcode(productFull.get(i).getIdProduct(),
 							txBarcode);
+			
+			productFull.get(i).setArticles(listArticleFull);
 
-			productFull.setArticles(listArticleFull);
 		}
+		
 		return productFull;
 
 	}
+	
 
 	@Override
 	public void publishProduct(List<Integer> listIdProduct) {
@@ -335,18 +340,18 @@ public class ProductService implements IProductService {
 	}
 
 	@Override
-	public void downloadArticle(List<String> txBarcode, Boolean fgScarico) {
+	public void downloadArticle(List<ArticleDTO> articles, Boolean fgScarico) {
 
 		if (fgScarico == true) {
-			for (int i = 0; i <= txBarcode.size() - 1; i++) {
+			for (int i = 0; i <= articles.size() - 1; i++) {
 
-				productDAO.downloadArticle(txBarcode.get(i));
+				productDAO.downloadArticle(articles.get(i).getIdProduct(), articles.get(i).getPgArticle());
 
 			}
 		} else {
-			for (int i = 0; i <= txBarcode.size() - 1; i++) {
+			for (int i = 0; i <= articles.size() - 1; i++) {
 
-				productDAO.uploadArticle(txBarcode.get(i));
+				productDAO.uploadArticle(articles.get(i).getIdProduct(), articles.get(i).getPgArticle());
 
 			}
 		}

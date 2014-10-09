@@ -65,6 +65,6 @@ public interface IOrderService {
 	
 	public void aggiornaScontoFidelity(String idFidelity, int pcSconto);
 	
-	public void aggiornaQtaCambio(String txBarcodeIn, String txBarcodeOut);
+	public void aggiornaQtaCambio(Integer idProduct, Integer pgArticleIn, Integer pgArticleOut);
 	
 }

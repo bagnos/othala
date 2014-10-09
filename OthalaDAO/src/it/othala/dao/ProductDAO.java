@@ -5,6 +5,7 @@ import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.AttributeDTO;
 import it.othala.dto.AttributeSizeDTO;
 import it.othala.dto.CampaignDTO;
+import it.othala.dto.ConfigurationDTO;
 import it.othala.dto.DescriptionDTO;
 import it.othala.dto.MenuDTO;
 import it.othala.dto.NazioniDTO;
@@ -241,19 +242,21 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	}
 
 	@Override
-	public void downloadArticle(String txBarcode) {
+	public void downloadArticle(Integer idProduct, Integer pgArticle) {
 
 		HashMap<String, Object> map2 = new HashMap<>();
-		map2.put("txBarcode", txBarcode);
+		map2.put("idProduct", idProduct);
+		map2.put("pgArticle", pgArticle);
 		map2.put("languages", "it");
 
 		ArticleFullDTO articleFull = getSqlSession().selectOne(
-				"it.othala.product.queries.getArticleFullBarcode", map2);
+				"it.othala.product.queries.getArticleFull", map2);
 
 		if (articleFull != null && articleFull.getQtStock() > 0) {
 
 			HashMap<String, Object> mapProduct = new HashMap<>();
-			mapProduct.put("txBarcode", txBarcode);
+			mapProduct.put("idProduct", idProduct);
+			mapProduct.put("pgArticle", pgArticle);
 
 			getSqlSession().update("it.othala.product.queries.downloadArticle",
 					mapProduct);
@@ -263,19 +266,21 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	}
 	
 	@Override
-	public void uploadArticle(String txBarcode) {
+	public void uploadArticle(Integer idProduct, Integer pgArticle) {
 
 		HashMap<String, Object> map2 = new HashMap<>();
-		map2.put("txBarcode", txBarcode);
+		map2.put("idProduct", idProduct);
+		map2.put("pgArticle", pgArticle);
 		map2.put("languages", "it");
 
 		ArticleFullDTO articleFull = getSqlSession().selectOne(
-				"it.othala.product.queries.getArticleFullBarcode", map2);
+				"it.othala.product.queries.getArticleFull", map2);
 
 		if (articleFull != null) {
 
 			HashMap<String, Object> mapProduct = new HashMap<>();
-			mapProduct.put("txBarcode", txBarcode);
+			mapProduct.put("idProduct", idProduct);
+			mapProduct.put("pgArticle", pgArticle);
 
 			getSqlSession().update("it.othala.product.queries.uploadArticle",
 					mapProduct);
@@ -542,21 +547,6 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 
 	}
 
-	@Override
-	public Integer updateQtStock(String txBarcode, Integer qtArticles,
-			Boolean fgVendita) {
-
-		HashMap<String, Object> mapProduct = new HashMap<>();
-		mapProduct.put("txBarcode", txBarcode);
-		mapProduct.put("qtArticles", qtArticles);
-		mapProduct.put("fgVendita", fgVendita);
-
-		Integer qtStock = getSqlSession().update(
-				"it.othala.product.queries.updateQtStockBarcode", mapProduct);
-
-		return qtStock;
-
-	}
 
 	@Override
 	public void insertBrand(String txBrand) {
@@ -834,12 +824,12 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	}
 
 	@Override
-	public ProductFullNewDTO getProductFullBarcode(String txBarcode) {
+	public List<ProductFullNewDTO> getProductFullBarcode(String txBarcode) {
 
 		HashMap<String, Object> mapProduct = new HashMap<>();
 		mapProduct.put("txBarcode", txBarcode);
 
-		ProductFullNewDTO productFull = getSqlSession().selectOne(
+		List<ProductFullNewDTO> productFull = getSqlSession().selectList(
 				"it.othala.product.queries.getProductFullBarcode", mapProduct);
 
 		return productFull;
@@ -893,4 +883,12 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		return listNazioni;
 	}
 
+	@Override
+	public List<ConfigurationDTO> listConfiguration() {
+		List<ConfigurationDTO> listConfiguration = getSqlSession().selectList(
+				"it.othala.product.queries.getListConfiguration");
+
+		return listConfiguration;
+	}
+	
 }

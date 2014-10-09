@@ -543,7 +543,7 @@ public class OrderService implements IOrderService {
 			mapProduct.put("qtArticle", article.getQtBooked());
 			mapProduct.put("fgChangeRefound", article.getFgChangeRefound());
 			mapProduct.put("txChangeRefound", article.getTxChangeRefound());
-			mapProduct.put("txNewBarCode", article.getTxNewBarcode());
+			mapProduct.put("pgArticleNew", article.getPgArticleNew());
 			
 			orderDAO.insertRefoundArticles(mapProduct);
 
@@ -631,10 +631,10 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public void aggiornaQtaCambio(String txBarcodeIn, String txBarcodeOut) {
+	public void aggiornaQtaCambio(Integer idProduct, Integer pgArticleIn, Integer pgArticleOut) {
 
-		productDAO.updateQtStock(txBarcodeIn, 1, false);
-		productDAO.updateQtStock(txBarcodeOut, 1, true);
+		productDAO.updateQtStock(idProduct, pgArticleIn, 1, false);
+		productDAO.updateQtStock(idProduct, pgArticleOut, 1, true);
 		
 	}
 

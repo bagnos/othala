@@ -4,6 +4,7 @@ import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.AttributeDTO;
 import it.othala.dto.AttributeSizeDTO;
 import it.othala.dto.CampaignDTO;
+import it.othala.dto.ConfigurationDTO;
 import it.othala.dto.MenuDTO;
 import it.othala.dto.NazioniDTO;
 import it.othala.dto.ProductFullNewDTO;
@@ -97,8 +98,8 @@ public interface IProductDAO {
 
 	public void updateProduct(ProductFullNewDTO productFull);
 
-	public void downloadArticle(String txBarcode);
-	public void uploadArticle(String txBarcode);
+	public void downloadArticle(Integer idProduct, Integer pgArticle);
+	public void uploadArticle(Integer idProduct, Integer pgArticle);
 
 	public void insertMaterial(Integer idMaterial,String languages, String txMaterial);
 
@@ -109,7 +110,7 @@ public interface IProductDAO {
 	public Integer getMaxIdColor();
 	public Integer getMaxIdMaterial();
 
-	public ProductFullNewDTO getProductFullBarcode(String txBarcode);
+	public List<ProductFullNewDTO> getProductFullBarcode(String txBarcode);
 
 	public List<ArticleFullDTO> listArticleFullBarcode(Integer idProduct,
 			String txBarcode);
@@ -122,11 +123,11 @@ public interface IProductDAO {
 
 	public List<NazioniDTO> listNazioni();
 
-	public Integer updateQtStock(String txBarcode, Integer qtArticles,
-			Boolean fgVendita);
-
 	public Integer setNewQtStock(Integer idProduct, Integer pgArticle,
 			Integer qtArticles);
+
+	public List<ConfigurationDTO> listConfiguration();
+
 	
 	
 	

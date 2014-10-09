@@ -283,7 +283,8 @@
 		where
 		a.idTypeSize = b.idTypeSize
 		and a.idTypeSize = c.idTypeSize
-		and C.IDLANGUAGES=#{languages}
+		and
+		C.IDLANGUAGES=#{languages}
 		order by 1,2
 
 	</select>
@@ -838,8 +839,10 @@
 		UPDATE
 		${database.schema}article
 		set qtStock = qtStock - 1
-		Where txBarcode =
-		#{txBarcode};
+		Where idProduct =
+		#{idProduct}
+		and pgArticle =
+		#{pgArticle};
 
 
 	</update>
@@ -849,8 +852,10 @@
 		UPDATE
 		${database.schema}article
 		set qtStock = qtStock + 1
-		Where txBarcode =
-		#{txBarcode};
+		Where idProduct =
+		#{idProduct}
+		and pgArticle =
+		#{pgArticle};
 
 
 	</update>
@@ -888,23 +893,6 @@
 
 	</update>
 
-	<update id="updateQtStockBarcode" parameterType="java.util.HashMap">
-
-		UPDATE
-		${database.schema}article
-		<if test="fgVendita == true">
-			set qtStock = qtStock - #{qtArticles}
-		</if>
-		<if test="fgVendita == false">
-			set qtStock = qtStock + #{qtArticles}
-		</if>
-		Where txBarCode =
-		#{txBarcode};
-
-
-	</update>
-
-
 
 	<select id="getListCampaign" resultType="it.othala.dto.CampaignDTO">
 
@@ -919,18 +907,14 @@
 
 	</select>
 
-	<select id="getListNazioni" resultType="it.othala.dto.NazioniDTO">
+	<select id="getListConfiguration" resultType="it.othala.dto.ConfigurationDTO">
 
 
-		SELECT idNazione as
-		descrizione,
-		idLanguages as language
-		FROM
-		${database.schema}nazioni
-		ORDER
-		BY 1;
-
-
+		SELECT
+		idConfiguration,
+		txConfiguration,
+		nrConfiguration
+		FROM ${database.schema}configuration;
 
 	</select>
 

@@ -20,6 +20,7 @@ public class DomainDTO implements Serializable {
 	private List<AttributeDTO> statesOrder;
 	private List<AttributeDTO> statesProduct;
 	private List<NazioniDTO> nazioni;
+	private List<ConfigurationDTO> configuration;
 	
 
 	
@@ -101,6 +102,14 @@ public class DomainDTO implements Serializable {
 
 	public void setNazioni(List<NazioniDTO> nazioni) {
 		this.nazioni = nazioni;
+	}
+
+	public List<ConfigurationDTO> getConfiguration() {
+		return configuration;
+	}
+
+	public void setConfiguration(List<ConfigurationDTO> configuration) {
+		this.configuration = configuration;
 	}
 
 }
