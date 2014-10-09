@@ -10,7 +10,7 @@ public class ArticleRefounded extends ArticleFullDTO {
 	
 	private String fgChangeRefound;
 	private String txChangeRefound;
-	private String txNewBarcode;
+	private Integer pgArticleNew;
 	
 	public ArticleRefounded(){
 		super();
@@ -47,12 +47,12 @@ public class ArticleRefounded extends ArticleFullDTO {
 		this.txChangeRefound = txChangeRefound;
 	}
 
-	public String getTxNewBarcode() {
-		return txNewBarcode;
+	public Integer getPgArticleNew() {
+		return pgArticleNew;
 	}
 
-	public void setTxNewBarcode(String txNewBarcode) {
-		this.txNewBarcode = txNewBarcode;
+	public void setPgArticleNew(Integer pgArticleNew) {
+		this.pgArticleNew = pgArticleNew;
 	}
 
 	

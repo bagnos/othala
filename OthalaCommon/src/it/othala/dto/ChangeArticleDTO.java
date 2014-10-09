@@ -7,20 +7,20 @@ public class ChangeArticleDTO implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String cdBarcode;
+	private Integer pgArticleNew;
 	private String noteMerchant;
 	private String shop;
 	private String size;
 	private String color;
 	
-	public String getCdBarcode() {
-		return cdBarcode;
+	public Integer getPgArticleNew() {
+		return pgArticleNew;
 	}
-	public void setCdBarcode(String cdBarcode) {
-		this.cdBarcode = cdBarcode;
+	public void setCdBarcode(Integer pgArticleNew) {
+		this.pgArticleNew = pgArticleNew;
 	}
 	public String getNoteMerchant() {
-		noteMerchant=String.format("Barcode %s, Taglia %s, Colore %s presso Negozio %s",getCdBarcode(), getSize(), getColor(), getShop());
+		noteMerchant=String.format("pgArticleNew %s, Taglia %s, Colore %s presso Negozio %s",getPgArticleNew().toString(), getSize(), getColor(), getShop());
 		return noteMerchant;
 	}
 	public String getShop() {

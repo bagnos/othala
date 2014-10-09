@@ -1,5 +1,6 @@
 package it.othala.service.interfaces;
 
+import it.othala.dto.ArticleDTO;
 import it.othala.dto.CampaignDTO;
 import it.othala.dto.DomainDTO;
 import it.othala.dto.MenuFullDTO;
@@ -55,11 +56,14 @@ public interface IProductService {
 	public DomainDTO insertMaterial(String languages, String txMaterialIT,
 			String txMaterialEN);
 
-	public ProductFullNewDTO listFindBarcode(String txBarcode);
+	public List<ProductFullNewDTO> listFindBarcode(String txBarcode);
 
 	public MenuFullDTO getMenuFull(String languages);
 
 
-	public void downloadArticle(List<String> txBarcode, Boolean fgScarico);
+	public void downloadArticle(List<ArticleDTO> articles, Boolean fgScarico);
+
+
+	
 	
 }

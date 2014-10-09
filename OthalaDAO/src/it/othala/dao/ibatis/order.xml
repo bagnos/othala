@@ -332,9 +332,9 @@
 
 		INSERT INTO
 		${database.schema}refound_articles
-		(`idRefound`,`idProdotto`,`pgArticle`,`qtArticle`,`fgChangeRefound`,`txChangeRefound`,`txNewBarCode`)
+		(`idRefound`,`idProdotto`,`pgArticle`,`qtArticle`,`fgChangeRefound`,`txChangeRefound`,`pgArticleNew`)
 		values
-		(#{idRefound},#{idProdotto},#{pgArticle},#{qtArticle},#{fgChangeRefound},#{txChangeRefound},#{txNewBarCode})
+		(#{idRefound},#{idProdotto},#{pgArticle},#{qtArticle},#{fgChangeRefound},#{txChangeRefound},#{pgArticleNew})
 
 	</insert>
 
@@ -375,7 +375,7 @@
 			<result property="qtBooked" column="qtArticle" />
 			<result property="fgChangeRefound" column="fgChangeRefound" />
 			<result property="txChangeRefound" column="txChangeRefound" />
-			<result property="txNewBarCode" column="txNewBarCode" />
+			<result property="pgArticleNew" column="pgArticleNew" />
 		</collection>
 	</resultMap>
 
@@ -385,7 +385,7 @@
 		SELECT
 		a.idRefound, a.idOrder, a.idUser, a.imRefound, a.idTransaction, a.txChangeRefound as MotivoReso,
 		a.fgChangeRefound, a.fgPartialRefound, b.idProdotto, b.pgArticle, b.qtArticle, b.fgChangeRefound, b.txChangeRefound, 
-		b.txNewBarCode, c.idStato, c.dtStato, c.txNote, d.txStato
+		b.pgArticleNew, c.idStato, c.dtStato, c.txNote, d.txStato
 		FROM
 		${database.schema}order_refound a,
 		${database.schema}refound_articles b,
