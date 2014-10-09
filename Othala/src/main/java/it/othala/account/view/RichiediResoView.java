@@ -49,9 +49,9 @@ public class RichiediResoView extends BaseView {
 	private Boolean richiedireso;
 	private String note;
 	private List<ChangeArticleDTO> listOptionChanges = new ArrayList<>();
-	private Map<String, List<SelectItem>> map = new HashMap<String, List<SelectItem>>();
+	private Map<Integer, List<SelectItem>> map = new HashMap<Integer, List<SelectItem>>();
 
-	public Map<String, List<SelectItem>> getMap() {
+	public Map<Integer, List<SelectItem>> getMap() {
 		return map;
 	}
 
@@ -181,7 +181,7 @@ public class RichiediResoView extends BaseView {
 			String[] items = idArt.split("-");
 			int pgArt = Integer.valueOf(items[1].trim());
 			int idPrd = Integer.valueOf(items[0].trim());
-			ArticleRefounded artref=null;
+			ArticleRefounded artref = null;
 			for (ArticleFullDTO art : myAccountBean.getOrderSelected().getCart()) {
 				if (art.isSelected()) {
 					artref = new ArticleRefounded(art);
@@ -196,8 +196,7 @@ public class RichiediResoView extends BaseView {
 					}
 				}
 			}
-			
-			
+
 		} catch (Exception ex) {
 			addGenericError(ex, "errore nella selezione del camnbio");
 		}
@@ -232,7 +231,7 @@ public class RichiediResoView extends BaseView {
 			} else {
 				getChange(ref);
 			}
-			disabledConferma=true;
+			disabledConferma = true;
 
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
@@ -254,15 +253,16 @@ public class RichiediResoView extends BaseView {
 		// verifica se per gli articoli selezionati è presenta un articolo da
 		// cambiare
 		for (ArticleRefounded art : ref.getCart()) {
-			if (art.getChangeSelected() == null) {
+			if (art.getPgArticleChangeSelected() == null) {
+				//selezionata la check box ma non selezionato il cambio
 				addError(OthalaUtil.getWordBundle("account_changeRequest"),
 						OthalaUtil.getWordBundle("account_noArticleChangeSelected"));
 				return;
 			}
 			for (ChangeArticleDTO chArt : art.getChangesAvailable()) {
-				if (chArt.getCdBarcode().equalsIgnoreCase(art.getChangeSelected())) {
+				if (chArt.getPgArticleNew()==art.getPgArticle()) {
 					art.setTxChangeRefound(chArt.getNoteMerchant());
-					art.setTxNewBarcode(chArt.getCdBarcode());
+					art.setPgArticleChangeSelected(chArt.getPgArticleNew());				
 					// inserire barcode su artRefounded
 				}
 			}
@@ -279,9 +279,9 @@ public class RichiediResoView extends BaseView {
 		ref.setImRefound(imRefunded);
 		ref.setIdTransaction(myAccountBean.getOrderSelected().getIdTransaction());
 		ref.setFgChangeRefound("R");
-		ref.setFgPartialRefound(ref.getCart().size()!=myAccountBean.getOrderSelected().getCart().size());	
-		ref = OthalaFactory.getOrderServiceInstance().insertRefound(ref);		
-		
+		ref.setFgPartialRefound(ref.getCart().size() != myAccountBean.getOrderSelected().getCart().size());
+		ref = OthalaFactory.getOrderServiceInstance().insertRefound(ref);
+
 		disabledConferma = true;
 
 		addInfo("Richesta Reso",
@@ -308,19 +308,21 @@ public class RichiediResoView extends BaseView {
 	private void updateChangeableArticle(ProductFullNewDTO prd, ArticleFullDTO artSel) {
 		ChangeArticleDTO artRef = null;
 		if (artSel.getChangesAvailable() == null) {
+			// non sono stati ancora calcolati i possibili cambi
 			artSel.setChangesAvailable(new ArrayList<ChangeArticleDTO>());
 			List<SelectItem> sel = new ArrayList<SelectItem>();
 			for (ArticleFullDTO art : prd.getArticles()) {
+				// si esclude l'articolo corrente tra le possibili scelte
 				if (art.getPgArticle() != artSel.getPgArticle() && art.getQtStock() > 0) {
 					artRef = valueOfArticle(art);
 					artSel.getChangesAvailable().add(valueOfArticle(art));
-					sel.add(new SelectItem(art.getTxBarCode(), String.format("%s, %s", artRef.getSize(),
+					sel.add(new SelectItem(art.getPgArticle(), String.format("%s, %s", artRef.getSize(),
 							artRef.getColor())));
 				}
 			}
 			if (!artSel.getChangesAvailable().isEmpty()) {
-				artSel.setChangeSelected(artSel.getChangesAvailable().get(0).getCdBarcode());
-				map.put(artSel.getTxBarCode(), sel);
+				artSel.setPgArticleChangeSelected(artSel.getChangesAvailable().get(0).getPgArticleNew());
+				map.put(artSel.getPgArticle(), sel);
 			}
 
 		}
@@ -329,11 +331,11 @@ public class RichiediResoView extends BaseView {
 
 	private ChangeArticleDTO valueOfArticle(ArticleFullDTO a) {
 		ChangeArticleDTO cArt = new ChangeArticleDTO();
-		cArt.setCdBarcode(a.getTxBarCode());
+		cArt.setTxBarcodeNew(a.getTxBarCode());
+		cArt.setPgArticleNew(a.getPgArticle());
 		cArt.setColor(a.getTxColor());
 		cArt.setShop(a.getShop().getTxShop());
 		cArt.setSize(a.getTxSize());
-
 		return cArt;
 	}
 }
