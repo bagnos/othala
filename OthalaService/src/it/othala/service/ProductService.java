@@ -291,24 +291,22 @@ public class ProductService implements IProductService {
 	}
 
 	@Override
-	public List<ProductFullNewDTO> listFindBarcode(String txBarcode) {
+	public ProductFullNewDTO listFindBarcode(String txBarcode) {
 
-		List<ProductFullNewDTO> productFull = productDAO
+		ProductFullNewDTO productFull = productDAO
 				.getProductFullBarcode(txBarcode);
 
-		for (int i = 0; i <= productFull.size() - 1; i++) {
-
-			List<String> newString = productDAO.listProductImages(productFull.get(i)
+			List<String> newString = productDAO.listProductImages(productFull
 					.getIdProduct());
-			productFull.get(i).setImagesUrl(newString);
+			productFull.setImagesUrl(newString);
 			
 			List<ArticleFullDTO> listArticleFull = productDAO
-					.listArticleFullBarcode(productFull.get(i).getIdProduct(),
+					.listArticleFullBarcode(productFull.getIdProduct(),
 							txBarcode);
 			
-			productFull.get(i).setArticles(listArticleFull);
+			productFull.setArticles(listArticleFull);
 
-		}
+		
 		
 		return productFull;
 
