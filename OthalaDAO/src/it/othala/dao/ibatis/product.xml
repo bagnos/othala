@@ -1309,7 +1309,7 @@
 	<select id="getProductFullBarcode" resultType="it.othala.dto.ProductFullNewDTO"
 		parameterType="java.util.HashMap">
 
-		SELECT
+		SELECT DISTINCT
 
 		tab1.idProduct,
 		tab1.price,

@@ -824,12 +824,12 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	}
 
 	@Override
-	public List<ProductFullNewDTO> getProductFullBarcode(String txBarcode) {
+	public ProductFullNewDTO getProductFullBarcode(String txBarcode) {
 
 		HashMap<String, Object> mapProduct = new HashMap<>();
 		mapProduct.put("txBarcode", txBarcode);
 
-		List<ProductFullNewDTO> productFull = getSqlSession().selectList(
+		ProductFullNewDTO productFull = getSqlSession().selectOne(
 				"it.othala.product.queries.getProductFullBarcode", mapProduct);
 
 		return productFull;
