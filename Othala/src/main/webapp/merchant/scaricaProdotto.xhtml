@@ -74,7 +74,7 @@
 
 					<p:dataTable id="prdTable" var="prd" value="#{scaricaProdottoView.prdFounded}"
 						rowKey="#{prd.idProduct}" selection="#{scaricaProdottoView.prdSelected}" paginator="true"
-						paginatorPosition="bottom" emptyMessage="Nessun prodotto trovato"
+						paginatorPosition="bottom" emptyMessage="Nessun prodotto selezionato"
 						currentPageReportTemplate="Nr. Elementi {totalRecords}" selectionMode="single"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
 
@@ -82,9 +82,9 @@
 
 						<f:facet name="header">
 							<h:outputText rendered="#{scaricaProdottoView.carico==false}"
-								value=" Elenco prodotti da scaricare" />
+								value="ELENCO PRODOTTI DA SCARICARE" />
 							<h:outputText rendered="#{scaricaProdottoView.carico==true}"
-								value=" Elenco prodotti da caricare" />
+								value="ELENCO PRODOTTI DA CARICARE" />
 						</f:facet>
 						<!-- <p:column selectionMode="multiple" style="width:2%;text-align:center" />-->
 						<p:column headerText="Barcode">
@@ -147,6 +147,35 @@
 
 
 			</div>
+
+			<p:dialog header="Seleziona l'articolo da scaricare" widgetVar="artsProd" modal="true"
+				height="100">
+				<div class="row">
+					<div class="col-sm-6">
+
+						<p:dataTable var="art" rowKey="#{art.pgArticle}" id="completed"
+							value="#{scaricaProdottoView.prdSelected}" rows="10" paginator="true"
+							paginatorPosition="bottom" selection="#{scaricaProdottoView.prdSelected}"
+							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+							selectionMode="single">
+
+							<p:ajax event="rowDblselect" listener="#{scaricaProdottoView.onRowSelect}" />
+
+
+
+							<f:facet name="header">
+		 						ARTICOLI DA SELZIONARE
+		 						</f:facet>
+							<p:column headerText="Colore">
+								<h:outputText value="#{prd.articles.get(0).txColor}" />
+							</p:column>
+							<p:column headerText="Taglia">
+								<h:outputText value="#{prd.articles.get(0).txSize}" />
+							</p:column>
+						</p:dataTable>
+					</div>
+				</div>
+			</p:dialog>
 
 
 		</h:form>

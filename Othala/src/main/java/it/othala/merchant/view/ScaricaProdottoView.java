@@ -13,6 +13,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
+
 @ManagedBean
 @ViewScoped
 public class ScaricaProdottoView extends BaseView {
@@ -20,6 +23,18 @@ public class ScaricaProdottoView extends BaseView {
 	private String idBarcode;
 	private ProductFullNewDTO prdSelected;
 	private List<ProductFullNewDTO> prdFounded;
+	private ArticleFullDTO articleSelected;
+	
+	
+
+	public ArticleFullDTO getArticleSelected() {
+		return articleSelected;
+	}
+
+	public void setArticleSelected(ArticleFullDTO articleSelected) {
+		this.articleSelected = articleSelected;
+	}
+
 	private boolean carico;
 
 	public boolean isCarico() {
@@ -102,20 +117,31 @@ public class ScaricaProdottoView extends BaseView {
 		try {
 
 			if (idBarcode != "") {
-				ProductFullNewDTO products = OthalaFactory.getProductServiceInstance().listFindBarcode(idBarcode);
+				prdSelected = OthalaFactory.getProductServiceInstance().listFindBarcode(idBarcode);
 				
 
-				if (products != null) {
-					prdFounded.add(products);
+				if (prdSelected != null && prdSelected.getArticles()!=null && prdSelected.getArticles().size()==1) {
+					prdFounded.add(prdSelected);
 					idBarcode = "";
 				} else {
-					addError("Aggiungi articolo", "Articolo non presente");
+					//mostra dialog per la scelta dell'articolo
+					RequestContext.getCurrentInstance().execute("PF('artsProd').show();");
+					
 				}
 
 			}
 		} catch (Exception ex) {
 			addGenericError(ex, "errore nella ricerca del prodotto");
 		}
+	}
+	
+	public void onRowSelect(SelectEvent e)
+	{
+		prdSelected.getArticles().clear();
+		prdSelected.getArticles().add(articleSelected);
+		prdFounded.add(prdSelected);
+		RequestContext.getCurrentInstance().execute("PF('artsProd').hide();");
+		
 	}
 
 }

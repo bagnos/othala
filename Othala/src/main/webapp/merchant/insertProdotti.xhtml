@@ -48,6 +48,23 @@
 				</div>
 			</h:panelGroup>
 
+			<!-- barcode al livello di prodotto -->
+			<h:panelGroup rendered="#{applicationBean.configuredBarcodeProduct}" layout="block"
+				styleClass="row">
+
+				<div class="col-sm-12">
+					<div class="form-group">
+						<p:outputLabel for="barcodePrd" styleClass="col-sm-1 control-label" value="Barcode" />
+						<div class="col-sm-3">
+							<p:inputText required="true" id="barcodePrd" styleClass="form-control"
+								value="#{insertProdottiView.txBarcode}" />
+						</div>
+					</div>
+				</div>
+
+			</h:panelGroup>
+
+
 			<div class="row">
 				<div class="col-sm-12">
 
@@ -345,7 +362,8 @@
 			<div class="row">
 				<div class="col-sm-12">
 
-					<h:panelGroup styleClass="form-group spacer10" rendered="#{insertProdottiView.fgRead==false}">
+					<h:panelGroup styleClass="form-group spacer10"
+						rendered="#{insertProdottiView.fgRead==false and applicationBean.configuredBarcodeProduct==false}">
 						<p:outputLabel for="barcode" class="col-sm-1 control-label" value="Barcode" />
 						<div class="col-sm-3 ">
 							<p:inputText readonly="#{insertProdottiView.fgRead==true}" styleClass="form-control"
@@ -445,10 +463,9 @@
             <h:outputText rendered="#{art.selected==false}" value="#{art.shop.txShop}" />
 								<p:autoComplete rendered="#{art.selected}"
 									scrollHeight="#{insertProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}" required="true"
-									minQueryLength="1" size="34" dropdown="true" id="negozioNew"
-									value="#{art.shop}" completeMethod="#{insertProdottiView.completeShops}"
-									var="shop" itemLabel="#{shop.txShop}" itemValue="#{shop}"
-									converter="it.othala.ShopConverter" forceSelection="true" />
+									minQueryLength="1" size="34" dropdown="true" id="negozioNew" value="#{art.shop}"
+									completeMethod="#{insertProdottiView.completeShops}" var="shop" itemLabel="#{shop.txShop}"
+									itemValue="#{shop}" converter="it.othala.ShopConverter" forceSelection="true" />
         </p:column>
         <p:column style="width:6%;padding:0px;text-align:center"
 								rendered="#{insertProdottiView.fgRead==false}">           								

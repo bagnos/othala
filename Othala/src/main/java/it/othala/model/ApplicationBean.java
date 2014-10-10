@@ -50,6 +50,19 @@ public class ApplicationBean implements Serializable {
 	private List<AttributeDTO> typeDTO = null;
 	private List<AttributeDTO> statesOrder = null;
 	private List<AttributeDTO> statesProduct = null;
+	private Boolean configuredBarcodeProduct;
+
+	public boolean isConfiguredBarcodeProduct() {
+		if (configuredBarcodeProduct==null)
+		{
+			if (getDomain().getConfiguration()==null || getDomain().getConfiguration().isEmpty())
+			{
+				return false;
+			}
+			configuredBarcodeProduct=getDomain().getConfiguration().get(0).getNrConfiguration().intValue()!=1;
+		}
+		return configuredBarcodeProduct;
+	}
 
 	public List<AttributeDTO> getStatesProduct() {
 		if (statesProduct==null)
