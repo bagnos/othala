@@ -58,7 +58,7 @@ public class ProductFullNewDTO implements Serializable {
 	private List<String> size = new ArrayList<>();
 	private List<String> color = new ArrayList<>();
 	
-	
+	//da eliminare, il prodotto ha sempre comunque un articolo
 	private List<String> listTxBarcode; 
 
 	private Integer idProductState;
@@ -66,9 +66,9 @@ public class ProductFullNewDTO implements Serializable {
 	
 	private List <ShopDTO> listShop; 
 	
-
 	private Date dtProductstate; 
 	
+	private String txBarcode;
 	
 	
 	
@@ -82,7 +82,14 @@ public class ProductFullNewDTO implements Serializable {
 	
 	
 	
-	
+
+	public String getTxBarcode() {
+		return txBarcode;
+	}
+
+	public void setTxBarcode(String txBarcode) {
+		this.txBarcode = txBarcode;
+	}
 
 	public String getColorsAsString() {
 		return StringUtils.collectionToCommaDelimitedString(color);

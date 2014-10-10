@@ -76,6 +76,15 @@ public class InsertProdottiView extends BaseView {
 	private String separatorDateFormat = "&";
 	private Boolean detail;
 	private ProductFullNewDTO prdDetail = null;
+	private String txBarcode;
+
+	public String getTxBarcode() {
+		return txBarcode;
+	}
+
+	public void setTxBarcode(String txBarcode) {
+		this.txBarcode = txBarcode;
+	}
 
 	public Boolean getDetail() {
 		return detail;
@@ -336,6 +345,8 @@ public class InsertProdottiView extends BaseView {
 			}
 
 			ProductFullNewDTO prd = new ProductFullNewDTO();
+			//lo mettiamo sempre, avrà significato solo per configurazioni diverse da uno
+			prd.setTxBarcode(txBarcode);
 			prd.setArticles(articles);
 			prd.setDescription(descrizione);
 			prd.setDescriptionEN(descrizioneEN);
@@ -375,6 +386,7 @@ public class InsertProdottiView extends BaseView {
 	private void initProdotto() {
 		prdDetail = OthalaFactory.getProductServiceInstance().getProductFull(getLang(),
 				merchantBean.getSelectedProducts().get(0).getIdProduct());
+		txBarcode=prdDetail.getTxBarcode();
 		articles = prdDetail.getArticles();
 		descrizione = prdDetail.getDescription();
 		descrizioneEN = prdDetail.getDescriptionEN();
