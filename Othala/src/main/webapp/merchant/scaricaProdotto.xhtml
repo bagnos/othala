@@ -90,6 +90,9 @@
 						<p:column headerText="Barcode">
 							<h:outputText value="#{prd.articles.get(0).txBarCode}" />
 						</p:column>
+						<p:column headerText="Id Articolo">
+							<h:outputText value="#{prd.articles.get(0).pgArticle}" />
+						</p:column>
 
 						<p:column headerText="Genere">
 							<h:outputText value="#{prd.txGender}" />
@@ -119,6 +122,7 @@
 						<p:column headerText="Negozio">
 							<h:outputText value="#{prd.articles.get(0).shop.txShop}" />
 						</p:column>
+
 						<f:facet name="footer">
 							<!-- 
 							<h:panelGroup layout="block" style="text-align:left;">
@@ -148,29 +152,33 @@
 
 			</div>
 
-			<p:dialog header="Seleziona l'articolo da scaricare" widgetVar="artsProd" modal="true"
-				height="100">
-				<div class="row">
-					<div class="col-sm-6">
+			<p:dialog header="#{scaricaProdottoView.prdSelected.description}" widgetVar="artsProd"
+				modal="true" height="200" width="40%">
 
-						<p:dataTable var="art" rowKey="#{art.pgArticle}" id="completed"
-							value="#{scaricaProdottoView.prdSelected}" rows="10" paginator="true"
-							paginatorPosition="bottom" selection="#{scaricaProdottoView.prdSelected}"
+				<div class="row spacer10">
+					<div class="col-sm-12">
+
+						<p:dataTable var="art" rowKey="#{art.pgArticle}" id="completed" 
+							value="#{scaricaProdottoView.prdSelected.articles}" rows="10" paginator="true"
+							paginatorPosition="bottom" selection="#{scaricaProdottoView.articleSelected}"
 							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 							selectionMode="single">
 
-							<p:ajax event="rowDblselect" listener="#{scaricaProdottoView.onRowSelect}" />
+							<p:ajax event="rowDblselect" listener="#{scaricaProdottoView.onRowSelect}" update="@form" />
 
 
 
 							<f:facet name="header">
-		 						ARTICOLI DA SELZIONARE
+		 						SELEZIONA GLI ARTICOLI DA SCARICARE
 		 						</f:facet>
+							<p:column headerText="Id" >
+								<h:outputText value="#{art.pgArticle}" />
+							</p:column>
 							<p:column headerText="Colore">
-								<h:outputText value="#{prd.articles.get(0).txColor}" />
+								<h:outputText value="#{art.txColor}" />
 							</p:column>
 							<p:column headerText="Taglia">
-								<h:outputText value="#{prd.articles.get(0).txSize}" />
+								<h:outputText value="#{art.txSize}" />
 							</p:column>
 						</p:dataTable>
 					</div>

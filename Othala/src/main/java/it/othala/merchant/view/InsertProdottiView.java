@@ -76,15 +76,6 @@ public class InsertProdottiView extends BaseView {
 	private String separatorDateFormat = "&";
 	private Boolean detail;
 	private ProductFullNewDTO prdDetail = null;
-	private String txBarcode;
-
-	public String getTxBarcode() {
-		return txBarcode;
-	}
-
-	public void setTxBarcode(String txBarcode) {
-		this.txBarcode = txBarcode;
-	}
 
 	public Boolean getDetail() {
 		return detail;
@@ -345,8 +336,9 @@ public class InsertProdottiView extends BaseView {
 			}
 
 			ProductFullNewDTO prd = new ProductFullNewDTO();
-			//lo mettiamo sempre, avrà significato solo per configurazioni diverse da uno
-			prd.setTxBarcode(txBarcode);
+			// lo mettiamo sempre, avrà significato solo per configurazioni
+			// diverse da uno
+
 			prd.setArticles(articles);
 			prd.setDescription(descrizione);
 			prd.setDescriptionEN(descrizioneEN);
@@ -362,6 +354,13 @@ public class InsertProdottiView extends BaseView {
 			prd.setSpecialPrice(prezzoSpeciale);
 			prd.setThumbnailsUrl(fileThumb);
 			prd.setPriceDiscounted(prezzoScontato);
+			if (getBeanApplication().isConfiguredBarcodeProduct())
+			{
+				for (ArticleFullDTO art:prd.getArticles())
+				{
+					art.setTxBarCode(merchantCode);
+				}
+			}
 
 			if (fgMod == null || fgMod == false) {
 				OthalaFactory.getProductServiceInstance().insertProduct(prd, pubblica);
@@ -374,7 +373,7 @@ public class InsertProdottiView extends BaseView {
 				merchantBean.findProduct();
 				addInfo("Prodotto", "modifica effettuata correttamente");
 			}
-
+			
 			
 
 		} catch (Exception ex) {
@@ -386,7 +385,8 @@ public class InsertProdottiView extends BaseView {
 	private void initProdotto() {
 		prdDetail = OthalaFactory.getProductServiceInstance().getProductFull(getLang(),
 				merchantBean.getSelectedProducts().get(0).getIdProduct());
-		txBarcode=prdDetail.getTxBarcode();
+
+		merchantCode = prdDetail.getArticles().get(0).getTxBarCode();
 		articles = prdDetail.getArticles();
 		descrizione = prdDetail.getDescription();
 		descrizioneEN = prdDetail.getDescriptionEN();
@@ -436,7 +436,7 @@ public class InsertProdottiView extends BaseView {
 		pubblica = true;
 		imagesGuidFile.clear();
 		imagesFile.clear();
-		fileThumb=null;
+		fileThumb = null;
 
 	}
 
@@ -455,6 +455,9 @@ public class InsertProdottiView extends BaseView {
 		art.setQtStock(qta);
 		art.setIdColor(color.getAttributo());
 		art.setTxColor(color.getValore());
+		// se barcode è sul prodotto mettiamo lo stesso barcode a tutti gli
+		// articoli
+
 		if (articles.size() == 0) {
 			art.setPgArticle(1);
 		} else {
@@ -463,7 +466,7 @@ public class InsertProdottiView extends BaseView {
 		art.setTxBarCode(merchantCode);
 		articles.add(art);
 
-		shop = getBeanApplication().getShopsDTO().get(0);
+		// shop = getBeanApplication().getShopsDTO().get(0);
 	}
 
 	public List<AttributeDTO> completeTaglia(String query) {
@@ -523,6 +526,23 @@ public class InsertProdottiView extends BaseView {
 		}
 	}
 
+	public void deleteArticle(ActionEvent e) {
+
+		Integer id = (Integer) e.getComponent().getAttributes().get("idArt");
+
+		if (!articles.isEmpty()) {
+			for (ArticleFullDTO art : articles) {
+				if (art.getPgArticle().intValue() == id.intValue()) {
+
+					articles.remove(art);
+					break;
+				}
+
+			}
+
+		}
+	}
+
 	public void closeArticle(ActionEvent e) {
 
 		Integer id = (Integer) e.getComponent().getAttributes().get("idArt");
@@ -543,7 +563,8 @@ public class InsertProdottiView extends BaseView {
 			for (ArticleFullDTO art : articles) {
 				if (art.getPgArticle().intValue() == id.intValue()) {
 					art.setSelected(false);
-					if (art.getArticleUpdate()==null || art.getArticleUpdate().getStato() != ArticleUpdate.NUOVO.getStato()) {
+					if (art.getArticleUpdate() == null
+							|| art.getArticleUpdate().getStato() != ArticleUpdate.NUOVO.getStato()) {
 						art.setArticleUpdate(ArticleUpdate.MODIFICATO);
 					}
 					return;
