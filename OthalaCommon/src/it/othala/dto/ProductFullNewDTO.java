@@ -35,7 +35,6 @@ public class ProductFullNewDTO implements Serializable {
 
 	private Integer idBrand;
 	private String txBrand;
-	
 
 	private BigDecimal realPrice;
 	private BigDecimal imRisparmio;
@@ -57,39 +56,16 @@ public class ProductFullNewDTO implements Serializable {
 
 	private List<String> size = new ArrayList<>();
 	private List<String> color = new ArrayList<>();
-	
-	//da eliminare, il prodotto ha sempre comunque un articolo
-	private List<String> listTxBarcode; 
+
+	// da eliminare, il prodotto ha sempre comunque un articolo
+	private List<String> listTxBarcode;
 
 	private Integer idProductState;
 	private String txProductState;
-	
-	private List <ShopDTO> listShop; 
-	
-	private Date dtProductstate; 
-	
-	private String txBarcode;
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
-	public String getTxBarcode() {
-		return txBarcode;
-	}
+	private List<ShopDTO> listShop;
 
-	public void setTxBarcode(String txBarcode) {
-		this.txBarcode = txBarcode;
-	}
+	private Date dtProductstate;
 
 	public String getColorsAsString() {
 		return StringUtils.collectionToCommaDelimitedString(color);
@@ -306,7 +282,7 @@ public class ProductFullNewDTO implements Serializable {
 	public void setMerchantCode(String merchantCode) {
 		this.merchantCode = merchantCode;
 	}
-	
+
 	public List<String> getListTxBarcode() {
 		return listTxBarcode;
 	}
@@ -346,6 +322,5 @@ public class ProductFullNewDTO implements Serializable {
 	public void setDtProductstate(Date dtProductstate) {
 		this.dtProductstate = dtProductstate;
 	}
-
 
 }

@@ -24,8 +24,6 @@ public class ScaricaProdottoView extends BaseView {
 	private ProductFullNewDTO prdSelected;
 	private List<ProductFullNewDTO> prdFounded;
 	private ArticleFullDTO articleSelected;
-	
-	
 
 	public ArticleFullDTO getArticleSelected() {
 		return articleSelected;
@@ -81,18 +79,16 @@ public class ScaricaProdottoView extends BaseView {
 		try {
 
 			List<ArticleDTO> pgArticles = new ArrayList<>();
-			ArticleDTO art=null;
+			ArticleDTO art = null;
 			if (prdFounded != null && !prdFounded.isEmpty()) {
 				for (ProductFullNewDTO prd : prdFounded) {
-					art=new ArticleDTO();
+					art = new ArticleDTO();
 					art.setIdProduct(prd.getIdProduct());
 					art.setPgArticle(prd.getArticles().get(0).getPgArticle());
 					pgArticles.add(art);
 				}
-				
-					OthalaFactory.getProductServiceInstance().downloadArticle(pgArticles, !carico);
-					
-				
+
+				OthalaFactory.getProductServiceInstance().downloadArticle(pgArticles, !carico);
 
 				prdFounded.clear();
 			} else {
@@ -118,15 +114,14 @@ public class ScaricaProdottoView extends BaseView {
 
 			if (idBarcode != "") {
 				prdSelected = OthalaFactory.getProductServiceInstance().listFindBarcode(idBarcode);
-				
 
-				if (prdSelected != null && prdSelected.getArticles()!=null && prdSelected.getArticles().size()==1) {
+				if (prdSelected != null && prdSelected.getArticles() != null && prdSelected.getArticles().size() == 1) {
 					prdFounded.add(prdSelected);
 					idBarcode = "";
 				} else {
-					//mostra dialog per la scelta dell'articolo
+					// mostra dialog per la scelta dell'articolo
 					RequestContext.getCurrentInstance().execute("PF('artsProd').show();");
-					
+
 				}
 
 			}
@@ -134,14 +129,13 @@ public class ScaricaProdottoView extends BaseView {
 			addGenericError(ex, "errore nella ricerca del prodotto");
 		}
 	}
-	
-	public void onRowSelect(SelectEvent e)
-	{
+
+	public void onRowSelect(SelectEvent e) {
 		prdSelected.getArticles().clear();
 		prdSelected.getArticles().add(articleSelected);
 		prdFounded.add(prdSelected);
 		RequestContext.getCurrentInstance().execute("PF('artsProd').hide();");
-		
+
 	}
 
 }
