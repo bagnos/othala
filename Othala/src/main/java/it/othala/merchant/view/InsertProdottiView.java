@@ -112,6 +112,10 @@ public class InsertProdottiView extends BaseView {
 	}
 
 	public Boolean getFgMod() {
+		if (fgMod==null)
+		{
+			fgMod=false;
+		}
 		return fgMod;
 	}
 
@@ -455,6 +459,7 @@ public class InsertProdottiView extends BaseView {
 		art.setQtStock(qta);
 		art.setIdColor(color.getAttributo());
 		art.setTxColor(color.getValore());
+		
 		// se barcode è sul prodotto mettiamo lo stesso barcode a tutti gli
 		// articoli
 
@@ -464,6 +469,7 @@ public class InsertProdottiView extends BaseView {
 			art.setPgArticle(articles.get(articles.size() - 1).getPgArticle() + 1);
 		}
 		art.setTxBarCode(merchantCode);
+		art.setArticleUpdate(ArticleUpdate.NUOVO);
 		articles.add(art);
 
 		// shop = getBeanApplication().getShopsDTO().get(0);
