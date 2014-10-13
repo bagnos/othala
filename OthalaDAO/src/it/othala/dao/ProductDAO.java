@@ -706,6 +706,13 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 
 	@Override
 	public void updateProduct(ProductFullNewDTO productFull) {
+		
+		if (productFull.getSpecialPrice().intValue() == 0)
+			
+		{
+			productFull.setSpecialPrice(null);
+		}
+		
 		getSqlSession().update("it.othala.product.queries.updateProduct",
 				productFull);
 
