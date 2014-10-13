@@ -23,7 +23,7 @@
 
 	<ui:define name="bodyPageContent">
 		<h:form prependId="false" id="frmProd" styleClass="form-horizontal">
-			
+
 			<div class="row">
 				<div class="col-sm-4">
 					<h3 class="form-titoli">
@@ -469,11 +469,13 @@
         <p:column style="width:6%;padding:0px;text-align:center"
 								rendered="#{insertProdottiView.fgRead==false}">           								
 								<div>
-									<p:commandButton title="rimuovi" process="@this" icon="ui-icon-trash" update=":frm-arts"
-										rendered="#{art.selected==false}" actionListener="#{insertProdottiView.deleteArticle}">
+									<p:commandButton title="rimuovi"
+										rendered="#{insertProdottiView.fgMod==false and insertProdottiView.fgRead==false}"
+										process="@this" icon="ui-icon-trash" update=":frm-arts"
+										actionListener="#{insertProdottiView.deleteArticle}">
 										<f:attribute name="idArt" value="#{art.pgArticle}" />
 									</p:commandButton>
- 
+
 
 									<p:commandButton title="modifica" process="@this" icon="ui-icon-wrench" update="arts"
 										rendered="#{art.selected==false}" actionListener="#{insertProdottiView.modifyArticle}">
