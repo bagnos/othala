@@ -539,6 +539,7 @@
 		c.idLanguages = #{languages}
 		and
 		d.idProduct = a.idProduct
+		and a.qtStock > 0
 
 
 	</select>
