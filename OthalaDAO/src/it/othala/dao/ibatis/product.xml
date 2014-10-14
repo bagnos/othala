@@ -405,7 +405,9 @@
 		tab1.idProduct,
 		tab1.price,
 		tab1.thumbnailsUrl,
-		tab1.discount,
+		coalesce(tab2.pcSconto,tab1.discount) as
+		discount,
+		
 
 		coalesce(specialPrice,
 		ceiling(tab1.price * (100 -
