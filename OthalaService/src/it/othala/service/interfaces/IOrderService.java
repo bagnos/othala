@@ -5,6 +5,7 @@ import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryCostDTO;
 import it.othala.dto.DeliveryDTO;
 import it.othala.dto.FidelityCardDTO;
+import it.othala.dto.MailPropertiesDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.RefoundFullDTO;
 import it.othala.enums.TypeStateOrder;
@@ -66,5 +67,25 @@ public interface IOrderService {
 	public void aggiornaScontoFidelity(String idFidelity, int pcSconto);
 	
 	public void aggiornaQtaCambio(Integer idProduct, Integer pgArticleIn, Integer pgArticleOut);
+	
+	public String stampaResoHTML(Integer idReso, String pathLogo)
+			throws Exception;
+	
+	public String stampaCambioHTML(Integer idReso, String pathLogo)
+			throws Exception;
+
+	public void sendMailInsertReso(Integer idReso, String pathLogo, MailPropertiesDTO mailProps)
+			throws Exception;
+	
+	public void sendMailInsertCambio(Integer idReso, String pathLogo, MailPropertiesDTO mailProps)
+			throws Exception;
+	
+	public void sendMailConfirmCambio(Integer idReso, String pathLogo, MailPropertiesDTO mailProps)
+			throws Exception;
+	
+	public void sendMailConfirmReso(Integer idReso, String pathLogo, MailPropertiesDTO mailProps)
+			throws Exception;
+		
+	
 	
 }
