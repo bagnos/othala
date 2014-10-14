@@ -64,6 +64,9 @@ public interface IProductService {
 	public void downloadArticle(List<ArticleDTO> articles, Boolean fgScarico);
 
 
+	public Integer insertCampaign(CampaignDTO campaign, List<Integer> listIdProduct);
+
+
 	
 	
 }
