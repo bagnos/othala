@@ -12,14 +12,17 @@ import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryCostDTO;
 import it.othala.dto.DeliveryDTO;
 import it.othala.dto.FidelityCardDTO;
+import it.othala.dto.MailPropertiesDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.RefoundFullDTO;
+import it.othala.dto.ShopDTO;
 import it.othala.dto.StateOrderDTO;
 import it.othala.enums.TypeStateOrder;
 import it.othala.execption.FidelityCardNotPresentException;
 import it.othala.execption.FidelityCardNotValidException;
 import it.othala.execption.OthalaException;
 import it.othala.execption.StockNotPresentException;
+import it.othala.service.interfaces.IMailService;
 import it.othala.service.interfaces.IOrderService;
 import it.othala.service.template.Template;
 
@@ -52,6 +55,7 @@ public class OrderService implements IOrderService {
 	private IOrderDAO orderDAO;
 	private IProductDAO productDAO;
 	private IAccountDAO accountDAO;
+	private IMailService mailService;
 
 	@Override
 	public List<OrderFullDTO> getOrders(Integer Order, String User,
@@ -331,23 +335,110 @@ public class OrderService implements IOrderService {
 
 		return listCoupons.get(0);
 	}
-
+	
 	@Override
-	public String stampaOrdineHTML(Integer idOrder, String pathLogo)
+	public void sendMailConfirmReso(Integer idReso, String pathLogo, MailPropertiesDTO mailProps)
 			throws Exception {
 
-		List<OrderFullDTO> listOrderFullDTO = getOrders(idOrder, null, null);
+		List<RefoundFullDTO> listRefound = getRefounds(idReso, null, null, null, null, null);
+		List<OrderFullDTO> listOrderFullDTO = getOrders(listRefound.get(0).getIdOrder(), null, null);
 		OrderFullDTO orderFullDTO = listOrderFullDTO.get(0);
+		
+		List<ShopDTO> shop = productDAO.listShop();
+		
+		String html = generateHtmlReso(orderFullDTO, listRefound.get(0).getCart(), shop.get(1) , "mailConfermaReso",
+				pathLogo, idReso.toString());
+		
+		String subject = shop.get(0).getTxShop() + " - Conferma Reso Merce";
+		
 		Map<String, String> inlineImages = new HashMap<String, String>();
+		
+		mailService.inviaHTMLMail(new String[] {orderFullDTO.getIdUser().toString()}, subject , html, inlineImages, mailProps);
 
-		return generateHtmlOrder(orderFullDTO, inlineImages, "stampaOrdine",
-				pathLogo);
+	}
+	
+	@Override
+	public void sendMailConfirmCambio(Integer idReso, String pathLogo, MailPropertiesDTO mailProps)
+			throws Exception {
+
+		List<RefoundFullDTO> listRefound = getRefounds(idReso, null, null, null, null, null);
+		List<OrderFullDTO> listOrderFullDTO = getOrders(listRefound.get(0).getIdOrder(), null, null);
+		OrderFullDTO orderFullDTO = listOrderFullDTO.get(0);
+		
+		List<ShopDTO> shop = productDAO.listShop();
+		
+		String html = generateHtmlReso(orderFullDTO, listRefound.get(0).getCart(), shop.get(1) , "mailConfermaCambio",
+				pathLogo, idReso.toString());
+		
+		String subject = shop.get(0).getTxShop() + " - Conferma Cambio Merce";
+		
+		Map<String, String> inlineImages = new HashMap<String, String>();
+		
+		mailService.inviaHTMLMail(new String[] {orderFullDTO.getIdUser().toString()}, subject , html, inlineImages, mailProps);
+
+	}
+	
+	
+	@Override
+	public void sendMailInsertCambio(Integer idReso, String pathLogo, MailPropertiesDTO mailProps)
+			throws Exception {
+
+		List<RefoundFullDTO> listRefound = getRefounds(idReso, null, null, null, null, null);
+		List<OrderFullDTO> listOrderFullDTO = getOrders(listRefound.get(0).getIdOrder(), null, null);
+		OrderFullDTO orderFullDTO = listOrderFullDTO.get(0);
+		
+		List<ShopDTO> shop = productDAO.listShop();
+		
+		String html = generateHtmlReso(orderFullDTO, listRefound.get(0).getCart(), shop.get(1) , "mailInserimentoCambio",
+				pathLogo, idReso.toString());
+		
+		String subject = shop.get(0).getTxShop() + " - Notifica di Cambio";
+		
+		Map<String, String> inlineImages = new HashMap<String, String>();
+		
+		mailService.inviaHTMLMail(new String[] {orderFullDTO.getIdUser().toString()}, subject , html, inlineImages, mailProps);
 
 	}
 
-	private String generateHtmlOrder(OrderFullDTO order,
-			Map<String, String> inlineImages, String xslTemplate,
-			String pathLogo) throws Exception {
+	
+	@Override
+	public void sendMailInsertReso(Integer idReso, String pathLogo, MailPropertiesDTO mailProps)
+			throws Exception {
+
+		List<RefoundFullDTO> listRefound = getRefounds(idReso, null, null, null, null, null);
+		List<OrderFullDTO> listOrderFullDTO = getOrders(listRefound.get(0).getIdOrder(), null, null);
+		OrderFullDTO orderFullDTO = listOrderFullDTO.get(0);
+		
+		List<ShopDTO> shop = productDAO.listShop();
+		
+		String html = generateHtmlReso(orderFullDTO, listRefound.get(0).getCart(), shop.get(1) , "mailInserimentoReso",
+				pathLogo, idReso.toString());
+		
+		String subject = shop.get(0).getTxShop() + " - Notifica di Reso";
+		
+		Map<String, String> inlineImages = new HashMap<String, String>();
+		
+		mailService.inviaHTMLMail(new String[] {orderFullDTO.getIdUser().toString()}, subject , html, inlineImages, mailProps);
+
+	}
+
+	@Override
+	public String stampaResoHTML(Integer idReso, String pathLogo)
+			throws Exception {
+
+		List<RefoundFullDTO> listRefound = getRefounds(idReso, null, null, null, null, null);
+		List<OrderFullDTO> listOrderFullDTO = getOrders(listRefound.get(0).getIdOrder(), null, null);
+		OrderFullDTO orderFullDTO = listOrderFullDTO.get(0);
+		
+		List<ShopDTO> shop = productDAO.listShop();
+
+		return generateHtmlReso(orderFullDTO, listRefound.get(0).getCart(), shop.get(1) , "reso",
+				pathLogo, idReso.toString());
+
+	}
+
+	private String generateHtmlReso(OrderFullDTO order, List<ArticleRefounded> artRef, ShopDTO shop ,
+			String xslTemplate, String pathLogo, String numReso) throws Exception {
 		BufferedWriter out = null;
 		FileWriter fstream = null;
 
@@ -373,6 +464,7 @@ public class OrderService implements IOrderService {
 			out.write("<surname>" + order.getSurnameUser() + "</surname>");
 			out.write("</customer>");
 
+			out.write("<numReso>" + numReso + "</numReso>");
 			out.write("<number>" + order.getIdOrder() + "</number>");
 			out.write("<transaction>" + order.getIdTransaction()
 					+ "</transaction>");
@@ -381,6 +473,15 @@ public class OrderService implements IOrderService {
 					+ order.getSpeseSpedizione().getImportoSpese()
 					+ "</deliveryCost>");
 			out.write("<totalCost>" + order.getImOrdine() + "</totalCost>");
+			
+			out.write("<merchant>");
+			out.write("<name>" + shop.getTxShop() + "</name>");
+			out.write("<street>" + shop.getTxVia() + "</street>");
+			out.write("<zipCode>" + shop.getCdCap().toString() + "</zipCode>");
+			out.write("<city>" + shop.getTxComune() + "</city>");
+			out.write("<prov>" + shop.getTxProvincia() + "</prov>");
+			out.write("<country>" + shop.getTxNazione() + "</country>");
+			out.write("</merchant>");
 
 			out.write("<billingAddress>");
 			out.write("<name>" + order.getBillingAddress().getNome()
@@ -420,22 +521,18 @@ public class OrderService implements IOrderService {
 
 			out.write("<cart>");
 			int i = 0;
-			for (ArticleFullDTO art : order.getCart()) {
+			for (ArticleRefounded refArticle : artRef) {
 
 				out.write("<item>");
-				out.write("<number>" + art.getPrdFullDTO().getIdProduct()
-						+ "</number>");
-				out.write("<brand>" + art.getPrdFullDTO().getTxBrand()
-						+ "</brand>");
-				out.write("<description>"
-						+ art.getPrdFullDTO().getDescription()
-						+ "</description>");
-				out.write("<color>" + art.getTxColor() + "</color>");
-				out.write("<size>" + art.getTxSize() + "</size>");
-				out.write("<unitPrice>" + art.getPrdFullDTO().getRealPrice()
-						+ "</unitPrice>");
-				out.write("<quantity>" + art.getQtBooked() + "</quantity>");
-				out.write("<price>" + art.getTotalPriced() + "</price>");
+				out.write("<number>" + refArticle.getPrdFullDTO().getIdProduct() + "</number>");
+				out.write("<brand>" + refArticle.getPrdFullDTO().getTxBrand() + "</brand>");
+				out.write("<description>" + refArticle.getPrdFullDTO().getDescription() + "</description>");
+				out.write("<color>" + refArticle.getTxColor() + "</color>");
+				out.write("<size>" + refArticle.getTxSize() + "</size>");
+				out.write("<unitPrice>" + refArticle.getPrdFullDTO().getRealPrice() + "</unitPrice>");
+				out.write("<quantity>" + refArticle.getQtBooked() + "</quantity>");
+				out.write("<price>" + refArticle.getTotalPriced() + "</price>");
+				out.write("<cambio>" + refArticle.getTxChangeRefound() + "</cambio>");
 				out.write("</item>");
 				i++;
 			}
@@ -471,6 +568,21 @@ public class OrderService implements IOrderService {
 			throw e;
 
 		}
+
+	}
+	
+	@Override
+	public String stampaCambioHTML(Integer idReso, String pathLogo)
+			throws Exception {
+
+		List<RefoundFullDTO> listRefound = getRefounds(idReso, null, null, null, null, null);
+		List<OrderFullDTO> listOrderFullDTO = getOrders(listRefound.get(0).getIdOrder(), null, null);
+		OrderFullDTO orderFullDTO = listOrderFullDTO.get(0);
+		
+		List<ShopDTO> shop = productDAO.listShop();
+
+		return generateHtmlReso(orderFullDTO, listRefound.get(0).getCart(), shop.get(1) , "cambi",
+				pathLogo,idReso.toString());
 
 	}
 
@@ -561,7 +673,22 @@ public class OrderService implements IOrderService {
 
 		orderDAO.updateStateOrder(stateOrder);*/
 		
-		//Stampare il riepilogo 
+		//Stampare il riepilogo
+		try {
+			//if (refoundFull.getFgChangeRefound()=="R"){
+			//	MailPropertiesDTO mailprops =  new MailPropertiesDTO();
+			//	sendMailInsertReso(refoundFull.getIdRefound(), "", mailprops);
+			//}
+			//else{*/
+				MailPropertiesDTO mailprops =  new MailPropertiesDTO();
+				sendMailInsertCambio(refoundFull.getIdRefound(), "", mailprops);
+			//}
+		} 
+	catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return refoundFull;
 	}
 
@@ -637,5 +764,164 @@ public class OrderService implements IOrderService {
 		productDAO.updateQtStock(idProduct, pgArticleOut, 1, true);
 		
 	}
+	
+	@Override
+	public String stampaOrdineHTML(Integer idOrder, String pathLogo)
+			throws Exception {
+
+		List<OrderFullDTO> listOrderFullDTO = getOrders(idOrder, null, null);
+		OrderFullDTO orderFullDTO = listOrderFullDTO.get(0);
+		Map<String, String> inlineImages = new HashMap<String, String>();
+
+		return generateHtmlOrder(orderFullDTO, inlineImages, "stampaOrdine",
+				pathLogo);
+
+	}
+
+	private String generateHtmlOrder(OrderFullDTO order,
+			Map<String, String> inlineImages, String xslTemplate,
+			String pathLogo) throws Exception {
+		BufferedWriter out = null;
+		FileWriter fstream = null;
+
+		try {
+
+			File xslFile = Template.getFile("it/othala/service/template/"
+					+ xslTemplate + ".xsl");
+			File xmlTemp = File.createTempFile("xmlTemp", ".xml");
+			fstream = new FileWriter(xmlTemp);
+
+			out = new BufferedWriter(new OutputStreamWriter(
+					new FileOutputStream(xmlTemp), "UTF8"));
+
+			out.write("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
+			out.write("<order>");
+			out.write("<imgLogo>");
+			out.write(pathLogo);
+			out.write("</imgLogo>");
+
+			out.write("<customer>");
+			out.write("<name>" + order.getNameUser() + "</name>");
+			out.write("<mail>" + order.getIdUser() + "</mail>");
+			out.write("<surname>" + order.getSurnameUser() + "</surname>");
+			out.write("</customer>");
+
+			out.write("<number>" + order.getIdOrder() + "</number>");
+			out.write("<transaction>" + order.getIdTransaction()
+					+ "</transaction>");
+
+			out.write("<deliveryCost>"
+					+ order.getSpeseSpedizione().getImportoSpese()
+					+ "</deliveryCost>");
+			out.write("<totalCost>" + order.getImOrdine() + "</totalCost>");
+
+			out.write("<billingAddress>");
+			out.write("<name>" + order.getBillingAddress().getNome()
+					+ "</name>");
+			out.write("<surname>" + order.getBillingAddress().getCognome()
+					+ "</surname>");
+			out.write("<telefono>" + order.getBillingAddress().getTel()
+					+ "</telefono>");
+			out.write("<street>" + order.getBillingAddress().getVia()
+					+ "</street>");
+			out.write("<zipCode>" + order.getBillingAddress().getCap()
+					+ "</zipCode>");
+			out.write("<city>" + order.getBillingAddress().getComune()
+					+ "</city>");
+			out.write("<prov>" + order.getBillingAddress().getProvincia()
+					+ "</prov>");
+			out.write("<country>" + order.getBillingAddress().getNazione()
+					+ "</country>");
+			out.write("</billingAddress>");
+			out.write("<shippingAddress>");
+			out.write("<name>" + order.getShippingAddress().getNome()
+					+ "</name>");
+			out.write("<surname>" + order.getShippingAddress().getCognome()
+					+ "</surname>");
+			out.write("<tel>" + order.getShippingAddress().getTel() + "</tel>");
+			out.write("<street>" + order.getShippingAddress().getVia()
+					+ "</street>");
+			out.write("<zipCode>" + order.getShippingAddress().getCap()
+					+ "</zipCode>");
+			out.write("<city>" + order.getShippingAddress().getComune()
+					+ "</city>");
+			out.write("<prov>" + order.getShippingAddress().getProvincia()
+					+ "</prov>");
+			out.write("<country>" + order.getShippingAddress().getNazione()
+					+ "</country>");
+			out.write("</shippingAddress>");
+
+			out.write("<cart>");
+
+			for (ArticleFullDTO art : order.getCart()) {
+
+				out.write("<item>");
+				out.write("<number>" + art.getPrdFullDTO().getIdProduct()
+						+ "</number>");
+				out.write("<brand>" + art.getPrdFullDTO().getTxBrand()
+						+ "</brand>");
+				out.write("<description>"
+						+ art.getPrdFullDTO().getDescription()
+						+ "</description>");
+				out.write("<color>" + art.getTxColor() + "</color>");
+				out.write("<size>" + art.getTxSize() + "</size>");
+				out.write("<unitPrice>" + art.getPrdFullDTO().getRealPrice()
+						+ "</unitPrice>");
+				out.write("<quantity>" + art.getQtBooked() + "</quantity>");
+				out.write("<price>" + art.getTotalPriced() + "</price>");
+				out.write("</item>");
+				
+			}
+			out.write("</cart>");
+			out.write("</order>");
+			out.close();
+			fstream.close();
+
+			// scrivo il file xml temporaneo
+
+			File htmlTemp = File.createTempFile("htmlTemp", ".html");
+
+			// effetto la conversione xml,xsl to html scrivo il file html
+			// temporaneo
+			TransformerFactory tFactory = TransformerFactory.newInstance();
+			Source xslSource = new javax.xml.transform.stream.StreamSource(
+					xslFile);
+			Source xmlSource = new javax.xml.transform.stream.StreamSource(
+					xmlTemp);
+			javax.xml.transform.stream.StreamResult result = new StreamResult(
+					htmlTemp);
+			Transformer transformer;
+			transformer = tFactory.newTransformer(xslSource);
+			transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+			transformer.transform(xmlSource, result);
+
+			String html = IOUtils.toString(new FileInputStream(htmlTemp),
+					"UTF-8");
+
+			return html;
+
+		} catch (Exception e) {
+			throw e;
+
+		}
+
+	}
+
+	public IMailService getMailService() {
+		return mailService;
+	}
+
+	public void setMailService(IMailService mailService) {
+		this.mailService = mailService;
+	}
+
+	public IAccountDAO getAccountDAO() {
+		return accountDAO;
+	}
+
+	public void setAccountDAO(IAccountDAO accountDAO) {
+		this.accountDAO = accountDAO;
+	}
+
 
 }
