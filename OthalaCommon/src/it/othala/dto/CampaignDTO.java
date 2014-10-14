@@ -1,7 +1,7 @@
 package it.othala.dto;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 public class CampaignDTO implements Serializable {
 
