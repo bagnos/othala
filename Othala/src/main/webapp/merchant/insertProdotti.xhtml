@@ -123,7 +123,7 @@
 								<p:autoComplete readonly="#{insertProdottiView.fgRead==true}"
 									scrollHeight="#{insertProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}" required="true"
 									minQueryLength="1" dropdown="true" id="brand" value="#{insertProdottiView.brand}"
-									completeMethod="#{insertProdottiView.completeBrand}" var="brand"
+									completeMethod="#{insertProdottiView.completeBrand}" var="brand" title="#{brand.valore}"
 									itemLabel="#{brand.valore}" itemValue="#{brand}" converter="it.othala.BrandConverter"
 									forceSelection="true" />
 							</h:panelGroup>
