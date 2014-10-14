@@ -697,7 +697,7 @@ public class InsertProdottiView extends BaseView {
 		try {
 			OthalaFactory.getProductServiceInstance().insertMaterial(getLang(), newMaterial, newMaterialEN);
 			getBeanApplication().resetDomain();
-			material = completeColours(newMaterial).get(0);
+			material = completeMaterial(newMaterial).get(0);
 			addInfo("Nuovo Materiale", "materiale inserito correttamente");
 
 		} catch (Exception ex) {
