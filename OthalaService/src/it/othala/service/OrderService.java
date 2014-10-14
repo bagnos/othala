@@ -663,32 +663,6 @@ public class OrderService implements IOrderService {
 
 		orderDAO.insertStatesRefound(refoundFull);
 
-		/*StateOrderDTO stateOrder = new StateOrderDTO();
-		stateOrder.setIdOrder(refoundFull.getIdOrder());
-		if (refoundFull.getFgChangeRefound() == "R")
-			stateOrder.setIdStato(TypeStateOrder.REQUEST_REFOUND.getState());
-		else
-			stateOrder.setIdStato(TypeStateOrder.REQUEST_CHANGE.getState());
-		stateOrder.setTxNote(null);
-
-		orderDAO.updateStateOrder(stateOrder);*/
-		
-		//Stampare il riepilogo
-		try {
-			//if (refoundFull.getFgChangeRefound()=="R"){
-			//	MailPropertiesDTO mailprops =  new MailPropertiesDTO();
-			//	sendMailInsertReso(refoundFull.getIdRefound(), "", mailprops);
-			//}
-			//else{*/
-				MailPropertiesDTO mailprops =  new MailPropertiesDTO();
-				sendMailInsertCambio(refoundFull.getIdRefound(), "", mailprops);
-			//}
-		} 
-	catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 		return refoundFull;
 	}
 
