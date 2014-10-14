@@ -29,7 +29,7 @@
 					</h3>
 				</div>
 			</div>
-			<div class="row">
+			<h:panelGroup styleClass="row" id="pnlOptions">
 				<div class="col-sm-12">
 					<div class="form-group spacer10">
 						<p:outputLabel for="barcode" class="col-sm-1 control-label" value="Barcode" />
@@ -141,14 +141,14 @@
 						</h:panelGroup>
 					</div>
 
-					<p:commandButton styleClass="ui-priority-primary" process="@form" update="@form" id="findPrds"
-						value="#{msg.catalog_find}" actionListener="#{ricercaProdottiView.findProducts}">
+					<p:commandButton styleClass="ui-priority-primary" process="pnlOptions" update="@form"
+						id="findPrds" value="#{msg.catalog_find}" actionListener="#{ricercaProdottiView.findProducts}">
 					</p:commandButton>
 
 
 
 				</div>
-			</div>
+			</h:panelGroup>
 
 
 			<div class="row spacer20">
@@ -162,11 +162,11 @@
 						currentPageReportTemplate="Nr. Elementi {totalRecords}" rows="10"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
 
-						<p:ajax event="rowSelect" update=":frmProd:prdTable viewBtn" />
-						<p:ajax event="rowUnselect" update=":frmProd:prdTable viewBtn" />
-						<p:ajax event="toggleSelect" update=":frmProd:prdTable viewBtn" />
-						<p:ajax event="rowSelectCheckbox" update=":frmProd:prdTable viewBtn" />
-						<p:ajax event="rowUnselectCheckbox" update=":frmProd:prdTable viewBtn" />
+						<p:ajax event="rowSelect" update=":frmProd:prdTable viewBtn :frmProd:newCampaign" />
+						<p:ajax event="rowUnselect" update=":frmProd:prdTable viewBtn :frmProd:newCampaign" />
+						<p:ajax event="toggleSelect" update=":frmProd:prdTable viewBtn :frmProd:newCampaign" />
+						<p:ajax event="rowSelectCheckbox" update=":frmProd:prdTable viewBtn :frmProd:newCampaign" />
+						<p:ajax event="rowUnselectCheckbox" update=":frmProd:prdTable viewBtn :frmProd:newCampaign" />
 
 
 
@@ -210,7 +210,7 @@
 								<div class="col-sm-1">
 									<p:commandButton onerror="PF('blockAll').unblock();" oncomplete="PF('blockAll').unblock();"
 										onclick="PF('blockAll').block()" value="Elimina"
-										disabled="#{merchantBean.selectedProducts.size()==0}"
+										disabled="#{merchantBean.selectedProducts==null or merchantBean.selectedProducts.size()==0}"
 										actionListener="#{ricercaProdottiView.eliminaProdotto}" process="@this" update="@form"
 										icon="ui-icon-close">
 									</p:commandButton>
@@ -221,12 +221,20 @@
 										action="insertProdotti.xhtml?faces-redirect=true&#38;detail=true&#38;mod=true" />
 								</div>
 
-								<div class="col-sm-1">
-									<p:commandButton value="Pubblica"  onerror="PF('blockAll').unblock();" oncomplete="PF('blockAll').unblock();"
-										onclick="PF('blockAll').block()" disabled="#{merchantBean.selectedProducts.size()==0}" 
-										icon="ui-icon-arrowstop-1-n" ajax="true" process="@this" update="@form"
+								<div class="col-sm-1 text-left">
+									<p:commandButton value="Pubblica" onerror="PF('blockAll').unblock();"
+										oncomplete="PF('blockAll').unblock();" onclick="PF('blockAll').block()"
+										disabled="#{merchantBean.selectedProducts==null or merchantBean.selectedProducts.size()==0}" icon="ui-icon-arrowstop-1-n"
+										ajax="true" process="@this" update="@form"
 										actionListener="#{ricercaProdottiView.pubblicaProdotto}">
-									
+
+									</p:commandButton>
+								</div>
+
+								<div class="col-sm-2">
+									<p:commandButton value="Crea Campagna" onclick="PF('newCampaign').show();return false"
+										disabled="#{merchantBean.selectedProducts==null or merchantBean.selectedProducts.size()==0}">
+
 									</p:commandButton>
 								</div>
 
@@ -238,6 +246,83 @@
 					</p:dataTable>
 				</div>
 			</div>
+
+			<!-- dialogo crea campagna -->
+			<p:dialog header="Crea campagna commerciale" id="newCampaign" widgetVar="newCampaign"
+				modal="true" height="50%" width="50%">
+				<p:messages id="msgNewCampaign" autoUpdate="true" closable="true" showDetail="true"></p:messages>
+				<div class="row spacer10">
+					<div class="col-sm-12">
+						<div class="form-group">
+							<p:outputLabel for="descrizione" styleClass="col-sm-2 control-label" value="Descrizione" />
+							<div class="col-sm-10">
+								<p:inputText label="descrizione campagna" required="true"
+									value="#{ricercaProdottiView.campaignDTO.txCampaign}" id="descrizione"
+									styleClass="form-control"></p:inputText>
+							</div>
+
+
+
+						</div>
+						<div class="form-group">
+							<p:outputLabel for="sconto" styleClass="col-sm-2 control-label" value="Sconto" />
+							<div class="col-sm-3">
+								<p:spinner suffix=" %" required="true" label="sconto campagna" size="4" id="sconto"
+									value="#{ricercaProdottiView.campaignDTO.pcSconto}" min="0" max="100" />
+							</div>
+						</div>
+
+						<div class="form-group">
+							<p:outputLabel for="dataDa" styleClass="col-sm-2 control-label" value="Data Da" />
+							<div class="col-sm-4">
+								<p:calendar label="data inizio campagna" value="#{ricercaProdottiView.campaignDTO.dtInizio}"
+									required="true" title="data relativa allo stato selezionato" id="dataDa" showOn="button" />
+							</div>
+							<p:outputLabel for="dataA" styleClass="col-sm-2 control-label" value="Data A" />
+							<div class="col-sm-4">
+								<p:calendar label="data fine campagna" value="#{ricercaProdottiView.campaignDTO.dtFine}"
+									required="true" title="data relativa allo stato selezionato" id="dataA" showOn="button" />
+							</div>
+
+
+						</div>
+					</div>
+				</div>
+
+				<div class="row spacer10">
+					<div class="col-sm-12">
+
+						<p:dataTable var="prd" rowKey="#{prd.idProduct}" id="prCampaignnew"
+							value="#{merchantBean.selectedProducts}" rows="5" paginator="true" paginatorPosition="bottom"
+							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+							selectionMode="single">
+							<f:facet name="header">
+		 						PRODOTTI AGGIUNTI ALLA CAMPAGNA
+		 						</f:facet>
+							<p:column headerText="Id">
+								<h:outputText value="#{prd.idProduct}" />
+							</p:column>
+							<p:column headerText="Brand">
+								<h:outputText value="#{prd.txBrand}" />
+							</p:column>
+							<p:column headerText="Tipo">
+								<h:outputText value="#{prd.txType}" />
+							</p:column>
+							<p:column headerText="Descrizione">
+								<h:outputText value="#{prd.description}" />
+							</p:column>
+						</p:dataTable>
+					</div>
+				</div>
+				<div class="row spacer10">
+					<div class="col-sm-1 col-sm-offset-5">
+						<p:commandButton styleClass="ui-priority-primary" validateClient="true"
+							 value="CONFERMA" process="dataDa dataA sconto descrizione @this" oncomplete="if (#{not facesContext.validationFailed}) PF('newCampaign').hide();"
+							actionListener="#{ricercaProdottiView.creaCampagna}" update=" msgNewCampaign"></p:commandButton>
+					</div>
+				</div>
+			</p:dialog>
+
 
 		</h:form>
 	</ui:define>

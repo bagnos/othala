@@ -1,6 +1,7 @@
 package it.othala.merchant.view;
 
 import it.othala.dto.AttributeDTO;
+import it.othala.dto.CampaignDTO;
 import it.othala.dto.DomainDTO;
 import it.othala.dto.ProductFullNewDTO;
 import it.othala.dto.ShopDTO;
@@ -18,6 +19,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 
+import org.primefaces.context.RequestContext;
 import org.primefaces.model.UploadedFile;
 
 @ManagedBean
@@ -56,6 +58,13 @@ public class RicercaProdottiView extends BaseView {
 	public void setFile(UploadedFile file) {
 		this.file = file;
 	}
+	private CampaignDTO campaignDTO=new CampaignDTO();
+
+	public CampaignDTO getCampaignDTO() {
+		return campaignDTO;
+	}
+
+	
 
 	@Override
 	public String doInit() {
@@ -131,12 +140,12 @@ public class RicercaProdottiView extends BaseView {
 		if (del > 0) {
 			findProducts(null);
 		}
-		
+
 	}
 
 	public void pubblicaProdotto(ActionEvent e) {
 		try {
-		
+
 			List<Integer> idPrds = new ArrayList<>();
 			for (ProductFullNewDTO prd : merchantBean.getSelectedProducts()) {
 				if (prd.getIdProductState() == TypeStateProduct.INSERITO.getState()) {
@@ -152,6 +161,30 @@ public class RicercaProdottiView extends BaseView {
 				findProducts(null);
 			} else {
 				addError("Pubblicazione Prodotto", "nessun prodotto selezionato");
+			}
+			merchantBean.setSelectedProducts(null);
+		} catch (Exception ex) {
+			addGenericError(ex, "errore nella Pubblicazione del prodotto");
+		}
+	}
+
+	public void creaCampagna(ActionEvent e) {
+		try {
+
+			List<Integer> idPrds = new ArrayList<>();
+			for (ProductFullNewDTO prd : merchantBean.getSelectedProducts()) {
+
+				idPrds.add(prd.getIdProduct());
+
+			}
+			if (idPrds != null && idPrds.size() > 0) {
+				
+				OthalaFactory.getProductServiceInstance().insertCampaign(campaignDTO);
+				addInfo("Creazione campagna", String.format("operazione eseguita correttamente"));
+			
+				
+			} else {
+				addError("Creazione campagna", "nessun prodotto selezionato");
 			}
 			merchantBean.setSelectedProducts(null);
 		} catch (Exception ex) {
