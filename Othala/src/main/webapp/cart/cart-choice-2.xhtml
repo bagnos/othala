@@ -106,10 +106,22 @@
 					<!-- DESCRZIONE ARTICOLE, TAGLIE E COLORI -->
 					<div class="col-md-5 articolo-sel">
 						<div class="row well">
-
+<div class="col-sm-10">
 							<h4>#{cartFlowBean.detailProductFull.txBrand}</h4>
 							<h5>#{cartFlowBean.detailProductFull.description}</h5>
-
+</div>
+<div class="col-sm-2">
+									<h:outputText styleClass="newPromo1" style="float:right"
+										rendered="#{cartFlowBean.detailProductFull.specialPrice != null and cartFlowBean.detailProductFull.specialPrice != 0}"
+										value="SPECIAL" />
+										
+									<h:outputText styleClass="newPromo2" style="float:right"
+										rendered="#{(cartFlowBean.detailProductFull.specialPrice == null or cartFlowBean.detailProductFull.specialPrice == 0) and cartFlowBean.detailProductFull.discount != null and cartFlowBean.detailProductFull.discount != 0 and cartFlowBean.detailProductFull.idCampaign == null}"
+										value="#{cartFlowBean.detailProductFull.discount} %" />
+									<h:outputText styleClass="newPromo3" style="float:right"
+										rendered="#{(cartFlowBean.detailProductFull.specialPrice == null or cartFlowBean.detailProductFull.specialPrice == 0) and cartFlowBean.detailProductFull.discount != null and cartFlowBean.detailProductFull.discount != 0 and cartFlowBean.detailProductFull.idCampaign != null}"
+										value="#{cartFlowBean.detailProductFull.discount} %" />
+</div>
 
 							<div class="row">
 								<div class="col-sm-4">
@@ -129,8 +141,14 @@
 							</div>
 
 							<br />
-							<div class="row">
-								<div class="col-sm-4">
+							<div class="row" style="font-size: 18px;">
+								<div class="col-sm-3" >
+							
+								<h:outputText value="#{msg.catalog_price}">
+									</h:outputText>
+								</div>
+								
+								<div class="col-sm-3">
 
 									<h:outputText value="#{cartFlowBean.detailProductFull.price}"
 										styleClass="#{cartFlowBean.detailProductFull.discount!=null and cartFlowBean.detailProductFull.discount!=0?'onSale':''}">
@@ -140,14 +158,17 @@
 								</div>
 
 								<div class="col-sm-4">
+
 									<h:outputText value="#{cartFlowBean.detailProductFull.priceDiscounted}"
 										rendered="#{cartFlowBean.detailProductFull.price != cartFlowBean.detailProductFull.priceDiscounted}">
 										<f:converter converterId="it.othala.BigDecimalConverter" />
 									</h:outputText>
+
 								</div>
 							</div>
 														<br />
 							<div class="row">
+							
 										<div class="col-sm-3">
 								<h:outputText value="#{msg.catalog_discounted}"
 										rendered="#{cartFlowBean.detailProductFull.price != cartFlowBean.detailProductFull.priceDiscounted}">
