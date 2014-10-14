@@ -320,6 +320,15 @@ public class ProductService implements IProductService {
 	}
 
 	@Override
+	public Integer insertCampaign(CampaignDTO campaign,List<Integer> listIdProduct) {
+		Integer idCampaign = productDAO.insertCampaign(campaign);
+		
+		productDAO.addProductToCampaign(listIdProduct, idCampaign);
+		
+		return idCampaign;
+	}
+	
+	@Override
 	public void addProductToCampaign(List<Integer> listIdProduct,
 			Integer idCampaign) {
 		productDAO.addProductToCampaign(listIdProduct, idCampaign);
