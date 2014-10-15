@@ -52,7 +52,7 @@ public interface IOrderService {
 
 	public List<RefoundFullDTO> getRefounds(Integer idRefound, Integer Order, String User, TypeStateOrder StatoOrdine, String idTransaction, String fgChangeRefound);
 	
-	public RefoundFullDTO insertRefound(RefoundFullDTO refoundFull) throws  OthalaException;
+	public RefoundFullDTO insertRefound(RefoundFullDTO refoundFull, MailPropertiesDTO mailProps) throws  OthalaException;
 
 	public void updateStateRefound(Integer idRefound, TypeStateOrder stato, String txNote);
 	
@@ -74,16 +74,16 @@ public interface IOrderService {
 	public String stampaCambioHTML(Integer idReso, String pathLogo)
 			throws Exception;
 
-	public void sendMailInsertReso(Integer idReso, String pathLogo, MailPropertiesDTO mailProps)
+	public void sendMailInsertReso(Integer idReso, MailPropertiesDTO mailProps)
 			throws Exception;
 	
-	public void sendMailInsertCambio(Integer idReso, String pathLogo, MailPropertiesDTO mailProps)
+	public void sendMailInsertCambio(Integer idReso, MailPropertiesDTO mailProps)
 			throws Exception;
 	
-	public void sendMailConfirmCambio(Integer idReso, String pathLogo, MailPropertiesDTO mailProps)
+	public void sendMailConfirmCambio(Integer idReso, MailPropertiesDTO mailProps)
 			throws Exception;
 	
-	public void sendMailConfirmReso(Integer idReso, String pathLogo, MailPropertiesDTO mailProps)
+	public void sendMailConfirmReso(Integer idReso, MailPropertiesDTO mailProps)
 			throws Exception;
 		
 	
