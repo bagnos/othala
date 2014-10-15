@@ -1,5 +1,6 @@
 package it.othala.service;
 
+import it.othala.account.execption.MailNotSendException;
 import it.othala.dao.OrderDAO;
 import it.othala.dao.interfaces.IAccountDAO;
 import it.othala.dao.interfaces.IOrderDAO;
@@ -337,7 +338,7 @@ public class OrderService implements IOrderService {
 	}
 	
 	@Override
-	public void sendMailConfirmReso(Integer idReso, String pathLogo, MailPropertiesDTO mailProps)
+	public void sendMailConfirmReso(Integer idReso, MailPropertiesDTO mailProps)
 			throws Exception {
 
 		List<RefoundFullDTO> listRefound = getRefounds(idReso, null, null, null, null, null);
@@ -347,7 +348,7 @@ public class OrderService implements IOrderService {
 		List<ShopDTO> shop = productDAO.listShop();
 		
 		String html = generateHtmlReso(orderFullDTO, listRefound.get(0).getCart(), shop.get(1) , "mailConfermaReso",
-				pathLogo, idReso.toString());
+				mailProps.getPathImgLogo(), idReso.toString());
 		
 		String subject = shop.get(0).getTxShop() + " - Conferma Reso Merce";
 		
@@ -358,7 +359,7 @@ public class OrderService implements IOrderService {
 	}
 	
 	@Override
-	public void sendMailConfirmCambio(Integer idReso, String pathLogo, MailPropertiesDTO mailProps)
+	public void sendMailConfirmCambio(Integer idReso, MailPropertiesDTO mailProps)
 			throws Exception {
 
 		List<RefoundFullDTO> listRefound = getRefounds(idReso, null, null, null, null, null);
@@ -368,7 +369,7 @@ public class OrderService implements IOrderService {
 		List<ShopDTO> shop = productDAO.listShop();
 		
 		String html = generateHtmlReso(orderFullDTO, listRefound.get(0).getCart(), shop.get(1) , "mailConfermaCambio",
-				pathLogo, idReso.toString());
+				mailProps.getPathImgLogo(), idReso.toString());
 		
 		String subject = shop.get(0).getTxShop() + " - Conferma Cambio Merce";
 		
@@ -380,7 +381,7 @@ public class OrderService implements IOrderService {
 	
 	
 	@Override
-	public void sendMailInsertCambio(Integer idReso, String pathLogo, MailPropertiesDTO mailProps)
+	public void sendMailInsertCambio(Integer idReso, MailPropertiesDTO mailProps)
 			throws Exception {
 
 		List<RefoundFullDTO> listRefound = getRefounds(idReso, null, null, null, null, null);
@@ -390,7 +391,7 @@ public class OrderService implements IOrderService {
 		List<ShopDTO> shop = productDAO.listShop();
 		
 		String html = generateHtmlReso(orderFullDTO, listRefound.get(0).getCart(), shop.get(1) , "mailInserimentoCambio",
-				pathLogo, idReso.toString());
+				mailProps.getPathImgLogo(), idReso.toString());
 		
 		String subject = shop.get(0).getTxShop() + " - Notifica di Cambio";
 		
@@ -402,7 +403,7 @@ public class OrderService implements IOrderService {
 
 	
 	@Override
-	public void sendMailInsertReso(Integer idReso, String pathLogo, MailPropertiesDTO mailProps)
+	public void sendMailInsertReso(Integer idReso, MailPropertiesDTO mailProps)
 			throws Exception {
 
 		List<RefoundFullDTO> listRefound = getRefounds(idReso, null, null, null, null, null);
@@ -412,7 +413,7 @@ public class OrderService implements IOrderService {
 		List<ShopDTO> shop = productDAO.listShop();
 		
 		String html = generateHtmlReso(orderFullDTO, listRefound.get(0).getCart(), shop.get(1) , "mailInserimentoReso",
-				pathLogo, idReso.toString());
+				mailProps.getPathImgLogo(), idReso.toString());
 		
 		String subject = shop.get(0).getTxShop() + " - Notifica di Reso";
 		
@@ -636,7 +637,7 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public RefoundFullDTO insertRefound(RefoundFullDTO refoundFull)
+	public RefoundFullDTO insertRefound(RefoundFullDTO refoundFull, MailPropertiesDTO mailProps)
 			throws OthalaException {
 		
 		orderDAO.insertRefound(refoundFull);
@@ -662,6 +663,22 @@ public class OrderService implements IOrderService {
 		}
 
 		orderDAO.insertStatesRefound(refoundFull);
+		
+		if (refoundFull.getFgChangeRefound()=="R"){
+			try{
+				sendMailConfirmReso(refoundFull.getIdRefound(), mailProps);				
+			}catch(Exception ex){
+				throw new MailNotSendException(ex);
+			}
+
+		}else{
+			try{
+				sendMailConfirmCambio(refoundFull.getIdRefound(), mailProps);
+			}catch(Exception ex){
+				throw new MailNotSendException(ex);
+			}
+		}
+		
 
 		return refoundFull;
 	}
