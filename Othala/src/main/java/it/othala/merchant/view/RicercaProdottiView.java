@@ -18,6 +18,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.model.SelectItem;
 
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.UploadedFile;
@@ -32,6 +34,41 @@ public class RicercaProdottiView extends BaseView {
 
 	@ManagedProperty(value = "#{merchantBean}")
 	private MerchantBean merchantBean;
+	private boolean addToCampaign;
+	private List<SelectItem> listCampaigns;
+	private UploadedFile file;
+	private Integer idCampaign;
+	List<CampaignDTO> campaigns;
+
+	public Integer getIdCampaign() {
+		return idCampaign;
+	}
+
+	public void setIdCampaign(Integer idCampaign) {
+		this.idCampaign = idCampaign;
+	}
+
+	public UploadedFile getFile() {
+		return file;
+	}
+
+	public void setFile(UploadedFile file) {
+		this.file = file;
+	}
+
+	private CampaignDTO campaignDTO = new CampaignDTO();
+
+	public CampaignDTO getCampaignDTO() {
+		return campaignDTO;
+	}
+
+	public List<SelectItem> getListCampaigns() {
+		return listCampaigns;
+	}
+
+	public boolean isAddToCampaign() {
+		return addToCampaign;
+	}
 
 	public MerchantBean getMerchantBean() {
 		return merchantBean;
@@ -48,23 +85,6 @@ public class RicercaProdottiView extends BaseView {
 	}
 
 	private static final long serialVersionUID = 1L;
-
-	private UploadedFile file;
-
-	public UploadedFile getFile() {
-		return file;
-	}
-
-	public void setFile(UploadedFile file) {
-		this.file = file;
-	}
-	private CampaignDTO campaignDTO=new CampaignDTO();
-
-	public CampaignDTO getCampaignDTO() {
-		return campaignDTO;
-	}
-
-	
 
 	@Override
 	public String doInit() {
@@ -169,6 +189,7 @@ public class RicercaProdottiView extends BaseView {
 	}
 
 	public void creaCampagna(ActionEvent e) {
+		String opCampagna = addToCampaign == false ? "Creazione Campagna" : "Modifica Campagna";
 		try {
 
 			List<Integer> idPrds = new ArrayList<>();
@@ -178,17 +199,48 @@ public class RicercaProdottiView extends BaseView {
 
 			}
 			if (idPrds != null && idPrds.size() > 0) {
-				
-				OthalaFactory.getProductServiceInstance().insertCampaign(campaignDTO);
-				addInfo("Creazione campagna", String.format("operazione eseguita correttamente"));
-			
-				
+				if (!addToCampaign) {
+					OthalaFactory.getProductServiceInstance().insertCampaign(campaignDTO, idPrds);
+				} else {
+					OthalaFactory.getProductServiceInstance().addProductToCampaign(idPrds, campaignDTO.getIdCampaign());
+				}
+				addInfo(opCampagna, String.format("operazione eseguita correttamente"));
+
 			} else {
-				addError("Creazione campagna", "nessun prodotto selezionato");
+				addError(opCampagna, "nessun prodotto selezionato");
 			}
 			merchantBean.setSelectedProducts(null);
 		} catch (Exception ex) {
-			addGenericError(ex, "errore nella Pubblicazione del prodotto");
+			addGenericError(ex, "errore nella " + opCampagna + " del prodotto");
+		}
+	}
+
+	public void showCreaCampagna(ActionEvent e) {
+		addToCampaign = false;
+		RequestContext.getCurrentInstance().execute("PF('newCampaign').show();");
+	}
+
+	public void showAddCampagna(ActionEvent e) {
+		addToCampaign = false;
+		campaigns = OthalaFactory.getProductServiceInstance().getListCampaign();
+		listCampaigns = new ArrayList<SelectItem>();
+		for (CampaignDTO c : campaigns) {
+			listCampaigns.add(new SelectItem(c.getIdCampaign(), c.getTxCampaign()));
+		}
+		if (listCampaigns.isEmpty()) {
+			addError("Aggiungi a Campagna", "Nessuna campagna presente");
+		} else {
+			addToCampaign = true;
+			RequestContext.getCurrentInstance().execute("PF('newCampaign').show();");
+		}
+	}
+
+	public void campaignChange(AjaxBehaviorEvent e) {
+		for (CampaignDTO item : campaigns) {
+			if (item.getIdCampaign().intValue() == idCampaign.intValue()) {
+				campaignDTO = item;
+				break;
+			}
 		}
 	}
 

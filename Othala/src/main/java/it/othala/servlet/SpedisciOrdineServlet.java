@@ -4,14 +4,10 @@ import it.othala.dto.MailPropertiesDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.enums.TypeStateOrder;
 import it.othala.service.factory.OthalaFactory;
-import it.othala.service.interfaces.IPaymentService;
 import it.othala.web.utils.ConfigurationUtil;
 import it.othala.web.utils.OthalaUtil;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
@@ -20,12 +16,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+
+
 /**
  * Servlet implementation class SpedisciOrdineServlet
  */
 @WebServlet("/SpedisciOrdineServlet")
 public class SpedisciOrdineServlet extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
+	protected static Log log = LogFactory.getLog(SpedisciOrdineServlet.class);
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -85,19 +88,7 @@ public class SpedisciOrdineServlet extends HttpServlet {
 	}
 
 	protected void warning(HttpServletResponse response, String error, Exception e) {
-		response.setContentType("text/html");
-		PrintWriter out = null;
-		try {
-			out = response.getWriter();
-		} catch (IOException exc) {
-			// egad - we can't tell the user a thing!
-			System.err.println("Othala! IO error " + exc + " trying to tell user about " + error + " " + e);
-			return;
-		}
-		out.println("<H1>Attenzione si è verificato il seguente errore!</h1>");
-		out.println("<H3>");
-		out.println(error);
-		out.println("</H3>");
+		OthalaUtil.warning(response, error, e, log);
 
 		/*
 		 * if (e != null) { out.print("<P>Exception is: ");

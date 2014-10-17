@@ -5,6 +5,7 @@ import it.othala.enums.TypeStateOrder;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.util.HelperCrypt;
 import it.othala.web.utils.ConfigurationUtil;
+import it.othala.web.utils.OthalaUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,13 +19,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * Servlet implementation class RichiestaResoServlet
  */
 @WebServlet("/RichiestaResoServlet")
 public class RichiestaResoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	protected static Log log = LogFactory.getLog(RichiestaResoServlet.class);
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -49,6 +53,14 @@ public class RichiestaResoServlet extends HttpServlet {
 				
 				//inserire html per stampa reso
 				String html="";
+				if (refundDTO.getFgChangeRefound().equalsIgnoreCase("C"))
+				{
+					html=OthalaFactory.getOrderServiceInstance().stampaCambioHTML(refundDTO.getIdRefound(), ConfigurationUtil.getMailProps(request).getPathImgLogo());
+				}
+				else
+				{
+					html=OthalaFactory.getOrderServiceInstance().stampaResoHTML(refundDTO.getIdRefound(), ConfigurationUtil.getMailProps(request).getPathImgLogo());
+				}
 				PrintWriter out = response.getWriter();
 				response.setHeader("Expires", "0");
 				response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
@@ -101,19 +113,7 @@ public class RichiestaResoServlet extends HttpServlet {
 	}
 
 	protected void warning(HttpServletResponse response, String error, Exception e) {
-		response.setContentType("text/html");
-		PrintWriter out = null;
-		try {
-			out = response.getWriter();
-		} catch (IOException exc) {
-			// egad - we can't tell the user a thing!
-			System.err.println("Othala! IO error " + exc + " trying to tell user about " + error + " " + e);
-			return;
-		}
-		out.println("<H1>Attenzione si è verificato il seguente errore!</h1>");
-		out.println("<H3>");
-		out.println(error);
-		out.println("</H3>");
+		OthalaUtil.warning(response, error, e, log);
 
 		/*
 		 * if (e != null) { out.print("<P>Exception is: ");

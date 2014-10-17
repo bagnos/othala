@@ -221,18 +221,28 @@
 										action="insertProdotti.xhtml?faces-redirect=true&#38;detail=true&#38;mod=true" />
 								</div>
 
-								<div class="col-sm-1 text-left">
+								<div class="col-sm-1">
 									<p:commandButton value="Pubblica" onerror="PF('blockAll').unblock();"
 										oncomplete="PF('blockAll').unblock();" onclick="PF('blockAll').block()"
-										disabled="#{merchantBean.selectedProducts==null or merchantBean.selectedProducts.size()==0}" icon="ui-icon-arrowstop-1-n"
-										ajax="true" process="@this" update="@form"
+										disabled="#{merchantBean.selectedProducts==null or merchantBean.selectedProducts.size()==0}"
+										icon="ui-icon-arrowstop-1-n" ajax="true" process="@this" update="@form"
 										actionListener="#{ricercaProdottiView.pubblicaProdotto}">
 
 									</p:commandButton>
 								</div>
 
-								<div class="col-sm-2">
-									<p:commandButton value="Crea Campagna" onclick="PF('newCampaign').show();return false"
+								<div class="col-sm-1">
+									<p:commandButton value="Campagna" title="Crea Campagna" process="@this" icon="ui-icon-plus"
+										update="@form" actionListener="#{ricercaProdottiView.showCreaCampagna}"
+										disabled="#{merchantBean.selectedProducts==null or merchantBean.selectedProducts.size()==0}">
+
+									</p:commandButton>
+								</div>
+
+								<div class="col-sm-1">
+									<p:commandButton value="Campagna" title="Aggiungi a Campagna" process="@this"
+										update="@form" icon="ui-icon-pencil"
+										actionListener="#{ricercaProdottiView.showAddCampagna}"
 										disabled="#{merchantBean.selectedProducts==null or merchantBean.selectedProducts.size()==0}">
 
 									</p:commandButton>
@@ -248,10 +258,26 @@
 			</div>
 
 			<!-- dialogo crea campagna -->
-			<p:dialog header="Crea campagna commerciale" id="newCampaign" widgetVar="newCampaign"
+			<p:dialog header="#{ricercaProdottiView.addToCampaign==true?'Aggiungi a campagna':'Crea campagna'}" id="newCampaign" widgetVar="newCampaign"
 				modal="true" height="50%" width="50%">
 				<p:messages id="msgNewCampaign" autoUpdate="true" closable="true" showDetail="true"></p:messages>
-				<div class="row spacer10">
+				<h:panelGroup layout="block" styleClass="row spacer10" rendered="#{ricercaProdottiView.addToCampaign}">
+					<div class="col-sm-12">
+						<div class="form-group">
+							<p:outputLabel for="descrizione" styleClass="col-sm-4 control-label"
+								value="Seleziona Campagna" />
+							<div class="col-sm-8">
+								<h:selectOneMenu value="#{ricercaProdottiView.idCampaign}" styleClass="form-control">
+									<f:selectItem  noSelectionOption="true" itemLabel="Seleziona Campagna..." itemValue="-1" />
+									<f:selectItems value="#{ricercaProdottiView.listCampaigns}"></f:selectItems>
+									<f:ajax listener="#{ricercaProdottiView.campaignChange}" execute="@this" render="detailCampaign"></f:ajax>
+								</h:selectOneMenu>
+							</div>
+
+						</div>
+					</div>
+				</h:panelGroup>
+				<h:panelGroup  layout="block" id="detailCampaign" styleClass="row spacer10">
 					<div class="col-sm-12">
 						<div class="form-group">
 							<p:outputLabel for="descrizione" styleClass="col-sm-2 control-label" value="Descrizione" />
@@ -287,7 +313,7 @@
 
 						</div>
 					</div>
-				</div>
+				</h:panelGroup>
 
 				<div class="row spacer10">
 					<div class="col-sm-12">
@@ -316,8 +342,9 @@
 				</div>
 				<div class="row spacer10">
 					<div class="col-sm-1 col-sm-offset-5">
-						<p:commandButton styleClass="ui-priority-primary" validateClient="true"
-							 value="CONFERMA" process="dataDa dataA sconto descrizione @this" oncomplete="if (#{not facesContext.validationFailed}) PF('newCampaign').hide();"
+						<p:commandButton styleClass="ui-priority-primary" validateClient="true" value="CONFERMA"
+							process="dataDa dataA sconto descrizione @this"
+							oncomplete="if (#{not facesContext.validationFailed}) PF('newCampaign').hide();"
 							actionListener="#{ricercaProdottiView.creaCampagna}" update=" msgNewCampaign"></p:commandButton>
 					</div>
 				</div>

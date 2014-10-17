@@ -6,11 +6,15 @@ import it.othala.model.ApplicationBean;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
 
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.logging.Log;
 
 import net.coobird.thumbnailator.Thumbnails;
 
@@ -61,5 +65,21 @@ public class OthalaUtil {
 
 	}
 
-	
+	public static void warning(HttpServletResponse response, String error, Exception e, Log log) {
+		response.setContentType("text/html");
+		PrintWriter out = null;
+		try {
+			out = response.getWriter();
+		} catch (IOException exc) {
+			// egad - we can't tell the user a thing!
+			log.error("errore sevlet:" + error != null ? error : "", e);
+			return;
+		}
+		out.println("<H1>Attenzione si è verificato il seguente errore!</h1>");
+		out.println("<H3>");
+		out.println(error);
+		out.println("</H3>");
+
+	}
+
 }

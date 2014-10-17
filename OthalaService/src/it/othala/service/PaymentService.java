@@ -27,6 +27,7 @@ import it.othala.payment.paypal.exception.PayPalIpnErrorException;
 import it.othala.payment.paypal.exception.PayPalIpnInvalidException;
 import it.othala.payment.paypal.exception.PayPalPostPaymentException;
 import it.othala.payment.paypal.exception.PayPalPostRefundPaymentException;
+import it.othala.service.factory.OthalaFactory;
 import it.othala.service.interfaces.IMailService;
 import it.othala.service.interfaces.IOrderService;
 import it.othala.service.interfaces.IPaymentService;
@@ -144,6 +145,29 @@ public class PaymentService implements IPaymentService {
 					return;
 				}
 
+				// inserisco il messaggio
+				MessageIpnDTO ipnMessage = new MessageIpnDTO();
+				ipnMessage.setIdOrder(idOrder);
+				ipnMessage.setFgElaborato(!errorFormalMessage);
+				ipnMessage.setIdTransaction(txn_id);
+				ipnMessage.setTxMessage(ipnDTO.toString());
+				ipnMessage.setTxStato(ipnDTO.getPayment_status());
+				ipnMessage.setTxNote(sb.toString());
+				insertMessage(ipnMessage);
+
+				// verifica se richiesta di rimborso
+				if (ipnDTO.getParent_txn_id() != null && ipnDTO.getReason_code().equalsIgnoreCase("refund")) {
+					log.info("refund trovato txtId = " + ipnDTO.getParent_txn_id());
+					try {
+						updateStateRefund(ipnDTO.getPayment_status(), null, ipnDTO.getParent_txn_id(), null, null,
+								mailProps);
+					} catch (MailNotSendException e) {
+						// TODO Auto-generated catch block
+						log.error("errore nell'invio della mail per il conferma rimborso", e);
+					}
+					return;
+				}
+
 				// è presente un ordine, recupero i dettagli
 				if (idOrder != null) {
 					order = orderService.getOrders(idOrder, null, null).get(0);
@@ -157,25 +181,8 @@ public class PaymentService implements IPaymentService {
 					}
 				}
 
-				// inserisco il messaggio
-				MessageIpnDTO ipnMessage = new MessageIpnDTO();
-				ipnMessage.setIdOrder(idOrder);
-				ipnMessage.setFgElaborato(!errorFormalMessage);
-				ipnMessage.setIdTransaction(txn_id);
-				ipnMessage.setTxMessage(ipnDTO.toString());
-				ipnMessage.setTxStato(ipnDTO.getPayment_status());
-				ipnMessage.setTxNote(sb.toString());
-				insertMessage(ipnMessage);
-
 				// message is correct, process message
 				TypeStateOrder state = TypeStateOrder.fromString(ipnDTO.getPayment_status());
-
-				// verifica se richiesta di rimborso
-				if (ipnDTO.getParent_txn_id() != null && ipnDTO.getReason_code().equalsIgnoreCase("refund")) {
-					log.info("refund trovato txtId = "+ipnDTO.getParent_txn_id());
-					updateStateRefund(ipnDTO.getPayment_status(), null, ipnDTO.getParent_txn_id(), null, null);
-					return;
-				}
 
 				if (isPaymentKO(ipnDTO.getPayment_status())) {
 					// inviare una mail in cui si comunica che PayPal non ha
@@ -645,8 +652,8 @@ public class PaymentService implements IPaymentService {
 	}
 
 	@Override
-	public RefundTransactionDTO requestRefund(RefoundFullDTO ref, ProfilePayPalDTO profile) throws PayPalException,
-			PayPalFailureException, PayPalPostRefundPaymentException {
+	public RefundTransactionDTO requestRefund(RefoundFullDTO ref, ProfilePayPalDTO profile, MailPropertiesDTO mail)
+			throws PayPalException, PayPalFailureException, PayPalPostRefundPaymentException {
 		// TODO Auto-generated method stub
 		List<String> articles = new ArrayList<>();
 		String art = null;
@@ -657,9 +664,13 @@ public class PaymentService implements IPaymentService {
 		}
 		RefundTransactionDTO refTrans = getWrapper(profile).refundTransaction(ref.getIdTransaction(),
 				ref.getImRefound(), true, articles, ref.getIdRefound().toString());
+
 		try {
-			updateStateRefund(refTrans.getREFUNDSTATUS(), refTrans.getPENDINGREASON(), null, ref, refTrans);
-		} catch (Exception e) {
+			updateStateRefund(refTrans.getREFUNDSTATUS(), refTrans.getPENDINGREASON(), null, ref, refTrans, mail);
+		} catch (MailNotSendException e) {
+			// TODO Auto-generated catch block
+			log.error("Errore nell'invio della mail per la conferma del rimborso", e);
+		} catch (PayPalException e) {
 			throw new PayPalPostRefundPaymentException(e, ref.getIdRefound() != null ? ref.getIdRefound().toString()
 					: "", "errore nella'aggiornamento dello stato dopo il rimborso");
 		}
@@ -668,7 +679,8 @@ public class PaymentService implements IPaymentService {
 	}
 
 	private RefundTransactionDTO updateStateRefund(String paypalStatus, String pendingReason,
-			String parentTransactionID, RefoundFullDTO ref, RefundTransactionDTO refTrans) throws PayPalException {
+			String parentTransactionID, RefoundFullDTO ref, RefundTransactionDTO refTrans, MailPropertiesDTO mailProps)
+			throws PayPalException, MailNotSendException {
 		if (ref == null) {
 			ref = orderService.getRefounds(null, null, null, null, parentTransactionID, null).get(0);
 		}
@@ -678,6 +690,12 @@ public class PaymentService implements IPaymentService {
 
 		if (isPaymenRefunded(paypalStatus)) {
 			orderService.updateStateRefound(ref.getIdRefound(), TypeStateOrder.REFOUND_COMPLETED, pendingReason);
+			try {
+				OthalaFactory.getOrderServiceInstance().sendMailConfirmReso(ref.getIdRefound(), mailProps);
+			} catch (Exception e) {
+				throw new MailNotSendException(e);
+			}
+
 		} else if (isPaymentPending(paypalStatus)) {
 			orderService.updateStateRefound(ref.getIdRefound(), TypeStateOrder.PENDING, pendingReason);
 			refTrans.setPending(true);
