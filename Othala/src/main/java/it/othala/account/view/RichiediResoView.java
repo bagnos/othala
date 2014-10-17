@@ -13,6 +13,7 @@ import it.othala.merchant.model.MerchantBean;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.util.HelperCrypt;
 import it.othala.view.BaseView;
+import it.othala.web.utils.ConfigurationUtil;
 import it.othala.web.utils.OthalaUtil;
 
 import java.math.BigDecimal;
@@ -243,7 +244,7 @@ public class RichiediResoView extends BaseView {
 	private void stampa(RefoundFullDTO ref) {
 		keyRefund = getLoginBean().getEmail() + "-" + myAccountBean.getOrderSelected().getIdOrder();
 		keyRefund = HelperCrypt.encrypt(keyRefund);
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("", ref);
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(keyRefund, ref);
 
 		RequestContext.getCurrentInstance().execute(
 				"$(window).scrollTop();window.open('../RichiestaResoServlet?keyRefund=" + keyRefund + "');");
@@ -269,7 +270,7 @@ public class RichiediResoView extends BaseView {
 
 		}
 		ref.setFgChangeRefound("C");
-		OthalaFactory.getOrderServiceInstance().insertRefound(ref);
+		OthalaFactory.getOrderServiceInstance().insertRefound(ref,ConfigurationUtil.getMailProps(getRequest()));
 		addInfo("Richesta Cambio",
 				"La richiesta è stata effettuata correttamente, nella sezione 'Miei Cambi' portà verificare lo stato della sua richiesta. \n Stampare la ricevuta ed inserirla all'interno del pacco insieme all'atricoli da cambiare");
 		stampa(ref);
@@ -280,7 +281,7 @@ public class RichiediResoView extends BaseView {
 		ref.setIdTransaction(myAccountBean.getOrderSelected().getIdTransaction());
 		ref.setFgChangeRefound("R");
 		ref.setFgPartialRefound(ref.getCart().size() != myAccountBean.getOrderSelected().getCart().size());
-		ref = OthalaFactory.getOrderServiceInstance().insertRefound(ref);
+		ref = OthalaFactory.getOrderServiceInstance().insertRefound(ref,ConfigurationUtil.getMailProps(getRequest()));
 
 		disabledConferma = true;
 

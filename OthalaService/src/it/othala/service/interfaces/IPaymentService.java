@@ -50,5 +50,5 @@ public interface IPaymentService {
 	public GetExpressCheckoutDetailsDTO getExpressCheckoutDetails(String token, ProfilePayPalDTO profile)
 			throws PayPalException, PayPalFailureException;
 	
-	public RefundTransactionDTO requestRefund(RefoundFullDTO ref,ProfilePayPalDTO profile) throws PayPalException, PayPalFailureException,PayPalPostRefundPaymentException;
+	public RefundTransactionDTO requestRefund(RefoundFullDTO ref,ProfilePayPalDTO profile,MailPropertiesDTO mail) throws PayPalException, PayPalFailureException,PayPalPostRefundPaymentException;
 }

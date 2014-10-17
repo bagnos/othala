@@ -15,6 +15,8 @@ import it.othala.payment.paypal.exception.PayPalPostPaymentException;
 import it.othala.payment.paypal.exception.PayPalPostRefundPaymentException;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
+import it.othala.web.utils.ConfigurationUtil;
+import it.othala.web.utils.OthalaUtil;
 import it.othala.web.utils.PayPalUtil;
 
 @ManagedBean
@@ -50,6 +52,8 @@ public class DetailMerchantRequestView extends BaseView {
 			RefoundFullDTO ref = merchantBean.getRefoundSelected();
 			OthalaFactory.getOrderServiceInstance().updateStateRefound(ref.getIdRefound(),
 					TypeStateOrder.CHANGE_COMPLETED, null);
+			OthalaFactory.getOrderServiceInstance().sendMailConfirmReso(ref.getIdRefound(), 
+					ConfigurationUtil.getMailProps(getRequest()));
 		} catch (Exception ex) {
 			addGenericError(ex, "errore nella fase di cambio");
 		}
@@ -60,7 +64,7 @@ public class DetailMerchantRequestView extends BaseView {
 
 			RefoundFullDTO ref = merchantBean.getRefoundSelected();
 			RefundTransactionDTO refTrans = OthalaFactory.getPaymentServiceInstance().requestRefund(ref,
-					PayPalUtil.getProfile(getRequest()));
+					PayPalUtil.getProfile(getRequest()), ConfigurationUtil.getMailProps(getRequest()));
 			if (refTrans.isPending()) {
 				addInfo("Richiesta Rimborso", String.format(
 						"La richiesta è in corso di verifica dal sistema PayPal, regione del pending: %s",
