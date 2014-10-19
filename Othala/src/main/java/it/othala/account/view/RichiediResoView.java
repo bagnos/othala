@@ -242,9 +242,10 @@ public class RichiediResoView extends BaseView {
 	}
 
 	private void stampa(RefoundFullDTO ref) {
-		keyRefund = getLoginBean().getEmail() + "-" + myAccountBean.getOrderSelected().getIdOrder();
+		keyRefund = getLoginBean().getEmail() + "-" +ref.getIdRefound();		
 		keyRefund = HelperCrypt.encrypt(keyRefund);
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(keyRefund, ref);
+		getRequest().getSession().setAttribute(keyRefund, ref);
+		
 
 		RequestContext.getCurrentInstance().execute(
 				"$(window).scrollTop();window.open('../RichiestaResoServlet?keyRefund=" + keyRefund + "');");
@@ -261,7 +262,7 @@ public class RichiediResoView extends BaseView {
 				return;
 			}
 			for (ChangeArticleDTO chArt : art.getChangesAvailable()) {
-				if (chArt.getPgArticleNew()==art.getPgArticle()) {
+				if (chArt.getPgArticleNew().intValue()==art.getPgArticleChangeSelected().intValue()) {
 					art.setTxChangeRefound(chArt.getNoteMerchant());
 					art.setPgArticleChangeSelected(chArt.getPgArticleNew());				
 					// inserire barcode su artRefounded

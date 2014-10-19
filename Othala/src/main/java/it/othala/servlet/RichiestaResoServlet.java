@@ -46,10 +46,10 @@ public class RichiestaResoServlet extends HttpServlet {
 		int idOrder = 0;
 		
 		try {
-			String keyRefundEncrypt = request.getParameter("keyRefund");
-			if (keyRefundEncrypt != null) {
-				String keyRefund = HelperCrypt.decrypt(keyRefundEncrypt);
-				RefoundFullDTO refundDTO= (RefoundFullDTO) request.getSession().getAttribute("keyRefund");
+			String keyRefund = request.getParameter("keyRefund");
+			if (keyRefund != null) {
+				
+				RefoundFullDTO refundDTO= (RefoundFullDTO) request.getSession().getAttribute(keyRefund);
 				
 				//inserire html per stampa reso
 				String html="";

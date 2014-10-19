@@ -4,7 +4,13 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions">
 
 
-	
+	<ui:define name="metadata">
+		<f:metadata>
+			
+			<f:viewParam name="cercaOrd" value="#{gestioneOrdiniView.cercaOrd}"></f:viewParam>
+			
+		</f:metadata>
+	</ui:define>
 
 
 	<ui:define name="title">
