@@ -26,7 +26,9 @@
 					<p:dataTable var="ord" rowKey="#{ord.idOrder}" id="completed"
 						value="#{merchantBean.ordersCompleted}" rows="10" paginator="true" paginatorPosition="bottom"
 						selection="#{merchantBean.orderSelected}"
-						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+						currentPageReportTemplate="(Ordini {startRecord} - {endRecord} di 
+       {totalRecords}, Pagina: {currentPage}/{totalPages})"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 						selectionMode="single">
 
 						<p:ajax event="rowDblselect"  listener="#{homeMerchantView.onRowSelectNavigate}"/>
@@ -67,6 +69,8 @@
 					<p:dataTable var="ord" rowKey="#{ord.idOrder}" id="pending"
 						value="#{merchantBean.ordersPending}" rows="10" paginator="true" paginatorPosition="bottom"
 						selection="#{merchantBean.orderSelected}"
+						currentPageReportTemplate="(Ordini {startRecord} - {endRecord} di
+       {totalRecords}, Pagina: {currentPage}/{totalPages})"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 						selectionMode="single">
 
@@ -114,6 +118,8 @@
 					<p:dataTable var="ref" rowKey="#{ref.idRefound}" id="refund"
 						value="#{merchantBean.refoundRequest}" rows="10" paginator="true" paginatorPosition="bottom"
 						selection="#{merchantBean.refoundSelected}"
+						currentPageReportTemplate="(Ordini {startRecord} - {endRecord} di
+       {totalRecords}, Pagina: {currentPage}/{totalPages})"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 						selectionMode="single" >
 						<p:ajax event="rowDblselect" listener="#{homeMerchantView.onRowSelectNavigateReso}"/>
@@ -159,6 +165,8 @@
 					<p:dataTable var="ref" rowKey="#{ref.idRefound}" id="change"
 						value="#{merchantBean.changeRequest}" rows="10" paginator="true" paginatorPosition="bottom"
 						selection="#{merchantBean.refoundSelected}"
+						currentPageReportTemplate="(Ordini {startRecord} - {endRecord} di 
+       {totalRecords}, Pagina: {currentPage}/{totalPages})"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 						selectionMode="single" >
 						<p:ajax event="rowDblselect" listener="#{homeMerchantView.onRowSelectNavigateChange}"/>

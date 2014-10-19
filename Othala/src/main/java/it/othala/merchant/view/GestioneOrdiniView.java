@@ -6,12 +6,17 @@ import it.othala.merchant.model.MerchantBean;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 
+import java.io.IOException;
 import java.util.List;
 
+import javax.faces.application.ConfigurableNavigationHandler;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+
+import org.primefaces.event.SelectEvent;
 
 @ManagedBean
 @ViewScoped
@@ -24,6 +29,10 @@ public class GestioneOrdiniView extends BaseView {
 	private Integer idOrdine;
 	private String status;
 	private String cercaOrd = null;
+
+	public void setCercaOrd(String cercaOrd) {
+		this.cercaOrd = cercaOrd;
+	}
 
 	public String getCercaOrd() {
 		return cercaOrd;
@@ -120,6 +129,21 @@ public class GestioneOrdiniView extends BaseView {
 			merchantBean.setStatoOrdine(null);
 		}
 		return null;
+	}
+	
+
+	public void onRowSelectNavigate(SelectEvent event) {
+		// FacesContext.getCurrentInstance().getExternalContext().getFlash().put("selectedCar",
+		// event.getObject());
+
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect("dettaglioOrdine.xhtml?cercaOrd=true");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+
 	}
 
 }

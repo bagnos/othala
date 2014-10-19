@@ -297,7 +297,7 @@
 .breadcrumb {
 	margin-top: 10px;
 	font-size: 10px;
-	float: right !important;
+	float: left !important;
 	background-color: transparent !important;
 }
 
@@ -1123,7 +1123,7 @@ background
 		margin-top: 6px;
 		margin-bottom: 6px;
 	}
-}
+} 
 
 /* ================================================================================================ 
 	CUSTOM BOOTSTRAP 
@@ -1131,3 +1131,5 @@ background
 .control-label {
 	text-align: left !important;
 }
+.navbar-nav > li > a {padding-top:5px !important; padding-bottom:5px !important;}
+.navbar {min-height:32px !important}

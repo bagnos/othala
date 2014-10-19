@@ -375,7 +375,7 @@
 			<result property="qtBooked" column="qtArticle" />
 			<result property="fgChangeRefound" column="fgChangeRefound" />
 			<result property="txChangeRefound" column="txChangeRefound" />
-			<result property="pgArticleNew" column="pgArticleNew" />
+			<result property="pgArticleChangeSelected" column="pgArticleNew" />
 		</collection>
 	</resultMap>
 

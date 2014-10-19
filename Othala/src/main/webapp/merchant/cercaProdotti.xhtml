@@ -159,7 +159,9 @@
 					<p:dataTable id="prdTable" var="prd" value="#{merchantBean.products}" rowKey="#{prd.idProduct}"
 						selection="#{merchantBean.selectedProducts}" paginator="true" paginatorPosition="bottom"
 						emptyMessage="Nessun prodotto trovato" rowSelectMode="add"
-						currentPageReportTemplate="Nr. Elementi {totalRecords}" rows="10"
+						currentPageReportTemplate="(Prodotti {startRecord} - {endRecord} di 
+       {totalRecords}, Pagina: {currentPage}/{totalPages})"
+						 rows="10"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
 
 						<p:ajax event="rowSelect" update=":frmProd:prdTable viewBtn :frmProd:newCampaign" />

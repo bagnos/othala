@@ -30,7 +30,8 @@ public class ArticleFullDTO implements Serializable {
 	private List<ChangeArticleDTO> changesAvailable;
 	private ArticleUpdate articleUpdate;
 	private Integer pgArticleChangeSelected;
-
+	
+	
 	public Integer getPgArticleChangeSelected() {
 		return pgArticleChangeSelected;
 	}

@@ -192,6 +192,11 @@ public class RicercaProdottiView extends BaseView {
 		String opCampagna = addToCampaign == false ? "Creazione Campagna" : "Modifica Campagna";
 		try {
 
+			if (campaignDTO.getDtInizio().compareTo(campaignDTO.getDtFine())>=0)
+			{
+				addError("Campagna", "data inizione deve essere inferiore a data fine");
+			}
+			
 			List<Integer> idPrds = new ArrayList<>();
 			for (ProductFullNewDTO prd : merchantBean.getSelectedProducts()) {
 

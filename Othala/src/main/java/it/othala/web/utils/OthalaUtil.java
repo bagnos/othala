@@ -66,6 +66,7 @@ public class OthalaUtil {
 	}
 
 	public static void warning(HttpServletResponse response, String error, Exception e, Log log) {
+		log.error(error, e);
 		response.setContentType("text/html");
 		PrintWriter out = null;
 		try {
