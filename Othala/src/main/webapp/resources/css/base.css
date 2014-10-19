@@ -339,9 +339,9 @@
 
 .nav-tabs>li>a {
 	font-family: playregular !important;
-	font-style: italic !important;
-	font-size: 20px !important;
-	color: black;
+	
+	font-size: 17px !important;
+	color:rgb(102, 102, 102);
 }
 
 #newArr {
@@ -354,8 +354,8 @@
 
 #tab-content a {
 	font-family: playregular !important;
-	font-style: italic !important;
-	font-size: 16px !important;;
+	
+	font-size: 13px !important;;
 	color: #888 !important;;
 	padding: 0 0 0 11px;
 	background: url('./images/tabNav/arw_link.gif') no-repeat left
