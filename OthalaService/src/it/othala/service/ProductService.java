@@ -378,8 +378,9 @@ public class ProductService implements IProductService {
 	}
 
 	@Override
-	public void updateCampaign(CampaignDTO campaign) {
+	public void updateCampaign(CampaignDTO campaign, List<Integer> listIdProduct) {
 		productDAO.updateCampaign(campaign);
+		productDAO.removeProductFromCampaign(listIdProduct, campaign.getIdCampaign());
 	}
 
 }
