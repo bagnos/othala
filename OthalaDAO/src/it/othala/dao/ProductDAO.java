@@ -112,7 +112,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		HashMap<String, String> map = new HashMap<>();
 		map.put("languages", languages);
 		List<AttributeSizeDTO> listAttribute = getSqlSession().selectList(
-				"it.othala.product.queries.listSize",map);
+				"it.othala.product.queries.listSize", map);
 
 		return listAttribute;
 
@@ -229,14 +229,14 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 				"it.othala.product.queries.listArticleFull", map2);
 
 		ShopDTO shop = new ShopDTO();
-		
+
 		for (int i = 0; i <= listArticleFull.size() - 1; i++) {
-			
-			shop=getShop(idProduct, listArticleFull.get(i).getPgArticle());
+
+			shop = getShop(idProduct, listArticleFull.get(i).getPgArticle());
 			listArticleFull.get(i).setShop(shop);
-			
+
 		}
-		
+
 		return listArticleFull;
 
 	}
@@ -264,7 +264,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		}
 
 	}
-	
+
 	@Override
 	public void uploadArticle(Integer idProduct, Integer pgArticle) {
 
@@ -288,7 +288,6 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		}
 
 	}
-	
 
 	@Override
 	public ArticleFullDTO getArticleFull(Integer idProduct, Integer pgArticle,
@@ -350,7 +349,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 			Boolean fgPubblicazione) {
 
 		if (productFull.getSpecialPrice().intValue() == 0)
-	
+
 		{
 			productFull.setSpecialPrice(null);
 		}
@@ -547,7 +546,6 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 
 	}
 
-
 	@Override
 	public void insertBrand(String txBrand) {
 
@@ -706,13 +704,13 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 
 	@Override
 	public void updateProduct(ProductFullNewDTO productFull) {
-		
+
 		if (productFull.getSpecialPrice().intValue() == 0)
-			
+
 		{
 			productFull.setSpecialPrice(null);
 		}
-		
+
 		getSqlSession().update("it.othala.product.queries.updateProduct",
 				productFull);
 
@@ -734,16 +732,16 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 			description.setDescription(productFull.getDescription());
 			description.setLanguages("it");
 			listDescription.add(description);
-			
+
 			DescriptionDTO descriptionEN = new DescriptionDTO();
 			descriptionEN.setIdProduct(productFull.getIdProduct());
 			descriptionEN.setDescription(productFull.getDescriptionEN());
 			descriptionEN.setLanguages("en");
 			listDescription.add(descriptionEN);
-			
+
 			productFull.setLangDescription(listDescription);
-			
-				}
+
+		}
 
 		for (int i = 0; i <= productFull.getLangDescription().size() - 1; i++) {
 			map2.clear();
@@ -756,7 +754,6 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 			getSqlSession().insert(
 					"it.othala.product.queries.insertProductDescription", map2);
 		}
-
 
 		HashMap<String, Object> map4 = new HashMap<>();
 
@@ -824,18 +821,17 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		List<ArticleFullDTO> listArticleFull = getSqlSession().selectList(
 				"it.othala.product.queries.listArticleFullBarcode", map2);
 
-		
 		ShopDTO shop = new ShopDTO();
-		
+
 		for (int i = 0; i <= listArticleFull.size() - 1; i++) {
-			
-			shop=getShop(idProduct, listArticleFull.get(i).getPgArticle());
+
+			shop = getShop(idProduct, listArticleFull.get(i).getPgArticle());
 			listArticleFull.get(i).setShop(shop);
-			
+
 		}
 
 		return listArticleFull;
-		
+
 	}
 
 	@Override
@@ -905,5 +901,43 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 
 		return listConfiguration;
 	}
-	
+
+	@Override
+	public void removeProductFromCampaign(List<Integer> listIdProduct,
+			Integer idCampaign) {
+		HashMap<String, Object> map4 = new HashMap<>();
+
+		map4.clear();
+		map4.put("listIdProduct", listIdProduct);
+		map4.put("idCampaign", idCampaign);
+
+		getSqlSession().update(
+				"it.othala.product.queries.removeProductFromCampaign", map4);
+
+	}
+
+	@Override
+	public void deleteCampaign(Integer idCampaign) {
+
+		HashMap<String, Object> map4 = new HashMap<>();
+		map4.clear();
+		map4.put("idCampaign", idCampaign);
+
+		getSqlSession().update(
+				"it.othala.product.queries.removeProductCampaign", map4);
+
+		getSqlSession()
+				.delete("it.othala.product.queries.deleteCampaign", map4);
+
+	}
+
+	@Override
+	public void updateCampaign(CampaignDTO campaign) {
+
+		getSqlSession().update("it.othala.product.queries.updateCampaign",
+				campaign);
+
+
+	}
+
 }

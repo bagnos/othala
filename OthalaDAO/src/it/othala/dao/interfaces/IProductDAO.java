@@ -128,6 +128,14 @@ public interface IProductDAO {
 
 	public List<ConfigurationDTO> listConfiguration();
 
+	public void removeProductFromCampaign(List<Integer> listIdProduct,
+			Integer idCampaign);
+
+	public void deleteCampaign(Integer idCampaign);
+
+	public void updateCampaign(CampaignDTO campaign);
+	
+
 	
 	
 	
