@@ -117,19 +117,20 @@ public class RicercaCampagneView extends BaseView {
 
 	public void detailCampagna(ActionEvent e) {
 		details = true;
-		modify=false;
+		modify = false;
 		selectCampaign = selectCampaigns.get(0);
 		updateProdutcCampaigns();
 		RequestContext.getCurrentInstance().execute("PF('campaign').show();");
 
 	}
+
 	public void eliminaCampagna(ActionEvent e) {
-	
+
 	}
 
 	public void modifyCampagna(ActionEvent e) {
 		modify = true;
-		details=false;
+		details = false;
 		selectCampaign = selectCampaigns.get(0);
 		updateProdutcCampaigns();
 		RequestContext.getCurrentInstance().execute("PF('campaign').show();");
@@ -140,13 +141,21 @@ public class RicercaCampagneView extends BaseView {
 		prdCampaign = OthalaFactory.getProductServiceInstance().getListProduct(getLang(), null, null, null, null, null,
 				null, null, null, null, selectCampaign.getIdCampaign(), true);
 	}
-	
-	public void conferma(ActionEvent e)
-	{
-		addInfo("Modifica Campagna", "Operazione eseguita correttamente");
-		RequestContext.getCurrentInstance().execute("PF('campaign').hide();");
+
+	public void conferma(ActionEvent e) {
+		try {
+			List<Integer> idPrds = new ArrayList<>();
+			for (ProductFullNewDTO prd : prdToRemove) {
+				idPrds.add(prd.getIdProduct());
+			}
+
+			OthalaFactory.getProductServiceInstance().updateCampaign(selectCampaign, idPrds);
+
+			addInfo("Modifica Campagna", "Operazione eseguita correttamente");
+			RequestContext.getCurrentInstance().execute("PF('campaign').hide();");
+		} catch (Exception ex) {
+			addGenericError(ex, "errore nell'aggiornamento della campagna");
+		}
 	}
-	
-	
 
 }

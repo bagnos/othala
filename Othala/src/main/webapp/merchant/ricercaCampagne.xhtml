@@ -168,7 +168,8 @@
 						<p:ajax event="rowUnselectCheckbox" update=":frmProd:prCampaignnew" />
 							
 							<f:facet name="header">
-		 						PRODOTTI AGGIUNTI ALLA CAMPAGNA
+		 						<h:outputText value="#{ricercaCampagneView.modify?'SELEZIONA I PRODOTTI DA ELIMINARE ALLA CAMPAGNA':'PRODOTTI AGGIUNTI ALLA CAMPAGNA'}" />
+		 						
 		 						</f:facet>
 		 						<p:column rendered="#{ricercaCampagneView.modify}" selectionMode="multiple" style="width:2%;text-align:center" />
 							<p:column headerText="Id">
