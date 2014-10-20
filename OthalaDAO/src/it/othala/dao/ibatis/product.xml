@@ -346,7 +346,8 @@
 		txProvincia,
 		txNazione,
 		txTel
-		FROM ${database.schema}shops
+		FROM
+		${database.schema}shops
 		order by 1;
 
 
@@ -407,7 +408,7 @@
 		tab1.thumbnailsUrl,
 		coalesce(tab2.pcSconto,tab1.discount) as
 		discount,
-		
+
 
 		coalesce(specialPrice,
 		ceiling(tab1.price * (100 -
@@ -437,20 +438,24 @@
 		SELECT
 		a.idProduct as idProduct,
 		a.imPrice as price,
-		a.txThumbnailsUrl as
+		a.txThumbnailsUrl
+		as
 		thumbnailsUrl,
 		a.pcDiscount as discount,
 
-		b.txDescription as description,
+		b.txDescription as
+		description,
 		bb.txDescription as descriptionEN,
 
 		case
-		when DATEDIFF(current_date,
+		when
+		DATEDIFF(current_date,
 		a.dtProductState) &lt; 10
 		then 'Y'
 		else
 		'N'
-		end as fgNewArrivals,
+		end as
+		fgNewArrivals,
 
 		a.idGender,
 		txGender,
@@ -467,7 +472,7 @@
 		${database.schema}product a,
 		${database.schema}product_description b,
 		${database.schema}product_description bb,
-		
+
 
 		${database.schema}gender c,
 		${database.schema}type d,
@@ -549,7 +554,8 @@
 		c.idLanguages = #{languages}
 		and
 		d.idProduct = a.idProduct
-		and a.qtStock > 0
+		and a.qtStock
+		> 0
 
 
 	</select>
@@ -675,7 +681,8 @@
 
 		Where b.idProduct
 		= #{idProduct}
-		and b.pgArticle = #{pgArticle}
+		and
+		b.pgArticle = #{pgArticle}
 		and a.idShop
 		=
 		b.idShop
@@ -989,6 +996,39 @@
 
 	</insert>
 
+	<update id="updateCampaign" parameterType="it.othala.dto.CampaignDTO">
+
+
+
+		UPDATE
+		${database.schema}campaigns
+		SET
+
+		`txCampaign` = #{txCampaign},
+		`dtInizio` = #{dtInizio},
+		`dtFine` = #{dtFine},
+		`pcSconto` = #{pcSconto}
+		WHERE idCampaign =
+		#{idCampaign}
+
+
+	</update>
+
+	<delete id="deleteCampaign" parameterType="java.util.HashMap">
+
+
+
+		DELETE FROM
+		${database.schema}campaigns
+
+		Where
+		idCampaign =
+		#{idCampaign}
+
+
+	</delete>
+
+
 	<update id="addProductToCampaign" parameterType="java.util.HashMap">
 
 
@@ -1009,6 +1049,48 @@
 
 
 	</update>
+
+	<update id="removeProductFromCampaign" parameterType="java.util.HashMap">
+
+
+		UPDATE
+		${database.schema}product
+
+		set idCampaign = null
+
+		Where
+		idCampaign =
+		#{idCampaign}
+		and idProduct
+		in
+
+
+		<foreach item="item" index="index" collection="listIdProduct"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+
+
+	</update>
+
+	<update id="removeProductCampaign" parameterType="java.util.HashMap">
+
+
+		UPDATE
+		${database.schema}product
+
+		set idCampaign = null
+
+		Where
+		idCampaign =
+		#{idCampaign}
+
+
+
+	</update>
+
+
+
 
 	<select id="listFindProduct" resultType="it.othala.dto.ProductFullNewDTO"
 		parameterType="java.util.HashMap">
@@ -1197,7 +1279,7 @@
 		parameterType="java.util.HashMap">
 
 
-		SELECT b.idShop, b.txShop, b.txMail, 
+		SELECT b.idShop, b.txShop, b.txMail,
 		b.txNome,
 		b.txVia,
 		b.txComune,
@@ -1205,7 +1287,7 @@
 		b.txProvincia,
 		b.txNazione,
 		b.txTel
-		
+
 		FROM
 		${database.schema}article
 		a,
@@ -1355,7 +1437,8 @@
 
 		SELECT
 		a.idProduct as idProduct,
-		a.imPrice as price,
+		a.imPrice as
+		price,
 		a.txThumbnailsUrl as
 		thumbnailsUrl,
 		a.pcDiscount as discount,
@@ -1397,19 +1480,23 @@
 		a.idProduct = b.idProduct
 		and
 		a.idProduct = g.idProduct
-		and g.txBarCode = #{txBarcode}
+		and g.txBarCode =
+		#{txBarcode}
 		and
 		b.idLanguages = "it"
 		and a.idType =
 		d.idType
-		and a.idGender = c.idGender
+		and
+		a.idGender = c.idGender
 		and a.idBrand = e.idBrand
 		and
-		f.idMaterial = a.idMaterial
+		f.idMaterial =
+		a.idMaterial
 		and
 		d.idLanguages = b.idLanguages
 		and
-		c.idLanguages = b.idLanguages
+		c.idLanguages =
+		b.idLanguages
 		and
 		f.idLanguages = b.idLanguages
 		) tab1
@@ -1493,7 +1580,7 @@
 
 
 	</select>
-	
+
 	<select id="getListNazioni" resultType="it.othala.dto.NazioniDTO">
 
 

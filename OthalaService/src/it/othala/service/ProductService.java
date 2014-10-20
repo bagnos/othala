@@ -365,4 +365,21 @@ public class ProductService implements IProductService {
 
 	}
 
+	@Override
+	public void removeProductFromCampaign(List<Integer> listIdProduct,
+			CampaignDTO campaign) {
+		productDAO.removeProductFromCampaign(listIdProduct, campaign.getIdCampaign());
+		
+	}
+
+	@Override
+	public void deleteCampaign(CampaignDTO campaign) {
+		productDAO.deleteCampaign(campaign.getIdCampaign());
+	}
+
+	@Override
+	public void updateCampaign(CampaignDTO campaign) {
+		productDAO.updateCampaign(campaign);
+	}
+
 }

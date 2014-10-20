@@ -35,6 +35,12 @@ public interface IProductService {
 	public void publishProduct(List<Integer> listIdProduct);
 	
 	public void addProductToCampaign(List<Integer> listIdProduct, Integer idCampaign);
+	
+	public void removeProductFromCampaign(List<Integer> listIdProduct, CampaignDTO campaign);
+	
+	public void deleteCampaign(CampaignDTO campaign);
+	
+	public void updateCampaign(CampaignDTO campaign);
 
 	public Integer insertCampaign(CampaignDTO campaign);
 
