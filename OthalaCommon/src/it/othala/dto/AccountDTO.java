@@ -12,6 +12,16 @@ public class AccountDTO implements Serializable {
 	private int state;
 	private boolean newsletter;
 	private String cdFisc;
+	private String txState;
+	
+
+	public String getTxState() {
+		return txState;
+	}
+
+	public void setTxState(String txState) {
+		this.txState = txState;
+	}
 
 	public String getCdFisc() {
 		return cdFisc;

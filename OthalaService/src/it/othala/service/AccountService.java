@@ -11,6 +11,7 @@ import it.othala.dao.interfaces.IAccountDAO;
 import it.othala.dto.AccountDTO;
 import it.othala.dto.MailPropertiesDTO;
 import it.othala.enums.TypeCustomerState;
+import it.othala.execption.OthalaException;
 import it.othala.service.interfaces.IAccountService;
 import it.othala.service.interfaces.IMailService;
 import it.othala.service.interfaces.INewsletterService;
@@ -19,6 +20,10 @@ import it.othala.service.template.Template.TipoTemplate;
 import it.othala.util.HelperCrypt;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.aop.aspectj.AspectJAdviceParameterNameDiscoverer.AmbiguousBindingException;
 
 public class AccountService implements IAccountService {
 
@@ -46,8 +51,8 @@ public class AccountService implements IAccountService {
 	}
 
 	@Override
-	public void registerAccount(AccountDTO account,MailPropertiesDTO mailProps) throws DuplicateUserException, BadCredentialException,
-			MailNotSendException {
+	public void registerAccount(AccountDTO account, MailPropertiesDTO mailProps) throws DuplicateUserException,
+			BadCredentialException, MailNotSendException {
 
 		if (accountDAO.existAccount(account.getEmail()) > 0) {
 			throw new DuplicateUserException(account.getEmail());
@@ -60,13 +65,13 @@ public class AccountService implements IAccountService {
 			newsService.insertNewsletter(account.getEmail());
 		}
 
-		inviaMailRegistrazione(account.getEmail(),account.getName(),account.getPsw(), mailProps);
+		inviaMailRegistrazione(account.getEmail(), account.getName(), account.getPsw(), mailProps);
 
 	}
 
 	@Override
-	public void resetPasswordAccount(String email,MailPropertiesDTO mailProps) throws UserNotFoundException, MailNotSendException,
-			UserNotActivatedException {
+	public void resetPasswordAccount(String email, MailPropertiesDTO mailProps) throws UserNotFoundException,
+			MailNotSendException, UserNotActivatedException {
 		// TODO Auto-generated method stub
 
 		if (accountDAO.existAccount(email) == 0) {
@@ -78,13 +83,20 @@ public class AccountService implements IAccountService {
 		}
 
 		accountDAO.changeStateAccount(email, TypeCustomerState.RESET_PSW.getState());
-		inviaResetMailRegistrazione(email,mailProps);
+		inviaResetMailRegistrazione(email, mailProps);
 	}
 
 	@Override
-	public void removeAccount(AccountDTO account) throws BadCredentialException {
+	public int removeAccount(List<AccountDTO> listAccount) {
 		// TODO Auto-generated method stub
-
+		List<String> email = new ArrayList<>();
+		if (listAccount == null || listAccount.isEmpty()) {
+			return 0;
+		}
+		for (AccountDTO acc : listAccount) {
+			email.add(acc.getEmail());
+		}
+		return accountDAO.changeStateAccount(email, TypeCustomerState.CESSATO.getState());
 	}
 
 	@Override
@@ -93,7 +105,8 @@ public class AccountService implements IAccountService {
 
 	}
 
-	private void inviaMailRegistrazione(String email,String name,String psw,MailPropertiesDTO mailProps) throws MailNotSendException {
+	private void inviaMailRegistrazione(String email, String name, String psw, MailPropertiesDTO mailProps)
+			throws MailNotSendException {
 		String content;
 		try {
 			content = Template.getContenFile(TipoTemplate.MailRegistrazione);
@@ -105,18 +118,15 @@ public class AccountService implements IAccountService {
 		content = content.replaceAll("<NAME>", name);
 		content = content.replaceAll("<PSW>", psw);
 		content = content.replaceAll("<SITE>", mailProps.getDnsSite());
-		content = content.replaceAll("<COMPANY_NAME>",
-				mailProps.getCompanyName());
-		content = content.replaceAll("<CONTEXT_ROOT>",
-				mailProps.getContextRoot());
-		content = content.replaceAll("<BOARD_URL>",mailProps.getBoardUrl());
+		content = content.replaceAll("<COMPANY_NAME>", mailProps.getCompanyName());
+		content = content.replaceAll("<CONTEXT_ROOT>", mailProps.getContextRoot());
+		content = content.replaceAll("<BOARD_URL>", mailProps.getBoardUrl());
 		String encryptMail = HelperCrypt.encrypt(email);
 		content = content.replaceAll("<USER>", encryptMail);
-		mailService.inviaMail(new String[] { email },
-				"Welcome " + mailProps.getCompanyName(), content,mailProps);
+		mailService.inviaMail(new String[] { email }, "Welcome " + mailProps.getCompanyName(), content, mailProps);
 	}
 
-	private void inviaResetMailRegistrazione(String email,MailPropertiesDTO mailPros) throws MailNotSendException {
+	private void inviaResetMailRegistrazione(String email, MailPropertiesDTO mailPros) throws MailNotSendException {
 		String content = null;
 		String encryptMail = null;
 		try {
@@ -127,15 +137,14 @@ public class AccountService implements IAccountService {
 		}
 
 		content = content.replaceAll("<SITE>", mailPros.getDnsSite());
-		content = content.replaceAll("<CONTEXT_ROOT>",
-				mailPros.getContextRoot());
+		content = content.replaceAll("<CONTEXT_ROOT>", mailPros.getContextRoot());
 
 		encryptMail = HelperCrypt.encrypt(email);
 		content = content.replaceAll("<USER>", encryptMail);
 		String subject = "Reset Password ";
 		subject += mailPros.getCompanyName();
 
-		mailService.inviaMail(new String[] { email }, subject, content,mailPros);
+		mailService.inviaMail(new String[] { email }, subject, content, mailPros);
 	}
 
 	@Override
@@ -183,13 +192,31 @@ public class AccountService implements IAccountService {
 	public AccountDTO verifyPasswordAccount(String email, String psw) throws BadCredentialException {
 		if (email == null || email.isEmpty() || psw == null || psw.isEmpty()) {
 			throw new BadCredentialException();
-		} 
-		AccountDTO name=accountDAO.verifyPassword(email, psw);
+		}
+		AccountDTO name = accountDAO.verifyPassword(email, psw);
 		if (name == null || name.getEmail().isEmpty()) {
 			throw new BadCredentialException();
 		}
 		return name;
 
+	}
+
+	@Override
+	public List<AccountDTO> findAccount(String surname, String name) {
+		// TODO Auto-generated method stub
+		return accountDAO.getAccount(surname, name);
+	}
+
+	@Override
+	public List<AccountDTO> listAccount() {
+		// TODO Auto-generated method stub
+		return accountDAO.getAccount();
+	}
+
+	@Override
+	public AccountDTO findAccount(String email) {
+		// TODO Auto-generated method stub
+		return accountDAO.getAccount(email);
 	}
 
 }

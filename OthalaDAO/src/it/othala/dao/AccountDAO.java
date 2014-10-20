@@ -4,6 +4,7 @@ import it.othala.dao.interfaces.IAccountDAO;
 import it.othala.dto.AccountDTO;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 
@@ -39,6 +40,15 @@ public class AccountDAO extends SqlSessionDaoSupport implements IAccountDAO {
 	public int updatePsw(String email, String psw) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public int changeStateAccount(List<String> email, int stato) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("email", email);
+		map.put("stato", stato);
+		return getSqlSession().update("it.othala.account.queries.changeStateAccount", map);
 	}
 
 	@Override
@@ -81,7 +91,27 @@ public class AccountDAO extends SqlSessionDaoSupport implements IAccountDAO {
 		HashMap<String, String> map = new HashMap<>();
 		map.put("email", email);
 		map.put("psw", psw);
-		return (AccountDTO)getSqlSession().selectOne("it.othala.account.queries.verifyPassword", map);
+		return (AccountDTO) getSqlSession().selectOne("it.othala.account.queries.verifyPassword", map);
+	}
+
+	@Override
+	public List<AccountDTO> getAccount() {
+		// TODO Auto-generated method stub
+		HashMap<String, String> map = new HashMap<>();
+		return getSqlSession().selectList("it.othala.account.queries.getAccount", map);
+	}
+
+	@Override
+	public List<AccountDTO> getAccount(String cognome, String nome) {
+		// TODO Auto-generated method stub
+		HashMap<String, String> map = new HashMap<>();
+		if (nome != null && !nome.isEmpty()) {
+			map.put("name", nome);
+		}
+		if (cognome != null && !cognome.isEmpty()) {
+			map.put("surname", cognome);
+		}
+		return getSqlSession().selectList("it.othala.account.queries.getAccount", map);
 	}
 
 }

@@ -2,6 +2,8 @@ package it.othala.dao.interfaces;
 
 import it.othala.dto.AccountDTO;
 
+import java.util.List;
+
 public interface IAccountDAO {
 
 	public int insertAccount(AccountDTO account);
@@ -18,11 +20,18 @@ public interface IAccountDAO {
 	
 	public int updatePassword(String email, String psw);
 
+	public int changeStateAccount(List<String> email, int Stato);
+	
 	public int changeStateAccount(String email, int Stato);
 
 	public int updatePsw(String email, String psw);
 	
 	public AccountDTO verifyPassword(String email, String psw);
+	
+	public List<AccountDTO> getAccount();
+	
+	public List<AccountDTO> getAccount(String cognome,String nome);
+	
 	
 
 }
