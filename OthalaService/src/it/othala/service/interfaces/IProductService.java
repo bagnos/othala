@@ -40,7 +40,7 @@ public interface IProductService {
 	
 	public void deleteCampaign(CampaignDTO campaign);
 	
-	public void updateCampaign(CampaignDTO campaign);
+	public void updateCampaign(CampaignDTO campaign, List<Integer> listIdProduct);
 
 	public Integer insertCampaign(CampaignDTO campaign);
 
