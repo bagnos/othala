@@ -12,14 +12,30 @@
 	<select id="getAccount" resultType="it.othala.dto.AccountDTO"
 		parameterType="java.util.HashMap">
 		SELECT idUser as email,txPassword as psw,txNome as
-		name,txCognome as surname,txFiscale as cdFisc,idTypeState as state
+		name,txCognome as
+		surname,txFiscale as cdFisc,T.idTypeState as state,T.txTypeState as txState
 		FROM
-		${database.schema}CUSTOMER
-		WHERE idUser like #{email}
+		${database.schema}CUSTOMER C JOIN ${database.schema}type_state_account T
+		ON C.idTypeState=t.idTypeState
+		<where>
+			<if test="email!=null">
+				idUser like #{email}
+			</if>
+			<if test="surname!=null">
+				and txCognome like #{surname}
+			</if>
+			<if test="name!=null">
+				and txNome like #{name}
+			</if>
+		</where>
+		order by txCognome,txNome
 	</select>
 
-	<select id="verifyPassword" parameterType="java.util.HashMap" resultType="it.othala.dto.AccountDTO">
-		SELECT txNome as name,txCognome as surname, idUser as email 
+
+
+	<select id="verifyPassword" parameterType="java.util.HashMap"
+		resultType="it.othala.dto.AccountDTO">
+		SELECT txNome as name,txCognome as surname, idUser as email
 		FROM ${database.schema}CUSTOMER
 		WHERE idUser=#{email}
 		AND txPassword=#{psw}
@@ -48,7 +64,11 @@
 		UPDATE
 		${database.schema}CUSTOMER
 		SET idTypeState=#{stato}
-		where idUser =#{email}
+		where idUser in
+		<foreach item="item" index="index" collection="email" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
 	</insert>
 
 	<insert id="updateAccountPsw" parameterType="java.util.HashMap">
