@@ -242,17 +242,13 @@ public class RichiediResoView extends BaseView {
 	}
 
 	private void stampa(RefoundFullDTO ref) {
-		keyRefund = getLoginBean().getEmail() + "-" +ref.getIdRefound();
-		RequestContext.getCurrentInstance().execute("$('#stampa').click();");
+		keyRefund = getLoginBean().getEmail() + "-" + ref.getIdRefound();
+
 		keyRefund = HelperCrypt.encrypt(keyRefund);
 		getRequest().getSession().setAttribute(keyRefund, ref);
-		/*
-	
-		
-		
 
 		RequestContext.getCurrentInstance().execute(
-				"window.open('../RichiestaResoServlet?keyRefund=" + keyRefund + "');");*/
+				"window.open('../RichiestaResoServlet?keyRefund=" + keyRefund + "');");
 	}
 
 	private void getChange(RefoundFullDTO ref) throws OthalaException {
@@ -260,22 +256,22 @@ public class RichiediResoView extends BaseView {
 		// cambiare
 		for (ArticleRefounded art : ref.getCart()) {
 			if (art.getPgArticleChangeSelected() == null) {
-				//selezionata la check box ma non selezionato il cambio
+				// selezionata la check box ma non selezionato il cambio
 				addError(OthalaUtil.getWordBundle("account_changeRequest"),
 						OthalaUtil.getWordBundle("account_noArticleChangeSelected"));
 				return;
 			}
 			for (ChangeArticleDTO chArt : art.getChangesAvailable()) {
-				if (chArt.getPgArticleNew().intValue()==art.getPgArticleChangeSelected().intValue()) {
+				if (chArt.getPgArticleNew().intValue() == art.getPgArticleChangeSelected().intValue()) {
 					art.setTxChangeRefound(chArt.getNoteMerchant());
-					art.setPgArticleChangeSelected(chArt.getPgArticleNew());				
+					art.setPgArticleChangeSelected(chArt.getPgArticleNew());
 					// inserire barcode su artRefounded
 				}
 			}
 
 		}
 		ref.setFgChangeRefound("C");
-		OthalaFactory.getOrderServiceInstance().insertRefound(ref,ConfigurationUtil.getMailProps(getRequest()));
+		OthalaFactory.getOrderServiceInstance().insertRefound(ref, ConfigurationUtil.getMailProps(getRequest()));
 		addInfo("Richesta Cambio",
 				"La richiesta è stata effettuata correttamente, nella sezione 'Miei Cambi' portà verificare lo stato della sua richiesta. \n Stampare la ricevuta ed inserirla all'interno del pacco insieme all'atricoli da cambiare");
 		stampa(ref);
@@ -286,7 +282,7 @@ public class RichiediResoView extends BaseView {
 		ref.setIdTransaction(myAccountBean.getOrderSelected().getIdTransaction());
 		ref.setFgChangeRefound("R");
 		ref.setFgPartialRefound(ref.getCart().size() != myAccountBean.getOrderSelected().getCart().size());
-		ref = OthalaFactory.getOrderServiceInstance().insertRefound(ref,ConfigurationUtil.getMailProps(getRequest()));
+		ref = OthalaFactory.getOrderServiceInstance().insertRefound(ref, ConfigurationUtil.getMailProps(getRequest()));
 
 		disabledConferma = true;
 
