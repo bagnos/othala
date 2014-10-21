@@ -242,13 +242,17 @@ public class RichiediResoView extends BaseView {
 	}
 
 	private void stampa(RefoundFullDTO ref) {
-		keyRefund = getLoginBean().getEmail() + "-" +ref.getIdRefound();		
+		keyRefund = getLoginBean().getEmail() + "-" +ref.getIdRefound();
+		RequestContext.getCurrentInstance().execute("$('#stampa').click();");
 		keyRefund = HelperCrypt.encrypt(keyRefund);
 		getRequest().getSession().setAttribute(keyRefund, ref);
+		/*
+	
+		
 		
 
 		RequestContext.getCurrentInstance().execute(
-				"$(window).scrollTop();window.open('../RichiestaResoServlet?keyRefund=" + keyRefund + "');");
+				"window.open('../RichiestaResoServlet?keyRefund=" + keyRefund + "');");*/
 	}
 
 	private void getChange(RefoundFullDTO ref) throws OthalaException {

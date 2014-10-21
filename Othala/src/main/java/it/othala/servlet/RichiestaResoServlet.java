@@ -74,44 +74,10 @@ public class RichiestaResoServlet extends HttpServlet {
 			warning(response, "errore nella spedizione dell'ordine", e);
 			return;
 		}
-		try {
-			stampaOrdine(idOrder, response, request);
-			return;
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			warning(response, "errore nella stampa dell'ordine, provare la ristampa", e);
-		}
+		
 	}
 
-	private void stampaOrdine(int idOrder, HttpServletResponse response, HttpServletRequest request) throws Exception {
-		// File pdfCarrello =
-		// OthalaFactory.getOrderServiceInstance().stampaOrdine(idOrder);
-		PrintWriter out = response.getWriter();
-		String img = ConfigurationUtil.getOrderPrintImageUrl(request);
-		String html = OthalaFactory.getOrderServiceInstance().stampaOrdineHTML(idOrder, img);
-
-		response.setHeader("Expires", "0");
-		response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
-		response.setHeader("Pragma", "public");
-		// setting the content type
-		response.setContentType("text/html;charset=UTF-8");
-		// response.setContentLength((int) pdfCarrello.length());
-
-		// Tell browser to try to display inline, but if not,
-		// to save under the given filename.
-
-		/*
-		 * response.setHeader("Content-disposition",
-		 * "inline; filename=\"Ordine.pdf\""); FileInputStream fileInputStream =
-		 * new FileInputStream(pdfCarrello); OutputStream responseOutputStream =
-		 * response.getOutputStream(); int bytes; while ((bytes =
-		 * fileInputStream.read()) != -1) { responseOutputStream.write(bytes); }
-		 */
-		out.write(html);
-
-	}
-
+	
 	protected void warning(HttpServletResponse response, String error, Exception e) {
 		OthalaUtil.warning(response, error, e, log);
 
