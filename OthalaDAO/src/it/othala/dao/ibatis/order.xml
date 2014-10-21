@@ -7,7 +7,7 @@
 		<result property="idUser" column="idUser" />
 		<result property="imOrdine" column="imOrdine" />
 		<result property="imOrdineSenzaSpese" column="imOrdineSenzaSpese" />
-		
+
 		<result property="idStato" column="idStato" />
 		<result property="dtStato" column="dtStato" />
 		<result property="txNote" column="txNote" />
@@ -64,25 +64,38 @@
 		SELECT
 		a.idOrder, a.idUser, a.imOrdine, a.idDeliveryCost,
 		a.idTransaction,
-		a.idAddressFat, a.idAddressSpe, a.idTrackingNumber, a.idFidelity, a.idCoupon,
-		b.idProdotto, b.pgArticle,(a.imOrdine-i.imSpese) as imOrdineSenzaSpese,
+		a.idAddressFat, a.idAddressSpe, a.idTrackingNumber,
+		a.idFidelity, a.idCoupon,
+		b.idProdotto,
+		b.pgArticle,(a.imOrdine-i.imSpese) as imOrdineSenzaSpese,
 		b.qtArticle,
 		c.idStato, c.dtStato, c.txNote,
-		d.txStato, f.IDAddress as idAddressBilling,
-		f.txNome as txNomeBilling,f.txCognome as txCognomeBilling,
-		f.txVia as txViaBilling, f.txComune as txComuneBilling,
-		f.cdCap as cdCapBilling, f.txProvincia as txProvinciaBilling,
-		f.txNazione as txNazioneBilling, f.txTel as txTelBilling,
+		d.txStato, f.IDAddress as
+		idAddressBilling,
+		f.txNome as txNomeBilling,f.txCognome as
+		txCognomeBilling,
+		f.txVia as txViaBilling, f.txComune as
+		txComuneBilling,
+		f.cdCap as cdCapBilling, f.txProvincia as
+		txProvinciaBilling,
+		f.txNazione as txNazioneBilling, f.txTel as
+		txTelBilling,
 		f.txEtichetta as
 		etichettaBilling, f.fgDeleted,
 		g.IDAddress as idAddressDelivery,
-		g.txNome as txNomeDelivery, g.txCognome as txCognomeDelivery,
-		g.txVia as txViaDelivery, g.txComune as txComuneDelivery,
-		g.cdCap as cdCapDelivery, g.txProvincia as txProvinciaDelivery,
-		g.txNazione as txNazioneDelivery, g.txTel as txTelDelivery,g.txEtichetta as
+		g.txNome as txNomeDelivery,
+		g.txCognome as txCognomeDelivery,
+		g.txVia as txViaDelivery, g.txComune
+		as txComuneDelivery,
+		g.cdCap as cdCapDelivery, g.txProvincia as
+		txProvinciaDelivery,
+		g.txNazione as txNazioneDelivery, g.txTel as
+		txTelDelivery,g.txEtichetta as
 		etichettaDelivery,
-		g.fgDeleted, h.txNome, h.txCognome, i.idDeliveryCost as deliveryCost,
-		i.txDescrizione as desSpeseSpedizione, i.imSpese as speseSpedizione,
+		g.fgDeleted, h.txNome,
+		h.txCognome, i.idDeliveryCost as deliveryCost,
+		i.txDescrizione as
+		desSpeseSpedizione, i.imSpese as speseSpedizione,
 		i.txDescrizioneExt,
 		i.txLinkTracking
 		FROM
@@ -95,9 +108,11 @@
 		${database.schema}customer h,
 		${database.schema}delivery_cost i
 		WHERE a.idOrder = b.idOrder
-		and a.idOrder = c.idOrder
+		and
+		a.idOrder = c.idOrder
 		and a.idAddressFat = f.idAddress
-		and a.idAddressSpe = g.idAddress
+		and
+		a.idAddressSpe = g.idAddress
 		and a.idDeliveryCost = i.idDeliveryCost
 		and a.idUser = h.idUser
 		and c.idStato = d.idStato
@@ -109,16 +124,19 @@
 		</if>
 		<if test="idTransaction != null">
 			and a.idTransaction = #{idTransaction}
-		</if>			
+		</if>
 		<if test="idStato != null">
 			and c.dtStato = (SELECT MAX(e.dtStato)
-			FROM ${database.schema}states_orders e
+			FROM
+			${database.schema}states_orders e
 			WHERE e.idOrder = a.idOrder)
-			and c.idStato = #{idStato}
+			and
+			c.idStato = #{idStato}
 		</if>
 		<if test="idStato == null">
 			and c.dtStato = (SELECT MAX(e.dtStato)
-			FROM ${database.schema}states_orders e
+			FROM
+			${database.schema}states_orders e
 			WHERE e.idOrder = a.idOrder)
 		</if>
 
@@ -130,7 +148,8 @@
 		INSERT INTO
 		${database.schema}orders
 		(`idUser`,`imOrdine`,`idTransaction`,`idAddressFat`
-		,`idAddressSpe`,`idDeliveryCost`,`idTrackingNumber`,`idFidelity`, `idCoupon` )
+		,`idAddressSpe`,`idDeliveryCost`,`idTrackingNumber`,`idFidelity`,
+		`idCoupon` )
 		values (
 		#{idUser},#{imOrdine},null,
 		#{billingAddress.idAddress},
@@ -148,12 +167,12 @@
 
 		UPDATE ${database.schema}orders
 		<set>
-		<if test="idTransaction != null">
-			 idTransaction = #{idTransaction},
-		</if>
-		<if test="idTrackingNumber != null">
-			idTrackingNumber = #{idTrackingNumber}
-		</if>		
+			<if test="idTransaction != null">
+				idTransaction = #{idTransaction},
+			</if>
+			<if test="idTrackingNumber != null">
+				idTrackingNumber = #{idTrackingNumber}
+			</if>
 		</set>
 		WHERE idOrder = #{idOrder}
 
@@ -191,10 +210,13 @@
 		parameterType="java.lang.String">
 
 		SELECT
-		a.idAddress, a.idUser as userId, a.txNome as nome,a.txCognome as cognome,
-		a.txVia as via, a.txComune as comune, a.cdCap as cap, a.txEtichetta as
+		a.idAddress, a.idUser as userId, a.txNome as
+		nome,a.txCognome as cognome,
+		a.txVia as via, a.txComune as comune,
+		a.cdCap as cap, a.txEtichetta as
 		etichetta,
-		a.txProvincia as provincia, a.txNazione as nazione,
+		a.txProvincia as provincia,
+		a.txNazione as nazione,
 		a.txTel as tel, c.idUser as userId
 		FROM
 		${database.schema}addresses a,
@@ -204,7 +226,8 @@
 		a.idUser = c.idUser
 		and
 		a.fgDeleted = 0
-		order by a.idAddress desc
+		order by
+		a.idAddress desc
 
 	</select>
 
@@ -212,7 +235,8 @@
 
 		SELECT a.idDeliveryCost,
 		txDescrizione as descrizione,
-		imSpese as importospese, txDescrizioneExt as
+		imSpese as importospese, txDescrizioneExt
+		as
 		descrizioneExt,
 		txLinkTracking as linkTracking
 		FROM
@@ -221,8 +245,9 @@
 		WHERE
 		a.fgDeleted = 0
 		and a.idDeliveryCost = b.idDeliveryCost
-		and b.idNazione = #{idNazione}
-		 
+		and
+		b.idNazione = #{idNazione}
+
 
 	</select>
 
@@ -247,20 +272,24 @@
 
 	<delete id="deleteAddress" parameterType="java.lang.Integer">
 
-		UPDATE ${database.schema}addresses
+		UPDATE
+		${database.schema}addresses
 		SET fgDeleted = 1
 		WHERE
-		idAddress = #{idAddress}
+		idAddress =
+		#{idAddress}
 
 
 	</delete>
 
 	<delete id="deleteDeliveryCost" parameterType="java.lang.Integer">
 
-		UPDATE ${database.schema}delivery_cost
+		UPDATE
+		${database.schema}delivery_cost
 		SET fgDeleted = 1
 		WHERE
-		idAddress = #{idDeliveryCost}
+		idAddress =
+		#{idDeliveryCost}
 
 
 	</delete>
@@ -273,37 +302,85 @@
 		(#{descrizione},#{importospese},0,#{descrizioneExt},#{linkTracking});
 
 	</insert>
-	
-	<select id="listCoupons" resultType="it.othala.dto.CouponDTO" parameterType="java.util.HashMap">
+
+	<select id="listCoupons" resultType="it.othala.dto.CouponDTO"
+		parameterType="java.util.HashMap">
 
 		SELECT idCoupon, idUser, pcSconto, dtScadenza, dtUtilizzo
 		FROM
 		${database.schema}coupons
 		WHERE
 		<if test="idCoupon != null">
-			idCoupon = #{idCoupon} 
+			idCoupon = #{idCoupon}
 		</if>
 		<if test="idUser != null">
-			idUser = #{idUser} 
+			idUser = #{idUser}
 		</if>
 
 	</select>
-	
-	<update id="updateCoupon" parameterType="java.lang.String">
 
-		UPDATE ${database.schema}coupons
-		SET dtUtilizzo = current_date
+	<update id="burnCoupon" parameterType="java.lang.String">
+
+		UPDATE
+		${database.schema}coupons
+		SET qtUtilizzo = qtUtilizzo - 1
 		WHERE
-		idCoupon = #{idCoupon}
+		idCoupon =
+		#{idCoupon}
 
 
 	</update>
 	
+	
+	<delete id="deleteCoupon" parameterType="java.lang.String">
+
+		DELETE FROM
+		${database.schema}coupons
+		WHERE
+		idCoupon =
+		#{idCoupon}
+
+
+	</delete>
+	
+
+	<update id="updateCoupon" parameterType="java.util.HashMap">
+
+		UPDATE
+		${database.schema}coupons
+		SET idUser = #{idUser},
+		pcSconto =
+		#{pcSconto},
+		dtScadenza = #{dtScadenza},
+		qtUtilizzo = #{qtUtilizzo}
+		WHERE
+		idCoupon = #{idCoupon}
+
+	</update>
+
+	<insert id="insertCoupon" parameterType="java.util.HashMap">
+
+		INSERT INTO
+		${database.schema}coupons
+		(`idCoupon`,
+		`idUser`,
+		`pcSconto`,
+		`dtScadenza`,
+		`qtUtilizzo`)
+		values
+		(#{idCoupon},#{idUser}, #{pcSconto}, #{dtScadenza}, #{qtUtilizzo})
+
+
+	</insert>
+
+
+
 	<insert id="insertRefound" parameterType="it.othala.dto.RefoundFullDTO">
 
 		INSERT INTO
 		${database.schema}order_refound
-		(`idOrder`,`idUser`,`idTransaction`,`imRefound`,`txChangeRefound`, `fgChangeRefound`, `fgPartialRefound`)
+		(`idOrder`,`idUser`,`idTransaction`,`imRefound`,`txChangeRefound`,
+		`fgChangeRefound`, `fgPartialRefound`)
 		values (
 		#{idOrder},#{idUser},#{idTransaction},
 		#{imRefound},#{txMotivoReso},#{fgChangeRefound},#{fgPartialRefound})
@@ -319,10 +396,10 @@
 
 		UPDATE ${database.schema}order_refound
 		<set>
-		<if test="idTransaction != null">
-			 idTransaction = #{idTransaction},
-		</if>
-			
+			<if test="idTransaction != null">
+				idTransaction = #{idTransaction},
+			</if>
+
 		</set>
 		WHERE idRefound = #{idRefound}
 
@@ -383,17 +460,26 @@
 	<select id="listRefounds" resultMap="Refound" parameterType="java.util.HashMap">
 
 		SELECT
-		a.idRefound, a.idOrder, a.idUser, a.imRefound, a.idTransaction, a.txChangeRefound as MotivoReso,
-		a.fgChangeRefound, a.fgPartialRefound, b.idProdotto, b.pgArticle, b.qtArticle, b.fgChangeRefound, b.txChangeRefound, 
-		b.pgArticleNew, c.idStato, c.dtStato, c.txNote, d.txStato
+		a.idRefound, a.idOrder, a.idUser, a.imRefound, a.idTransaction,
+		a.txChangeRefound as MotivoReso,
+		a.fgChangeRefound, a.fgPartialRefound,
+		b.idProdotto, b.pgArticle, b.qtArticle, b.fgChangeRefound,
+		b.txChangeRefound,
+		b.pgArticleNew, c.idStato, c.dtStato, c.txNote,
+		d.txStato
 		FROM
 		${database.schema}order_refound a,
-		${database.schema}refound_articles b,
-		${database.schema}states_refound c,
+		${database.schema}refound_articles
+		b,
+		${database.schema}states_refound
+		c,
 		${database.schema}states d
-		WHERE a.idRefound = b.idRefound
-		and a.idRefound = c.idRefound
-		and c.idStato = d.idStato
+		WHERE
+		a.idRefound = b.idRefound
+		and
+		a.idRefound = c.idRefound
+		and c.idStato =
+		d.idStato
 		<if test="idRefound != null">
 			and a.idRefound = #{idRefound}
 		</if>
@@ -408,21 +494,23 @@
 		</if>
 		<if test="fgChangeRefound != null">
 			and a.fgChangeRefound = #{fgChangeRefound}
-		</if>					
+		</if>
 		<if test="idStato != null">
 			and c.dtStato = (SELECT MAX(e.dtStato)
-			FROM ${database.schema}states_refound e
+			FROM
+			${database.schema}states_refound e
 			WHERE e.idRefound = a.idRefound)
 			and c.idStato = #{idStato}
 		</if>
 		<if test="idStato == null">
 			and c.dtStato = (SELECT MAX(e.dtStato)
-			FROM ${database.schema}states_refound e
+			FROM
+			${database.schema}states_refound e
 			WHERE e.idRefound = a.idRefound)
 		</if>
 
 	</select>
-	
+
 	<insert id="insertFidelityCard" parameterType="it.othala.dto.FidelityCardDTO">
 
 		INSERT INTO
@@ -432,24 +520,27 @@
 		(#{idFidelity},#{txNome},#{txCognome},#{dtRilascio},#{txEmail},#{txTel},#{pcSconto})
 
 	</insert>
-	
+
 	<update id="updateFidelityCard" parameterType="java.util.HashMap">
 
-		UPDATE ${database.schema}FidelityCards
+		UPDATE
+		${database.schema}FidelityCards
 		SET pcSconto = #{pcSconto}
 		WHERE
 		idFidelity = #{idFidelity}
 
 
 	</update>
-	
-	<select id="selectFidelityCard" resultType="it.othala.dto.FidelityCardDTO" parameterType="java.lang.String">
+
+	<select id="selectFidelityCard" resultType="it.othala.dto.FidelityCardDTO"
+		parameterType="java.lang.String">
 
 		SELECT * FROM
 		${database.schema}FidelityCards
-		WHERE idFidelity = #{idFidelity}
+		WHERE
+		idFidelity = #{idFidelity}
 
 	</select>
-	
+
 
 </mapper>

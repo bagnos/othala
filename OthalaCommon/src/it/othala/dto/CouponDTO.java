@@ -33,16 +33,18 @@ public class CouponDTO implements Serializable {
 	public void setDtScadenza(Date dtScadenza) {
 		this.dtScadenza = dtScadenza;
 	}
-	public Date getDtUtilizzo() {
-		return dtUtilizzo;
+
+	public Integer getQtUtilizzo() {
+		return qtUtilizzo;
 	}
-	public void setDtUtilizzo(Date dtUtilizzo) {
-		this.dtUtilizzo = dtUtilizzo;
+	public void setQtUtilizzo(Integer qtUtilizzo) {
+		this.qtUtilizzo = qtUtilizzo;
 	}
+
 	private String idCoupon;
 	private String idUser;
 	private Short pcSconto;
 	private Date dtScadenza;
-	private Date dtUtilizzo;
-	
+	private Integer qtUtilizzo;
+		
 }

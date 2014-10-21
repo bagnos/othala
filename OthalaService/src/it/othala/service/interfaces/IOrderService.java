@@ -46,8 +46,6 @@ public interface IOrderService {
 
 	public OrderFullDTO checkQtaInStock(Integer idOrder, OrderFullDTO orderFull) throws StockNotPresentException;
 
-	public CouponDTO checkCoupon(String idCoupon) throws OthalaException;
-
 	public String stampaOrdineHTML(Integer idOrder, String pathLogo) throws Exception;
 
 	public List<RefoundFullDTO> getRefounds(Integer idRefound, Integer Order, String User, TypeStateOrder StatoOrdine, String idTransaction, String fgChangeRefound);
@@ -86,6 +84,22 @@ public interface IOrderService {
 	public void sendMailConfirmReso(Integer idReso, MailPropertiesDTO mailProps)
 			throws Exception;
 		
+	public void insertCoupon (CouponDTO couponDTO) throws Exception;
+	
+	public void updateCoupon (CouponDTO couponDTO) throws Exception;
+	
+	public List<CouponDTO> getCoupons (String idCoupon, String idUser) throws Exception;
+
+	public void deleteCoupon(String idCoupon) throws Exception;
+
+	
+	public CouponDTO checkCoupon(String idCoupon, String idUser)
+			throws OthalaException;
+
+	public void burnCoupon(String idCoupon) throws Exception;
+	
+	
+	
 	
 	
 }

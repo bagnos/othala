@@ -60,6 +60,14 @@ public interface IOrderDAO {
 	public void updateScontoFidelity(String idFidelity, int pcSconto);
 	
 	public FidelityCardDTO getFidelityCard(String idFidelity);
+
+	public void updateCoupon(CouponDTO couponDTO);
+
+	public void insertCoupon(CouponDTO couponDTO);
+
+	public void deleteCoupon(String idCoupon);
+
+
 	
 
 }
