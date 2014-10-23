@@ -29,6 +29,8 @@ public interface IAccountService {
 
 	
 	public int removeAccount(List<AccountDTO> account) ;
+	
+	public int activeAccount(List<AccountDTO> account) ;
 
 	public void modifyAccount(String OldEmail, AccountDTO account) throws BadCredentialException;
 
