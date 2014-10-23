@@ -122,6 +122,14 @@
 										icon="ui-icon-close">
 									</p:commandButton>
 								</div>
+								<div class="col-sm-1">
+									<p:commandButton onerror="PF('blockAll').unblock();" oncomplete="PF('blockAll').unblock();"
+										onclick="PF('blockAll').block()" value="Attiva"
+										disabled="#{ricercaAccountView.listSelectAccount==null or ricercaAccountView.listSelectAccount.size()==0}"
+										actionListener="#{ricercaAccountView.activeAccount}" process="@this" update="@form"
+										icon="ui-icon-arrowrefresh-1-s">
+									</p:commandButton>
+								</div>
 								<!-- 
 								<div class="col-sm-1">
 									<p:commandButton value="Modifica" icon="ui-icon-pencil" process="@this" update="@form"
