@@ -98,6 +98,19 @@ public class AccountService implements IAccountService {
 		}
 		return accountDAO.changeStateAccount(email, TypeCustomerState.CESSATO.getState());
 	}
+	
+	@Override
+	public int activeAccount(List<AccountDTO> listAccount) {
+		// TODO Auto-generated method stub
+		List<String> email = new ArrayList<>();
+		if (listAccount == null || listAccount.isEmpty()) {
+			return 0;
+		}
+		for (AccountDTO acc : listAccount) {
+			email.add(acc.getEmail());
+		}
+		return accountDAO.changeStateAccount(email, TypeCustomerState.ATTIVATO.getState());
+	}
 
 	@Override
 	public void modifyAccount(String OldEmail, AccountDTO account) throws BadCredentialException {
@@ -218,5 +231,7 @@ public class AccountService implements IAccountService {
 		// TODO Auto-generated method stub
 		return accountDAO.getAccount(email);
 	}
+
+	
 
 }
