@@ -112,5 +112,26 @@ public class RicercaAccountView extends BaseView {
 		}
 
 	}
+	
+	public void activeAccount(ActionEvent e) {
+
+		try {
+			if (listSelectAccount.isEmpty()) {
+				addError("Rimuovi account", "nessun account selezionato");
+			}
+			int deletes = OthalaFactory.getAccountServiceInstance().activeAccount(listSelectAccount);
+			if (deletes == 0) {
+				addError("Rimozione utenti", "nessun utente eliminato");
+				
+				
+			} else {
+				addInfo("Rimozione utenti", String.format("eliminati %d utenti", deletes));
+				findAccount(null);
+			}
+		} catch (Exception ex) {
+			addGenericError(ex, "errore nella rimozione deglia ccount");
+		}
+
+	}
 
 }
