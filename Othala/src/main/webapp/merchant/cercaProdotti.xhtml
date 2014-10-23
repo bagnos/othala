@@ -204,7 +204,7 @@
 
 							<div class="row">
 								<div class="col-sm-1">
-									<p:commandButton value="Dettaglio" id="viewBtn"
+									<p:commandButton value="Dettaglio" id="viewBtn" process="prdTable"
 										disabled="#{merchantBean.selectedProducts.size()!=1}"
 										action="insertProdotti.xhtml?faces-redirect=true&#38;detail=true&#38;read=true"
 										icon="ui-icon-search" />
@@ -219,7 +219,7 @@
 								</div>
 								<div class="col-sm-1">
 									<p:commandButton value="Modifica" icon="ui-icon-pencil"
-										disabled="#{merchantBean.selectedProducts.size()!=1}"
+										disabled="#{merchantBean.selectedProducts.size()!=1}" process="prdTable"
 										action="insertProdotti.xhtml?faces-redirect=true&#38;detail=true&#38;mod=true" />
 								</div>
 
