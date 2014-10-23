@@ -221,11 +221,15 @@ public class RicercaProdottiView extends BaseView {
 	}
 
 	public void showCreaCampagna(ActionEvent e) {
+		campaignDTO=null;
 		addToCampaign = false;
 		RequestContext.getCurrentInstance().execute("PF('newCampaign').show();");
+		
 	}
 
 	public void showAddCampagna(ActionEvent e) {
+		campaignDTO=null;
+		
 		addToCampaign = false;
 		campaigns = OthalaFactory.getProductServiceInstance().getListCampaign();
 		listCampaigns = new ArrayList<SelectItem>();
