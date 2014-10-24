@@ -156,26 +156,27 @@
 
 
 
-					<p:dataTable id="prdTable" var="prd" value="#{merchantBean.products}" rowKey="#{prd.idProduct}"
+					<p:dataTable id="prdTable"  var="prd" value="#{merchantBean.products}" rowKey="#{prd.idProduct}"
 						selection="#{merchantBean.selectedProducts}" paginator="true" paginatorPosition="bottom"
-						emptyMessage="Nessun prodotto trovato" rowSelectMode="add"
+						emptyMessage="Nessun prodotto trovato" selectionMode="multiple"
 						currentPageReportTemplate="(Prodotti {startRecord} - {endRecord} di 
        {totalRecords}, Pagina: {currentPage}/{totalPages})"
 						 rows="10"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
-
+						
 						<p:ajax event="rowSelect" update=":frmProd:prdTable viewBtn :frmProd:newCampaign" />
+						
 						<p:ajax event="rowUnselect" update=":frmProd:prdTable viewBtn :frmProd:newCampaign" />
+						<!-- 
 						<p:ajax event="toggleSelect" update=":frmProd:prdTable viewBtn :frmProd:newCampaign" />
-						<p:ajax event="rowSelectCheckbox" update=":frmProd:prdTable viewBtn :frmProd:newCampaign" />
-						<p:ajax event="rowUnselectCheckbox" update=":frmProd:prdTable viewBtn :frmProd:newCampaign" />
-
-
+						 -->
+						
+ 
 
 						<f:facet name="header">
             Elenco prodotti
         </f:facet>
-						<p:column selectionMode="multiple" style="width:2%;text-align:center" />
+
 						<p:column headerText="Id">
 							<h:outputText value="#{prd.idProduct}" />
 						</p:column>
