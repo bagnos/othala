@@ -33,12 +33,14 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.OutputStreamWriter;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.security.SecureRandom;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Source;
@@ -758,6 +760,8 @@ public class OrderService implements IOrderService {
 
 	@Override
 	public void addFidelityCard(FidelityCardDTO carta) {
+		SecureRandom random = new SecureRandom();
+		carta.setIdFidelity(new BigInteger(64, random).toString(32).toUpperCase());
 		orderDAO.newFidelityCard(carta);
 
 	}
@@ -773,13 +777,13 @@ public class OrderService implements IOrderService {
 		if (eMail != null && !eMail.isEmpty()) {
 			if (fCard.getTxEmail() == null || fCard.getTxEmail().isEmpty())
 				throw new FidelityCardNotValidException(idFidelity);
-			if (fCard.getTxEmail() != eMail)
+			if (!fCard.getTxEmail().equals(eMail))
 				throw new FidelityCardNotValidException(idFidelity);
 		}
 		if (celNum != null && !celNum.isEmpty()) {
 			if (fCard.getTxTel() == null || fCard.getTxTel().isEmpty())
 				throw new FidelityCardNotValidException(idFidelity);
-			if (fCard.getTxTel() != celNum)
+			if (!fCard.getTxTel().equals(celNum))
 				throw new FidelityCardNotValidException(idFidelity);
 		}
 
@@ -961,6 +965,8 @@ public class OrderService implements IOrderService {
 
 	@Override
 	public void insertCoupon(CouponDTO couponDTO) throws Exception {
+		SecureRandom random = new SecureRandom();
+		couponDTO.setIdCoupon(new BigInteger(64, random).toString(32).toUpperCase());
 		orderDAO.insertCoupon(couponDTO);
 
 	}
