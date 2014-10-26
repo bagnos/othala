@@ -8,8 +8,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.text.MessageFormat;
+import java.util.Map;
 import java.util.ResourceBundle;
 
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -81,6 +83,13 @@ public class OthalaUtil {
 		out.println(error);
 		out.println("</H3>");
 
+	}
+	
+	public static Map<String,Object> getSessionMap()
+	{
+		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();  
+		Map<String,Object> map =  context.getSessionMap();
+		return map;
 	}
 
 }

@@ -47,7 +47,12 @@
 										PROMOZIONI <b class="caret"></b>
 									</a>
 									<ul class="dropdown-menu">
-										<li><a href="#{request.contextPath}/faces/merchant/ricercaCampagne.xhtml">Ricerca Campagne</a></li>
+										<li><a href="#{request.contextPath}/faces/merchant/ricercaCampagne.xhtml">Ricerca
+												Campagne</a></li>
+										<li><a href="#{request.contextPath}/faces/merchant/generaCoupon.xhtml">Genera
+												Coupon</a></li>
+										<li><a href="#{request.contextPath}/faces/merchant/ricercaCoupon.xhtml">Ricerca
+												Coupon</a></li>
 									</ul></li>
 							</ul>
 							<ul class="nav navbar-nav">
@@ -55,10 +60,11 @@
 										UTENTI <b class="caret"></b>
 									</a>
 									<ul class="dropdown-menu">
-										<li><a href="#{request.contextPath}/faces/merchant/ricercaAccount.xhtml">Ricerca Utenti</a></li>
+										<li><a href="#{request.contextPath}/faces/merchant/ricercaAccount.xhtml">Ricerca
+												Utenti</a></li>
 									</ul></li>
 							</ul>
-							
+
 
 
 							<ul class="nav navbar-nav navbar-right">
@@ -138,9 +144,9 @@
 			</div>
 
 			<div class="row">
-	
-					<p:growl  showSummary="true" showDetail="true" autoUpdate="true" />
-					
+
+
+
 				<p:ajaxStatus style="display:block;height:24px;float:right">
 
 					<f:facet name="start">
@@ -156,8 +162,14 @@
 
 
 
+			<div class="row">
+				<ui:insert name="merchantMessages">
+					<p:growl showSummary="true" showDetail="true" autoUpdate="true" />
+				</ui:insert>
+			</div>
+			<ui:insert name="bodyPageContent">
 
-			<ui:insert name="bodyPageContent"></ui:insert>
+			</ui:insert>
 		</div>
 
 
