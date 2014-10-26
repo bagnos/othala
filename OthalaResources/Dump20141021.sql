@@ -376,7 +376,7 @@ CREATE TABLE `fidelitycards` (
   `idFidelity` varchar(45) NOT NULL,
   `txNome` varchar(45) DEFAULT NULL,
   `txCognome` varchar(45) DEFAULT NULL,
-  `dtRilascio` timestamp NULL DEFAULT NULL,
+  `dtRilascio` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `txEmail` varchar(45) DEFAULT NULL,
   `txTel` varchar(45) DEFAULT NULL,
   `pcSconto` int(11) NOT NULL,
