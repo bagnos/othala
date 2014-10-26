@@ -306,16 +306,18 @@
 	<select id="listCoupons" resultType="it.othala.dto.CouponDTO"
 		parameterType="java.util.HashMap">
 
-		SELECT idCoupon, idUser, pcSconto, dtScadenza, dtUtilizzo
+		SELECT idCoupon, idUser, pcSconto, dtScadenza, qtUtilizzo
 		FROM
 		${database.schema}coupons
-		WHERE
+		<where>
 		<if test="idCoupon != null">
 			idCoupon = #{idCoupon}
 		</if>
 		<if test="idUser != null">
-			idUser = #{idUser}
+			and idUser = #{idUser}
 		</if>
+		</where>
+		order by idUser
 
 	</select>
 

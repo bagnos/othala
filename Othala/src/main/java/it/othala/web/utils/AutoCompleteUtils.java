@@ -1,26 +1,27 @@
 package it.othala.web.utils;
 
+import it.othala.dto.AccountDTO;
 import it.othala.dto.AttributeDTO;
 import it.othala.dto.ShopDTO;
 import it.othala.model.ApplicationBean;
+import it.othala.service.factory.OthalaFactory;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AutoCompleteUtils implements Serializable {
-	
+
 	private ApplicationBean beanApplication;
-	
+
 	public ApplicationBean getBeanApplication() {
 		return beanApplication;
 	}
 
-	public AutoCompleteUtils(ApplicationBean beanApp)
-	{
-		beanApplication=beanApp;
+	public AutoCompleteUtils(ApplicationBean beanApp) {
+		beanApplication = beanApp;
 	}
-	
+
 	public List<AttributeDTO> completeGenere(String query) {
 		List<AttributeDTO> allAttributeDTO = getBeanApplication().getGenderDTO();
 		List<AttributeDTO> filteredAttributeDTO = new ArrayList<AttributeDTO>();
@@ -35,7 +36,7 @@ public class AutoCompleteUtils implements Serializable {
 		return filteredAttributeDTO;
 	}
 
-	public List<AttributeDTO> completeTaglia(String query,AttributeDTO tipo) {
+	public List<AttributeDTO> completeTaglia(String query, AttributeDTO tipo) {
 		List<AttributeDTO> filteredSize = new ArrayList<AttributeDTO>();
 		if (tipo != null) {
 			List<AttributeDTO> allSize = getBeanApplication().getSizesDTO(tipo.getAttributo().intValue());
@@ -121,6 +122,30 @@ public class AutoCompleteUtils implements Serializable {
 
 		return filteredMaterial;
 	}
-	
-	
+
+	public static List<AccountDTO> completeAccountDTO(String query) {
+
+		List<AccountDTO> filteredAccount = OthalaFactory.getAccountServiceInstance().findAccount(query.trim(), null);
+		OthalaUtil.getSessionMap().put(Constants.SESSION_KEY_COMPLETE_ACCOUNT, filteredAccount);
+
+		return filteredAccount;
+	}
+
+	public static List<AccountDTO> getAccountCompleteSession() {
+		return (List<AccountDTO>) OthalaUtil.getSessionMap().get(Constants.SESSION_KEY_COMPLETE_ACCOUNT);
+	}
+
+	public static AccountDTO findAccountDTO(String value) {
+		
+		List<AccountDTO> list = AutoCompleteUtils.getAccountCompleteSession();
+
+		for (AccountDTO acc : list) {
+			if (acc.getEmail().equalsIgnoreCase(value)) {
+
+				return acc;
+			}
+		}
+		return null;
+	}
+
 }

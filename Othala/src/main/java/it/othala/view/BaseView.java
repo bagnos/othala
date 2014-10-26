@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedProperty;
@@ -22,7 +23,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.primefaces.context.RequestContext;
 
 public abstract class BaseView implements Serializable {
 
@@ -158,6 +158,8 @@ public abstract class BaseView implements Serializable {
 	protected String getLang() {
 		return OthalaUtil.getLang(getRequest());
 	}
+	
+	
 
 	protected void redirectHome() {
 		try {
@@ -199,6 +201,11 @@ public abstract class BaseView implements Serializable {
 		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();  
 		HttpServletRequest request =  (HttpServletRequest)context.getRequest();
 		return request;
+	}
+	
+	protected Map<String,Object> getSessionMap()
+	{
+		return OthalaUtil.getSessionMap();
 	}
 	
 	protected OrderFullDTO findOrderById(List<OrderFullDTO> orders,int idOrder)

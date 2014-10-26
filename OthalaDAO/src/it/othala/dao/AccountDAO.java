@@ -109,7 +109,7 @@ public class AccountDAO extends SqlSessionDaoSupport implements IAccountDAO {
 			map.put("name", nome);
 		}
 		if (cognome != null && !cognome.isEmpty()) {
-			map.put("surname", cognome);
+			map.put("surname", cognome+"%");
 		}
 		return getSqlSession().selectList("it.othala.account.queries.getAccount", map);
 	}
