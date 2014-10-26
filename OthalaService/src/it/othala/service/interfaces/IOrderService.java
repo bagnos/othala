@@ -58,7 +58,7 @@ public interface IOrderService {
 
 	public List<DeliveryCostDTO> getSpeseSpedizione(String idNazione);
 	
-	public void addFidelityCard(FidelityCardDTO carta);
+	public String addFidelityCard(FidelityCardDTO carta);
 	
 	public FidelityCardDTO checkFidelityCard(String idFidelity, String eMail, String celNum) throws FidelityCardNotPresentException, FidelityCardNotValidException;
 	
@@ -84,7 +84,7 @@ public interface IOrderService {
 	public void sendMailConfirmReso(Integer idReso, MailPropertiesDTO mailProps)
 			throws Exception;
 		
-	public void insertCoupon (CouponDTO couponDTO) throws Exception;
+	public String insertCoupon (CouponDTO couponDTO) throws Exception;
 	
 	public void updateCoupon (CouponDTO couponDTO) throws Exception;
 	

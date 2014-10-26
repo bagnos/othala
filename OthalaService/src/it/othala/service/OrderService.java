@@ -759,10 +759,12 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public void addFidelityCard(FidelityCardDTO carta) {
+	public String addFidelityCard(FidelityCardDTO carta) {
 		SecureRandom random = new SecureRandom();
 		carta.setIdFidelity(new BigInteger(64, random).toString(32).toUpperCase());
 		orderDAO.newFidelityCard(carta);
+		
+		return carta.getIdFidelity();
 
 	}
 
@@ -964,10 +966,12 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public void insertCoupon(CouponDTO couponDTO) throws Exception {
+	public String insertCoupon(CouponDTO couponDTO) throws Exception {
 		SecureRandom random = new SecureRandom();
 		couponDTO.setIdCoupon(new BigInteger(64, random).toString(32).toUpperCase());
 		orderDAO.insertCoupon(couponDTO);
+		
+		return couponDTO.getIdCoupon();
 
 	}
 
