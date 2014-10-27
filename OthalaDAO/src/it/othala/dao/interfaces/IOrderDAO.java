@@ -67,6 +67,7 @@ public interface IOrderDAO {
 
 	public void deleteCoupon(String idCoupon);
 
+	public void deleteFidelityCard(String idFidelity);
 
 	
 

@@ -325,6 +325,13 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO {
 				.insert("it.othala.order.queries.insertCoupon", mapOrder);
 
 	}
+
+	@Override
+	public void deleteFidelityCard(String idFidelity) {
+		getSqlSession()
+		.delete("it.othala.order.queries.deleteFidelityCard", idFidelity);
+		
+	}
 	
 	
 
