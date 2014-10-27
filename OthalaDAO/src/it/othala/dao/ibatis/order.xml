@@ -544,5 +544,13 @@
 
 	</select>
 
+	<delete id="deleteFidelityCard" parameterType="java.lang.String">
+
+		DELETE FROM 
+		${database.schema}FidelityCards
+		WHERE
+		idFidelity = #{idFidelity}
+
+	</delete>
 
 </mapper>
