@@ -147,7 +147,7 @@ DROP TABLE IF EXISTS `coupons`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `coupons` (
   `idCoupon` varchar(45) NOT NULL,
-  `idUser` varchar(100) NOT NULL,
+  `idUser` varchar(100) NULL,
   `pcSconto` smallint(6) DEFAULT NULL,
   `dtScadenza` date DEFAULT NULL,
   `qtUtilizzo` int(11) DEFAULT NULL,
