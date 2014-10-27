@@ -883,4 +883,10 @@ public class OrderService implements IOrderService {
 
 	}
 
+	@Override
+	public void deleteFidelityCard(String idFidelity) throws Exception {
+		orderDAO.deleteFidelityCard(idFidelity);
+		
+	}
+
 }
