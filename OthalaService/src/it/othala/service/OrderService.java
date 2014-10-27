@@ -17,6 +17,10 @@ import it.othala.dto.RefoundFullDTO;
 import it.othala.dto.ShopDTO;
 import it.othala.dto.StateOrderDTO;
 import it.othala.enums.TypeStateOrder;
+import it.othala.execption.CouponBurntException;
+import it.othala.execption.CouponExpiredException;
+import it.othala.execption.CouponNotPresentException;
+import it.othala.execption.CouponNotValidException;
 import it.othala.execption.FidelityCardNotPresentException;
 import it.othala.execption.FidelityCardNotValidException;
 import it.othala.execption.OthalaException;
@@ -306,21 +310,21 @@ public class OrderService implements IOrderService {
 
 		if (listCoupons.get(0) != null) {
 			if (listCoupons.get(0).getDtScadenza().compareTo(new Date()) < 0) {
-				throw new OthalaException("Il Coupon che stai cercando di utilizzare è scaduto");
+				throw new CouponExpiredException(idCoupon);
 			}
 			if (listCoupons.get(0).getQtUtilizzo() != null) {
 				if (listCoupons.get(0).getQtUtilizzo() == 0) {
-					throw new OthalaException("Il Coupon che stai cercando di utilizzare è stato gia speso");
+					throw new CouponBurntException(idCoupon);
 				}
 			}
 			if (listCoupons.get(0).getIdUser() != null) {
 				if (listCoupons.get(0).getIdUser() != idUser) {
-					throw new OthalaException("Il Coupon che stai cercando di utilizzare è assegnato ad altro utente");
+					throw new CouponNotValidException(idCoupon);
 				}
 			}
 
 		} else {
-			throw new OthalaException("Codice Coupon errato");
+			throw new CouponNotPresentException(idCoupon);
 		}
 
 		return listCoupons.get(0);
