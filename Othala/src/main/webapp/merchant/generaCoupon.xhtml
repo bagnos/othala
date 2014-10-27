@@ -7,10 +7,12 @@
 	<ui:define name="metadata">
 		<f:metadata>
 			<f:viewAction action="#{generaCouponView.doInit}"></f:viewAction>
+			<f:viewParam name="modifica" value="#{generaCouponView.modifica}"></f:viewParam>
+
 		</f:metadata>
 	</ui:define>
 
-
+ 
 	<ui:define name="title">
 		<h:outputText value="Genera Coupon"></h:outputText>
 	</ui:define>
@@ -28,28 +30,28 @@
 			<div class="row">
 				<div class="col-sm-4">
 					<h3 class="form-titoli">
-						<h:outputText value="Genera Coupon" />
+						<h:outputText value="#{generaCouponView.modifica?'Modifica Coupon':'Genera Coupon'}" />
 					</h3>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-sm-12">
-					<!-- 
+				
+					<h:panelGroup rendered="#{generaCouponView.modifica}">
 					<div class="form-group spacer10">
 						<p:outputLabel styleClass="col-sm-1 control-label" for="idCoupon" value="Coupon" />
 						<div class="col-sm-2 ">
-							<p:inputText styleClass="form-control" required="true" disabled="true"
+							<p:inputText styleClass="form-control"  disabled="true"
 								value="#{generaCouponView.coupon.idCoupon}" id="idCoupon"></p:inputText>
 						</div>
-
 					</div>
- -->
+					</h:panelGroup>
+
 
 					<div class="form-group">
 						<p:outputLabel for="qta" styleClass="col-sm-1 control-label" value="Quantità" />
 						<div class="col-sm-2 ">
-							<p:spinner required="true" id="qta" size="5" min="1"
-								value="#{generaCouponView.coupon.qtUtilizzo}" />
+							<p:spinner id="qta" size="5" min="0" value="#{generaCouponView.coupon.qtUtilizzo}" />
 						</div>
 						<p:outputLabel for="sconto" styleClass="col-sm-1 control-label" value="Sconto" />
 						<div class="col-sm-2 ">
@@ -66,12 +68,12 @@
 
 					<!-- utenti -->
 
-					<div class="form-group spacer30">
+					<div class="form-group">
 						<p:outputLabel for="account" styleClass="col-sm-1 control-label" value="Account" />
 						<div class="col-sm-5">
 							<p:autoComplete minQueryLength="1" id="account" converter="it.othala.AccountConverter"
 								value="#{generaCouponView.accountSelected}" size="50" itemLabel="#{acc.surname} #{acc.name}"
-								itemValue="#{acc}" required="true" label="Account Coupon"
+								itemValue="#{acc}" label="Account Coupon"
 								completeMethod="#{generaCouponView.completeAccount}" var="acc" forceSelection="true">
 
 							</p:autoComplete>
@@ -84,10 +86,15 @@
 
 
 					<div class="row spacer30">
+					<div class="col-sm-2">
+							<p:commandButton rendered="#{generaCouponView.modifica}" action="ricercaCoupon.xhtml" icon="ui-icon-triangle-1-w" value="Torna" ajax="false">
+							</p:commandButton>
+						</div>
 						<div class="col-sm-2">
-							<p:commandButton validateClient="true" process="@form"
+							<p:commandButton validateClient="true" process="@form" onerror="PF('blockAll').unblock();"
+								oncomplete="PF('blockAll').unblock();" onclick="PF('blockAll').block()"
 								actionListener="#{generaCouponView.generaCoupon}" styleClass="ui-priority-primary"
-								ajax="false" id="conf" value="Genera Coupon">
+								ajax="false" id="conf" value="#{generaCouponView.modifica?'Modifica':'Genera'}">
 							</p:commandButton>
 						</div>
 					</div>

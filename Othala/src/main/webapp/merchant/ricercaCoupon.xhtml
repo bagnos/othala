@@ -33,10 +33,10 @@
 					<div class="form-group spacer10">
 						<p:outputLabel styleClass="col-sm-1 control-label" for="idCoupon" value="Coupon" />
 						<div class="col-sm-2 ">
-							<p:inputText styleClass="form-control" value="#{ricercaCouponView.idCoupon}" id="idCoupon"></p:inputText>
+							<p:inputText styleClass="form-control" value="#{promozioniBean.idCoupon}" id="idCoupon"></p:inputText>
 						</div>
 						<p:outputLabel for="account" styleClass="col-sm-1 control-label" value="Account" />
-						<div class="col-sm-5">
+						<div class="col-sm-4">
 							<p:autoComplete minQueryLength="1" id="account" converter="it.othala.AccountConverter"
 								value="#{generaCouponView.accountSelected}" size="50" itemLabel="#{acc.surname} #{acc.name}"
 								itemValue="#{acc}" label="Account Coupon"
@@ -44,7 +44,7 @@
 							</p:autoComplete>
 						</div>
 
-						<div class="col-sm-2">
+						<div class="col-sm-1">
 							<p:commandButton validateClient="true" process="@form" update="coupTable"
 								actionListener="#{ricercaCouponView.cerca}" styleClass="ui-priority-primary" id="conf"
 								value="Cerca">
@@ -56,8 +56,8 @@
 				<div class="row spacer20">
 					<div class="col-sm-12">
 
-						<p:dataTable id="coupTable" var="coup" value="#{ricercaCouponView.listCoupon}"
-							rowKey="#{coup.idCoupon}" selection="#{ricercaCouponView.couponSelected}" paginator="true"
+						<p:dataTable id="coupTable" var="coup" value="#{promozioniBean.listCoupon}"
+							rowKey="#{coup.idCoupon}" selection="#{promozioniBean.couponSelected}" paginator="true"
 							paginatorPosition="bottom" emptyMessage="Nessun coupon trovato" selectionMode="single"
 							currentPageReportTemplate="(Coupon {startRecord} - {endRecord} di 
        {totalRecords}, Pagina: {currentPage}/{totalPages})"
@@ -95,9 +95,18 @@
 									<div class="col-sm-1">
 										<p:commandButton onerror="PF('blockAll').unblock();"
 											oncomplete="PF('blockAll').unblock();" onclick="PF('blockAll').block()" value="Elimina"
-											disabled="#{ricercaCouponView.couponSelected==null}"
+											disabled="#{promozioniBean.couponSelected==null}"
 											actionListener="#{ricercaCouponView.elimina}" process="@this" update="@form"
 											icon="ui-icon-close">
+										</p:commandButton>
+									</div>
+									<div class="col-sm-1">
+										<p:commandButton onerror="PF('blockAll').unblock();"
+											oncomplete="PF('blockAll').unblock();" onclick="PF('blockAll').block()" value="Modifica"
+											disabled="#{promozioniBean.couponSelected==null}"
+											actionListener="#{ricercaCouponView.modifica}" process="@this" update="@form"
+											icon="ui-icon-close">
+											
 										</p:commandButton>
 									</div>
 
