@@ -78,7 +78,7 @@
 					Grazie
 					per la tua fiducia.
 					<br />
-					Ti aspettiamo nei negozi Degortes!
+					Ti aspettiamo nel nostro negozio!
 				</p>
 				<p>
 					<strong>Puoi consultare lo stato del tuo ordine dalla sezione Ordini in Il Mio Account.
