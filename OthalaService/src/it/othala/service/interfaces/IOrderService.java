@@ -91,7 +91,8 @@ public interface IOrderService {
 	public List<CouponDTO> getCoupons (String idCoupon, String idUser) throws Exception;
 
 	public void deleteCoupon(String idCoupon) throws Exception;
-
+	
+	public void deleteFidelityCard(String idFidelity) throws Exception;
 	
 	public CouponDTO checkCoupon(String idCoupon, String idUser)
 			throws OthalaException;
