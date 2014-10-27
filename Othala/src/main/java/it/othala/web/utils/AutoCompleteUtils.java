@@ -126,6 +126,13 @@ public class AutoCompleteUtils implements Serializable {
 	public static List<AccountDTO> completeAccountDTO(String query) {
 
 		List<AccountDTO> filteredAccount = OthalaFactory.getAccountServiceInstance().findAccount(query.trim(), null);
+		return completeAccountDTO(filteredAccount);
+		
+	}
+
+	public static List<AccountDTO> completeAccountDTO(List<AccountDTO> filteredAccount) {
+
+	
 		OthalaUtil.getSessionMap().put(Constants.SESSION_KEY_COMPLETE_ACCOUNT, filteredAccount);
 
 		return filteredAccount;
@@ -136,7 +143,7 @@ public class AutoCompleteUtils implements Serializable {
 	}
 
 	public static AccountDTO findAccountDTO(String value) {
-		
+
 		List<AccountDTO> list = AutoCompleteUtils.getAccountCompleteSession();
 
 		for (AccountDTO acc : list) {

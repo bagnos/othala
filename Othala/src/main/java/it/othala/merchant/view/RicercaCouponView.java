@@ -1,62 +1,33 @@
 package it.othala.merchant.view;
 
 import it.othala.dto.AccountDTO;
-import it.othala.dto.CouponDTO;
+import it.othala.merchant.model.PromozioniBean;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 import it.othala.web.utils.AutoCompleteUtils;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 @ManagedBean
 @ViewScoped
 public class RicercaCouponView extends BaseView {
 
-	private List<CouponDTO> listCoupon;
-	private List<AccountDTO> listAccount;
-	private String idCoupon;
-	private String idUser;
-	private AccountDTO accountSelected;
-	private CouponDTO couponSelected;
+	@ManagedProperty(value = "#{promozioniBean}")
+	private PromozioniBean promozioniBean;
 
-	public CouponDTO getCouponSelected() {
-		return couponSelected;
+	public PromozioniBean getPromozioniBean() {
+		return promozioniBean;
 	}
 
-	public void setCouponSelected(CouponDTO couponSelected) {
-		this.couponSelected = couponSelected;
-	}
-
-	public AccountDTO getAccountSelected() {
-		return accountSelected;
-	}
-
-	public void setAccountSelected(AccountDTO accountSelected) {
-		this.accountSelected = accountSelected;
-	}
-
-	public String getIdCoupon() {
-		return idCoupon;
-	}
-
-	public void setIdCoupon(String idCoupon) {
-		this.idCoupon = idCoupon;
-	}
-
-	public String getIdUser() {
-		return idUser;
-	}
-
-	public void setIdUser(String idUser) {
-		this.idUser = idUser;
-	}
-
-	public List<CouponDTO> getListCoupon() {
-		return listCoupon;
+	public void setPromozioniBean(PromozioniBean promozioniBean) {
+		this.promozioniBean = promozioniBean;
 	}
 
 	@Override
@@ -73,9 +44,13 @@ public class RicercaCouponView extends BaseView {
 
 	public void cerca(ActionEvent e) {
 		try {
-			idCoupon=idCoupon!=null&&!idCoupon.isEmpty()?idCoupon:null;
-			idUser=accountSelected!=null?accountSelected.getEmail():null;
-			listCoupon = OthalaFactory.getOrderServiceInstance().getCoupons(idCoupon, idUser);
+			promozioniBean
+					.setIdCoupon(promozioniBean.getIdCoupon() != null && !promozioniBean.getIdCoupon().isEmpty() ? promozioniBean
+							.getIdCoupon() : null);
+			promozioniBean.setIdUser(promozioniBean.getAccountSelected() != null ? promozioniBean.getAccountSelected()
+					.getEmail() : null);
+			promozioniBean.setListCoupon(OthalaFactory.getOrderServiceInstance().getCoupons(
+					promozioniBean.getIdCoupon(), promozioniBean.getIdUser()));
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			addGenericError(e1, "errore ricerca coupon");
@@ -84,16 +59,32 @@ public class RicercaCouponView extends BaseView {
 
 	public void elimina(ActionEvent e) {
 		try {
-			OthalaFactory.getOrderServiceInstance().deleteCoupon(couponSelected.getIdCoupon());
+			OthalaFactory.getOrderServiceInstance().deleteCoupon(promozioniBean.getCouponSelected().getIdCoupon());
 			cerca(null);
-			addInfo("Elimina Coupon", String.format("Eliminato %s con successo", couponSelected.getIdCoupon()));
-			accountSelected=null;
-			idCoupon=null;
+			addInfo("Elimina Coupon",
+					String.format("Eliminato %s con successo", promozioniBean.getCouponSelected().getIdCoupon()));
+			promozioniBean.setAccountSelected(null);
+			promozioniBean.setIdCoupon(null);
 
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			addGenericError(e1, "errore elimina coupon");
 		}
+	}
+
+	public void modifica(ActionEvent e) {
+
+		try {
+			FacesContext
+					.getCurrentInstance()
+					.getExternalContext()
+					.redirect(
+							"generaCoupon.xhtml?modifica=true&facesRedirect=true");
+		} catch (IOException ex) {
+			// TODO Auto-generated catch block
+			addGenericError(ex, "errore redirect modifica coupon");
+		}
+
 	}
 
 }
