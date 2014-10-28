@@ -1,7 +1,6 @@
 package it.othala.model;
 
 import it.othala.dto.AttributeDTO;
-import it.othala.dto.AttributeSizeDTO;
 import it.othala.dto.CampaignDTO;
 import it.othala.dto.DomainDTO;
 import it.othala.dto.MenuDTO;
@@ -34,6 +33,7 @@ public class ApplicationBean implements Serializable {
 	private List<SelectItem> colors = null;
 	private List<SelectItem> brands = null;
 	private List<SelectItem> materials = null;
+	private List<SelectItem> sizes = null;
 	private List<MenuDTO> menu = null;
 	private MenuFullDTO menuFull = null;
 	private List<SiteImagesDTO> imgsCarousel = null;
@@ -44,7 +44,7 @@ public class ApplicationBean implements Serializable {
 	private List<AttributeDTO> brandDTO = null;
 	private List<AttributeDTO> materialDTO = null;
 	private List<AttributeDTO> colorsDTO = null;
-	private List<AttributeSizeDTO> sizeDTO = null;
+	private List<AttributeDTO> sizeDTO = null;
 	private List<ShopDTO> shopsDTO = null;
 	private List<AttributeDTO> genderDTO = null;
 	private List<AttributeDTO> typeDTO = null;
@@ -108,7 +108,7 @@ public class ApplicationBean implements Serializable {
 		return shopsDTO;
 	}
 
-	public List<AttributeSizeDTO> getSizeDTO() {
+	public List<AttributeDTO> getSizeDTO() {
 		if (sizeDTO==null) {
 			sizeDTO = getDomain().getSize();
 		}
@@ -227,33 +227,26 @@ public class ApplicationBean implements Serializable {
 	}
 	
 
-	public List<SelectItem> getSizes(Integer idSubMenu) {
+	public List<SelectItem> getSizes() {
 
-		List<SelectItem> sizes = new ArrayList<SelectItem>();
-		sizes.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseSize")));
-		if (idSubMenu != null && idSubMenu.intValue() != -1) {
-			for (AttributeSizeDTO att : getDomain().getSize()) {
-				if (att.getIdType().intValue() == idSubMenu.intValue() || idSubMenu == 0) {
+		if (sizes==null) {
+			sizes=new ArrayList<>();
+			sizes.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseSize")));
 
-					sizes.add(new SelectItem(att.getAttributo(), att.getValore()));
-				}
+			for (AttributeDTO att : getDomain().getSize()) {
+				sizes.add(new SelectItem(att.getAttributo(), att.getValore()));
 			}
+
 		}
 		return sizes;
 	}
 
-	public List<AttributeDTO> getSizesDTO(Integer idSubMenu) {
-		List<AttributeDTO> sizesDTO = new ArrayList<AttributeDTO>();
-
-		if (idSubMenu != null && idSubMenu.intValue() != -1) {
-			for (AttributeSizeDTO att : getDomain().getSize()) {
-				if (att.getIdType().intValue() == idSubMenu.intValue() || idSubMenu == 0) {
-					sizesDTO.add(att);
-
-				}
-			}
+	
+	public List<AttributeDTO> getSizesDTO() {
+		if (sizeDTO==null) {
+			sizeDTO = getDomain().getSize();
 		}
-		return sizesDTO;
+		return sizeDTO;
 	}
 
 	public List<SelectItem> getColors() {
