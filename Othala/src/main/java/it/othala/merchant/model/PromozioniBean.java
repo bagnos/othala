@@ -2,6 +2,7 @@ package it.othala.merchant.model;
 
 import it.othala.dto.AccountDTO;
 import it.othala.dto.CouponDTO;
+import it.othala.dto.FidelityCardDTO;
 
 import java.io.Serializable;
 import java.util.List;
@@ -24,8 +25,16 @@ public class PromozioniBean implements Serializable {
 	private String idUser;
 	private AccountDTO accountSelected;
 	private CouponDTO couponSelected;
+	private FidelityCardDTO fidelityCardSelected;
 	
-	
+
+	public FidelityCardDTO getFidelityCardSelected() {
+		return fidelityCardSelected;
+	}
+
+	public void setFidelityCardSelected(FidelityCardDTO fidelityCardSelected) {
+		this.fidelityCardSelected = fidelityCardSelected;
+	}
 
 	public List<AccountDTO> getListAccount() {
 		return listAccount;
