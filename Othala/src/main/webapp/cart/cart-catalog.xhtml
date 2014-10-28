@@ -64,7 +64,7 @@
 										<h:outputText value="#{msg.catalog_size}" />
 										<h:selectOneMenu styleClass="form-control"
 											value="#{cartFlowBean.catalog.size}">
-											<f:selectItems value="#{applicationBean.getSizes()}"></f:selectItems>
+											<f:selectItems value="#{cartFlowBean.getSizes()}"></f:selectItems>
 										</h:selectOneMenu>
 									</div>
 								</div>
@@ -74,7 +74,7 @@
 										<h:outputText value="#{msg.catalog_color}" />
 										<h:selectOneMenu styleClass="form-control"
 											value="#{cartFlowBean.catalog.color}">
-											<f:selectItems value="#{applicationBean.colors}"></f:selectItems>
+											<f:selectItems value="#{cartFlowBean.getColors()}"></f:selectItems>
 										</h:selectOneMenu>
 									</div>
 								</div>
@@ -84,7 +84,7 @@
 										<h:outputText value="Brand" />
 										<h:selectOneMenu styleClass="form-control"
 											value="#{cartFlowBean.catalog.brand}">
-											<f:selectItems value="#{applicationBean.brands}"></f:selectItems>
+											<f:selectItems value="#{cartFlowBean.getBrands()}"></f:selectItems>
 										</h:selectOneMenu>
 									</div>
 								</div>
