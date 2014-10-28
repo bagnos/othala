@@ -476,7 +476,7 @@ public class InsertProdottiView extends BaseView {
 	}
 
 	public List<AttributeDTO> completeTaglia(String query) {
-		return getAutoUtils().completeTaglia(query, tipo);
+		return getAutoUtils().completeTaglia(query);
 	}
 
 	public List<AttributeDTO> completeGenere(String query) {
