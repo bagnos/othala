@@ -1,11 +1,13 @@
 package it.othala.cartflow.model;
 
 import it.othala.dto.ArticleFullDTO;
+import it.othala.dto.AttributeDTO;
 import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryCostDTO;
 import it.othala.dto.NazioniDTO;
 import it.othala.dto.ProductCarouselDTO;
 import it.othala.dto.ProductFullNewDTO;
+import it.othala.web.utils.OthalaUtil;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -15,6 +17,7 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.event.ActionEvent;
+import javax.faces.model.SelectItem;
 
 //@Named
 // @javax.faces.flow.FlowScoped("cartFlow")
@@ -23,6 +26,7 @@ import javax.faces.event.ActionEvent;
 @javax.faces.bean.SessionScoped
 public class CartFlowBean implements Serializable {
 
+	
 	/**
 	 * 
 	 */
@@ -46,6 +50,106 @@ public class CartFlowBean implements Serializable {
 	private String coupon;
 	private List<ProductCarouselDTO> carouselList;
 	private List<NazioniDTO> nazioni;
+	
+	
+	private List<SelectItem> colors = null;
+	private List<SelectItem> brands = null;
+	private List<SelectItem> sizes = null;
+	private List<AttributeDTO> brandDTO = null;
+	private List<AttributeDTO> colorDTO = null;
+	private List<AttributeDTO> sizeDTO = null;
+	
+	
+	
+	
+	public List<AttributeDTO> getColorDTO() {
+		return colorDTO;
+	}
+
+
+	public void setColorDTO(List<AttributeDTO> colorDTO) {
+		this.colorDTO = colorDTO;
+	}
+
+
+	public List<AttributeDTO> getSizeDTO() {
+		return sizeDTO;
+	}
+
+
+	public void setSizeDTO(List<AttributeDTO> sizeDTO) {
+		this.sizeDTO = sizeDTO;
+	}
+
+
+	
+	
+	public List<AttributeDTO> getBrandDTO() {
+		return brandDTO;
+	}
+
+
+	public void setBrandDTO(List<AttributeDTO> brandDTO) {
+		this.brandDTO = brandDTO;
+	}
+
+
+	public List<SelectItem> getBrands() {
+			brands=new ArrayList<>();
+			brands.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseBrand")));
+
+			for (AttributeDTO att : brandDTO) {
+				brands.add(new SelectItem(att.getAttributo(), att.getValore()));
+			}
+
+		return brands;
+	}
+	
+
+	public List<SelectItem> getSizes() {
+
+
+			sizes=new ArrayList<>();
+			sizes.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseSize")));
+
+			for (AttributeDTO att : sizeDTO) {
+				sizes.add(new SelectItem(att.getAttributo(), att.getValore()));
+			}
+
+
+		return sizes;
+	}
+
+	
+
+
+	public List<SelectItem> getColors() {
+
+			colors=new ArrayList<>();
+			colors.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseColor")));
+			for (AttributeDTO att : colorDTO) {
+				colors.add(new SelectItem(att.getAttributo(), att.getValore()));
+		}
+		return colors;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 
