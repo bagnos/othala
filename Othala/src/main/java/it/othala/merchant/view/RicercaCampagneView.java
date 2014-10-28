@@ -139,7 +139,7 @@ public class RicercaCampagneView extends BaseView {
 
 	private void updateProdutcCampaigns() {
 		prdCampaign = OthalaFactory.getProductServiceInstance().getListProduct(getLang(), null, null, null, null, null,
-				null, null, null, null, selectCampaign.getIdCampaign(), true);
+				null, null, null, null, selectCampaign.getIdCampaign(), true).getProdotti();
 	}
 
 	public void conferma(ActionEvent e) {
