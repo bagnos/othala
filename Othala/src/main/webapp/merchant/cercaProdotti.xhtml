@@ -348,7 +348,7 @@
 						<p:commandButton styleClass="ui-priority-primary" validateClient="true" value="CONFERMA"
 							process="dataDa dataA sconto descrizione @this"
 							oncomplete="if (#{not facesContext.validationFailed}) PF('newCampaign').hide();"
-							actionListener="#{ricercaProdottiView.creaCampagna}" update=" msgNewCampaign"></p:commandButton>
+							actionListener="#{ricercaProdottiView.creaCampagna}" update="@form"></p:commandButton>
 					</div>
 				</div>
 			</p:dialog>
