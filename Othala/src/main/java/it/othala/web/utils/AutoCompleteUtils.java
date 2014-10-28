@@ -23,7 +23,8 @@ public class AutoCompleteUtils implements Serializable {
 	}
 
 	public List<AttributeDTO> completeGenere(String query) {
-		List<AttributeDTO> allAttributeDTO = getBeanApplication().getGenderDTO();
+		List<AttributeDTO> allAttributeDTO = getBeanApplication()
+				.getGenderDTO();
 		List<AttributeDTO> filteredAttributeDTO = new ArrayList<AttributeDTO>();
 
 		for (int i = 0; i < allAttributeDTO.size(); i++) {
@@ -36,17 +37,16 @@ public class AutoCompleteUtils implements Serializable {
 		return filteredAttributeDTO;
 	}
 
-	public List<AttributeDTO> completeTaglia(String query, AttributeDTO tipo) {
+	public List<AttributeDTO> completeTaglia(String query) {
 		List<AttributeDTO> filteredSize = new ArrayList<AttributeDTO>();
-		if (tipo != null) {
-			List<AttributeDTO> allSize = getBeanApplication().getSizesDTO(tipo.getAttributo().intValue());
+			List<AttributeDTO> allSize = getBeanApplication().getSizesDTO();
 
 			for (int i = 0; i < allSize.size(); i++) {
 				AttributeDTO attr = allSize.get(i);
 				if (attr.getValore().toLowerCase().startsWith(query.toLowerCase())) {
 					filteredSize.add(attr);
 				}
-			}
+			
 		}
 
 		return filteredSize;
@@ -125,21 +125,24 @@ public class AutoCompleteUtils implements Serializable {
 
 	public static List<AccountDTO> completeAccountDTO(String query) {
 
-		List<AccountDTO> filteredAccount = OthalaFactory.getAccountServiceInstance().findAccount(query.trim(), null);
+		List<AccountDTO> filteredAccount = OthalaFactory
+				.getAccountServiceInstance().findAccount(query.trim(), null);
 		return completeAccountDTO(filteredAccount);
-		
+
 	}
 
-	public static List<AccountDTO> completeAccountDTO(List<AccountDTO> filteredAccount) {
+	public static List<AccountDTO> completeAccountDTO(
+			List<AccountDTO> filteredAccount) {
 
-	
-		OthalaUtil.getSessionMap().put(Constants.SESSION_KEY_COMPLETE_ACCOUNT, filteredAccount);
+		OthalaUtil.getSessionMap().put(Constants.SESSION_KEY_COMPLETE_ACCOUNT,
+				filteredAccount);
 
 		return filteredAccount;
 	}
 
 	public static List<AccountDTO> getAccountCompleteSession() {
-		return (List<AccountDTO>) OthalaUtil.getSessionMap().get(Constants.SESSION_KEY_COMPLETE_ACCOUNT);
+		return (List<AccountDTO>) OthalaUtil.getSessionMap().get(
+				Constants.SESSION_KEY_COMPLETE_ACCOUNT);
 	}
 
 	public static AccountDTO findAccountDTO(String value) {
