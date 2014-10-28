@@ -1128,6 +1128,36 @@ background
 /* ================================================================================================ 
 	CUSTOM BOOTSTRAP 
 ================================================================================================*/
+#merchant-breadcrumb.breadcrumb {
+  margin: 0;
+  background-color: transparent;
+  border-radius: 0;
+ 
+}
+
+#merchant-breadcrumb.breadcrumb > li + li:before {
+  color: black;
+}
+
+#merchant-breadcrumb.breadcrumb > .active {
+  color: black !important;
+  cursor: default !important;
+   font-size: 11px;
+  text-transform: uppercase;
+}
+
+#merchant-breadcrumb.breadcrumb>li>a:hover {
+text-decoration: none;
+cursor: pointer !important;
+}
+#merchant-breadcrumb.breadcrumb>li>a {
+color: black !important;
+text-decoration: none;
+
+}
+#merchant-breadcrumb>li>a:hover, a:focus {
+text-decoration: underline;
+}
 .control-label {
 	text-align: left !important;
 }
@@ -1157,6 +1187,7 @@ background
             list-style:none;
 
 }
+
 
 
 
