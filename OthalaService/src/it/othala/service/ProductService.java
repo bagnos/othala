@@ -10,6 +10,7 @@ import it.othala.dto.MenuFullDTO;
 import it.othala.dto.ProductFullNewDTO;
 import it.othala.dto.ShopDTO;
 import it.othala.dto.SubMenuDTO;
+import it.othala.dto.VetrinaDTO;
 import it.othala.enums.OrderByCartFlow;
 import it.othala.service.interfaces.IProductService;
 
@@ -165,9 +166,10 @@ public class ProductService implements IProductService {
 		return domainDTO;
 
 	}
+	
 
 	@Override
-	public List<ProductFullNewDTO> getListProduct(String languages,
+	public VetrinaDTO getListProduct(String languages,
 			Integer gender, Integer type, Integer brand, BigDecimal minPrice,
 			BigDecimal maxPrice, Integer size, Integer color,
 			Boolean newArrivals, OrderByCartFlow order, Integer idCampaign,
@@ -198,8 +200,22 @@ public class ProductService implements IProductService {
 			listProduct.get(i).setColor(newString);
 
 		}
+		
+		
+		VetrinaDTO vetrinaDTO = new VetrinaDTO();
+		vetrinaDTO.setProdotti(listProduct);
+		vetrinaDTO.setSize(productDAO.listSizeProduct(languages,
+				type, gender, brand, minPrice, maxPrice, size, color,
+				newArrivals, order, idCampaign, fgCampaign));
+		vetrinaDTO.setColor(productDAO.listColorProduct(languages,
+				type, gender, brand, minPrice, maxPrice, size, color,
+				newArrivals, order, idCampaign, fgCampaign));
+		vetrinaDTO.setBrand(productDAO.listBrandProduct(languages,
+				type, gender, brand, minPrice, maxPrice, size, color,
+				newArrivals, order, idCampaign, fgCampaign));
 
-		return listProduct;
+
+		return vetrinaDTO;
 
 	}
 

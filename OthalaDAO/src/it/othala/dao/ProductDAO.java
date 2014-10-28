@@ -939,4 +939,64 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 
 	}
 
+	@Override
+	public List<AttributeDTO> listSizeProduct(String languages, Integer type,
+			Integer gender, Integer brand, BigDecimal minPrice,
+			BigDecimal maxPrice, Integer size, Integer color,
+			Boolean newArrivals, OrderByCartFlow order, Integer idCampaign,
+			Boolean fgCampaign) {
+		
+		HashMap<String, Object> mapProduct = new HashMap<>();
+		mapProduct.put("languages", languages);
+		mapProduct.put("type", type);
+		mapProduct.put("gender", gender);
+		mapProduct.put("newArrivals", newArrivals);
+		mapProduct.put("idCampaign", idCampaign);
+		mapProduct.put("fgCampaign", fgCampaign);
+
+
+		return getSqlSession().selectList(
+				"it.othala.product.queries.listSizeProduct", mapProduct);
+
+		
+	}
+
+	@Override
+	public List<AttributeDTO> listColorProduct(String languages, Integer type,
+			Integer gender, Integer brand, BigDecimal minPrice,
+			BigDecimal maxPrice, Integer size, Integer color,
+			Boolean newArrivals, OrderByCartFlow order, Integer idCampaign,
+			Boolean fgCampaign) {
+		HashMap<String, Object> mapProduct = new HashMap<>();
+		mapProduct.put("languages", languages);
+		mapProduct.put("type", type);
+		mapProduct.put("gender", gender);
+		mapProduct.put("newArrivals", newArrivals);
+		mapProduct.put("idCampaign", idCampaign);
+		mapProduct.put("fgCampaign", fgCampaign);
+
+
+		return getSqlSession().selectList(
+				"it.othala.product.queries.listColorProduct", mapProduct);
+	}
+
+	@Override
+	public List<AttributeDTO> listBrandProduct(String languages, Integer type,
+			Integer gender, Integer brand, BigDecimal minPrice,
+			BigDecimal maxPrice, Integer size, Integer color,
+			Boolean newArrivals, OrderByCartFlow order, Integer idCampaign,
+			Boolean fgCampaign) {
+		HashMap<String, Object> mapProduct = new HashMap<>();
+		mapProduct.put("languages", languages);
+		mapProduct.put("type", type);
+		mapProduct.put("gender", gender);
+		mapProduct.put("newArrivals", newArrivals);
+		mapProduct.put("idCampaign", idCampaign);
+		mapProduct.put("fgCampaign", fgCampaign);
+
+
+		return getSqlSession().selectList(
+				"it.othala.product.queries.listBrandProduct", mapProduct);
+	}
+
 }
