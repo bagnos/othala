@@ -1,0 +1,1165 @@
+/* ================================================================================================ 
+	CUSTOM PRIMEFACES
+================================================================================================*/
+.ui-widget {
+	font-size: 95% !important;
+	font-family: playregular !important;
+}
+
+.ui-galleria-panel {
+	text-align: center !important;
+}
+
+.ui-tooltip {
+	font-weight: lighter !important;;
+	color: #777 !important;;
+	line-height: 1.5em !important;;
+	font-size: 14px !important;;
+	background-color: #f7f7f7 !important;
+	border-left: 1px solid #ddd !important;
+	border-right: 1px solid #ddd !important;
+	border-bottom: 1px solid #ddd !important;
+	padding: 8px !important;;
+	-moz-border-radius: 0px;
+	-webkit-border-radius: 0px;
+	border-radius: 0px;
+	-webkit-box-shadow: 0 0px 0px rgba(0, 0, 0, 0.2) !important;
+	-moz-box-shadow: 0 0px 0px rgba(0, 0, 0, 0.2) !important;
+	box-shadow: 0 0px 0px rgba(0, 0, 0, 0.2) !important;
+}
+
+.ui-slider-handle {
+	z-index: 1 !important;
+}
+
+.ui-radiobutton-icon {
+	margin: 0px !important;
+}
+
+#frmImages .ui-widget-header {
+	border: none !important;;
+	background: transparent !important;
+}
+
+#frmImages .ui-widget-content {
+	border: none !important;;
+}
+
+.ui-fileupload-files {
+	display: none !important;
+}
+
+/* ================================================================================================ 
+	FINE CUSTOM PRIMEFACES
+================================================================================================*/
+
+/* ================================================================================================ 
+	GENERICHE
+================================================================================================*/
+.truncate {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+	-ms-text-overflow: ellipsis;
+}
+
+.sel-thumbinal {
+	border-color: #3c763d;
+	border-style: solid;
+	border-width: 3px;
+	padding: 1px;
+	margin-right: 2px;
+}
+
+.container-sel-thumbinal {
+	width: 88px !important;
+	height: 92px !important;
+	border-color: rgb(204, 204, 204);
+}
+
+.form-titoli {
+	margin-bottom: 15px;
+	border-bottom: 2px solid #357ebd;
+	padding-bottom: 10px;
+}
+
+.mleft-addr {
+	margin-left: 0.3em;
+}
+
+.emptyPnl {
+	border: none !important;
+	margin: 0px !important;
+	padding: 0px !important;
+}
+
+.onSale {
+	text-decoration: line-through;
+	color: #900;
+}
+
+.newPromo1 {
+	height: 40px;
+	width: 40px;
+	min-height: 32px;
+	min-width: 32px;
+	padding-top: 5px;
+	padding-left: 0px;
+	font-size: 10px;
+	font-weight: normal;
+	text-align: center;
+	line-height: 32px;
+	top: 6px;
+	left: 6px;
+	margin: 0;
+	border-radius: 20px;
+	background: rgb(214, 12, 214);
+	-text-shadow: 0 -1px 0 #85ad74;
+	color: #fff;
+	-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), inset 0 -1px 0
+		rgba(0, 0, 0, .2), 0 1px 2px rgba(0, 0, 0, .2);
+}
+
+.newPromo2 {
+	height: 40px;
+	width: 40px;
+	min-height: 32px;
+	min-width: 32px;
+	padding: 4px;
+	font-size: 14px;
+	font-weight: normal;
+	text-align: center;
+	line-height: 32px;
+	top: 6px;
+	left: 6px;
+	margin: 0;
+	border-radius: 20px;
+	background: orange;
+	-text-shadow: 0 -1px 0 #85ad74;
+	color: #fff;
+	-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), inset 0 -1px 0
+		rgba(0, 0, 0, .2), 0 1px 2px rgba(0, 0, 0, .2);
+}
+
+.newPromo3 {
+	height: 40px;
+	width: 40px;
+	min-height: 32px;
+	min-width: 32px;
+	padding: 4px;
+	font-size: 14px;
+	font-weight: normal;
+	text-align: center;
+	line-height: 32px;
+	top: 6px;
+	left: 6px;
+	margin: 0;
+	border-radius: 20px;
+	background: red;
+	-text-shadow: 0 -1px 0 #85ad74;
+	color: #fff;
+	-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), inset 0 -1px 0
+		rgba(0, 0, 0, .2), 0 1px 2px rgba(0, 0, 0, .2);
+}
+
+.newFlag2 {
+	height: 40px;
+	width: 40px;
+	min-height: 32px;
+	min-width: 32px;
+	padding: 4px;
+	font-size: 14px;
+	font-weight: normal;
+	text-align: center;
+	line-height: 32px;
+	top: 6px;
+	left: 6px;
+	margin: 0;
+	border-radius: 20px;
+	background: green;
+	-text-shadow: 0 -1px 0 #85ad74;
+	color: #fff;
+	-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), inset 0 -1px 0
+		rgba(0, 0, 0, .2), 0 1px 2px rgba(0, 0, 0, .2);
+}
+
+.thumbnailCar {
+	width: 200px;
+	height: 266px;
+	overflow: hidden; /* contain images within thumbnail boundaries */
+	border: 0; /* removes Bootstrap's default border */
+	box-shadow: 0 12px 12px -10px #c4c4c4;
+	-webkit-box-shadow: 0 17px 22px -20px #c4c4c4;
+	-moz-box-shadow: 0 12px 12px -10px #c4c4c4;
+}
+
+.thumbnailCar img {
+	width: 100%;
+	height: auto;
+} /* to keep proportions */
+.thumbnailsCar p {
+	text-align: center;
+	padding: 10px;
+} /* captions can be styled with an inline element */
+.thumbnailsCar {
+	list-style-type: none;
+}
+
+.w120 {
+	width: 120px;
+}
+
+.label-control {
+	display: inline-block;
+	width: 80px;
+	margin-right: 10px;
+	word-wrap: break-word;
+}
+
+.articolo-sel .form-group {
+	width: 160px;
+}
+
+.img-small-cart {
+	width: 95px;
+	height: 126px;
+	float: left
+}
+
+#fb-like.form-group {
+	width: 90px;
+}
+
+.spacer10 {
+	margin-top: 10px;
+}
+
+.spacer20 {
+	margin-top: 20px !important;
+}
+
+.spacer30 {
+	margin-top: 30px;
+}
+
+#cartTable thead {
+	text-transform: uppercase;
+}
+
+#cartTable tfoot {
+	text-transform: uppercase;
+}
+
+.paypal-checkout {
+	background-image:
+		url('https://www.paypal.com/it_IT/IT/i/btn/btn_xpressCheckout.gif');
+}
+
+/* ================================================================================================ 
+	FINE GENERICHE
+================================================================================================*/
+
+/* ================================================================================================ 
+	INIZIO THUMBINALS
+================================================================================================*/
+.articolo>h5,h6 {
+	margin: 2px !important;
+}
+
+.articolo>h6 {
+	margin: 2px !important;
+	font-weight: lighter !important;;
+	color: #999 !important;;
+	line-height: 1em;
+	font-size: .8em;
+}
+
+.articolo .price {
+	margin: 5% 0 0 0;
+}
+
+.caption.articolo {
+	height: 86px;
+	overflow: hidden;
+}
+
+.thumbnail.thumbnail-home {
+	border: none !important;
+}
+
+/* ================================================================================================ 
+	FINE THUMBINALS
+================================================================================================*/
+
+/* ================================================================================================ 
+	INIZIO BREACRUMB
+================================================================================================*/
+.breadcrumb {
+	margin-top: 10px;
+	font-size: 10px;
+	float: left !important;
+	background-color: transparent !important;
+}
+
+.breadcrumb>li+li:before {
+	color: black !important;;;
+}
+
+.breadcrumb>li>a {
+	color: black !important;;;
+	cursor: default !important;
+}
+
+.breadcrumb.breadcrumbLink>li>a.active {
+	cursor: pointer !important;
+}
+
+.breadcrumb>li>a.glyphicon-home {
+	cursor: pointer !important;
+}
+
+.breadcrumb>li>a:hover {
+	text-decoration: none;
+	!
+	important;;
+}
+
+.breadcrumb>li.active {
+	color: black !important;;
+}
+
+/* ================================================================================================ 
+	FINE BREACRUMB
+================================================================================================*/
+
+/* ================================================================================================ 
+	INIZIO TAB NAV BAR 
+================================================================================================*/
+
+
+.nav-tabs>li>a {
+	font-family: playregular !important;
+	
+	font-size: 18px !important;
+	color:rgb(102, 102, 102);
+}
+
+#newArr {
+	color: green !important;
+}
+
+#promo {
+	color: red !important;
+}
+
+#tab-content a {
+	font-family: playregular !important;
+	
+	font-size: 13px !important;;
+	color: #888 !important;;
+	padding: 0 0 0 11px;
+	background: url('./images/tabNav/arw_link.gif') no-repeat left
+		!important;
+}
+
+#content {
+	padding-top: 20px !important;;
+	padding-bottom: 20px !important;;
+}
+
+#contentTabNav {
+	padding-top: 20px !important;;
+}
+
+.nav-tabs>li.active>a {
+	background-color: #f9f9f9 !important;
+}
+
+#tab-content .tab-pane a:HOVER {
+	text-decoration: none !important;;
+}
+
+#tab-content {
+	z-index: 2 !important;
+	position: absolute !important;
+	width: 1141px !important;
+	-moz-box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.16);
+	-webkit-box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.16);
+	box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.16);
+	overflow: hidden;
+	background: #f9f9f9 !important;
+}
+
+#tab-content .tab-pane.active {
+	background-color: #f9f9f9 !important;
+	border-left: 1px solid #ddd !important;
+	border-right: 1px solid #ddd !important;
+	border-bottom: 1px solid #ddd !important;
+	padding: 18px;
+	color: #999 !important;
+	font-size: 13px !important;
+}
+
+/* ================================================================================================ 
+	FINE TAB NAV 
+================================================================================================*/
+
+/* ================================================================================================ 
+	INIZIO CAROSELLE HOME 
+================================================================================================*/
+.carousel {
+	/*border-top: 3px solid #357ebd;*/
+	border-top: none;
+	overflow: hidden !important;;
+	position: relative !important;;
+	border-right: none !important;
+	border-left: none !important;
+	border-bottom: none !important;
+	margin-top: 10px !important;
+	-moz-border-radius: 0px !important;
+	-webkit-border-radius: 0px !important;
+	border-radius: 0px !important;
+}
+
+.ui-carousel-header {
+	display: none !important;
+}
+
+.ui-carousel-viewport>li {
+	margin-left: 0px !important;
+}
+
+.ui-carousel-viewport {
+	position: relative !important;
+	overflow: hidden !important;
+}
+
+/* ================================================================================================ 
+	FINE CAROSELLO HOME 
+================================================================================================*/
+.foot1-title {
+	font-family: playregular !important;
+	color: #666666;
+	font-size: 14px;
+	padding: 0px 0px 7px 0px;
+	border-bottom: 1px dotted #444;
+	text-transform: uppercase;
+	font-weight: normal;
+	margin-top: 0px;
+}
+
+.foot2-line {
+	font-family: playregular !important;
+	color: #666666 !important;
+	font-size: 12px;
+	font-weight: normal;
+	line-height: 18px;
+}
+
+.newArrivals {
+	color: black;
+	font-size: 72px;
+	padding: 0px 0px 7px 0px;
+	border-bottom: 1px dotted #444;
+	text-transform: uppercase;
+	font-weight: bold;
+	margin-top: 2px;
+}
+
+/* ================================================================================================ 
+	INIZIO STICKY FOOTER 
+================================================================================================*/
+html,body,form {
+	height: 100% !important;;;
+}
+
+#wrap {
+	min-height: 100%;
+	height: auto !important;;
+	/* Negative indent footer by its height */
+	margin: 0 auto -230px;
+	/* Pad bottom by footer height */
+	padding: 0 0 230px;
+}
+
+/* Set the fixed height of the footer here */
+#footer {
+	height: auto !important;
+	background-color: #f6f6f6;
+	padding: 30px;
+	font-size: 12px !important;
+	border-top: 1px solid #DDD;
+	margin-top: 20px !important;
+	width: 100%;
+}
+
+#row-copy {
+	margin-top: 20px;
+	border-top: 1px solid #DDD;
+	padding-top: 20px;
+}
+
+/* ================================================================================================ 
+	FINE STICKY FOOTER 
+================================================================================================*/
+.body {
+	font-family: playregular !important;
+}
+
+/* ================================================================================================ 
+	INIZIO WIZARD CHECKOUT CARELLO 
+================================================================================================*/
+.bwizard-steps {
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	background: #fff
+}
+
+.bwizard-steps .active {
+	color: #fff;
+	background: #007ACC
+}
+
+.bwizard-steps .active:after {
+	border-left-color: #007ACC
+}
+
+.bwizard-steps .active a {
+	color: #fff;
+	cursor: default
+}
+
+.bwizard-steps .label {
+	position: relative;
+	color: #333;
+	top: -1px;
+	margin: 0 5px 0 0;
+	padding: 1px 5px 2px;
+	top: -1px;
+}
+
+.bwizard-steps .active .label {
+	background-color: #333;
+	color: white;
+}
+
+.bwizard-steps li {
+	display: inline-block;
+	position: relative;
+	margin-right: 5px;
+	padding: 12px 17px 10px 30px;
+	*display: inline;
+	*padding-left: 17px;
+	background: #efefef;
+	line-height: 18px;
+	list-style: none;
+	zoom: 1;
+}
+
+.bwizard-steps li:first-child {
+	padding-left: 12px;
+	-moz-border-radius: 4px 0 0 4px;
+	-webkit-border-radius: 4px 0 0 4px;
+	border-radius: 4px 0 0 4px;
+}
+
+.bwizard-steps li:first-child:before {
+	border: none
+}
+
+.bwizard-steps li:last-child {
+	margin-right: 0;
+	-moz-border-radius: 0 4px 4px 0;
+	-webkit-border-radius: 0 4px 4px 0;
+	border-radius: 0 4px 4px 0;
+}
+
+.bwizard-steps li:last-child:after {
+	border: none
+}
+
+.bwizard-steps li:before {
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 0;
+	width: 0;
+	border-bottom: 20px inset transparent;
+	border-left: 20px solid #fff;
+	border-top: 20px inset transparent;
+	content: ""
+}
+
+.bwizard-steps li:after {
+	position: absolute;
+	right: -20px;
+	top: 0;
+	height: 0;
+	width: 0;
+	border-bottom: 20px inset transparent;
+	border-left: 20px solid #efefef;
+	border-top: 20px inset transparent;
+	content: "";
+	z-index: 1;
+}
+
+#startNode {
+	display: inline-block;
+	position: relative;
+	margin-right: 5px;
+	padding: 12px 17px 10px 30px;
+	*display: inline;
+	*padding-left: 17px;
+	background: #efefef;
+	line-height: 18px;
+	list-style: none;
+	zoom: 1;
+	padding-left: 12px;
+	-moz-border-radius: 4px 0 0 4px;
+	-webkit-border-radius: 4px 0 0 4px;
+	border-radius: 4px 0 0 4px;
+	margin-right: 20px;
+}
+
+/*
+#startNode .label {
+	position: relative;
+	color: #333; top : -1px;
+	margin: 0 5px 0 0;
+	padding: 1px 5px 2px;
+	top: -1px;
+}
+
+#startNode:after {
+	position: absolute;
+	right: -20px;
+	top: 0;
+	height: 0;
+	width: 0;
+	border-bottom: 20px inset transparent;
+	border-left: 20px solid #efefef;
+	border-top: 20px inset transparent;
+	content: "";
+	z-index: 1;
+}*/
+.bwizard-steps a {
+	color: #333
+}
+
+.bwizard-steps a:hover {
+	text-decoration: none;
+	cursor: default;
+}
+
+.bwizard-steps li:first-child a:hover {
+	cursor: pointer !important;
+}
+
+.bwizard-steps
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.clickable
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+li
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+:not
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+(
+.active
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+)
+{
+cursor
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+:
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+pointer
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+.bwizard-steps
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.clickable
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+li
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+:hover
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+:not
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+(
+.active
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+)
+{
+background
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+:
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+#ccc
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+.bwizard-steps.clickable li:hover:not (.active ):after {
+	border-left-color: #ccc
+}
+
+.bwizard-steps.clickable li:hover:not (.active ) a {
+	color: #08c
+}
+
+@media ( max-width : 480px) {
+	/* badges only on small screens */
+	.bwizard-steps li:after,.bwizard-steps li:before {
+		border: none
+	}
+	.bwizard-steps li,.bwizard-steps li.active,.bwizard-steps li:first-child,.bwizard-steps li:last-child
+		{
+		margin-right: 0;
+		padding: 0;
+		background-color: transparent
+	}
+	.bwizard-steps .active a {
+		color: #333;
+		cursor: default
+	}
+}
+
+/* ================================================================================================ 
+	FINE WIZARD CHECKOUT CARELLO 
+================================================================================================*/
+
+/* RESPONSIVE */
+@media ( min-width : 992px) {
+	#logo {
+		position: absolute; top : -5px; right : 15px;
+		z-index: 29;
+		top: -5px;
+		right: 15px;
+	}
+}
+
+}
+}
+@media ( min-width : 768px) {
+	.articolo-sel {
+		margin-top: 6px;
+		margin-bottom: 6px;
+	}
+	#logo {		
+		position:static;
+		z-index: 29;
+		margin-bottom:5px;
+		
+	}
+	
+}
+
+/* Lastly, apply responsive CSS fixes as necessary */
+@media ( max-width : 767px) {
+	#logo {		
+		position:static;
+		z-index: 29;
+		margin-bottom:5px;
+		
+	}
+	#content {
+		padding-top: 2px !important;
+		padding-bottom: 2px !important;
+	}
+	#contentTabNav {
+		padding-top: 0px !important;;
+	}
+	#footer {
+		height: auto !important;;
+		margin-top: 2px !important;
+		padding: 2px;
+	}
+	body {
+		padding-right: 0px;
+		padding-left: 0px;
+	}
+	#wrap {
+		margin: 0px !important;
+		padding: 0px !important;
+	}
+	.panel-group {
+		margin: 2px !important
+	}
+	#row-copy {
+		margin-left: 2px;
+		border-top: 1px solid #DDD;
+	}
+	.btn-articolo-sel {
+		margin-top: 6px;
+		margin-bottom: 6px;
+	}
+	.articolo-sel {
+		margin-top: 6px;
+		margin-bottom: 6px;
+	}
+} 
+
+/* ================================================================================================ 
+	CUSTOM BOOTSTRAP 
+================================================================================================*/
+.control-label {
+	text-align: left !important;
+}
+.navbar-nav > li > a {padding-top:5px !important; padding-bottom:5px !important;}
+.navbar {min-height:32px !important}
+
+
+.tumblr_body
+
+{
+
+
+            font-size:16px;
+            line-height:1.5em;
+
+            
+
+}
+
+.tumblr_post
+
+{
+                        
+            padding: 15px;
+            line-height:1.5em;
+            font-size:20px;
+            list-style:none;
+
+}
+
+
+
+
+
+
