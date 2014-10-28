@@ -133,6 +133,24 @@ public interface IProductDAO {
 	public void deleteCampaign(Integer idCampaign);
 
 	public void updateCampaign(CampaignDTO campaign);
+
+	public List<AttributeDTO> listSizeProduct(String languages, Integer type,
+			Integer gender, Integer brand, BigDecimal minPrice,
+			BigDecimal maxPrice, Integer size, Integer color,
+			Boolean newArrivals, OrderByCartFlow order, Integer idCampaign,
+			Boolean fgCampaign);
+
+	public List<AttributeDTO> listColorProduct(String languages, Integer type,
+			Integer gender, Integer brand, BigDecimal minPrice,
+			BigDecimal maxPrice, Integer size, Integer color,
+			Boolean newArrivals, OrderByCartFlow order, Integer idCampaign,
+			Boolean fgCampaign);
+
+	public List<AttributeDTO> listBrandProduct(String languages, Integer type,
+			Integer gender, Integer brand, BigDecimal minPrice,
+			BigDecimal maxPrice, Integer size, Integer color,
+			Boolean newArrivals, OrderByCartFlow order, Integer idCampaign,
+			Boolean fgCampaign);
 	
 
 	

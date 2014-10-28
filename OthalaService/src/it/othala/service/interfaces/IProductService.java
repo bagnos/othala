@@ -1,6 +1,7 @@
 package it.othala.service.interfaces;
 
 import it.othala.dto.ArticleDTO;
+import it.othala.dto.VetrinaDTO;
 import it.othala.dto.CampaignDTO;
 import it.othala.dto.DomainDTO;
 import it.othala.dto.MenuFullDTO;
@@ -26,7 +27,7 @@ public interface IProductService {
 
 	public List<CampaignDTO> getListCampaign();
 
-	public List<ProductFullNewDTO> getListProduct(String languages, Integer gender,
+	public VetrinaDTO getListProduct(String languages, Integer gender,
 			Integer type, Integer brand, BigDecimal minPrice,
 			BigDecimal maxPrice, Integer size, Integer color,
 			Boolean newArrivals, OrderByCartFlow order, Integer idCampaign,
