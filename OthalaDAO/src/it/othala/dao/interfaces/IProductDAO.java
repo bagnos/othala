@@ -2,7 +2,6 @@ package it.othala.dao.interfaces;
 
 import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.AttributeDTO;
-import it.othala.dto.AttributeSizeDTO;
 import it.othala.dto.CampaignDTO;
 import it.othala.dto.ConfigurationDTO;
 import it.othala.dto.MenuDTO;
@@ -27,7 +26,7 @@ public interface IProductDAO {
 	public List<String> listDistinctArticleColor(Integer idProduct,
 			String languages);
 
-	public List<AttributeSizeDTO> listSize(String languages);
+	public List<AttributeDTO> listSize(String languages);
 
 	public List<AttributeDTO> listColor(String languages);
 

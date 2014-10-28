@@ -303,7 +303,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `size` WRITE;
 /*!40000 ALTER TABLE `size` DISABLE KEYS */;
-INSERT INTO `size` VALUES (1,2,'34'),(2,2,'36'),(3,2,'38'),(4,2,'40'),(5,2,'42'),(6,2,'44'),(7,2,'46'),(8,2,'48'),(9,2,'50'),(10,2,'52'),(11,2,'54'),(12,2,'56'),(13,2,'58'),(14,2,'60'),(15,1,'XXS'),(16,1,'XS'),(17,1,'S'),(18,1,'M'),(19,1,'L'),(20,1,'XL'),(21,1,'XXL'),(22,1,'U'),(23,3,'34'),(24,3,'35'),(25,3,'36'),(26,3,'37'),(27,3,'38'),(28,3,'39'),(29,3,'40'),(30,3,'41'),(31,3,'42'),(32,3,'43'),(33,3,'44'),(34,3,'45'),(35,3,'46'),(36,3,'47'),(37,4,'24'),(38,4,'25'),(39,4,'26'),(40,4,'27'),(41,4,'28'),(42,4,'29'),(43,4,'30'),(44,4,'31'),(45,4,'32'),(46,4,'33'),(47,4,'34'),(48,4,'35'),(49,4,'36'),(50,4,'37'),(51,4,'38'),(52,4,'39'),(53,4,'40'),(54,4,'41'),(55,4,'42');
+INSERT INTO `size` VALUES (1,'34'),(2,'36'),(3,'38'),(4,'40'),(5,'42'),(6,'44'),(7,'46'),(8,'48'),(9,'50'),(10,'52'),(11,'54'),(12,'56'),(13,'58'),(14,'60'),(15,'XXS'),(16,'XS'),(17,'S'),(18,'M'),(19,'L'),(20,'XL'),(21,'XXL'),(22,'U'),(23,'34'),(24,'35'),(25,'36'),(26,'37'),(27,'38'),(28,'39'),(29,'40'),(30,'41'),(31,'42'),(32,'43'),(33,'44'),(34,'45'),(35,'46'),(36,'47'),(37,'24'),(38,'25'),(39,'26'),(40,'27'),(41,'28'),(42,'29'),(43,'30'),(44,'31'),(45,'32'),(46,'33'),(47,'34'),(48,'35'),(49,'36'),(50,'37'),(51,'38'),(52,'39'),(53,'40'),(54,'41'),(55,'42');
 /*!40000 ALTER TABLE `size` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -344,19 +344,8 @@ UNLOCK TABLES;
 
 LOCK TABLES `type` WRITE;
 /*!40000 ALTER TABLE `type` DISABLE KEYS */;
-INSERT INTO `type` VALUES (1,'en','ACCESSORIES',1),(1,'it','ACCESSORI',1),(2,'en','SHORTS',4),(2,'it','BERMUDA',4),(3,'en','SHIRTS',2),(3,'it','CAMICIE',2),(4,'en','COATS',2),(4,'it','CAPPOTTI',2),(5,'en','SUITS',2),(5,'it','COMPLETI',2),(6,'en','SWIMWEAR',1),(6,'it','COSTUMI DA BAGNO',1),(7,'en','SWEATSHIRTS',1),(7,'it','FELPE',1),(8,'en','JACKETS',2),(8,'it','GIACCHE',2),(9,'en','LEATHER JACKETS',2),(9,'it','GIACCHE DI PELLE',2),(10,'en','GILET',2),(10,'it','GILET',2),(11,'en','CASUAL JACKETS',2),(11,'it','GIUBBOTTI',2),(12,'en','SKIRTS',2),(12,'it','GONNE',2),(13,'en','UNDERWEAR',1),(13,'it','INTIMO',1),(14,'en','JEANS',4),(14,'it','JEANS',4),(15,'en','KNITWEAR',1),(15,'it','MAGLIERIA',1),(16,'en','PANTS',4),(16,'it','PANTALONI',4),(17,'en','FUR AND SHEARLING',2),(17,'it','PELLICCE E SHEARLING',2),(18,'en','DOWN JACKETS',2),(18,'it','PIUMINI',2),(19,'en','POLOS',1),(19,'it','POLO',1),(20,'en','SHOES',3),(20,'it','SCARPE',3),(21,'en','T-SHIRTS',1),(21,'it','T-SHIRTS',1),(22,'en','VESTS',2),(22,'it','VESTITI',2);
+INSERT INTO `type` VALUES (1,'en','ACCESSORIES'),(1,'it','ACCESSORI'),(2,'en','SHORTS'),(2,'it','BERMUDA'),(3,'en','SHIRTS'),(3,'it','CAMICIE'),(4,'en','COATS'),(4,'it','CAPPOTTI'),(5,'en','SUITS'),(5,'it','COMPLETI'),(6,'en','SWIMWEAR'),(6,'it','COSTUMI DA BAGNO'),(7,'en','SWEATSHIRTS'),(7,'it','FELPE'),(8,'en','JACKETS'),(8,'it','GIACCHE'),(9,'en','LEATHER JACKETS'),(9,'it','GIACCHE DI PELLE'),(10,'en','GILET'),(10,'it','GILET'),(11,'en','CASUAL JACKETS'),(11,'it','GIUBBOTTI'),(12,'en','SKIRTS'),(12,'it','GONNE'),(13,'en','UNDERWEAR'),(13,'it','INTIMO'),(14,'en','JEANS'),(14,'it','JEANS'),(15,'en','KNITWEAR'),(15,'it','MAGLIERIA'),(16,'en','PANTS'),(16,'it','PANTALONI'),(17,'en','FUR AND SHEARLING'),(17,'it','PELLICCE E SHEARLING'),(18,'en','DOWN JACKETS'),(18,'it','PIUMINI'),(19,'en','POLOS'),(19,'it','POLO'),(20,'en','SHOES'),(20,'it','SCARPE'),(21,'en','T-SHIRTS'),(21,'it','T-SHIRTS'),(22,'en','VESTS'),(22,'it','VESTITI');
 /*!40000 ALTER TABLE `type` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
---
--- Dumping data for table `type_size`
---
-
-LOCK TABLES `type_size` WRITE;
-/*!40000 ALTER TABLE `type_size` DISABLE KEYS */;
-INSERT INTO `type_size` VALUES (1,'TAGLIE'),(2,'TAGLIE ITA'),(3,'SCARPE EU'),(4,'PANTALONI US');
-/*!40000 ALTER TABLE `type_size` ENABLE KEYS */;
 UNLOCK TABLES;
 
 

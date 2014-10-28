@@ -10,7 +10,7 @@ public class DomainDTO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private List<AttributeSizeDTO> size;
+	private List<AttributeDTO> size;
 	private List<AttributeDTO> color;
 	private List<AttributeDTO> brand;
 	private List<AttributeDTO> gender;
@@ -32,11 +32,11 @@ public class DomainDTO implements Serializable {
 		this.statesProduct = statesProduct;
 	}
 
-	public List<AttributeSizeDTO> getSize() {
+	public List<AttributeDTO> getSize() {
 		return size;
 	}
 
-	public void setSize(List<AttributeSizeDTO> size) {
+	public void setSize(List<AttributeDTO> size) {
 		this.size = size;
 	}
 

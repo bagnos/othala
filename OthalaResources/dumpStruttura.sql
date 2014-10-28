@@ -568,13 +568,11 @@ DROP TABLE IF EXISTS `size`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `size` (
   `idSize` int(11) NOT NULL,
-  `idTypeSize` int(11) DEFAULT NULL,
   `txSize` varchar(10) DEFAULT NULL,
-  PRIMARY KEY (`idSize`),
-  KEY `fk_Size_Type_Size1` (`idTypeSize`),
-  CONSTRAINT `fk_Size_Type_Size1` FOREIGN KEY (`idTypeSize`) REFERENCES `type_size` (`idTypeSize`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  PRIMARY KEY (`idSize`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `states`
@@ -642,25 +640,8 @@ CREATE TABLE `type` (
   `idType` int(11) NOT NULL AUTO_INCREMENT,
   `idLanguages` varchar(2) NOT NULL,
   `txType` varchar(200) NOT NULL,
-  `idTypeSize` int(11) DEFAULT NULL,
-  PRIMARY KEY (`idType`,`idLanguages`),
-  KEY `fk_Type_Type_Size1` (`idTypeSize`),
-  CONSTRAINT `fk_Type_Type_Size1` FOREIGN KEY (`idTypeSize`) REFERENCES `type_size` (`idTypeSize`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `type_size`
---
-
-DROP TABLE IF EXISTS `type_size`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `type_size` (
-  `idTypeSize` int(11) NOT NULL,
-  `txTypeSize` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`idTypeSize`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`idType`,`idLanguages`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
