@@ -3,6 +3,7 @@ package it.othala.cartflow.view;
 import it.othala.dto.MenuDTO;
 import it.othala.dto.ProductFullNewDTO;
 import it.othala.dto.SubMenuDTO;
+import it.othala.dto.VetrinaDTO;
 import it.othala.enums.OrderByCartFlow;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
@@ -164,28 +165,33 @@ public class CartFlowView1 extends BaseView {
 						.getCatalog().getBrand());
 
 		getCartFlowBean().getCatalog().getArticles().clear();
+		VetrinaDTO vetrinaDTO = OthalaFactory.getProductServiceInstance().getListProduct(
+				getLang(),
+				getCartFlowBean().getCatalog().getIdMenu() == null
+						|| getCartFlowBean().getCatalog().getIdMenu() == 0 ? null : getCartFlowBean()
+						.getCatalog().getIdMenu(),
+				getCartFlowBean().getCatalog().getIdSubMenu() == null
+						|| getCartFlowBean().getCatalog().getIdSubMenu() == 0 ? null : getCartFlowBean()
+						.getCatalog().getIdSubMenu(),
+				getCartFlowBean().getCatalog().getBrand(),
+				new BigDecimal(getCartFlowBean().getCatalog().getPriceMin()),
+				new BigDecimal(getCartFlowBean().getCatalog().getPriceMax()),
+				getCartFlowBean().getCatalog().getSize(),
+				getCartFlowBean().getCatalog().getColor(),
+				getCartFlowBean().getCatalog().getFgNewArrivals(),
+				getCartFlowBean().getCatalog().getOrderPrice() == 1 ? OrderByCartFlow.PREZZODESC
+						: OrderByCartFlow.PREZZOASC,
+				getCartFlowBean().getCatalog().getIdCampaign() == null
+						|| getCartFlowBean().getCatalog().getIdCampaign() == 0 ? null : getCartFlowBean()
+						.getCatalog().getIdCampaign(), getCartFlowBean().getCatalog().isIncludePromo());
 		getCartFlowBean()
 				.getCatalog()
 				.getArticles()
-				.addAll(OthalaFactory.getProductServiceInstance().getListProduct(
-						getLang(),
-						getCartFlowBean().getCatalog().getIdMenu() == null
-								|| getCartFlowBean().getCatalog().getIdMenu() == 0 ? null : getCartFlowBean()
-								.getCatalog().getIdMenu(),
-						getCartFlowBean().getCatalog().getIdSubMenu() == null
-								|| getCartFlowBean().getCatalog().getIdSubMenu() == 0 ? null : getCartFlowBean()
-								.getCatalog().getIdSubMenu(),
-						getCartFlowBean().getCatalog().getBrand(),
-						new BigDecimal(getCartFlowBean().getCatalog().getPriceMin()),
-						new BigDecimal(getCartFlowBean().getCatalog().getPriceMax()),
-						getCartFlowBean().getCatalog().getSize(),
-						getCartFlowBean().getCatalog().getColor(),
-						getCartFlowBean().getCatalog().getFgNewArrivals(),
-						getCartFlowBean().getCatalog().getOrderPrice() == 1 ? OrderByCartFlow.PREZZODESC
-								: OrderByCartFlow.PREZZOASC,
-						getCartFlowBean().getCatalog().getIdCampaign() == null
-								|| getCartFlowBean().getCatalog().getIdCampaign() == 0 ? null : getCartFlowBean()
-								.getCatalog().getIdCampaign(), getCartFlowBean().getCatalog().isIncludePromo()));
+				.addAll(vetrinaDTO.getProdotti());
+		
+						getCartFlowBean().setSizeDTO(vetrinaDTO.getSize());
+						getCartFlowBean().setColorDTO(vetrinaDTO.getColor());
+						getCartFlowBean().setBrandDTO(vetrinaDTO.getBrand());
 		initPaginator(page);
 	}
 
