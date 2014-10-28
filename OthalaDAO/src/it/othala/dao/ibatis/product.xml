@@ -272,20 +272,13 @@
 	</select>
 
 
-	<select id="listSize" resultType="it.othala.dto.AttributeSizeDTO">
+	<select id="listSize" resultType="it.othala.dto.AttributeDTO">
 
-		SELECT c.idType, idSize as
+		SELECT idSize as
 		attributo,txSize as valore
 		FROM
-		${database.schema}size a,
-		${database.schema}type_size b,
-		${database.schema}type c
-		where
-		a.idTypeSize = b.idTypeSize
-		and a.idTypeSize = c.idTypeSize
-		and
-		C.IDLANGUAGES=#{languages}
-		order by 1,2
+		${database.schema}size a
+		order by 2
 
 	</select>
 

@@ -3,7 +3,6 @@ package it.othala.dao;
 import it.othala.dao.interfaces.IProductDAO;
 import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.AttributeDTO;
-import it.othala.dto.AttributeSizeDTO;
 import it.othala.dto.CampaignDTO;
 import it.othala.dto.ConfigurationDTO;
 import it.othala.dto.DescriptionDTO;
@@ -108,10 +107,10 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	}
 
 	@Override
-	public List<AttributeSizeDTO> listSize(String languages) {
+	public List<AttributeDTO> listSize(String languages) {
 		HashMap<String, String> map = new HashMap<>();
 		map.put("languages", languages);
-		List<AttributeSizeDTO> listAttribute = getSqlSession().selectList(
+		List<AttributeDTO> listAttribute = getSqlSession().selectList(
 				"it.othala.product.queries.listSize", map);
 
 		return listAttribute;
