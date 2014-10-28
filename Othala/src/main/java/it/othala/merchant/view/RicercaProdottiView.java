@@ -39,7 +39,8 @@ public class RicercaProdottiView extends BaseView {
 	private UploadedFile file;
 	private Integer idCampaign;
 	List<CampaignDTO> campaigns;
-
+	private CampaignDTO campaignDTO = new CampaignDTO();
+	
 	public Integer getIdCampaign() {
 		return idCampaign;
 	}
@@ -56,7 +57,7 @@ public class RicercaProdottiView extends BaseView {
 		this.file = file;
 	}
 
-	private CampaignDTO campaignDTO = new CampaignDTO();
+	
 
 	public CampaignDTO getCampaignDTO() {
 		return campaignDTO;
@@ -195,7 +196,9 @@ public class RicercaProdottiView extends BaseView {
 			if (campaignDTO.getDtInizio().compareTo(campaignDTO.getDtFine())>=0)
 			{
 				addError("Campagna", "data inizione deve essere inferiore a data fine");
+				return;
 			}
+			
 			
 			List<Integer> idPrds = new ArrayList<>();
 			for (ProductFullNewDTO prd : merchantBean.getSelectedProducts()) {
@@ -221,7 +224,9 @@ public class RicercaProdottiView extends BaseView {
 	}
 
 	public void showCreaCampagna(ActionEvent e) {
-		campaignDTO=null;
+		campaignDTO=new CampaignDTO();
+		campaignDTO.setPcSconto(1);
+		
 		addToCampaign = false;
 		RequestContext.getCurrentInstance().execute("PF('newCampaign').show();");
 		
