@@ -46,9 +46,9 @@
 						<div class="col-sm-3">
 							<h4>Pagato a</h4>
 							<address>
-								Degortes Outlet<br />
-								<a href="mailto:#">degortes@degortes.com</a>
-								<br /> Assistenza <abbr title="Phone">P:</abbr> 0577324544
+								#{msg.nomeMerchant}<br />
+								<a href="mailto:#">#{msg.mailMerchant}</a>
+								<br /> Assistenza <abbr title="Phone">P:</abbr> #{msg.telMerchant}
 							</address>
 						</div>
 					</div>
@@ -166,7 +166,6 @@
 									<p>Signor #{cartConfirmationView.order.nameUser}
 										#{cartConfirmationView.order.surnameUser} le confermiamo che il pagamento è stato
 										effettuato con successo.</p>
-									<footer> Degortes Outlet </footer>
 
 								</blockquote>
 							</div>
