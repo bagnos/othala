@@ -99,7 +99,7 @@ public interface IOrderService {
 
 	public void burnCoupon(String idCoupon) throws Exception;
 	
-	
+	public List<FidelityCardDTO> getFidelityCards(String idFidelity, String txNome, String txCognome, String txEmail) throws Exception;
 	
 	
 	
