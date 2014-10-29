@@ -685,24 +685,24 @@ public class OrderService implements IOrderService {
 	@Override
 	public FidelityCardDTO checkFidelityCard(String idFidelity, String eMail, String celNum)
 			throws FidelityCardNotPresentException, FidelityCardNotValidException {
-		FidelityCardDTO fCard = orderDAO.getFidelityCard(idFidelity);
-		if (fCard == null)
+		List<FidelityCardDTO> fCard = orderDAO.getFidelityCard(idFidelity,null,null,null);
+		if (fCard.get(0) == null)
 			throw new FidelityCardNotPresentException(idFidelity);
 
 		if (eMail != null && !eMail.isEmpty()) {
-			if (fCard.getTxEmail() == null || fCard.getTxEmail().isEmpty())
+			if (fCard.get(0).getTxEmail() == null || fCard.get(0).getTxEmail().isEmpty())
 				throw new FidelityCardNotValidException(idFidelity);
-			if (!fCard.getTxEmail().equals(eMail))
+			if (!fCard.get(0).getTxEmail().equals(eMail))
 				throw new FidelityCardNotValidException(idFidelity);
 		}
 		if (celNum != null && !celNum.isEmpty()) {
-			if (fCard.getTxTel() == null || fCard.getTxTel().isEmpty())
+			if (fCard.get(0).getTxTel() == null || fCard.get(0).getTxTel().isEmpty())
 				throw new FidelityCardNotValidException(idFidelity);
-			if (!fCard.getTxTel().equals(celNum))
+			if (!fCard.get(0).getTxTel().equals(celNum))
 				throw new FidelityCardNotValidException(idFidelity);
 		}
 
-		return fCard;
+		return fCard.get(0);
 	}
 
 	@Override
@@ -887,6 +887,13 @@ public class OrderService implements IOrderService {
 	public void deleteFidelityCard(String idFidelity) throws Exception {
 		orderDAO.deleteFidelityCard(idFidelity);
 		
+	}
+
+	@Override
+	public List<FidelityCardDTO> getFidelityCards(String idFidelity,
+			String txNome, String txCognome, String txEmail) throws Exception {
+	
+		return orderDAO.getFidelityCard(idFidelity, txNome, txCognome, txEmail);
 	}
 
 }
