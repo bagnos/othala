@@ -1,0 +1,277 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<!-- elenco ordini -->
+	<h:panelGroup id="myOrders">
+		<h:panelGroup id="orders" rendered="#{myAccountView.renderDetails==false}">
+			<h:panelGroup rendered="#{myAccountView.orders==null or myAccountView.orders.size()==0}">
+				<div class="col-sm-12">
+					<h5>#{msg.account_myEmptyOrders}</h5>
+				</div>
+			</h:panelGroup>
+			<h:panelGroup rendered="#{myAccountView.orders.size()>0}">
+				<div class="row">
+					<div class="col-sm-11">
+						<div class="table-responsive spacer10">
+							<table class="table" id="cartTable">
+								<thead>
+									<tr>
+										<th class="col-sm-1"></th>
+										<th class="col-sm-2">#{msg.account_nrOrder}</th>
+										<th class="col-sm-4">#{msg.account_nrTrans}</th>
+										<th class="col-sm-2">#{msg.account_imOrder}</th>
+										<th class="col-sm-2">#{msg.account_dtIns}</th>
+										<th class="col-sm-2">#{msg.account_stato}</th>
+
+									</tr>
+								</thead>
+								<tbody>
+									<ui:repeat var="ord" value="#{myAccountView.orders}" varStatus="stBread">
+										<tr>
+
+											<td><h:commandLink title="#{msg.account_detail}">
+													<span class="glyphicon glyphicon-chevron-right"></span>
+													<f:ajax execute="@this" render="myOrders" listener="#{myAccountView.selectOrder}">
+													</f:ajax>
+													<f:param name="idOrderSel" value="#{ord.idOrder}"></f:param>
+													<f:setPropertyActionListener target="#{richiediResoView.order}" value="#{ord}"></f:setPropertyActionListener>
+												</h:commandLink></td>
+
+
+											<td><h:outputText value="#{ord.idOrder}" /></td>
+											<td><h:outputText value="#{ord.idTransaction}" /></td>
+
+											<td><h:outputText value="#{ord.imOrdine}">
+													<f:converter converterId="it.othala.BigDecimalConverter" />
+												</h:outputText></td>
+											<td><h:outputText value="#{ord.dtStato}" /></td>
+											<td><h:outputText value="#{ord.txStato}">
+
+												</h:outputText></td>
+
+
+										</tr>
+									</ui:repeat>
+								</tbody>
+							</table>
+
+						</div>
+					</div>
+				</div>
+			</h:panelGroup>
+
+		</h:panelGroup>
+
+		<!-- dettagli ordine -->
+		<h:panelGroup id="detailOrder" rendered="#{myAccountView.renderDetails}">
+			<div class="row">
+				<div class="col-sm-2">
+					<p:commandButton process="@this" update="myOrders" icon="ui-icon-triangle-1-w"
+						actionListener="#{myAccountView.backToOrders}" value="#{msg.catalogo_back}">
+					</p:commandButton>
+
+				</div>
+				<div class="col-sm-3 col-sm-offset-7">
+
+					<p:menuButton disabled="#{myAccountView.order.idStato!=15}" styleClass="ui-priority-primary"
+						iconPos="right" value="#{msg.account_optionRequest}">
+						<p:menuitem icon="ui-icon-triangle-1-e" url="richiediReso.xhtml?richiedireso=true"
+							value="#{msg.account_returnSetRequest}">
+
+						</p:menuitem>
+						<p:menuitem icon="ui-icon-triangle-1-e" value="#{msg.account_changeRequest}"
+							url="richiediReso.xhtml?richiediCambio=true">
+						
+
+						</p:menuitem>
+					</p:menuButton>
+
+				</div>
+
+			</div>
+
+
+
+			<!-- tipo di spedizione -->
+
+
+			<div class="row spacer20">
+				<div class="col-sm-3">
+					<h4>
+						<strong>#{msg.catalogo_nrOrder}</strong>
+					</h4>
+					#{myAccountView.order.idOrder}
+				</div>
+				<div class="col-sm-3">
+					<h4>
+						<strong>#{msg.catalogo_nrTrans}</strong>
+					</h4>
+					#{myAccountView.order.idTransaction}
+				</div>
+				<div class="col-sm-3">
+					<h4>
+						<strong>Utente</strong>
+					</h4>
+					#{myAccountView.order.idUser}
+				</div>
+				<div class="col-sm-3">
+					<h4>
+						<strong>Stato</strong>
+					</h4>
+					#{myAccountView.order.txStato}
+
+				</div>
+			</div>
+
+
+			<div class="row spacer10">
+				<!-- INDIRIZZO SPEDIZIONE -->
+				<div class="col-sm-6 ">
+					<h5>
+						<strong><h:outputText value="#{msg.delivery_deliveryAddress}" /></strong>
+					</h5>
+
+					<div class="row spacer10">
+						<div class="col-sm-12">
+							<address>
+								#{myAccountView.order.shippingAddress.nome} #{myAccountView.order.shippingAddress.cognome} <br />
+								#{myAccountView.order.shippingAddress.via} <br />
+								#{myAccountView.order.shippingAddress.cap} #{myAccountView.order.shippingAddress.comune}
+								#{myAccountView.order.shippingAddress.provincia}<br />
+								#{myAccountView.order.shippingAddress.nazione}<br /> <span
+									class="glyphicon glyphicon-earphone"></span> #{myAccountView.order.shippingAddress.tel}
+							</address>
+						</div>
+					</div>
+				</div>
+
+
+				<!-- INDIRIZZO FATTURAZIONE -->
+				<div class="col-sm-6">
+
+					<h5>
+						<strong><h:outputText value="#{msg.delivery_invoiceAddress}" /></strong>
+					</h5>
+					<div class="row">
+						<div class="col-sm-12">
+							<address>
+								#{myAccountView.order.billingAddress.nome} #{myAccountView.order.billingAddress.cognome} <br />
+								#{myAccountView.order.billingAddress.via} <br /> #{myAccountView.order.billingAddress.cap}
+								#{myAccountView.order.billingAddress.comune} #{myAccountView.order.billingAddress.provincia}<br />
+								#{myAccountView.order.billingAddress.nazione}<br /> <span
+									class="glyphicon glyphicon-earphone"></span> #{myAccountView.order.billingAddress.tel}
+							</address>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<!-- CARRELLO -->
+			<div class="row">
+				<div class="col-sm-2">
+					<h5>
+						<strong>#{msg.catalogo_cart}</strong>
+					</h5>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="table-responsive">
+						<table class="table" id="cartTable">
+							<thead>
+								<tr>
+									<th class="col-sm-4">#{msg.catalog_article}</th>
+									<th class="col-sm-2">#{msg.catalog_color}</th>
+									<th class="col-sm-1">#{msg.catalog_size}</th>
+									<th class="col-sm-2">#{msg.catalog_price}</th>
+									<th class="col-sm-1">#{msg.catalog_qta}</th>
+									<th class="col-sm-2">#{msg.catalog_totalPrice}</th>
+
+								</tr>
+							</thead>
+							<tfoot>
+
+								<h:panelGroup rendered="#{myAccountView.order.speseSpedizione!=null}">
+									<tr>
+										<td colspan="5" class="text-right"><h:outputText
+												rendered="#{myAccountView.order.speseSpedizione!=null}"
+												value="#{msg.catalog_deliveryCost}" /></td>
+										<td><h:outputText rendered="#{myAccountView.order.speseSpedizione!=null}"
+												value="#{myAccountView.order.speseSpedizione.importoSpese}">
+												<f:converter converterId="it.othala.BigDecimalConverter" />
+											</h:outputText></td>
+									</tr>
+								</h:panelGroup>
+
+								<tr>
+									<td colspan="5" class="text-right"><strong>#{msg.catalog_total}</strong></td>
+									<td><h:outputText value="#{myAccountView.order.imOrdine}">
+											<f:converter converterId="it.othala.BigDecimalConverter" />
+										</h:outputText></td>
+								</tr>
+
+							</tfoot>
+							<tbody>
+								<ui:repeat var="art" value="#{myAccountView.order.cart}" varStatus="stBread">
+									<tr>
+										<td><div class="row">
+												<div class="col-sm-12">
+													<h:graphicImage styleClass="img-responsive img-small-cart"
+														library="images/cartThumbinals" name="#{art.thumbnailsUrl}" />
+													<div class="articolo">
+														<h5>#{art.prdFullDTO.txBrand}</h5>
+														<h6>#{art.prdFullDTO.description}</h6>
+													</div>
+												</div>
+											</div></td>
+										<td><h:outputText value="#{art.txColor}" /></td>
+										<td><h:outputText value="#{art.txSize}" /></td>
+
+										<td><h:outputText value="#{art.prdFullDTO.realPrice}">
+												<f:converter converterId="it.othala.BigDecimalConverter" />
+											</h:outputText></td>
+										<td><h:outputText value="#{art.qtBooked}" /></td>
+										<td><h:outputText value="#{art.totalPriced}">
+												<f:converter converterId="it.othala.BigDecimalConverter" />
+											</h:outputText></td>
+									</tr>
+								</ui:repeat>
+							</tbody>
+						</table>
+
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-2">
+					<p:commandButton process="@this" update="myOrders" icon="ui-icon-triangle-1-w"
+						actionListener="#{myAccountView.backToOrders}" value="#{msg.catalogo_back}">
+					</p:commandButton>
+
+				</div>
+				<div class="col-sm-3 col-sm-offset-7">
+					<p:menuButton disabled="#{myAccountView.order.idStato!=15}" iconPos="right"
+						value="#{msg.account_optionRequest}" styleClass="ui-priority-primary">
+						<p:menuitem icon="ui-icon-triangle-1-e" value="#{msg.account_returnSetRequest}"
+							action="richiediReso.xhtml?richiedireso=true">
+							<f:setPropertyActionListener target="#{richiediResoView.richiedireso}" value="true"></f:setPropertyActionListener>
+						</p:menuitem>
+						<p:menuitem icon="ui-icon-triangle-1-e" value="#{msg.account_changeRequest}"
+							action="richiediReso.xhtml?richiediCambio=true">
+							<f:setPropertyActionListener target="#{richiediResoView.richiediCambio}" value="true"></f:setPropertyActionListener>
+						</p:menuitem>
+					</p:menuButton>
+
+
+				</div>
+			</div>
+
+
+
+
+		</h:panelGroup>
+	</h:panelGroup>
+</ui:composition>
