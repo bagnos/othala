@@ -286,10 +286,32 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO {
 	}
 
 	@Override
-	public FidelityCardDTO getFidelityCard(String idFidelity) {
-		// recupero resi
-		FidelityCardDTO fidelityCard = getSqlSession().selectOne(
-				"it.othala.order.queries.selectFidelityCard", idFidelity);
+	public List<FidelityCardDTO> getFidelityCard(String idFidelity, String txNome, String txCognome, String txEmail) {
+		
+		HashMap<String, Object> mapSelect = new HashMap<String, Object>();
+
+		if(idFidelity != null && !idFidelity.isEmpty()){
+			mapSelect.put("idFidelity", idFidelity);
+		}
+		else{
+			if(txNome != null && !txNome.isEmpty()){
+				mapSelect.put("txNome", txNome);
+			}
+			else{
+				if(txCognome != null && !txCognome.isEmpty()){
+					mapSelect.put("txCognome", txCognome);
+				}
+				else{
+					if(txEmail != null && !txEmail.isEmpty())
+						mapSelect.put("txEmail", txEmail);	
+				}
+					
+			}
+			
+		}
+			
+		List<FidelityCardDTO> fidelityCard = getSqlSession().selectList(
+				"it.othala.order.queries.selectFidelityCard", mapSelect);
 
 		return fidelityCard;
 	}
