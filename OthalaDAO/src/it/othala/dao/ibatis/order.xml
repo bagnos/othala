@@ -535,12 +535,25 @@
 	</update>
 
 	<select id="selectFidelityCard" resultType="it.othala.dto.FidelityCardDTO"
-		parameterType="java.lang.String">
+		parameterType="java.util.HashMap">
 
 		SELECT * FROM
 		${database.schema}FidelityCards
-		WHERE
-		idFidelity = #{idFidelity}
+		<where>
+			<if test="idFidelity != null">
+				idFidelity = #{idFidelity}
+			</if>
+			<if test="txNome != null">
+				txNome = #{txNome}
+			</if>
+			<if test="txCognome != null">
+				txCognome = #{txCognome}
+			</if>
+			<if test="txEmail != null">
+				txEmail = #{txEmail}
+			</if>
+		</where>
+	
 
 	</select>
 

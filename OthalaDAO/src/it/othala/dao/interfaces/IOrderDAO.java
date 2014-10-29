@@ -59,7 +59,7 @@ public interface IOrderDAO {
 	
 	public void updateScontoFidelity(String idFidelity, int pcSconto);
 	
-	public FidelityCardDTO getFidelityCard(String idFidelity);
+	public List<FidelityCardDTO> getFidelityCard(String idFidelity, String txNome, String txCognome, String txEmail);
 
 	public void updateCoupon(CouponDTO couponDTO);
 
