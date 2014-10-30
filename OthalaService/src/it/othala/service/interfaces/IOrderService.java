@@ -62,7 +62,7 @@ public interface IOrderService {
 	
 	public FidelityCardDTO checkFidelityCard(String idFidelity, String eMail, String celNum) throws FidelityCardNotPresentException, FidelityCardNotValidException;
 	
-	public void aggiornaScontoFidelity(String idFidelity, int pcSconto);
+	public void aggiornaFidelity(String idFidelity, Integer pcSconto, String txNome, String txCognome, String txEmail);
 	
 	public void aggiornaQtaCambio(Integer idProduct, Integer pgArticleIn, Integer pgArticleOut);
 	

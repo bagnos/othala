@@ -706,8 +706,8 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public void aggiornaScontoFidelity(String idFidelity, int pcSconto) {
-		orderDAO.updateScontoFidelity(idFidelity, pcSconto);
+	public void aggiornaFidelity(String idFidelity, Integer pcSconto, String txNome, String txCognome, String txEmail) {
+		orderDAO.updateFidelity(idFidelity, pcSconto, txNome, txCognome, txEmail);
 
 	}
 
