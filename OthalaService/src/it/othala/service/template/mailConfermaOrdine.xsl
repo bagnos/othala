@@ -291,7 +291,7 @@
 						<xsl:for-each select="cart/item">
 							<tr>
 								<td>
-									<img style="width: 95px;height: 126px;float: left">
+									<img style="width: 50px;height: 50px;float: left">
 										<xsl:attribute name="src">
     								<xsl:value-of select="img" />
     								</xsl:attribute>
