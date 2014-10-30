@@ -203,13 +203,13 @@ DROP TABLE IF EXISTS `delivery_cost`;
 CREATE TABLE `delivery_cost` (
   `idDeliveryCost` int(11) NOT NULL AUTO_INCREMENT,
   `txDescrizione` varchar(45) DEFAULT NULL,
-  `imSpese` decimal(15,0) DEFAULT NULL,
+  `imSpese` decimal(15,2) DEFAULT NULL,
   `fgDeleted` tinyint(4) DEFAULT NULL,
   `txDescrizioneExt` varchar(250) DEFAULT NULL,
   `txLinkTracking` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`idDeliveryCost`),
   UNIQUE KEY `idDeliveryCost_UNIQUE` (`idDeliveryCost`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -327,8 +327,7 @@ DROP TABLE IF EXISTS `nazioni`;
 CREATE TABLE `nazioni` (
   `idNazione` varchar(100) NOT NULL,
   `idLanguages` varchar(2) NOT NULL,
-  PRIMARY KEY (`idNazione`),
-  UNIQUE KEY `idLanguages_UNIQUE` (`idLanguages`)
+  PRIMARY KEY (`idNazione`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
