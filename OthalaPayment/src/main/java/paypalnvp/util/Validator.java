@@ -38,7 +38,7 @@ public final class Validator implements Serializable {
 
     /** create instance of amountPattern only once */
     static {
-        amountPattern   = Pattern.compile("^(\\d*\\.\\d{2}|0{1})$");
+        amountPattern   = Pattern.compile("^((-)?\\d*\\.\\d{2}|0{1})$");
         emailPattern    = Pattern.compile("^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[_A-Za-z0-9-]+)$");
     }
 
