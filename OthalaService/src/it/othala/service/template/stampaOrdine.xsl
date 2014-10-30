@@ -199,25 +199,6 @@
 
 						</tr>
 					</thead>
-					<tfoot>
-						<tr>
-							<td colspan="6" class="text-right">Costo Spedizione</td>
-							<td>
-								<xsl:value-of select="format-number(deliveryCost, '#.###.###,00', 'euro')"/>
-								
-							</td>
-						</tr>
-						<tr>
-							<td colspan="6" class="text-right">
-								<strong>Totale</strong>
-							</td>
-							<td>
-								<xsl:value-of select="format-number(totalCost, '#.###.###,00', 'euro')"/>
-								
-							</td>
-						</tr>
-
-					</tfoot>
 					<tbody style="vertical-align: top;">
 						<xsl:for-each select="cart/item">
 							<tr>
@@ -257,6 +238,26 @@
 							</tr>
 						</xsl:for-each>
 					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="6" class="text-right">Costo Spedizione</td>
+							<td>
+								<xsl:value-of select="format-number(deliveryCost, '#.###.###,00', 'euro')"/>
+								
+							</td>
+						</tr>
+						<tr>
+							<td colspan="6" class="text-right">
+								<strong>Totale</strong>
+							</td>
+							<td>
+								<xsl:value-of select="format-number(totalCost, '#.###.###,00', 'euro')"/>
+								
+							</td>
+						</tr>
+
+					</tfoot>
+					
 				</table>
 
 
