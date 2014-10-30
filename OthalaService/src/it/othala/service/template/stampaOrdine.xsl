@@ -203,8 +203,8 @@
 						<tr>
 							<td colspan="6" class="text-right">Costo Spedizione</td>
 							<td>
-								&#8364;
-								<xsl:value-of select="deliveryCost" />
+								<xsl:value-of select="format-number(deliveryCost, '#.###.###,00', 'euro')"/>
+								
 							</td>
 						</tr>
 						<tr>
@@ -212,8 +212,8 @@
 								<strong>Totale</strong>
 							</td>
 							<td>
-								&#8364;
-								<xsl:value-of select="totalCost" />
+								<xsl:value-of select="format-number(totalCost, '#.###.###,00', 'euro')"/>
+								
 							</td>
 						</tr>
 
