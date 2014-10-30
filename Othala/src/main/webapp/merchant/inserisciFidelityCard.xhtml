@@ -42,7 +42,7 @@
 					<div class="form-group spacer10">
 						<p:outputLabel styleClass="col-sm-1 control-label" for="idFidelity"  value="Fidelity" />
 						<div class="col-sm-2 ">
-							<p:inputText styleClass="form-control" required="true" maxlength="40"
+						<p:inputText styleClass="form-control" required="true" disabled="#{inserisciFidelityCardView.modifica}" maxlength="40"
 								value="#{inserisciFidelityCardView.fidelityCardDTO.idFidelity}" id="idFidelity"></p:inputText>
 						</div>
 						<p:outputLabel for="account" styleClass="col-sm-1 control-label" value="Account" />
@@ -104,8 +104,10 @@
 						<div class="form-group spacer10">
 							<p:outputLabel styleClass="col-sm-1 control-label" for="dtRilascio" value="Data Rilascio" />
 							<div class="col-sm-2 ">
-								<p:calendar styleClass="form-control" disabled="true"
-									value="#{inserisciFidelityCardView.fidelityCardDTO.dtRilascio}" id="dtRilascio" />
+								<h:outputText 
+									value="#{inserisciFidelityCardView.fidelityCardDTO.dtRilascio}" id="dtRilascio">
+									<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+									</h:outputText>
 							</div>
 						</div>
 					</h:panelGroup>
@@ -113,8 +115,8 @@
 
 					<div class="row spacer30">
 						<h:panelGroup styleClass="col-sm-2" rendered="#{inserisciFidelityCardView.modifica}">
-							<p:commandButton action="ricercaCoupon.xhtml" icon="ui-icon-triangle-1-w" value="Torna"
-								ajax="false">
+							<p:commandButton action="ricercaFidelity.xhtml" icon="ui-icon-triangle-1-w" value="Torna"
+								ajax="true" process="@this">
 							</p:commandButton>
 						</h:panelGroup>
 						<div class="col-sm-2">

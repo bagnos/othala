@@ -634,13 +634,12 @@ public class PaymentService implements IPaymentService {
 	private OrderPayPalDTO valueOf(ProfilePayPalDTO profile, OrderFullDTO order) {
 		OrderPayPalDTO ordPp = new OrderPayPalDTO();
 		ordPp.setAricles(order.getCart());
-		ordPp.setDeliveryCost(order.getSpeseSpedizione());
 		ordPp.setIdOrder(order.getIdOrder().toString());
-		BigDecimal totItem = BigDecimal.ZERO;
-		for (ArticleFullDTO art : order.getCart()) {
-			totItem = totItem.add(art.getTotalPriced());
-		}
-		ordPp.setTotalItemOrder(totItem);
+
+		// importi
+		ordPp.setDeliveryCost(order.getSpeseSpedizione());
+		ordPp.setTotalItemOrder(order.getImItemOrdine());
+		ordPp.setTotalDiscountOrder(order.getImOrdineDiscount());
 		ordPp.setTotalPriceOrder(order.getImOrdine());
 
 		ordPp.setCancelUrl(profile.getCancelUrl());
@@ -648,6 +647,21 @@ public class PaymentService implements IPaymentService {
 		ordPp.setLocale(profile.getLang());
 		ordPp.setRedirectUrl(profile.getRedirectUrl());
 		ordPp.setReturnUrl(profile.getReturnUrl());
+
+		// sconti
+		if (order.getImOrdineDiscount() != null && order.getImOrdineDiscount().compareTo(BigDecimal.ZERO) > 0) {
+			ordPp.setTxDiscounted(null);
+			if (order.getIdCoupon() != null) {
+				ordPp.setTxDiscounted(order.getIdCoupon());
+			}
+			if (order.getIdFidelity() != null) {
+				if (ordPp.getTxDiscounted() == null) {
+					ordPp.setTxDiscounted(order.getIdFidelity());
+				} else {
+					ordPp.setTxDiscounted(ordPp.getTxDiscounted() + "-" + order.getIdFidelity());
+				}
+			}
+		}
 		return ordPp;
 	}
 

@@ -33,7 +33,7 @@ public class RicercaCouponView extends BaseView {
 	@Override
 	public String doInit() {
 		// TODO Auto-generated method stub
-
+		promozioniBean.setFidelityCardSelected(null);
 		return null;
 	}
 
@@ -64,7 +64,7 @@ public class RicercaCouponView extends BaseView {
 			addInfo("Elimina Coupon",
 					String.format("Eliminato %s con successo", promozioniBean.getCouponSelected().getIdCoupon()));
 			promozioniBean.setAccountSelected(null);
-			promozioniBean.setIdCoupon(null);
+			promozioniBean.setFidelityCardSelected(null);
 
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block

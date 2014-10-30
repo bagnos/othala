@@ -31,10 +31,47 @@ public class OrderFullDTO implements Serializable {
 	private String idTransaction;
 	private String idTrackingNumber;
 	private String pendingReason;
-	private BigDecimal imOrdineSenzaSpese;
+	private BigDecimal imItemOrdine;
 	private String idFidelity;
-	private String idCoupon;	
+	private String idCoupon;
+	private int pcScontoFidelity;
+	private int pcScontoCoupon;
+	private BigDecimal imOrdineDiscount;
+	private BigDecimal imOrdineSenzaSpese;
 	
+	
+	public BigDecimal getImOrdineSenzaSpese() {
+		return imOrdineSenzaSpese;
+	}
+
+	public void setImOrdineSenzaSpese(BigDecimal imOrdineSenzaSpese) {
+		this.imOrdineSenzaSpese = imOrdineSenzaSpese;
+	}
+
+	public BigDecimal getImOrdineDiscount() {
+		return imOrdineDiscount;
+	}
+
+	public void setImOrdineDiscount(BigDecimal imOrdineDiscount) {
+		this.imOrdineDiscount = imOrdineDiscount;
+	}
+
+	public int getPcScontoFidelity() {
+		return pcScontoFidelity;
+	}
+
+	public void setPcScontoFidelity(int pcScontoFidelity) {
+		this.pcScontoFidelity = pcScontoFidelity;
+	}
+
+	public int getPcScontoCoupon() {
+		return pcScontoCoupon;
+	}
+
+	public void setPcScontoCoupon(int pcScontoCoupon) {
+		this.pcScontoCoupon = pcScontoCoupon;
+	}
+
 	public String getIdFidelity() {
 		return idFidelity;
 	}
@@ -51,12 +88,12 @@ public class OrderFullDTO implements Serializable {
 		this.idCoupon = idCoupon;
 	}
 
-	public BigDecimal getImOrdineSenzaSpese() {
-		return imOrdineSenzaSpese;
+	public BigDecimal getImItemOrdine() {
+		return imItemOrdine;
 	}
 
-	public void setImOrdineSenzaSpese(BigDecimal imOrdineSenzaSpese) {
-		this.imOrdineSenzaSpese = imOrdineSenzaSpese;
+	public void setImItemOrdine(BigDecimal ImItemOrdine) {
+		this.imItemOrdine = ImItemOrdine;
 	}
 
 	public String getPendingReason() {

@@ -1,14 +1,20 @@
 package it.othala.cartflow.view;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 import it.othala.account.execption.MailNotSendException;
+import it.othala.dto.CouponDTO;
 import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryCostDTO;
 import it.othala.dto.DeliveryDTO;
+import it.othala.dto.FidelityCardDTO;
 import it.othala.dto.NazioniDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.ProfilePayPalDTO;
+import it.othala.execption.FidelityCardNotPresentException;
+import it.othala.execption.FidelityCardNotValidException;
 import it.othala.execption.OthalaException;
 import it.othala.execption.StockNotPresentException;
 import it.othala.payment.paypal.dto.SetExpressCheckoutDTO;
@@ -341,13 +347,60 @@ public class CartWizardView extends BaseView {
 	}
 
 	public void verifyDiscount(ActionEvent ev) {
-		if (getCartFlowBean().getCoupon() != null && !getCartFlowBean().getCoupon().isEmpty()
-				&& getCartFlowBean().getFidelityCard() != null && !getCartFlowBean().getFidelityCard().isEmpty()) {
-			addError(OthalaUtil.getWordBundle("catalogo_discounted"),
-					OthalaUtil.getWordBundle("catalogo_discount_error"));
-		}
+		CouponDTO coupon = null;
+		FidelityCardDTO fidelity = null;
+		getCartFlowBean().setPcScontoCoupon(0);
+		getCartFlowBean().setPcScontoFidelity(0);
+		
+		if (getCartFlowBean().getCoupon() != null && !getCartFlowBean().getCoupon().isEmpty()) {
+			// inserito coupon
 
-		// mettere chiamata a verifica carta e coupon
+			try {
+				coupon = OthalaFactory.getOrderServiceInstance().checkCoupon(getCartFlowBean().getCoupon(),
+						getLoginBean().getEmail());
+
+				getCartFlowBean().setPcScontoCoupon(coupon.getPcSconto());
+			} catch (OthalaException e) {
+				// TODO Auto-generated catch block
+				addOthalaExceptionError(e, "Errore verfica coupon");
+				return;
+			}
+		}
+		if (getCartFlowBean().getFidelityCard() != null && !getCartFlowBean().getFidelityCard().isEmpty()) {
+			// inserita fidelity card
+			try {
+				fidelity = OthalaFactory.getOrderServiceInstance().checkFidelityCard(
+						getCartFlowBean().getFidelityCard(), getLoginBean().getEmail(), null);
+				getCartFlowBean().setPcScontoFidelity(fidelity.getPcSconto());
+			} catch (FidelityCardNotPresentException | FidelityCardNotValidException e) {
+				// TODO Auto-generated catch block
+				addOthalaExceptionError(e, "Errore verfica fideliy");
+				return;
+			}
+
+		}
+		int pcScontoTotale = getCartFlowBean().getPcScontoCoupon() + getCartFlowBean().getPcScontoFidelity();
+
+		
+
+		getCartFlowBean().setTotalPriceOrdeNoDiscount(
+				getCartFlowBean().getTotalItemOrder().add(getCartFlowBean().getDeliveryCost().getImportoSpese()));
+		
+		if (pcScontoTotale > 0) {
+			BigDecimal sconto = new BigDecimal(pcScontoTotale);
+			sconto = sconto.divide(new BigDecimal(100));
+			getCartFlowBean().setAmtDiscount(getCartFlowBean().getTotalPriceOrdeNoDiscount().multiply(sconto));
+			sconto = getCartFlowBean().getTotalPriceOrdeNoDiscount().subtract(getCartFlowBean().getAmtDiscount());
+			
+		}
+		else
+		{
+			getCartFlowBean().setAmtDiscount(BigDecimal.ZERO);
+		}
+		
+		
+		getCartFlowBean().setTotalPriceOrder(getCartFlowBean().getTotalPriceOrdeNoDiscount().subtract(getCartFlowBean().getAmtDiscount()));
+		
 		RequestContext.getCurrentInstance().execute(WizardUtil.NextStepWizard());
 	}
 
@@ -441,8 +494,27 @@ public class CartWizardView extends BaseView {
 		order.setIdUser(getLoginBean().getEmail());
 		order.setNameUser(getLoginBean().getName());
 		order.setSurnameUser(getLoginBean().getSurname());
-		order.setImOrdine(getCartFlowBean().getTotalPriceOrder());
+		
+		order.setIdFidelity(null);
+		if (getCartFlowBean().getPcScontoFidelity() > 0) {
+			order.setIdFidelity(getCartFlowBean().getFidelityCard());
+			order.setPcScontoCoupon(getCartFlowBean().getPcScontoFidelity());
+		}
+		order.setIdCoupon(null);
+		if (getCartFlowBean().getPcScontoCoupon() > 0) {
+			order.setIdCoupon(getCartFlowBean().getCoupon());
+			order.setPcScontoCoupon(getCartFlowBean().getPcScontoCoupon());
+		}
+
+		// importo
+
 		order.setSpeseSpedizione(getCartFlowBean().getDeliveryCost());
+		order.setImItemOrdine(getCartFlowBean().getTotalItemOrder());
+		order.setImOrdineDiscount(getCartFlowBean().getAmtDiscount());
+
+		order.setImOrdine(getCartFlowBean().getTotalPriceOrder());
+
+		getCartFlowBean().setTotalPriceOrder(order.getImOrdine());
 		return order;
 
 	}
