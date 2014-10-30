@@ -540,6 +540,9 @@
 			<if test="pcSconto != null">
 				, pcSconto = #{pcSconto}
 			</if>
+			<if test="txTel != null">
+				, txTel = #{txTel}
+			</if>
 		</set>			
 		WHERE
 		idFidelity = #{idFidelity}

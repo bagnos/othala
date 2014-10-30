@@ -273,7 +273,7 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO {
 	}
 
 	@Override
-	public void updateFidelity(String idFidelity, Integer pcSconto, String txNome, String txCognome, String txEmail) {
+	public void updateFidelity(String idFidelity, Integer pcSconto, String txNome, String txCognome, String txEmail, String txTel) {
 
 		HashMap<String, Object> mapUpdate = new HashMap<String, Object>();
 
@@ -290,6 +290,9 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO {
 		
 		if (pcSconto != null && pcSconto > 0)
 			mapUpdate.put("pcSconto", pcSconto);
+		
+		if(txTel != null && !txTel.isEmpty())
+			mapUpdate.put("txTel", txTel);
 		
 		getSqlSession().insert("it.othala.order.queries.updateFidelityCard",
 				mapUpdate);
