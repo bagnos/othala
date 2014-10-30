@@ -527,7 +527,20 @@
 
 		UPDATE
 		${database.schema}FidelityCards
-		SET pcSconto = #{pcSconto}
+		<set> 
+			<if test="txNome != null">
+				txNome = #{txNome}
+			</if>
+			<if test="txCognome != null">
+				, txCognome = #{txCognome}
+			</if>
+			<if test="txEmail != null">
+				, txEmail = #{txEmail}
+			</if>
+			<if test="pcSconto != null">
+				, pcSconto = #{pcSconto}
+			</if>
+		</set>			
 		WHERE
 		idFidelity = #{idFidelity}
 
@@ -544,15 +557,16 @@
 				idFidelity = #{idFidelity}
 			</if>
 			<if test="txNome != null">
-				txNome = #{txNome}
+				AND txNome = #{txNome}
 			</if>
 			<if test="txCognome != null">
-				txCognome = #{txCognome}
+				AND txCognome = #{txCognome}
 			</if>
 			<if test="txEmail != null">
-				txEmail = #{txEmail}
+				AND txEmail = #{txEmail}
 			</if>
 		</where>
+		order by pcSconto, txCognome
 	
 
 	</select>
