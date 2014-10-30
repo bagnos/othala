@@ -26,7 +26,6 @@ import javax.faces.model.SelectItem;
 @javax.faces.bean.SessionScoped
 public class CartFlowBean implements Serializable {
 
-	
 	/**
 	 * 
 	 */
@@ -43,6 +42,7 @@ public class CartFlowBean implements Serializable {
 	private Catalog catalog;
 	private boolean checkoutCart;
 	private BigDecimal totalPriceOrder;
+	
 	private DeliveryCostDTO deliveryCost;
 	private BigDecimal totalItemOrder;
 	private int idTypeDelivery;
@@ -50,108 +50,114 @@ public class CartFlowBean implements Serializable {
 	private String coupon;
 	private List<ProductCarouselDTO> carouselList;
 	private List<NazioniDTO> nazioni;
-	
-	
 	private List<SelectItem> colors = null;
 	private List<SelectItem> brands = null;
 	private List<SelectItem> sizes = null;
 	private List<AttributeDTO> brandDTO = null;
 	private List<AttributeDTO> colorDTO = null;
 	private List<AttributeDTO> sizeDTO = null;
+	private int pcScontoCoupon;
+	private int pcScontoFidelity;	
+	private BigDecimal amtDiscount;
+	private BigDecimal totalPriceOrdeNoDiscount;
 	
-	
-	
-	
+	public BigDecimal getTotalPriceOrdeNoDiscount() {
+		return totalPriceOrdeNoDiscount;
+	}
+
+	public void setTotalPriceOrdeNoDiscount(BigDecimal totalPriceOrdeNoDiscount) {
+		this.totalPriceOrdeNoDiscount = totalPriceOrdeNoDiscount;
+	}
+
+	public BigDecimal getTotalPriceOrder() {
+		return totalPriceOrder;
+	}
+
+	public void setTotalPriceOrder(BigDecimal totalPriceOrder) {
+		this.totalPriceOrder = totalPriceOrder;
+	}
+
+		
+	public BigDecimal getAmtDiscount() {
+		return amtDiscount;
+	}
+
+	public void setAmtDiscount(BigDecimal amtDiscount) {
+		this.amtDiscount = amtDiscount;
+	}
+
+	public int getPcScontoCoupon() {
+		return pcScontoCoupon;
+	}
+
+	public void setPcScontoCoupon(int pcScontoCoupon) {
+		this.pcScontoCoupon = pcScontoCoupon;
+	}
+
+	public int getPcScontoFidelity() {
+		return pcScontoFidelity;
+	}
+
+	public void setPcScontoFidelity(int pcScontoFidelity) {
+		this.pcScontoFidelity = pcScontoFidelity;
+	}
+
 	public List<AttributeDTO> getColorDTO() {
 		return colorDTO;
 	}
-
 
 	public void setColorDTO(List<AttributeDTO> colorDTO) {
 		this.colorDTO = colorDTO;
 	}
 
-
 	public List<AttributeDTO> getSizeDTO() {
 		return sizeDTO;
 	}
-
 
 	public void setSizeDTO(List<AttributeDTO> sizeDTO) {
 		this.sizeDTO = sizeDTO;
 	}
 
-
-	
-	
 	public List<AttributeDTO> getBrandDTO() {
 		return brandDTO;
 	}
-
 
 	public void setBrandDTO(List<AttributeDTO> brandDTO) {
 		this.brandDTO = brandDTO;
 	}
 
-
 	public List<SelectItem> getBrands() {
-			brands=new ArrayList<>();
-			brands.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseBrand")));
+		brands = new ArrayList<>();
+		brands.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseBrand")));
 
-			for (AttributeDTO att : brandDTO) {
-				brands.add(new SelectItem(att.getAttributo(), att.getValore()));
-			}
+		for (AttributeDTO att : brandDTO) {
+			brands.add(new SelectItem(att.getAttributo(), att.getValore()));
+		}
 
 		return brands;
 	}
-	
 
 	public List<SelectItem> getSizes() {
 
+		sizes = new ArrayList<>();
+		sizes.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseSize")));
 
-			sizes=new ArrayList<>();
-			sizes.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseSize")));
-
-			for (AttributeDTO att : sizeDTO) {
-				sizes.add(new SelectItem(att.getAttributo(), att.getValore()));
-			}
-
+		for (AttributeDTO att : sizeDTO) {
+			sizes.add(new SelectItem(att.getAttributo(), att.getValore()));
+		}
 
 		return sizes;
 	}
 
-	
-
-
 	public List<SelectItem> getColors() {
 
-			colors=new ArrayList<>();
-			colors.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseColor")));
-			for (AttributeDTO att : colorDTO) {
-				colors.add(new SelectItem(att.getAttributo(), att.getValore()));
+		colors = new ArrayList<>();
+		colors.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseColor")));
+		for (AttributeDTO att : colorDTO) {
+			colors.add(new SelectItem(att.getAttributo(), att.getValore()));
 		}
 		return colors;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 	public String getFidelityCard() {
 		return fidelityCard;
@@ -209,23 +215,13 @@ public class CartFlowBean implements Serializable {
 	}
 
 	public void deleteArticol(ActionEvent e) {
-		ArticleFullDTO art = (ArticleFullDTO) e.getComponent().getAttributes()
-				.get("art");
+		ArticleFullDTO art = (ArticleFullDTO) e.getComponent().getAttributes().get("art");
 		getCart().remove(art);
 
 	}
 
-	public BigDecimal getTotalPriceOrder() {
-		totalPriceOrder = BigDecimal.ZERO;
-
-		if (deliveryCost != null) {
-			totalPriceOrder = getTotalItemOrder().add(
-					deliveryCost.getImportoSpese());
-		} else {
-			totalPriceOrder = getTotalItemOrder();
-		}
-		return totalPriceOrder.setScale(2, RoundingMode.HALF_UP);
-	}
+	
+	
 
 	public boolean isCheckoutCart() {
 		return checkoutCart;

@@ -81,7 +81,7 @@ public class InserisciFidelityCardView extends BaseView {
 			if (!isModifica()) {
 				resetFidelity();
 			} else {
-				fidelityCardDTO = promozioniBean.getFidelityCardSelected();				
+				fidelityCardDTO = promozioniBean.getFidelityCardSelected();
 			}
 		} catch (Exception e) {
 			addGenericError(e, "errore inizializzazione fidelity");
@@ -93,16 +93,19 @@ public class InserisciFidelityCardView extends BaseView {
 	private void resetFidelity() {
 
 		fidelityCardDTO = new FidelityCardDTO();
-		accountSelected=null;
+		accountSelected = null;
 	}
 
 	public void inserisciFidelity(ActionEvent e) {
 		try {
 
 			if (!isModifica()) {
-				OthalaFactory.getOrderServiceInstance().addFidelityCard(fidelityCardDTO);	
+				OthalaFactory.getOrderServiceInstance().addFidelityCard(fidelityCardDTO);
 			} else {
-				
+
+				OthalaFactory.getOrderServiceInstance().aggiornaFidelity(fidelityCardDTO.getIdFidelity(),
+						fidelityCardDTO.getPcSconto(), fidelityCardDTO.getTxNome(), fidelityCardDTO.getTxCognome(),
+						fidelityCardDTO.getTxEmail(),fidelityCardDTO.getTxTel());
 			}
 
 			resetFidelity();
@@ -117,20 +120,17 @@ public class InserisciFidelityCardView extends BaseView {
 		List<AccountDTO> filter = AutoCompleteUtils.completeAccountDTO(query.trim());
 		return filter;
 	}
-	
-	public void itemSelectAccount(AjaxBehaviorEvent e)
-	{
+
+	public void itemSelectAccount(AjaxBehaviorEvent e) {
 		fidelityCardDTO.setTxCognome(accountSelected.getSurname());
 		fidelityCardDTO.setTxEmail(accountSelected.getEmail());
 		fidelityCardDTO.setTxNome(accountSelected.getName());
-		
+
 		DeliveryDTO addresses = OthalaFactory.getOrderServiceInstance().getDeliveryInfo(getLoginBean().getEmail());
-		if (addresses.getIndirizzo()!=null && !addresses.getIndirizzo().isEmpty())
-		{
-			DeliveryAddressDTO da=addresses.getIndirizzo().get(0);
+		if (addresses.getIndirizzo() != null && !addresses.getIndirizzo().isEmpty()) {
+			DeliveryAddressDTO da = addresses.getIndirizzo().get(0);
 			fidelityCardDTO.setTxTel(da.getTel());
 		}
 	}
-	
 
 }

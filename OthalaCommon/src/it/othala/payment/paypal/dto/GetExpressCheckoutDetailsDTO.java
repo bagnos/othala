@@ -24,8 +24,17 @@ public class GetExpressCheckoutDetailsDTO extends PayPalResponseDTO {
 	private String currencyCode;
 	private BigDecimal itemAmount;
 	private BigDecimal shipAmount;
+	private BigDecimal discount;
 	
 	
+
+	public BigDecimal getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(BigDecimal discount) {
+		this.discount = discount;
+	}
 
 	public BigDecimal getItemAmount() {
 		return itemAmount;

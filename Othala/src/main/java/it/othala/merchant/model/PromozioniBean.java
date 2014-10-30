@@ -26,7 +26,26 @@ public class PromozioniBean implements Serializable {
 	private AccountDTO accountSelected;
 	private CouponDTO couponSelected;
 	private FidelityCardDTO fidelityCardSelected;
+	private List<FidelityCardDTO> fidelity;
+	private FidelityCardDTO findFidelity;
 	
+
+	public FidelityCardDTO getFindFidelity() {
+	
+		return findFidelity;
+	}
+
+	public void setFindFidelity(FidelityCardDTO findFidelity) {
+		this.findFidelity = findFidelity;
+	}
+
+	public List<FidelityCardDTO> getFidelity() {
+		return fidelity;
+	}
+
+	public void setFidelity(List<FidelityCardDTO> fidelity) {
+		this.fidelity = fidelity;
+	}
 
 	public FidelityCardDTO getFidelityCardSelected() {
 		return fidelityCardSelected;

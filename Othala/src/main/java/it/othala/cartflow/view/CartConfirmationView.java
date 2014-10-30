@@ -19,6 +19,7 @@ import it.othala.web.utils.OthalaUtil;
 import it.othala.web.utils.PayPalUtil;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
@@ -37,8 +38,13 @@ public class CartConfirmationView extends BaseView {
 	private boolean paymentOK;
 	private OrderFullDTO order;
 	private boolean payCompleted;
+	private BigDecimal sconto;
 
 
+
+	public BigDecimal getSconto() {
+		return sconto;
+	}
 
 	public boolean isPayCompleted() {
 		return payCompleted;
@@ -64,6 +70,7 @@ public class CartConfirmationView extends BaseView {
 		try {
 			IPaymentService servicePayment = OthalaFactory.getPaymentServiceInstance();
 			paymentOK = false;
+			sconto=null;
 
 			IPaymentService service = OthalaFactory.getPaymentServiceInstance();
 			ProfilePayPalDTO profile = PayPalUtil.getProfile(getRequest());
@@ -71,6 +78,7 @@ public class CartConfirmationView extends BaseView {
 			if (!getExpressCheckoutDetails(service, profile)) {
 				return null;
 			}
+			
 
 			doExpressCheckoutPayment(servicePayment, profile);
 
@@ -104,6 +112,8 @@ public class CartConfirmationView extends BaseView {
 			String token=getQueryStringParm("token");
 			
 			details = service.getExpressCheckoutDetails(token, profile);
+			sconto=details.getDiscount();
+			
 			esito = true;
 		} catch (PayPalFailureException ex) {
 			addOthalaExceptionError(ex, "PayPal failure Response nel getExpressCheckoutDetails");
@@ -122,6 +132,7 @@ public class CartConfirmationView extends BaseView {
 	private void doExpressCheckoutPayment(IPaymentService servicePayment, ProfilePayPalDTO profile) {
 		try {
 			DoExpressCheckoutPaymentDTO checkDTO = servicePayment.doExpressCheckoutPayment(details, profile, order);
+			
 			paymentOK = true;
 			try {
 

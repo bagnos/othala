@@ -245,6 +245,7 @@ class PayPalWrapper {
 		PaymentItem item = null;
 		List<PaymentItem> items = new ArrayList<PaymentItem>();
 		String description;
+		
 		for (int i = 0; i <= cart.getAricles().size() - 1; i++) {
 			item = new PaymentItem();
 			description = String.format("%s %s %S", cart.getAricles().get(i).getPrdFullDTO().getDescription(), cart
@@ -253,10 +254,25 @@ class PayPalWrapper {
 			item.setAmount(cart.getAricles().get(i).getPrdFullDTO().getRealPrice().toString());
 			item.setQuantity(cart.getAricles().get(i).getQtBooked());
 			item.setItemNumber(cart.getAricles().get(i).getPrdFullDTO().getMerchantCode());
-
+			
 			items.add(item);
 		}
+		//sconto
+		if (cart.getTotalDiscountOrder()!=null && cart.getTotalDiscountOrder().compareTo(BigDecimal.ZERO)>0)
+		{
+			//sono presenti degli sconti, inserisco un item con importo negativo
+			item = new PaymentItem();
+			item.setDescription("Discount");
+			String discFormat=cart.getTotalDiscountOrder().setScale(2, RoundingMode.HALF_UP).toString();
+			item.setAmount("-"+discFormat);
+			item.setItemNumber(cart.getTxDiscounted());
+			item.setQuantity(1);
+			items.add(item);
+			
+		}
+		
 		// Payment payment = new Payment(cart.getTotalPriceOrder().toString());
+		BigDecimal itemOrder=cart.getTotalItemOrder().subtract(cart.getTotalDiscountOrder()==null?BigDecimal.ZERO:cart.getTotalDiscountOrder());
 		Payment payment = new Payment(cart.getTotalPriceOrder().setScale(2, RoundingMode.HALF_UP).toString(), items);
 		payment.setCurrency(Currency.EUR);
 		payment.setAllowingNote(true);
@@ -265,7 +281,7 @@ class PayPalWrapper {
 		payment.setSuppressingShippingAddress();
 		payment.setCustomField(cart.getIdOrder());
 		payment.setShippingAmount(cart.getDeliveryCost().getImportoSpese().setScale(2, RoundingMode.HALF_UP).toString());
-		payment.setPaymentRequestITEMAMT(cart.getTotalItemOrder().setScale(2, RoundingMode.HALF_UP).toString());
+		payment.setPaymentRequestITEMAMT(itemOrder.setScale(2, RoundingMode.HALF_UP).toString());
 
 		/*
 		 * String country = locale;
@@ -456,6 +472,10 @@ class PayPalWrapper {
 				key = L_PAYMENTREQUEST_0_AMTm + i;
 				item.setPrice(new BigDecimal(response.get(key)));
 				paymentDetails.put(key, response.get(key));
+				if (item.getPrice().compareTo(BigDecimal.ZERO)<0)
+				{
+					details.setDiscount(item.getPrice());
+				}
 
 				key = L_PAYMENTREQUEST_0_NUMBERm + i;
 				item.setCode(response.get(key));

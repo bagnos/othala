@@ -186,6 +186,14 @@ public abstract class BaseView implements Serializable {
 		cart.setDetailProductFull(null);
 		cart.setIdPayment(0);
 		cart.setIdTypeDelivery(0);
+		cart.setPcScontoCoupon(0);
+		cart.setPcScontoFidelity(0);
+		cart.setTotalPriceOrdeNoDiscount(null);
+		cart.setTotalPriceOrder(null);
+		cart.setAmtDiscount(null);
+		cart.setDeliveryCost(null);
+		cart.setFidelityCard(null);
+		cart.setCoupon(null);
 
 	}
 
@@ -223,6 +231,8 @@ public abstract class BaseView implements Serializable {
 		}
 		return null;
 	}
+	
+	
 	
 	
 }

@@ -48,7 +48,7 @@
 			</div>
 			<div class="col-sm-2 col-sm-offset-8">
 				<p:commandButton validateClient="true" ajax="true" rendered="#{cartWizardView.rendeRiepilogo}" 
-					actionListener="#{cartWizardView.newAddr}" update="wrapDiscount cartTable-pnl" iconPos="right" icon="ui-icon-triangle-1-e"
+					actionListener="#{cartWizardView.verifyDiscount}" update="wrapDiscount cartTable-pnl" iconPos="right" icon="ui-icon-triangle-1-e"
 					process="wrapDiscount"  
 					value="#{msg.delivery_wrapUpOrder}" />
 

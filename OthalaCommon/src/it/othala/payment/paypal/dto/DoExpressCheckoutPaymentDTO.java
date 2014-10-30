@@ -1,5 +1,7 @@
 package it.othala.payment.paypal.dto;
 
+import java.math.BigDecimal;
+
 
 public class DoExpressCheckoutPaymentDTO extends PayPalResponseDTO {
 	
@@ -13,7 +15,6 @@ public class DoExpressCheckoutPaymentDTO extends PayPalResponseDTO {
 	private String note;	
 	private boolean failedPaymenet;
 	private String L_PAYMENTINFO_0_FMF;
-	
 	
 	public String getL_PAYMENTINFO_0_FMF() {
 		return L_PAYMENTINFO_0_FMF;

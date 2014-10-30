@@ -16,16 +16,30 @@ public class OrderPayPalDTO implements Serializable {
 	private List<ArticleFullDTO> aricles;
 	private BigDecimal totalPriceOrder;
 	private BigDecimal totalItemOrder;
-	private DeliveryCostDTO deliveryCost;
+	private DeliveryCostDTO deliveryCost;	
 	private String locale;
 	private String idOrder;
 	private String returnUrl;
 	private String cancelUrl;
 	private String imageUrl;
 	private String redirectUrl;
+	private BigDecimal totalDiscountOrder;
+	private String txDiscounted;
 	
 	
 	
+	public String getTxDiscounted() {
+		return txDiscounted;
+	}
+	public void setTxDiscounted(String txDiscounted) {
+		this.txDiscounted = txDiscounted;
+	}
+	public BigDecimal getTotalDiscountOrder() {
+		return totalDiscountOrder;
+	}
+	public void setTotalDiscountOrder(BigDecimal totalDiscountOrder) {
+		this.totalDiscountOrder = totalDiscountOrder;
+	}
 	public String getReturnUrl() {
 		return returnUrl;
 	}
