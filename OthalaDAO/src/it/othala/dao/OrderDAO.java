@@ -289,7 +289,7 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO {
 			mapUpdate.put("txEmail", txEmail);
 		
 		if (pcSconto != null && pcSconto > 0)
-			mapUpdate.put("pcSconto", txEmail);
+			mapUpdate.put("pcSconto", pcSconto);
 		
 		getSqlSession().insert("it.othala.order.queries.updateFidelityCard",
 				mapUpdate);
