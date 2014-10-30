@@ -1,5 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns="http://www.w3.org/TR/REC-html40" version="1.0">
+	<xsl:decimal-format name="euro" decimal-separator="," grouping-separator="."/>
 	<xsl:template match="/order">
 		<html>
 			<head>
@@ -238,13 +239,16 @@
 				</td>
 
 				<td>
-					<xsl:value-of select="cambio" />
+					<xsl:value-of select="cambio"/>
+					
 				</td>
 				<td>
-					<xsl:value-of select="unitPrice" />
+					<xsl:value-of select="format-number(unitPrice, '#.###.###,00', 'euro')"/>
+					
 				</td>
 				<td>
-					<xsl:value-of select="price" />
+					<xsl:value-of select="format-number(price, '#.###.###,00', 'euro')"/>
+					
 				</td>
 
 
