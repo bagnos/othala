@@ -57,7 +57,7 @@ public interface IOrderDAO {
 	
 	public void newFidelityCard(FidelityCardDTO fidelity);
 	
-	public void updateScontoFidelity(String idFidelity, int pcSconto);
+	public void updateFidelity(String idFidelity, Integer pcSconto, String txNome, String txCognome, String txEmail);
 	
 	public List<FidelityCardDTO> getFidelityCard(String idFidelity, String txNome, String txCognome, String txEmail);
 

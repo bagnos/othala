@@ -273,13 +273,24 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO {
 	}
 
 	@Override
-	public void updateScontoFidelity(String idFidelity, int pcSconto) {
+	public void updateFidelity(String idFidelity, Integer pcSconto, String txNome, String txCognome, String txEmail) {
 
 		HashMap<String, Object> mapUpdate = new HashMap<String, Object>();
 
 		mapUpdate.put("idFidelity", idFidelity);
-		mapUpdate.put("pcSconto", pcSconto);
-
+		
+		if(txNome != null && !txNome.isEmpty())
+			mapUpdate.put("txNome", txNome);
+		
+		if(txCognome != null && !txCognome.isEmpty())
+			mapUpdate.put("txCognome", txCognome);
+		
+		if(txEmail != null && !txEmail.isEmpty())
+			mapUpdate.put("txEmail", txEmail);
+		
+		if (pcSconto != null && pcSconto > 0)
+			mapUpdate.put("pcSconto", txEmail);
+		
 		getSqlSession().insert("it.othala.order.queries.updateFidelityCard",
 				mapUpdate);
 
@@ -290,25 +301,18 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO {
 		
 		HashMap<String, Object> mapSelect = new HashMap<String, Object>();
 
-		if(idFidelity != null && !idFidelity.isEmpty()){
+		if(idFidelity != null && !idFidelity.isEmpty())
 			mapSelect.put("idFidelity", idFidelity);
-		}
-		else{
-			if(txNome != null && !txNome.isEmpty()){
-				mapSelect.put("txNome", txNome);
-			}
-			else{
-				if(txCognome != null && !txCognome.isEmpty()){
-					mapSelect.put("txCognome", txCognome);
-				}
-				else{
-					if(txEmail != null && !txEmail.isEmpty())
-						mapSelect.put("txEmail", txEmail);	
-				}
-					
-			}
-			
-		}
+		
+		if(txNome != null && !txNome.isEmpty())
+			mapSelect.put("txNome", txNome);
+		
+		if(txCognome != null && !txCognome.isEmpty())
+			mapSelect.put("txCognome", txCognome);
+		
+		if(txEmail != null && !txEmail.isEmpty())
+			mapSelect.put("txEmail", txEmail);	
+		
 			
 		List<FidelityCardDTO> fidelityCard = getSqlSession().selectList(
 				"it.othala.order.queries.selectFidelityCard", mapSelect);
