@@ -37,11 +37,13 @@ import java.io.FileWriter;
 import java.io.OutputStreamWriter;
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.xml.transform.OutputKeys;
@@ -706,8 +708,8 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public void aggiornaFidelity(String idFidelity, Integer pcSconto, String txNome, String txCognome, String txEmail) {
-		orderDAO.updateFidelity(idFidelity, pcSconto, txNome, txCognome, txEmail);
+	public void aggiornaFidelity(String idFidelity, Integer pcSconto, String txNome, String txCognome, String txEmail, String txTel) {
+		orderDAO.updateFidelity(idFidelity, pcSconto, txNome, txCognome, txEmail, txTel);
 
 	}
 
