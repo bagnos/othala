@@ -1,0 +1,145 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+	<div id="logo">
+		<a href="#{request.contextPath}/faces/home.xhtml"> <h:graphicImage
+				library="images" styleClass="img-responsive"
+				title="#{msg.navTab_goHome}" name="logo2-small.png"></h:graphicImage>
+		</a>
+	</div>
+
+
+	<ul class="nav nav-tabs responsive" id="tabNav">
+		<ui:repeat var="menu" value="#{applicationBean.menu}"
+			varStatus="status">
+
+			<li><a href="##{menu.idGender}" data-toggle="tab"> <h:outputText
+						value="#{menu.txGender}" />
+			</a></li>
+		</ui:repeat>
+		<h:panelGroup rendered="#{applicationBean.menuFull.fgPromozioni}">
+
+			<li><a href="#promo2" id="promo" data-toggle="tab"> <h:outputText
+						value="#{msg.catalog_promo}" />
+			</a></li>
+		</h:panelGroup>
+
+
+		<h:panelGroup rendered="#{applicationBean.menuFull.fgNuoviArrivi}">
+			<li>
+				<!--  <a href="#newArrival" id="newArr" data-toggle="tab">--> <h:link
+					value="#{menu.txGender}" outcome="/cart/cart-catalog.xhtml">
+
+					<f:param name="idMenu" value="1"></f:param>
+					<f:param name="idSubMenu" value="0"></f:param>
+					<f:param name="fgNewArrivals" value="true"></f:param>
+					<f:param name="idCampaign" value="0"></f:param>
+
+					<h:outputText id="newArr" value="#{msg.catalog_newArrival}" />
+				</h:link> <!-- </a>  -->
+
+			</li>
+		</h:panelGroup>
+
+
+		<h:panelGroup>
+
+			<li><a href="#{request.contextPath}/faces/static/blog.xhtml">
+					<h:outputText value="BLOG" />
+			</a></li>
+		</h:panelGroup>
+
+	</ul>
+
+
+	<div id="tab-content" class="tab-content responsive">
+		<ui:repeat var="menu" value="#{applicationBean.menu}"
+			varStatus="status">
+			<div class="tab-pane" id="#{menu.idGender}">
+				<div class="row">
+					<div class="col-sm-3">
+						<p:graphicImage styleClass="img-responsive"
+							library="#{menu.imgLibrary}" name="#{menu.imgName}" />
+					</div>
+
+					<div class="col-sm-9">
+						<div class="row">
+							<ui:repeat var="submenu" value="#{menu.subMenu}"
+								varStatus="statusSub">
+								<div class="col-sm-3 spacer10">
+									<h:link value="#{submenu.txType}"
+										outcome="/cart/cart-catalog.xhtml">
+										<f:param name="idMenu" value="#{menu.idGender}"></f:param>
+										<f:param name="idSubMenu" value="#{submenu.idType}"></f:param>
+										<f:param name="fgNewArrivals" value="false"></f:param>
+										<f:param name="idCampaign" value="0"></f:param>
+									</h:link>
+								</div>
+							</ui:repeat>
+						</div>
+					</div>
+				</div>
+			</div>
+		</ui:repeat>
+
+		<!-- new arrivals -->
+
+		<div class="tab-pane" id="newArrival" rendered="">
+			<div class="row">
+				<div class="col-sm-3">
+					<p:graphicImage styleClass="img-responsive"
+						library="images/newArrivals" name="new.png" />
+				</div>
+				<div class="col-sm-9">
+					<div class="row">
+						<ui:repeat var="menu" value="#{applicationBean.menu}">
+							<div class="col-sm-2">
+								<h:link value="#{menu.txGender}"
+									outcome="/cart/cart-catalog.xhtml">
+									<f:param name="idMenu" value="#{menu.idGender}"></f:param>
+									<f:param name="idSubMenu" value="0"></f:param>
+									<f:param name="fgNewArrivals" value="true"></f:param>
+									<f:param name="idCampaign" value="0"></f:param>
+								</h:link>
+							</div>
+						</ui:repeat>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- promozioni -->
+		<div class="tab-pane" id="promo2">
+			<div class="row">
+				<div class="col-sm-3">
+					<p:graphicImage styleClass="img-responsive" library="images/promo"
+						name="promo.png" />
+				</div>
+				<div class="col-sm-9">
+					<div class="row">
+						<ui:repeat var="campaign" value="#{applicationBean.campaigns}">
+							<div class="col-sm-12">
+								<h:link value="#{campaign.txCampaign}"
+									outcome="/cart/cart-catalog.xhtml">
+									<f:param name="idMenu" value="0"></f:param>
+									<f:param name="idSubMenu" value="0"></f:param>
+									<f:param name="fgNewArrivals" value="false"></f:param>
+									<f:param name="idCampaign" value="#{campaign.idCampaign}"></f:param>
+								</h:link>
+							</div>
+						</ui:repeat>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+	</div>
+</ui:composition>
