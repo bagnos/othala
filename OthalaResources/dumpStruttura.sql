@@ -373,6 +373,7 @@ CREATE TABLE `orders` (
   `idTrackingNumber` varchar(100) DEFAULT NULL,
   `idFidelity` varchar(45) DEFAULT NULL,
   `idCoupon` varchar(45) DEFAULT NULL,
+  `pcSconto` int(11) DEFAULT NULL,
   PRIMARY KEY (`idOrder`),
   UNIQUE KEY `idOrder_UNIQUE` (`idOrder`),
   KEY `fk_Orders_Customer1_idx` (`idUser`),
