@@ -1,0 +1,101 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+	<!-- Static navbar -->
+	<div class="navbar navbar-inverse navbar-static-top">
+		<div class="container">
+			<h:form id="navForm" prependId="false">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse"
+						data-target=".navbar-collapse">
+						<span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+					</button>
+					<!-- <a class="navbar-brand" href="#"><h:graphicImage value="logo2-header" library="images" /></a>-->
+				</div>
+				<div class="collapse navbar-collapse">
+					<ul class="nav navbar-nav navbar-right">
+						<!-- <li class="dropdown">-->
+
+						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							<span class="glyphicon glyphicon-shopping-cart"></span><h:outputText value="#{msg.header_Cart}" />
+								<h:outputText id="cart" value="(#{cartFlowBean.cart.size()})" />
+								<h:panelGroup rendered="#{cartFlowBean.cart.size()>0}">
+									<b class="caret"></b>
+								</h:panelGroup>
+
+							</a> <h:panelGroup rendered="#{cartFlowBean.cart.size()>0}">
+								<ul class="dropdown-menu">
+
+									<li><a class="dropdown-toggle"
+											href="#{request.contextPath}/faces/cart/cart-selected-3.xhtml">
+											<h:outputText value="#{msg.header_viewCart}" />
+										</a></li>
+
+									<li><h:commandLink id="clearCart" actionListener="#{myAccountView.clearCart}">
+											<h:outputText value="#{msg.header_clearCart}" />
+										</h:commandLink></li>
+
+								</ul>
+							</h:panelGroup></li>
+
+
+						<h:panelGroup rendered="#{customerLoginBean.name==null}">
+							<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
+									<h:outputText value="#{msg.header_access}" />
+									<b class="caret"></b>
+								</a>
+								<ul class="dropdown-menu">
+
+									<li class="dropdown"><a href="#{request.contextPath}/faces/account/access.xhtml"
+											class="dropdown-toggle">
+											<h:outputText value="#{msg.header_login}" />
+										</a></li>
+									<li><a href="#{request.contextPath}/faces/account/registration.xhtml"
+											class="dropdown-toggle">
+											<h:outputText value="#{msg.header_registration}" />
+										</a></li>
+								</ul></li>
+						</h:panelGroup>
+
+						<h:panelGroup rendered="#{not empty customerLoginBean.name}">
+							<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
+									<span class="glyphicon glyphicon-user"></span><h:outputText id="user" value="#{msg.account_hello} #{customerLoginBean.name}!" />
+									<b class="caret"></b>
+								</a>
+								<ul class="dropdown-menu">
+									<li><h:commandLink ajax="false" actionListener="#{accessView.logout}">
+											<h:outputText value="#{msg.header_logout}" />
+										</h:commandLink></li>
+									<li><a href="#{request.contextPath}/faces/account/myAccount.xhtml"
+											class="dropdown-toggle">
+											<h:outputText value="#{msg.account_myAccount}" />
+										</a>
+									</li>
+									<li><a href="#{request.contextPath}/faces/account/myOrders.xhtml"
+											class="dropdown-toggle">
+											<h:outputText value="#{msg.account_myOrders}" />
+										</a>
+									</li>
+									<li><a href="#{request.contextPath}/faces/account/myMerchantRequest.xhtml?richiedireso=true"
+											class="dropdown-toggle">
+											<h:outputText value="#{msg.account_myReturns}" />
+										</a>
+									</li>
+									<li><a href="#{request.contextPath}/faces/account/myMerchantRequest.xhtml?richiediCambio=true"
+											class="dropdown-toggle">
+											<h:outputText value="#{msg.account_myChanges}" />
+										</a>
+									</li>
+									
+								
+
+								</ul></li>
+						</h:panelGroup>
+					</ul>
+				</div>
+				<!--/.nav-collapse -->
+			</h:form>
+		</div>
+	</div>
+</ui:composition>
