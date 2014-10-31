@@ -18,6 +18,7 @@
 		<result property="idTrackingNumber" column="idTrackingNumber" />
 		<result property="idFidelity" column="idFidelity" />
 		<result property="idCoupon" column="idCoupon" />
+		<result property="pcSconto" column="pcSconto" />
 		<collection property="billingAddress" ofType="it.othala.dto.DeliveryAddressDTO">
 			<result property="idAddress" column="idAddressBilling" />
 			<result property="userId" column="idUser" />
@@ -65,7 +66,7 @@
 		a.idOrder, a.idUser, a.imOrdine, a.idDeliveryCost,
 		a.idTransaction,
 		a.idAddressFat, a.idAddressSpe, a.idTrackingNumber,
-		a.idFidelity, a.idCoupon,
+		a.idFidelity, a.idCoupon, a.pcSconto,
 		b.idProdotto,
 		b.pgArticle,(a.imOrdine-i.imSpese) as imOrdineSenzaSpese,
 		b.qtArticle,
@@ -149,12 +150,12 @@
 		${database.schema}orders
 		(`idUser`,`imOrdine`,`idTransaction`,`idAddressFat`
 		,`idAddressSpe`,`idDeliveryCost`,`idTrackingNumber`,`idFidelity`,
-		`idCoupon` )
+		`idCoupon`, `pcSconto` )
 		values (
 		#{idUser},#{imOrdine},null,
 		#{billingAddress.idAddress},
 		#{shippingAddress.idAddress},
-		#{speseSpedizione.idDeliveryCost},null, #{idFidelity}, #{idCoupon})
+		#{speseSpedizione.idDeliveryCost},null, #{idFidelity}, #{idCoupon}, #{pcSconto})
 
 		<selectKey resultType="java.lang.Integer" keyProperty="idOrder">
 
