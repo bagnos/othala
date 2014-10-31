@@ -23,17 +23,38 @@
 						value="#{menu.txGender}" />
 			</a></li>
 		</ui:repeat>
-		<h:panelGroup rendered="#{applicationBean.menuFull.fgNuoviArrivi}">
-			<li><a href="#newArrival" id="newArr" data-toggle="tab"> <h:outputText
-						value="#{msg.catalog_newArrival}" />
+		<h:panelGroup rendered="#{applicationBean.menuFull.fgPromozioni}">
+
+			<li><a href="#promo2" id="promo" data-toggle="tab"> <h:outputText
+						value="#{msg.catalog_promo}" />
 			</a></li>
 		</h:panelGroup>
-		<h:panelGroup rendered="#{applicationBean.menuFull.fgPromozioni}">
-		
-		<li><a href="#promo2" id="promo" data-toggle="tab"> <h:outputText
-					value="#{msg.catalog_promo}" />
-		</a></li>
+
+
+		<h:panelGroup rendered="#{applicationBean.menuFull.fgNuoviArrivi}">
+			<li>
+				<!--  <a href="#newArrival" id="newArr" data-toggle="tab">--> <h:link
+					value="#{menu.txGender}" outcome="/cart/cart-catalog.xhtml">
+
+					<f:param name="idMenu" value="1"></f:param>
+					<f:param name="idSubMenu" value="0"></f:param>
+					<f:param name="fgNewArrivals" value="true"></f:param>
+					<f:param name="idCampaign" value="0"></f:param>
+
+					<h:outputText id="newArr" value="#{msg.catalog_newArrival}" />
+				</h:link> <!-- </a>  -->
+
+			</li>
 		</h:panelGroup>
+
+
+		<h:panelGroup>
+
+			<li><a href="#{request.contextPath}/faces/static/blog.xhtml">
+					<h:outputText value="BLOG" />
+			</a></li>
+		</h:panelGroup>
+
 	</ul>
 
 
@@ -117,6 +138,8 @@
 				</div>
 			</div>
 		</div>
+
+
 
 	</div>
 </ui:composition>
