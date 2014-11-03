@@ -16,11 +16,11 @@
 
 
 	<ui:define name="fb">
-	
+
 		<meta property="fb:app_id" content="1462056920726471" />
 		<meta property="og:type" content="product" />
 		<meta property="og:locale" content="en_US" />
-    <meta property="og:locale:alternate" content="it_IT" />
+		<meta property="og:locale:alternate" content="it_IT" />
 		<meta property="og:url"
 			content="http://adunata.org/Othala/faces/cart/cart-choice-2.xhtml?idPrd=#{cartChoice2View.idProduct}" />
 		<meta property="og:title" content="#{msg.nomeMerchant}" />
@@ -36,10 +36,10 @@
 		<meta property="product:shipping_cost:currency" content="EUR" />
 		-->
 
-		
-			<meta property="product:sale_price:amount" content="#{cartChoice2View.priceDiscountedStr}" />
-			<meta property="product:sale_price:currency" content="EUR" />
-		
+
+		<meta property="product:sale_price:amount" content="#{cartChoice2View.priceDiscountedStr}" />
+		<meta property="product:sale_price:currency" content="EUR" />
+
 	</ui:define>
 
 
@@ -49,7 +49,8 @@
 		<div id="fb-root"></div>
 
 		<script>
-
+		 		
+		
   window.fbAsyncInit = function() {
     FB.init({
       appId      : '1462056920726471',
@@ -66,6 +67,37 @@
      fjs.parentNode.insertBefore(js, fjs);
    }(document, 'script', 'facebook-jssdk'));
 
+  $(window).load(function() {
+	  // The slider being synced must be initialized first
+	  $('#carousel').flexslider({
+	    animation: "slide",
+	    controlNav: false,
+	    animationLoop: false,
+	    slideshow: false,
+	    itemWidth: 90,
+	    itemMargin: 5,
+	    asNavFor: '#slider'
+	  });
+	   
+	  $('#slider').flexslider({
+	    animation: "fade",
+	    controlNav: false,
+	    animationLoop: false,
+	    slideshow: false,
+	    sync: "#carousel"
+	  });
+
+	
+		  $('#carouselRelatedPrds').flexslider({
+		    animation: "slide",
+		    animationLoop: false,
+		    itemWidth: 90,
+		    itemMargin: 5
+		  });
+	
+	});
+
+ 
       </script>
 
 
@@ -93,35 +125,70 @@
 					</ol>
 				</div>
 
+
+
+
 				<div class="row">
 					<!-- IMMAGINE PRINCIPALE E GALLERIA -->
 					<div class="col-md-6">
 
-						<p:galleria value="#{cartFlowBean.detailProductFull.imagesUrl}" var="image" panelWidth="400"
-							panelHeight="543" showCaption="false" frameWidth="50" frameHeight="66">
-							<p:graphicImage library="images/cartThumbinals" name="#{image}" />
-						</p:galleria>
+
+
+						<!-- 
+						<p:galleria value="#{cartFlowBean.detailProductFull.imagesUrl}" var="image" autoPlay="false"
+							panelWidth="400" panelHeight="543" showCaption="false" frameWidth="50" frameHeight="66">
+						 
+							<p:graphicImage
+								pt:data-zoom-image="/Othala/faces/javax.faces.resource/#{image}?ln=images/cartThumbinals"
+								id="prdPrinc" library="images/cartThumbinals" name="#{image}" />
+						
+							
+
+						</p:galleria>-->
+						<div id="slider" class="flexslider">
+							<ul class="slides">
+								<ui:repeat var="image" value="#{cartFlowBean.detailProductFull.imagesUrl}">
+									<li><img
+										src="#{request.contextPath}/faces/javax.faces.resource/#{image}?ln=images/cartThumbinals" />
+									</li>
+								</ui:repeat>
+
+							</ul>
+						</div>
+
+						<div id="carousel" class="flexslider">
+							<ul class="slides">
+								<ui:repeat var="image" value="#{cartFlowBean.detailProductFull.imagesUrl}">
+									<li><img
+										src="#{request.contextPath}/faces/javax.faces.resource/#{image}?ln=images/cartThumbinals" />
+									</li>
+								</ui:repeat>
+							</ul>
+						</div>
 
 					</div>
+
+
+
 					<!-- DESCRZIONE ARTICOLE, TAGLIE E COLORI -->
 					<div class="col-md-5 articolo-sel">
 						<div class="row well">
-<div class="col-sm-10">
-							<h4>#{cartFlowBean.detailProductFull.txBrand}</h4>
-							<h5>#{cartFlowBean.detailProductFull.description}</h5>
-</div>
-<div class="col-sm-2">
-									<h:outputText styleClass="newPromo1" style="float:right"
-										rendered="#{cartFlowBean.detailProductFull.specialPrice != null and cartFlowBean.detailProductFull.specialPrice != 0}"
-										value="SPECIAL" />
-										
-									<h:outputText styleClass="newPromo2" style="float:right"
-										rendered="#{(cartFlowBean.detailProductFull.specialPrice == null or cartFlowBean.detailProductFull.specialPrice == 0) and cartFlowBean.detailProductFull.discount != null and cartFlowBean.detailProductFull.discount != 0 and cartFlowBean.detailProductFull.idCampaign == null}"
-										value="#{cartFlowBean.detailProductFull.discount} %" />
-									<h:outputText styleClass="newPromo3" style="float:right"
-										rendered="#{(cartFlowBean.detailProductFull.specialPrice == null or cartFlowBean.detailProductFull.specialPrice == 0) and cartFlowBean.detailProductFull.discount != null and cartFlowBean.detailProductFull.discount != 0 and cartFlowBean.detailProductFull.idCampaign != null}"
-										value="#{cartFlowBean.detailProductFull.discount} %" />
-</div>
+							<div class="col-sm-10">
+								<h4>#{cartFlowBean.detailProductFull.txBrand}</h4>
+								<h5>#{cartFlowBean.detailProductFull.description}</h5>
+							</div>
+							<div class="col-sm-2">
+								<h:outputText styleClass="newPromo1" style="float:right"
+									rendered="#{cartFlowBean.detailProductFull.specialPrice != null and cartFlowBean.detailProductFull.specialPrice != 0}"
+									value="SPECIAL" />
+
+								<h:outputText styleClass="newPromo2" style="float:right"
+									rendered="#{(cartFlowBean.detailProductFull.specialPrice == null or cartFlowBean.detailProductFull.specialPrice == 0) and cartFlowBean.detailProductFull.discount != null and cartFlowBean.detailProductFull.discount != 0 and cartFlowBean.detailProductFull.idCampaign == null}"
+									value="#{cartFlowBean.detailProductFull.discount} %" />
+								<h:outputText styleClass="newPromo3" style="float:right"
+									rendered="#{(cartFlowBean.detailProductFull.specialPrice == null or cartFlowBean.detailProductFull.specialPrice == 0) and cartFlowBean.detailProductFull.discount != null and cartFlowBean.detailProductFull.discount != 0 and cartFlowBean.detailProductFull.idCampaign != null}"
+									value="#{cartFlowBean.detailProductFull.discount} %" />
+							</div>
 
 							<div class="row">
 								<div class="col-sm-4">
@@ -134,7 +201,8 @@
 									<!--  
 									<div class="fb-like" 
 										data-layout="button" data-action="like" data-show-faces="false" data-share="false"></div>-->
-									<div class="fb-like" data-layout="button_count"  data-share="true" data-width="450" data-show-faces="true"></div>
+									<div class="fb-like" data-layout="button_count" data-share="true" data-width="450"
+										data-show-faces="true"></div>
 
 
 								</div>
@@ -142,12 +210,12 @@
 
 							<br />
 							<div class="row" style="font-size: 18px;">
-								<div class="col-sm-3" >
-							
-								<h:outputText value="#{msg.catalog_price}">
+								<div class="col-sm-3">
+
+									<h:outputText value="#{msg.catalog_price}">
 									</h:outputText>
 								</div>
-								
+
 								<div class="col-sm-3">
 
 									<h:outputText value="#{cartFlowBean.detailProductFull.price}"
@@ -166,11 +234,11 @@
 
 								</div>
 							</div>
-														<br />
+							<br />
 							<div class="row">
-							
-										<div class="col-sm-3">
-								<h:outputText value="#{msg.catalog_discounted}"
+
+								<div class="col-sm-3">
+									<h:outputText value="#{msg.catalog_discounted}"
 										rendered="#{cartFlowBean.detailProductFull.price != cartFlowBean.detailProductFull.priceDiscounted}">
 									</h:outputText>
 								</div>
@@ -203,9 +271,6 @@
 												<f:ajax render="prd-detail" listener="#{cartChoice2View.changeSize}"></f:ajax>
 											</h:selectOneMenu>
 											<p:message for="selSize" id="errSelSize" />
-
-
-
 										</div>
 									</div>
 									<div class="col-sm-5">
@@ -234,21 +299,12 @@
 													value="#{cartChoice2View.qtaArticle}" maxlength="2" size="2"
 													min="#{cartChoice2View.min}" max="#{cartChoice2View.max}" />
 											</div>
-
 										</div>
-
 									</div>
 								</h:panelGroup>
-
-
 							</h:panelGroup>
-
-
 						</div>
-
 						<div class="row">
-
-
 							<div class="col-sm-6">
 								<p:commandButton icon="ui-icon-triangle-1-w btn-articolo-sel"
 									action="#{cartChoice2View.goToCatalogo}" value="#{msg.catalog_back}" />
@@ -258,19 +314,9 @@
 									disabled="#{cartChoice2View.qtaArticle==null or cartChoice2View.qtaArticle==0 }"
 									id="add-cart" styleClass="ui-priority-primary btn-articolo-sel"
 									value="#{msg.catalog_addToCart}" ajax="false" action="#{cartChoice2View.goToCart}">
-
 								</p:commandButton>
-
-
 							</div>
-
 						</div>
-
-
-
-
-
-
 					</div>
 				</div>
 
@@ -284,10 +330,46 @@
 
 				<div class="row">
 					<div class="col-sm-12">
+						<div id="carouselRelatedPrds" class="flexslider">
+							<ul class="slides">
+								<ui:repeat var="art" value="#{cartFlowBean.catalog.articles}">
+									<li><h:panelGroup
+											rendered="#{art.idProduct!=cartFlowBean.detailProductFull.idProduct}">
+											<h:link outcome="cart-choice-2" rendered="#{art.idProduct != null}">
+
+												<h:graphicImage title="#{art.txBrand} #{art.description}" styleClass="img-responsive"
+													library="images/cartThumbinals" name="#{art.thumbnailsUrl}" />
+												<f:param name="idPrd" value="#{art.idProduct}"></f:param>
+											</h:link>
+
+											<div class="row text-center">
 
 
+												<h5>
+													<h:outputText value="#{art.price}"
+														styleClass="#{art.price != art.priceDiscounted?'onSale':''}">
+														<f:converter converterId="it.othala.BigDecimalConverter" />
+													</h:outputText>
+												</h5>
+
+											
+
+												<h5>
+													<h:outputText value="#{art.priceDiscounted}"
+														rendered="#{art.price != art.priceDiscounted}" >
+														<f:converter converterId="it.othala.BigDecimalConverter" />
+													</h:outputText>
+												</h5>
+
+											</div>
+										</h:panelGroup></li>
+								</ui:repeat>
+							</ul>
+						</div>
+
+						<!-- 
 						<div class="row" style="margin-left: 0px; margin-right: 0px; margin-top: 10px;">
-							<div id="myCarousel" class="carousel slide">
+							<div id="myCarousel" class="carousel">
 
 								<div class="carousel-inner">
 
@@ -351,16 +433,14 @@
 								<a data-slide="prev" href="#myCarousel" class="left carousel-control" style="width: 5%;">‹</a>
 								<a data-slide="next" href="#myCarousel" class="right carousel-control" style="width: 5%;">›</a>
 							</div>
-						</div>
-
+							
+					</div>
+-->
 					</div>
 				</div>
 			</div>
 
-
 		</h:form>
-		
-		
 
 
 	</ui:define>
