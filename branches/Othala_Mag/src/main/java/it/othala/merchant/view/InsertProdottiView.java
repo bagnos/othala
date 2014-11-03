@@ -654,6 +654,7 @@ public class InsertProdottiView extends BaseView {
 
 		// FileOutputStream fileOutputStream = new FileOutputStream(result);
 		InputStream inputStream = file.getInputstream();
+		String format=file.getContentType().split("/")[1];
 
 		// IOUtils.copy(inputStream, fileOutputStream);
 		Date date = new Date();
@@ -662,7 +663,7 @@ public class InsertProdottiView extends BaseView {
 				BASE_IMG_PATH, dateFormat.format(date)
 						+ separatorDateFormat
 						+ file.getFileName()
-								.replaceAll(separatorDateFormat, ""));
+								.replaceAll(separatorDateFormat, ""),format);
 
 		return fileResized;
 

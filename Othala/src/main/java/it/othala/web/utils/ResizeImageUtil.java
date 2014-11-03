@@ -33,7 +33,7 @@ public class ResizeImageUtil {
 		file.delete();
 	}
 
-	public static String resizeAndCopyImage(InputStream fileIS, String basePathToCopy, String nomeFile)
+	public static String resizeAndCopyImage(InputStream fileIS, String basePathToCopy, String nomeFile,String format)
 			throws IOException {
 
 		int w, h = 0;
@@ -45,7 +45,7 @@ public class ResizeImageUtil {
 
 		String fileResized = getBasePath() + File.separator + nomeFile;
 
-		Thumbnails.of(fileIS).size(w, h).outputFormat("jpeg").toFile(fileResized);
+		Thumbnails.of(fileIS).size(w, h).outputFormat(format).toFile(fileResized);
 
 		return nomeFile;
 	}
