@@ -68,6 +68,7 @@ public class InsertProdottiView extends BaseView {
 	private String newMaterial;
 	private String newMaterialEN;
 	private String newType;
+	private String newTypeEN;
 	private boolean pubblica;
 
 	private Boolean fgRead;
@@ -139,6 +140,14 @@ public class InsertProdottiView extends BaseView {
 		this.newType = newType;
 	}
 
+	public String getNewTypeEN() {
+		return newTypeEN;
+	}
+
+	public void setNewTypeEN(String newTypeEN) {
+		this.newTypeEN = newTypeEN;
+	}
+	
 	public String getNewColor() {
 		return newColor;
 	}
@@ -706,13 +715,14 @@ public class InsertProdottiView extends BaseView {
 	}
 
 	public void addNewType(ActionEvent e) {
-		if (newType == null || newType.isEmpty()) {
+		if (newType == null || newType.isEmpty() || newTypeEN == null || newTypeEN.isEmpty()) {
 			addError("Nuovo tipo", "inserire il tipo");
 			return;
 		}
 		try {
-			OthalaFactory.getProductServiceInstance().insertType(getLang(), newType);
+			OthalaFactory.getProductServiceInstance().insertType(getLang(), newType, newTypeEN);
 			getBeanApplication().resetDomain();
+			tipo = completeTipo(newType).get(0);
 			addInfo("Nuovo tipo", "tipo inserito correttamente");
 
 		} catch (Exception ex) {
