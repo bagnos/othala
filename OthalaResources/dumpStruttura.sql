@@ -633,15 +633,19 @@ CREATE TABLE `states_refound` (
 -- Table structure for table `type`
 --
 
+--
+-- Table structure for table `type`
+--
+
 DROP TABLE IF EXISTS `type`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `type` (
-  `idType` int(11) NOT NULL AUTO_INCREMENT,
+  `idType` int(11) NOT NULL,
   `idLanguages` varchar(2) NOT NULL,
   `txType` varchar(200) NOT NULL,
   PRIMARY KEY (`idType`,`idLanguages`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
