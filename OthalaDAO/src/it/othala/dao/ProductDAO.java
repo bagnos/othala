@@ -499,6 +499,14 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	}
 
 	@Override
+	public Integer getMaxIdType() {
+
+		return getSqlSession().selectOne(
+				"it.othala.product.queries.getMaxIdType");
+
+	}
+	
+	@Override
 	public Integer getQtStockLock(Integer idProduct, Integer pgArticle) {
 
 		HashMap<String, Object> mapProduct = new HashMap<>();
@@ -617,16 +625,19 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		getSqlSession().insert("it.othala.product.queries.insertMaterial", map);
 
 	}
-
+	
 	@Override
-	public void insertType(String languages, String txType) {
+	public void insertType(Integer idType, String languages,
+			String txType) {
 		HashMap<String, Object> map = new HashMap<>();
+		map.put("idType", idType);
 		map.put("languages", languages);
-		map.put("txBrand", txType);
+		map.put("txType", txType);
 
 		getSqlSession().insert("it.othala.product.queries.insertType", map);
 
 	}
+	
 
 	@Override
 	public List<AttributeDTO> listStatesOrder() {

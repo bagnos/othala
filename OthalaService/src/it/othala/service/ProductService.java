@@ -152,9 +152,13 @@ public class ProductService implements IProductService {
 	}
 
 	@Override
-	public DomainDTO insertType(String languages, String txType) {
+	public DomainDTO insertType(String languages, String txType, String txTypeEN) {
 
-		productDAO.insertType(languages, txType);
+		Integer maxIdType = productDAO.getMaxIdType();
+		maxIdType = maxIdType + 1;
+		
+		productDAO.insertType(maxIdType, "it", txType);
+		productDAO.insertType(maxIdType, "en", txTypeEN);
 
 		DomainDTO domainDTO = new DomainDTO();
 		domainDTO.setSize(productDAO.listSize(languages));

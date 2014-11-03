@@ -758,9 +758,9 @@
 
 		INSERT INTO
 		${database.schema}type
-		(`idLanguages`,`txType`)
+		(`idType`,`idLanguages`,`txType`)
 		values (
-		#{languages},#{txType})
+		#{idType},#{languages},#{txType})
 
 	</insert>
 
@@ -847,6 +847,15 @@
 
 	</select>
 
+	<select id="getMaxIdType" resultType="Integer">
+
+		SELECT MAX(idType)
+		FROM ${database.schema}type;
+
+
+	</select>
+	
+	
 	<select id="getQtStockLock" resultType="Integer" parameterType="java.util.HashMap">
 
 		SELECT qtStock
