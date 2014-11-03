@@ -54,6 +54,37 @@
 ================================================================================================*/
 
 /* ================================================================================================ 
+	FLEXSLIDER
+================================================================================================*/
+
+/* ================================================================================================ 
+	FINE FLEXSLIDER
+================================================================================================*/
+#carousel li {
+	margin-right: 5px;
+}
+
+#carousel img {
+	display: block;
+	opacity: .5;
+	cursor: pointer;
+}
+
+#carousel img:hover {
+	opacity: 1;
+}
+
+#carousel .flex-active-slide img {
+	opacity: 1;
+	cursor: default;
+}
+
+.flexslider {
+	margin-bottom: 10px !important;
+	Z-INDEX: 0;
+}
+
+/* ================================================================================================ 
 	GENERICHE
 ================================================================================================*/
 .truncate {
@@ -335,13 +366,10 @@
 /* ================================================================================================ 
 	INIZIO TAB NAV BAR 
 ================================================================================================*/
-
-
 .nav-tabs>li>a {
 	font-family: playregular !important;
-	
 	font-size: 18px !important;
-	color:rgb(102, 102, 102);
+	color: rgb(102, 102, 102);
 }
 
 #newArr {
@@ -354,7 +382,6 @@
 
 #tab-content a {
 	font-family: playregular !important;
-	
 	font-size: 13px !important;;
 	color: #888 !important;;
 	padding: 0 0 0 11px;
@@ -673,7 +700,11 @@ html,body,form {
 
 
 
+
+
 .clickable
+
+
 
 
 
@@ -712,6 +743,8 @@ li
 
 
 
+
+
 :not
 
 
@@ -723,7 +756,9 @@ li
 
 
 
+
  
+
 
 
 
@@ -746,7 +781,9 @@ li
 
 
 
+
  
+
 
 
 
@@ -780,7 +817,10 @@ cursor
 
 
 
+
+
 :
+
 
 
 
@@ -802,7 +842,10 @@ cursor
 
 
 
+
 pointer
+
+
 
 
 
@@ -847,7 +890,10 @@ pointer
 
 
 
+
+
 .clickable
+
 
 
 
@@ -869,7 +915,10 @@ pointer
 
 
 
+
 li
+
+
 
 
 
@@ -911,6 +960,8 @@ li
 
 
 
+
+
 :not
 
 
@@ -922,7 +973,9 @@ li
 
 
 
+
  
+
 
 
 
@@ -945,7 +998,9 @@ li
 
 
 
+
  
+
 
 
 
@@ -979,7 +1034,10 @@ background
 
 
 
+
+
 :
+
 
 
 
@@ -1001,7 +1059,10 @@ background
 
 
 
+
 #ccc
+
+
 
 
 
@@ -1057,7 +1118,9 @@ background
 /* RESPONSIVE */
 @media ( min-width : 992px) {
 	#logo {
-		position: absolute; top : -5px; right : 15px;
+		position: absolute;
+		top: -5px;
+		right: 15px;
 		z-index: 29;
 		top: -5px;
 		right: 15px;
@@ -1071,22 +1134,19 @@ background
 		margin-top: 6px;
 		margin-bottom: 6px;
 	}
-	#logo {		
-		position:static;
+	#logo {
+		position: static;
 		z-index: 29;
-		margin-bottom:5px;
-		
+		margin-bottom: 5px;
 	}
-	
 }
 
 /* Lastly, apply responsive CSS fixes as necessary */
 @media ( max-width : 767px) {
-	#logo {		
-		position:static;
+	#logo {
+		position: static;
 		z-index: 29;
-		margin-bottom:5px;
-		
+		margin-bottom: 5px;
 	}
 	#content {
 		padding-top: 2px !important;
@@ -1123,74 +1183,63 @@ background
 		margin-top: 6px;
 		margin-bottom: 6px;
 	}
-} 
+}
 
 /* ================================================================================================ 
 	CUSTOM BOOTSTRAP 
 ================================================================================================*/
 #merchant-breadcrumb.breadcrumb {
-  margin: 0;
-  background-color: transparent;
-  border-radius: 0;
- 
+	margin: 0;
+	background-color: transparent;
+	border-radius: 0;
 }
 
-#merchant-breadcrumb.breadcrumb > li + li:before {
-  color: black;
+#merchant-breadcrumb.breadcrumb>li+li:before {
+	color: black;
 }
 
-#merchant-breadcrumb.breadcrumb > .active {
-  color: black !important;
-  cursor: default !important;
-   font-size: 11px;
-  text-transform: uppercase;
+#merchant-breadcrumb.breadcrumb>.active {
+	color: black !important;
+	cursor: default !important;
+	font-size: 11px;
+	text-transform: uppercase;
 }
 
 #merchant-breadcrumb.breadcrumb>li>a:hover {
-text-decoration: none;
-cursor: pointer !important;
+	text-decoration: none;
+	cursor: pointer !important;
 }
-#merchant-breadcrumb.breadcrumb>li>a {
-color: black !important;
-text-decoration: none;
 
+#merchant-breadcrumb.breadcrumb>li>a {
+	color: black !important;
+	text-decoration: none;
 }
-#merchant-breadcrumb>li>a:hover, a:focus {
-text-decoration: underline;
+
+#merchant-breadcrumb>li>a:hover,a:focus {
+	text-decoration: underline;
 }
+
 .control-label {
 	text-align: left !important;
 }
-.navbar-nav > li > a {padding-top:5px !important; padding-bottom:5px !important;}
-.navbar {min-height:32px !important}
 
-
-.tumblr_body
-
-{
-
-
-            font-size:16px;
-            line-height:1.5em;
-
-            
-
+.navbar-nav>li>a {
+	padding-top: 5px !important;
+	padding-bottom: 5px !important;
 }
 
-.tumblr_post
-
-{
-                        
-            padding: 15px;
-            line-height:1.5em;
-            font-size:20px;
-            list-style:none;
-
+.navbar {
+	min-height: 32px !important
 }
 
+.tumblr_body {
+	font-size: 16px;
+	line-height: 1.5em;
+}
 
-
-
-
-
-
+.tumblr_post {
+	padding: 15px;
+	line-height: 1.5em;
+	font-size: 20px;
+	list-style: none;
+}
