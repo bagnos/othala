@@ -34,8 +34,6 @@ public class OrderFullDTO implements Serializable {
 	private BigDecimal imItemOrdine;
 	private String idFidelity;
 	private String idCoupon;
-	private int pcScontoFidelity;
-	private int pcScontoCoupon;
 	private int pcSconto;
 	private BigDecimal imOrdineDiscount;
 	private BigDecimal imOrdineSenzaSpese;
@@ -58,22 +56,7 @@ public class OrderFullDTO implements Serializable {
 	}
 
 	
-	public int getPcScontoFidelity() {
-		return pcScontoFidelity;
-	}
-
-	public void setPcScontoFidelity(int pcScontoFidelity) {
-		this.pcScontoFidelity = pcScontoFidelity;
-	}
-
-	public int getPcScontoCoupon() {
-		return pcScontoCoupon;
-	}
-
-	public void setPcScontoCoupon(int pcScontoCoupon) {
-		this.pcScontoCoupon = pcScontoCoupon;
-	}
-
+	
 	public String getIdFidelity() {
 		return idFidelity;
 	}

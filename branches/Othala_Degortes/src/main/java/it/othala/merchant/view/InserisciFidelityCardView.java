@@ -97,10 +97,10 @@ public class InserisciFidelityCardView extends BaseView {
 	}
 
 	public void inserisciFidelity(ActionEvent e) {
-		try {
-
+		try { 
+			String idFidelity=null;
 			if (!isModifica()) {
-				OthalaFactory.getOrderServiceInstance().addFidelityCard(fidelityCardDTO);
+				idFidelity=OthalaFactory.getOrderServiceInstance().addFidelityCard(fidelityCardDTO);
 			} else {
 
 				OthalaFactory.getOrderServiceInstance().aggiornaFidelity(fidelityCardDTO.getIdFidelity(),
@@ -109,10 +109,10 @@ public class InserisciFidelityCardView extends BaseView {
 			}
 
 			resetFidelity();
-			addInfo("Fidelity card", "Inserimento eseguito correttamente");
+			addInfo("Fidelity card", String.format("Inserimento eseguito correttamente, fidelity numero %s",idFidelity));
 		} catch (Exception ex) {
 			// TODO Auto-generated catch block
-			addGenericError(ex, "errore generazione coupon");
+			addGenericError(ex, "errore generazione fidelity");
 		}
 	}
 

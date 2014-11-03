@@ -308,7 +308,7 @@ public class OrderService implements IOrderService {
 	@Override
 	public CouponDTO checkCoupon(String idCoupon, String idUser) throws OthalaException {
 
-		List<CouponDTO> listCoupons = orderDAO.getCoupons(idCoupon, null);
+		List<CouponDTO> listCoupons = orderDAO.getCoupons(idCoupon, idUser);
 
 		if (listCoupons.get(0) != null) {
 			if (listCoupons.get(0).getDtScadenza().compareTo(new Date()) < 0) {
@@ -317,11 +317,6 @@ public class OrderService implements IOrderService {
 			if (listCoupons.get(0).getQtUtilizzo() != null) {
 				if (listCoupons.get(0).getQtUtilizzo() == 0) {
 					throw new CouponBurntException(idCoupon);
-				}
-			}
-			if (listCoupons.get(0).getIdUser() != null) {
-				if (listCoupons.get(0).getIdUser() != idUser) {
-					throw new CouponNotValidException(idCoupon);
 				}
 			}
 
@@ -676,8 +671,9 @@ public class OrderService implements IOrderService {
 
 	@Override
 	public String addFidelityCard(FidelityCardDTO carta) {
-		SecureRandom random = new SecureRandom();
-		carta.setIdFidelity(new BigInteger(64, random).toString(32).toUpperCase());
+		if (carta.getIdFidelity() == null || carta.getIdFidelity().isEmpty()) {
+			carta.setIdFidelity(RandomStringUtils.randomAlphanumeric(9).toUpperCase());
+		}
 		orderDAO.newFidelityCard(carta);
 
 		return carta.getIdFidelity();
@@ -687,7 +683,7 @@ public class OrderService implements IOrderService {
 	@Override
 	public FidelityCardDTO checkFidelityCard(String idFidelity, String eMail, String celNum)
 			throws FidelityCardNotPresentException, FidelityCardNotValidException {
-		List<FidelityCardDTO> fCard = orderDAO.getFidelityCard(idFidelity,null,null,null);
+		List<FidelityCardDTO> fCard = orderDAO.getFidelityCard(idFidelity, null, null, null);
 		if (fCard.get(0) == null)
 			throw new FidelityCardNotPresentException(idFidelity);
 
@@ -708,7 +704,8 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public void aggiornaFidelity(String idFidelity, Integer pcSconto, String txNome, String txCognome, String txEmail, String txTel) {
+	public void aggiornaFidelity(String idFidelity, Integer pcSconto, String txNome, String txCognome, String txEmail,
+			String txTel) {
 		orderDAO.updateFidelity(idFidelity, pcSconto, txNome, txCognome, txEmail, txTel);
 
 	}
@@ -888,13 +885,13 @@ public class OrderService implements IOrderService {
 	@Override
 	public void deleteFidelityCard(String idFidelity) throws Exception {
 		orderDAO.deleteFidelityCard(idFidelity);
-		
+
 	}
 
 	@Override
-	public List<FidelityCardDTO> getFidelityCards(String idFidelity,
-			String txNome, String txCognome, String txEmail) throws Exception {
-	
+	public List<FidelityCardDTO> getFidelityCards(String idFidelity, String txNome, String txCognome, String txEmail)
+			throws Exception {
+
 		return orderDAO.getFidelityCard(idFidelity, txNome, txCognome, txEmail);
 	}
 
