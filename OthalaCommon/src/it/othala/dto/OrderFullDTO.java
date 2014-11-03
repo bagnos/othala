@@ -57,6 +57,7 @@ public class OrderFullDTO implements Serializable {
 		this.imOrdineDiscount = imOrdineDiscount;
 	}
 
+	
 	public int getPcScontoFidelity() {
 		return pcScontoFidelity;
 	}
