@@ -549,7 +549,7 @@ DROP TABLE IF EXISTS `site_images`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `site_images` (
-  `idsiteImages` int(11) NOT NULL,
+  `idsiteImages` int(11) NOT NULL AUTO_INCREMENT,
   `txGroupImages` varchar(45) DEFAULT NULL,
   `pgGroupImages` int(11) DEFAULT NULL,
   `txLibrary` varchar(45) DEFAULT NULL,
@@ -570,7 +570,7 @@ CREATE TABLE `size` (
   `idSize` int(11) NOT NULL,
   `txSize` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`idSize`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 
