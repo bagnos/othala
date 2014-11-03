@@ -141,6 +141,8 @@ public class CartChoice2View extends BaseView {
 				priceDiscountedStr = getCartFlowBean().getDetailProductFull()
 						.getPriceDiscounted().setScale(2, RoundingMode.HALF_UP).toString();
 			}
+			
+			
 
 			List<ProductCarouselDTO> carouselList = new ArrayList<ProductCarouselDTO>();
 			ProductCarouselDTO a = null;
