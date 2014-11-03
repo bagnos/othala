@@ -351,7 +351,7 @@ public class CartWizardView extends BaseView {
 		FidelityCardDTO fidelity = null;
 		getCartFlowBean().setPcScontoCoupon(0);
 		getCartFlowBean().setPcScontoFidelity(0);
-		
+
 		if (getCartFlowBean().getCoupon() != null && !getCartFlowBean().getCoupon().isEmpty()) {
 			// inserito coupon
 
@@ -381,26 +381,22 @@ public class CartWizardView extends BaseView {
 		}
 		int pcScontoTotale = getCartFlowBean().getPcScontoCoupon() + getCartFlowBean().getPcScontoFidelity();
 
-		
-
 		getCartFlowBean().setTotalPriceOrdeNoDiscount(
 				getCartFlowBean().getTotalItemOrder().add(getCartFlowBean().getDeliveryCost().getImportoSpese()));
-		
+
 		if (pcScontoTotale > 0) {
 			BigDecimal sconto = new BigDecimal(pcScontoTotale);
 			sconto = sconto.divide(new BigDecimal(100));
 			getCartFlowBean().setAmtDiscount(getCartFlowBean().getTotalPriceOrdeNoDiscount().multiply(sconto));
 			sconto = getCartFlowBean().getTotalPriceOrdeNoDiscount().subtract(getCartFlowBean().getAmtDiscount());
-			
-		}
-		else
-		{
+
+		} else {
 			getCartFlowBean().setAmtDiscount(BigDecimal.ZERO);
 		}
-		
-		
-		getCartFlowBean().setTotalPriceOrder(getCartFlowBean().getTotalPriceOrdeNoDiscount().subtract(getCartFlowBean().getAmtDiscount()));
-		
+
+		getCartFlowBean().setTotalPriceOrder(
+				getCartFlowBean().getTotalPriceOrdeNoDiscount().subtract(getCartFlowBean().getAmtDiscount()));
+
 		RequestContext.getCurrentInstance().execute(WizardUtil.NextStepWizard());
 	}
 
@@ -494,16 +490,17 @@ public class CartWizardView extends BaseView {
 		order.setIdUser(getLoginBean().getEmail());
 		order.setNameUser(getLoginBean().getName());
 		order.setSurnameUser(getLoginBean().getSurname());
-		
+
 		order.setIdFidelity(null);
+		order.setPcSconto(getCartFlowBean().getPcScontoFidelity() + getCartFlowBean().getPcScontoCoupon());
 		if (getCartFlowBean().getPcScontoFidelity() > 0) {
 			order.setIdFidelity(getCartFlowBean().getFidelityCard());
-			order.setPcScontoCoupon(getCartFlowBean().getPcScontoFidelity());
+
 		}
 		order.setIdCoupon(null);
 		if (getCartFlowBean().getPcScontoCoupon() > 0) {
 			order.setIdCoupon(getCartFlowBean().getCoupon());
-			order.setPcScontoCoupon(getCartFlowBean().getPcScontoCoupon());
+
 		}
 
 		// importo

@@ -210,7 +210,10 @@
 									<td colspan="5" class="text-right"><strong>#{msg.catalog_total}</strong></td>
 									<td><h:outputText value="#{myAccountView.order.imOrdine}">
 											<f:converter converterId="it.othala.BigDecimalConverter" />
-										</h:outputText></td>
+										</h:outputText><h:outputText styleClass="discount" rendered="#{myAccountView.order.pcSconto>0}"
+														value=" (#{msg.catalogo_discounted} #{myAccountView.order.pcSconto}%)">
+
+													</h:outputText></td>
 								</tr>
 
 							</tfoot>

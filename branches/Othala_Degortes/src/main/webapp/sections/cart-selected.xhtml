@@ -57,7 +57,8 @@
 								<td colspan="5" class="text-right"><strong>#{msg.catalog_total}</strong></td>
 								<td><h:outputText value="#{cartFlowBean.totalPriceOrder}">
 										<f:converter converterId="it.othala.BigDecimalConverter" />
-									</h:outputText> <h:outputText style="margin-left:5px" styleClass="onSale"
+									</h:outputText> 
+									<h:outputText style="margin-left:5px" styleClass="onSale"
 										rendered="#{cartFlowBean.pcScontoFidelity!=0 or cartFlowBean.pcScontoCoupon!=0}"
 										value="#{cartFlowBean.totalPriceOrdeNoDiscount}">
 										<f:converter converterId="it.othala.BigDecimalConverter" />
