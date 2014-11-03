@@ -90,9 +90,9 @@
 									<p:ajax event="itemSelect" update=":frm-arts" />
 								</p:autoComplete>
 							</h:panelGroup>
-							<!-- 
-							<p:commandButton title="Aggiungi Tipo" icon="ui-icon-plus" type="button"
-								onclick="PF('dlgInsTipo').show();" /> -->
+							
+							<p:commandButton rendered="#{insertProdottiView.fgRead==false}" title="Aggiungi Tipo" icon="ui-icon-plus" type="button"
+								onclick="$('#newTipo1').val('');$('#newTipo2').val('');PF('dlgInsTipo').show();" /> 
 
 						</div>
 
@@ -285,11 +285,16 @@
 			<p:dialog header="Nuovo Tipo" id="dlgInsTipo" widgetVar="dlgInsTipo" modal="true" height="100">
 				<div class="row text-center">
 					<div class="col-sm-12 ">
-						<p:inputText label="nuovo tipo" id="newTipo1" required="true"
+					<p:outputLabel style="padding-right: 5px;">IT</p:outputLabel>
+						<p:inputText label="nuovo tipo IT" id="newTipo1" required="true"
 							value="#{insertProdottiView.newType}" maxlength="40" size="40" />
 						<br /> <br />
+						<p:outputLabel style="padding-right: 5px;">EN</p:outputLabel>
+						<p:inputText label="nuovo tipo EN" id="newTipo2" required="true"
+							value="#{insertProdottiView.newTypeEN}" maxlength="40" size="40" />
+						<br /> <br />
 						<p:commandButton id="cmdInsType" oncomplete="PF('dlgInsTipo').hide();" ajax="true"
-							validateClient="true" process="@this newTipo1" partialSubmit="true" update=":frmProd:tipoPnl"
+							validateClient="true" process="@this newTipo1 newTipo2" partialSubmit="true" update=":frmProd:tipoPnl"
 							actionListener="#{insertProdottiView.addNewType}" value="Inserisci"></p:commandButton>
 					</div>
 				</div>
