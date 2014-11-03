@@ -1,0 +1,125 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/merchantPageTemplate.xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:viewAction action="#{gestioneOrdiniView.doInit}"></f:viewAction>
+		</f:metadata>
+	</ui:define>
+
+
+	<ui:define name="title">
+		<h:outputText value="Ricerca Prodotti"></h:outputText>
+	</ui:define>
+
+	<ui:define name="Pagina">Ricerca</ui:define>
+	<ui:define name="PaginaBreadcrumb">Ricerca Ordini</ui:define>
+
+	<ui:define name="bodyPageContent">
+		<h:form prependId="false" id="frmOrd"  styleClass="form-horizontal">
+			<p:growl id="messages" showDetail="true" autoUpdate="true" />
+
+			<div class="row">
+				<div class="col-sm-4">
+					<h3 class="form-titoli">
+						<h:outputText value="Ricerca Ordini" />
+					</h3>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="form-group spacer10">
+						<p:outputLabel styleClass="col-sm-1 control-label" for="idOrder" value="Nr. Ordine" />
+						<div class="col-sm-1 ">
+							<p:inputText styleClass="form-control"  value="#{merchantBean.idOrdine}" id="idOrder"></p:inputText>
+						</div>
+
+						<p:outputLabel class="col-sm-1 control-label" for="stato" value="Stato" />
+						<div class="col-sm-3 ">
+							<h:selectOneMenu id="stato" converter="it.othala.StateOrderConverter" styleClass="form-control" required="false" value="#{merchantBean.statoOrdine}">
+								<f:selectItem itemLabel="Segli uno stato..."   noSelectionOption="true" ></f:selectItem>
+								<f:selectItems  value="#{applicationBean.statesOrder}" var="order" itemValue="#{order}"
+									itemLabel="#{order.valore}"></f:selectItems>
+							</h:selectOneMenu>
+						</div>
+
+					</div>
+
+
+					<div class="form-group">
+						<p:outputLabel for="userOrder" class="col-sm-1 control-label" value="User" />
+						<div class="col-sm-3 ">
+							<p:inputText styleClass="form-control" maxlength="30" id="userOrder"
+								value="#{merchantBean.user}" />
+						</div>
+						<p:outputLabel styleClass="col-sm-1 control-label" for="idTransazione" value="Transazione" />
+						<div class="col-sm-3 ">
+							<p:inputText styleClass="form-control" value="#{merchantBean.idTransazione}"
+								id="idTransazione"></p:inputText>
+						</div>
+					</div>
+					<p:commandButton styleClass="ui-priority-primary" process="@form" update="@form" id="findPrds"
+						value="#{msg.catalog_find}" actionListener="#{gestioneOrdiniView.findOrders}">
+					</p:commandButton>
+				</div>
+			</div>
+
+			<div class="row spacer20">
+				<h:panelGroup rendered="#{merchantBean.ordersFounded!=null}">
+					<div class="col-sm-12">
+
+						<p:contextMenu event="click" for="orders" id="contextMenu">
+							<p:menuitem value="Dettaglio" url="dettaglioOrdine.xhtml?cercaOrd=true" icon="ui-icon-search">
+							</p:menuitem>
+
+						</p:contextMenu>
+						<p:dataTable var="ord" rowKey="#{ord.idOrder}" id="orders" stickyHeader="true"
+							value="#{merchantBean.ordersFounded}" rows="10" paginator="true" paginatorPosition="bottom"
+							selection="#{merchantBean.orderSelected}" emptyMessage="Nessun ordine trovato" 
+							currentPageReportTemplate="Nr. Elementi {totalRecords}"
+							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+							selectionMode="single">
+
+							<p:ajax event="rowSelect" update=":frmOrd:contextMenu" />
+
+							<f:facet name="header">
+		 						ORDINI TROVATI
+		 						</f:facet>
+							<p:column headerText="Id" style="width:40px">
+								<h:outputText value="#{ord.idOrder}" />
+							</p:column>
+
+							<p:column headerText="User" styleClass="truncate">
+								<h:outputText id="user" value="#{ord.idUser}" />
+								<p:tooltip for="user" value="#{ord.idUser}" />
+
+							</p:column>
+
+							<p:column headerText="Data" style="width:90px">
+								<h:outputText value="#{ord.dtStato}">
+									<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+								</h:outputText>
+							</p:column>
+
+							<p:column headerText="Importo" style="width:100px">
+								<h:outputText value="#{ord.imOrdine}" converter="it.othala.BigDecimalConverter" />
+							</p:column>
+
+							<p:column headerText="Transazione">
+								<h:outputText value="#{ord.idTransaction}" />
+							</p:column>
+							<p:column headerText="Stato">
+								<h:outputText value="#{ord.txStato}" />
+							</p:column>
+						</p:dataTable>
+					</div>
+				</h:panelGroup>
+			</div>
+
+
+		</h:form>
+	</ui:define>
+</ui:composition>
