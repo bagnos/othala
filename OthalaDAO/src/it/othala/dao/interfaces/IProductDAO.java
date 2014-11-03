@@ -79,7 +79,7 @@ public interface IProductDAO {
 
 
 
-	public void insertType(String languages, String txType);
+	public void insertType(Integer idType,String languages, String txType);
 
 	public List<AttributeDTO> listStatesOrder();
 	public List<AttributeDTO> listStatesProduct();
@@ -108,6 +108,7 @@ public interface IProductDAO {
 
 	public Integer getMaxIdColor();
 	public Integer getMaxIdMaterial();
+	public Integer getMaxIdType();
 
 	public ProductFullNewDTO getProductFullBarcode(String txBarcode);
 

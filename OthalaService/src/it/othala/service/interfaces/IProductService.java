@@ -45,7 +45,7 @@ public interface IProductService {
 
 	public Integer insertCampaign(CampaignDTO campaign);
 
-	public DomainDTO insertType(String languages, String txType);
+	public DomainDTO insertType(String languages, String txType, String txTypeEN);
 
 	public Integer insertProduct(ProductFullNewDTO productFull, Boolean fgPubblicazione);
 

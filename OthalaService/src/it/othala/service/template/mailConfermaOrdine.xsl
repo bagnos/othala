@@ -46,13 +46,13 @@
 				<div>
 					<div>
 						<label style="display:inline-block;width:150px">
-							<b>Numero Ordine</b>
+							<b>Numero Ordine </b>
 						</label>
 						<xsl:value-of select="number" />
 					</div>
 					<div>
 						<label style="display:inline-block;width:150px">
-							<b>Numero Transazione</b>
+							<b>Numero Transazione </b>
 						</label>
 						<xsl:value-of select="transaction" />
 					</div>

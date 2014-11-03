@@ -397,21 +397,28 @@ public class PaymentService implements IPaymentService {
 		}
 
 		mailService.inviaHTMLMail(new String[] { order.getIdUser() }, oggetto, html, inlineImages, mailDTO);
-
-		// invia la mai di notifica ordine ai negozi
-		List<ShopDTO> lstShop = new ArrayList<ShopDTO>();
-		lstShop = productDAO.listShop();
-		for (int i = 0; i < lstShop.size(); i++) {
-			for (ArticleFullDTO art : order.getCart()) {
-				if (art.getShop().getIdShop() == lstShop.get(i).getIdShop()) {
-					html = generateHtmlOrder(order, mailDTO, inlineImages, state, "mailInserimentoOrdine",
-							lstShop.get(i).getIdShop());
-					mailService.inviaHTMLMail(new String[] { lstShop.get(i).getTxMail() }, "Nuovo Ordine WEB", html,
-							inlineImages, mailDTO);
-					break;
+		
+		if (state == TypeStateOrder.SPEDITO) {
+			
+		} else {
+			// invia la mai di notifica ordine ai negozi
+			List<ShopDTO> lstShop = new ArrayList<ShopDTO>();
+			lstShop = productDAO.listShop();
+			for (int i = 0; i < lstShop.size(); i++) {
+				for (ArticleFullDTO art : order.getCart()) {
+					if (art.getShop().getIdShop() == lstShop.get(i).getIdShop()) {
+						html = generateHtmlOrder(order, mailDTO, inlineImages, state, "mailInserimentoOrdine",
+								lstShop.get(i).getIdShop());
+						mailService.inviaHTMLMail(new String[] { lstShop.get(i).getTxMail() }, "Nuovo Ordine WEB", html,
+								inlineImages, mailDTO);
+						break;
+					}
 				}
 			}
 		}
+		
+
+
 	}
 
 	private String generateHtmlOrder(OrderFullDTO order, MailPropertiesDTO mailDTO, Map<String, String> inlineImages,
