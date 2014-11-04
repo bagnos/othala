@@ -1,0 +1,176 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/masterTemplateBS.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+	<ui:define name="metadata">
+		<f:metadata>
+
+		</f:metadata>
+	</ui:define>
+
+
+	<ui:define name="title">
+		<h:outputText value="#{msg.account_login}"></h:outputText>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<div class="container" style="margin-top: 20px;">
+
+			<div class="row">
+
+				<div class="col-sm-12">
+
+					<div id="carousel-example-generic" class="carousel slide"
+						data-ride="carousel">
+						<!-- Indicators -->
+						<!-- 
+								<ol class="carousel-indicators">
+									<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+									<li data-target="#carousel-example-generic" data-slide-to="1"></li>
+									<li data-target="#carousel-example-generic" data-slide-to="2"></li>
+								</ol>
+								 -->
+
+						<!-- Wrapper for slides -->
+						<div class="carousel-inner">
+							<ui:repeat var="imgCar" value="#{applicationBean.imgsCarousel}"
+								varStatus="staCar">
+								<div class="#{staCar.first?'item active':'item'}">
+									<h:link outcome="#{imgCar.urlRedirect}">
+										<p:graphicImage styleClass="img-responsive"
+											library="#{imgCar.txLibrary}" name="#{imgCar.txName}" />
+									</h:link>
+								</div>
+							</ui:repeat>
+
+						</div>
+
+						<!-- Controls -->
+						<a class="left carousel-control" href="#carousel-example-generic"
+							data-slide="prev"> <span
+							class="glyphicon glyphicon-chevron-left"></span>
+						</a> <a class="right carousel-control"
+							href="#carousel-example-generic" data-slide="next"> <span
+							class="glyphicon glyphicon-chevron-right"></span>
+						</a>
+					</div>
+
+				</div>
+
+
+			</div>
+		</div>
+		<div class="container" style="margin-top: 20px;">
+
+			<div class="row">
+				<div class="col-sm-12">
+
+					<h1
+						style="text-align: center; font-size: 72px; border-style: double; border-color: white; background-color: black">
+						<h:outputText value="NEW ARRIVALS" style="color:white" />
+					</h1>
+				</div>
+			</div>
+		</div>
+		<div class="container" style="margin-top: 5px;">
+			<div class="row">
+
+				<ui:repeat var="imgNewArr" value="#{applicationBean.imgsNewArrival}">
+					<div class="col-sm-6">
+						<div class="thumbnail thumbnail-home">
+							<h:link outcome="#{imgNewArr.urlRedirect}">
+								<p:graphicImage styleClass="img-responsive"
+									library="#{imgNewArr.txLibrary}" name="#{imgNewArr.txName}" />
+							</h:link>
+						</div>
+					</div>
+				</ui:repeat>
+
+			</div>
+		</div>
+
+
+
+		<div class="container" style="margin-top: 20px;">
+			<div class="row">
+				<div class="col-sm-12">
+
+					<h1
+						style="text-align: center; background-color: white; font-size: 72px; border-style: double; border-color: black;">
+						<h:outputText value="#{msg.footer_cus11}" style="color:black" />
+					</h1>
+				</div>
+			</div>
+			<br />
+			<div class="row">
+				<div class="col-sm-3">
+					<a href="#{request.contextPath}/faces/static/prod01.xhtml"
+						class="foot2-line"> <h:outputText value="#{msg.footer_prod01}"
+							style="text-align: left; font-size: 20px; color:black; " /> <br />
+					</a> <br /> <a href="#{request.contextPath}/faces/static/prod02.xhtml"
+						class="foot2-line"><h:outputText value="#{msg.footer_prod02}"
+							style="text-align: left; font-size: 20px; color:black; " /></a> <br />
+					<br /> <a href="#{request.contextPath}/faces/static/prod03.xhtml"
+						class="foot2-line"><h:outputText value="#{msg.footer_prod03}"
+							style="text-align: left; font-size: 20px; color:black; " /></a> <br />
+					<br /> <a href="#{request.contextPath}/faces/static/prod04.xhtml"
+						class="foot2-line"><h:outputText value="#{msg.footer_prod04}"
+							style="text-align: left; font-size: 20px; color:black; " /></a>
+				</div>
+				<div class="col-sm-3">
+					<br /> <a href="#{request.contextPath}/faces/static/prod05.xhtml"
+						class="foot2-line"><h:outputText value="#{msg.footer_prod05}"
+							style="text-align: left; font-size: 20px; color:black; " /></a> <br />
+					<br /> <a href="#{request.contextPath}/faces/static/prod06.xhtml"
+						class="foot2-line"><h:outputText value="#{msg.footer_prod06}"
+							style="text-align: left; font-size: 20px; color:black; " /></a> <br />
+					<br /> <a href="#{request.contextPath}/faces/static/prod07.xhtml"
+						class="foot2-line"><h:outputText value="#{msg.footer_prod07}"
+							style="text-align: left; font-size: 20px; color:black; " /></a> <br />
+					<br /> <a href="#{request.contextPath}/faces/static/prod08.xhtml"
+						class="foot2-line"><h:outputText value="#{msg.footer_prod08}"
+							style="text-align: left; font-size: 20px; color:black; " /></a>
+
+				</div>
+				<div class="col-sm-3">
+					<a href="#{request.contextPath}/faces/static/prod09.xhtml"
+						class="foot2-line"><h:outputText value="#{msg.footer_prod09}"
+							style="text-align: left; font-size: 20px; color:black; " /> </a> <br />
+					<br /> <a href="#{request.contextPath}/faces/static/prod10.xhtml"
+						class="foot2-line"><h:outputText value="#{msg.footer_prod10}"
+							style="text-align: left; font-size: 20px; color:black; " /></a> <br />
+					<br /> <a href="#{request.contextPath}/faces/static/prod11.xhtml"
+						class="foot2-line"><h:outputText value="#{msg.footer_prod11}"
+							style="text-align: left; font-size: 20px; color:black; " /></a> <br />
+					<br /> <a href="#{request.contextPath}/faces/static/prod12.xhtml"
+						class="foot2-line"><h:outputText value="#{msg.footer_prod12}"
+							style="text-align: left; font-size: 20px; color:black; " /></a>
+				</div>
+				<div class="col-sm-3">
+					 <br /> <a
+						href="#{request.contextPath}/faces/static/prod13.xhtml"
+						class="foot2-line"><h:outputText value="#{msg.footer_prod13}"
+							style="text-align: left; font-size: 20px; color:black; " /></a> <br />
+					<br /> <a href="#{request.contextPath}/faces/static/prod14.xhtml"
+						class="foot2-line"><h:outputText value="#{msg.footer_prod14}"
+							style="text-align: left; font-size: 20px; color:black; " /></a> <br />
+					<br /> <a href="#{request.contextPath}/faces/static/prod15.xhtml"
+						class="foot2-line"><h:outputText value="#{msg.footer_prod15}"
+							style="text-align: left; font-size: 20px; color:black; " /></a> <br />
+					<br /> <a href="#{request.contextPath}/faces/static/prod16.xhtml"
+						class="foot2-line"><h:outputText value="#{msg.footer_prod16}"
+							style="text-align: left; font-size: 20px; color:black; " /></a>
+				</div>
+			</div>
+		</div>
+
+
+	</ui:define>
+</ui:composition>
