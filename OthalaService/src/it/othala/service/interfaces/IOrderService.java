@@ -8,6 +8,7 @@ import it.othala.dto.FidelityCardDTO;
 import it.othala.dto.MailPropertiesDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.RefoundFullDTO;
+import it.othala.dto.RendicontoOrdini;
 import it.othala.enums.TypeStateOrder;
 import it.othala.execption.FidelityCardNotPresentException;
 import it.othala.execption.FidelityCardNotValidException;
@@ -15,6 +16,7 @@ import it.othala.execption.OthalaException;
 import it.othala.execption.StockNotPresentException;
 
 import java.io.File;
+import java.sql.Timestamp;
 import java.util.List;
 
 public interface IOrderService {
@@ -101,6 +103,6 @@ public interface IOrderService {
 	
 	public List<FidelityCardDTO> getFidelityCards(String idFidelity, String txNome, String txCognome, String txEmail) throws Exception;
 	
-	
+	public RendicontoOrdini getTotaliOrdini(Timestamp dtDa, Timestamp dtA, TypeStateOrder statoOrdine, TypeStateOrder statoRefound);
 	
 }
