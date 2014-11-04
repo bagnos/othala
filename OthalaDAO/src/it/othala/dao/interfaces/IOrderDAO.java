@@ -6,8 +6,11 @@ import it.othala.dto.DeliveryCostDTO;
 import it.othala.dto.FidelityCardDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.RefoundFullDTO;
+import it.othala.dto.RendicontoOrdini;
 import it.othala.dto.StateOrderDTO;
+import it.othala.enums.TypeStateOrder;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 
@@ -68,6 +71,10 @@ public interface IOrderDAO {
 	public void deleteCoupon(String idCoupon);
 
 	public void deleteFidelityCard(String idFidelity);
+	
+	public RendicontoOrdini getTotaliOrdini(Timestamp dtDa, Timestamp dtA, TypeStateOrder statoOrdine, TypeStateOrder statoRefound);
+	
+
 
 	
 
