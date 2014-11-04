@@ -42,7 +42,7 @@
 					<div class="form-group spacer10">
 						<p:outputLabel styleClass="col-sm-1 control-label" for="idFidelity"  value="Fidelity" />
 						<div class="col-sm-2 ">
-						<p:inputText styleClass="form-control" required="true" disabled="#{inserisciFidelityCardView.modifica}" maxlength="40"
+						<p:inputText styleClass="form-control" required="#{inserisciFidelityCardView.modifica}" disabled="#{inserisciFidelityCardView.modifica}" maxlength="40"
 								value="#{inserisciFidelityCardView.fidelityCardDTO.idFidelity}" id="idFidelity"></p:inputText>
 						</div>
 						<p:outputLabel for="account" styleClass="col-sm-1 control-label" value="Account" />
