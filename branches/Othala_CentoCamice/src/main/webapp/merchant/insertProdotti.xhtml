@@ -1,0 +1,521 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/merchantPageTemplate.xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:viewAction action="#{insertProdottiView.doInit}"></f:viewAction>
+			<f:viewParam name="detail" value="#{insertProdottiView.detail}"></f:viewParam>
+			<f:viewParam name="read" value="#{insertProdottiView.fgRead}"></f:viewParam>
+			<f:viewParam name="mod" value="#{insertProdottiView.fgMod}"></f:viewParam>
+		</f:metadata>
+	</ui:define>
+
+
+	<ui:define name="title">
+		<h:outputText value="Inserimento Prodotti"></h:outputText>
+	</ui:define>
+
+	<ui:define name="Pagina">PRODOTTI</ui:define>
+	<ui:define name="PaginaBreadcrumb">Inserimento Prodotti</ui:define>
+
+	<ui:define name="bodyPageContent">
+		<h:form prependId="false" id="frmProd" styleClass="form-horizontal">
+
+			<div class="row">
+				<div class="col-sm-4">
+					<h3 class="form-titoli">
+						<h:outputText value="PRODOTTI" />
+					</h3>
+				</div>
+			</div>
+			<h:panelGroup rendered="#{insertProdottiView.detail}">
+				<div class="row">
+
+					<div class="col-sm-12">
+						<div class="form-group">
+							<p:outputLabel for="idProd" styleClass="col-sm-1 control-label" value="Prodotto" />
+							<div class="col-sm-3">
+								<p:inputText readonly="true" style="width:100px" styleClass="form-control"
+									value="#{merchantBean.selectedProducts[0].idProduct}" id="idProd"></p:inputText>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</h:panelGroup>
+
+			<!-- barcode al livello di prodotto -->
+			<h:panelGroup rendered="#{applicationBean.configuredBarcodeProduct}" layout="block"
+				styleClass="row">
+
+				<div class="col-sm-12">
+					<div class="form-group">
+						<p:outputLabel for="barcodePrd" styleClass="col-sm-1 control-label" value="Barcode" />
+						<div class="col-sm-3">
+							<p:inputText required="true" id="barcodePrd" styleClass="form-control"
+								value="#{insertProdottiView.merchantCode}" />
+						</div>
+					</div>
+				</div>
+
+			</h:panelGroup>
+
+
+			<div class="row">
+				<div class="col-sm-12">
+
+					<div class="form-group">
+						<p:outputLabel for="genere" styleClass="col-sm-1 control-label" value="Genere" />
+						<div class="col-sm-3">
+							<p:autoComplete readonly="#{insertProdottiView.fgRead==true}" required="true"
+								minQueryLength="1" dropdown="true" id="genere" value="#{insertProdottiView.genere}"
+								completeMethod="#{insertProdottiView.completeGenere}" var="gender"
+								itemLabel="#{gender.valore}" itemValue="#{gender}" converter="it.othala.GenderConverter"
+								forceSelection="true">
+							</p:autoComplete>
+
+						</div>
+
+						<p:outputLabel for="tipo" styleClass="col-sm-1 control-label" value="Tipo" />
+						<div class="col-sm-3">
+							<h:panelGroup id="tipoPnl">
+								<p:autoComplete readonly="#{insertProdottiView.fgRead==true}"
+									scrollHeight="#{insertProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}" required="true"
+									minQueryLength="1" dropdown="true" id="tipo" value="#{insertProdottiView.tipo}"
+									completeMethod="#{insertProdottiView.completeTipo}" var="type" itemLabel="#{type.valore}"
+									itemValue="#{type}" converter="it.othala.TypeConverter" forceSelection="true">
+									<p:ajax event="itemSelect" update=":frm-arts" />
+								</p:autoComplete>
+							</h:panelGroup>
+							
+							<p:commandButton rendered="#{insertProdottiView.fgRead==false}" title="Aggiungi Tipo" icon="ui-icon-plus" type="button"
+								onclick="$('#newTipo1').val('');$('#newTipo2').val('');PF('dlgInsTipo').show();" /> 
+
+						</div>
+
+						<div class="col-sm-2">
+							<p:commandButton icon="ui-icon-carat-1-w" iconPos="left" immediate="true"
+								rendered="#{insertProdottiView.fgRead==true or insertProdottiView.fgMod==true}"
+								action="cercaProdotti?faces-redirect=true&#38;torna=true" value="Vai a cerca prodotti">
+							</p:commandButton>
+						</div>
+
+						<div class="col-sm-2">
+
+							<p:commandButton validateClient="true" rendered="#{insertProdottiView.fgRead==false}"
+								styleClass="ui-priority-primary" onerror="PF('blockAll').unblock();"
+								oncomplete="PF('blockAll').unblock();" onclick="PF('blockAll').block()"
+								actionListener="#{insertProdottiView.addProduct}" ajax="false"
+								value="#{insertProdottiView.fgMod?'Modifica Prodotto':'Aggiungi Prodotto'} ">
+							</p:commandButton>
+						</div>
+
+
+					</div>
+
+					<div class="form-group">
+						<p:outputLabel for="brand" styleClass="col-sm-1 control-label" value="Brand" />
+						<div class="col-sm-3">
+							<h:panelGroup id="brandPnl">
+								<p:autoComplete readonly="#{insertProdottiView.fgRead==true}"
+									scrollHeight="#{insertProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}" required="true"
+									minQueryLength="1" dropdown="true" id="brand" value="#{insertProdottiView.brand}"
+									completeMethod="#{insertProdottiView.completeBrand}" var="brand" title="#{brand.valore}"
+									itemLabel="#{brand.valore}" itemValue="#{brand}" converter="it.othala.BrandConverter"
+									forceSelection="true" />
+							</h:panelGroup>
+							<p:commandButton rendered="#{insertProdottiView.fgRead==false}" title="Aggiungi Genere"
+								icon="ui-icon-plus" type="button" onclick="$('#newBrand1').val('');PF('dlgIns').show();" />
+						</div>
+
+						<p:outputLabel for="material" styleClass="col-sm-1 control-label" value="Material" />
+						<div class="col-sm-3">
+							<h:panelGroup id="materialPnl">
+								<p:autoComplete readonly="#{insertProdottiView.fgRead==true}"
+									scrollHeight="#{insertProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}" required="true"
+									minQueryLength="1" dropdown="true" id="material" value="#{insertProdottiView.material}"
+									completeMethod="#{insertProdottiView.completeMaterial}" var="material"
+									itemLabel="#{material.valore}" itemValue="#{material}"
+									converter="it.othala.MaterialConverter" forceSelection="true" />
+							</h:panelGroup>
+							<p:commandButton rendered="#{insertProdottiView.fgRead==false}" title="Aggiungi Materiale"
+								icon="ui-icon-plus" type="button"
+								onclick="$('#newMaterial1').val('');$('#newMaterial2').val('');PF('dlgInsMaterial').show();" />
+						</div>
+
+					</div>
+
+					<div class="form-group">
+						<p:outputLabel for="prezzoPrd" styleClass="col-sm-1 control-label" value="Prezzo" />
+						<div class="col-sm-2">
+
+							<pe:inputNumber readonly="#{insertProdottiView.fgRead==true}" widgetVar="f6"
+								symbol="&#8364; " id="prezzoPrd" required="true" value="#{insertProdottiView.prezzo}"
+								decimalSeparator="," thousandSeparator="." decimalPlaces="2" />
+
+						</div>
+
+						<p:outputLabel class="col-sm-1 control-label" for="sconto" styleClass="col-sm-1 control-label"
+							value="Sconto" />
+						<div class="col-sm-1">
+							<p:spinner readonly="#{insertProdottiView.fgRead==true}" suffix=" %" required="false"
+								size="4" id="sconto" value="#{insertProdottiView.sconto}" min="0" max="100" />
+						</div>
+
+						<p:outputLabel class="col-sm-1 control-label" for="totPrezzoPrd"
+							styleClass="col-sm-2 control-label" value="Totale (&#8364;)" />
+						<div class="col-sm-1">
+							<pe:inputNumber readonly="#{insertProdottiView.fgRead==true}" widgetVar="totWidget"
+								required="true" symbol="&#8364;" size="10" id="totPrezzoPrd"
+								value="#{insertProdottiView.prezzoScontato}" disabled="true" decimalSeparator=","
+								thousandSeparator="." decimalPlaces="2" />
+						</div>
+					</div>
+
+					<div class="form-group">
+						<p:outputLabel for="prezzoSpecialePrd" styleClass="col-sm-1 control-label"
+							value="Prezzo Speciale" />
+						<div class="col-sm-2">
+
+							<pe:inputNumber readonly="#{insertProdottiView.fgRead==true}" widgetVar="f7"
+								symbol="&#8364; " id="prezzoSpecialePrd" required="false"
+								value="#{insertProdottiView.prezzoSpeciale}" decimalSeparator="," thousandSeparator="."
+								decimalPlaces="2" />
+
+						</div>
+
+					</div>
+
+					<div class="form-group">
+						<p:outputLabel styleClass="col-sm-1 control-label" for="desc" value="Descrizione IT" />
+						<div class="col-sm-6">
+
+							<p:inputText readonly="#{insertProdottiView.fgRead==true}" required="false"
+								styleClass="form-control" value="#{insertProdottiView.descrizione}" id="desc"></p:inputText>
+
+						</div>
+
+					</div>
+
+					<div class="form-group">
+						<p:outputLabel styleClass="col-sm-1 control-label" for="descEN" value="Descrizione EN" />
+						<div class="col-sm-6">
+
+							<p:inputText readonly="#{insertProdottiView.fgRead==true}" required="false"
+								styleClass="form-control" value="#{insertProdottiView.descrizioneEN}" id="descEN"></p:inputText>
+
+						</div>
+
+					</div>
+
+
+					<div class="form-group">
+						<p:outputLabel styleClass="col-sm-1 control-label" for="pubblica" value="Pubblica" />
+						<div class="col-sm-6">
+							<p:selectBooleanCheckbox disabled="#{insertProdottiView.fgRead==true}"
+								value="#{insertProdottiView.pubblica}" id="pubblica" />
+
+						</div>
+					</div>
+
+
+
+
+				</div>
+			</div>
+
+		</h:form>
+		<h:form prependId="false" id="frmDialog">
+			<!-- inserimento brand -->
+			<p:dialog header="Nuovo Brand" id="dlgIns" widgetVar="dlgIns" modal="true" height="100">
+				<div class="row text-center">
+					<div class="col-sm-12 ">
+						<p:inputText label="nuovo brand" id="newBrand1" required="true"
+							value="#{insertProdottiView.newBrand}" maxlength="40" size="40" />
+						<br /> <br />
+						<p:commandButton oncomplete="PF('dlgIns').hide();" ajax="true" validateClient="true"
+							process="@this newBrand1" partialSubmit="true" update=":frmProd:brandPnl"
+							actionListener="#{insertProdottiView.addNewBrand}" value="Inserisci"></p:commandButton>
+					</div>
+				</div>
+			</p:dialog>
+			<!-- inserimento materiale -->
+			<p:dialog header="Nuovo Materiale" id="dlgInsMaterial" widgetVar="dlgInsMaterial" modal="true"
+				height="150">
+				<div class="row text-center">
+					<div class="col-sm-12 ">
+						<p:outputLabel style="padding-right: 5px;">IT</p:outputLabel>
+						<p:inputText label="nuovo materiale IT" id="newMaterial1" required="true"
+							value="#{insertProdottiView.newMaterial}" maxlength="40" size="40" />
+						<br /> <br />
+						<p:outputLabel style="padding-right: 5px;">EN</p:outputLabel>
+						<p:inputText label="nuovo colore EN" id="newMaterial2" required="true"
+							value="#{insertProdottiView.newMaterialEN}" maxlength="40" size="40" />
+						<br /> <br />
+						<p:commandButton id="cmdInsMaterial" oncomplete="PF('dlgInsMaterial').hide();" ajax="true"
+							validateClient="true" process="@this newMaterial1 newMaterial2" partialSubmit="true"
+							update=":frm-arts:colorPnl" actionListener="#{insertProdottiView.addNewMaterial}"
+							value="Inserisci"></p:commandButton>
+					</div>
+				</div>
+			</p:dialog>
+			<!-- inserimento colore -->
+			<p:dialog header="Nuovo Colore" id="dlgInsCol" widgetVar="dlgInsCol" modal="true" height="150">
+				<div class="row text-center">
+					<div class="col-sm-12 ">
+						<p:outputLabel style="padding-right: 5px;">IT</p:outputLabel>
+						<p:inputText label="nuovo colore IT" id="newCol1" required="true"
+							value="#{insertProdottiView.newColor}" maxlength="40" size="40" />
+						<br /> <br />
+						<p:outputLabel style="padding-right: 5px;">EN</p:outputLabel>
+						<p:inputText label="nuovo colore EN" id="newCol2" required="true"
+							value="#{insertProdottiView.newColorEN}" maxlength="40" size="40" />
+						<br /> <br />
+						<p:commandButton id="cmdInsCol" oncomplete="PF('dlgInsCol').hide();" ajax="true"
+							validateClient="true" process="@this newCol1 newCol2" partialSubmit="true"
+							update=":frm-arts:colorPnl" actionListener="#{insertProdottiView.addNewColor}"
+							value="Inserisci"></p:commandButton>
+					</div>
+				</div>
+			</p:dialog>
+			<!-- inserimento tipo -->
+			<p:dialog header="Nuovo Tipo" id="dlgInsTipo" widgetVar="dlgInsTipo" modal="true" height="150">
+				<div class="row text-center">
+					<div class="col-sm-12 ">
+					<p:outputLabel style="padding-right: 5px;">IT</p:outputLabel>
+						<p:inputText label="nuovo tipo IT" id="newTipo1" required="true"
+							value="#{insertProdottiView.newType}" maxlength="40" size="40" />
+						<br /> <br />
+						<p:outputLabel style="padding-right: 5px;">EN</p:outputLabel>
+						<p:inputText label="nuovo tipo EN" id="newTipo2" required="true"
+							value="#{insertProdottiView.newTypeEN}" maxlength="40" size="40" />
+						<br /> <br />
+						<p:commandButton id="cmdInsType" oncomplete="PF('dlgInsTipo').hide();" ajax="true"
+							validateClient="true" process="@this newTipo1 newTipo2" partialSubmit="true" update=":frmProd:tipoPnl"
+							actionListener="#{insertProdottiView.addNewType}" value="Inserisci"></p:commandButton>
+					</div>
+				</div>
+			</p:dialog>
+
+
+		</h:form>
+
+		<h:form enctype="multipart/form-data" prependId="false" id="frmImages">
+
+
+
+
+			<div class="row spacer10">
+
+				<label for="immagini" class="control-label col-sm-1">Immagini</label>
+				<div class="col-sm-11">
+
+
+					<p:fileUpload rendered="#{insertProdottiView.fgRead==false}"
+						fileUploadListener="#{insertProdottiView.handleFileUpload}"
+						allowTypes="/(\.|\/)(gif|jpe?g|png)$/" onerror="PF('blockAll').unblock();"
+						oncomplete="PF('blockAll').unblock();" onstart="PF('blockAll').block()" process="@this"
+						required="true" update="frmImages :frm-arts" multiple="true" auto="true" />
+
+				</div>
+				<h:panelGroup layout="block" rendered="#{insertProdottiView.imagesGuidFile.size()!=0}">
+					<div class="row spacer20 clearfix">
+
+						<ui:repeat id="lstImgs" var="imgPrd" value="#{insertProdottiView.imagesGuidFile}">
+
+							<div class="col-sm-2 spacer10">
+								<p:graphicImage style="float:left;"
+									styleClass="#{insertProdottiView.fileThumb==imgPrd?'sel-thumbinal':''}"
+									library="images/cartThumbinals" width="80" height="83" name="#{imgPrd}" />
+								<div>
+									<h:commandButton rendered="#{insertProdottiView.fgRead==false}"
+										image="/imagesExt/remove.png" title="elimina #{imgPrd}"
+										actionListener="#{insertProdottiView.removeImgPrd}">
+										<f:attribute name="img" value="#{imgPrd}" />
+										<f:ajax execute="@this" render="frmImages thumb"></f:ajax>
+									</h:commandButton>
+									<br />
+
+									<h:commandButton rendered="#{insertProdottiView.fgRead==false}"
+										image="/imagesExt/picture_add.png" title="aggiungi thumbnail #{imgPrd}"
+										actionListener="#{insertProdottiView.addThumb}">
+										<f:attribute name="img" value="#{imgPrd}" />
+										<f:ajax execute="@this" render="frmImages thumb"></f:ajax>
+									</h:commandButton>
+								</div>
+
+							</div>
+						</ui:repeat>
+
+
+					</div>
+				</h:panelGroup>
+			</div>
+
+
+
+		</h:form>
+
+		<h:form prependId="false" id="frm-arts" styleClass="form-horizontal">
+
+			<!-- ARTICOLI -->
+			<h3>ARTICOLI</h3>
+			<div class="row">
+				<div class="col-sm-12">
+
+					<h:panelGroup styleClass="form-group spacer10"
+						rendered="#{insertProdottiView.fgRead==false and applicationBean.configuredBarcodeProduct==false}">
+						<p:outputLabel for="barcode" class="col-sm-1 control-label" value="Barcode" />
+						<div class="col-sm-3 ">
+							<p:inputText readonly="#{insertProdottiView.fgRead==true}" styleClass="form-control"
+								maxlength="30" id="barcode" required="true" value="#{insertProdottiView.merchantCode}" />
+						</div>
+					</h:panelGroup>
+					<h:panelGroup styleClass="form-group" rendered="#{insertProdottiView.fgRead==false}">
+
+						<p:outputLabel for="taglia" class="col-sm-1" value="Taglia" />
+						<div class="col-sm-2">
+
+							<p:autoComplete size="8" scrollHeight="#{insertProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}"
+								required="true" minQueryLength="1" dropdown="true" id="taglia"
+								value="#{insertProdottiView.size}" completeMethod="#{insertProdottiView.completeTaglia}"
+								var="attr" itemLabel="#{attr.valore}" itemValue="#{attr}"
+								converter="it.othala.SizeConverter" forceSelection="true" />
+						</div>
+
+
+						<p:outputLabel for="colore" class="col-sm-1 control-label" value="Colore" />
+						<div class="col-sm-3">
+							<h:panelGroup id="colorPnl">
+
+								<p:autoComplete scrollHeight="#{insertProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}"
+									required="true" minQueryLength="1" dropdown="true" id="colore"
+									value="#{insertProdottiView.color}" completeMethod="#{insertProdottiView.completeColours}"
+									var="attr" itemLabel="#{attr.valore}" itemValue="#{attr}"
+									converter="it.othala.ColorConverter" forceSelection="true" />
+								<p:commandButton title="Aggiungi colore" icon="ui-icon-plus" type="button"
+									onclick="$('#newCol1').val('');$('#newCol2').val('');PF('dlgInsCol').show();" />
+							</h:panelGroup>
+						</div>
+					</h:panelGroup>
+					<h:panelGroup styleClass="form-group" rendered="#{insertProdottiView.fgRead==false}">
+						<p:outputLabel for="qta" class="col-sm-1 control-label" value="Quantita" />
+						<div class="col-sm-2">
+
+							<p:spinner required="true" size="3" id="qta" value="#{insertProdottiView.qta}" min="1"
+								max="100" />
+						</div>
+
+
+
+						<p:outputLabel for="negozio" class="col-sm-1 control-label" value="Negozio" />
+						<div class="col-sm-3">
+
+							<p:autoComplete scrollHeight="#{insertProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}"
+								required="true" minQueryLength="1" size="34" dropdown="true" id="negozio"
+								value="#{insertProdottiView.shop}" completeMethod="#{insertProdottiView.completeShops}"
+								var="shop" itemLabel="#{shop.txShop}" itemValue="#{shop}"
+								converter="it.othala.ShopConverter" forceSelection="true" />
+
+
+						</div>
+						<p:commandButton process="frm-arts" update="frm-arts"
+							actionListener="#{insertProdottiView.addArticle}" id="addPrds" value="Aggiungi Articolo" />
+
+
+					</h:panelGroup>
+					<h:panelGroup styleClass="form-group" rendered="#{insertProdottiView.fgRead==false}">
+						<label class="control-label col-sm-1">Thumbnail</label>
+						<div class="clearfix col-sm-1">
+							<div class="sel-thumbinal container-sel-thumbinal ">
+								<h:panelGroup id="thumb">
+									<p:graphicImage rendered="#{insertProdottiView.fileThumb!=null}"
+										title="#{insertProdottiView.fileThumb}" library="images/cartThumbinals" width="80"
+										height="83" name="#{insertProdottiView.fileThumb}" />
+								</h:panelGroup>
+							</div>
+						</div>
+					</h:panelGroup>
+
+					<!-- elenco articoli -->
+					<div class="form-group">
+						<label class="control-label col-sm-3">Elenco Articoli</label>       
+						<p:dataTable id="arts" rendered="#{insertProdottiView.articles.size()!=0}" var="art"
+							value="#{insertProdottiView.articles}">
+      
+        <p:column headerText="Thumbinal">
+           <p:graphicImage title="#{art.thumbnailsUrl}" library="images/cartThumbinals" width="80"
+									height="83" name="#{art.thumbnailsUrl}" />
+        </p:column>
+							<p:column headerText="Barcode">
+								<h:outputText value="#{art.txBarCode}" />
+        </p:column>
+        <p:column headerText="Taglia">
+            <h:outputText value="#{art.txSize}" />		
+        </p:column>
+        <p:column headerText="Colore">
+            <h:outputText value="#{art.txColor}" />
+        </p:column>
+        <p:column headerText="Quantita">
+            <h:outputText rendered="#{art.selected==false}" value="#{art.qtStock}" />
+								<p:spinner rendered="#{art.selected}" id="minMax" value="#{art.qtStock}" min="0" max="10000" />
+        </p:column>
+							<p:column headerText="Negozio">
+            <h:outputText rendered="#{art.selected==false}" value="#{art.shop.txShop}" />
+								<p:autoComplete rendered="#{art.selected}"
+									scrollHeight="#{insertProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}" required="true"
+									minQueryLength="1" size="34" dropdown="true" id="negozioNew" value="#{art.shop}"
+									completeMethod="#{insertProdottiView.completeShops}" var="shop" itemLabel="#{shop.txShop}"
+									itemValue="#{shop}" converter="it.othala.ShopConverter" forceSelection="true" />
+        </p:column>
+        <p:column style="width:6%;padding:0px;text-align:center"
+								rendered="#{insertProdottiView.fgRead==false}">           								
+								<div>
+									<p:commandButton title="rimuovi"
+										rendered="#{insertProdottiView.fgMod==false and insertProdottiView.fgRead==false}"
+										process="@this" icon="ui-icon-trash" update=":frm-arts"
+										actionListener="#{insertProdottiView.deleteArticle}">
+										<f:attribute name="idArt" value="#{art.pgArticle}" />
+									</p:commandButton>
+
+
+									<p:commandButton title="modifica" process="@this" icon="ui-icon-wrench" update="arts"
+										rendered="#{art.selected==false}" actionListener="#{insertProdottiView.modifyArticle}">
+										<f:attribute name="idArt" value="#{art.pgArticle}" />
+									</p:commandButton>
+									<p:commandButton title="annulla" rendered="#{art.selected}" icon="ui-icon-circle-close"
+										update="arts" immediate="true" process="arts"
+										actionListener="#{insertProdottiView.closeArticle}">
+										<f:attribute name="idArt" value="#{art.pgArticle}" />
+									</p:commandButton>
+									<p:commandButton title="conferma" rendered="#{art.selected}" process="arts"
+										icon="ui-icon-circle-check" update="arts"
+										actionListener="#{insertProdottiView.confirmArticle}">
+										<f:attribute name="idArt" value="#{art.pgArticle}" />
+									</p:commandButton>
+								</div>
+        </p:column>
+    </p:dataTable>
+
+
+					</div>
+
+				</div>
+
+			</div>
+
+
+
+			<script type="text/javascript">
+			$(document).ready(function() {
+				initPrezzo();
+							});
+						
+			</script>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
