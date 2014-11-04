@@ -14,6 +14,7 @@ import it.othala.dto.FidelityCardDTO;
 import it.othala.dto.MailPropertiesDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.RefoundFullDTO;
+import it.othala.dto.RendicontoOrdini;
 import it.othala.dto.ShopDTO;
 import it.othala.dto.StateOrderDTO;
 import it.othala.enums.TypeStateOrder;
@@ -37,6 +38,7 @@ import java.io.FileWriter;
 import java.io.OutputStreamWriter;
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.sql.Timestamp;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -893,6 +895,13 @@ public class OrderService implements IOrderService {
 			throws Exception {
 
 		return orderDAO.getFidelityCard(idFidelity, txNome, txCognome, txEmail);
+	}
+
+	@Override
+	public RendicontoOrdini getTotaliOrdini(Timestamp dtDa, Timestamp dtA,
+			TypeStateOrder statoOrdine, TypeStateOrder statoRefound) {
+		
+		return orderDAO.getTotaliOrdini(dtDa, dtA, statoOrdine, statoRefound);
 	}
 
 }
