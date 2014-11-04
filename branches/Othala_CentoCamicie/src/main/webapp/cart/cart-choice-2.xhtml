@@ -130,7 +130,7 @@
 
 				<div class="row">
 					<!-- IMMAGINE PRINCIPALE E GALLERIA -->
-					<div class="col-md-6">
+					<div class="col-md-5">
 
 
 
@@ -148,7 +148,7 @@
 						<div id="slider" class="flexslider">
 							<ul class="slides">
 								<ui:repeat var="image" value="#{cartFlowBean.detailProductFull.imagesUrl}">
-									<li><img
+									<li><img class="img-responsive"
 										src="#{request.contextPath}/faces/javax.faces.resource/#{image}?ln=images/cartThumbinals" />
 									</li>
 								</ui:repeat>
@@ -268,7 +268,7 @@
 												<f:selectItem itemLabel="#{msg.catalog_chooseSize}" itemValue="-1"
 													noSelectionOption="true" />
 												<f:selectItems value="#{cartChoice2View.sizeItems}"></f:selectItems>
-												<f:ajax render="prd-detail" listener="#{cartChoice2View.changeSize}"></f:ajax>
+												<f:ajax render="pnl-scelte" listener="#{cartChoice2View.changeSize}"></f:ajax>
 											</h:selectOneMenu>
 											<p:message for="selSize" id="errSelSize" />
 										</div>

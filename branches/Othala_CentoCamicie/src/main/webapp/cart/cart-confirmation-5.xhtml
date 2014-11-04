@@ -95,10 +95,8 @@
 											<td colspan="5" class="text-right">#{msg.catalog_totalItems}</td>
 											<td><h:outputText value="#{cartConfirmationView.details.itemAmount}">
 													<f:converter converterId="it.othala.BigDecimalConverter" />
-												</h:outputText><h:outputText rendered="#{cartConfirmationView.sconto!=null}"
-														value="(#{msg.catalogo_discounted},#{cartConfirmationView.sconto})">
-
-													</h:outputText></td>
+												</h:outputText>
+												</td>
 										</tr>
 										<tr>
 											<td colspan="5" class="text-right">#{msg.catalog_deliveryCost}</td>
@@ -112,7 +110,11 @@
 											<td colspan="5" class="text-right"><strong>#{msg.catalog_total}</strong></td>
 											<td><h:outputText value="#{cartConfirmationView.details.amount}">
 													<f:converter converterId="it.othala.BigDecimalConverter" />
-												</h:outputText></td>
+												</h:outputText>
+												<h:outputText styleClass="discount" rendered="#{cartConfirmationView.order.pcSconto>0}"
+														value="(#{msg.catalogo_discounted} #{cartConfirmationView.order.pcSconto}%)">
+
+													</h:outputText></td>
 										</tr>
 
 									</tfoot>

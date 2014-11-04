@@ -143,7 +143,7 @@ public class CartChoice2View extends BaseView {
 			}
 			
 			
-
+/*
 			List<ProductCarouselDTO> carouselList = new ArrayList<ProductCarouselDTO>();
 			ProductCarouselDTO a = null;
 			if (getCartFlowBean().getCatalog().getArticlesPage() != null) {
@@ -172,7 +172,7 @@ public class CartChoice2View extends BaseView {
 				}
 			}
 
-			getCartFlowBean().setCarouselList(carouselList);
+			getCartFlowBean().setCarouselList(carouselList);*/
 
 			sizeItems = new ArrayList<>();
 			// sizeItems.add(new SelectItem(-1,
