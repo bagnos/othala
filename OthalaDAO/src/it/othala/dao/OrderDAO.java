@@ -7,10 +7,12 @@ import it.othala.dto.DeliveryCostDTO;
 import it.othala.dto.FidelityCardDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.RefoundFullDTO;
+import it.othala.dto.RendicontoOrdini;
 import it.othala.dto.StateOrderDTO;
 import it.othala.enums.TypeStateOrder;
 import it.othala.execption.OthalaException;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -360,6 +362,30 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO {
 		getSqlSession()
 		.delete("it.othala.order.queries.deleteFidelityCard", idFidelity);
 		
+	}
+
+	@Override
+	public RendicontoOrdini getTotaliOrdini(Timestamp dtDa, Timestamp dtA,
+			TypeStateOrder statoOrdine, TypeStateOrder statoRefound) {
+		
+		HashMap<String, Object> mapOrder = new HashMap<>();
+		mapOrder.put("dtDa", dtDa);
+		mapOrder.put("dtA", dtA);
+		if (statoOrdine != null)
+			mapOrder.put("idStatoOrdine", statoOrdine.getState());
+		else
+			mapOrder.put("idStatoOrdine", statoOrdine.SPEDITO.getState());
+		if (statoRefound != null)
+			mapOrder.put("idStatoRefound", statoRefound.getState());
+		else
+			mapOrder.put("idStatoRefound", statoRefound.REFOUND_COMPLETED.getState());
+		
+		RendicontoOrdini rcoOrd = getSqlSession().selectOne("it.othala.order.queries.selectTotOrders", mapOrder);
+		RendicontoOrdini rcoRef = getSqlSession().selectOne("it.othala.order.queries.selectTotRefounds", mapOrder);
+		rcoOrd.setImpTotRefounds(rcoRef.getImpTotRefounds());
+		rcoOrd.setNumTotRefounds(rcoRef.getNumTotRefounds());
+		
+		return rcoOrd;
 	}
 	
 	

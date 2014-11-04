@@ -583,5 +583,31 @@
 		idFidelity = #{idFidelity}
 
 	</delete>
+	
+	<select id="selectTotOrders" resultType="it.othala.dto.RendicontoOrdini"
+		parameterType="java.util.HashMap">
+
+		SELECT SUM(imOrdine) as impTotOrders, count(*) as numTotOrders 
+		FROM ${database.schema}orders a, 
+			 ${database.schema}states_orders b 
+		WHERE a.idOrder = b.idOrder 
+		AND b.dtStato &gt;= #{dtDa} AND b.dtStato &lt;= #{dtA} 
+		AND b.idStato = #{idStatoOrdine}
+	
+
+	</select>
+	
+	<select id="selectTotRefounds" resultType="it.othala.dto.RendicontoOrdini"
+		parameterType="java.util.HashMap">
+
+		SELECT SUM(imRefound) as impTotRefounds, count(*) as numTotRefounds 
+		FROM ${database.schema}order_refound a, 
+			 ${database.schema}states_refound b 
+		WHERE a.idRefound = b.idRefound 
+		AND b.dtStato &gt;= #{dtDa} AND b.dtStato &lt;= #{dtA} 
+		AND b.idStato = #{idStatoRefound}
+	
+
+	</select>
 
 </mapper>
