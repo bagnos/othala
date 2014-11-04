@@ -61,6 +61,17 @@
 		a.idType =
 		d.idType
 		and a.idGender = #{idMenu}
+		
+			and exists
+		(select 1 from
+		${database.schema}article
+		e where
+		e.idProduct =
+		a.idProduct
+		and
+		e.qtStock >
+		0)
+		
 		)
 
 
