@@ -156,6 +156,7 @@ public class ApplicationBean implements Serializable {
 		colorsDTO=null;
 		typeDTO=null;
 		materialDTO=null;
+		campaigns=null; 
 	}
 
 	public List<SiteImagesDTO> getImgsCarousel() {

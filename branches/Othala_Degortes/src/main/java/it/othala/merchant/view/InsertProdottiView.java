@@ -428,6 +428,8 @@ public class InsertProdottiView extends BaseView {
 		tipo = new AttributeDTO();
 		tipo.setAttributo(prdDetail.getIdType());
 		tipo.setValore(prdDetail.getTxType());
+		
+		imagesGuidFile=prdDetail.getImagesUrl();
 
 	}
 

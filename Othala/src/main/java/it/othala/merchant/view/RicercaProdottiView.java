@@ -217,6 +217,7 @@ public class RicercaProdottiView extends BaseView {
 			} else {
 				addError(opCampagna, "nessun prodotto selezionato");
 			}
+			getBeanApplication().resetDomain();
 			merchantBean.setSelectedProducts(null);
 		} catch (Exception ex) {
 			addGenericError(ex, "errore nella " + opCampagna + " del prodotto");
