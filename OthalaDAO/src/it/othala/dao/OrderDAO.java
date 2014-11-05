@@ -8,6 +8,7 @@ import it.othala.dto.FidelityCardDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.RefoundFullDTO;
 import it.othala.dto.RendicontoOrdini;
+import it.othala.dto.SiteImagesDTO;
 import it.othala.dto.StateOrderDTO;
 import it.othala.enums.TypeStateOrder;
 import it.othala.execption.OthalaException;
@@ -387,7 +388,7 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO {
 		
 		return rcoOrd;
 	}
-	
-	
+
+
 
 }

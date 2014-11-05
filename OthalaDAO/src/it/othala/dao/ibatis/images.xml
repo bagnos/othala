@@ -34,6 +34,25 @@
 
 
 	</select>
+	
+	<delete id="deleteSiteImages" parameterType="java.lang.String">
+
+		DELETE FROM 
+		${database.schema}site_images
+		WHERE
+		txGroupImages = #{groupImage}
+
+	</delete>
+	
+	<insert id="insertSiteImages" parameterType="it.othala.dto.SiteImagesDTO">
+
+		INSERT INTO
+		${database.schema}site_images
+		(`txGroupImages`,`pgGroupImages`,`txLibrary`,`txName`,`urlRedirect`)
+		values
+		(#{txGroupImages},#{pgGroupImages},#{txLibrary},#{txName},#{urlRedirect})
+
+	</insert>
 
 
 
