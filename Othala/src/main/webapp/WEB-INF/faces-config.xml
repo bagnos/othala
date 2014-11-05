@@ -4,11 +4,18 @@
 	version="2.2">
 
 	<application>
+		<locale-config>
+		<default-locale>en</default-locale>
+		<supported-locale>it</supported-locale>
+		</locale-config>
+	
 		<resource-bundle>
 			<base-name>language</base-name>
 			<var>msg</var>
+			
 		</resource-bundle>
 		<message-bundle>messages</message-bundle>
+		
 	</application>
 
 	<navigation-rule>
