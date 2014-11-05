@@ -212,9 +212,7 @@
 										</p:tooltip>
 									</div>
 									<div class="caption articolo">
-										<h5>#{art.txBrand}</h5>
-										<h6>#{art.description}</h6>
-										<p class="price">
+									<p class="price">
 											<h:outputText value="#{art.price}"
 												styleClass="#{art.price != art.priceDiscounted?'onSale':''}">
 												<f:converter converterId="it.othala.BigDecimalConverter" />
@@ -226,6 +224,12 @@
 											</h:outputText>
 
 										</p>
+										<h5>#{art.txBrand}</h5>
+										<h6><h:outputText id="descr" value="#{art.description}" /></h6>
+										<p:tooltip for="descr">
+										<h:outputText  value="#{art.description}" />
+										</p:tooltip>
+										
 									</div>
 
 								</div>
