@@ -21,4 +21,20 @@ public class SiteImagesDAO extends SqlSessionDaoSupport implements
 
 	}
 
+	@Override
+	public void deleteGroupSiteImages(String groupImage) {
+		getSqlSession().delete(
+				"it.othala.product.queries.deleteSiteImages", groupImage);
+		
+	}
+
+	@Override
+	public void InsertSiteImage(SiteImagesDTO newSiteImage) {
+		getSqlSession().insert(
+				"it.othala.product.queries.insertSiteImages", newSiteImage);
+		
+	}
+
+
+
 }

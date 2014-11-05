@@ -7,6 +7,7 @@ import it.othala.dto.FidelityCardDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.RefoundFullDTO;
 import it.othala.dto.RendicontoOrdini;
+import it.othala.dto.SiteImagesDTO;
 import it.othala.dto.StateOrderDTO;
 import it.othala.enums.TypeStateOrder;
 
@@ -73,9 +74,6 @@ public interface IOrderDAO {
 	public void deleteFidelityCard(String idFidelity);
 	
 	public RendicontoOrdini getTotaliOrdini(Timestamp dtDa, Timestamp dtA, TypeStateOrder statoOrdine, TypeStateOrder statoRefound);
-	
 
-
-	
 
 }
