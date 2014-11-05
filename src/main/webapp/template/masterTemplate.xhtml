@@ -3,11 +3,11 @@
 	xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:pe="http://primefaces.org/ui/extensions">
-<f:view locale="#{facesContext.externalContext.requestLocale}">
+
 <ui:insert name="metadata" />
+<f:view locale="#{localeManager.locale}">
 
-
-<pe:head title="100% Camicie" pt:prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# product: http://ogp.me/ns/product#"
+<pe:head title="NomeNegozio" pt:prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# product: http://ogp.me/ns/product#"
 	shortcutIcon="#{request.contextPath}/resources/images/logo16.png">
 	<f:facet name="first">
 	<ui:insert name="fb" />
@@ -78,6 +78,6 @@
 	</pe:blockUI>
 
 </h:body>
-</f:view>
 
+</f:view>
 </html>
