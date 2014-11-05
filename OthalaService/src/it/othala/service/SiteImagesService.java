@@ -32,7 +32,7 @@ public class SiteImagesService implements ISiteImagesService {
 		while(i < newImages.size()){
 			String gruppo = newImages.get(i).getTxGroupImages();
 			siteImagesDAO.deleteGroupSiteImages(gruppo);
-			while(gruppo.equals(newImages.get(i).getTxGroupImages())){
+			while(i < newImages.size() && gruppo.equals(newImages.get(i).getTxGroupImages())){
 				siteImagesDAO.InsertSiteImage(newImages.get(i));
 				i++;
 			}
