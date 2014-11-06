@@ -12,5 +12,8 @@ public interface ISiteImagesDAO {
 	public void deleteGroupSiteImages(String groupImage);
 	
 	public void InsertSiteImage(SiteImagesDTO newSiteImage);
+
+
+	
 	
 }

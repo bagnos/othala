@@ -8,6 +8,7 @@ import it.othala.dto.MenuDTO;
 import it.othala.dto.NazioniDTO;
 import it.othala.dto.ProductFullNewDTO;
 import it.othala.dto.ShopDTO;
+import it.othala.dto.SiteImagesDTO;
 import it.othala.dto.SubMenuDTO;
 import it.othala.enums.OrderByCartFlow;
 
@@ -155,7 +156,7 @@ public interface IProductDAO {
 	
 
 	
-	
+	public SiteImagesDTO getImage(String string);
 	
 	
 

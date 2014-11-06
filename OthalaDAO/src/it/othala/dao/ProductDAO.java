@@ -10,6 +10,7 @@ import it.othala.dto.MenuDTO;
 import it.othala.dto.NazioniDTO;
 import it.othala.dto.ProductFullNewDTO;
 import it.othala.dto.ShopDTO;
+import it.othala.dto.SiteImagesDTO;
 import it.othala.dto.SubMenuDTO;
 import it.othala.enums.ArticleUpdate;
 import it.othala.enums.OrderByCartFlow;
@@ -1009,5 +1010,13 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		return getSqlSession().selectList(
 				"it.othala.product.queries.listBrandProduct", mapProduct);
 	}
+	@Override
+	public SiteImagesDTO getImage(String string) {
+		
 
+		return getSqlSession().selectOne(
+				"it.othala.images.queries.getImage", string);
+
+		
+	}
 }

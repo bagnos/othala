@@ -10,4 +10,5 @@ public interface ISiteImagesService {
 	
 	public void updateSiteImages(List<SiteImagesDTO> newImages);
 
+
 }
