@@ -53,70 +53,68 @@ public class ApplicationBean implements Serializable {
 	private Boolean configuredBarcodeProduct;
 
 	public boolean isConfiguredBarcodeProduct() {
-		if (configuredBarcodeProduct==null)
-		{
-			if (getDomain().getConfiguration()==null || getDomain().getConfiguration().isEmpty())
-			{
+		if (configuredBarcodeProduct == null) {
+			if (getDomain().getConfiguration() == null
+					|| getDomain().getConfiguration().isEmpty()) {
 				return false;
 			}
-			configuredBarcodeProduct=getDomain().getConfiguration().get(0).getNrConfiguration().intValue()!=1;
+			configuredBarcodeProduct = getDomain().getConfiguration().get(0)
+					.getNrConfiguration().intValue() != 1;
 		}
 		return configuredBarcodeProduct;
 	}
 
 	public List<AttributeDTO> getStatesProduct() {
-		if (statesProduct==null)
-		{
-			statesProduct=getDomain().getStatesProduct();
+		if (statesProduct == null) {
+			statesProduct = getDomain().getStatesProduct();
 		}
 		return statesProduct;
 	}
 
 	public List<AttributeDTO> getStatesOrder() {
-		if (statesOrder==null)
-		{
-			statesOrder=getDomain().getStatesOrder();
+		if (statesOrder == null) {
+			statesOrder = getDomain().getStatesOrder();
 		}
 		return statesOrder;
 	}
 
 	public List<AttributeDTO> getGenderDTO() {
-		if (genderDTO==null) {
+		if (genderDTO == null) {
 			genderDTO = getDomain().getGender();
 		}
 		return genderDTO;
 	}
 
 	public List<AttributeDTO> getMaterialDTO() {
-		if (materialDTO==null) {
+		if (materialDTO == null) {
 			materialDTO = getDomain().getMaterial();
 		}
 		return materialDTO;
 	}
-	
+
 	public List<AttributeDTO> getTypeDTO() {
-		if (typeDTO==null) {
+		if (typeDTO == null) {
 			typeDTO = getDomain().getType();
 		}
 		return typeDTO;
 	}
 
 	public List<ShopDTO> getShopsDTO() {
-		if (shopsDTO==null) {
+		if (shopsDTO == null) {
 			shopsDTO = getDomain().getShop();
 		}
 		return shopsDTO;
 	}
 
 	public List<AttributeDTO> getSizeDTO() {
-		if (sizeDTO==null) {
+		if (sizeDTO == null) {
 			sizeDTO = getDomain().getSize();
 		}
 		return sizeDTO;
 	}
 
 	public List<AttributeDTO> getColorsDTO() {
-		if (colorsDTO==null) {
+		if (colorsDTO == null) {
 			colorsDTO = getDomain().getColor();
 		}
 		return colorsDTO;
@@ -127,15 +125,16 @@ public class ApplicationBean implements Serializable {
 	}
 
 	public List<AttributeDTO> getBrandDTO() {
-		if (brandDTO==null) {
+		if (brandDTO == null) {
 			brandDTO = getDomain().getBrand();
 		}
 		return brandDTO;
 	}
 
 	public List<CampaignDTO> getCampaigns() {
-		if (campaigns==null) {
-			campaigns = OthalaFactory.getProductServiceInstance().getListCampaign();
+		if (campaigns == null) {
+			campaigns = OthalaFactory.getProductServiceInstance()
+					.getListCampaign();
 		}
 		return campaigns;
 	}
@@ -143,31 +142,31 @@ public class ApplicationBean implements Serializable {
 	public DomainDTO getDomain() {
 
 		if (domain == null) {
-			domain = OthalaFactory.getProductServiceInstance().getDomain(OthalaUtil.getLangFromContextJSF());
+			domain = OthalaFactory.getProductServiceInstance().getDomain(
+					OthalaUtil.getLangFromContextJSF());
 		}
 
 		return domain;
 	}
-	
-	public void resetDomain()
-	{
-		domain=null;
-		brandDTO=null;
-		colorsDTO=null;
-		typeDTO=null;
-		materialDTO=null;
-		campaigns=null; 
+
+	public void resetDomain() {
+		domain = null;
+		brandDTO = null;
+		colorsDTO = null;
+		typeDTO = null;
+		materialDTO = null;
+		campaigns = null;
 	}
 
 	public List<SiteImagesDTO> getImgsCarousel() {
-		if (imgsCarousel==null) {
+		if (imgsCarousel == null) {
 			updateImgHome();
 		}
 		return imgsCarousel;
 	}
 
 	public List<SiteImagesDTO> getImgsNewArrival() {
-		if (imgsNewArrival==null) {
+		if (imgsNewArrival == null) {
 			updateImgHome();
 		}
 		return imgsNewArrival;
@@ -176,48 +175,71 @@ public class ApplicationBean implements Serializable {
 
 	private final String IMG_NEW_ARRIVALS = "newArrivals";
 	private final String IMG_CAROUSEL = "carousel";
-	
-	public void resetMenu()
-	{
-		menu=null;
-		
+
+	public void resetMenu() {
+		menu = null;
+
 	}
 
 	public MenuFullDTO getMenuFull() {
-		if (menuFull==null) {
-			menuFull = OthalaFactory.getProductServiceInstance().getMenuFull(OthalaUtil.getLangFromContextJSF());
-			
+		if (menuFull == null) {
+			menuFull = OthalaFactory.getProductServiceInstance().getMenuFull(
+					OthalaUtil.getLangFromContextJSF());
+
 		}
 
 		return menuFull;
 	}
-	
+
 	public List<MenuDTO> getMenu() {
-		if (menu==null) {
-			menuFull = OthalaFactory.getProductServiceInstance().getMenuFull(OthalaUtil.getLangFromContextJSF());
+		if (menu == null) {
+			menuFull = OthalaFactory.getProductServiceInstance().getMenuFull(
+					OthalaUtil.getLangFromContextJSF());
 			menu = menuFull.getMenu();
+
+			if (menuFull.getImgNew() == null) {
+				SiteImagesDTO imgNewCom = new SiteImagesDTO();
+				imgNewCom.setTxLibrary("images/home");
+				imgNewCom.setTxName("new.png");
+
+				menuFull.setImgNew(imgNewCom);
+
+			} 
+			
+			if (menuFull.getImgPromo() == null) {
+				SiteImagesDTO imgNewPromo = new SiteImagesDTO();
+				imgNewPromo.setTxLibrary("images/home");
+				imgNewPromo.setTxName("promo.png");
+
+				menuFull.setImgPromo(imgNewPromo);
+
+			} 
+
 		}
 
 		return menu;
 	}
 
 	public List<SelectItem> getMaterials() {
-		if (materials==null) {
-			materials=new ArrayList<>();
-			materials.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseMaterial")));
+		if (materials == null) {
+			materials = new ArrayList<>();
+			materials.add(new SelectItem(-1, OthalaUtil
+					.getWordBundle("catalog_chooseMaterial")));
 
 			for (AttributeDTO att : getDomain().getMaterial()) {
-				materials.add(new SelectItem(att.getAttributo(), att.getValore()));
+				materials.add(new SelectItem(att.getAttributo(), att
+						.getValore()));
 			}
 
 		}
 		return materials;
 	}
-	
+
 	public List<SelectItem> getBrands() {
-		if (brands==null) {
-			brands=new ArrayList<>();
-			brands.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseBrand")));
+		if (brands == null) {
+			brands = new ArrayList<>();
+			brands.add(new SelectItem(-1, OthalaUtil
+					.getWordBundle("catalog_chooseBrand")));
 
 			for (AttributeDTO att : getDomain().getBrand()) {
 				brands.add(new SelectItem(att.getAttributo(), att.getValore()));
@@ -226,13 +248,13 @@ public class ApplicationBean implements Serializable {
 		}
 		return brands;
 	}
-	
 
 	public List<SelectItem> getSizes() {
 
-		if (sizes==null) {
-			sizes=new ArrayList<>();
-			sizes.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseSize")));
+		if (sizes == null) {
+			sizes = new ArrayList<>();
+			sizes.add(new SelectItem(-1, OthalaUtil
+					.getWordBundle("catalog_chooseSize")));
 
 			for (AttributeDTO att : getDomain().getSize()) {
 				sizes.add(new SelectItem(att.getAttributo(), att.getValore()));
@@ -242,19 +264,19 @@ public class ApplicationBean implements Serializable {
 		return sizes;
 	}
 
-	
 	public List<AttributeDTO> getSizesDTO() {
-		if (sizeDTO==null) {
+		if (sizeDTO == null) {
 			sizeDTO = getDomain().getSize();
 		}
 		return sizeDTO;
 	}
 
 	public List<SelectItem> getColors() {
-		if (colors==null) {
-			colors=new ArrayList<>();
-			colorsDTO=new ArrayList<>();
-			colors.add(new SelectItem(-1, OthalaUtil.getWordBundle("catalog_chooseColor")));
+		if (colors == null) {
+			colors = new ArrayList<>();
+			colorsDTO = new ArrayList<>();
+			colors.add(new SelectItem(-1, OthalaUtil
+					.getWordBundle("catalog_chooseColor")));
 			for (AttributeDTO att : getDomain().getColor()) {
 				colorsDTO.add(att);
 				colors.add(new SelectItem(att.getAttributo(), att.getValore()));
@@ -263,22 +285,23 @@ public class ApplicationBean implements Serializable {
 		}
 		return colors;
 	}
-	
-	
 
 	private void updateImgHome() {
-		imgsCarousel=new ArrayList<>();
-		imgsNewArrival=new ArrayList<>();
-		
+		imgsCarousel = new ArrayList<>();
+		imgsNewArrival = new ArrayList<>();
+
 		imgs = OthalaFactory.getSiteImagesServiceInstance().listSiteImages();
 		for (SiteImagesDTO img : imgs) {
-			if (img.getTxGroupImages().trim().equalsIgnoreCase(IMG_NEW_ARRIVALS)) {
+			if (img.getTxGroupImages().trim()
+					.equalsIgnoreCase(IMG_NEW_ARRIVALS)) {
 				imgsNewArrival.add(img);
-			} else if (img.getTxGroupImages().trim().equalsIgnoreCase(IMG_CAROUSEL)) {
+			} else if (img.getTxGroupImages().trim()
+					.equalsIgnoreCase(IMG_CAROUSEL)) {
 				imgsCarousel.add(img);
 			}
 		}
 
 	}
 
+	
 }
