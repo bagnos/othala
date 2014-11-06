@@ -24,7 +24,9 @@ public class SiteImagesService implements ISiteImagesService {
 		return listSiteImages;
 
 	}
+	
 
+	
 	@Override
 	public void updateSiteImages(List<SiteImagesDTO> newImages) {
 		

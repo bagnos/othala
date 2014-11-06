@@ -1,6 +1,7 @@
 package it.othala.service;
 
 import it.othala.dao.interfaces.IProductDAO;
+import it.othala.dao.interfaces.ISiteImagesDAO;
 import it.othala.dto.ArticleDTO;
 import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.CampaignDTO;
@@ -9,6 +10,7 @@ import it.othala.dto.MenuDTO;
 import it.othala.dto.MenuFullDTO;
 import it.othala.dto.ProductFullNewDTO;
 import it.othala.dto.ShopDTO;
+import it.othala.dto.SiteImagesDTO;
 import it.othala.dto.SubMenuDTO;
 import it.othala.dto.VetrinaDTO;
 import it.othala.enums.OrderByCartFlow;
@@ -21,7 +23,7 @@ import java.util.List;
 public class ProductService implements IProductService {
 
 	private IProductDAO productDAO;
-
+	
 	public void setArticleDAO(IProductDAO productDAO) {
 		this.productDAO = productDAO;
 	}
@@ -54,6 +56,16 @@ public class ProductService implements IProductService {
 		menuFullDTO.setFgNuoviArrivi(productDAO.countNewArrivals());
 		menuFullDTO.setFgPromozioni(productDAO.countPromozioni());
 		menuFullDTO.setFgPrezzoSpeciale(productDAO.countSpecialPrice());
+
+		SiteImagesDTO imgNew = productDAO.getImage("new");
+		if (imgNew != null) {
+			menuFullDTO.setImgNew(imgNew);
+		}
+		SiteImagesDTO imgPromo = productDAO.getImage("promo");
+		if (imgPromo != null) {
+
+			menuFullDTO.setImgPromo(imgPromo);
+		}
 
 		return menuFullDTO;
 
@@ -156,7 +168,7 @@ public class ProductService implements IProductService {
 
 		Integer maxIdType = productDAO.getMaxIdType();
 		maxIdType = maxIdType + 1;
-		
+
 		productDAO.insertType(maxIdType, "it", txType);
 		productDAO.insertType(maxIdType, "en", txTypeEN);
 
@@ -170,11 +182,10 @@ public class ProductService implements IProductService {
 		return domainDTO;
 
 	}
-	
 
 	@Override
-	public VetrinaDTO getListProduct(String languages,
-			Integer gender, Integer type, Integer brand, BigDecimal minPrice,
+	public VetrinaDTO getListProduct(String languages, Integer gender,
+			Integer type, Integer brand, BigDecimal minPrice,
 			BigDecimal maxPrice, Integer size, Integer color,
 			Boolean newArrivals, OrderByCartFlow order, Integer idCampaign,
 			Boolean fgCampaign) {
@@ -204,20 +215,18 @@ public class ProductService implements IProductService {
 			listProduct.get(i).setColor(newString);
 
 		}
-		
-		
+
 		VetrinaDTO vetrinaDTO = new VetrinaDTO();
 		vetrinaDTO.setProdotti(listProduct);
-		vetrinaDTO.setSize(productDAO.listSizeProduct(languages,
-				type, gender, brand, minPrice, maxPrice, size, color,
-				newArrivals, order, idCampaign, fgCampaign));
-		vetrinaDTO.setColor(productDAO.listColorProduct(languages,
-				type, gender, brand, minPrice, maxPrice, size, color,
-				newArrivals, order, idCampaign, fgCampaign));
-		vetrinaDTO.setBrand(productDAO.listBrandProduct(languages,
-				type, gender, brand, minPrice, maxPrice, size, color,
-				newArrivals, order, idCampaign, fgCampaign));
-
+		vetrinaDTO.setSize(productDAO.listSizeProduct(languages, type, gender,
+				brand, minPrice, maxPrice, size, color, newArrivals, order,
+				idCampaign, fgCampaign));
+		vetrinaDTO.setColor(productDAO.listColorProduct(languages, type,
+				gender, brand, minPrice, maxPrice, size, color, newArrivals,
+				order, idCampaign, fgCampaign));
+		vetrinaDTO.setBrand(productDAO.listBrandProduct(languages, type,
+				gender, brand, minPrice, maxPrice, size, color, newArrivals,
+				order, idCampaign, fgCampaign));
 
 		return vetrinaDTO;
 
@@ -316,22 +325,18 @@ public class ProductService implements IProductService {
 		ProductFullNewDTO productFull = productDAO
 				.getProductFullBarcode(txBarcode);
 
-			List<String> newString = productDAO.listProductImages(productFull
-					.getIdProduct());
-			productFull.setImagesUrl(newString);
-			
-			List<ArticleFullDTO> listArticleFull = productDAO
-					.listArticleFullBarcode(productFull.getIdProduct(),
-							txBarcode);
-			
-			productFull.setArticles(listArticleFull);
+		List<String> newString = productDAO.listProductImages(productFull
+				.getIdProduct());
+		productFull.setImagesUrl(newString);
 
-		
-		
+		List<ArticleFullDTO> listArticleFull = productDAO
+				.listArticleFullBarcode(productFull.getIdProduct(), txBarcode);
+
+		productFull.setArticles(listArticleFull);
+
 		return productFull;
 
 	}
-	
 
 	@Override
 	public void publishProduct(List<Integer> listIdProduct) {
@@ -340,14 +345,15 @@ public class ProductService implements IProductService {
 	}
 
 	@Override
-	public Integer insertCampaign(CampaignDTO campaign,List<Integer> listIdProduct) {
+	public Integer insertCampaign(CampaignDTO campaign,
+			List<Integer> listIdProduct) {
 		Integer idCampaign = productDAO.insertCampaign(campaign);
-		
+
 		productDAO.addProductToCampaign(listIdProduct, idCampaign);
-		
+
 		return idCampaign;
 	}
-	
+
 	@Override
 	public void addProductToCampaign(List<Integer> listIdProduct,
 			Integer idCampaign) {
@@ -372,13 +378,15 @@ public class ProductService implements IProductService {
 		if (fgScarico == true) {
 			for (int i = 0; i <= articles.size() - 1; i++) {
 
-				productDAO.downloadArticle(articles.get(i).getIdProduct(), articles.get(i).getPgArticle());
+				productDAO.downloadArticle(articles.get(i).getIdProduct(),
+						articles.get(i).getPgArticle());
 
 			}
 		} else {
 			for (int i = 0; i <= articles.size() - 1; i++) {
 
-				productDAO.uploadArticle(articles.get(i).getIdProduct(), articles.get(i).getPgArticle());
+				productDAO.uploadArticle(articles.get(i).getIdProduct(),
+						articles.get(i).getPgArticle());
 
 			}
 		}
@@ -388,8 +396,9 @@ public class ProductService implements IProductService {
 	@Override
 	public void removeProductFromCampaign(List<Integer> listIdProduct,
 			CampaignDTO campaign) {
-		productDAO.removeProductFromCampaign(listIdProduct, campaign.getIdCampaign());
-		
+		productDAO.removeProductFromCampaign(listIdProduct,
+				campaign.getIdCampaign());
+
 	}
 
 	@Override
@@ -400,7 +409,8 @@ public class ProductService implements IProductService {
 	@Override
 	public void updateCampaign(CampaignDTO campaign, List<Integer> listIdProduct) {
 		productDAO.updateCampaign(campaign);
-		productDAO.removeProductFromCampaign(listIdProduct, campaign.getIdCampaign());
+		productDAO.removeProductFromCampaign(listIdProduct,
+				campaign.getIdCampaign());
 	}
 
 }

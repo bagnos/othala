@@ -13,6 +13,10 @@ public class MenuFullDTO implements Serializable {
 	private boolean fgNuoviArrivi;
 	private boolean fgPromozioni;
 	private boolean fgPrezzoSpeciale; 
+	private SiteImagesDTO imgNew;
+	
+	private SiteImagesDTO imgPromo;
+	
 	
 
 	public boolean isFgNuoviArrivi() {
@@ -45,6 +49,22 @@ public class MenuFullDTO implements Serializable {
 
 	public void setMenu(List<MenuDTO> menu) {
 		this.menu = menu;
+	}
+
+	public SiteImagesDTO getImgNew() {
+		return imgNew;
+	}
+
+	public void setImgNew(SiteImagesDTO imgNew) {
+		this.imgNew = imgNew;
+	}
+
+	public SiteImagesDTO getImgPromo() {
+		return imgPromo;
+	}
+
+	public void setImgPromo(SiteImagesDTO imgPromo) {
+		this.imgPromo = imgPromo;
 	}
 
 }

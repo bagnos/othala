@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="it.othala.product.queries">
+<mapper namespace="it.othala.images.queries">
 
 
 	<select id="listSiteImages" resultType="it.othala.dto.SiteImagesDTO">
@@ -55,7 +55,20 @@
 	</insert>
 
 
+	<select id="getImage" parameterType="java.lang.String"  resultType="it.othala.dto.SiteImagesDTO">
 
+		SELECT
+		idsiteImages,
+		txGroupImages,
+		pgGroupImages,
+		txLibrary,
+		txName,
+		urlRedirect
+		FROM
+		${database.schema}site_images
+		where txGroupImages = #{string}
+
+	</select>
 
 
 </mapper>
