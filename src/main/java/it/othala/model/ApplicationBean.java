@@ -193,9 +193,29 @@ public class ApplicationBean implements Serializable {
 	}
 	
 	public List<MenuDTO> getMenu() {
-		if (menu==null) {
-			menuFull = OthalaFactory.getProductServiceInstance().getMenuFull(OthalaUtil.getLangFromContextJSF());
+		if (menu == null) {
+			menuFull = OthalaFactory.getProductServiceInstance().getMenuFull(
+					OthalaUtil.getLangFromContextJSF());
 			menu = menuFull.getMenu();
+
+			if (menuFull.getImgNew() == null) {
+				SiteImagesDTO imgNewCom = new SiteImagesDTO();
+				imgNewCom.setTxLibrary("images/home");
+				imgNewCom.setTxName("new.png");
+
+				menuFull.setImgNew(imgNewCom);
+
+			} 
+			
+			if (menuFull.getImgPromo() == null) {
+				SiteImagesDTO imgNewPromo = new SiteImagesDTO();
+				imgNewPromo.setTxLibrary("images/home");
+				imgNewPromo.setTxName("promo.png");
+
+				menuFull.setImgPromo(imgNewPromo);
+
+			} 
+
 		}
 
 		return menu;
