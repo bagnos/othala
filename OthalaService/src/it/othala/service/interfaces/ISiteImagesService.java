@@ -9,6 +9,8 @@ public interface ISiteImagesService {
 	public List<SiteImagesDTO> listSiteImages();
 	
 	public void updateSiteImages(List<SiteImagesDTO> newImages);
+	
+	public List<String> listGruppiSiteImages();
 
 
 }

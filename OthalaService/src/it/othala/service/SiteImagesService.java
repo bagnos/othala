@@ -3,8 +3,10 @@ package it.othala.service;
 import it.othala.dao.interfaces.ISiteImagesDAO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.SiteImagesDTO;
+import it.othala.enums.TypeGroupSiteImages;
 import it.othala.service.interfaces.ISiteImagesService;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -35,11 +37,24 @@ public class SiteImagesService implements ISiteImagesService {
 			String gruppo = newImages.get(i).getTxGroupImages();
 			siteImagesDAO.deleteGroupSiteImages(gruppo);
 			while(i < newImages.size() && gruppo.equals(newImages.get(i).getTxGroupImages())){
+				newImages.get(i).setTxLibrary(newImages.get(i).getTxLibrary().concat("/" + newImages.get(i).getTxGroupImages()));
 				siteImagesDAO.InsertSiteImage(newImages.get(i));
 				i++;
 			}
 		}
 
+	}
+
+	@Override
+	public List<String> listGruppiSiteImages() {
+		
+		List<String> lsGruppi= new ArrayList<>();
+		for (TypeGroupSiteImages g: TypeGroupSiteImages.values() ){
+			
+			lsGruppi.add(g.name());
+		}
+		
+		return lsGruppi;
 	}
 
 }
