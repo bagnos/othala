@@ -1,0 +1,131 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/merchantPageTemplate.xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:viewAction action="#{insertSiteImageView.doInit}"></f:viewAction>
+		</f:metadata>
+	</ui:define>
+
+
+	<ui:define name="title">
+		<h:outputText value="Inserimento Immagini Home"></h:outputText>
+	</ui:define>
+
+	<ui:define name="Pagina">Inserimento Immagini</ui:define>
+	<ui:define name="PaginaBreadcrumb">Immagini Home</ui:define>
+
+	<ui:define name="bodyPageContent">
+		<h:form prependId="false" id="frmProd" styleClass="form-horizontal">
+
+			<div class="row">
+				<div class="col-sm-4">
+					<h3 class="form-titoli">
+						<h:outputText value="IMMAGINI HOME" />
+					</h3>
+				</div>
+			</div>
+
+			<div class="row spacer20">
+				<div class="col-sm-12">
+					<div class="form-group">
+						<p:outputLabel for="groupImg" styleClass="col-sm-2 control-label" value="Tipo Immamgine" />
+						<div class="col-sm-3">
+							<h:selectOneMenu id="groupImg" styleClass="form-control"
+								value="#{insertSiteImageView.idTypeGroupImage}">
+								<f:selectItem itemLabel="Seleziona tipo immagine..." noSelectionOption="true" itemValue="-1"></f:selectItem>
+								<f:selectItems value="#{insertSiteImageView.imagesGroup}" />
+								<f:ajax execute="@this" render=":frmImages"
+									listener="#{insertSiteImageView.selectGroupImage}"></f:ajax>
+							</h:selectOneMenu>
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</h:form>
+
+		<h:form enctype="multipart/form-data" prependId="false" id="frmImages">
+			<h:panelGroup
+				rendered="#{insertSiteImageView.imagesSiteGroup!=null and insertSiteImageView.imagesSiteGroup.size()!=0}">
+				<div class="row spacer10">
+					<!-- immagini -->
+					<label for="immagini" class="control-label col-sm-1">Immagini</label>
+					<div class="col-sm-11">
+						<p:fileUpload fileUploadListener="#{insertSiteImageView.handleFileUpload}"
+							allowTypes="/(\.|\/)(gif|jpe?g|png)$/" onerror="PF('blockAll').unblock();"
+							oncomplete="PF('blockAll').unblock();" onstart="PF('blockAll').block()" process="@this"
+							required="true" update="frmImages" multiple="true" auto="true" />
+						<div class="row">
+
+							<div class="row">
+								<div class="col-sm-12">
+									<p:dataTable var="img" rowKey="#{img.idSiteImages}" id="imgs"
+										value="#{insertSiteImageView.imagesSiteGroup}" rows="10" paginator="true"
+										paginatorPosition="bottom" selection="#{insertSiteImageView.imagesSiteGroupSeletcetd}"
+										emptyMessage="Nessuna immagine trovata"
+										currentPageReportTemplate="Nr. Elementi {totalRecords}"
+										paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+										selectionMode="multiple">
+
+<p:ajax event="rowSelect" update="elimina" process="@this"/>
+						
+						<p:ajax event="rowUnselect" process="@this" update="elimina" />
+
+										<f:facet name="header">
+		 						IMMAGINI
+		 						</f:facet>
+
+										<p:column headerText="Immagine" style="width:80px">
+
+											<p:graphicImage styleClass="img-responsive" library="#{img.txLibrary}"
+												name="#{img.txName}" />
+
+										</p:column>
+
+										<p:column headerText="Nome">
+											<h:outputText value="#{img.txName}" />
+										</p:column>
+
+										<f:facet name="footer">
+
+
+											<div class="row">
+
+												<div class="col-sm-1">
+													<p:commandButton onerror="PF('blockAll').unblock();"
+														oncomplete="PF('blockAll').unblock();" onclick="PF('blockAll').block()"
+														value="Elimina" id="elimina"
+														disabled="#{insertSiteImageView.imagesSiteGroupSeletcetd==null or insertSiteImageView.imagesSiteGroupSeletcetd.size()==0}"
+														actionListener="#{insertSiteImageView.removeImgPrd}" process="@this" update="@form"
+														icon="ui-icon-close">
+													</p:commandButton>
+												</div>
+											</div>
+										</f:facet>
+
+									</p:dataTable>
+
+								</div>
+							</div>
+							<div class="row spacer20">
+								<div class="col-sm-1">
+									<!-- inserire pulsante conferma -->
+									<p:commandButton styleClass="ui-priority-primary" onerror="PF('blockAll').unblock();"
+										oncomplete="PF('blockAll').unblock();" onclick="PF('blockAll').block()"
+										actionListener="#{insertSiteImageView.conferma}" ajax="false" value="CONFERMA">
+									</p:commandButton>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</h:panelGroup>
+		</h:form>
+	</ui:define>
+</ui:composition>
