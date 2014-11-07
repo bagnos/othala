@@ -3,7 +3,7 @@
 ================================================================================================*/
 .ui-widget {
 	font-size: 95% !important;
-	font-family: playregular !important;
+	font-family: quicksandregular !important;
 }
 
 .ui-galleria-panel {
@@ -367,7 +367,7 @@
 	INIZIO TAB NAV BAR 
 ================================================================================================*/
 .nav-tabs>li>a {
-	font-family: playregular !important;
+	font-family: quicksandregular !important;
 	font-size: 18px !important;
 	color: rgb(102, 102, 102);
 }
@@ -385,7 +385,7 @@
 }
 
 #tab-content a {
-	font-family: playregular !important;
+	font-family: quicksandregular !important;
 	font-size: 13px !important;;
 	color: #888 !important;;
 	padding: 0 0 0 11px;
@@ -469,7 +469,7 @@
 	FINE CAROSELLO HOME 
 ================================================================================================*/
 .foot1-title {
-	font-family: playregular !important;
+	font-family: quicksandregular !important;
 	color: #666666;
 	font-size: 14px;
 	padding: 0px 0px 7px 0px;
@@ -480,7 +480,7 @@
 }
 
 .foot2-line {
-	font-family: playregular !important;
+	font-family: quicksandregular !important;
 	color: #666666 !important;
 	font-size: 12px;
 	font-weight: normal;
@@ -534,7 +534,7 @@ html,body,form {
 	FINE STICKY FOOTER 
 ================================================================================================*/
 .body {
-	font-family: playregular !important;
+	font-family: quicksandregular !important;
 }
 
 /* ================================================================================================ 
