@@ -68,7 +68,7 @@
     <url-pattern>/RichiestaResoServlet/*</url-pattern>
   </servlet-mapping>
   
-    <filter>
+  <filter>
     <filter-name>LoginFilter</filter-name>
     <filter-class>it.othala.filter.LoginFilter</filter-class>
   </filter>
