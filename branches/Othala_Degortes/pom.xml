@@ -8,6 +8,11 @@
 	<name>Othala Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>
+				<dependency>
+			<groupId>it.adunata</groupId>
+			<artifactId>OthalaMBeans</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 		<dependency>
 			<groupId>it.adunata</groupId>
 			<artifactId>OthalaService</artifactId>
