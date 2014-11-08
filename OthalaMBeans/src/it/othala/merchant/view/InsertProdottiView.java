@@ -78,6 +78,8 @@ public class InsertProdottiView extends BaseView {
 	private String separatorDateFormat = "&";
 	private Boolean detail;
 	private ProductFullNewDTO prdDetail = null;
+	private final String BASE_IMG_PATH = "//resources//images//cartThumbinals//";
+	private final int SCROLL_WIDTH_AUTOCOMPLETE = 100;
 
 	public Boolean getDetail() {
 		return detail;
@@ -184,8 +186,7 @@ public class InsertProdottiView extends BaseView {
 		return articles;
 	}
 
-	private final String BASE_IMG_PATH = "//resources//images//cartThumbinals//";
-	private final int SCROLL_WIDTH_AUTOCOMPLETE = 100;
+	
 
 	public List<String> getImagesFile() {
 		return imagesFile;
@@ -662,7 +663,7 @@ public class InsertProdottiView extends BaseView {
 		Date date = new Date();
 
 		String fileResized = ResizeImageUtil.resizeAndCopyImage(inputStream,
-				BASE_IMG_PATH, dateFormat.format(date)
+				 dateFormat.format(date)
 						+ separatorDateFormat
 						+ file.getFileName()
 								.replaceAll(separatorDateFormat, ""),format);
