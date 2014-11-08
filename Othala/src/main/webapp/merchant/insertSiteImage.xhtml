@@ -54,77 +54,91 @@
 				rendered="#{insertSiteImageView.imagesSiteGroup!=null and insertSiteImageView.imagesSiteGroup.size()!=0}">
 				<div class="row spacer10">
 					<!-- immagini -->
-					<label for="immagini" class="control-label col-sm-1">Immagini</label>
-					<div class="col-sm-11">
+					<label for="immagini" class="control-label col-sm-2">Immagini</label>
+					<div class="col-sm-4">
 						<p:fileUpload fileUploadListener="#{insertSiteImageView.handleFileUpload}"
 							allowTypes="/(\.|\/)(gif|jpe?g|png)$/" onerror="PF('blockAll').unblock();"
 							oncomplete="PF('blockAll').unblock();" onstart="PF('blockAll').block()" process="@this"
-							required="true" update="frmImages" multiple="true" auto="true" />
-						<div class="row">
+							update="imgs" multiple="true" auto="true" />
+					</div>
+				</div>
 
-							<div class="row">
-								<div class="col-sm-12">
-									<p:dataTable var="img" rowKey="#{img.idSiteImages}" id="imgs"
-										value="#{insertSiteImageView.imagesSiteGroup}" rows="10" paginator="true"
-										paginatorPosition="bottom" selection="#{insertSiteImageView.imagesSiteGroupSeletcetd}"
-										emptyMessage="Nessuna immagine trovata"
-										currentPageReportTemplate="Nr. Elementi {totalRecords}"
-										paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-										selectionMode="multiple">
 
-<p:ajax event="rowSelect" update="elimina" process="@this"/>
-						
-						<p:ajax event="rowUnselect" process="@this" update="elimina" />
+				<div class="row">
+					<div class="col-sm-8">
+						<p:dataTable var="img" rowKey="#{img.txName}" id="imgs"
+							value="#{insertSiteImageView.imagesSiteGroup}" rows="10" paginator="true"
+							paginatorPosition="bottom" selection="#{insertSiteImageView.imagesSiteGroupSeletcetd}"
+							emptyMessage="Nessuna immagine trovata"
+							currentPageReportTemplate="Nr. Elementi {totalRecords}"
+							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+							selectionMode="multiple">
 
-										<f:facet name="header">
+							<p:ajax event="rowSelect" update="elimina spostaSu spostaGiu" process="@this" />
+
+							<p:ajax event="rowUnselect" process="@this" update="elimina spostaSu spostaGiu" />
+
+							<f:facet name="header">
 		 						IMMAGINI
 		 						</f:facet>
 
-										<p:column headerText="Immagine" style="width:80px">
+							<p:column headerText="Immagine" style="width:100px;border-color:rgb(221, 221, 221)">
 
-											<p:graphicImage styleClass="img-responsive" library="#{img.txLibrary}"
-												name="#{img.txName}" />
+								<p:graphicImage styleClass="img-responsive" library="#{img.txLibrary}" name="#{img.txName}" />
 
-										</p:column>
+							</p:column>
 
-										<p:column headerText="Nome">
-											<h:outputText value="#{img.txName}" />
-										</p:column>
+							<p:column headerText="Nome" style="border-color:rgb(221, 221, 221)">
+								<h:outputText value="#{img.txName}" />
+							</p:column>
 
-										<f:facet name="footer">
+							<f:facet name="footer">
 
 
-											<div class="row">
+								<div class="row">
 
-												<div class="col-sm-1">
-													<p:commandButton onerror="PF('blockAll').unblock();"
-														oncomplete="PF('blockAll').unblock();" onclick="PF('blockAll').block()"
-														value="Elimina" id="elimina"
-														disabled="#{insertSiteImageView.imagesSiteGroupSeletcetd==null or insertSiteImageView.imagesSiteGroupSeletcetd.size()==0}"
-														actionListener="#{insertSiteImageView.removeImgPrd}" process="@this" update="@form"
-														icon="ui-icon-close">
-													</p:commandButton>
-												</div>
-											</div>
-										</f:facet>
-
-									</p:dataTable>
-
+									<div class="col-sm-2">
+										<p:commandButton onerror="PF('blockAll').unblock();"
+											oncomplete="PF('blockAll').unblock();" onclick="PF('blockAll').block()" value="Elimina"
+											id="elimina"
+											disabled="#{insertSiteImageView.imagesSiteGroupSeletcetd==null or insertSiteImageView.imagesSiteGroupSeletcetd.size()==0}"
+											actionListener="#{insertSiteImageView.removeImgPrd}" process="@this" update="imgs"
+											icon="ui-icon-close">
+										</p:commandButton>
+									</div>
+									<div class="col-sm-2">
+										<p:commandButton onerror="PF('blockAll').unblock();" value="UP" id="spostaSu"
+											disabled="#{insertSiteImageView.imagesSiteGroupSeletcetd==null or insertSiteImageView.imagesSiteGroupSeletcetd.size()!=1}"
+											actionListener="#{insertSiteImageView.moveUp}" process="@this" update="imgs"
+											icon="ui-icon-arrowthick-1-n">
+										</p:commandButton>
+									</div>
+									<div class="col-sm-2">
+										<p:commandButton onerror="PF('blockAll').unblock();" value="DOWN" id="spostaGiu"
+											disabled="#{insertSiteImageView.imagesSiteGroupSeletcetd==null or insertSiteImageView.imagesSiteGroupSeletcetd.size()!=1}"
+											actionListener="#{insertSiteImageView.moveDown}" process="@this" update="imgs"
+											icon="ui-icon-arrowthick-1-s">
+										</p:commandButton>
+									</div>
 								</div>
-							</div>
-							<div class="row spacer20">
-								<div class="col-sm-1">
-									<!-- inserire pulsante conferma -->
-									<p:commandButton styleClass="ui-priority-primary" onerror="PF('blockAll').unblock();"
-										oncomplete="PF('blockAll').unblock();" onclick="PF('blockAll').block()"
-										actionListener="#{insertSiteImageView.conferma}" ajax="false" value="CONFERMA">
-									</p:commandButton>
+							</f:facet>
 
-								</div>
-							</div>
-						</div>
+						</p:dataTable>
+
 					</div>
 				</div>
+				<div class="row spacer30">
+					<div class="col-sm-1">
+						<!-- inserire pulsante conferma -->
+						<p:commandButton styleClass="ui-priority-primary" onerror="PF('blockAll').unblock();"
+							oncomplete="PF('blockAll').unblock();" onclick="PF('blockAll').block()"
+							actionListener="#{insertSiteImageView.conferma}" ajax="false" value="CONFERMA">
+						</p:commandButton>
+
+					</div>
+				</div>
+
+
 			</h:panelGroup>
 		</h:form>
 	</ui:define>
