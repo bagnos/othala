@@ -1,7 +1,7 @@
 package it.othala.enums;
 
 public enum TypeGroupSiteImages {
-	CAROUSEL(0), NEWARRIVALS(1),TABNAV(2) ;
+	CAROUSEL(0), NEWARRIVALS(1),TABNAV(2),PROMO(3) ;
 	private int gruppo;
 
 	private TypeGroupSiteImages(int gruppo) {
