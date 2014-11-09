@@ -549,15 +549,31 @@ DROP TABLE IF EXISTS `site_images`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `site_images` (
-  `idsiteImages` int(11) NOT NULL AUTO_INCREMENT,
-  `txGroupImages` varchar(45) DEFAULT NULL,
-  `pgGroupImages` int(11) DEFAULT NULL,
-  `txLibrary` varchar(45) DEFAULT NULL,
+  `txGroupImages` varchar(45) NOT NULL,
+  `pgGroupImages` int(11) NOT NULL,
   `txName` varchar(45) DEFAULT NULL,
   `urlRedirect` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`idsiteImages`)
+  PRIMARY KEY (`txGroupImages`,`pgGroupImages`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+
+--
+-- Table structure for table `group_images`
+--
+
+DROP TABLE IF EXISTS `group_images`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `group_images` (
+  `txGroupImages` varchar(45) NOT NULL,
+  `txLibrary` varchar(45) DEFAULT NULL,
+  `nrImages` int(11) DEFAULT NULL,
+  `maxHeight` int(11) DEFAULT NULL,
+  PRIMARY KEY (`txGroupImages`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `size`

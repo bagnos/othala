@@ -327,9 +327,21 @@ UNLOCK TABLES;
 
 LOCK TABLES `site_images` WRITE;
 /*!40000 ALTER TABLE `site_images` DISABLE KEYS */;
-INSERT INTO `site_images` VALUES (30, 'new', 1, 'images/home', 'new.png',null), (31, 'promo', 1, 'images/home', 'promo.png',null),(1,'carousel',1,'images/home','mag01.jpg','/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=false&idSubMenu=0&idCampaign=0'),(2,'carousel',2,'images/home','mag02.jpg','/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=false&idSubMenu=0&idCampaign=0'),(3,'carousel',3,'images/home','mag03.jpg','/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=false&idSubMenu=0&idCampaign=0'),(4,'carousel',4,'images/home','mag04.jpg','/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=false&idSubMenu=0&idCampaign=0'),(5,'newArrivals',1,'images/home','newMag.jpg','/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=true&idSubMenu=0&idCampaign=0'),(7,'tabNav',1,'images/home','logoTab2.png',NULL),(12,'carousel',5,'images/home','mag05.jpg','/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=false&idSubMenu=0&idCampaign=0'),(13,'carousel',6,'images/home','mag06.jpg','/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=false&idSubMenu=0&idCampaign=0'),(14,'carousel',7,'images/home','mag07.jpg','/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=false&idSubMenu=0&idCampaign=0'),(15,'carousel',8,'images/home','mag08.jpg','/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=false&idSubMenu=0&idCampaign=0'),(16,'carousel',9,'images/home','mag09.jpg','/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=false&idSubMenu=0&idCampaign=0'),(17,'carousel',10,'images/home','mag10.jpg','/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=false&idSubMenu=0&idCampaign=0'),(18,'carousel',11,'images/home','mag11.jpg','/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=false&idSubMenu=0&idCampaign=0'),(19,'carousel',12,'images/home','mag12.jpg','/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=false&idSubMenu=0&idCampaign=0'),(20,'carousel',13,'images/home','mag13.jpg','/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=false&idSubMenu=0&idCampaign=0'),(21,'carousel',14,'images/home','mag14.jpg','/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=false&idSubMenu=0&idCampaign=0'),(22,'carousel',15,'images/home','mag15.jpg','/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=false&idSubMenu=0&idCampaign=0'),(23,'newArrivals',2,'images/home','newMag2.jpg','/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=true&idSubMenu=0&idCampaign=0');
+INSERT INTO `site_images` VALUES ('carousel',1,'mag01.jpg',NULL),('carousel',2,'mag02.jpg',NULL),('carousel',3,'mag03.jpg',NULL),('carousel',4,'mag04.jpg',NULL),('carousel',5,'mag05.jpg',NULL),('carousel',6,'mag06.jpg',NULL),('carousel',7,'mag07.jpg',NULL),('carousel',8,'mag08.jpg',NULL),('carousel',9,'mag09.jpg',NULL),('carousel',10,'mag10.jpg',NULL),('carousel',11,'mag11.jpg',NULL),('carousel',12,'mag12.jpg',NULL),('carousel',13,'mag13.jpg',NULL),('carousel',14,'mag14.jpg',NULL),('carousel',15,'mag15.jpg',NULL),('new',1,'new.png',NULL),('newArrivals',1,'newMag.jpg','/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=true&idSubMenu=0&idCampaign=0'),('newArrivals',2,'newMag2.jpg','/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=true&idSubMenu=0&idCampaign=0'),('promo',1,'promo.png',NULL),('tabNav',1,'logoTab2.png',NULL);
 /*!40000 ALTER TABLE `site_images` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping data for table `group_images`
+--
+
+LOCK TABLES `group_images` WRITE;
+/*!40000 ALTER TABLE `group_images` DISABLE KEYS */;
+INSERT INTO `group_images` VALUES ('carousel','images/home',20,1080),('new','images/home',1,130),('newArrivals','images/home',6,960),('promo','images/home',1,130),('tabNav','images/home',6,130);
+/*!40000 ALTER TABLE `group_images` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
 
 
 
