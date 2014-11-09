@@ -7,66 +7,115 @@
 
 
 		SELECT
-		idsiteImages,
-		txGroupImages,
-		pgGroupImages,
-		txLibrary,
-		txName,
-		urlRedirect
+
+		a.txGroupImages,
+		a.pgGroupImages,
+		b.txLibrary,
+		a.txName,
+		a.urlRedirect
 		FROM
-		${database.schema}site_images
-		where txGroupImages != 'newArrivals'
-
-		union all
-
-		SELECT
-		idsiteImages,
-		txGroupImages,
-		pgGroupImages,
-		txLibrary,
-		txName,
-		urlRedirect
-		FROM
-		${database.schema}site_images a
-		where txGroupImages = 'newArrivals';
-		
-
-
+		${database.schema}site_images a,
+		${database.schema}group_images b
+		where
+		a.txGroupImages = b.txGroupImages;
 
 	</select>
-	
+
 	<delete id="deleteSiteImages" parameterType="java.lang.String">
 
-		DELETE FROM 
+		DELETE FROM
 		${database.schema}site_images
 		WHERE
 		txGroupImages = #{groupImage}
 
 	</delete>
-	
+
 	<insert id="insertSiteImages" parameterType="it.othala.dto.SiteImagesDTO">
 
 		INSERT INTO
 		${database.schema}site_images
-		(`txGroupImages`,`pgGroupImages`,`txLibrary`,`txName`,`urlRedirect`)
+		(`txGroupImages`,`pgGroupImages`,`txName`,`urlRedirect`)
 		values
-		(#{txGroupImages},#{pgGroupImages},#{txLibrary},#{txName},#{urlRedirect})
+		(#{txGroupImages},#{pgGroupImages},#{txName},#{urlRedirect})
 
 	</insert>
 
 
-	<select id="getImage" parameterType="java.lang.String"  resultType="it.othala.dto.SiteImagesDTO">
+	<select id="getImage" parameterType="java.lang.String"
+		resultType="it.othala.dto.SiteImagesDTO">
 
 		SELECT
-		idsiteImages,
-		txGroupImages,
-		pgGroupImages,
-		txLibrary,
-		txName,
-		urlRedirect
+
+		a.txGroupImages,
+		a.pgGroupImages,
+		b.txLibrary,
+		a.txName,
+		a.urlRedirect
 		FROM
-		${database.schema}site_images
-		where txGroupImages = #{string}
+		${database.schema}site_images a,
+		${database.schema}group_images b
+		where
+		a.txGroupImages = #{string}
+		and
+		a.txGroupImages = b.txGroupImages;
+
+	</select>
+
+
+	<select id="listGroupImages" resultType="it.othala.dto.GroupImagesDTO">
+
+
+
+		SELECT
+		`txGroupImages`,
+		`txLibrary`,
+		`nrImages`,
+		`maxHeight`
+		FROM ${database.schema}group_images;
+
+
+
+	</select>
+
+
+	<select id="getSiteImages" resultType="it.othala.dto.SiteImagesDTO"
+	parameterType="java.util.HashMap">
+
+		SELECT
+
+		tab1.txGroupImages,
+		tab1.pgGroupImages,
+		tab1.txLibrary,
+		tab1.txName,
+		tab1.urlRedirect,
+			c.txGender
+		FROM
+
+		(
+
+		SELECT
+
+		a.txGroupImages,
+		a.pgGroupImages,
+		b.txLibrary,
+		a.txName,
+		a.urlRedirect
+
+		FROM
+		${database.schema}site_images a,
+		${database.schema}group_images b
+		where
+		a.txGroupImages = b.txGroupImages
+		and a.txGroupImages = #{txGroupImages}
+		) tab1
+		left join
+		${database.schema}gender c
+
+		on tab1.pgGroupImages = c.idGender
+		and c.idLanguages = 'it'
+
+
+		;
 
 	</select>
 

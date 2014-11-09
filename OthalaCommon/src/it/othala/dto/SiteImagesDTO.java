@@ -9,12 +9,12 @@ public class SiteImagesDTO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Integer idSiteImages;
 	private String txGroupImages;
 	private Integer pgGroupImages;
 	private String txLibrary;
 	private String txName;
 	private String urlRedirect;
+	private String txGender;
 
 	public Integer getPgGroupImages() {
 		return pgGroupImages;
@@ -40,14 +40,6 @@ public class SiteImagesDTO implements Serializable {
 		this.txName = txName;
 	}
 
-	public Integer getIdSiteImages() {
-		return idSiteImages;
-	}
-
-	public void setIdSiteImages(Integer idSiteImages) {
-		this.idSiteImages = idSiteImages;
-	}
-
 	public String getTxGroupImages() {
 		return txGroupImages;
 	}
@@ -62,6 +54,14 @@ public class SiteImagesDTO implements Serializable {
 
 	public void setUrlRedirect(String urlRedirect) {
 		this.urlRedirect = urlRedirect;
+	}
+
+	public String getTxGender() {
+		return txGender;
+	}
+
+	public void setTxGender(String txGender) {
+		this.txGender = txGender;
 	}
 
 }

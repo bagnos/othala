@@ -1,6 +1,7 @@
 package it.othala.dao;
 
 import it.othala.dao.interfaces.ISiteImagesDAO;
+import it.othala.dto.GroupImagesDTO;
 import it.othala.dto.MenuDTO;
 import it.othala.dto.SiteImagesDTO;
 
@@ -15,7 +16,7 @@ public class SiteImagesDAO extends SqlSessionDaoSupport implements
 	@Override
 	public List<SiteImagesDTO> listSiteImages() {
 
-		// recupero prodotti
+
 		List<SiteImagesDTO> listSiteImages = getSqlSession().selectList(
 				"it.othala.images.queries.listSiteImages");
 
@@ -37,6 +38,27 @@ public class SiteImagesDAO extends SqlSessionDaoSupport implements
 		getSqlSession().insert(
 				"it.othala.images.queries.insertSiteImages", newSiteImage);
 		
+	}
+
+	@Override
+	public List<GroupImagesDTO> getGroupImages() {
+
+		List<GroupImagesDTO> listGroupImages = getSqlSession().selectList(
+				"it.othala.images.queries.listGroupImages");
+
+		return listGroupImages;
+	}
+
+	@Override
+	public List<SiteImagesDTO> getSiteImages(String txGroupImages) {
+		
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("txGroupImages", txGroupImages);
+		
+		List<SiteImagesDTO> listSiteImages = getSqlSession().selectList(
+				"it.othala.images.queries.getSiteImages", map);
+
+		return listSiteImages;
 	}
 
 

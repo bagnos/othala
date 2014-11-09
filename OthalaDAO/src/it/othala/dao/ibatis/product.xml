@@ -9,12 +9,14 @@
 		SELECT
 		a.idGender,
 		a.txGender,
-		b.txLibrary as imgLibrary,
+		c.txLibrary as imgLibrary,
 		b.txName as imgName
 		FROM
 		${database.schema}gender a,
-		${database.schema}site_images b
+		${database.schema}site_images b,
+		${database.schema}group_images c
 		where a.idLanguages = #{languages}
+		and b.txGroupImages = c.txGroupImages
 		and
 		b.txGroupImages = 'tabNav'
 		and b.pgGroupImages = a.idGender
