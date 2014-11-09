@@ -293,9 +293,34 @@ UNLOCK TABLES;
 
 LOCK TABLES `site_images` WRITE;
 /*!40000 ALTER TABLE `site_images` DISABLE KEYS */;
-INSERT INTO `site_images` VALUES (30, 'new', 1, 'images/home', 'new.png',null), (31, 'promo', 1, 'images/home', 'promo.png',null),(1,'carousel',1,'images/home','A2.jpg','/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=false&idSubMenu=0&idCampaign=0'),(2,'carousel',2,'images/home','A1.jpg','/cart/cart-catalog.xhtml?idMenu=2&fgNewArrivals=false&idSubMenu=0&idCampaign=0'),(3,'carousel',3,'images/home','A3.jpg','/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=false&idSubMenu=0&idCampaign=0'),(4,'carousel',4,'images/home','A4.jpg','/cart/cart-catalog.xhtml?idMenu=2&fgNewArrivals=false&idSubMenu=0&idCampaign=0'),(5,'newArrivals',1,'images/home','newuomo2.jpg','/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=true&idSubMenu=0&idCampaign=0'),(6,'newArrivals',2,'images/home','newdonna2.jpg','/cart/cart-catalog.xhtml?idMenu=2&fgNewArrivals=true&idSubMenu=0&idCampaign=0'),(9,'tabNav',1,'images/home','uomo.png',NULL),(10,'tabNav',2,'images/home','donna.png',NULL),(11,'tabNav',3,'images/home','bambino.png',NULL),(12,'tabNav',4,'images/home','bambina.png',NULL),(13,'tabNav',5,'images/home','unisex.png',NULL);
+INSERT INTO `site_images` VALUES 
+( 'new', 1,  'new.png',null), 
+( 'promo', 1,  'promo.png',null),
+('carousel',1,'A2.jpg',null),
+('carousel',2,'A1.jpg',null),
+('carousel',3,'A3.jpg',null),
+('carousel',4,'A4.jpg',null),
+('newArrivals',1,'newuomo2.jpg','/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=true&idSubMenu=0&idCampaign=0'),
+('newArrivals',2,'newdonna2.jpg','/cart/cart-catalog.xhtml?idMenu=2&fgNewArrivals=true&idSubMenu=0&idCampaign=0'),
+('tabNav',1,'uomo.png',NULL),
+('tabNav',2,'donna.png',NULL),
+('tabNav',3,'bambino.png',NULL),
+('tabNav',4,'bambina.png',NULL),
+('tabNav',5,'unisex.png',NULL);
 /*!40000 ALTER TABLE `site_images` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
+--
+-- Dumping data for table `group_images`
+--
+
+LOCK TABLES `group_images` WRITE;
+/*!40000 ALTER TABLE `group_images` DISABLE KEYS */;
+INSERT INTO `group_images` VALUES ('carousel','images/home',20,1080),('new','images/home',1,130),('newArrivals','images/home',6,960),('promo','images/home',1,130),('tabNav','images/home',6,130);
+/*!40000 ALTER TABLE `group_images` ENABLE KEYS */;
+UNLOCK TABLES;
+
 
 --
 -- Dumping data for table `size`

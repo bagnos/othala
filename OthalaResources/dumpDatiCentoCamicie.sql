@@ -328,11 +328,31 @@ UNLOCK TABLES;
 
 LOCK TABLES `site_images` WRITE;
 /*!40000 ALTER TABLE `site_images` DISABLE KEYS */;
-INSERT INTO `site_images` VALUES (30, 'new', 1, 'images/home', 'new.png',null), (31, 'promo', 1, 'images/home', 'promo.png',null),(1,'carousel',1,'images/home','carousel1.jpg','/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=false&idSubMenu=0&idCampaign=0'),(2,'carousel',2,'images/home','carousel2.jpg','/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=false&idSubMenu=0&idCampaign=0'),(3,'carousel',3,'images/home','carousel3.jpg','/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=false&idSubMenu=0&idCampaign=0'),(4,'carousel',4,'images/home','carousel4.jpg','/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=false&idSubMenu=0&idCampaign=0'),(5,'newArrivals',1,'images/home','newuomo2.png','/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=true&idSubMenu=0&idCampaign=0'),(7,'tabNav',1,'images/home','logoUomoOK.png',NULL),(12,'carousel',5,'images/home','carousel5.jpg','/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=false&idSubMenu=0&idCampaign=0'),(13,'carousel',6,'images/home','carousel6.jpg','/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=false&idSubMenu=0&idCampaign=0'),(23,'newArrivals',2,'images/home','newdonna2.png','/cart/cart-catalog.xhtml?idMenu=2&fgNewArrivals=true&idSubMenu=0&idCampaign=0'),(24,'tabNav',2,'images/home','logoDonnaOK.png',NULL);
+INSERT INTO `site_images` VALUES 
+( 'new', 1,  'new.png',null), 
+( 'promo', 1,  'promo.png',null),
+('carousel',1,'carousel1.jpg',null),
+('carousel',2,'carousel2.jpg',null),
+('carousel',3,'carousel3.jpg',null),
+('carousel',4,'carousel4.jpg',null),
+('newArrivals',1,'newuomo2.png','/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=true&idSubMenu=0&idCampaign=0'),
+('tabNav',1,'logoUomoOK.png',NULL),
+('carousel',5,'carousel5.jpg',null),
+('carousel',6,'carousel6.jpg',null),
+('newArrivals',2,'newdonna2.png','/cart/cart-catalog.xhtml?idMenu=2&fgNewArrivals=true&idSubMenu=0&idCampaign=0'),
+('tabNav',2,'logoDonnaOK.png',NULL);
 /*!40000 ALTER TABLE `site_images` ENABLE KEYS */;
 UNLOCK TABLES;
 
+--
+-- Dumping data for table `group_images`
+--
 
+LOCK TABLES `group_images` WRITE;
+/*!40000 ALTER TABLE `group_images` DISABLE KEYS */;
+INSERT INTO `group_images` VALUES ('carousel','images/home',20,1080),('new','images/home',1,130),('newArrivals','images/home',6,960),('promo','images/home',1,130),('tabNav','images/home',6,130);
+/*!40000 ALTER TABLE `group_images` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Dumping data for table `size`
