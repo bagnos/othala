@@ -73,11 +73,6 @@ public class SiteImagesService implements ISiteImagesService {
 			List<SiteImagesDTO> listSiteImages = siteImagesDAO
 					.getSiteImages(listGroupImages.get(i).getTxGroupImages());
 
-			if (listGroupImages.get(i).getTxGroupImages() != "tabNav") {
-				for (int j = 0; j <= listSiteImages.size() - 1; j++) {
-					listSiteImages.get(i).setTxGender(null);
-				}
-			}
 			listGroupImages.get(i).setListImages(listSiteImages);
 
 		}
@@ -93,9 +88,13 @@ public class SiteImagesService implements ISiteImagesService {
 
 		for (int i = 0; i <= groupImages.getListImages().size() - 1; i++) {
 
-			if (groupImages.getTxGroupImages() != "tabNav")
+			groupImages.getListImages().get(i).setPgGroupImages(i + 1);
+			
+			if (groupImages.getTxGroupImages() == "newArrivals")
 			{
-				groupImages.getListImages().get(i).setPgGroupImages(i + 1);
+			String newUrl = "/cart/cart-catalog.xhtml?idMenu="
+					+ groupImages.getListImages().get(i).getIdGender().toString() + "&fgNewArrivals=true&idSubMenu=0&idCampaign=0";
+			groupImages.getListImages().get(i).setUrlRedirect(newUrl);
 			}
 			siteImagesDAO.InsertSiteImage(groupImages.getListImages().get(i));
 

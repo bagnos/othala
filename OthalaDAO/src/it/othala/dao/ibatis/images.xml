@@ -34,9 +34,9 @@
 
 		INSERT INTO
 		${database.schema}site_images
-		(`txGroupImages`,`pgGroupImages`,`txName`,`urlRedirect`)
+		(`txGroupImages`,`pgGroupImages`,`txName`,`urlRedirect`,`idGender`)
 		values
-		(#{txGroupImages},#{pgGroupImages},#{txName},#{urlRedirect})
+		(#{txGroupImages},#{pgGroupImages},#{txName},#{urlRedirect},#{idGender})
 
 	</insert>
 
@@ -70,8 +70,9 @@
 		`txGroupImages`,
 		`txLibrary`,
 		`nrImages`,
-		`maxHeight`
-		`maxWidth`
+		`maxHeight`,
+		`maxWidth`,
+		`fgGender`
 		FROM ${database.schema}group_images;
 
 
@@ -88,8 +89,10 @@
 		tab1.pgGroupImages,
 		tab1.txLibrary,
 		tab1.txName,
+
 		tab1.urlRedirect,
-			c.txGender
+			c.txGender,
+					tab1.idGender
 		FROM
 
 		(
@@ -100,6 +103,7 @@
 		a.pgGroupImages,
 		b.txLibrary,
 		a.txName,
+		a.idGender,
 		a.urlRedirect
 
 		FROM
@@ -112,7 +116,7 @@
 		left join
 		${database.schema}gender c
 
-		on tab1.pgGroupImages = c.idGender
+		on tab1.idGender = c.idGender
 		and c.idLanguages = 'it'
 
 

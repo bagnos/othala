@@ -327,7 +327,27 @@ UNLOCK TABLES;
 
 LOCK TABLES `site_images` WRITE;
 /*!40000 ALTER TABLE `site_images` DISABLE KEYS */;
-INSERT INTO `site_images` VALUES ('carousel',1,'mag01.jpg',NULL),('carousel',2,'mag02.jpg',NULL),('carousel',3,'mag03.jpg',NULL),('carousel',4,'mag04.jpg',NULL),('carousel',5,'mag05.jpg',NULL),('carousel',6,'mag06.jpg',NULL),('carousel',7,'mag07.jpg',NULL),('carousel',8,'mag08.jpg',NULL),('carousel',9,'mag09.jpg',NULL),('carousel',10,'mag10.jpg',NULL),('carousel',11,'mag11.jpg',NULL),('carousel',12,'mag12.jpg',NULL),('carousel',13,'mag13.jpg',NULL),('carousel',14,'mag14.jpg',NULL),('carousel',15,'mag15.jpg',NULL),('new',1,'new.png',NULL),('newArrivals',1,'newMag.jpg','/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=true&idSubMenu=0&idCampaign=0'),('newArrivals',2,'newMag2.jpg','/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=true&idSubMenu=0&idCampaign=0'),('promo',1,'promo.png',NULL),('tabNav',1,'logoTab2.png',NULL);
+INSERT INTO `site_images` VALUES 
+('carousel',1,'mag01.jpg',NULL,NULL),
+('carousel',2,'mag02.jpg',NULL,NULL),
+('carousel',3,'mag03.jpg',NULL,NULL),
+('carousel',4,'mag04.jpg',NULL,NULL),
+('carousel',5,'mag05.jpg',NULL,NULL),
+('carousel',6,'mag06.jpg',NULL,NULL),
+('carousel',7,'mag07.jpg',NULL,NULL),
+('carousel',8,'mag08.jpg',NULL,NULL),
+('carousel',9,'mag09.jpg',NULL,NULL),
+('carousel',10,'mag10.jpg',NULL,NULL),
+('carousel',11,'mag11.jpg',NULL,NULL),
+('carousel',12,'mag12.jpg',NULL,NULL),
+('carousel',13,'mag13.jpg',NULL,NULL),
+('carousel',14,'mag14.jpg',NULL,NULL),
+('carousel',15,'mag15.jpg',NULL,NULL),
+('new',1,'new.png',NULL,NULL),
+('newArrivals',1,'newMag.jpg',1,'/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=true&idSubMenu=0&idCampaign=0'),
+('newArrivals',2,'newMag2.jpg',1,'/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=true&idSubMenu=0&idCampaign=0'),
+('promo',1,'promo.png',NULL,NULL),
+('tabNav',1,'logoTab2.png',1,NULL);
 /*!40000 ALTER TABLE `site_images` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -337,7 +357,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `group_images` WRITE;
 /*!40000 ALTER TABLE `group_images` DISABLE KEYS */;
-INSERT INTO `group_images` VALUES ('carousel','images/home',20,1080,1560),('new','images/home',1,130,260),('newArrivals','images/home',6,960,960),('promo','images/home',1,130,260),('tabNav','images/home',6,130,260);
+INSERT INTO `group_images` VALUES ('carousel','images/home',20,1080,1560,0),('new','images/home',1,130,260,0),('newArrivals','images/home',6,960,960,1),('promo','images/home',1,130,260,0),('tabNav','images/home',6,130,260,1);
 /*!40000 ALTER TABLE `group_images` ENABLE KEYS */;
 UNLOCK TABLES;
 

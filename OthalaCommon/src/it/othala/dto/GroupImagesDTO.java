@@ -15,6 +15,7 @@ public class GroupImagesDTO implements Serializable {
 	private Integer nrImages;
 	private Integer maxHeight;
 	private Integer maxWidth;
+	private Boolean fgGender;
 
 	private List<SiteImagesDTO> listImages;
 	
@@ -67,6 +68,14 @@ public class GroupImagesDTO implements Serializable {
 
 	public void setMaxWidth(Integer maxWidth) {
 		this.maxWidth = maxWidth;
+	}
+
+	public Boolean getFgGender() {
+		return fgGender;
+	}
+
+	public void setFgGender(Boolean fgGender) {
+		this.fgGender = fgGender;
 	}
 
 	

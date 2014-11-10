@@ -323,19 +323,19 @@ UNLOCK TABLES;
 LOCK TABLES `site_images` WRITE;
 /*!40000 ALTER TABLE `site_images` DISABLE KEYS */;
 INSERT INTO `site_images` VALUES 
-('new', 1,   'new.png',null), 
-('promo', 1,   'promo.png',null),
-('carousel',1, 'A2.jpg',null),
-('carousel',2, 'A1.jpg',null),
-('carousel',3, 'A3.jpg',null),
-('carousel',4, 'A4.jpg',null),
-('newArrivals',1, 'newuomo2.jpg','/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=true&idSubMenu=0&idCampaign=0'),
-('newArrivals',2, 'newdonna2.jpg','/cart/cart-catalog.xhtml?idMenu=2&fgNewArrivals=true&idSubMenu=0&idCampaign=0'),
-('tabNav',1, 'logoTab2.png',NULL),
-('tabNav',2, 'logoTab2.png',NULL),
-('tabNav',3, 'logoTab2.png',NULL),
-('tabNav',4, 'logoTab2.png',NULL),
-('tabNav',5, 'logoTab2.png',NULL);
+('new', 1,   'new.png',null,null), 
+('promo', 1,   'promo.png',null,null),
+('carousel',1, 'A2.jpg',null,null),
+('carousel',2, 'A1.jpg',null,null),
+('carousel',3, 'A3.jpg',null,null),
+('carousel',4, 'A4.jpg',null,null),
+('newArrivals',1, 'newuomo2.jpg',1,'/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=true&idSubMenu=0&idCampaign=0'),
+('newArrivals',2, 'newdonna2.jpg',2,'/cart/cart-catalog.xhtml?idMenu=2&fgNewArrivals=true&idSubMenu=0&idCampaign=0'),
+('tabNav',1, 'logoTab2.png',1,NULL),
+('tabNav',2, 'logoTab2.png',2,NULL),
+('tabNav',3, 'logoTab2.png',3,NULL),
+('tabNav',4, 'logoTab2.png',4,NULL),
+('tabNav',5, 'logoTab2.png',5,NULL);
 /*!40000 ALTER TABLE `site_images` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -345,7 +345,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `group_images` WRITE;
 /*!40000 ALTER TABLE `group_images` DISABLE KEYS */;
-INSERT INTO `group_images` VALUES ('carousel','images/home',20,1080,1560),('new','images/home',1,130,260),('newArrivals','images/home',6,960,960),('promo','images/home',1,130,260),('tabNav','images/home',6,130,260);
+INSERT INTO `group_images` VALUES ('carousel','images/home',20,1080,1560,0),('new','images/home',1,130,260,0),('newArrivals','images/home',6,960,960,1),('promo','images/home',1,130,260,0),('tabNav','images/home',6,130,260,1);
 /*!40000 ALTER TABLE `group_images` ENABLE KEYS */;
 UNLOCK TABLES;
 
