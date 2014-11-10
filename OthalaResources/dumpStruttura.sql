@@ -552,6 +552,7 @@ CREATE TABLE `site_images` (
   `txGroupImages` varchar(45) NOT NULL,
   `pgGroupImages` int(11) NOT NULL,
   `txName` varchar(45) DEFAULT NULL,
+  `idGender` int(11) DEFAULT NULL,
   `urlRedirect` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`txGroupImages`,`pgGroupImages`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -571,6 +572,7 @@ CREATE TABLE `group_images` (
   `nrImages` int(11) DEFAULT NULL,
   `maxHeight` int(11) DEFAULT NULL,
   `maxWidth` int(11) DEFAULT NULL,
+  `fgGender` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`txGroupImages`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;

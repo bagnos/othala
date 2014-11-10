@@ -15,6 +15,7 @@ public class SiteImagesDTO implements Serializable {
 	private String txName;
 	private String urlRedirect;
 	private String txGender;
+	private Integer idGender;
 
 	public Integer getPgGroupImages() {
 		return pgGroupImages;
@@ -62,6 +63,14 @@ public class SiteImagesDTO implements Serializable {
 
 	public void setTxGender(String txGender) {
 		this.txGender = txGender;
+	}
+
+	public Integer getIdGender() {
+		return idGender;
+	}
+
+	public void setIdGender(Integer idGender) {
+		this.idGender = idGender;
 	}
 
 }
