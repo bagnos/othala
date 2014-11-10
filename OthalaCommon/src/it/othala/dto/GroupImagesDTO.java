@@ -14,6 +14,7 @@ public class GroupImagesDTO implements Serializable {
 	private String txLibrary;
 	private Integer nrImages;
 	private Integer maxHeight;
+	private Integer maxWidth;
 
 	private List<SiteImagesDTO> listImages;
 	
@@ -58,6 +59,14 @@ public class GroupImagesDTO implements Serializable {
 
 	public void setListImages(List<SiteImagesDTO> listImages) {
 		this.listImages = listImages;
+	}
+
+	public Integer getMaxWidth() {
+		return maxWidth;
+	}
+
+	public void setMaxWidth(Integer maxWidth) {
+		this.maxWidth = maxWidth;
 	}
 
 	

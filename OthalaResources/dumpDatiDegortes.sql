@@ -317,7 +317,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `group_images` WRITE;
 /*!40000 ALTER TABLE `group_images` DISABLE KEYS */;
-INSERT INTO `group_images` VALUES ('carousel','images/home',20,1080),('new','images/home',1,130),('newArrivals','images/home',6,960),('promo','images/home',1,130),('tabNav','images/home',6,130);
+INSERT INTO `group_images` VALUES ('carousel','images/home',20,1080,1560),('new','images/home',1,130,260),('newArrivals','images/home',6,960,960),('promo','images/home',1,130,260),('tabNav','images/home',6,130,260);
 /*!40000 ALTER TABLE `group_images` ENABLE KEYS */;
 UNLOCK TABLES;
 
