@@ -71,6 +71,7 @@
 		`txLibrary`,
 		`nrImages`,
 		`maxHeight`
+		`maxWidth`
 		FROM ${database.schema}group_images;
 
 

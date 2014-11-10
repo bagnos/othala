@@ -570,6 +570,7 @@ CREATE TABLE `group_images` (
   `txLibrary` varchar(45) DEFAULT NULL,
   `nrImages` int(11) DEFAULT NULL,
   `maxHeight` int(11) DEFAULT NULL,
+  `maxWidth` int(11) DEFAULT NULL,
   PRIMARY KEY (`txGroupImages`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
