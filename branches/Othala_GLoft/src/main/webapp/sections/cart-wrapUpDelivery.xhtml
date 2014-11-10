@@ -1,0 +1,150 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+	<h:panelGroup id="wrapUp">
+	<div class="row">
+		<div class="col-sm-4">
+
+			<h4>
+				<h:outputText value="#{msg.account_user}" />
+			</h4>
+			<div class="well">
+				<div >
+					
+					<p:outputLabel styleClass="label-control" value="#{msg.account_email}" />
+					
+					
+					<h:outputText value="#{customerLoginBean.email}" />
+					
+				</div>
+				<div>
+					<p:outputLabel styleClass="label-control" value="#{msg.account_name}" />
+					<h:outputText value="#{customerLoginBean.name}" />
+				</div>
+				<div>
+					<p:outputLabel styleClass="label-control" value="#{msg.account_surname}" />
+					<h:outputText value="#{customerLoginBean.surname}" />
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-4 ">
+			<h4>
+				<h:outputText value="#{msg.delivery_invoiceAddress}" />
+			</h4>
+
+			<div>
+				<p:outputLabel value="#{msg.delivery_name}" styleClass="label-control"  />
+				<h:outputText   value="#{cartFlowBean.addressFat.nome}" />
+			</div>
+			<div>
+				<p:outputLabel value="#{msg.delivery_surname}" styleClass="label-control" for="lblCognomeFat" />
+				<h:outputText id="lblCognomeFat" 
+					value="#{cartFlowBean.addressFat.cognome}">
+				</h:outputText>
+
+			</div>
+
+			<div>
+				<p:outputLabel value="#{msg.delivery_tel}" styleClass="label-control" for="lblTelefonoFat" />
+				<h:outputText id="lblTelefonoFat" 
+					value="#{cartFlowBean.addressFat.tel}" />
+			</div>
+
+			<div>
+				<p:outputLabel value="#{msg.delivery_address}" styleClass="label-control" for="lblIndirizzoFat" />
+				<h:outputText id="lblIndirizzoFat" 
+					value="#{cartFlowBean.addressFat.via}" />
+			</div>
+
+			<div>
+				<p:outputLabel value="#{msg.delivery_cap}" styleClass="label-control" for="lblPostaleFat" />
+				<h:outputText id="lblPostaleFat" 
+					value="#{cartFlowBean.addressFat.cap}" />
+			</div>
+
+			<div>
+				<p:outputLabel value="#{msg.delivery_city}" styleClass="label-control" for="lblCittaFat" />
+				<h:outputText id="lblCittaFat" 
+					value="#{cartFlowBean.addressFat.comune}" />
+			</div>
+
+			<div>
+				<p:outputLabel value="#{msg.delivery_prov}" styleClass="label-control" for="lblProvFat" />
+				<h:outputText id="lblProvFat" 
+					value="#{cartFlowBean.addressFat.provincia}" />
+			</div>
+			<div>
+				<p:outputLabel value="#{msg.delivery_paese}" styleClass="label-control" for="lblNazFat" />
+				<h:outputText id="lblNazFat" 
+					value="#{cartFlowBean.addressFat.nazione}" />
+			</div>
+
+		</div>
+
+
+		<div class="col-sm-4">
+			<h4>
+				<h:outputText value="#{msg.delivery_deliveryAddress}" />
+			</h4>
+
+			<div>
+				<p:outputLabel value="#{msg.delivery_name}" styleClass="label-control" for="lnlNameSpe" />
+				<h:outputText id="lnlNameSpe"  value="#{cartFlowBean.addressSpe.nome}" />
+			</div>
+
+			<div>
+				<p:outputLabel value="#{msg.delivery_surname}" styleClass="label-control" for="lblCognomeSpe" />
+				<h:outputText id="lblCognomeSpe" 
+					value="#{cartFlowBean.addressSpe.cognome}" />
+			</div>
+
+			<div>
+				<p:outputLabel value="#{msg.delivery_tel}" styleClass="label-control" for="lblTelefonoSpe" />
+				<h:outputText id="lblTelefonoSpe" 
+					value="#{cartFlowBean.addressSpe.tel}" />
+			</div>
+
+			<div>
+				<p:outputLabel value="#{msg.delivery_address}" styleClass="label-control" for="lblIndirizzoSpe" />
+				<h:outputText rows="2" cols="30" required="true" id="lblIndirizzoSpe" 
+					value="#{cartFlowBean.addressSpe.via}" />
+			</div>
+
+			<div>
+				<p:outputLabel value="#{msg.delivery_cap}" styleClass="label-control" for="lblPostaleSpe" />
+				<h:outputText id="lblPostaleSpe" 
+					value="#{cartFlowBean.addressSpe.cap}" />
+
+			</div>
+
+			<div>
+				<p:outputLabel value="#{msg.delivery_city}" styleClass="label-control" for="lblCittaSpe" />
+				<h:outputText id="lblCittaSpe" 
+					value="#{cartFlowBean.addressSpe.comune}" />
+			</div>
+			
+
+			<div>
+				<p:outputLabel value="#{msg.delivery_prov}" styleClass="label-control" for="lblProvSpe" />
+				<h:outputText id="lblProvSpe" 
+					value="#{cartFlowBean.addressSpe.provincia}" />
+
+			</div>
+			<div>
+				<p:outputLabel value="#{msg.delivery_paese}" styleClass="label-control" for="lblNazSpe" />
+				<h:outputText id="lblNazSpe" 
+					value="#{cartFlowBean.addressSpe.nazione}" />
+			</div>
+
+		</div>
+
+	</div>
+</h:panelGroup>
+
+
+
+
+</ui:composition>

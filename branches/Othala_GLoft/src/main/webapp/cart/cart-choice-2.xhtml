@@ -1,0 +1,447 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/masterTemplateBS.xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:viewAction action="#{cartChoice2View.doInit}"></f:viewAction>
+			<f:viewParam name="idPrd" value="#{cartChoice2View.idProduct}" />
+		</f:metadata>
+	</ui:define>
+
+
+
+	<ui:define name="fb">
+
+		<meta property="fb:app_id" content="1462056920726471" />
+		<meta property="og:type" content="product" />
+		<meta property="og:locale" content="en_US" />
+		<meta property="og:locale:alternate" content="it_IT" />
+		<meta property="og:url"
+			content="http://adunata.org/Othala/faces/cart/cart-choice-2.xhtml?idPrd=#{cartChoice2View.idProduct}" />
+		<meta property="og:title" content="#{msg.nomeMerchant}" />
+		<meta property="og:description"
+			content="#{cartFlowBean.detailProductFull.txBrand} - #{cartFlowBean.detailProductFull.description}" />
+		<meta property="og:image"
+			content="http://adunata.org/Othala/faces/javax.faces.resource/#{cartFlowBean.detailProductFull.imagesUrl[0]}?ln=images/cartThumbinals" />
+
+		<meta property="product:price:amount" content="#{cartChoice2View.priceStr}" />
+		<meta property="product:price:currency" content="EUR" />
+		<!-- 
+		<meta property="product:shipping_cost:amount" content="5" />
+		<meta property="product:shipping_cost:currency" content="EUR" />
+		-->
+
+
+		<meta property="product:sale_price:amount" content="#{cartChoice2View.priceDiscountedStr}" />
+		<meta property="product:sale_price:currency" content="EUR" />
+
+	</ui:define>
+
+
+
+	<ui:define name="content">
+
+		<div id="fb-root"></div>
+
+		<script>
+		 		
+		
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1462056920726471',
+      xfbml      : true,
+      version    : 'v2.1'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+
+  $(window).load(function() {
+	  // The slider being synced must be initialized first
+	  $('#carousel').flexslider({
+	    animation: "slide",
+	    controlNav: false,
+	    animationLoop: false,
+	    slideshow: false,
+	    itemWidth: 90,
+	    itemMargin: 5,
+	    asNavFor: '#slider'
+	  });
+	   
+	  $('#slider').flexslider({
+	    animation: "fade",
+	    controlNav: false,
+	    animationLoop: false,
+	    slideshow: false,
+	    sync: "#carousel"
+	  });
+
+	
+		  $('#carouselRelatedPrds').flexslider({
+		    animation: "slide",
+		    animationLoop: false,
+		    itemWidth: 90,
+		    itemMargin: 5
+		  });
+	
+	});
+
+ 
+      </script>
+
+
+		<!--  <div class="fb-like" data-share="true" data-width="450" data-show-faces="true"></div>-->
+
+		<h:form id="prd-detail" prependId="false">
+
+
+
+			<div class="container">
+
+				<!-- BREADCRUMB -->
+				<div class="row">
+					<ol class="breadcrumb breadcrumbLink" style="margin-top: 10px">
+						<ui:repeat var="bread" value="#{cartFlowBean.breadCrumb}" varStatus="stBread">
+							<li><h:link rendered="#{stBread.last}" outcome="cartFlow" value="#{bread}"
+									styleClass="active">
+								</h:link> <h:outputLink rendered="#{stBread.first}" value="#{request.contextPath}/faces/home.xhtml"
+									styleClass="glyphicon glyphicon-home">
+									#{bread}
+									</h:outputLink> <h:outputLink rendered="#{stBread.first==false and stBread.last==false}" value="#">
+									#{bread}
+									</h:outputLink></li>
+						</ui:repeat>
+					</ol>
+				</div>
+
+
+
+
+				<div class="row">
+					<!-- IMMAGINE PRINCIPALE E GALLERIA -->
+					<div class="col-md-5">
+
+
+
+						<!-- 
+						<p:galleria value="#{cartFlowBean.detailProductFull.imagesUrl}" var="image" autoPlay="false"
+							panelWidth="400" panelHeight="543" showCaption="false" frameWidth="50" frameHeight="66">
+						 
+							<p:graphicImage
+								pt:data-zoom-image="/Othala/faces/javax.faces.resource/#{image}?ln=images/cartThumbinals"
+								id="prdPrinc" library="images/cartThumbinals" name="#{image}" />
+						
+							
+
+						</p:galleria>-->
+						<div id="slider" class="flexslider">
+							<ul class="slides">
+								<ui:repeat var="image" value="#{cartFlowBean.detailProductFull.imagesUrl}">
+									<li><img
+										src="#{request.contextPath}/faces/javax.faces.resource/#{image}?ln=images/cartThumbinals" />
+									</li>
+								</ui:repeat>
+
+							</ul>
+						</div>
+
+						<div id="carousel" class="flexslider">
+							<ul class="slides">
+								<ui:repeat var="image" value="#{cartFlowBean.detailProductFull.imagesUrl}">
+									<li><img
+										src="#{request.contextPath}/faces/javax.faces.resource/#{image}?ln=images/cartThumbinals" />
+									</li>
+								</ui:repeat>
+							</ul>
+						</div>
+
+					</div>
+
+
+
+					<!-- DESCRZIONE ARTICOLE, TAGLIE E COLORI -->
+					<div class="col-md-5 articolo-sel">
+						<div class="row well">
+							<div class="col-sm-10">
+								<h4>#{cartFlowBean.detailProductFull.txBrand}</h4>
+								<h5>#{cartFlowBean.detailProductFull.description}</h5>
+							</div>
+							<div class="col-sm-2">
+								<h:outputText styleClass="newPromo1" style="float:right"
+									rendered="#{cartFlowBean.detailProductFull.specialPrice != null and cartFlowBean.detailProductFull.specialPrice != 0}"
+									value="SPECIAL" />
+
+								<h:outputText styleClass="newPromo2" style="float:right"
+									rendered="#{(cartFlowBean.detailProductFull.specialPrice == null or cartFlowBean.detailProductFull.specialPrice == 0) and cartFlowBean.detailProductFull.discount != null and cartFlowBean.detailProductFull.discount != 0 and cartFlowBean.detailProductFull.idCampaign == null}"
+									value="#{cartFlowBean.detailProductFull.discount} %" />
+								<h:outputText styleClass="newPromo3" style="float:right"
+									rendered="#{(cartFlowBean.detailProductFull.specialPrice == null or cartFlowBean.detailProductFull.specialPrice == 0) and cartFlowBean.detailProductFull.discount != null and cartFlowBean.detailProductFull.discount != 0 and cartFlowBean.detailProductFull.idCampaign != null}"
+									value="#{cartFlowBean.detailProductFull.discount} %" />
+							</div>
+
+							<div class="row">
+								<div class="col-sm-4">
+									<!-- 
+									<div id="fb-like" class="form-group">
+										<a class="btn-xs btn-block btn-social btn-facebook">
+											<i class="fa fa-facebook"></i> #{msg.catalog_facebookLikeIt}
+										</a>
+									</div>-->
+									<!--  
+									<div class="fb-like" 
+										data-layout="button" data-action="like" data-show-faces="false" data-share="false"></div>-->
+									<div class="fb-like" data-layout="button_count" data-share="true" data-width="450"
+										data-show-faces="true"></div>
+
+
+								</div>
+							</div>
+
+							<br />
+							<div class="row" style="font-size: 18px;">
+								<div class="col-sm-3">
+
+									<h:outputText value="#{msg.catalog_price}">
+									</h:outputText>
+								</div>
+
+								<div class="col-sm-3">
+
+									<h:outputText value="#{cartFlowBean.detailProductFull.price}"
+										styleClass="#{cartFlowBean.detailProductFull.discount!=null and cartFlowBean.detailProductFull.discount!=0?'onSale':''}">
+										<f:converter converterId="it.othala.BigDecimalConverter" />
+									</h:outputText>
+
+								</div>
+
+								<div class="col-sm-4">
+
+									<h:outputText value="#{cartFlowBean.detailProductFull.priceDiscounted}"
+										rendered="#{cartFlowBean.detailProductFull.price != cartFlowBean.detailProductFull.priceDiscounted}">
+										<f:converter converterId="it.othala.BigDecimalConverter" />
+									</h:outputText>
+
+								</div>
+							</div>
+							<br />
+							<div class="row">
+
+								<div class="col-sm-3">
+									<h:outputText value="#{msg.catalog_discounted}"
+										rendered="#{cartFlowBean.detailProductFull.price != cartFlowBean.detailProductFull.priceDiscounted}">
+									</h:outputText>
+								</div>
+								<div class="col-sm-4">
+									<h:outputText value="#{cartFlowBean.detailProductFull.imRisparmio}"
+										rendered="#{cartFlowBean.detailProductFull.price != cartFlowBean.detailProductFull.priceDiscounted}">
+										<f:converter converterId="it.othala.BigDecimalConverter" />
+									</h:outputText>
+								</div>
+							</div>
+
+							<br />
+							<div class="row">
+								<div class="col-sm-12">
+									<h6>#{msg.catalog_notesDelivery}</h6>
+								</div>
+							</div>
+
+							<br />
+							<h:panelGroup id="pnl-scelte">
+								<div class="row">
+									<div class="col-sm-5">
+										<div class="form-group">
+											<h:outputText value="#{msg.catalog_size}" />
+
+											<h:selectOneMenu id="selSize" styleClass="form-control" value="#{cartChoice2View.idSize}">
+												<f:selectItem itemLabel="#{msg.catalog_chooseSize}" itemValue="-1"
+													noSelectionOption="true" />
+												<f:selectItems value="#{cartChoice2View.sizeItems}"></f:selectItems>
+												<f:ajax render="pnl-scelte" listener="#{cartChoice2View.changeSize}"></f:ajax>
+											</h:selectOneMenu>
+											<p:message for="selSize" id="errSelSize" />
+										</div>
+									</div>
+									<div class="col-sm-5">
+										<div class="form-group">
+											<h:outputText value="#{msg.catalog_color}" />
+											<h:selectOneMenu styleClass="form-control" label="#{msg.catalog_color}" id="lst-color"
+												value="#{cartChoice2View.idColor}">
+												<f:selectItem itemLabel="#{msg.catalog_chooseColor}" itemValue=""
+													noSelectionOption="true" />
+												<f:selectItems value="#{cartChoice2View.colorItems}"></f:selectItems>
+												<f:ajax execute="@form" render="qtaArt add-cart"
+													listener="#{cartChoice2View.changeColor}"></f:ajax>
+											</h:selectOneMenu>
+											<p:message for="lst-color" id="errlstColor" />
+
+										</div>
+									</div>
+								</div>
+								<h:panelGroup style="visibility: hidden;" layout="block" id="qtaArt">
+									<div class="row">
+										<div class="col-sm-4">
+
+											<h:outputText rendered="#{cartChoice2View.min>0}" value="#{msg.catalog_qta}" />
+											<div>
+												<p:spinner id="spQta" rendered="#{cartChoice2View.min>0}"
+													value="#{cartChoice2View.qtaArticle}" maxlength="2" size="2"
+													min="#{cartChoice2View.min}" max="#{cartChoice2View.max}" />
+											</div>
+										</div>
+									</div>
+								</h:panelGroup>
+							</h:panelGroup>
+						</div>
+						<div class="row">
+							<div class="col-sm-6">
+								<p:commandButton icon="ui-icon-triangle-1-w btn-articolo-sel"
+									action="#{cartChoice2View.goToCatalogo}" value="#{msg.catalog_back}" />
+							</div>
+							<div class="col-sm-6">
+								<p:commandButton
+									disabled="#{cartChoice2View.qtaArticle==null or cartChoice2View.qtaArticle==0 }"
+									id="add-cart" styleClass="ui-priority-primary btn-articolo-sel"
+									value="#{msg.catalog_addToCart}" ajax="false" action="#{cartChoice2View.goToCart}">
+								</p:commandButton>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row" style="margin-left: 0px; margin-right: 0px; margin-top: 40px;">
+					<div class="col-sm-12">
+						<h3 class="foot1-title"
+							style="font-size: 28px; border-bottom: 0px; margin-left: -15px; font-style: italic;">RELATED
+							PRODUCTS:</h3>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-12">
+						<div id="carouselRelatedPrds" class="flexslider">
+							<ul class="slides">
+								<ui:repeat var="art" value="#{cartFlowBean.catalog.articles}">
+									<li><h:panelGroup
+											rendered="#{art.idProduct!=cartFlowBean.detailProductFull.idProduct}">
+											<h:link outcome="cart-choice-2" rendered="#{art.idProduct != null}">
+
+												<h:graphicImage title="#{art.txBrand} #{art.description}" styleClass="img-responsive"
+													library="images/cartThumbinals" name="#{art.thumbnailsUrl}" />
+												<f:param name="idPrd" value="#{art.idProduct}"></f:param>
+											</h:link>
+
+											<div class="row text-center">
+
+
+												<h5>
+													<h:outputText value="#{art.price}"
+														styleClass="#{art.price != art.priceDiscounted?'onSale':''}">
+														<f:converter converterId="it.othala.BigDecimalConverter" />
+													</h:outputText>
+												</h5>
+
+											
+
+												<h5>
+													<h:outputText value="#{art.priceDiscounted}"
+														rendered="#{art.price != art.priceDiscounted}" >
+														<f:converter converterId="it.othala.BigDecimalConverter" />
+													</h:outputText>
+												</h5>
+
+											</div>
+										</h:panelGroup></li>
+								</ui:repeat>
+							</ul>
+						</div>
+
+						<!-- 
+						<div class="row" style="margin-left: 0px; margin-right: 0px; margin-top: 10px;">
+							<div id="myCarousel" class="carousel">
+
+								<div class="carousel-inner">
+
+
+									<ui:repeat var="prod" value="#{cartFlowBean.carouselList}" varStatus="status">
+										<div class="#{status.first?'item active':'item'}">
+											<ul class="thumbnailsCar">
+												<li class="col-sm-3">
+													<div class="thumbnailCar">
+
+														<h:link outcome="cart-choice-2" rendered="#{prod.product1 != null}">
+															<h:graphicImage rendered="#{prod.product1 != null}" styleClass="img-responsive"
+																library="images/cartThumbinals" name="#{prod.product1.thumbnailsUrl}" />
+															<f:param name="idPrd" value="#{prod.product1.idProduct}"></f:param>
+														</h:link>
+													</div>
+
+												</li>
+
+												<li class="col-sm-3">
+													<div class="thumbnailCar">
+														<h:link outcome="cart-choice-2" rendered="#{prod.product2 != null}">
+															<h:graphicImage rendered="#{prod.product2 != null}" styleClass="img-responsive"
+																library="images/cartThumbinals" name="#{prod.product2.thumbnailsUrl}" href="#" />
+															<f:param name="idPrd" value="#{prod.product2.idProduct}"></f:param>
+														</h:link>
+													</div>
+
+												</li>
+												<li class="col-sm-3">
+													<div class="thumbnailCar">
+														<h:link outcome="cart-choice-2" rendered="#{prod.product3 != null}">
+															<h:graphicImage rendered="#{prod.product3 != null}" styleClass="img-responsive"
+																library="images/cartThumbinals" name="#{prod.product3.thumbnailsUrl}" href="#" />
+															<f:param name="idPrd" value="#{prod.product3.idProduct}"></f:param>
+														</h:link>
+													</div>
+
+												</li>
+												<li class="col-sm-3">
+													<div class="thumbnailCar">
+														<h:link outcome="cart-choice-2" rendered="#{prod.product4 != null}">
+															<h:graphicImage rendered="#{prod.product4 != null}" styleClass="img-responsive"
+																library="images/cartThumbinals" name="#{prod.product4.thumbnailsUrl}" href="#" />
+															<f:param name="idPrd" value="#{prod.product4.idProduct}"></f:param>
+														</h:link>
+													</div>
+
+												</li>
+											</ul>
+										</div>
+									</ui:repeat>
+
+
+
+
+
+								</div>
+
+
+								<a data-slide="prev" href="#myCarousel" class="left carousel-control" style="width: 5%;">‹</a>
+								<a data-slide="next" href="#myCarousel" class="right carousel-control" style="width: 5%;">›</a>
+							</div>
+							
+					</div>
+-->
+					</div>
+				</div>
+			</div>
+
+		</h:form>
+
+
+	</ui:define>
+</ui:composition>
