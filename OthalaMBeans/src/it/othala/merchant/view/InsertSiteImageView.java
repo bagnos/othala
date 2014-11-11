@@ -128,7 +128,13 @@ public class InsertSiteImageView extends BaseView {
 
 	public void conferma(ActionEvent e) {
 		try {
-			OthalaFactory.getSiteImagesServiceInstance().updateSiteImages(imagesSiteGroup);
+			GroupImagesDTO groupImages = new GroupImagesDTO();
+			groupImages.setTxGroupImages(imagesSiteGroup.get(0).getTxGroupImages());
+			
+			groupImages.setListImages(imagesSiteGroup);
+			
+			
+			OthalaFactory.getSiteImagesServiceInstance().updateGroupImages(groupImages);
 			reset();
 			addInfo("Inserimento Immagine", "Operazione Eseguita correttamente");
 
