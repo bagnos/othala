@@ -16,28 +16,30 @@
 	</ui:define>
 
 	<ui:define name="Pagina">Inserimento Immagini</ui:define>
-	<ui:define name="PaginaBreadcrumb">Immagini Home</ui:define>
+	<ui:define name="PaginaBreadcrumb">Immagini</ui:define>
 
 	<ui:define name="bodyPageContent">
 		<h:form prependId="false" id="frmProd" styleClass="form-horizontal">
-
+			
 			<div class="row">
 				<div class="col-sm-4">
 					<h3 class="form-titoli">
-						<h:outputText value="IMMAGINI HOME" />
+						<h:outputText value="IMMAGINI" />
 					</h3>
 				</div>
 			</div>
-
+		
 			<div class="row spacer20">
+			
 				<div class="col-sm-12">
-					<div class="form-group">
+					<div class="form-group">						
 						<p:outputLabel for="groupImg" styleClass="col-sm-2 control-label" value="Tipo Immamgine" />
 						<div class="col-sm-3">
 							<h:selectOneMenu id="groupImg" styleClass="form-control"
 								value="#{insertSiteImageView.idTypeGroupImage}">
 								<f:selectItem itemLabel="Seleziona tipo immagine..." noSelectionOption="true" itemValue="-1"></f:selectItem>
-								<f:selectItems value="#{insertSiteImageView.imagesGroup}" />
+								<f:selectItems var="group" value="#{insertSiteImageView.groupImagesDTO}"
+									itemLabel="#{group.txGroupImages}" itemValue="#{group.txGroupImages}" />
 								<f:ajax execute="@this" render=":frmImages"
 									listener="#{insertSiteImageView.selectGroupImage}"></f:ajax>
 							</h:selectOneMenu>
@@ -50,19 +52,30 @@
 		</h:form>
 
 		<h:form enctype="multipart/form-data" prependId="false" id="frmImages">
+			<p:growl autoUpdate="true"></p:growl>
 			<h:panelGroup
 				rendered="#{insertSiteImageView.imagesSiteGroup!=null and insertSiteImageView.imagesSiteGroup.size()!=0}">
 				<div class="row spacer10">
 					<!-- immagini -->
-					<label for="immagini" class="control-label col-sm-2">Immagini</label>
+					<label for="immagini" class="control-label col-sm-2">Aggiungi Immagine</label>
+					<h:panelGroup rendered="#{insertSiteImageView.groupImagesSelected.fgGender}" styleClass="col-sm-4">
+						<h:selectOneMenu label="Categoria" id="categoria"
+							value="#{insertSiteImageView.idGenderSelected}" styleClass="form-control">
+							<f:selectItem noSelectionOption="true" itemValue="-1"
+								itemLabel="Selezionare una categoria..."></f:selectItem>
+							<f:selectItems value="#{insertSiteImageView.genderGroup}"></f:selectItems>
+							<f:ajax execute="@this"></f:ajax>
+						</h:selectOneMenu>
+					</h:panelGroup>
+
 					<div class="col-sm-4">
 						<p:fileUpload fileUploadListener="#{insertSiteImageView.handleFileUpload}"
 							allowTypes="/(\.|\/)(gif|jpe?g|png)$/" onerror="PF('blockAll').unblock();"
-							oncomplete="PF('blockAll').unblock();" onstart="PF('blockAll').block()" process="@this"
-							update="imgs" multiple="true" auto="true" />
+							oncomplete="PF('blockAll').unblock();" onstart="PF('blockAll').block()"
+							process="@this categoria" update="imgs" multiple="true" auto="true" />
 					</div>
-				</div>
 
+				</div>
 
 				<div class="row">
 					<div class="col-sm-8">
@@ -90,6 +103,12 @@
 
 							<p:column headerText="Nome" style="border-color:rgb(221, 221, 221)">
 								<h:outputText value="#{img.txName}" />
+							</p:column>
+
+							<p:column headerText="Tipo Tab"
+								rendered="#{insertSiteImageView.groupImagesSelected.fgGender}"
+								style="border-color:rgb(221, 221, 221)">
+								<h:outputText value="#{img.txGender}" />
 							</p:column>
 
 							<f:facet name="footer">
@@ -130,12 +149,13 @@
 				<div class="row spacer30">
 					<div class="col-sm-1">
 						<!-- inserire pulsante conferma -->
-						<p:commandButton styleClass="ui-priority-primary" onerror="PF('blockAll').unblock();"
-							oncomplete="PF('blockAll').unblock();" onclick="PF('blockAll').block()"
+						<p:commandButton styleClass="ui-priority-primary" update="@all"
 							actionListener="#{insertSiteImageView.conferma}" ajax="false" value="CONFERMA">
 						</p:commandButton>
 
 					</div>
+				</div>
+				<div class="row spacer10">
 				</div>
 
 
