@@ -156,7 +156,14 @@ public class ApplicationBean implements Serializable {
 		colorsDTO=null;
 		typeDTO=null;
 		materialDTO=null;
-		campaigns=null; 
+		campaigns=null;		
+	}
+	
+	public void resetImgHome()
+	{
+		imgsCarousel=null;
+		imgs=null;
+		imgsNewArrival=null;
 	}
 
 	public List<SiteImagesDTO> getImgsCarousel() {
@@ -180,6 +187,7 @@ public class ApplicationBean implements Serializable {
 	public void resetMenu()
 	{
 		menu=null;
+		menuFull=null;
 		
 	}
 

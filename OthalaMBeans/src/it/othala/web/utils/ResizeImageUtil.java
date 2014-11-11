@@ -62,12 +62,7 @@ public class ResizeImageUtil {
 		return resizeAndCopyImage(fileIS, getBasePath(), nomeFile, format, w, h);
 	}
 
-	public static String resizeAndCopyImageHome(InputStream fileIS, String nomeFile, String format) throws IOException {
-		int w, h = 0;
-		w = Integer.valueOf(ConfigurationUtil.getProperty("resizeImageCarouselW"));
-		h = Integer.valueOf(ConfigurationUtil.getProperty("resizeImageCarouselH"));
-		return resizeAndCopyImage(fileIS, getBasePathHome(), nomeFile, format, w, h);
-	}
+	
 
 	public static String getLibraryImageHome() {
 		if (LIBRARY_HOME==null)
@@ -77,37 +72,9 @@ public class ResizeImageUtil {
 		return LIBRARY_HOME;
 	}
 
-	public static String resizeAndCopyImage(InputStream fileIS, String nomeFile, String group, String format)
-			throws Exception {
-		if (group.equalsIgnoreCase(TypeGroupSiteImages.CAROUSEL.toString())) {
-			return resizeAndCopyImageHome(fileIS, nomeFile, format);
-		} else if (group.equalsIgnoreCase(TypeGroupSiteImages.NEWARRIVALS.toString())) {
-			return resizeAndCopyImageNewArrivals(fileIS, nomeFile, format);
-		} else if (group.equalsIgnoreCase(TypeGroupSiteImages.TABNAV.toString())) {
-			return resizeAndCopyImageTabNav(fileIS, nomeFile, format);
-		}
-		else if (group.equalsIgnoreCase(TypeGroupSiteImages.PROMO.toString())) {
-			return resizeAndCopyImageTabNav(fileIS, nomeFile, format);
-		}
-		else {
-			throw new Exception("gruppo immagine bnon trovato");
-		}
-
-	}
-
-	public static String resizeAndCopyImageNewArrivals(InputStream fileIS, String nomeFile, String format)
-			throws IOException {
-		int w, h = 0;
-		w = Integer.valueOf(ConfigurationUtil.getProperty("resizeImageNewArrivalW"));
-		h = Integer.valueOf(ConfigurationUtil.getProperty("resizeImageNewArrivalH"));
-		return resizeAndCopyImage(fileIS, getBasePathHome(), nomeFile, format, w, h);
-	}
-
-	public static String resizeAndCopyImageTabNav(InputStream fileIS, String nomeFile, String format)
-			throws IOException {
-		int w, h = 0;
-		w = Integer.valueOf(ConfigurationUtil.getProperty("resizeImageNewTabNavlW"));
-		h = Integer.valueOf(ConfigurationUtil.getProperty("resizeImageNewTabNavlH"));
+	
+	public static String resizeAndCopyImageHome(InputStream fileIS, String nomeFile, String format,int w, int h) throws IOException
+	{
 		return resizeAndCopyImage(fileIS, getBasePathHome(), nomeFile, format, w, h);
 	}
 	

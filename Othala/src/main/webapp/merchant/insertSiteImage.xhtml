@@ -20,7 +20,7 @@
 
 	<ui:define name="bodyPageContent">
 		<h:form prependId="false" id="frmProd" styleClass="form-horizontal">
-			
+
 			<div class="row">
 				<div class="col-sm-4">
 					<h3 class="form-titoli">
@@ -28,11 +28,11 @@
 					</h3>
 				</div>
 			</div>
-		
+
 			<div class="row spacer20">
-			
+
 				<div class="col-sm-12">
-					<div class="form-group">						
+					<div class="form-group">
 						<p:outputLabel for="groupImg" styleClass="col-sm-2 control-label" value="Tipo Immamgine" />
 						<div class="col-sm-3">
 							<h:selectOneMenu id="groupImg" styleClass="form-control"
@@ -43,8 +43,17 @@
 								<f:ajax execute="@this" render=":frmImages"
 									listener="#{insertSiteImageView.selectGroupImage}"></f:ajax>
 							</h:selectOneMenu>
+						</div>
+						<div class="col-sm-2 col-sm-offset-4">
+							<!-- inserire pulsante conferma -->
+							<p:commandButton styleClass="ui-priority-primary" update="@all"
+								actionListener="#{insertSiteImageView.conferma}" ajax="false" value="CONFERMA">
+							</p:commandButton>
 
 						</div>
+
+
+
 					</div>
 				</div>
 			</div>
@@ -53,12 +62,12 @@
 
 		<h:form enctype="multipart/form-data" prependId="false" id="frmImages">
 			<p:growl autoUpdate="true"></p:growl>
-			<h:panelGroup
-				rendered="#{insertSiteImageView.imagesSiteGroup!=null and insertSiteImageView.imagesSiteGroup.size()!=0}">
+			<h:panelGroup rendered="#{insertSiteImageView.idTypeGroupImage!=null}">
 				<div class="row spacer10">
 					<!-- immagini -->
 					<label for="immagini" class="control-label col-sm-2">Aggiungi Immagine</label>
-					<h:panelGroup rendered="#{insertSiteImageView.groupImagesSelected.fgGender}" styleClass="col-sm-4">
+					<h:panelGroup rendered="#{insertSiteImageView.groupImagesSelected.fgGender}"
+						styleClass="col-sm-4">
 						<h:selectOneMenu label="Categoria" id="categoria"
 							value="#{insertSiteImageView.idGenderSelected}" styleClass="form-control">
 							<f:selectItem noSelectionOption="true" itemValue="-1"
@@ -146,17 +155,7 @@
 
 					</div>
 				</div>
-				<div class="row spacer30">
-					<div class="col-sm-1">
-						<!-- inserire pulsante conferma -->
-						<p:commandButton styleClass="ui-priority-primary" update="@all"
-							actionListener="#{insertSiteImageView.conferma}" ajax="false" value="CONFERMA">
-						</p:commandButton>
 
-					</div>
-				</div>
-				<div class="row spacer10">
-				</div>
 
 
 			</h:panelGroup>
