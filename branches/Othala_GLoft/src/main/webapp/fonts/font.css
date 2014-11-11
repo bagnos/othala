@@ -3,6 +3,14 @@
 
 
 @font-face {
+  font-family: 'ATSackersHeavyGothic';
+  src: url('ATSackersHeavyGothic.eot?#iefix') format('embedded-opentype'),  url('ATSackersHeavyGothic.woff') format('woff'), url('ATSackersHeavyGothic.ttf')  format('truetype'), url('ATSackersHeavyGothic.svg#ATSackersHeavyGothic') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+@font-face {
     font-family: 'playbold';
     src: url('play-bold-webfont.eot');
     src: url('play-bold-webfont.eot?#iefix') format('embedded-opentype'),
