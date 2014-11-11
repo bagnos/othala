@@ -6,6 +6,10 @@
 	font-family: playregular !important;
 }
 
+.navbar-inverse .navbar-nav>li>a {
+color: black;
+}
+
 .ui-galleria-panel {
 	text-align: center !important;
 }
