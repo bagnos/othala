@@ -1,38 +1,25 @@
 package it.othala.merchant.view;
 
-import it.othala.dto.ArticleFullDTO;
-import it.othala.dto.AttributeDTO;
-import it.othala.dto.DomainDTO;
-import it.othala.dto.ProductFullNewDTO;
-import it.othala.dto.ShopDTO;
+import it.othala.dto.GroupImagesDTO;
 import it.othala.dto.SiteImagesDTO;
-import it.othala.enums.ArticleUpdate;
-import it.othala.enums.TypeGroupSiteImages;
-import it.othala.merchant.model.MerchantBean;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 import it.othala.web.utils.ResizeImageUtil;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
@@ -41,18 +28,37 @@ import org.primefaces.model.UploadedFile;
 public class InsertSiteImageView extends BaseView {
 
 	private List<SiteImagesDTO> imagesSiteGroup = new ArrayList<>();
-	private List<SiteImagesDTO> imagesSite = new ArrayList<>();
 	private List<SiteImagesDTO> imagesSiteGroupSeletcetd = new ArrayList<>();
+
 	private String idTypeGroupImage;
+	private List<GroupImagesDTO> groupImagesDTO = new ArrayList<>();
+	private GroupImagesDTO groupImagesSelected = null;
+
+	public GroupImagesDTO getGroupImagesSelected() {
+		return groupImagesSelected;
+	}
+
+	private List<SelectItem> genderGroup = new ArrayList<>();
+	private String idGenderSelected;
+
+	public String getIdGenderSelected() {
+		return idGenderSelected;
+	}
+
+	public void setIdGenderSelected(String idGenderSelected) {
+		this.idGenderSelected = idGenderSelected;
+	}
+
+	public List<SelectItem> getGenderGroup() {
+		return genderGroup;
+	}
+
+	public List<GroupImagesDTO> getGroupImagesDTO() {
+		return groupImagesDTO;
+	}
 
 	public void setImagesSiteGroupSeletcetd(List<SiteImagesDTO> imagesSiteGroupSeletcetd) {
 		this.imagesSiteGroupSeletcetd = imagesSiteGroupSeletcetd;
-	}
-
-	private List<SelectItem> imagesGroup = new ArrayList<SelectItem>();
-
-	public List<SelectItem> getImagesGroup() {
-		return imagesGroup;
 	}
 
 	public List<SiteImagesDTO> getImagesSiteGroupSeletcetd() {
@@ -74,11 +80,7 @@ public class InsertSiteImageView extends BaseView {
 	@Override
 	public String doInit() {
 		// TODO Auto-generated method stub
-		imagesSite = OthalaFactory.getSiteImagesServiceInstance().listSiteImages();
-		List<String> gruppi = OthalaFactory.getSiteImagesServiceInstance().listGruppiSiteImages();
-		for (String gruppo : gruppi) {
-			imagesGroup.add(new SelectItem(gruppo));
-		}
+		groupImagesDTO = OthalaFactory.getSiteImagesServiceInstance().getSiteImagesForUpdate();
 
 		return null;
 	}
@@ -104,7 +106,7 @@ public class InsertSiteImageView extends BaseView {
 		}
 
 		j = i - 1;
-		j=j<0?0:j;
+		j = j < 0 ? 0 : j;
 
 		Collections.swap(imagesSiteGroup, i, j);
 	}
@@ -119,36 +121,73 @@ public class InsertSiteImageView extends BaseView {
 			i++;
 		}
 
-		j = i +1;
-		j=j>imagesGroup.size()-1?imagesGroup.size()-1:j;
+		j = i + 1;
+		j = j > imagesSiteGroup.size() - 1 ? imagesSiteGroup.size() - 1 : j;
 		Collections.swap(imagesSiteGroup, i, j);
 	}
 
 	public void conferma(ActionEvent e) {
 		try {
 			OthalaFactory.getSiteImagesServiceInstance().updateSiteImages(imagesSiteGroup);
+			reset();
+			addInfo("Inserimento Immagine", "Operazione Eseguita correttamente");
+
 		} catch (Exception ex) {
-			addGenericError(null, "errore inserimento immagini home");
+			reset();
+			addGenericError(ex, "errore inserimento immagini home");
+			
 		}
+	}
+
+	private void reset() {
+		imagesSiteGroupSeletcetd = null;
+		idTypeGroupImage = null;
+		groupImagesSelected = null;
+		imagesSiteGroup = null;
+		groupImagesDTO = OthalaFactory.getSiteImagesServiceInstance().getSiteImagesForUpdate();
 	}
 
 	public void selectGroupImage(AjaxBehaviorEvent e) {
 
 		imagesSiteGroup = new ArrayList<SiteImagesDTO>();
-		for (SiteImagesDTO siteImage : imagesSite) {
-			if (siteImage.getTxGroupImages().equalsIgnoreCase(idTypeGroupImage)) {
-				imagesSiteGroup.add(siteImage);
+		for (GroupImagesDTO group : groupImagesDTO) {
+			if (group.getTxGroupImages().equalsIgnoreCase(idTypeGroupImage)) {
+				imagesSiteGroup = group.getListImages();
+				groupImagesSelected = group;
+				genderGroup = new ArrayList<>();
+				if (groupImagesSelected.getFgGender()) {
+					for (SiteImagesDTO img : imagesSiteGroup) {
+						genderGroup.add(new SelectItem(img.getTxGender(), img.getTxGender()));
+					}
+				}
+
+				return;
 			}
 		}
 	}
 
 	public void handleFileUpload(FileUploadEvent event) {
 		UploadedFile file = event.getFile();
-		String fileResized = null;
+
+		if (groupImagesSelected.getFgGender() && (idGenderSelected == null || idGenderSelected.equalsIgnoreCase("-1"))) {
+			addError("Inserimento immagine", "selezionare una categoria");
+			return;
+		}
+
+		if (imagesSiteGroup.size() >= groupImagesSelected.getNrImages()) {
+			addError("Inserimento immagine", "raggiunto il numero massi di immagini per il gruppo selezionato");
+			return;
+		}
+		
+		if (file==null)
+		{
+			addError("Inserimento immagine", "immagine non selezionata");
+			return;
+		}
 
 		for (SiteImagesDTO img : imagesSiteGroup) {
 			if (img.getTxName().equalsIgnoreCase(file.getFileName())) {
-				addError("Inserimento immagine", "immagine già prrsente");
+				addError("Inserimento immagine", "immagine già presente");
 				return;
 			}
 		}
@@ -157,7 +196,7 @@ public class InsertSiteImageView extends BaseView {
 			if (file != null) {
 
 				try {
-					fileResized = copyFile(file);
+					copyFile(file);
 
 				} catch (IOException e) {
 					log.error("errore upload", e);
@@ -167,12 +206,17 @@ public class InsertSiteImageView extends BaseView {
 				SiteImagesDTO siteImgDTO = new SiteImagesDTO();
 
 				siteImgDTO.setTxName(file.getFileName());
-				siteImgDTO.setTxLibrary(ResizeImageUtil.getLibraryImageHome());
-				siteImgDTO.setTxGroupImages(idTypeGroupImage);
-				// che è?
+				siteImgDTO.setTxLibrary(groupImagesSelected.getTxLibrary());
+				siteImgDTO.setTxGroupImages(groupImagesSelected.getTxGroupImages());				
+				siteImgDTO.setIdGender(imagesSiteGroup.get(0).getIdGender());
+				if (groupImagesSelected.getFgGender())
+				{					
+					siteImgDTO.setTxGender(idGenderSelected);
+				}
 				siteImgDTO.setUrlRedirect(null);
 				imagesSiteGroup.add(siteImgDTO);
-				addInfo("Upload", file.getFileName() + " è stata caricata correttamente");
+				// addInfo("Upload", file.getFileName() +
+				// " è stata caricata correttamente");
 
 			}
 		} catch (Exception e) {
@@ -187,8 +231,7 @@ public class InsertSiteImageView extends BaseView {
 
 		// FileOutputStream fileOutputStream = new FileOutputStream(result);
 		InputStream inputStream = file.getInputstream();
-		String format = file.getContentType().split("/")[1];
-
+		String format = ResizeImageUtil.getFormat(file);
 		// IOUtils.copy(inputStream, fileOutputStream);
 
 		String fileResized = null;
@@ -204,4 +247,5 @@ public class InsertSiteImageView extends BaseView {
 		return fileResized;
 
 	}
+
 }

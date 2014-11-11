@@ -10,6 +10,8 @@ import java.util.List;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.model.UploadedFile;
+
 import net.coobird.thumbnailator.Thumbnails;
 
 public class ResizeImageUtil {
@@ -36,13 +38,13 @@ public class ResizeImageUtil {
 		return BASE_IMG_PATH_HOME;
 	}
 
-	public static String resizeImageThumb(String fileThumb) throws IOException {
+	public static String resizeImageThumb(String fileThumb,String format) throws IOException {
 		File fileIn = new File(getBasePath() + File.separator + fileThumb);
 		int w = Integer.valueOf(ConfigurationUtil.getProperty("resizeImageThumbW"));
 		int h = Integer.valueOf(ConfigurationUtil.getProperty("resizeImageThumbH"));
 		String prefix = ConfigurationUtil.getProperty("prefixImageThumb");
 		String fileResized = fileIn.getParent() + File.separator + prefix + fileIn.getName();
-		Thumbnails.of(fileIn).size(w, h).outputFormat("jpeg").toFile(fileResized);
+		Thumbnails.of(fileIn).size(w, h).outputFormat(format).toFile(fileResized);
 		return prefix + fileIn.getName();
 	}
 
@@ -148,6 +150,18 @@ public class ResizeImageUtil {
 		ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
 		String path = extContext.getRealPath(getBaseImgPathHome());
 		return path;
+	}
+	
+	public static String getFormat(UploadedFile file)
+	{
+		String format = file.getContentType().split("/")[1];
+		return format;
+	}
+	
+	public static String getFormat(String file)
+	{
+		String format = file.split(".")[1];
+		return format;
 	}
 
 }

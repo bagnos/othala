@@ -319,15 +319,10 @@ public class InsertProdottiView extends BaseView {
 
 	private static final long serialVersionUID = 1L;
 
-	private UploadedFile file;
 
-	public UploadedFile getFile() {
-		return file;
-	}
 
-	public void setFile(UploadedFile file) {
-		this.file = file;
-	}
+
+
 
 	@Override
 	public String doInit() {
@@ -616,6 +611,13 @@ public class InsertProdottiView extends BaseView {
 	public void handleFileUpload(FileUploadEvent event) {
 		UploadedFile file = event.getFile();
 		String fileResized = null;
+		
+		if (file==null)
+		{
+			addError("Inserimento immagine", "immagine non selezionata");
+			return;
+		}
+		
 		if (file != null) {
 
 			// verifica se il file è già presente
@@ -628,7 +630,7 @@ public class InsertProdottiView extends BaseView {
 				fileResized = copyFile(file);
 				if (fileThumb == null) {
 					fileThumb = fileResized;
-					resizeThumb();
+					resizeThumb(ResizeImageUtil.getFormat(file));
 				}
 
 			} catch (IOException e) {
@@ -646,7 +648,7 @@ public class InsertProdottiView extends BaseView {
 	public void addThumb(ActionEvent e) {
 
 		fileThumb = (String) e.getComponent().getAttributes().get("img");
-		resizeThumb();
+		resizeThumb(ResizeImageUtil.getFormat(fileThumb));
 
 	}
 
@@ -657,8 +659,7 @@ public class InsertProdottiView extends BaseView {
 
 		// FileOutputStream fileOutputStream = new FileOutputStream(result);
 		InputStream inputStream = file.getInputstream();
-		String format=file.getContentType().split("/")[1];
-
+		String format=ResizeImageUtil.getFormat(file);
 		// IOUtils.copy(inputStream, fileOutputStream);
 		Date date = new Date();
 
@@ -672,9 +673,9 @@ public class InsertProdottiView extends BaseView {
 
 	}
 
-	private void resizeThumb() {
+	private void resizeThumb(String format) {
 		try {
-			fileThumb = ResizeImageUtil.resizeImageThumb(fileThumb);
+			fileThumb = ResizeImageUtil.resizeImageThumb(fileThumb,format);
 		} catch (IOException e1) {
 			addGenericError(e1, "Errore nel resize dell'immagine thumb");
 		}
