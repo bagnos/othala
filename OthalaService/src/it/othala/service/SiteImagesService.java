@@ -29,39 +29,6 @@ public class SiteImagesService implements ISiteImagesService {
 
 	}
 
-	@Override
-	public void updateSiteImages(List<SiteImagesDTO> newImages) {
-
-		int i = 0;
-		while (i < newImages.size()) {
-			String gruppo = newImages.get(i).getTxGroupImages();
-			siteImagesDAO.deleteGroupSiteImages(gruppo);
-			while (i < newImages.size()
-					&& gruppo.equals(newImages.get(i).getTxGroupImages())) {
-				newImages.get(i).setTxLibrary(
-						newImages
-								.get(i)
-								.getTxLibrary()
-								.concat("/"
-										+ newImages.get(i).getTxGroupImages()));
-				siteImagesDAO.InsertSiteImage(newImages.get(i));
-				i++;
-			}
-		}
-
-	}
-
-	@Override
-	public List<String> listGruppiSiteImages() {
-
-		List<String> lsGruppi = new ArrayList<>();
-		for (TypeGroupSiteImages g : TypeGroupSiteImages.values()) {
-
-			lsGruppi.add(g.name());
-		}
-
-		return lsGruppi;
-	}
 
 	@Override
 	public List<GroupImagesDTO> getSiteImagesForUpdate() {
