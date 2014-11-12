@@ -135,6 +135,13 @@ public class InsertSiteImageView extends BaseView {
 	public void conferma(ActionEvent e) {
 		try {
 			GroupImagesDTO groupImages = new GroupImagesDTO();
+			
+			if (imagesSiteGroup.size() == 0)
+			{
+				addError("Inserimento Immagine", "Nessuna immagine selezionata");
+				return;
+			}
+							
 			groupImages.setTxGroupImages(imagesSiteGroup.get(0).getTxGroupImages());
 
 			groupImages.setListImages(imagesSiteGroup);
