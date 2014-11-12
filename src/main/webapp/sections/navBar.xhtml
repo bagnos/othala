@@ -17,7 +17,7 @@
 					<ul class="nav navbar-nav navbar-right">
 						<!-- LANGUAGE -->
 						<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: black; font-family:ralewaybold;">
 							<h:outputText value="Language" />
 								<b class="caret"></b>
 							</a>
@@ -32,7 +32,7 @@
 							</li>
 						<!-- <li class="dropdown">-->
 
-						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white">
+						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: black;font-family:ralewaybold;">
 							<span class="glyphicon glyphicon-shopping-cart"></span><h:outputText value="#{msg.header_Cart}" />
 								<h:outputText id="cart" value="(#{cartFlowBean.cart.size()})" />
 								<h:panelGroup rendered="#{cartFlowBean.cart.size()>0}">
@@ -56,7 +56,7 @@
 
 
 						<h:panelGroup rendered="#{customerLoginBean.name==null}">
-							<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white">
+							<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: black; font-family:ralewaybold;">
 									<h:outputText value="#{msg.header_access}" />
 									<b class="caret"></b>
 								</a>
@@ -74,7 +74,7 @@
 						</h:panelGroup>
 
 						<h:panelGroup rendered="#{not empty customerLoginBean.name}">
-							<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"   style="color: white">
+							<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"   style="color: black;font-family:ralewaybold;">
 									<span class="glyphicon glyphicon-user"></span><h:outputText id="user" value="#{msg.account_hello} #{customerLoginBean.name}!" />
 									<b class="caret"></b>
 								</a>
