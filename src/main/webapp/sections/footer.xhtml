@@ -1,14 +1,11 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:pe="http://primefaces.org/ui/extensions">
 
 
 	<div class="container">
-		<h:form id="footerForm">
+		<h:form id="footerForm" prependId="false">
 
 			<div class="row">
 				<div class="col-sm-3">
@@ -23,13 +20,21 @@
 						</h3>
 
 						<DIV class="input-group ">
-							<input type="text" class="form-control" /> <span
-								class="input-group-btn">
-								<button class="btn btn-success" type="button">
-									<h:outputText value="#{msg.footer_btn1}" />
-								</button>
+
+							<h:inputText value="#{accessView.email}" label="email" required="true" id="emailFooter"
+								styleClass="form-control" validatorMessage="#{msg.validator_mail}" maxlength="70">
+								<f:validateRegex pattern="[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+\.[a-zA-Z]{2,4}" />
+							</h:inputText>
+							<span class="input-group-btn"> <h:commandButton value="#{msg.footer_btn1}"
+									actionListener="#{accessView.subscribeNewsletter}" styleClass="btn btn-success">
+									<f:ajax execute="emailFooter @this" render="msgEmailFooter">
+									</f:ajax>
+								</h:commandButton>
+
 							</span>
+
 						</DIV>
+						<p:messages closable="true" showDetail="true" showSummary="true"  id="msgEmailFooter" />
 					</div>
 					<div class="row" style="padding-top: 25px">
 
@@ -39,13 +44,14 @@
 						<a target="_blank" class="btn btn-social-icon btn-s btn-facebook"
 							href="http://www.facebook.com/magboutique" title="Facebook">
 							<i class="fa fa-facebook"></i>
-						</a> <a target="_blank"
-							class="btn btn-social-icon btn-s btn-instagram"
-							href="http://instagram.com/mag_BOUTIQUE" title="Instagram"> <i
-							class="fa fa-instagram"></i>
-						</a> <a target="_blank" class="btn btn-social-icon btn-s btn-tumblr"
-							href="http://magboutique.tumblr.com" title="Tumblr"> <i
-							class="fa fa-tumblr"></i>
+						</a>
+						<a target="_blank" class="btn btn-social-icon btn-s btn-instagram"
+							href="http://instagram.com/mag_BOUTIQUE" title="Instagram">
+							<i class="fa fa-instagram"></i>
+						</a>
+						<a target="_blank" class="btn btn-social-icon btn-s btn-tumblr"
+							href="http://magboutique.tumblr.com" title="Tumblr">
+							<i class="fa fa-tumblr"></i>
 						</a>
 
 					</div>
@@ -57,15 +63,21 @@
 					<h3 class="foot1-title">
 						<h:outputText value="#{msg.footer_inf1}" />
 					</h3>
-					<a href="#{request.contextPath}/faces/static/aboutUs.xhtml"
-						class="foot2-line"><h:outputText value="#{msg.footer_inf2}" /></a>
-					<br /> <a href="#{request.contextPath}/faces/static/stores.xhtml"
-						class="foot2-line"><h:outputText value="#{msg.footer_inf3}" /></a>
-					<br /> <a
-						href="#{request.contextPath}/faces/static/contacts.xhtml"
-						class="foot2-line"><h:outputText value="#{msg.footer_inf5}" /></a>
-					<br /> <a href="#{request.contextPath}/faces/merchant/home.xhtml"
-						class="foot2-line"><h:outputText value="Area riservata" /></a>
+					<a href="#{request.contextPath}/faces/static/aboutUs.xhtml" class="foot2-line">
+						<h:outputText value="#{msg.footer_inf2}" />
+					</a>
+					<br />
+					<a href="#{request.contextPath}/faces/static/stores.xhtml" class="foot2-line">
+						<h:outputText value="#{msg.footer_inf3}" />
+					</a>
+					<br />
+					<a href="#{request.contextPath}/faces/static/contacts.xhtml" class="foot2-line">
+						<h:outputText value="#{msg.footer_inf5}" />
+					</a>
+					<br />
+					<a href="#{request.contextPath}/faces/merchant/home.xhtml" class="foot2-line">
+						<h:outputText value="Area riservata" />
+					</a>
 
 				</div>
 
@@ -74,23 +86,27 @@
 						<h:outputText value="#{msg.footer_cus1}" />
 					</h3>
 
-					<a href="#{request.contextPath}/faces/static/terms.xhtml"
-						class="foot2-line"><h:outputText value="#{msg.footer_cus2}" />
-					</a> <br /> <a
-						href="#{request.contextPath}/faces/static/privacy.xhtml"
-						class="foot2-line"><h:outputText value="#{msg.footer_cus3}" /></a>
-					<br /> <a
-						href="#{request.contextPath}/faces/static/payements.xhtml"
-						class="foot2-line"><h:outputText value="#{msg.footer_cus4}" /></a>
-					<br /> <a
-						href="#{request.contextPath}/faces/static/expeditions.xhtml"
-						class="foot2-line"><h:outputText value="#{msg.footer_cus5}" /></a>
+					<a href="#{request.contextPath}/faces/static/terms.xhtml" class="foot2-line">
+						<h:outputText value="#{msg.footer_cus2}" />
+					</a>
+					<br />
+					<a href="#{request.contextPath}/faces/static/privacy.xhtml" class="foot2-line">
+						<h:outputText value="#{msg.footer_cus3}" />
+					</a>
+					<br />
+					<a href="#{request.contextPath}/faces/static/payements.xhtml" class="foot2-line">
+						<h:outputText value="#{msg.footer_cus4}" />
+					</a>
+					<br />
+					<a href="#{request.contextPath}/faces/static/expeditions.xhtml" class="foot2-line">
+						<h:outputText value="#{msg.footer_cus5}" />
+					</a>
 				</div>
 
 
 
-				<div class="col-sm-4 text-center" >
-					<div class="row" >
+				<div class="col-sm-4 text-center">
+					<div class="row">
 						<h3 class="foot1-title" style="font-weight: bold">
 							<h:outputText value="MAG BOUTIQUE" />
 						</h3>
@@ -109,11 +125,11 @@
 					<div class="row">
 						<div class="foot2-line" style="font-weight: bold"></div>
 					</div>
-					
+
 					<div class="row" style="padding-top: 10px">
 						<div class="foot2-line">
-							Project by <a target="_blank" href="mailto:adunatasoftware@gmail.com">
-								Adunata Othala </a>
+							Project by
+							<a target="_blank" href="mailto:adunatasoftware@gmail.com"> Adunata Othala </a>
 						</div>
 					</div>
 
