@@ -58,8 +58,7 @@
 		autowire="byType" />
 	<bean id="mailService" class="it.othala.service.MailService"
 		autowire="byType" />
-	<bean id="newsletterService" class="it.othala.service.NewsletterService"
-		autowire="byType" />
+
 	<bean id="orderService" class="it.othala.service.OrderService"
 		autowire="byType" />
 	<bean id="siteImagesService" class="it.othala.service.SiteImagesService"
