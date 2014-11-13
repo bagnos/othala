@@ -8,6 +8,7 @@ import it.othala.account.execption.MailNotSendException;
 import it.othala.account.execption.UserNotActivatedException;
 import it.othala.account.execption.UserNotFoundException;
 import it.othala.dto.AccountDTO;
+import it.othala.execption.OthalaException;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 import it.othala.web.utils.ConfigurationUtil;
@@ -22,6 +23,8 @@ import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
 
 import org.primefaces.context.RequestContext;
+
+import com.ecwid.mailchimp.MailChimpException;
 
 @ManagedBean
 @ViewScoped
@@ -139,13 +142,12 @@ public class AccessView extends BaseView {
 	public String registration() {
 
 		if (registrationCore()) {
-			if (getCartFlowBean().getCart().isEmpty()) {				
-				email=getAccountDTO().getEmail();
-				psw=getAccountDTO().getPsw();
+			if (getCartFlowBean().getCart().isEmpty()) {
+				email = getAccountDTO().getEmail();
+				psw = getAccountDTO().getPsw();
 				return login();
-				//return null;
+				// return null;
 				// FacesContext.getCurrentInstance().getExternalContext().redirect("../home.xhtml");
-				
 
 			} else {
 				return null;
@@ -163,6 +165,15 @@ public class AccessView extends BaseView {
 			try {
 				OthalaFactory.getAccountServiceInstance().registerAccount(getAccountDTO(),
 						ConfigurationUtil.getMailProps(getRequest()));
+
+				if (newsletter) {
+					try {
+						subscribeNewsletter();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						log.error("errore inserimento newsletter", e);
+					}
+				}
 				addInfo(OthalaUtil.getWordBundle("account_registerUser"),
 						OthalaUtil.getWordBundle("account_registeredUser", new Object[] { getAccountDTO().getEmail() }));
 
@@ -223,6 +234,7 @@ public class AccessView extends BaseView {
 
 				CookieUtil.removeCookieLogin(getResponse());
 			}
+
 			return "home";
 
 		} catch (BadCredentialException e) {
@@ -231,16 +243,14 @@ public class AccessView extends BaseView {
 			return null;
 		}
 
-		
 	}
 
 	public void loginWizard(ActionEvent e) {
 
-		String outcome=login();
-		if (outcome!=null)
-		{
-		// disabilitiamo l'accedi ed avanziiamo allo step successivo
-		RequestContext.getCurrentInstance().execute(WizardUtil.NextStepWizard());
+		String outcome = login();
+		if (outcome != null) {
+			// disabilitiamo l'accedi ed avanziiamo allo step successivo
+			RequestContext.getCurrentInstance().execute(WizardUtil.NextStepWizard());
 		}
 
 		// RequestContext.getCurrentInstance().execute("$('#rootwizard').bootstrapWizard({onTabChange: function(tab, navigation, index) { if(index == 1) { alert('on tab show disabled');return false;	}}});");
@@ -258,6 +268,34 @@ public class AccessView extends BaseView {
 			CookieUtil.removeCookieLogin(getResponse());
 		}
 		redirectHome();
+	}
+
+	public void subscribeNewsletter(ActionEvent e) {
+
+		try {
+			if (subscribeNewsletter()) {
+				addInfo("Newsletter", OthalaUtil.getWordBundle("account_newsletterSubscribe"));
+			}
+		} catch (MailChimpException e1) {
+			// TODO Auto-generated catch block
+			addWarn("Newsletter", e1.getLocalizedMessage());
+			log.error("Newsletter " + e1.getLocalizedMessage(), e1);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			addGenericError(e1, "errore inserimento newselleter");
+		}
+	}
+
+	private boolean subscribeNewsletter() throws MailChimpException, OthalaException {
+		String apiKey = ConfigurationUtil.getProperty("apiKeyMailChimp");
+		String idList = ConfigurationUtil.getProperty("listId");
+		if (apiKey != null && idList != null) {
+			OthalaFactory.getMailServiceInstance().insertNewsletterMailChimp(email, name, surname, apiKey, idList);
+			return true;
+		} else {
+			return false;
+		}
+
 	}
 
 	public String moveToAcess() {

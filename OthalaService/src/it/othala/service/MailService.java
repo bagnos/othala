@@ -2,8 +2,10 @@ package it.othala.service;
 
 import it.othala.account.execption.MailNotSendException;
 import it.othala.dto.MailPropertiesDTO;
+import it.othala.execption.OthalaException;
 import it.othala.service.interfaces.IMailService;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -20,21 +22,27 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import javax.naming.NamingException;
+
+import com.ecwid.mailchimp.MailChimpClient;
+import com.ecwid.mailchimp.MailChimpException;
+import com.ecwid.mailchimp.MailChimpObject;
+import com.ecwid.mailchimp.method.v2_0.lists.Email;
+import com.ecwid.mailchimp.method.v2_0.lists.SubscribeMethod;
 
 public class MailService implements IMailService {
 
 	private Session session = null;
+	private static MailChimpClient mailChimpClient = new MailChimpClient();
 
-	private void inviaMail(String from, String[] tos, String subject, String content, String type,MailPropertiesDTO mailProps)
-			throws MailNotSendException {
+	private void inviaMail(String from, String[] tos, String subject, String content, String type,
+			MailPropertiesDTO mailProps) throws MailNotSendException {
 		// TODO Auto-generated method stub
 		{
 			try {
 
-				//Context initCtx = new InitialContext();
-				//Context envCtx = (Context) initCtx.lookup("java:comp/env");
-				//Session session = (Session) envCtx.lookup("mail/othala");
+				// Context initCtx = new InitialContext();
+				// Context envCtx = (Context) initCtx.lookup("java:comp/env");
+				// Session session = (Session) envCtx.lookup("mail/othala");
 				Session session = getSession(mailProps);
 				Message message = new MimeMessage(session);
 				InternetAddress to[] = new InternetAddress[tos.length];
@@ -62,12 +70,11 @@ public class MailService implements IMailService {
 	}
 
 	@Override
-	public void inviaMail(String[] tos, String subject, String content,MailPropertiesDTO mailProps) throws MailNotSendException {
+	public void inviaMail(String[] tos, String subject, String content, MailPropertiesDTO mailProps)
+			throws MailNotSendException {
 		// TODO Auto-generated method stub
-		inviaMail(mailProps.getFromMail(), tos, subject, content, "text/plain",mailProps);
+		inviaMail(mailProps.getFromMail(), tos, subject, content, "text/plain", mailProps);
 	}
-
-	
 
 	private Session getSession(final MailPropertiesDTO mailProps) {
 
@@ -78,7 +85,7 @@ public class MailService implements IMailService {
 			props.put("mail.smtp.starttls.enable", mailProps.getMailSmtpAtarttlsAnable().trim());
 			props.put("mail.smtp.host", mailProps.getMailSmtpHost().trim());
 			props.put("mail.smtp.port", mailProps.getMailSmtpPort().trim());
-						
+
 			session = Session.getInstance(props, new javax.mail.Authenticator() {
 				protected PasswordAuthentication getPasswordAuthentication() {
 					return new PasswordAuthentication(mailProps.getUsername(), mailProps.getPassword());
@@ -89,17 +96,18 @@ public class MailService implements IMailService {
 	}
 
 	@Override
-	public void inviaHTMLMail(String[] tos, String subject, String content, Map<String, String> inlineImages,MailPropertiesDTO mailProps)
-			throws MailNotSendException {
+	public void inviaHTMLMail(String[] tos, String subject, String content, Map<String, String> inlineImages,
+			MailPropertiesDTO mailProps) throws MailNotSendException {
 		// TODO Auto-generated method stub
 
 		{
 			try {
 
 				/*
-				Context initCtx = new InitialContext();
-				Context envCtx = (Context) initCtx.lookup("java:comp/env");
-				Session session = (Session) envCtx.lookup("mail/othala");*/
+				 * Context initCtx = new InitialContext(); Context envCtx =
+				 * (Context) initCtx.lookup("java:comp/env"); Session session =
+				 * (Session) envCtx.lookup("mail/othala");
+				 */
 				Session session = getSession(mailProps);
 				Message message = new MimeMessage(session);
 				InternetAddress to[] = new InternetAddress[tos.length];
@@ -151,6 +159,51 @@ public class MailService implements IMailService {
 
 		}
 
+	}
+
+	@Override
+	public void insertNewsletterMailChimp(String email, String name, String surname, String apiKey, String listId)
+			throws MailChimpException, OthalaException {
+		// TODO Auto-generated method stub
+		// reuse the same MailChimpClient object whenever possible
+
+		// Subscribe a person
+		SubscribeMethod subscribeMethod = new SubscribeMethod();
+		subscribeMethod.apikey = apiKey;
+		subscribeMethod.id = listId;
+		subscribeMethod.email = new Email();
+		subscribeMethod.email.email = email;
+
+		// a41ae8d28455caf721147089c33d2c56-us8
+		// no messaggio di benvenuto
+		subscribeMethod.double_optin = false;
+		// aggiorna se esistente
+		subscribeMethod.update_existing = true;
+		if ((name != null && !name.isEmpty()) && (surname != null && !surname.isEmpty())) {
+			subscribeMethod.merge_vars = new MergeVars(email, name, surname);
+		}
+
+		try {
+			mailChimpClient.execute(subscribeMethod);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			throw new OthalaException(e, "errore nell'invio della mail");
+		}
+	}
+
+	public static class MergeVars extends MailChimpObject {
+
+		@Field
+		public String EMAIL, FNAME, LNAME;
+
+		public MergeVars() {
+		}
+
+		public MergeVars(String email, String fname, String lname) {
+			this.EMAIL = email;
+			this.FNAME = fname;
+			this.LNAME = lname;
+		}
 	}
 
 }

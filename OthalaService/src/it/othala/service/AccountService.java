@@ -11,10 +11,8 @@ import it.othala.dao.interfaces.IAccountDAO;
 import it.othala.dto.AccountDTO;
 import it.othala.dto.MailPropertiesDTO;
 import it.othala.enums.TypeCustomerState;
-import it.othala.execption.OthalaException;
 import it.othala.service.interfaces.IAccountService;
 import it.othala.service.interfaces.IMailService;
-import it.othala.service.interfaces.INewsletterService;
 import it.othala.service.template.Template;
 import it.othala.service.template.Template.TipoTemplate;
 import it.othala.util.HelperCrypt;
@@ -23,23 +21,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.aop.aspectj.AspectJAdviceParameterNameDiscoverer.AmbiguousBindingException;
-
 public class AccountService implements IAccountService {
 
 	private IAccountDAO accountDAO;
 	private IMailService mailService;
-	private INewsletterService newsService;
+	
 	private final String CUSTOMER_ROLE = "CUSTOMER";
 
 	public void setMailService(IMailService mailService) {
 		this.mailService = mailService;
 	}
 
-	public void setNewsService(INewsletterService newsService) {
-		this.newsService = newsService;
-	}
-
+	
 	public void setAccountDAO(IAccountDAO accountDAO) {
 		this.accountDAO = accountDAO;
 	}
@@ -61,9 +54,7 @@ public class AccountService implements IAccountService {
 		accountDAO.insertAccount(account);
 		accountDAO.insertAccountRole(account.getEmail(), CUSTOMER_ROLE);
 
-		if (account.isNewsletter()) {
-			newsService.insertNewsletter(account.getEmail());
-		}
+		
 
 		inviaMailRegistrazione(account.getEmail(), account.getName(), account.getPsw(), mailProps);
 
