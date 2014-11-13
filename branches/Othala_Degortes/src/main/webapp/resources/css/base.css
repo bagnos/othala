@@ -130,6 +130,7 @@
 }
 
 .newPromo1 {
+	font-family:quicksandbold;	
 	height: 40px;
 	width: 40px;
 	min-height: 32px;
@@ -152,6 +153,7 @@
 }
 
 .newPromo2 {
+	font-family:quicksandbold;
 	height: 40px;
 	width: 40px;
 	min-height: 32px;
@@ -173,6 +175,7 @@
 }
 
 .newPromo3 {
+	font-family:quicksandbold;
 	height: 40px;
 	width: 40px;
 	min-height: 32px;
@@ -194,6 +197,7 @@
 }
 
 .newFlag2 {
+	font-family:quicksandbold;
 	height: 40px;
 	width: 40px;
 	min-height: 32px;
@@ -367,7 +371,7 @@
 	INIZIO TAB NAV BAR 
 ================================================================================================*/
 .nav-tabs>li>a {
-	font-family: quicksandregular !important;
+	font-family: quicksandbold !important;
 	font-size: 18px !important;
 	color: rgb(102, 102, 102);
 }
@@ -385,7 +389,7 @@
 }
 
 #tab-content a {
-	font-family: quicksandregular !important;
+	font-family: quicksandbold !important;
 	font-size: 13px !important;;
 	color: #888 !important;;
 	padding: 0 0 0 11px;
@@ -469,7 +473,7 @@
 	FINE CAROSELLO HOME 
 ================================================================================================*/
 .foot1-title {
-	font-family: quicksandregular !important;
+	font-family: quicksandbold !important;
 	color: #666666;
 	font-size: 14px;
 	padding: 0px 0px 7px 0px;
