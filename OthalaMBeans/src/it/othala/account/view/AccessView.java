@@ -1,7 +1,5 @@
 package it.othala.account.view;
 
-import java.io.IOException;
-
 import it.othala.account.execption.BadCredentialException;
 import it.othala.account.execption.DuplicateUserException;
 import it.othala.account.execption.MailNotSendException;
@@ -18,13 +16,10 @@ import it.othala.web.utils.WizardUtil;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
 
 import org.primefaces.context.RequestContext;
-
-import com.ecwid.mailchimp.MailChimpException;
 
 @ManagedBean
 @ViewScoped
@@ -276,17 +271,13 @@ public class AccessView extends BaseView {
 			if (subscribeNewsletter()) {
 				addInfo("Newsletter", OthalaUtil.getWordBundle("account_newsletterSubscribe"));
 			}
-		} catch (MailChimpException e1) {
-			// TODO Auto-generated catch block
-			addWarn("Newsletter", e1.getLocalizedMessage());
-			log.error("Newsletter " + e1.getLocalizedMessage(), e1);
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			addGenericError(e1, "errore inserimento newselleter");
 		}
 	}
 
-	private boolean subscribeNewsletter() throws MailChimpException, OthalaException {
+	private boolean subscribeNewsletter() throws OthalaException {
 		String apiKey = ConfigurationUtil.getProperty("apiKeyMailChimp");
 		String idList = ConfigurationUtil.getProperty("listId");
 		if (apiKey != null && idList != null) {
