@@ -6,6 +6,11 @@ import it.othala.execption.OthalaException;
 import it.othala.service.interfaces.IMailService;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -23,16 +28,11 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-import com.ecwid.mailchimp.MailChimpClient;
-import com.ecwid.mailchimp.MailChimpException;
-import com.ecwid.mailchimp.MailChimpObject;
-import com.ecwid.mailchimp.method.v2_0.lists.Email;
-import com.ecwid.mailchimp.method.v2_0.lists.SubscribeMethod;
-
 public class MailService implements IMailService {
 
 	private Session session = null;
-	private static MailChimpClient mailChimpClient = new MailChimpClient();
+
+	// private static MailChimpClient mailChimpClient = new MailChimpClient();
 
 	private void inviaMail(String from, String[] tos, String subject, String content, String type,
 			MailPropertiesDTO mailProps) throws MailNotSendException {
@@ -163,47 +163,102 @@ public class MailService implements IMailService {
 
 	@Override
 	public void insertNewsletterMailChimp(String email, String name, String surname, String apiKey, String listId)
-			throws MailChimpException, OthalaException {
+			throws OthalaException {
+		// 2009-03-26 21:35:57
+		/*
+		 * String parms =
+		 * "\"data[api_key]\": \"#api_key#\",\"data[id]\": \"#id#\",\"data[email]\": \"#EMAIL#\",\"data[merges][EMAIL]\": \"#EMAIL#\",\"data[merges][FNAME]\": \"#FNAME#\",\"data[merges][LNAME]\": \"#LNAME#\",\"data[update_existing]\": \"true\",\"data[double_optin]\": \"false\" "
+		 * ;
+		 * 
+		 * parms=parms.replaceAll("#api_key#", apiKey);
+		 * parms=parms.replaceAll("#id#", listId);
+		 * parms=parms.replaceAll("#EMAIL#", email);
+		 * parms=parms.replaceAll("#FNAME#", name);
+		 * parms=parms.replaceAll("#LNAME#", surname);
+		 */
+
+		String url = "https://#PREFIX#.api.mailchimp.com/2.0/lists/subscribe.json";
+		String json = "{\"apikey\": #api_key#,\"id\":#id#,\"email\": {\"email\": #EMAIL#},\"merge_vars\": {\"new-email\": #EMAIL#},\"double_optin\": false,\"update_existing\":true}";
+		json = json.replaceAll("#api_key#", apiKey);
+		json = json.replaceAll("#id#", listId);
+		json = json.replaceAll("#EMAIL#", email);
+		int dash = apiKey.lastIndexOf('-');
+		String prefix;
+		if (dash > 0)
+			prefix = apiKey.substring(dash + 1);
+		else
+			throw new OthalaException(new StringBuilder().append("Wrong apikey: ").append(apiKey).toString());
+		url=url.replace("#PREFIX#", prefix);
+		/*
+		 * json=json.replaceAll("#FNAME#", name);
+		 * json=json.replaceAll("#LNAME#", surname);
+		 */
+
+		try {
+			post(url, json);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			throw new OthalaException("errore inserimento newsletter", e);
+		}
 		// TODO Auto-generated method stub
 		// reuse the same MailChimpClient object whenever possible
 
 		// Subscribe a person
-		SubscribeMethod subscribeMethod = new SubscribeMethod();
-		subscribeMethod.apikey = apiKey;
-		subscribeMethod.id = listId;
-		subscribeMethod.email = new Email();
-		subscribeMethod.email.email = email;
-
-		// a41ae8d28455caf721147089c33d2c56-us8
-		// no messaggio di benvenuto
-		subscribeMethod.double_optin = false;
-		// aggiorna se esistente
-		subscribeMethod.update_existing = true;
-		if ((name != null && !name.isEmpty()) && (surname != null && !surname.isEmpty())) {
-			subscribeMethod.merge_vars = new MergeVars(email, name, surname);
-		}
-
-		try {
-			mailChimpClient.execute(subscribeMethod);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			throw new OthalaException(e, "errore nell'invio della mail");
-		}
+		/*
+		 * SubscribeMethod subscribeMethod = new SubscribeMethod();
+		 * subscribeMethod.apikey = apiKey; subscribeMethod.id = listId;
+		 * subscribeMethod.email = new Email(); subscribeMethod.email.email =
+		 * email;
+		 * 
+		 * subscribeMethod.double_optin = false;
+		 * 
+		 * subscribeMethod.update_existing = true; if ((name != null &&
+		 * !name.isEmpty()) && (surname != null && !surname.isEmpty())) {
+		 * subscribeMethod.merge_vars = new MergeVars(email, name, surname); }
+		 * 
+		 * try { mailChimpClient.execute(subscribeMethod); } catch (IOException
+		 * e) { // TODO Auto-generated catch block throw new OthalaException(e,
+		 * "errore nell'invio della mail"); }
+		 */
 	}
 
-	public static class MergeVars extends MailChimpObject {
+	/*
+	 * public static class MergeVars extends MailChimpObject {
+	 * 
+	 * @Field public String EMAIL, FNAME, LNAME;
+	 * 
+	 * public MergeVars() { }
+	 * 
+	 * public MergeVars(String email, String fname, String lname) { this.EMAIL =
+	 * email; this.FNAME = fname; this.LNAME = lname; } }
+	 */
 
-		@Field
-		public String EMAIL, FNAME, LNAME;
+	public String post(String url, String payload)
+		    throws IOException
+		    
+		  {
+		HttpURLConnection conn=null;    
+		URL mcUrl = new URL(url);
+		conn = ((HttpURLConnection)mcUrl.openConnection());
+		conn.setDoOutput(true);
+		conn.setConnectTimeout(15000);
+		conn.setReadTimeout(15000);
+		conn.setRequestMethod("POST");
 
-		public MergeVars() {
-		}
+		    byte[] bytes = payload.getBytes("UTF-8");
+		    conn.addRequestProperty("Content-Type", "application/json; charset=utf-8");
+		    conn.setRequestProperty("Content-Length", Integer.toString(bytes.length));
+		    conn.getOutputStream().write(bytes);
 
-		public MergeVars(String email, String fname, String lname) {
-			this.EMAIL = email;
-			this.FNAME = fname;
-			this.LNAME = lname;
-		}
-	}
+		    InputStream is = conn.getResponseCode() == 200 ?conn.getInputStream() : conn.getErrorStream();
+		    Reader reader = new InputStreamReader(is, "UTF-8");
+		    StringBuilder sb = new StringBuilder();
+		    char[] buf = new char[4096];
+		    int cnt;
+		    while ((cnt = reader.read(buf)) >= 0) {
+		      sb.append(buf, 0, cnt);
+		    }
+		    return sb.toString();
+		  }
 
 }
