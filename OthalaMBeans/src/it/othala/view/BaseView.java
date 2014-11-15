@@ -100,10 +100,13 @@ public abstract class BaseView implements Serializable {
 	public abstract String doInit();
 
 	public void addInfo(String summary, String message) {
-		FacesContext.getCurrentInstance().addMessage(null,
+		addInfo(summary, message, null);
+	}
+	public void addInfo(String summary, String message,String id) {
+		FacesContext.getCurrentInstance().addMessage(id,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, summary, message));
 	}
-
+	
 	public void addWarn(String summary, String message) {
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_WARN, summary, message));

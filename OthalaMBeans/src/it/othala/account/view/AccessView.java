@@ -269,7 +269,7 @@ public class AccessView extends BaseView {
 
 		try {
 			if (subscribeNewsletter()) {
-				addInfo("Newsletter", OthalaUtil.getWordBundle("account_newsletterSubscribe"));
+				addInfo("Newsletter", OthalaUtil.getWordBundle("account_newsletterSubscribe"),"emailFooter");
 			}
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
