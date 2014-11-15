@@ -281,6 +281,7 @@ public class AccessView extends BaseView {
 		String apiKey = ConfigurationUtil.getProperty("apiKeyMailChimp");
 		String idList = ConfigurationUtil.getProperty("listId");
 		if (apiKey != null && idList != null) {
+		
 			OthalaFactory.getMailServiceInstance().insertNewsletterMailChimp(email, name, surname, apiKey, idList);
 			return true;
 		} else {
