@@ -327,30 +327,9 @@ UNLOCK TABLES;
 
 LOCK TABLES `site_images` WRITE;
 /*!40000 ALTER TABLE `site_images` DISABLE KEYS */;
-INSERT INTO `site_images` VALUES 
-('carousel',1,'mag01.jpg',NULL,NULL),
-('carousel',2,'mag02.jpg',NULL,NULL),
-('carousel',3,'mag03.jpg',NULL,NULL),
-('carousel',4,'mag04.jpg',NULL,NULL),
-('carousel',5,'mag05.jpg',NULL,NULL),
-('carousel',6,'mag06.jpg',NULL,NULL),
-('carousel',7,'mag07.jpg',NULL,NULL),
-('carousel',8,'mag08.jpg',NULL,NULL),
-('carousel',9,'mag09.jpg',NULL,NULL),
-('carousel',10,'mag10.jpg',NULL,NULL),
-('carousel',11,'mag11.jpg',NULL,NULL),
-('carousel',12,'mag12.jpg',NULL,NULL),
-('carousel',13,'mag13.jpg',NULL,NULL),
-('carousel',14,'mag14.jpg',NULL,NULL),
-('carousel',15,'mag15.jpg',NULL,NULL),
-('new',1,'new.png',NULL,NULL),
-('newArrivals',1,'newMag.jpg',1,'/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=true&idSubMenu=0&idCampaign=0'),
-('newArrivals',2,'newMag2.jpg',1,'/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=true&idSubMenu=0&idCampaign=0'),
-('promo',1,'promo.png',NULL,NULL),
-('tabNav',1,'logoTab2.png',1,NULL);
+INSERT INTO `site_images` VALUES ('carousel',1,'DSC_1336.JPG',NULL,NULL),('carousel',2,'DSC_1486 copia.jpg',NULL,NULL),('carousel',3,'DSC_1393.JPG',NULL,NULL),('carousel',4,'DSC_1524.JPG',NULL,NULL),('carousel',5,'DSC_1345.JPG',NULL,NULL),('carousel',6,'DSC_1477 copia.jpg',NULL,NULL),('carousel',7,'DSC_1537.JPG',NULL,NULL),('carousel',8,'DSC_1670.JPG',NULL,NULL),('carousel',9,'DSC_1599 copia 2.jpg',NULL,NULL),('carousel',10,'DSC_1568.JPG',NULL,NULL),('carousel',11,'DSC_1618 copia.jpg',NULL,NULL),('carousel',12,'DSC_1653.JPG',NULL,NULL),('carousel',13,'DSC_1739.JPG',NULL,NULL),('carousel',14,'DSC_1741.JPG',NULL,NULL),('carousel',15,'DSC_1770.JPG',NULL,NULL),('carousel',16,'DSC_1766.JPG',NULL,NULL),('carousel',17,'DSC_1838.JPG',NULL,NULL),('carousel',18,'DSC_1908.JPG',NULL,NULL),('carousel',19,'DSC_2000.JPG',NULL,NULL),('carousel',20,'DSC_2003.JPG',NULL,NULL),('carousel',21,'DSC_1962.JPG',NULL,NULL),('carousel',22,'DSC_1998.JPG',NULL,NULL),('new',1,'new.png',NULL,NULL),('newArrivals',1,'newMag.jpg',1,'/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=true&idSubMenu=0&idCampaign=0'),('newArrivals',2,'newMag2.jpg',1,'/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=true&idSubMenu=0&idCampaign=0'),('promo',1,'promo.png',NULL,NULL),('tabNav',1,'logoTab2.png',1,NULL);
 /*!40000 ALTER TABLE `site_images` ENABLE KEYS */;
 UNLOCK TABLES;
-
 --
 -- Dumping data for table `group_images`
 --
