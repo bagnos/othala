@@ -4,6 +4,7 @@ import it.othala.account.execption.MailNotSendException;
 import it.othala.dto.MailPropertiesDTO;
 import it.othala.execption.OthalaException;
 import it.othala.service.interfaces.IMailService;
+import it.othala.util.OthalaCommonUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -164,101 +165,38 @@ public class MailService implements IMailService {
 	@Override
 	public void insertNewsletterMailChimp(String email, String name, String surname, String apiKey, String listId)
 			throws OthalaException {
-		// 2009-03-26 21:35:57
-		/*
-		 * String parms =
-		 * "\"data[api_key]\": \"#api_key#\",\"data[id]\": \"#id#\",\"data[email]\": \"#EMAIL#\",\"data[merges][EMAIL]\": \"#EMAIL#\",\"data[merges][FNAME]\": \"#FNAME#\",\"data[merges][LNAME]\": \"#LNAME#\",\"data[update_existing]\": \"true\",\"data[double_optin]\": \"false\" "
-		 * ;
-		 * 
-		 * parms=parms.replaceAll("#api_key#", apiKey);
-		 * parms=parms.replaceAll("#id#", listId);
-		 * parms=parms.replaceAll("#EMAIL#", email);
-		 * parms=parms.replaceAll("#FNAME#", name);
-		 * parms=parms.replaceAll("#LNAME#", surname);
-		 */
-
 		String url = "https://#PREFIX#.api.mailchimp.com/2.0/lists/subscribe.json";
-		String json = "{\"apikey\": #api_key#,\"id\":#id#,\"email\": {\"email\": #EMAIL#},\"merge_vars\": {\"new-email\": #EMAIL#},\"double_optin\": false,\"update_existing\":true}";
+		String json = "{\"apikey\": \"#api_key#\",\"id\":\"#id#\",\"email\": {\"email\": \"#EMAIL#\"},\"merge_vars\": {\"new-email\": \"#EMAIL#\",\"fname\": \"#FNAME#\",\"lname\": \"#LNAME#\"},\"double_optin\": false,\"update_existing\":true}";
+
 		json = json.replaceAll("#api_key#", apiKey);
 		json = json.replaceAll("#id#", listId);
 		json = json.replaceAll("#EMAIL#", email);
+
+		if (name != null && surname != null) {
+			json = json.replaceAll("#FNAME#", name);
+			json = json.replaceAll("#LNAME#", surname);
+		} else {
+			json = json.replace(",\"fname\": \"#FNAME#\",\"lname\": \"#LNAME#\"", "");
+		}
 		int dash = apiKey.lastIndexOf('-');
 		String prefix;
 		if (dash > 0)
 			prefix = apiKey.substring(dash + 1);
 		else
 			throw new OthalaException(new StringBuilder().append("Wrong apikey: ").append(apiKey).toString());
-		url=url.replace("#PREFIX#", prefix);
-		/*
-		 * json=json.replaceAll("#FNAME#", name);
-		 * json=json.replaceAll("#LNAME#", surname);
-		 */
+		url = url.replace("#PREFIX#", prefix);
 
 		try {
-			post(url, json);
+			String response = OthalaCommonUtils.post(url, json);
+			if (response.contains("error")) {
+				throw new OthalaException(response);
+
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			throw new OthalaException("errore inserimento newsletter", e);
 		}
-		// TODO Auto-generated method stub
-		// reuse the same MailChimpClient object whenever possible
 
-		// Subscribe a person
-		/*
-		 * SubscribeMethod subscribeMethod = new SubscribeMethod();
-		 * subscribeMethod.apikey = apiKey; subscribeMethod.id = listId;
-		 * subscribeMethod.email = new Email(); subscribeMethod.email.email =
-		 * email;
-		 * 
-		 * subscribeMethod.double_optin = false;
-		 * 
-		 * subscribeMethod.update_existing = true; if ((name != null &&
-		 * !name.isEmpty()) && (surname != null && !surname.isEmpty())) {
-		 * subscribeMethod.merge_vars = new MergeVars(email, name, surname); }
-		 * 
-		 * try { mailChimpClient.execute(subscribeMethod); } catch (IOException
-		 * e) { // TODO Auto-generated catch block throw new OthalaException(e,
-		 * "errore nell'invio della mail"); }
-		 */
 	}
-
-	/*
-	 * public static class MergeVars extends MailChimpObject {
-	 * 
-	 * @Field public String EMAIL, FNAME, LNAME;
-	 * 
-	 * public MergeVars() { }
-	 * 
-	 * public MergeVars(String email, String fname, String lname) { this.EMAIL =
-	 * email; this.FNAME = fname; this.LNAME = lname; } }
-	 */
-
-	public String post(String url, String payload)
-		    throws IOException
-		    
-		  {
-		HttpURLConnection conn=null;    
-		URL mcUrl = new URL(url);
-		conn = ((HttpURLConnection)mcUrl.openConnection());
-		conn.setDoOutput(true);
-		conn.setConnectTimeout(15000);
-		conn.setReadTimeout(15000);
-		conn.setRequestMethod("POST");
-
-		    byte[] bytes = payload.getBytes("UTF-8");
-		    conn.addRequestProperty("Content-Type", "application/json; charset=utf-8");
-		    conn.setRequestProperty("Content-Length", Integer.toString(bytes.length));
-		    conn.getOutputStream().write(bytes);
-
-		    InputStream is = conn.getResponseCode() == 200 ?conn.getInputStream() : conn.getErrorStream();
-		    Reader reader = new InputStreamReader(is, "UTF-8");
-		    StringBuilder sb = new StringBuilder();
-		    char[] buf = new char[4096];
-		    int cnt;
-		    while ((cnt = reader.read(buf)) >= 0) {
-		      sb.append(buf, 0, cnt);
-		    }
-		    return sb.toString();
-		  }
 
 }
