@@ -18,22 +18,22 @@
 						<h:outputText value="#{msg.footer_news2}" />
 					</h3>
 
-					<DIV class="input-group ">
+											<DIV class="input-group ">
 
-						<h:inputText value="#{accessView.email}" label="email" required="true" id="emailFooter"
-							styleClass="form-control" validatorMessage="#{msg.validator_mail}" maxlength="70">
-							<f:validateRegex pattern="[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+\.[a-zA-Z]{2,4}" />
-						</h:inputText>
-						<span class="input-group-btn"> <h:commandButton value="#{msg.footer_btn1}"
-								actionListener="#{accessView.subscribeNewsletter}" styleClass="btn btn-success">
-								<f:ajax execute="emailFooter @this" render="msgEmailFooter">
-								</f:ajax>
-							</h:commandButton>
+							<h:inputText value="#{accessView.email}" label="email" required="true" id="emailFooter"
+								styleClass="form-control" validatorMessage="#{msg.validator_mail}" maxlength="70">
+								<f:validateRegex pattern="[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+\.[a-zA-Z]{2,4}" />
+							</h:inputText>
+							<span class="input-group-btn"> <h:commandButton value="#{msg.footer_btn1}"
+									actionListener="#{accessView.subscribeNewsletter}" styleClass="btn btn-success">
+									<f:ajax execute="emailFooter @this" render="msgEmailFooter">
+									</f:ajax>
+								</h:commandButton>
 
-						</span>
+							</span>
 
-					</DIV>
-					<p:messages closable="true" showDetail="true" showSummary="true" id="msgEmailFooter" />
+						</DIV>
+						<p:messages closable="true" autoUpdate="false" showDetail="true" for="emailFooter" showSummary="true"  id="msgEmailFooter" />
 
 
 				</div>
