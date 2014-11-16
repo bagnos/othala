@@ -9,6 +9,8 @@ import it.othala.web.utils.ResizeImageUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -30,6 +32,7 @@ public class InsertSiteImageView extends BaseView {
 
 	private List<SiteImagesDTO> imagesSiteGroup = new ArrayList<>();
 	private List<SiteImagesDTO> imagesSiteGroupSeletcetd = new ArrayList<>();
+
 
 	private String idTypeGroupImage;
 	private List<GroupImagesDTO> groupImagesDTO = new ArrayList<>();
@@ -181,6 +184,7 @@ public class InsertSiteImageView extends BaseView {
 
 	public void handleFileUpload(FileUploadEvent event) {
 		UploadedFile file = event.getFile();
+		String fileResized=null;
 
 		if (groupImagesSelected.getFgGender() && (idGenderSelected == null || idGenderSelected.intValue() == -1)) {
 			addError("Inserimento immagine", "selezionare una categoria");
@@ -208,7 +212,7 @@ public class InsertSiteImageView extends BaseView {
 			if (file != null) {
 
 				try {
-					copyFile(file,groupImagesSelected);
+					fileResized=copyFile(file,groupImagesSelected);
 
 				} catch (IOException e) {
 					log.error("errore upload", e);
@@ -217,7 +221,7 @@ public class InsertSiteImageView extends BaseView {
 
 				SiteImagesDTO siteImgDTO = new SiteImagesDTO();
 
-				siteImgDTO.setTxName(file.getFileName());
+				siteImgDTO.setTxName(fileResized);
 				siteImgDTO.setTxLibrary(groupImagesSelected.getTxLibrary());
 				siteImgDTO.setTxGroupImages(groupImagesSelected.getTxGroupImages());
 
@@ -255,7 +259,7 @@ public class InsertSiteImageView extends BaseView {
 
 		String fileResized = null;
 		try {
-		
+			 
 			fileResized = ResizeImageUtil.resizeAndCopyImageHome(inputStream, file.getFileName(), format,groupSelected.getMaxWidth(),groupSelected.getMaxHeight());
 
 		} catch (Exception e) {
