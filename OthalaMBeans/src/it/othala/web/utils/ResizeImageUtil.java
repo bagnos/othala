@@ -1,24 +1,27 @@
 package it.othala.web.utils;
 
-import it.othala.enums.TypeGroupSiteImages;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
-import org.primefaces.model.UploadedFile;
-
 import net.coobird.thumbnailator.Thumbnails;
+
+import org.primefaces.model.UploadedFile;
 
 public class ResizeImageUtil {
 
 	private  static String BASE_IMG_PATH = null;
 	private  static String BASE_IMG_PATH_HOME = null;
 	private  static String LIBRARY_HOME=null;
+	private static DateFormat dateFormat = new SimpleDateFormat(
+			"ddMMyyyyHHmmssSSS");
 	
 	
 
@@ -28,6 +31,13 @@ public class ResizeImageUtil {
 			 BASE_IMG_PATH = ConfigurationUtil.getProperty("BASE_IMG_PATH");
 		}
 		return BASE_IMG_PATH;
+	}
+	
+	private static String getNomeFile(String nomeFile) {
+		String file=dateFormat.format(new Date())
+		+ "&"
+		+ nomeFile.replaceAll("&", "");
+		return file;
 	}
 
 	public static String getBaseImgPathHome() {
@@ -75,7 +85,8 @@ public class ResizeImageUtil {
 	
 	public static String resizeAndCopyImageHome(InputStream fileIS, String nomeFile, String format,int w, int h) throws IOException
 	{
-		return resizeAndCopyImage(fileIS, getBasePathHome(), nomeFile, format, w, h);
+		
+		return resizeAndCopyImage(fileIS, getBasePathHome(), getNomeFile(nomeFile), format, w, h);
 	}
 	
 	private static String resizeAndCopyImage(InputStream fileIS, String basePathToCopy, String nomeFile, String format,
