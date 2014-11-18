@@ -60,7 +60,7 @@
 	<bean id="mailService" class="it.othala.service.MailService" autowire="byType" />
 	<bean id="externalService" class="it.othala.external.service.FactoryExternalService"
 		factory-method="getExternalService" autowire="byType">
-		<constructor-arg value="${othala_sito}" />
+		<constructor-arg value="${othala_ExtSito}" />
 		<constructor-arg ref="othalaExternalService" />
 	</bean>
 
