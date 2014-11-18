@@ -3,11 +3,10 @@ package it.othala.web.utils;
 import it.othala.execption.OthalaException;
 import it.othala.model.ApplicationBean;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
 import java.text.MessageFormat;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -18,14 +17,35 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 
-import net.coobird.thumbnailator.Thumbnails;
-
 public class OthalaUtil {
 
-	private static ResourceBundle resources = ResourceBundle.getBundle("language");
+	private static ResourceBundle resources;
+	
+
+	public static ResourceBundle getResources() {
+		if (resources==null)
+		{
+			Locale locale=FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
+
+			resources=ResourceBundle.getBundle("language",locale);
+		}
+		return resources;
+	}
+
+
+	
 
 	public static String getWordBundle(String key) {
-		return resources.getString(key);
+		return getResources().getString(key);
+		
+	}
+	
+	
+	private static HttpServletRequest getRequest()
+	{
+		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();  
+		HttpServletRequest request =  (HttpServletRequest)context.getRequest();
+		return request;
 	}
 
 	public static String getWordBundle(String key, Object[] parms) {
