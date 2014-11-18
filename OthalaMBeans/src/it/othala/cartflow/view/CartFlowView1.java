@@ -62,9 +62,12 @@ public class CartFlowView1 extends BaseView {
 
 		// appBean.updateSizes(getCartFlowBean().getCatalog().getIdSubMenu());
 
-		callServiceProduct(getCartFlowBean().getCatalog().getCurrentPage() == null ? 1 : getCartFlowBean().getCatalog()
+		/*callServiceProduct(getCartFlowBean().getCatalog().getCurrentPage() == null ? 1 : getCartFlowBean().getCatalog()
 				.getCurrentPage());
+*/
+		callServiceProduct(1);
 
+		
 		updateBreadCrumb();
 
 		return null;
