@@ -506,7 +506,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 				"it.othala.product.queries.getMaxIdType");
 
 	}
-	
+
 	@Override
 	public Integer getQtStockLock(Integer idProduct, Integer pgArticle) {
 
@@ -626,10 +626,9 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		getSqlSession().insert("it.othala.product.queries.insertMaterial", map);
 
 	}
-	
+
 	@Override
-	public void insertType(Integer idType, String languages,
-			String txType) {
+	public void insertType(Integer idType, String languages, String txType) {
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("idType", idType);
 		map.put("languages", languages);
@@ -638,7 +637,6 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		getSqlSession().insert("it.othala.product.queries.insertType", map);
 
 	}
-	
 
 	@Override
 	public List<AttributeDTO> listStatesOrder() {
@@ -948,7 +946,6 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		getSqlSession().update("it.othala.product.queries.updateCampaign",
 				campaign);
 
-
 	}
 
 	@Override
@@ -957,7 +954,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 			BigDecimal maxPrice, Integer size, Integer color,
 			Boolean newArrivals, OrderByCartFlow order, Integer idCampaign,
 			Boolean fgCampaign) {
-		
+
 		HashMap<String, Object> mapProduct = new HashMap<>();
 		mapProduct.put("languages", languages);
 		mapProduct.put("type", type);
@@ -966,11 +963,9 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		mapProduct.put("idCampaign", idCampaign);
 		mapProduct.put("fgCampaign", fgCampaign);
 
-
 		return getSqlSession().selectList(
 				"it.othala.product.queries.listSizeProduct", mapProduct);
 
-		
 	}
 
 	@Override
@@ -986,7 +981,6 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		mapProduct.put("newArrivals", newArrivals);
 		mapProduct.put("idCampaign", idCampaign);
 		mapProduct.put("fgCampaign", fgCampaign);
-
 
 		return getSqlSession().selectList(
 				"it.othala.product.queries.listColorProduct", mapProduct);
@@ -1006,17 +1000,57 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		mapProduct.put("idCampaign", idCampaign);
 		mapProduct.put("fgCampaign", fgCampaign);
 
-
 		return getSqlSession().selectList(
 				"it.othala.product.queries.listBrandProduct", mapProduct);
 	}
+
 	@Override
 	public SiteImagesDTO getImage(String string) {
-		
 
-		return getSqlSession().selectOne(
-				"it.othala.images.queries.getImage", string);
+		return getSqlSession().selectOne("it.othala.images.queries.getImage",
+				string);
 
-		
 	}
+
+	@Override
+	public Boolean checkEsistenza(String txAttributo, String txValore,
+			String languages) {
+
+		HashMap<String, Object> mapAttribute = new HashMap<>();
+		mapAttribute.put("txValore", txValore);
+		if (languages != null) {
+			mapAttribute.put("languages", languages);
+		}
+
+		String query = null;
+		if (txAttributo == "type") {
+			query = "it.othala.product.queries.getType";
+		}
+		if (txAttributo == "brand") {
+			query = "it.othala.product.queries.getBrand";
+		}
+		if (txAttributo == "material") {
+			query = "it.othala.product.queries.getMaterial";
+		}
+		if (txAttributo == "color") {
+			query = "it.othala.product.queries.getColor";
+		}
+
+		Integer count;
+
+		if (query != null) {
+
+			count = getSqlSession().selectOne(query, mapAttribute);
+		} else {
+			count = 0;
+
+		}
+		if (count == 0) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
 }
