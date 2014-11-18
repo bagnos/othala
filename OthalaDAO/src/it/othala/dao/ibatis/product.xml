@@ -5,7 +5,7 @@
 	<select id="listMenu" resultType="it.othala.dto.MenuDTO"
 		parameterType="java.util.HashMap">
 
-
+ 
 		SELECT
 		a.idGender,
 		a.txGender,
@@ -1333,8 +1333,6 @@
 		`pcDiscount` =
 		#{discount},
 		`txThumbnailsUrl` = #{thumbnailsUrl},
-		`idCampaign` =
-		#{idCampaign},
 		`idMaterial` = #{idMaterial},
 		`specialPrice` =
 		#{specialPrice}
