@@ -1,6 +1,15 @@
 /* ================================================================================================ 
 	CUSTOM PRIMEFACES
 ================================================================================================*/
+.thumbnail {
+	border: 0px !important;
+}
+.thumbnail>img, .thumbnail a>img
+{
+	max-height: 225px;
+	
+}
+
 .ui-widget {
 	font-size: 95% !important;
 	font-family: playregular !important;
@@ -150,6 +159,7 @@
 	color: #fff;
 	-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), inset 0 -1px 0
 		rgba(0, 0, 0, .2), 0 1px 2px rgba(0, 0, 0, .2);
+	visibility:hidden;
 }
 
 .newPromo2 {
@@ -172,6 +182,7 @@
 	color: #fff;
 	-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), inset 0 -1px 0
 		rgba(0, 0, 0, .2), 0 1px 2px rgba(0, 0, 0, .2);
+		visibility:hidden;
 }
 
 .newPromo3 {
@@ -194,6 +205,7 @@
 	color: #fff;
 	-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), inset 0 -1px 0
 		rgba(0, 0, 0, .2), 0 1px 2px rgba(0, 0, 0, .2);
+		visibility:hidden;
 }
 
 .newFlag2 {
@@ -216,11 +228,12 @@
 	color: #fff;
 	-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), inset 0 -1px 0
 		rgba(0, 0, 0, .2), 0 1px 2px rgba(0, 0, 0, .2);
+		visibility:hidden;
 }
 
 .thumbnailCar {
 	width: 200px;
-	height: 266px;
+	height: 300px;
 	overflow: hidden; /* contain images within thumbnail boundaries */
 	border: 0; /* removes Bootstrap's default border */
 	box-shadow: 0 12px 12px -10px #c4c4c4;
@@ -314,7 +327,7 @@
 }
 
 .caption.articolo {
-	height: 86px;
+	height: 120px;
 	overflow: hidden;
 }
 
