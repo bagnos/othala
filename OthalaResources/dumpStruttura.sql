@@ -23,6 +23,8 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/ `aduna937_othala` /*!40100 DEFAULT CHAR
 
 USE `aduna937_othala`;
 
+DROP TABLE IF EXISTS `type_size`;
+
 --
 -- Table structure for table `addresses`
 --
