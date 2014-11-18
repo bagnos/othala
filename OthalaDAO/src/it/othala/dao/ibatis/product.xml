@@ -15,7 +15,8 @@
 		${database.schema}gender a,
 		${database.schema}site_images b,
 		${database.schema}group_images c
-		where a.idLanguages = #{languages}
+		where
+		a.idLanguages = #{languages}
 		and b.txGroupImages = c.txGroupImages
 		and
 		b.txGroupImages = 'tabNav'
@@ -63,8 +64,8 @@
 		a.idType =
 		d.idType
 		and a.idGender = #{idMenu}
-		
-			and exists
+
+		and exists
 		(select 1 from
 		${database.schema}article
 		e where
@@ -73,7 +74,7 @@
 		and
 		e.qtStock >
 		0)
-		
+
 		)
 
 
@@ -863,12 +864,13 @@
 	<select id="getMaxIdType" resultType="Integer">
 
 		SELECT MAX(idType)
-		FROM ${database.schema}type;
+		FROM
+		${database.schema}type;
 
 
 	</select>
-	
-	
+
+
 	<select id="getQtStockLock" resultType="Integer" parameterType="java.util.HashMap">
 
 		SELECT qtStock
@@ -1629,10 +1631,12 @@
 
 		where
 		a.idProductState = 1
-		and h.idProduct = a.idProduct
+		and h.idProduct =
+		a.idProduct
 		and h.qtStock > 0
 		and x.idSize = h.idSize
-		and y.idColor = h.idColor
+		and y.idColor =
+		h.idColor
 		and z.idBrand = a.idBrand
 		and y.idLanguages = #{languages}
 
@@ -1669,7 +1673,7 @@
 
 	</select>
 
-<select id="listColorProduct" resultType="it.othala.dto.AttributeDTO"
+	<select id="listColorProduct" resultType="it.othala.dto.AttributeDTO"
 		parameterType="java.util.HashMap">
 
 
@@ -1684,10 +1688,12 @@
 
 		where
 		a.idProductState = 1
-		and h.idProduct = a.idProduct
+		and h.idProduct =
+		a.idProduct
 		and h.qtStock > 0
 		and x.idSize = h.idSize
-		and y.idColor = h.idColor
+		and y.idColor =
+		h.idColor
 		and z.idBrand = a.idBrand
 		and y.idLanguages = #{languages}
 
@@ -1724,7 +1730,7 @@
 
 	</select>
 
-<select id="listBrandProduct" resultType="it.othala.dto.AttributeDTO"
+	<select id="listBrandProduct" resultType="it.othala.dto.AttributeDTO"
 		parameterType="java.util.HashMap">
 
 
@@ -1739,10 +1745,12 @@
 
 		where
 		a.idProductState = 1
-		and h.idProduct = a.idProduct
+		and h.idProduct =
+		a.idProduct
 		and h.qtStock > 0
 		and x.idSize = h.idSize
-		and y.idColor = h.idColor
+		and y.idColor =
+		h.idColor
 		and z.idBrand = a.idBrand
 		and y.idLanguages = #{languages}
 
@@ -1779,4 +1787,60 @@
 
 	</select>
 
+	<select id="getType" resultType="Integer" parameterType="java.util.HashMap">
+
+		SELECT
+		count(*)
+		FROM
+		${database.schema}type
+		where
+		idLanguages = #{languages}
+		and
+		txType = #{txValore};
+
+
+	</select>
+
+	<select id="getBrand" resultType="Integer" parameterType="java.util.HashMap">
+
+		SELECT
+		count(*)
+		FROM
+		${database.schema}brand
+		where
+		
+		txBrand = #{txValore};
+
+
+	</select>
+
+	<select id="getColor" resultType="Integer" parameterType="java.util.HashMap">
+
+		SELECT
+		count(*)
+		FROM
+		${database.schema}color
+		where
+		idLanguages = #{languages}
+		and
+		txColor = #{txValore};
+
+
+	</select>
+	
+		<select id="getMaterial" resultType="Integer" parameterType="java.util.HashMap">
+
+		SELECT
+		count(*)
+		FROM
+		${database.schema}material
+		where
+		idLanguages = #{languages}
+		and
+		txMaterial = #{txValore};
+
+
+	</select>
+	
+	
 </mapper>

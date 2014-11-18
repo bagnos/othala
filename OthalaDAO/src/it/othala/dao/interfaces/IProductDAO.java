@@ -157,6 +157,8 @@ public interface IProductDAO {
 
 	
 	public SiteImagesDTO getImage(String string);
+
+	public Boolean checkEsistenza(String txAttributo, String txValore, String languages);
 	
 	
 

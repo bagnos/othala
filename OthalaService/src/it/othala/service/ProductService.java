@@ -23,7 +23,7 @@ import java.util.List;
 public class ProductService implements IProductService {
 
 	private IProductDAO productDAO;
-	
+
 	public void setArticleDAO(IProductDAO productDAO) {
 		this.productDAO = productDAO;
 	}
@@ -108,8 +108,9 @@ public class ProductService implements IProductService {
 	@Override
 	public DomainDTO insertBrand(String languages, String txBrand) {
 
-		productDAO.insertBrand(txBrand);
-
+		if (productDAO.checkEsistenza("brand", txBrand, null)) {
+			productDAO.insertBrand(txBrand);
+		}
 		DomainDTO domainDTO = new DomainDTO();
 		domainDTO.setSize(productDAO.listSize(languages));
 		domainDTO.setColor(productDAO.listColor(languages));
@@ -125,11 +126,12 @@ public class ProductService implements IProductService {
 	public DomainDTO insertColor(String languages, String txColorIT,
 			String txColorEN) {
 
-		Integer maxIdColor = productDAO.getMaxIdColor();
-		maxIdColor = maxIdColor + 1;
-		productDAO.insertColor(maxIdColor, "it", txColorIT);
-		productDAO.insertColor(maxIdColor, "en", txColorEN);
-
+		if (productDAO.checkEsistenza("color", txColorIT, "it")) {
+			Integer maxIdColor = productDAO.getMaxIdColor();
+			maxIdColor = maxIdColor + 1;
+			productDAO.insertColor(maxIdColor, "it", txColorIT);
+			productDAO.insertColor(maxIdColor, "en", txColorEN);
+		}
 		DomainDTO domainDTO = new DomainDTO();
 		domainDTO.setSize(productDAO.listSize(languages));
 		domainDTO.setColor(productDAO.listColor(languages));
@@ -145,12 +147,13 @@ public class ProductService implements IProductService {
 	public DomainDTO insertMaterial(String languages, String txMaterialIT,
 			String txMaterialEN) {
 
-		Integer maxIdMaterial = productDAO.getMaxIdMaterial();
-		maxIdMaterial = maxIdMaterial + 1;
+		if (productDAO.checkEsistenza("material", txMaterialIT, "it")) {
+			Integer maxIdMaterial = productDAO.getMaxIdMaterial();
+			maxIdMaterial = maxIdMaterial + 1;
 
-		productDAO.insertMaterial(maxIdMaterial, "it", txMaterialIT);
-		productDAO.insertMaterial(maxIdMaterial, "en", txMaterialEN);
-
+			productDAO.insertMaterial(maxIdMaterial, "it", txMaterialIT);
+			productDAO.insertMaterial(maxIdMaterial, "en", txMaterialEN);
+		}
 		DomainDTO domainDTO = new DomainDTO();
 		domainDTO.setSize(productDAO.listSize(languages));
 		domainDTO.setColor(productDAO.listColor(languages));
@@ -166,12 +169,13 @@ public class ProductService implements IProductService {
 	@Override
 	public DomainDTO insertType(String languages, String txType, String txTypeEN) {
 
-		Integer maxIdType = productDAO.getMaxIdType();
-		maxIdType = maxIdType + 1;
+		if (productDAO.checkEsistenza("type", txType, "it")) {
+			Integer maxIdType = productDAO.getMaxIdType();
+			maxIdType = maxIdType + 1;
 
-		productDAO.insertType(maxIdType, "it", txType);
-		productDAO.insertType(maxIdType, "en", txTypeEN);
-
+			productDAO.insertType(maxIdType, "it", txType);
+			productDAO.insertType(maxIdType, "en", txTypeEN);
+		}
 		DomainDTO domainDTO = new DomainDTO();
 		domainDTO.setSize(productDAO.listSize(languages));
 		domainDTO.setColor(productDAO.listColor(languages));
