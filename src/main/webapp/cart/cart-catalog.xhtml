@@ -46,7 +46,7 @@
 						 	#{bread}
 						</h:outputLink> <h:outputLink
 									rendered="#{stBread.first==false and stBread.last==false}"
-									value="#">
+									value="#" >
 							#{bread}
 						</h:outputLink></li>
 						</ui:repeat>
@@ -145,14 +145,16 @@
 										ajax="true" update="@form"
 										disabled="#{cartFlowView1.classBack=='disabled'}"
 										styleClass="glyphicon glyphicon-chevron-left"
-										actionListener="#{cartFlowView1.backword}" /></li>
+										actionListener="#{cartFlowView1.backword}" style="
+    font-family: 'Glyphicons Halflings' !important;"/></li>
 								<li><span>#{cartFlowBean.catalog.currentPage}
 										of #{cartFlowBean.catalog.totPages}</span></li>
 								<li class="#{cartFlowView1.classForw}"><p:commandLink
 										ajax="true" update="@form"
 										disabled="#{cartFlowView1.classForw=='disabled'}"
 										styleClass="glyphicon glyphicon-chevron-right"
-										actionListener="#{cartFlowView1.forward}" /></li>
+										actionListener="#{cartFlowView1.forward}" style="
+    font-family: 'Glyphicons Halflings' !important;"/></li>
 							</ul>
 						</h:panelGroup>
 					</div>
