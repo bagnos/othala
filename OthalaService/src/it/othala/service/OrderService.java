@@ -26,6 +26,7 @@ import it.othala.execption.FidelityCardNotPresentException;
 import it.othala.execption.FidelityCardNotValidException;
 import it.othala.execption.OthalaException;
 import it.othala.execption.StockNotPresentException;
+import it.othala.external.service.interfaces.IOthalaExternalServices;
 import it.othala.service.interfaces.IMailService;
 import it.othala.service.interfaces.IOrderService;
 import it.othala.service.template.Template;
@@ -63,10 +64,19 @@ public class OrderService implements IOrderService {
 	private IProductDAO productDAO;
 	private IAccountDAO accountDAO;
 	private IMailService mailService;
+	private IOthalaExternalServices externalService;
+	
+	public void setExternalService(IOthalaExternalServices externalService) {
+		this.externalService = externalService;
+	}
+
+	
 
 	@Override
 	public List<OrderFullDTO> getOrders(Integer Order, String User, TypeStateOrder StatoOrdine) {
 
+		
+		
 		return getOrders(Order, User, StatoOrdine, null);
 
 	}
