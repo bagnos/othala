@@ -8,11 +8,11 @@
 
 
 	<div id="logo">
-		<a href="#{request.contextPath}/faces/home.xhtml"> <h:graphicImage
+		<a class=" hidden-xs" href="#{request.contextPath}/faces/home.xhtml"> <h:graphicImage
 				library="images" styleClass="img-responsive"
 				title="#{msg.navTab_goHome}" name="logo2-small.png"></h:graphicImage>
 		</a>
-	</div>
+	</div> 
 
 
 	<ul class="nav nav-tabs responsive" id="tabNav">
@@ -34,7 +34,7 @@
 		<h:panelGroup rendered="#{applicationBean.menuFull.fgNuoviArrivi}">
 			<li>
 				<!--  <a href="#newArrival" id="newArr" data-toggle="tab">--> <h:link
-					value="#{menu.txGender}" outcome="/cart/cart-catalog.xhtml">
+					value="#{menu.txGender}" outcome="/common/cart/cart-catalog.xhtml">
 
 					<f:param name="idMenu" value="1"></f:param>
 					<f:param name="idSubMenu" value="0"></f:param>
@@ -74,7 +74,7 @@
 								varStatus="statusSub">
 								<div class="col-sm-3 spacer10">
 									<h:link value="#{submenu.txType}"
-										outcome="/cart/cart-catalog.xhtml">
+										outcome="/common/cart/cart-catalog.xhtml">
 										<f:param name="idMenu" value="#{menu.idGender}"></f:param>
 										<f:param name="idSubMenu" value="#{submenu.idType}"></f:param>
 										<f:param name="fgNewArrivals" value="false"></f:param>
@@ -101,7 +101,7 @@
 						<ui:repeat var="menu" value="#{applicationBean.menu}">
 							<div class="col-sm-2">
 								<h:link value="#{menu.txGender}"
-									outcome="/cart/cart-catalog.xhtml">
+									outcome="/common/cart/cart-catalog.xhtml">
 									<f:param name="idMenu" value="#{menu.idGender}"></f:param>
 									<f:param name="idSubMenu" value="0"></f:param>
 									<f:param name="fgNewArrivals" value="true"></f:param>
