@@ -1,0 +1,120 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="form-group">
+
+				<p:outputLabel value="#{msg.account_name}" for="name" />
+				<p:inputText styleClass="form-control" id="name" value="#{accessView.name}"
+					label="#{msg.account_name}" required="true" maxlength="70" />
+				<p:message for="name"></p:message>
+			</div>
+		</div>
+		<div class="col-sm-6">
+			<div class="form-group">
+
+				<p:outputLabel value="#{msg.account_surname}" for="surname" />
+				<p:inputText styleClass="form-control" id="surname" value="#{accessView.surname}"
+					required="true" maxlength="70" />
+				<p:message for="surname"></p:message>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-sm-8">
+			<div class="form-group">
+
+				<p:outputLabel value="#{msg.account_email}" for="email" />
+				<p:inputText styleClass="form-control" value="#{accessView.email}" id="email"
+					label="#{msg.account_email}" validatorMessage="#{msg.validator_mail}" required="true"
+					maxlength="70">
+					<f:validateRegex pattern="[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+\.[a-zA-Z]{2,4}" />
+				</p:inputText>
+				<p:message for="email"></p:message>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="row">
+		<div class="col-sm-8">
+			<div class="form-group">
+
+				<p:outputLabel value="#{msg.account_confEmail}" for="confEmail" />
+
+				<p:inputText styleClass="form-control" id="confEmail" value="#{accessView.confEmail}"
+					label="#{msg.account_confEmail}" required="true" maxlength="70"
+					validatorMessage="#{msg.validator_mail}">
+					<f:validateRegex pattern="[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+\.[a-zA-Z]{2,4}" />
+				</p:inputText>
+				<p:message for="confEmail"></p:message>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="form-group">
+
+				<p:outputLabel styleClass="label-form-grid" value="#{msg.account_psw}" for="psw" />
+				<p:outputLabel value="#{msg.validator_hintPsw}" />
+
+				<p:password styleClass="form-control" id="psw" match="confPsw" value="#{accessView.psw}"
+					required="true" label="#{msg.account_psw}" maxlength="10">
+					<f:validateLength minimum="6" maximum="10" />
+				</p:password>
+				<p:message for="psw"></p:message>
+
+			</div>
+		</div>
+		<div class="col-sm-6">
+			<div class="form-group">
+
+				<p:outputLabel styleClass="label-form-grid" value="#{msg.account_confPsw}" for="confPsw" />
+
+				<p:password id="confPsw" styleClass="form-control" value="#{accessView.confPsw}" required="true"
+					label="#{msg.account_confPsw}" maxlength="10">
+					<f:validateLength minimum="6" maximum="10" />
+				</p:password>
+
+
+				<p:message for="confPsw"></p:message>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="checkbox">
+				<label> <h:selectBooleanCheckbox value="#{accessView.newsletter}" /> <h:outputText
+						value="#{msg.account_newsletter}" />
+				</label>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="checkbox">
+				<label> <h:selectBooleanCheckbox id="privacy" value="#{accessView.acceptPrivacy}"
+						requiredMessage="Obbbsdsds" required="true" /> <h:outputText
+						value="#{msg.account_privacyContract1}" /> <a
+						href="#{request.contextPath}/faces/static/terms.xhtml" target="_blank">#{msg.account_privacyContract2}</a>
+					<h:outputText value=" #{msg.account_privacyContract4}" /> <a
+						href="#{request.contextPath}/faces/static/privacy.xhtml" target="_blank">#{msg.account_privacyContract5}</a>
+					<h:outputText value=" #{msg.account_privacyContract6}" />
+					<h:outputText value=" #{msg.nomeMerchant}" />
+				</label>
+
+				<p:message for="privacy"></p:message>
+			</div>
+
+		</div>
+
+	</div>
+
+
+</ui:composition>
