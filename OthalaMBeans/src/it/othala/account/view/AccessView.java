@@ -34,7 +34,7 @@ public class AccessView extends BaseView {
 	private String confPsw;
 	private String name;
 	private String surname;
-	private boolean newsletter;
+	private boolean newsletter=true;
 	private Boolean acceptPrivacy;
 
 	public Boolean getAcceptPrivacy() {
@@ -131,6 +131,7 @@ public class AccessView extends BaseView {
 	public String doInit() {
 		// TODO Auto-generated method stub
 		setStaySignIn(true);
+		newsletter=true;
 		return null;
 	}
 

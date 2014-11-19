@@ -1,0 +1,212 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/merchantTemplate.xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:viewAction action="#{homeMerchantView.doInit}"></f:viewAction>
+		</f:metadata>
+	</ui:define>
+
+
+	<ui:define name="title">
+		<h:outputText value="Back Office"></h:outputText>
+	</ui:define>
+
+	<ui:define name="Pagina">Ordini</ui:define>
+
+
+	<ui:define name="bodyPageContent">
+		<h:form prependId="false" id="frmOrd">
+			<div class="row">
+				<div class="col-sm-6">
+
+					<p:dataTable var="ord" rowKey="#{ord.idOrder}" id="completed"
+						value="#{merchantBean.ordersCompleted}" rows="10" paginator="true" paginatorPosition="bottom"
+						selection="#{merchantBean.orderSelected}"
+						currentPageReportTemplate="(Ordini {startRecord} - {endRecord} di 
+       {totalRecords}, Pagina: {currentPage}/{totalPages})"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+						selectionMode="single">
+
+						<p:ajax event="rowDblselect"  listener="#{homeMerchantView.onRowSelectNavigate}"/>
+
+				
+
+						<f:facet name="header">
+		 						ORDINI DA SPEDIRE
+		 						</f:facet>
+						<p:column headerText="Id" style="width:40px">
+							<h:outputText value="#{ord.idOrder}" />
+						</p:column>
+
+						<p:column headerText="User" styleClass="truncate">
+							<h:outputText id="user" value="#{ord.idUser}" />
+							<p:tooltip for="user" value="#{ord.idUser}" />
+
+						</p:column>
+
+						<p:column headerText="Data" style="width:90px">
+							<h:outputText value="#{ord.dtStato}">
+								<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="Importo" style="width:80px">
+							<h:outputText value="#{ord.imOrdine}" converter="it.othala.BigDecimalConverter" />
+						</p:column>
+
+						<p:column headerText="Transazione">
+							<h:outputText value="#{ord.idTransaction}" />
+						</p:column>
+					</p:dataTable>
+				</div>
+				<div class="col-sm-6">
+
+					
+					<p:dataTable var="ord" rowKey="#{ord.idOrder}" id="pending"
+						value="#{merchantBean.ordersPending}" rows="10" paginator="true" paginatorPosition="bottom"
+						selection="#{merchantBean.orderSelected}"
+						currentPageReportTemplate="(Ordini {startRecord} - {endRecord} di
+       {totalRecords}, Pagina: {currentPage}/{totalPages})"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+						selectionMode="single">
+
+						<p:ajax event="rowDblselect" listener="#{homeMerchantView.onRowSelectNavigate}"/>
+						<f:facet name="header">
+		 						ORDINI IN PENDING
+		 						</f:facet>
+						<p:column headerText="Id"  style="width:40px">
+							<h:outputText id="idOrd" value="#{ord.idOrder}" />
+							
+						</p:column>
+
+						<p:column headerText="User" styleClass="truncate">
+							<h:outputText id="user" value="#{ord.idUser}" />
+						
+
+						</p:column>
+
+						<p:column headerText="Data" style="width:90px">
+							<h:outputText value="#{ord.dtStato}">
+								<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="Importo" style="width:80px">
+							<h:outputText value="#{ord.imOrdine}" converter="it.othala.BigDecimalConverter" />
+						</p:column>
+
+						<p:column headerText="Transazione">
+							<h:outputText value="#{ord.idTransaction}" />
+						</p:column>
+					</p:dataTable>
+					<pe:tooltip value="doppio click per selezionare un ordine" for="@(#pending tr[role=row][data-ri=#{rowIndex}])"  
+            shared="true" atPosition="top center" myPosition="bottom center"/>  
+						
+				</div>
+			</div>
+
+			<!-- richiesta ri rimborsi -->
+			<div class="row spacer20">
+				<div class="col-sm-6">
+
+				
+				
+					<p:dataTable var="ref" rowKey="#{ref.idRefound}" id="refund"
+						value="#{merchantBean.refoundRequest}" rows="10" paginator="true" paginatorPosition="bottom"
+						selection="#{merchantBean.refoundSelected}"
+						currentPageReportTemplate="(Ordini {startRecord} - {endRecord} di
+       {totalRecords}, Pagina: {currentPage}/{totalPages})"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+						selectionMode="single" >
+						<p:ajax event="rowDblselect" listener="#{homeMerchantView.onRowSelectNavigateReso}"/>
+
+						<f:facet name="header">
+		 						RICHIESTE DI RIMBORSO
+		 						</f:facet>
+						<p:column headerText="Id" style="width:40px">
+							<h:outputText value="#{ref.idRefound}" />
+						</p:column>
+
+						<p:column headerText="Ordine">
+							<h:outputText value="#{ref.idOrder}" />
+						</p:column>
+
+
+						<p:column headerText="User" styleClass="truncate">
+							<h:outputText id="user" value="#{ref.idUser}" />
+
+
+						</p:column>
+
+						<p:column headerText="Data" style="width:90px">
+							<h:outputText value="#{ref.dtStato}">
+								<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="Importo" style="width:80px">
+							<h:outputText value="#{ref.imRefound}" converter="it.othala.BigDecimalConverter" />
+						</p:column>
+
+						<p:column headerText="Nr. Articoli">
+							<h:outputText value="#{ref.cart.size()}" />
+						</p:column>
+					</p:dataTable>
+				</div>
+				
+				<div class="col-sm-6">
+
+				
+				
+					<p:dataTable var="ref" rowKey="#{ref.idRefound}" id="change"
+						value="#{merchantBean.changeRequest}" rows="10" paginator="true" paginatorPosition="bottom"
+						selection="#{merchantBean.refoundSelected}"
+						currentPageReportTemplate="(Ordini {startRecord} - {endRecord} di 
+       {totalRecords}, Pagina: {currentPage}/{totalPages})"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+						selectionMode="single" >
+						<p:ajax event="rowDblselect" listener="#{homeMerchantView.onRowSelectNavigateChange}"/>
+
+						<f:facet name="header">
+		 						RICHIESTE DI CAMBIO
+		 						</f:facet>
+						<p:column headerText="Id" style="width:40px">
+							<h:outputText value="#{ref.idRefound}" />
+						</p:column>
+
+						<p:column headerText="Ordine">
+							<h:outputText value="#{ref.idOrder}" />
+						</p:column>
+
+
+						<p:column headerText="User" styleClass="truncate">
+							<h:outputText id="user" value="#{ref.idUser}" />
+
+
+						</p:column>
+
+						<p:column headerText="Data" style="width:90px">
+							<h:outputText value="#{ref.dtStato}">
+								<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="Importo" style="width:80px">
+							<h:outputText value="#{ref.imRefound}" converter="it.othala.BigDecimalConverter" />
+						</p:column>
+
+						<p:column headerText="Nr. Articoli">
+							<h:outputText value="#{ref.cart.size()}" />
+						</p:column>
+					</p:dataTable>
+				</div>
+				
+
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>
