@@ -553,7 +553,7 @@ DROP TABLE IF EXISTS `site_images`;
 CREATE TABLE `site_images` (
   `txGroupImages` varchar(45) NOT NULL,
   `pgGroupImages` int(11) NOT NULL,
-  `txName` varchar(45) DEFAULT NULL,
+  `txName` varchar(150) DEFAULT NULL,
   `idGender` int(11) DEFAULT NULL,
   `urlRedirect` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`txGroupImages`,`pgGroupImages`)
