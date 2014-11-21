@@ -121,6 +121,24 @@ public class ProductService implements IProductService {
 		return domainDTO;
 
 	}
+	
+	@Override
+	public DomainDTO insertSize(String languages, String txSize) {
+
+		if (productDAO.checkEsistenza("size", txSize, null)) {
+			productDAO.insertSize(txSize);
+		}
+		DomainDTO domainDTO = new DomainDTO();
+		domainDTO.setSize(productDAO.listSize(languages));
+		domainDTO.setColor(productDAO.listColor(languages));
+		domainDTO.setBrand(productDAO.listBrand());
+		domainDTO.setGender(productDAO.listGender(languages));
+		domainDTO.setType(productDAO.listType(languages));
+
+		return domainDTO;
+
+	}
+	
 
 	@Override
 	public DomainDTO insertColor(String languages, String txColorIT,
