@@ -74,6 +74,9 @@ public interface IProductService {
 	public Integer insertCampaign(CampaignDTO campaign, List<Integer> listIdProduct);
 
 
+	public DomainDTO insertSize(String languages, String txSize);
+
+
 	
 	
 }
