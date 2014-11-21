@@ -1036,6 +1036,10 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 			query = "it.othala.product.queries.getColor";
 		}
 
+		if (txAttributo == "size") {
+			query = "it.othala.product.queries.getSize";
+		}
+		
 		Integer count;
 
 		if (query != null) {
@@ -1051,6 +1055,16 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 			return false;
 		}
 
+	}
+
+	@Override
+	public void insertSize(String txSize) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("txSize", txSize.toUpperCase());
+
+		getSqlSession().insert("it.othala.product.queries.insertSize", map);
+
+		
 	}
 
 }

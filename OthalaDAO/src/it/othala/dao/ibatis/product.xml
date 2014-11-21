@@ -747,6 +747,16 @@
 		values (#{txBrand})
 
 	</insert>
+	
+		<insert id="insertSize" parameterType="java.util.HashMap">
+
+		INSERT INTO
+		${database.schema}size
+		(`txSize`)
+		values (#{txSize})
+
+	</insert>
+	
 
 	<insert id="insertColor" parameterType="java.util.HashMap">
 
@@ -1811,6 +1821,20 @@
 
 
 	</select>
+	
+		<select id="getSize" resultType="Integer" parameterType="java.util.HashMap">
+
+		SELECT
+		count(*)
+		FROM
+		${database.schema}size
+		where
+		
+		txSize = #{txValore};
+
+
+	</select>
+	
 
 	<select id="getColor" resultType="Integer" parameterType="java.util.HashMap">
 
