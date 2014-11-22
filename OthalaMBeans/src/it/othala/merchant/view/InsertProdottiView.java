@@ -79,6 +79,15 @@ public class InsertProdottiView extends BaseView {
 	private ProductFullNewDTO prdDetail = null;
 	private final String BASE_IMG_PATH = "//resources//images//cartThumbinals//";
 	private final int SCROLL_WIDTH_AUTOCOMPLETE = 100;
+	private String newSize;
+
+	public String getNewSize() {
+		return newSize;
+	}
+
+	public void setNewSize(String newSize) {
+		this.newSize = newSize;
+	}
 
 	public Boolean getDetail() {
 		return detail;
@@ -696,6 +705,22 @@ public class InsertProdottiView extends BaseView {
 
 		} catch (Exception ex) {
 			addGenericError(ex, "errore nell'inserimento del colore");
+		}
+	}
+	
+	public void addNewSize(ActionEvent e) {
+		if (newSize == null || newSize.isEmpty()) {
+			addError("Nuova taglia", "inserire la taglia");
+			return;
+		}
+		try {
+			OthalaFactory.getProductServiceInstance().insertSize(getLang(), newSize);
+			getBeanApplication().resetDomain();
+			size = completeTaglia(newSize).get(0);
+			addInfo("Nuova taglia", "operazione eseguita correttamente");
+
+		} catch (Exception ex) {
+			addGenericError(ex, "errore nell'inserimento della taglia");
 		}
 	}
 
