@@ -89,4 +89,7 @@ org.primefaces.webapp.filter.FileUploadFilter
   <session-config>
     <session-timeout>300</session-timeout>
   </session-config>
+  <welcome-file-list>
+   <welcome-file>faces/home.xhtml</welcome-file>
+    </welcome-file-list>
 </web-app>
