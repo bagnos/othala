@@ -90,9 +90,10 @@
 									<p:ajax event="itemSelect" update=":frm-arts" />
 								</p:autoComplete>
 							</h:panelGroup>
-							
-							<p:commandButton rendered="#{insertProdottiView.fgRead==false}" title="Aggiungi Tipo" icon="ui-icon-plus" type="button"
-								onclick="$('#newTipo1').val('');$('#newTipo2').val('');PF('dlgInsTipo').show();" /> 
+
+							<p:commandButton rendered="#{insertProdottiView.fgRead==false}" title="Aggiungi Tipo"
+								icon="ui-icon-plus" type="button"
+								onclick="$('#newTipo1').val('');$('#newTipo2').val('');PF('dlgInsTipo').show();" />
 
 						</div>
 
@@ -262,6 +263,24 @@
 					</div>
 				</div>
 			</p:dialog>
+			<!-- inserimento taglia -->
+			<p:dialog header="Nuova Taglia" id="dlgInsTaglia" widgetVar="dlgInsTaglia" modal="true"
+				height="150">
+				<div class="row text-center">
+					<div class="col-sm-12 ">
+
+						<p:inputText label="nuovo colore IT" id="newSize" required="true"
+							value="#{insertProdottiView.newSize}" maxlength="40" size="40" />
+						<br /> <br />
+
+						<p:commandButton id="cmdInsTaglia" oncomplete="PF('dlgInsTaglia').hide();" ajax="true"
+							validateClient="true" process="@this newSize" partialSubmit="true"
+							update=":frm-arts:sizePnl" actionListener="#{insertProdottiView.addNewSize}"
+							value="Inserisci"></p:commandButton>
+					</div>
+				</div>
+			</p:dialog>
+
 			<!-- inserimento colore -->
 			<p:dialog header="Nuovo Colore" id="dlgInsCol" widgetVar="dlgInsCol" modal="true" height="150">
 				<div class="row text-center">
@@ -285,7 +304,7 @@
 			<p:dialog header="Nuovo Tipo" id="dlgInsTipo" widgetVar="dlgInsTipo" modal="true" height="150">
 				<div class="row text-center">
 					<div class="col-sm-12 ">
-					<p:outputLabel style="padding-right: 5px;">IT</p:outputLabel>
+						<p:outputLabel style="padding-right: 5px;">IT</p:outputLabel>
 						<p:inputText label="nuovo tipo IT" id="newTipo1" required="true"
 							value="#{insertProdottiView.newType}" maxlength="40" size="40" />
 						<br /> <br />
@@ -294,8 +313,8 @@
 							value="#{insertProdottiView.newTypeEN}" maxlength="40" size="40" />
 						<br /> <br />
 						<p:commandButton id="cmdInsType" oncomplete="PF('dlgInsTipo').hide();" ajax="true"
-							validateClient="true" process="@this newTipo1 newTipo2" partialSubmit="true" update=":frmProd:tipoPnl"
-							actionListener="#{insertProdottiView.addNewType}" value="Inserisci"></p:commandButton>
+							validateClient="true" process="@this newTipo1 newTipo2" partialSubmit="true"
+							update=":frmProd:tipoPnl" actionListener="#{insertProdottiView.addNewType}" value="Inserisci"></p:commandButton>
 					</div>
 				</div>
 			</p:dialog>
@@ -378,12 +397,16 @@
 
 						<p:outputLabel for="taglia" class="col-sm-1" value="Taglia" />
 						<div class="col-sm-2">
+							<h:panelGroup id="sizePnl">
 
-							<p:autoComplete size="8" scrollHeight="#{insertProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}"
-								required="true" minQueryLength="1" dropdown="true" id="taglia"
-								value="#{insertProdottiView.size}" completeMethod="#{insertProdottiView.completeTaglia}"
-								var="attr" itemLabel="#{attr.valore}" itemValue="#{attr}"
-								converter="it.othala.SizeConverter" forceSelection="true" />
+								<p:autoComplete size="8" scrollHeight="#{insertProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}"
+									required="true" minQueryLength="1" dropdown="true" id="taglia"
+									value="#{insertProdottiView.size}" completeMethod="#{insertProdottiView.completeTaglia}"
+									var="attr" itemLabel="#{attr.valore}" itemValue="#{attr}"
+									converter="it.othala.SizeConverter" forceSelection="true" />
+								<p:commandButton title="Aggiungi taglia" icon="ui-icon-plus" type="button"
+									onclick="$('#newSize').val('');PF('dlgInsTaglia').show();" />
+							</h:panelGroup>
 						</div>
 
 
