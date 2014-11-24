@@ -1,11 +1,6 @@
 /* ================================================================================================ 
 	CUSTOM PRIMEFACES
 ================================================================================================*/
-.flexslider .slides img {
-max-height: 80px;
-width: initial !important;
-}
-
 
 .glyphicon-chevron-right, .glyphicon-chevron-left {
 	color: orange;
