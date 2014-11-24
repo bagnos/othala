@@ -1059,7 +1059,10 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 
 	@Override
 	public void insertSize(String txSize) {
+		
+		Integer idSize = getSqlSession().selectOne("it.othala.product.queries.getMaxIdSize"); 
 		HashMap<String, Object> map = new HashMap<>();
+		map.put("idSize", idSize+1);
 		map.put("txSize", txSize.toUpperCase());
 
 		getSqlSession().insert("it.othala.product.queries.insertSize", map);
