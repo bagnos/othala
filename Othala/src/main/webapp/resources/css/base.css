@@ -549,11 +549,11 @@ html,body,form {
 
 .bwizard-steps .active {
 	color: #fff;
-	background: #007ACC
+	background: darkorange;
 }
 
 .bwizard-steps .active:after {
-	border-left-color: #007ACC
+	border-left-color: darkorange;
 }
 
 .bwizard-steps .active a {
@@ -1247,3 +1247,5 @@ background
 	font-size: 20px;
 	list-style: none;
 }
+
+.
