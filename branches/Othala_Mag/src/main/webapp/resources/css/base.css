@@ -65,6 +65,7 @@
 
 .thumbnail {
 	border: 0px !important;
+	height: 400px;
 }
 
 .thumbnail>img,.thumbnail a>img {
@@ -388,12 +389,13 @@
 }
 
 .caption.articolo {
-	height: 120px;
+	height: 200px;
 	overflow: hidden;
 }
 
 .thumbnail.thumbnail-home {
 	border: none !important;
+	height: 100%;
 }
 
 /* ================================================================================================ 
