@@ -1,6 +1,24 @@
 /* ================================================================================================ 
 	CUSTOM PRIMEFACES
 ================================================================================================*/
+.flexslider .slides img {
+max-height: 80px;
+width: initial !important;
+}
+
+
+.glyphicon-chevron-right, .glyphicon-chevron-left {
+	color: orange;
+}
+
+.glyphicon-chevron-right:hover,
+.glyphicon-chevron-left:hover,
+.glyphicon-chevron-right:focus,
+.glyphicon-chevron-left:focus
+	{
+	color: darkorange;
+}
+
 .ui-priority-primary,.ui-widget-content .ui-priority-primary,.ui-widget-header .ui-priority-primary
 	{
 	background-color: #F88017;
@@ -21,9 +39,7 @@
 
 .ui-priority-primary:hover,.ui-priority-primary:active,.ui-priority-primary.active,.ui-priority-primary.disabled,.ui-priority-primary[disabled]
 	{
-	
 	background-color: darkorange;
-
 }
 
 .ui-priority-primary:active,.ui-priority-primary.active {
@@ -762,39 +778,107 @@ html,body,form {
 }
 
 .bwizard-steps
+
+
+
+
 .clickable
+
+
  
+
+
 li
+
+
  
+
+
 :not
+
+
  
+
+
 (
 .active
+
+
  
+
+
 ){
 cursor
+
+
+
+
 :
+
+
  
+
+
 pointer
+
+
+
+
 
 
 }
 .bwizard-steps
+
+
+
+
 .clickable
+
+
  
+
+
 li
+
+
  
+
+
 :hover
+
+
+
+
 :not
+
+
  
+
+
 (
 .active
+
+
  
+
+
 ){
 background
+
+
+
+
 :
+
+
  
+
+
 #ccc
+
+
+
+
 
 
 }
@@ -959,7 +1043,8 @@ background
 }
 
 .hero-unit {
- background-image: url(#{request.contextPath}/faces/resources/images/wall.png);
- background-size:cover;
- opacity: .5;
+	background-image:
+		url(#{request.contextPath}/faces/resources/images/wall.png);
+	background-size: cover;
+	opacity: .5;
 }
