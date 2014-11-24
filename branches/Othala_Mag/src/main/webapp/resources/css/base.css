@@ -1,18 +1,68 @@
 /* ================================================================================================ 
 	CUSTOM PRIMEFACES
 ================================================================================================*/
+.ui-priority-primary,.ui-widget-content .ui-priority-primary,.ui-widget-header .ui-priority-primary
+	{
+	background-color: #F88017;
+	*background-color: darkorange;
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(orange),
+		to(#0044cc));
+	background-image: -webkit-linear-gradient(top, orange, darkorange);
+	background-image: -o-linear-gradient(top, orange, darkorange);
+	background-image: linear-gradient(to bottom, orange, darkorange);
+	background-image: -moz-linear-gradient(top, orange, darkorange);
+	background-repeat: repeat-x;
+	border-color: darkorange darkorange #E66C2C;
+	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+	filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ffFFA500',
+		endColorstr='#ffFF8C00', GradientType=0);
+	filter: progid:dximagetransform.microsoft.gradient(enabled=false);
+}
+
+.ui-priority-primary:hover,.ui-priority-primary:active,.ui-priority-primary.active,.ui-priority-primary.disabled,.ui-priority-primary[disabled]
+	{
+	
+	background-color: darkorange;
+
+}
+
+.ui-priority-primary:active,.ui-priority-primary.active {
+	background-color: #003399 \9;
+}
+
+.btn-success {
+	background-color: #800000;
+	border-color: #800000;
+}
+
+.btn-success:hover,.btn-success:focus,.btn-success:active,.btn-success.active,.open .dropdown-toggle.btn-success
+	{
+	background-color: #800000;
+	border-color: #800000;
+}
+
+.btn-success.disabled,.btn-success[disabled],fieldset[disabled] .btn-success,.btn-success.disabled:hover,.btn-success[disabled]:hover,fieldset[disabled] .btn-success:hover,.btn-success.disabled:focus,.btn-success[disabled]:focus,fieldset[disabled] .btn-success:focus,.btn-success.disabled:active,.btn-success[disabled]:active,fieldset[disabled] .btn-success:active,.btn-success.disabled.active,.btn-success[disabled].active,fieldset[disabled] .btn-success.active
+	{
+	background-color: #800000;
+	border-color: #800000;
+}
+
+.btn-success .badge {
+	background-color: #800000;
+	border-color: #800000;
+}
+
 .thumbnail {
 	border: 0px !important;
 }
-.thumbnail>img, .thumbnail a>img
-{
+
+.thumbnail>img,.thumbnail a>img {
 	max-height: 225px;
-	
 }
 
 .ui-widget {
 	font-size: 95% !important;
-	font-family: playregular !important;
+	font-family: arialMT !important;
 }
 
 .ui-galleria-panel {
@@ -139,7 +189,7 @@
 }
 
 .newPromo1 {
-	font-family:playbold;
+	font-family: arialMTbold;
 	height: 40px;
 	width: 40px;
 	min-height: 32px;
@@ -159,11 +209,11 @@
 	color: #fff;
 	-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), inset 0 -1px 0
 		rgba(0, 0, 0, .2), 0 1px 2px rgba(0, 0, 0, .2);
-	visibility:hidden;
+	visibility: hidden;
 }
 
 .newPromo2 {
-	font-family:playbold;
+	font-family: arialMTbold;
 	height: 40px;
 	width: 40px;
 	min-height: 32px;
@@ -182,11 +232,11 @@
 	color: #fff;
 	-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), inset 0 -1px 0
 		rgba(0, 0, 0, .2), 0 1px 2px rgba(0, 0, 0, .2);
-		visibility:hidden;
+	visibility: hidden;
 }
 
 .newPromo3 {
-	font-family:playbold;
+	font-family: arialMTbold;
 	height: 40px;
 	width: 40px;
 	min-height: 32px;
@@ -205,11 +255,11 @@
 	color: #fff;
 	-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), inset 0 -1px 0
 		rgba(0, 0, 0, .2), 0 1px 2px rgba(0, 0, 0, .2);
-		visibility:hidden;
+	visibility: hidden;
 }
 
 .newFlag2 {
-	font-family:playbold;
+	font-family: arialMTbold;
 	height: 40px;
 	width: 40px;
 	min-height: 32px;
@@ -228,7 +278,7 @@
 	color: #fff;
 	-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), inset 0 -1px 0
 		rgba(0, 0, 0, .2), 0 1px 2px rgba(0, 0, 0, .2);
-		visibility:hidden;
+	visibility: hidden;
 }
 
 .thumbnailCar {
@@ -384,7 +434,7 @@
 	INIZIO TAB NAV BAR 
 ================================================================================================*/
 .nav-tabs>li>a {
-	font-family: playbold !important;
+	font-family: arialMTbold !important;
 	font-size: 18px !important;
 	color: rgb(102, 102, 102);
 }
@@ -399,7 +449,7 @@
 
 .freeship {
 	color: darkorange !important;
-	font-family: playbold !important;
+	font-family: arialMTbold !important;
 	font-size: 16px !important;
 	padding-top: 15px;
 }
@@ -409,12 +459,11 @@
 }
 
 #tab-content a {
-	font-family: playbold !important;
+	font-family: arialMTbold !important;
 	font-size: 13px !important;;
 	color: #888 !important;;
 	padding: 0 0 0 11px;
-	background: url('./images/home/arw_link.gif') no-repeat left
-		!important;
+	background: url('./images/home/arw_link.gif') no-repeat left !important;
 }
 
 #content {
@@ -493,7 +542,7 @@
 	FINE CAROSELLO HOME 
 ================================================================================================*/
 .foot1-title {
-	font-family: playbold !important;
+	font-family: arialMTbold !important;
 	color: #666666;
 	font-size: 14px;
 	padding: 0px 0px 7px 0px;
@@ -504,7 +553,7 @@
 }
 
 .foot2-line {
-	font-family: playregular !important;
+	font-family: arialMT !important;
 	color: #666666 !important;
 	font-size: 12px;
 	font-weight: normal;
@@ -525,7 +574,8 @@
 	INIZIO STICKY FOOTER 
 ================================================================================================*/
 html,body,form {
-	height: 100% !important;;;
+	height: 100% !important;
+	font-family: "arialMT" !important;
 }
 
 #wrap {
@@ -558,7 +608,7 @@ html,body,form {
 	FINE STICKY FOOTER 
 ================================================================================================*/
 .body {
-	font-family: playregular !important;
+	font-family: arialMT !important;
 }
 
 /* ================================================================================================ 
@@ -573,11 +623,11 @@ html,body,form {
 
 .bwizard-steps .active {
 	color: #fff;
-	background: #007ACC
+	background: darkorange;
 }
 
 .bwizard-steps .active:after {
-	border-left-color: #007ACC
+	border-left-color: darkorange;
 }
 
 .bwizard-steps .active a {
@@ -711,12 +761,43 @@ html,body,form {
 	cursor: pointer !important;
 }
 
-.bwizard-steps.clickable li :not (.active){
-cursor:pointer}
+.bwizard-steps
+.clickable
+ 
+li
+ 
+:not
+ 
+(
+.active
+ 
+){
+cursor
+:
+ 
+pointer
 
-.bwizard-steps.clickable li :hover:not(.active){
-background:#ccc}
 
+}
+.bwizard-steps
+.clickable
+ 
+li
+ 
+:hover
+:not
+ 
+(
+.active
+ 
+){
+background
+:
+ 
+#ccc
+
+
+}
 .bwizard-steps.clickable li:hover:not (.active ):after {
 	border-left-color: #ccc
 }
@@ -858,9 +939,8 @@ background:#ccc}
 	padding-top: 5px !important;
 	padding-bottom: 5px !important;
 	background-color: #666666 !important;
-	color:white !important;
+	color: white !important;
 }
-
 
 .navbar {
 	min-height: 32px !important
@@ -876,4 +956,10 @@ background:#ccc}
 	line-height: 1.5em;
 	font-size: 20px;
 	list-style: none;
+}
+
+.hero-unit {
+ background-image: url(#{request.contextPath}/faces/resources/images/wall.png);
+ background-size:cover;
+ opacity: .5;
 }
