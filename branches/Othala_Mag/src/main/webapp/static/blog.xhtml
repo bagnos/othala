@@ -23,23 +23,22 @@
 
 		<div class="container">
 
-			<div class="row">
+			<div class="row"
+				style="background-image: url(#{request.contextPath}/faces/resources/images/wall.png);">
 				<div class="col-sm-12">
 
-					<div id="content" >
+					<div id="content"
+						style="padding-top: 0px !important; padding-bottom: 0px !important;">
 
-						<div class="row" align="center" style="background-image: url(#{request.contextPath}/faces/resources/images/wall.png);" >
-							<div class="col-sm-2" >
-							
-							</div>
+						<div class="row" align="center">
+							<div class="col-sm-2"></div>
 							<div class="col-sm-8" style="background-color: white">
-							
+
 								<script type="text/javascript"
 									src="http://magboutiqueblog.tumblr.com/js"></script>
 
 							</div>
-							<div class="col-sm-2">
-							</div>
+							<div class="col-sm-2"></div>
 						</div>
 
 
@@ -49,6 +48,24 @@
 					</div>
 
 				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-2"></div>
+				<div class="col-sm-8" style="background-color: white; text-align:center;">
+
+					<a href="#{request.contextPath}/faces/static/blog.xhtml"> 
+					<h:outputText
+							styleClass="glyphicon glyphicon-arrow-up"
+							style="font-size:18px;
+						font-family: 'Glyphicons Halflings' !important; color: darkorange !important;" />
+						<h:outputText value="BACK TO TOP"
+							style="font-size:18px; color: darkorange !important;" />
+
+
+					</a>
+
+				</div>
+				<div class="col-sm-2"></div>
 			</div>
 		</div>
 	</ui:define>
