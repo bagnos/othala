@@ -752,8 +752,8 @@
 
 		INSERT INTO
 		${database.schema}size
-		(`txSize`)
-		values (#{txSize})
+		(`idSize`,`txSize`)
+		values (#{idSize},#{txSize})
 
 	</insert>
 	
@@ -839,6 +839,15 @@
 
 	</select>
 
+	<select id="getMaxIdSize" resultType="Integer">
+
+		SELECT MAX(idSize)
+		FROM
+		${database.schema}size;
+
+
+	</select>
+	
 	<select id="getDescrizione" resultType="String">
 
 		SELECT CONCAT(txBrand, '
