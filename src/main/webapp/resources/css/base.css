@@ -1039,9 +1039,13 @@ background
 	list-style: none;
 }
 
-.hero-unit {
-	background-image:
-		url(#{request.contextPath}/faces/resources/images/wall.png);
-	background-size: cover;
-	opacity: .5;
+.back-top {
+	font-size:18px; 
+	color: darkorange !important;
 }
+.back-top:hover,
+.back-top:focus
+{
+	text-decoration:none !important;
+}
+
