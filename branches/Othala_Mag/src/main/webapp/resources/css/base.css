@@ -500,11 +500,11 @@
 	z-index: 2 !important;
 	position: absolute !important;
 	width: 100% !important;
-	-moz-box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.16);
-	-webkit-box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.16);
-	box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.16);
+	/*-moz-box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.16);*/
+	/*-webkit-box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.16);*/
+	/*box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.16);*/
 	overflow: hidden;
-	background: #f9f9f9 !important;
+	/*background: #f9f9f9 !important;*/
 }
 
 #tab-content .tab-pane.active {
