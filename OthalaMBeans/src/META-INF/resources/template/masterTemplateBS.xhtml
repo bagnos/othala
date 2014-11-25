@@ -1,19 +1,29 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
-	template="/template/masterTemplate.xhtml" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/masterTemplate.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pe="http://primefaces.org/ui/extensions">
 
 	<ui:define name="masterBody">
 
 		<div id="wrap">
 			<ui:include src="/sections/navBar.xhtml" />
-			<div class="container" style="position:relative" id="contentTabNav">
-				<ui:include src="/sections/tabBar.xhtml" />
+
+			<div class="container" style="position: relative" id="contentTabNav">
+				<div class="row">
+					<div class="col-sm-12">
+
+						<ui:include src="/sections/tabBar.xhtml" />
+					</div>
+				</div>
 			</div>
 			<div class="container">
 				<ui:insert name="messageUser">
-					<p:messages autoUpdate="true" globalOnly="true" closable="true" showDetail="true"
-						showSummary="true"></p:messages>
+					<p:messages autoUpdate="true" globalOnly="true" closable="true"
+						showDetail="true" showSummary="true"></p:messages>
 				</ui:insert>
 			</div>
 
