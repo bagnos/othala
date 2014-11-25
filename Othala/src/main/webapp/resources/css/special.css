@@ -59,12 +59,4 @@ html,body,form {
 	color: white !important;
 }
 
-.back-top {
-	font-size:18px; 
-	color: darkorange !important;
-}
-.back-top:hover,
-.back-top:focus
-{
-	text-decoration:none !important;
-}
+

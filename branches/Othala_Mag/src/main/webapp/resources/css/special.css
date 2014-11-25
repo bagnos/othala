@@ -142,3 +142,14 @@ html,body,form {
 .navbar-inverse .navbar-nav>li>a {
 color: white;
 }
+
+.back-top {
+	font-size:18px; 
+	color: darkorange !important;
+}
+.back-top:hover,
+.back-top:focus
+{
+	text-decoration:none !important;
+}
+
