@@ -1,0 +1,56 @@
+.ui-widget {
+	font-family: quicksandregular !important;
+}
+
+.newPromo1 {
+font-family: quicksandbold !important;
+}
+
+.newPromo2 {
+font-family: quicksandbold !important;
+}
+
+.newPromo3 {
+font-family: quicksandbold !important;
+}
+
+.newFlag2 {
+font-family: quicksandbold !important;
+}
+
+.nav-tabs>li>a {
+	font-family: quicksandbold !important;
+}
+
+#newArr {
+	color: green !important;
+}
+
+#promo {
+	color: red !important;
+}
+
+#tab-content a {
+	font-family: quicksandbold !important;
+}
+
+.foot1-title {
+	font-family: quicksandbold !important;
+}
+
+.foot2-line {
+	font-family: quicksandregular !important;
+}
+
+html,body,form {
+	font-family: quicksandregular !important;
+}
+
+.bwizard-steps .active {
+	background: #007ACC;
+}
+
+.bwizard-steps .active:after {
+	border-left-color: #007ACC;
+}
+
