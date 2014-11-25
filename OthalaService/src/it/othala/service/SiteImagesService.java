@@ -57,7 +57,7 @@ public class SiteImagesService implements ISiteImagesService {
 
 			groupImages.getListImages().get(i).setPgGroupImages(i + 1);
 			
-			if (groupImages.getTxGroupImages() == "newArrivals")
+			if (groupImages.getTxGroupImages().equals("newArrivals"))
 			{
 			String newUrl = "/cart/cart-catalog.xhtml?idMenu="
 					+ groupImages.getListImages().get(i).getIdGender().toString() + "&fgNewArrivals=true&idSubMenu=0&idCampaign=0";
