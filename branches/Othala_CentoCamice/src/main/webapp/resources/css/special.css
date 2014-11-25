@@ -1,0 +1,59 @@
+.ui-widget {
+	font-family: ralewayregular !important;
+}
+
+.newPromo1 {
+font-family:ralewaybold !important;
+}
+
+.newPromo2 {
+font-family:ralewaybold !important;
+}
+
+.newPromo3 {
+font-family:ralewaybold !important;
+}
+
+.newFlag2 {
+font-family:ralewaybold !important;
+}
+
+.nav-tabs>li>a {
+	font-family: ralewaybold !important;
+}
+
+#newArr {
+	color: green !important;
+}
+
+#promo {
+	color: red !important;
+}
+
+#tab-content a {
+	font-family: ralewaybold !important;
+}
+
+.foot1-title {
+	font-family: ralewaybold !important;
+}
+
+.foot2-line {
+	font-family: ralewayregular !important;
+}
+
+html,body,form {
+	font-family: ralewayregular !important;
+}
+
+.bwizard-steps .active {
+	background: #007ACC;
+}
+
+.bwizard-steps .active:after {
+	border-left-color: #007ACC;
+}
+
+.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover, .navbar-inverse .navbar-nav>.open>a:focus {
+	background-color: white !important
+}
