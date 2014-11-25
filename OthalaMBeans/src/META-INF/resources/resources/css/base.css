@@ -1,80 +1,5 @@
-/* ================================================================================================ 
-	CUSTOM PRIMEFACES
-================================================================================================*/
-
-.glyphicon-chevron-right, .glyphicon-chevron-left {
-	color: orange;
-}
-
-.glyphicon-chevron-right:hover,
-.glyphicon-chevron-left:hover,
-.glyphicon-chevron-right:focus,
-.glyphicon-chevron-left:focus
-	{
-	color: darkorange;
-}
-
-.ui-priority-primary,.ui-widget-content .ui-priority-primary,.ui-widget-header .ui-priority-primary
-	{
-	background-color: #F88017;
-	*background-color: darkorange;
-	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(orange),
-		to(#0044cc));
-	background-image: -webkit-linear-gradient(top, orange, darkorange);
-	background-image: -o-linear-gradient(top, orange, darkorange);
-	background-image: linear-gradient(to bottom, orange, darkorange);
-	background-image: -moz-linear-gradient(top, orange, darkorange);
-	background-repeat: repeat-x;
-	border-color: darkorange darkorange #E66C2C;
-	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-	filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ffFFA500',
-		endColorstr='#ffFF8C00', GradientType=0);
-	filter: progid:dximagetransform.microsoft.gradient(enabled=false);
-}
-
-.ui-priority-primary:hover,.ui-priority-primary:active,.ui-priority-primary.active,.ui-priority-primary.disabled,.ui-priority-primary[disabled]
-	{
-	background-color: darkorange;
-}
-
-.ui-priority-primary:active,.ui-priority-primary.active {
-	background-color: #003399 \9;
-}
-
-.btn-success {
-	background-color: #800000;
-	border-color: #800000;
-}
-
-.btn-success:hover,.btn-success:focus,.btn-success:active,.btn-success.active,.open .dropdown-toggle.btn-success
-	{
-	background-color: #800000;
-	border-color: #800000;
-}
-
-.btn-success.disabled,.btn-success[disabled],fieldset[disabled] .btn-success,.btn-success.disabled:hover,.btn-success[disabled]:hover,fieldset[disabled] .btn-success:hover,.btn-success.disabled:focus,.btn-success[disabled]:focus,fieldset[disabled] .btn-success:focus,.btn-success.disabled:active,.btn-success[disabled]:active,fieldset[disabled] .btn-success:active,.btn-success.disabled.active,.btn-success[disabled].active,fieldset[disabled] .btn-success.active
-	{
-	background-color: #800000;
-	border-color: #800000;
-}
-
-.btn-success .badge {
-	background-color: #800000;
-	border-color: #800000;
-}
-
-.thumbnail {
-	border: 0px !important;
-	height: 400px;
-}
-
-.thumbnail>img,.thumbnail a>img {
-	max-height: 225px;
-}
-
 .ui-widget {
 	font-size: 95% !important;
-	font-family: arialMT !important;
 }
 
 .ui-galleria-panel {
@@ -120,17 +45,6 @@
 	display: none !important;
 }
 
-/* ================================================================================================ 
-	FINE CUSTOM PRIMEFACES
-================================================================================================*/
-
-/* ================================================================================================ 
-	FLEXSLIDER
-================================================================================================*/
-
-/* ================================================================================================ 
-	FINE FLEXSLIDER
-================================================================================================*/
 #carousel li {
 	margin-right: 5px;
 }
@@ -155,9 +69,6 @@
 	Z-INDEX: 0;
 }
 
-/* ================================================================================================ 
-	GENERICHE
-================================================================================================*/
 .truncate {
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -201,7 +112,6 @@
 }
 
 .newPromo1 {
-	font-family: arialMTbold;
 	height: 40px;
 	width: 40px;
 	min-height: 32px;
@@ -221,11 +131,9 @@
 	color: #fff;
 	-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), inset 0 -1px 0
 		rgba(0, 0, 0, .2), 0 1px 2px rgba(0, 0, 0, .2);
-	visibility: hidden;
 }
 
 .newPromo2 {
-	font-family: arialMTbold;
 	height: 40px;
 	width: 40px;
 	min-height: 32px;
@@ -239,16 +147,14 @@
 	left: 6px;
 	margin: 0;
 	border-radius: 20px;
-	background: darkorange;
+	background: orange;
 	-text-shadow: 0 -1px 0 #85ad74;
 	color: #fff;
 	-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), inset 0 -1px 0
 		rgba(0, 0, 0, .2), 0 1px 2px rgba(0, 0, 0, .2);
-	visibility: hidden;
 }
 
 .newPromo3 {
-	font-family: arialMTbold;
 	height: 40px;
 	width: 40px;
 	min-height: 32px;
@@ -267,11 +173,9 @@
 	color: #fff;
 	-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), inset 0 -1px 0
 		rgba(0, 0, 0, .2), 0 1px 2px rgba(0, 0, 0, .2);
-	visibility: hidden;
 }
 
 .newFlag2 {
-	font-family: arialMTbold;
 	height: 40px;
 	width: 40px;
 	min-height: 32px;
@@ -290,14 +194,13 @@
 	color: #fff;
 	-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), inset 0 -1px 0
 		rgba(0, 0, 0, .2), 0 1px 2px rgba(0, 0, 0, .2);
-	visibility: hidden;
 }
 
 .thumbnailCar {
 	width: 200px;
 	height: 300px;
-	overflow: hidden; /* contain images within thumbnail boundaries */
-	border: 0; /* removes Bootstrap's default border */
+	overflow: hidden;
+	border: 0;
 	box-shadow: 0 12px 12px -10px #c4c4c4;
 	-webkit-box-shadow: 0 17px 22px -20px #c4c4c4;
 	-moz-box-shadow: 0 12px 12px -10px #c4c4c4;
@@ -306,11 +209,13 @@
 .thumbnailCar img {
 	width: 100%;
 	height: auto;
-} /* to keep proportions */
+}
+
 .thumbnailsCar p {
 	text-align: center;
 	padding: 10px;
-} /* captions can be styled with an inline element */
+}
+
 .thumbnailsCar {
 	list-style-type: none;
 }
@@ -365,13 +270,6 @@
 		url('https://www.paypal.com/it_IT/IT/i/btn/btn_xpressCheckout.gif');
 }
 
-/* ================================================================================================ 
-	FINE GENERICHE
-================================================================================================*/
-
-/* ================================================================================================ 
-	INIZIO THUMBINALS
-================================================================================================*/
 .articolo>h5,h6 {
 	margin: 2px !important;
 }
@@ -398,13 +296,6 @@
 	height: 100%;
 }
 
-/* ================================================================================================ 
-	FINE THUMBINALS
-================================================================================================*/
-
-/* ================================================================================================ 
-	INIZIO BREACRUMB
-================================================================================================*/
 .breadcrumb {
 	margin-top: 10px;
 	font-size: 10px;
@@ -439,32 +330,9 @@
 	color: black !important;;
 }
 
-/* ================================================================================================ 
-	FINE BREACRUMB
-================================================================================================*/
-
-/* ================================================================================================ 
-	INIZIO TAB NAV BAR 
-================================================================================================*/
 .nav-tabs>li>a {
-	font-family: arialMTbold !important;
 	font-size: 18px !important;
 	color: rgb(102, 102, 102);
-}
-
-#newArr {
-	color: rgb(102, 102, 102);
-}
-
-#promo {
-	color: darkorange !important;
-}
-
-.freeship {
-	color: darkorange !important;
-	font-family: arialMTbold !important;
-	font-size: 16px !important;
-	padding-top: 15px;
 }
 
 .discount {
@@ -472,7 +340,6 @@
 }
 
 #tab-content a {
-	font-family: arialMTbold !important;
 	font-size: 13px !important;;
 	color: #888 !important;;
 	padding: 0 0 0 11px;
@@ -517,15 +384,7 @@
 	font-size: 13px !important;
 }
 
-/* ================================================================================================ 
-	FINE TAB NAV 
-================================================================================================*/
-
-/* ================================================================================================ 
-	INIZIO CAROSELLE HOME 
-================================================================================================*/
 .carousel {
-	/*border-top: 3px solid #357ebd;*/
 	border-top: none;
 	overflow: hidden !important;;
 	position: relative !important;;
@@ -551,11 +410,7 @@
 	overflow: hidden !important;
 }
 
-/* ================================================================================================ 
-	FINE CAROSELLO HOME 
-================================================================================================*/
 .foot1-title {
-	font-family: arialMTbold !important;
 	color: #666666;
 	font-size: 14px;
 	padding: 0px 0px 7px 0px;
@@ -566,7 +421,6 @@
 }
 
 .foot2-line {
-	font-family: arialMT !important;
 	color: #666666 !important;
 	font-size: 12px;
 	font-weight: normal;
@@ -583,12 +437,8 @@
 	margin-top: 2px;
 }
 
-/* ================================================================================================ 
-	INIZIO STICKY FOOTER 
-================================================================================================*/
 html,body,form {
-	height: 100% !important;
-	font-family: "arialMT" !important;
+	height: 100% !important;;;
 }
 
 #wrap {
@@ -617,16 +467,6 @@ html,body,form {
 	padding-top: 20px;
 }
 
-/* ================================================================================================ 
-	FINE STICKY FOOTER 
-================================================================================================*/
-.body {
-	font-family: arialMT !important;
-}
-
-/* ================================================================================================ 
-	INIZIO WIZARD CHECKOUT CARELLO 
-================================================================================================*/
 .bwizard-steps {
 	display: inline-block;
 	margin: 0;
@@ -636,11 +476,6 @@ html,body,form {
 
 .bwizard-steps .active {
 	color: #fff;
-	background: darkorange;
-}
-
-.bwizard-steps .active:after {
-	border-left-color: darkorange;
 }
 
 .bwizard-steps .active a {
@@ -740,27 +575,6 @@ html,body,form {
 	margin-right: 20px;
 }
 
-/*
-#startNode .label {
-	position: relative;
-	color: #333; top : -1px;
-	margin: 0 5px 0 0;
-	padding: 1px 5px 2px;
-	top: -1px;
-}
-
-#startNode:after {
-	position: absolute;
-	right: -20px;
-	top: 0;
-	height: 0;
-	width: 0;
-	border-bottom: 20px inset transparent;
-	border-left: 20px solid #efefef;
-	border-top: 20px inset transparent;
-	content: "";
-	z-index: 1;
-}*/
 .bwizard-steps a {
 	color: #333
 }
@@ -774,111 +588,14 @@ html,body,form {
 	cursor: pointer !important;
 }
 
-.bwizard-steps
-
-
-
-
-.clickable
-
-
- 
-
-
-li
-
-
- 
-
-
-:not
-
-
- 
-
-
-(
-.active
-
-
- 
-
-
-){
-cursor
-
-
-
-
-:
-
-
- 
-
-
-pointer
-
-
-
-
-
-
+.bwizard-steps.clickable li:not (.active ) {
+	cursor: pointer
 }
-.bwizard-steps
 
-
-
-
-.clickable
-
-
- 
-
-
-li
-
-
- 
-
-
-:hover
-
-
-
-
-:not
-
-
- 
-
-
-(
-.active
-
-
- 
-
-
-){
-background
-
-
-
-
-:
-
-
- 
-
-
-#ccc
-
-
-
-
-
-
+.bwizard-steps.clickable li:hover:not (.active ) {
+	background: #ccc
 }
+
 .bwizard-steps.clickable li:hover:not (.active ):after {
 	border-left-color: #ccc
 }
@@ -904,11 +621,6 @@ background
 	}
 }
 
-/* ================================================================================================ 
-	FINE WIZARD CHECKOUT CARELLO 
-================================================================================================*/
-
-/* RESPONSIVE */
 @media ( min-width : 992px) {
 	#logo {
 		position: absolute;
@@ -934,7 +646,6 @@ background
 	}
 }
 
-/* Lastly, apply responsive CSS fixes as necessary */
 @media ( max-width : 767px) {
 	#logo {
 		position: static;
@@ -978,9 +689,6 @@ background
 	}
 }
 
-/* ================================================================================================ 
-	CUSTOM BOOTSTRAP 
-================================================================================================*/
 #merchant-breadcrumb.breadcrumb {
 	margin: 0;
 	background-color: transparent;
@@ -1019,8 +727,6 @@ background
 .navbar-nav>li>a {
 	padding-top: 5px !important;
 	padding-bottom: 5px !important;
-	background-color: #666666 !important;
-	color: white !important;
 }
 
 .navbar {
@@ -1038,14 +744,3 @@ background
 	font-size: 20px;
 	list-style: none;
 }
-
-.back-top {
-	font-size:18px; 
-	color: darkorange !important;
-}
-.back-top:hover,
-.back-top:focus
-{
-	text-decoration:none !important;
-}
-

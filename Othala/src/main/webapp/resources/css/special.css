@@ -1,0 +1,70 @@
+.ui-widget {
+	font-family: playregular !important;
+}
+
+.newPromo1 {
+font-family:playbold !important;
+}
+
+.newPromo2 {
+font-family:playbold !important;
+}
+
+.newPromo3 {
+font-family:playbold !important;
+}
+
+.newFlag2 {
+font-family:playbold !important;
+}
+
+.nav-tabs>li>a {
+	font-family: playregular !important;
+}
+
+#newArr {
+	color: green !important;
+}
+
+#promo {
+	color: red !important;
+}
+
+#tab-content a {
+	font-family: playregular !important;
+}
+
+.foot1-title {
+	font-family: playregular !important;
+}
+
+.foot2-line {
+	font-family: playregular !important;
+}
+
+html,body,form {
+	font-family: playregular !important;
+}
+
+.bwizard-steps .active {
+	background: darkorange;
+}
+
+.bwizard-steps .active:after {
+	border-left-color: darkorange;
+}
+
+.navbar-nav>li>a {
+	background-color: #666666 !important;
+	color: white !important;
+}
+
+.back-top {
+	font-size:18px; 
+	color: darkorange !important;
+}
+.back-top:hover,
+.back-top:focus
+{
+	text-decoration:none !important;
+}
