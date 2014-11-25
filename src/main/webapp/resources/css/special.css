@@ -138,3 +138,7 @@ html,body,form {
 .bwizard-steps .active:after {
 	border-left-color: darkorange;
 }
+
+.navbar-inverse .navbar-nav>li>a {
+color: white;
+}
