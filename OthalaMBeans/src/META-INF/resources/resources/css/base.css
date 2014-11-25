@@ -331,7 +331,7 @@
 }
 
 .nav-tabs>li>a {
-	font-size: 18px !important;
+	font-size: 16px !important;
 	color: rgb(102, 102, 102);
 }
 
@@ -340,7 +340,7 @@
 }
 
 #tab-content a {
-	font-size: 13px !important;;
+	font-size: 11px !important;;
 	color: #888 !important;;
 	padding: 0 0 0 11px;
 	background: url('./images/home/arw_link.gif') no-repeat left !important;
@@ -379,7 +379,7 @@
 	border-left: 1px solid #ddd !important;
 	border-right: 1px solid #ddd !important;
 	border-bottom: 1px solid #ddd !important;
-	padding: 18px;
+	padding: 10px;
 	color: #999 !important;
 	font-size: 13px !important;
 }
