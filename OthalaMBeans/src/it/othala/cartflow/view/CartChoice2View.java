@@ -34,6 +34,8 @@ public class CartChoice2View extends BaseView {
 	private ArticleFullDTO artSel;
 	private String priceStr;
 	private String priceDiscountedStr;
+	private Boolean disponibile;
+	private Boolean nondisponibile;
 
 	public String getPriceStr() {
 		return priceStr;
@@ -192,6 +194,23 @@ public class CartChoice2View extends BaseView {
 				}
 			}
 
+			Integer qtArticle = 0;
+			for (ArticleFullDTO art : prdFull.getArticles()) {
+				qtArticle = qtArticle + art.getQtStock();
+			}
+			
+			if (!prdFull.getIdProductState().equals(1) ||
+					qtArticle.equals(0))
+			{
+				setDisponibile(false);
+				setNondisponibile(true);
+			}
+			else
+			{
+				setDisponibile(true);
+				setNondisponibile(false);
+			}
+			
 			colorItems = new ArrayList<>();
 
 			/*
@@ -273,6 +292,22 @@ public class CartChoice2View extends BaseView {
 
 		}
 
+	}
+
+	public Boolean getDisponibile() {
+		return disponibile;
+	}
+
+	public void setDisponibile(Boolean disponibile) {
+		this.disponibile = disponibile;
+	}
+
+	public Boolean getNondisponibile() {
+		return nondisponibile;
+	}
+
+	public void setNondisponibile(Boolean nondisponibile) {
+		this.nondisponibile = nondisponibile;
 	}
 
 }
