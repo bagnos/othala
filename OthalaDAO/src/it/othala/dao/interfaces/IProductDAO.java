@@ -162,6 +162,10 @@ public interface IProductDAO {
 
 	public void insertSize(String txSize);
 	
+	public List<String> getGoodImages ();
 	
+	public List<String> getGoodThumbs ();
+	
+	public void deleteBadImages();
 
 }
