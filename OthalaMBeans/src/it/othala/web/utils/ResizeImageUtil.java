@@ -106,7 +106,7 @@ public class ResizeImageUtil {
 		// fileIn.delete();
 
 		String fileResized = basePathToCopy + File.separator + nomeFile;
-		Thumbnails.of(fileIS).size(w, h).outputFormat(format).outputQuality(1d).toFile(fileResized);
+		Thumbnails.of(fileIS).size(w, h).outputFormat(format).outputQuality(0.9d).toFile(fileResized);
 
 		return nomeFile;
 		
