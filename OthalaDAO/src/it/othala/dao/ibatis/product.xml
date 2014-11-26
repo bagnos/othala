@@ -1861,7 +1861,7 @@
 
 	</select>
 	
-		<select id="getMaterial" resultType="Integer" parameterType="java.util.HashMap">
+	<select id="getMaterial" resultType="Integer" parameterType="java.util.HashMap">
 
 		SELECT
 		count(*)
@@ -1875,5 +1875,38 @@
 
 	</select>
 	
+	<select id="listGoodImages" resultType="String">
+		SELECT 
+			a.tximageurl 
+		FROM ${database.schema}product_image a, ${database.schema}product b  
+		WHERE a.idproduct = b.idproduct AND 
+		EXISTS ( 
+			SELECT DISTINCT c.idproduct from ${database.schema}article c where c.idproduct = b.idproduct 
+			and c.qtstock > 0)
+		
+	
+	</select>
+	
+	<select id="listGoodThumbs" resultType="String">
+		
+		SELECT txThumbnailsUrl 
+		FROM ${database.schema}product
+		
+	
+	</select>
+	
+	<delete id="deleteBadImages">
+
+		DELETE FROM ${database.schema}product_image 
+		WHERE NOT EXISTS ( 
+			SELECT DISTINCT c.idproduct 
+			FROM ${database.schema}product b, 
+			${database.schema}article c 
+			WHERE product_image.idproduct = b.idproduct
+			AND c.idproduct = b.idproduct 
+			AND c.qtstock > 0)
+
+
+	</delete>
 	
 </mapper>
