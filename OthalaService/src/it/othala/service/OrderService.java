@@ -177,8 +177,12 @@ public class OrderService implements IOrderService {
 		while (i.hasNext()) {
 			ArticleFullDTO article = i.next();
 
-			Integer qtaProduct = productDAO.getQtStockLock(article.getPrdFullDTO().getIdProduct(),
+/*			Integer qtaProduct = productDAO.getQtStockLock(article.getPrdFullDTO().getIdProduct(),
+					article.getPgArticle());*/
+			
+			Integer qtaProduct = externalService.getQtStockLock(article.getPrdFullDTO().getIdProduct(), 
 					article.getPgArticle());
+			
 
 			if (qtaProduct < article.getQtBooked()) {
 				List<String> prodNoStock = new ArrayList<String>();
@@ -695,7 +699,7 @@ public class OrderService implements IOrderService {
 	@Override
 	public FidelityCardDTO checkFidelityCard(String idFidelity, String eMail, String celNum)
 			throws FidelityCardNotPresentException, FidelityCardNotValidException {
-		List<FidelityCardDTO> fCard = orderDAO.getFidelityCard(idFidelity, null, null, null);
+/*		List<FidelityCardDTO> fCard = orderDAO.getFidelityCard(idFidelity, null, null, null);
 		if (fCard.get(0) == null)
 			throw new FidelityCardNotPresentException(idFidelity);
 
@@ -710,9 +714,10 @@ public class OrderService implements IOrderService {
 				throw new FidelityCardNotValidException(idFidelity);
 			if (!fCard.get(0).getTxTel().equals(celNum))
 				throw new FidelityCardNotValidException(idFidelity);
-		}
+		}*/
+		
+		return externalService.checkFidelityCard(idFidelity, eMail, celNum);
 
-		return fCard.get(0);
 	}
 
 	@Override

@@ -3,13 +3,16 @@ package it.othala.external.service.interfaces;
 import it.othala.dto.FidelityCardDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.ShopDTO;
+import it.othala.execption.FidelityCardNotPresentException;
+import it.othala.execption.FidelityCardNotValidException;
 
 import java.util.List;
 
 public interface IOthalaExternalServices {
 
-	public List<FidelityCardDTO> checkFidelityCard(String idFidelity, String eMail, String celNum);	
+	public FidelityCardDTO checkFidelityCard(String idFidelity, String eMail, String celNum) throws FidelityCardNotPresentException, FidelityCardNotValidException;;	
 	public int getQtStockLock(String barcode);
+	public int getQtStockLock(Integer idProduct, Integer pgArticle);
 	public void updateStock(OrderFullDTO orderFull, boolean fgVendita);
 	
 }

@@ -14,10 +14,14 @@ import it.othala.dto.SiteImagesDTO;
 import it.othala.dto.SubMenuDTO;
 import it.othala.dto.VetrinaDTO;
 import it.othala.enums.OrderByCartFlow;
+import it.othala.execption.OthalaException;
 import it.othala.service.interfaces.IProductService;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class ProductService implements IProductService {
@@ -433,6 +437,51 @@ public class ProductService implements IProductService {
 		productDAO.updateCampaign(campaign);
 		productDAO.removeProductFromCampaign(listIdProduct,
 				campaign.getIdCampaign());
+	}
+
+	@Override
+	public void cleanFolderImages(String folderPath) throws OthalaException {
+		//Recupero la directory delle immagini
+		File dir = new File(folderPath);
+		//Recupreo la lista delle immagini nella direcotry
+		String[] folderImages = dir.list();
+		if (folderImages == null) {
+		     throw new OthalaException("La directory " + folderPath + " non esiste");
+		 }
+		List<String> imagesToDelete = new ArrayList<String>();
+		//Crea una collezione di immagini	
+		for (int i=0; i < folderImages.length; i++) {
+			imagesToDelete.add(folderImages[i]);
+		        
+		}
+		
+		//Recupero le immagini da tenere
+		List<String> imagesToKeep =  productDAO.getGoodImages();
+		//Recupero i thumbnails da tenere
+		List<String> thumbsToKeep =  productDAO.getGoodThumbs();
+		
+		//Elimino dalla collezione leimmagini da tenere
+		imagesToDelete.removeAll(imagesToKeep);
+		imagesToDelete.removeAll(thumbsToKeep);
+		//Le immagini LARGE non devono essere eliminate
+		CharSequence car = "_LARGE";
+		for (String img : imagesToDelete) {
+			if (img.contains(car))
+				imagesToDelete.remove(img);
+		}
+		
+		
+		//Elimino fisicamente i files dalla directory
+		String fileDelete = null;
+		for (String img : imagesToDelete) {
+			fileDelete = folderPath + File.separator + img;
+			File file = new File(fileDelete);
+			file.delete();
+		}
+		
+		//Elimino le imamgini da tabella
+		productDAO.deleteBadImages();
+		
 	}
 
 }
