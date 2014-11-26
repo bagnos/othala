@@ -77,9 +77,10 @@ public class InsertProdottiView extends BaseView {
 	private String separatorDateFormat = "&";
 	private Boolean detail;
 	private ProductFullNewDTO prdDetail = null;
-	private final String BASE_IMG_PATH = "//resources//images//cartThumbinals//";
+
 	private final int SCROLL_WIDTH_AUTOCOMPLETE = 100;
 	private String newSize;
+	private List<String> imgToDelete = new ArrayList<>();
 
 	public String getNewSize() {
 		return newSize;
@@ -335,6 +336,7 @@ public class InsertProdottiView extends BaseView {
 			initProdotto();
 		}
 		qta = 1;
+		imgToDelete=new ArrayList<String>();
 		return null;
 	}
 
@@ -382,10 +384,24 @@ public class InsertProdottiView extends BaseView {
 				addInfo("Prodotto", "modifica effettuata correttamente");
 			}
 
+			eliminaImmagini();
+
 		} catch (Exception ex) {
 			addGenericError(ex, "errore nell'inserimento del prodotto");
 		}
 
+	}
+
+	private void eliminaImmagini() {
+		if (!imgToDelete.isEmpty()) {
+			try {
+
+				ResizeImageUtil.deleteImages(imgToDelete);
+
+			} catch (Exception e) {
+				log.error("errore eliminazione immagine", e);
+			}
+		}
 	}
 
 	private void initProdotto() {
@@ -593,16 +609,20 @@ public class InsertProdottiView extends BaseView {
 
 		imagesFile.remove(fileName);
 
-		if (fileThumb.contains(fileName)) {
+		if (fileThumb!=null && fileThumb.contains(fileName)) {			
+			//cancelli direttamente solo in modalità inserimento, non in modifica
+			if (!fgMod) {
+				ResizeImageUtil.deleteImage(fileThumb);
+			}
 			fileThumb = null;
 		}
-		// S CANCELLA TRAMITE UNA FUNZIONE GENERALIZZATA
-		// ResizeImageUtil.deleteImageThumb(fileName);
-		// ExternalContext extContext =
-		// FacesContext.getCurrentInstance().getExternalContext();
-		// File file = new File(extContext.getRealPath(BASE_IMG_PATH +
-		// fileName));
-		// file.delete();
+
+		if (!fgMod) {
+			ResizeImageUtil.deleteImage(fileName);
+		} else {
+			//aggiungiamo alla lista delle immagini da cancellare
+			imgToDelete.add(fileName);
+		}
 
 	}
 
@@ -638,7 +658,6 @@ public class InsertProdottiView extends BaseView {
 				addError("Upload", file.getFileName() + " errore nell'upload");
 			}
 			addInfo("Upload", file.getFileName() + " è stata caricata correttamente");
-
 
 		}
 	}
@@ -707,7 +726,7 @@ public class InsertProdottiView extends BaseView {
 			addGenericError(ex, "errore nell'inserimento del colore");
 		}
 	}
-	
+
 	public void addNewSize(ActionEvent e) {
 		if (newSize == null || newSize.isEmpty()) {
 			addError("Nuova taglia", "inserire la taglia");

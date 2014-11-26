@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -63,6 +64,13 @@ public class ResizeImageUtil {
 		String fileToDelete = getBasePath() + File.separator + prefix + nomeFile;
 		File file = new File(fileToDelete);
 		file.delete();
+	}
+	
+	public static void deleteImage(String nomeFile) {
+		
+		List<String> imgsToDel=new ArrayList<String>();
+		imgsToDel.add(nomeFile);
+		deleteImages(imgsToDel);
 	}
 
 	public static String resizeAndCopyImage(InputStream fileIS, String nomeFile, String format) throws IOException {
@@ -138,7 +146,8 @@ public class ResizeImageUtil {
 	
 	public static String getFormat(String file)
 	{
-		String format = file.split(".")[1];
+		String[] elems=file.split("\\.");
+		String format = elems[elems.length-1];
 		return format;
 	}
 
