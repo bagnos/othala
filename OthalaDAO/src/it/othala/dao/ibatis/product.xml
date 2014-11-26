@@ -435,7 +435,8 @@
 		tab1.idCampaign,
 		tab1.idMaterial,
 		tab1.txMaterial,
-		tab1.specialPrice
+		tab1.specialPrice,
+		tab1.idProductState
 
 
 
@@ -473,7 +474,8 @@
 		idCampaign,
 		a.idMaterial,
 		txMaterial,
-		specialPrice
+		specialPrice,
+		a.idProductState
 
 		FROM
 		${database.schema}product a,
