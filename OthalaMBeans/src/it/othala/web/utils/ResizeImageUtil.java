@@ -13,6 +13,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.resizers.ProgressiveBilinearResizer;
 
 import org.primefaces.model.UploadedFile;
 
@@ -103,8 +104,7 @@ public class ResizeImageUtil {
 		// fileIn.delete();
 
 		String fileResized = basePathToCopy + File.separator + nomeFile;
-
-		Thumbnails.of(fileIS).size(w, h).outputFormat(format).toFile(fileResized);
+		Thumbnails.of(fileIS).size(w, h).outputFormat(format).outputQuality(0.9d).toFile(fileResized);
 
 		return nomeFile;
 	}
