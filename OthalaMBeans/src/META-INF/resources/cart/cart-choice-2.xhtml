@@ -93,6 +93,13 @@
 	    sync: "#carousel"
 	  });
 
+	  
+		    $(".zoom").elevateZoom({
+				cursor: 'pointer', 
+				imageCrossfade: true
+			});  
+		
+
 	
 		  $('#carouselRelatedPrds').flexslider({
 		    animation: "slide",
@@ -159,7 +166,7 @@
 							<ul class="slides">
 								<ui:repeat var="image"
 									value="#{cartFlowBean.detailProductFull.imagesUrl}">
-									<li><img class="img-responsive"
+									<li><img class="img-responsive zoom"  data-zoom-image="#{request.contextPath}/faces/javax.faces.resource/LARGE_#{image}?ln=images/cartThumbinals"
 										src="#{request.contextPath}/faces/javax.faces.resource/#{image}?ln=images/cartThumbinals" />
 									</li>
 								</ui:repeat>
