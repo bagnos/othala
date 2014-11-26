@@ -7,6 +7,7 @@ import it.othala.dto.DomainDTO;
 import it.othala.dto.MenuFullDTO;
 import it.othala.dto.ProductFullNewDTO;
 import it.othala.enums.OrderByCartFlow;
+import it.othala.execption.OthalaException;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -75,6 +76,8 @@ public interface IProductService {
 
 
 	public DomainDTO insertSize(String languages, String txSize);
+	
+	public void cleanFolderImages(String folderPath) throws OthalaException;
 
 
 	
