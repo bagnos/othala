@@ -1070,4 +1070,22 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		
 	}
 
+	@Override
+	public List<String> getGoodImages() {
+			
+		return getSqlSession().selectList("it.othala.product.queries.listGoodImages");
+	}
+
+	@Override
+	public List<String> getGoodThumbs() {
+		
+		return getSqlSession().selectList("it.othala.product.queries.listGoodThumbs");
+	}
+
+	@Override
+	public void deleteBadImages() {
+		getSqlSession().delete("it.othala.product.queries.deleteBadImages");
+		
+	}
+
 }
