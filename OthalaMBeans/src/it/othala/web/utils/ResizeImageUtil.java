@@ -1,5 +1,6 @@
 package it.othala.web.utils;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,6 +12,7 @@ import java.util.List;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.imageio.ImageIO;
 
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.resizers.ProgressiveBilinearResizer;
@@ -104,9 +106,10 @@ public class ResizeImageUtil {
 		// fileIn.delete();
 
 		String fileResized = basePathToCopy + File.separator + nomeFile;
-		Thumbnails.of(fileIS).size(w, h).outputFormat(format).outputQuality(0.9d).toFile(fileResized);
+		Thumbnails.of(fileIS).size(w, h).outputFormat(format).outputQuality(1d).toFile(fileResized);
 
 		return nomeFile;
+		
 	}
 
 	public static void deleteImages(List<String> images) {
