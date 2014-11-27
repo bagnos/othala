@@ -33,7 +33,7 @@
 
 		<h:panelGroup rendered="#{applicationBean.menuFull.fgNuoviArrivi}">
 			<li>
-				<h:link	value="#{menu.txGender}" outcome="/cart/cart-catalog.xhtml">
+				<h:link	value="#{menu.txGender}" outcome="/cart/cart-catalog.xhtml" class="trasparente">
 
 					<f:param name="idMenu" value="1"></f:param>
 					<f:param name="idSubMenu" value="0"></f:param>
@@ -49,8 +49,8 @@
 
 		<h:panelGroup>
 
-			<li><a href="#{request.contextPath}/faces/static/blog.xhtml">
-					<h:outputText value="BLOG" />
+			<li><a href="#{request.contextPath}/faces/static/blog.xhtml"  class="trasparente">
+					<h:outputText value="Blog" />
 			</a></li>
 		</h:panelGroup>
 

@@ -153,3 +153,22 @@ color: white;
 	text-decoration:none !important;
 }
 
+.trasparente
+{
+	background-color: transparent !important;
+	border-color:transparent !important;
+	box-shadow: inset 0 1px 1px rgba(0,0,0,0) !important;
+}
+
+.visibile
+{
+	visibility:hidden !important;
+
+}
+.altezza75
+{
+	height: 75px;
+}
+.articolo>h7 {
+	visibility:hidden !important;
+}
