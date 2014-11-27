@@ -54,7 +54,7 @@
 				</div>
 
 				<!-- FILTRI RICERCA -->
-				<div class="row container" style="clear: both;">
+				<div class="row container visibile  altezza75" style="clear: both;">
 
 					<div class="panel panel-default">
 						<div class="panel-body">
@@ -124,7 +124,7 @@
 
 				<!-- ORDINAMENTO -->
 				<div class="row">
-					<div class="col-sm-3">
+					<div class="col-sm-3 visibile">
 						<div class="form-group">
 							<h:outputText value="#{msg.catalog_OrderPrice}" />
 							<h:selectOneMenu styleClass="form-control"
@@ -227,7 +227,7 @@
 
 										</p>
 										<h5>#{art.txBrand}</h5>
-										<h6><h:outputText id="descr" value="#{art.description}" /></h6>
+										<h6 class="visibile"><h:outputText id="descr" value="#{art.description}" /></h6>
 										<p:tooltip for="descr">
 										<h:outputText  value="#{art.description}" />
 										</p:tooltip>

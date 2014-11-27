@@ -283,6 +283,14 @@
 	font-size: .8em;
 }
 
+.articolo>h7 {
+	margin: 2px !important;
+	font-weight: lighter !important;;
+	color: #999 !important;;
+	line-height: 1em;
+	font-size: .8em;
+}
+
 .articolo .price {
 	margin: 5% 0 0 0;
 }
