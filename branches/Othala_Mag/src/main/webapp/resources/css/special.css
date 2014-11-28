@@ -1,11 +1,8 @@
-.glyphicon-chevron-right, .glyphicon-chevron-left {
+.glyphicon-chevron-right,.glyphicon-chevron-left {
 	color: orange;
 }
 
-.glyphicon-chevron-right:hover,
-.glyphicon-chevron-left:hover,
-.glyphicon-chevron-right:focus,
-.glyphicon-chevron-left:focus
+.glyphicon-chevron-right:hover,.glyphicon-chevron-left:hover,.glyphicon-chevron-right:focus,.glyphicon-chevron-left:focus
 	{
 	color: darkorange;
 }
@@ -73,23 +70,23 @@
 }
 
 .newPromo1 {
-font-family: arialMTbold;
-display: none;
+	font-family: arialMTbold;
+	display: none;
 }
 
 .newPromo2 {
-font-family: arialMTbold;
-display: none;
+	font-family: arialMTbold;
+	display: none;
 }
 
 .newPromo3 {
-font-family: arialMTbold;
-display: none;
+	font-family: arialMTbold;
+	display: none;
 }
 
 .newFlag2 {
-font-family: arialMTbold;
-display: none;
+	font-family: arialMTbold;
+	display: none;
 }
 
 .nav-tabs>li>a {
@@ -140,46 +137,77 @@ html,body,form {
 }
 
 .navbar-inverse .navbar-nav>li>a {
-color: white;
+	color: white;
 }
 
 .back-top {
-	font-size:18px; 
+	font-size: 18px;
 	color: darkorange !important;
 }
-.back-top:hover,
-.back-top:focus
-{
-	text-decoration:none !important;
+
+.back-top:hover,.back-top:focus {
+	text-decoration: none !important;
 }
 
-.trasparente
-{
+.trasparente {
 	background-color: transparent !important;
-	border-color:transparent !important;
-	box-shadow: inset 0 1px 1px rgba(0,0,0,0) !important;
+	border-color: transparent !important;
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0) !important;
 }
 
-.visibile
-{
-	visibility:hidden !important;
-	
-
+.visibile {
+	visibility: hidden !important;
 }
-.altezza75
-{
+
+.altezza75 {
 	height: 75px;
 }
+
 .articolo>h7 {
-	visibility:hidden !important;
+	visibility: hidden !important;
 	display: none;
 }
 
 .caption.articolo {
-height: 150px;
-}
-.onSale
-{
-	padding-right:10px;
+	height: 150px;
 }
 
+.onSale {
+	padding-right: 10px;
+}
+
+.tumblr_body {
+	font-size: 14px;
+	font-family: arialMT !important;
+	
+	
+}
+
+.tumblr_body>p {
+margin: 0px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
+.tumblr_post {
+	
+}
+
+.tumblr_title {
+	font-size: 18px;
+	color: darkorange !important;
+	font-family: arialMTbold !important;
+	padding-top: 10px;
+}
+
+.tumblr_body img {
+		padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.read_more_container {
+	
+}
+
+.read_more_container a {
+	
+}
