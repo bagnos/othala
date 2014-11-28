@@ -61,11 +61,11 @@
 
 .thumbnail {
 	border: 0px !important;
-	height: 400px;
+	height: 600px;
 }
 
 .thumbnail>img,.thumbnail a>img {
-	max-height: 225px;
+	max-height: 400px;
 }
 
 .ui-widget {

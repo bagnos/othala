@@ -220,8 +220,16 @@ public class ProductService implements IProductService {
 				type, gender, brand, minPrice, maxPrice, size, color,
 				newArrivals, order, idCampaign, fgCampaign);
 
-		// recupero attributo taglie degli articoli
+		
+		for (int i = 0; i <= listProduct.size() - 1; i++) {
 
+			List<String> newString = productDAO.listProductImages(listProduct.get(i).getIdProduct());
+			
+
+			listProduct.get(i).setImagesUrl(newString);
+		}
+
+		
 		for (int i = 0; i <= listProduct.size() - 1; i++) {
 
 			List<String> newString = productDAO
