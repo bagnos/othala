@@ -10,6 +10,7 @@ import it.othala.dto.ProductFullNewDTO;
 import it.othala.dto.ShopDTO;
 import it.othala.dto.SiteImagesDTO;
 import it.othala.dto.SubMenuDTO;
+import it.othala.dto.SubMenuBrandDTO;
 import it.othala.enums.OrderByCartFlow;
 
 import java.math.BigDecimal;
@@ -167,5 +168,7 @@ public interface IProductDAO {
 	public List<String> getGoodThumbs ();
 	
 	public void deleteBadImages();
+
+		public List<SubMenuBrandDTO> listSubMenuBrand(Integer idMenu);
 
 }
