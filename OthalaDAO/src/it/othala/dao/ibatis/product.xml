@@ -80,7 +80,39 @@
 
 	</select>
 
+<select id="listSubMenuBrand" resultType="it.othala.dto.SubMenuBrandDTO"
+		parameterType="java.util.HashMap">
 
+
+		SELECT idBrand, txBrand
+		FROM
+		${database.schema}brand d
+		where
+		exists
+		(select 1 from
+		${database.schema}product a
+		where
+		a.idProductState = 1
+		and
+		a.idBrand =
+		d.idBrand
+		and a.idGender = #{idMenu}
+
+		and exists
+		(select 1 from
+		${database.schema}article
+		e where
+		e.idProduct =
+		a.idProduct
+		and
+		e.qtStock >
+		0)
+
+		)
+
+
+	</select>
+	
 	<select id="listProduct" resultType="it.othala.dto.ProductFullNewDTO"
 		parameterType="java.util.HashMap">
 

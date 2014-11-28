@@ -5,6 +5,14 @@ import java.util.List;
 
 public class MenuDTO implements Serializable {
 
+	public List<SubMenuBrandDTO> getSubMenuBrand() {
+		return subMenuBrand;
+	}
+
+	public void setSubMenuBrand(List<SubMenuBrandDTO> subMenuBrand) {
+		this.subMenuBrand = subMenuBrand;
+	}
+
 	/**
 	 * 
 	 */
@@ -16,6 +24,7 @@ public class MenuDTO implements Serializable {
 	private String imgName;
 	
 	private List<SubMenuDTO> subMenu;
+	private List<SubMenuBrandDTO> subMenuBrand;
 	
 	private boolean fgNuoviArrivi;
 	private boolean fgPromozioni;
@@ -85,5 +94,7 @@ public class MenuDTO implements Serializable {
 	public void setImgName(String imgName) {
 		this.imgName = imgName;
 	}
+
+
 
 }

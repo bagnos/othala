@@ -12,6 +12,7 @@ import it.othala.dto.ProductFullNewDTO;
 import it.othala.dto.ShopDTO;
 import it.othala.dto.SiteImagesDTO;
 import it.othala.dto.SubMenuDTO;
+import it.othala.dto.SubMenuBrandDTO;
 import it.othala.dto.VetrinaDTO;
 import it.othala.enums.OrderByCartFlow;
 import it.othala.execption.OthalaException;
@@ -42,6 +43,11 @@ public class ProductService implements IProductService {
 					listMenu.get(i).getIdGender(), languages);
 
 			listMenu.get(i).setSubMenu(listSubMenu);
+			
+			List<SubMenuBrandDTO> listSubMenuBrand = productDAO.listSubMenuBrand(
+					listMenu.get(i).getIdGender());
+			
+			listMenu.get(i).setSubMenuBrand(listSubMenuBrand);
 
 		}
 

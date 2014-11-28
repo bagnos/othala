@@ -12,6 +12,7 @@ import it.othala.dto.ProductFullNewDTO;
 import it.othala.dto.ShopDTO;
 import it.othala.dto.SiteImagesDTO;
 import it.othala.dto.SubMenuDTO;
+import it.othala.dto.SubMenuBrandDTO;
 import it.othala.enums.ArticleUpdate;
 import it.othala.enums.OrderByCartFlow;
 
@@ -1086,6 +1087,18 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	public void deleteBadImages() {
 		getSqlSession().delete("it.othala.product.queries.deleteBadImages");
 		
+	}
+
+
+	@Override
+	public List<SubMenuBrandDTO> listSubMenuBrand(Integer idMenu) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("idMenu", idMenu);
+		
+		List<SubMenuBrandDTO> listSubMenu = getSqlSession().selectList(
+				"it.othala.product.queries.listSubMenuBrand", map);
+
+		return listSubMenu;
 	}
 
 }
