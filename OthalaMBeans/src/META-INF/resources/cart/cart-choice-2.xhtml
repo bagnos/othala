@@ -95,17 +95,12 @@
 	  });
 
 	  
-			  
-	  
 
-
-	  	  $(".zoom").elevateZoom({
-				cursor: 'pointer', 
-				imageCrossfade: true
-			});  
-
-	  
-		
+	  		
+	  	
+	  	 $(".zoom").elevateZoom({
+	  		cursor: "crosshair"	
+			});
 
 	
 		  $('#carouselRelatedPrds').flexslider({
@@ -173,8 +168,7 @@
 
 						<div id="slider" class="flexslider">
 							<ul class="slides">
-								<ui:repeat var="image"
-									value="#{cartFlowBean.detailProductFull.imagesUrl}">
+								<ui:repeat var="image" value="#{cartFlowBean.detailProductFull.imagesUrl}">
 									<li><img class="img-responsive zoom"
 										data-zoom-image="#{request.contextPath}/faces/javax.faces.resource/LARGE_#{image}?ln=images/cartThumbinals"
 										src="#{request.contextPath}/faces/javax.faces.resource/#{image}?ln=images/cartThumbinals" />
@@ -186,8 +180,7 @@
 
 						<div id="carousel" class="flexslider">
 							<ul class="slides">
-								<ui:repeat var="image"
-									value="#{cartFlowBean.detailProductFull.imagesUrl}">
+								<ui:repeat var="image" value="#{cartFlowBean.detailProductFull.imagesUrl}">
 									<li><img
 										src="#{request.contextPath}/faces/javax.faces.resource/#{image}?ln=images/cartThumbinals" />
 									</li>
