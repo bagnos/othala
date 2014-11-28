@@ -64,11 +64,25 @@
 	cursor: default;
 }
 
-/*
+/*INIZIO MODIFICHE PER ZOOM*/
+.zoomWindow
+{
+	margin-left: 10px !important;	
+	border-width: 1px !important;
+	border-color: rgb(204, 204, 204) !important;
+}
 .flexslider {
-	margin-bottom: 10px !important;
-	Z-INDEX: 0;
-}*/
+	
+	z-index: 1 !important;
+}
+.zoom
+{
+	cursor: crosshair
+}
+/*FINE MODIFICHE PER ZOOM*/
+
+
+
 
 .truncate {
 	overflow: hidden;
