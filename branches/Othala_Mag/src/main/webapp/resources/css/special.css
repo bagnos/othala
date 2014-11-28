@@ -74,22 +74,22 @@
 
 .newPromo1 {
 font-family: arialMTbold;
-visibility: hidden;
+display: none;
 }
 
 .newPromo2 {
 font-family: arialMTbold;
-visibility: hidden;
+display: none;
 }
 
 .newPromo3 {
 font-family: arialMTbold;
-visibility: hidden;
+display: none;
 }
 
 .newFlag2 {
 font-family: arialMTbold;
-visibility: hidden;
+display: none;
 }
 
 .nav-tabs>li>a {
@@ -163,6 +163,7 @@ color: white;
 .visibile
 {
 	visibility:hidden !important;
+	
 
 }
 .altezza75
@@ -171,4 +172,14 @@ color: white;
 }
 .articolo>h7 {
 	visibility:hidden !important;
+	display: none;
 }
+
+.caption.articolo {
+height: 150px;
+}
+.onSale
+{
+	padding-right:10px;
+}
+
