@@ -103,12 +103,16 @@
 											value="#{cartFlowBean.catalog.priceMax}" />
 									</div>
 								</div>
-																<div class="col-sm-2">
+								<div class="col-sm-2">
 									<div class="checkbox">
-										<label> <h:selectBooleanCheckbox disabled="#{cartFlowBean.catalog.disabledNewCampaign}" value="#{cartFlowBean.catalog.includePromo}" /> #{msg.catalogo_includePromo} </label>
+										<label> <h:selectBooleanCheckbox
+												disabled="#{cartFlowBean.catalog.disabledNewCampaign}"
+												value="#{cartFlowBean.catalog.includePromo}" />
+											#{msg.catalogo_includePromo}
+										</label>
 									</div>
 								</div>
-								
+
 							</div>
 							<div>
 								<p:commandButton styleClass="ui-priority-primary"
@@ -145,16 +149,18 @@
 										ajax="true" update="@form"
 										disabled="#{cartFlowView1.classBack=='disabled'}"
 										styleClass="glyphicon glyphicon-chevron-left"
-										actionListener="#{cartFlowView1.backword}" style="
-    font-family: 'Glyphicons Halflings' !important;"/></li>
-								<li><span>#{cartFlowBean.catalog.currentPage}
-										of #{cartFlowBean.catalog.totPages}</span></li>
+										actionListener="#{cartFlowView1.backword}"
+										style="
+    font-family: 'Glyphicons Halflings' !important;" /></li>
+								<li><span>#{cartFlowBean.catalog.currentPage} of
+										#{cartFlowBean.catalog.totPages}</span></li>
 								<li class="#{cartFlowView1.classForw}"><p:commandLink
 										ajax="true" update="@form"
 										disabled="#{cartFlowView1.classForw=='disabled'}"
 										styleClass="glyphicon glyphicon-chevron-right"
-										actionListener="#{cartFlowView1.forward}" style="
-    font-family: 'Glyphicons Halflings' !important;"/></li>
+										actionListener="#{cartFlowView1.forward}"
+										style="
+    font-family: 'Glyphicons Halflings' !important;" /></li>
 							</ul>
 						</h:panelGroup>
 					</div>
@@ -171,7 +177,7 @@
 					<div class="row">
 						<ui:repeat var="art" value="#{cartFlowBean.catalog.articlesPage}"
 							varStatus="status">
-							<div class="col-sm-3">
+							<div class="col-sm-4">
 								<div class="thumbnail">
 
 
@@ -182,7 +188,7 @@
 									<h:outputText styleClass="newPromo1" style="float:right"
 										rendered="#{art.specialPrice != null and art.specialPrice != 0}"
 										value="SPECIAL" />
-										
+
 									<h:outputText styleClass="newPromo2" style="float:right"
 										rendered="#{(art.specialPrice == null or art.specialPrice == 0) and art.discount != null and art.discount != 0 and art.idCampaign == null}"
 										value="#{art.discount} %" />
@@ -194,44 +200,56 @@
 
 
 									<h:link outcome="cart-choice-2">
-										<h:graphicImage styleClass="img-responsive"
+										<h:graphicImage styleClass="center-block img-responsive"
 											library="images/cartThumbinals" name="#{art.thumbnailsUrl}" />
 										<f:param name="idPrd" value="#{art.idProduct}"></f:param>
 									</h:link>
-									<div style="float: right">
-										<p:graphicImage id="imgArt" library="images"
-											name="info-thumb.png" />
-										<p:tooltip  for="imgArt">
 
-											<h:outputText value="#{msg.catalog_available}" />
-											<br />
-											<h:outputText
-												value="#{msg.catalog_colors} #{art.colorsAsString}" />
-											<br />
-											<h:outputText
-												value="#{msg.catalog_sizes} #{art.sizesAsString}" />
-
-										</p:tooltip>
-									</div>
 									<div class="caption articolo">
-									<p class="price">
-											<h:outputText value="#{art.price}"
-												styleClass="#{art.price != art.priceDiscounted?'onSale':''}">
-												<f:converter converterId="it.othala.BigDecimalConverter" />
-											</h:outputText>
+										<div style="float: right">
+											<p:graphicImage id="imgArt" library="images"
+												name="info-thumb.png" />
+											<p:tooltip for="imgArt">
 
-											<h:outputText value="#{art.priceDiscounted}"
-												rendered="#{art.price != art.priceDiscounted}" style="float:right">
-												<f:converter converterId="it.othala.BigDecimalConverter" />
-											</h:outputText>
+												<h:outputText value="#{msg.catalog_available}" />
+												<br />
+												<h:outputText
+													value="#{msg.catalog_colors} #{art.colorsAsString}" />
+												<br />
+												<h:outputText
+													value="#{msg.catalog_sizes} #{art.sizesAsString}" />
 
-										</p>
-										<h5>#{art.txBrand}</h5>
-										<h6 class="visibile"><h:outputText id="descr" value="#{art.description}" /></h6>
-										<p:tooltip for="descr">
-										<h:outputText  value="#{art.description}" />
-										</p:tooltip>
-										
+											</p:tooltip>
+										</div>
+										<div>
+											<p class="price" style="text-align: center">
+												<h:outputText value="#{art.price}"
+													styleClass="#{art.price != art.priceDiscounted?'onSale':''}">
+													<f:converter converterId="it.othala.BigDecimalConverter" />
+												</h:outputText>
+
+												<h:outputText value="#{art.priceDiscounted}"
+													rendered="#{art.price != art.priceDiscounted}"
+													>
+													<f:converter converterId="it.othala.BigDecimalConverter" />
+												</h:outputText>
+
+											</p>
+
+										</div>
+										<div>
+											
+											<h5 style="text-align: center">#{art.txBrand}</h5>
+										</div>
+										<div>
+											<h6 class="visibile" style="text-align: center">
+												<h:outputText id="descr" value="#{art.description}" />
+											</h6>
+											<p:tooltip for="descr">
+												<h:outputText value="#{art.description}" />
+											</p:tooltip>
+										</div>
+
 									</div>
 
 								</div>
