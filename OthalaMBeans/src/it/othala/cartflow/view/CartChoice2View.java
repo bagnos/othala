@@ -14,8 +14,12 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
+
+import org.apache.catalina.tribes.transport.RxTaskPool;
+import org.primefaces.context.RequestContext;
 
 /*@Named
  @javax.faces.view.ViewScoped*/
@@ -36,6 +40,16 @@ public class CartChoice2View extends BaseView {
 	private String priceDiscountedStr;
 	private Boolean disponibile;
 	private Boolean nondisponibile;
+	private String txSize;
+	private String txColor;
+
+	public String getTxColor() {
+		return txColor;
+	}
+
+	public String getTxSize() {
+		return txSize;
+	}
 
 	public String getPriceStr() {
 		return priceStr;
@@ -246,6 +260,15 @@ public class CartChoice2View extends BaseView {
 
 	public void changeSize(AjaxBehaviorEvent e) {
 		if (idSize != null && idSize.intValue() != 0) {
+			for (SelectItem s:sizeItems)
+			{
+				if (s.getValue().toString().equalsIgnoreCase(idSize.toString()))
+				{
+					txSize=s.getLabel();
+					break;
+				}
+			}
+			
 			colorItems = new ArrayList<>();
 			// colorItems.add(new SelectItem(-1,
 			// OthalaUtil.getWordBundle("catalog_chooseColor")));
@@ -261,6 +284,19 @@ public class CartChoice2View extends BaseView {
 		idColor = 0;
 		changeColor(null);
 	}
+	
+	public void selectSize(ActionEvent e) {
+		idSize=(Integer) e.getComponent().getAttributes().get("idSize");
+		txSize=(String)e.getComponent().getAttributes().get("txSize");
+	
+		changeSize(null);
+	}
+	
+	public void selectColor(ActionEvent e) {
+		idColor=(Integer) e.getComponent().getAttributes().get("idColor");
+		txColor=(String)e.getComponent().getAttributes().get("txColor");
+		changeColor(null);
+	}
 
 	public void changeColor(AjaxBehaviorEvent e) {
 		min = 0;
@@ -268,6 +304,13 @@ public class CartChoice2View extends BaseView {
 		qtaArticle = 0;
 		if (idSize != null && idSize.intValue() != 0) {
 			if (idColor != null && idColor.intValue() != 0) {
+				for (SelectItem s:colorItems)
+				{
+					if (s.getValue().toString().equalsIgnoreCase(idColor.toString()))
+					{
+						txColor=s.getLabel();
+					}
+				}
 				for (ArticleFullDTO art : prdFull.getArticles()) {
 					if (art.getIdSize().intValue() == idSize.intValue()
 							&& art.getIdColor().intValue() == idColor.intValue())
