@@ -65,25 +65,20 @@
 }
 
 /*INIZIO MODIFICHE PER ZOOM*/
-.zoomWindow
-{
-	margin-left: 10px !important;	
+.zoomWindow {
+	margin-left: 10px !important;
 	border-width: 1px !important;
 	border-color: rgb(204, 204, 204) !important;
 }
+
 .flexslider {
-	
 	z-index: 1 !important;
 }
-.zoom
-{
+
+.zoom {
 	cursor: crosshair
 }
 /*FINE MODIFICHE PER ZOOM*/
-
-
-
-
 .truncate {
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -611,14 +606,43 @@ html,body,form {
 	cursor: pointer !important;
 }
 
-.bwizard-steps.clickable li:not (.active ) {
-	cursor: pointer
-}
+.bwizard-steps
+.clickable
+ 
+li
+:not
+ 
+(
+.active
+ 
+)
+{
+cursor
+:
+ 
+pointer
 
-.bwizard-steps.clickable li:hover:not (.active ) {
-	background: #ccc
-}
 
+}
+.bwizard-steps
+.clickable
+ 
+li
+:hover
+:not
+ 
+(
+.active
+ 
+)
+{
+background
+:
+ 
+#ccc
+
+
+}
 .bwizard-steps.clickable li:hover:not (.active ):after {
 	border-left-color: #ccc
 }
@@ -768,3 +792,116 @@ html,body,form {
 	list-style: none;
 }
 
+/*taglie e colori*/
+.wish-list-tails {
+	display: block !important;
+	float: left !important;
+	margin: 0 5px 10px !important;
+	padding: 9px !important;
+	border-radius: 3px !important;
+	border: 1px solid #222 !important;
+	background: #555 !important;
+	background: -moz-linear-gradient(top, rgba(85, 85, 85, 1) 0%,
+		rgba(17, 17, 17, 1) 100%) !important;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(85,
+		85, 85, 1)), color-stop(100%, rgba(17, 17, 17, 1))) !important;
+	background: -webkit-linear-gradient(top, rgba(85, 85, 85, 1) 0%,
+		rgba(17, 17, 17, 1) 100%) !important;
+	background: -o-linear-gradient(top, rgba(85, 85, 85, 1) 0%,
+		rgba(17, 17, 17, 1) 100%) !important;
+	background: -ms-linear-gradient(top, rgba(85, 85, 85, 1) 0%,
+		rgba(17, 17, 17, 1) 100%) !important;
+	background: linear-gradient(top, rgba(85, 85, 85, 1) 0%,
+		rgba(17, 17, 17, 1) 100%) !important;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#555555',
+		endColorstr='#111111', GradientType=0) !important;
+	color: #FFF !important;
+	text-align: center !important;
+	text-decoration: none !important;
+}
+
+.wish-list-tails:hover {
+	background: #111 !important;
+}
+
+.btnAddToWishList {
+	padding: 4px !important;
+	border-radius: 3px !important;
+	border: 1px solid #999 !important;
+	background: #555 !important;
+	background: -moz-linear-gradient(top, rgba(143, 143, 143, 1) 0%,
+		rgba(173, 173, 173, 1) 100%) !important;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(143,
+		143, 143, 1)), color-stop(100%, rgba(173, 173, 173, 1))) !important;
+	background: -webkit-linear-gradient(top, rgba(143, 143, 143, 1) 0%,
+		rgba(173, 173, 173, 1) 100%) !important;
+	background: -o-linear-gradient(top, rgba(143, 143, 143, 1) 0%,
+		rgba(173, 173, 173, 1) 100%) !important;
+	background: -ms-linear-gradient(top, rgba(143, 143, 143, 1) 0%,
+		rgba(173, 173, 173, 1) 100%) !important;
+	background: linear-gradient(top, rgba(143, 143, 143, 1) 0%,
+		rgba(173, 173, 173, 1) 100%) !important;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#8f8f8f',
+		endColorstr='#adadad', GradientType=0) !important;
+	color: #FFF !important;
+	font-size: 11px !important;
+	text-align: center !important;
+	line-height: 18px !important;
+	text-decoration: none !important;
+	width: 150px !important;
+	margin-top: 2px !important;
+}
+
+.btnAddToWishList:hover {
+	background: #959595 !important;
+}
+
+.btnAddToWishList:active {
+	position: relative !important;
+	top: 2px !important;
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0), inset 0 0 35px
+		rgba(0, 0, 0, 0.6), 0 1px 1px rgba(255, 255, 255, 0.1), inset 0 6px
+		4px rgba(0, 0, 0, 0.4) !important;
+}
+
+.ui-dialog-title {
+	font-size: 16px !important;
+}
+
+.footerSizeColor {
+	border-top: 1px solid #DDDDDD;
+	padding-top: 5px;
+	margin-top: 10px;
+	text-align: right;
+}
+
+.borderSizeColor {
+	border-style: solid !important;
+	border-color: rgba(84,84,84,0.8) !important;
+	border-width: 10px !important;
+	border-radius: 7px !important;
+	
+}
+
+#dlgSize h6
+{
+	text-transform: uppercase !important;
+}
+#dlgSize div 
+{
+	padding-bottom: 0px !important;
+}
+#dlgColor div 
+{
+	padding-bottom: 0px !important;
+}
+
+#dlgColor h6 
+{
+	text-transform: uppercase !important;
+}
+.footerClose:hover
+{
+	cursor: pointer;
+}
+/* fine taglie e colori*/
