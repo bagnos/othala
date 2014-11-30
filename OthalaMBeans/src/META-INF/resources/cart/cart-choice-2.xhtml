@@ -254,24 +254,21 @@
 								<div class="row">
 									<div class="col-sm-5">
 										<div class="form-group">
-											<h:outputText value="#{msg.catalog_size}" />
-											<br />
 											<p:commandButton styleClass="btnAddToWishList" onclick="PF('dlgSize').show();"
 												id="cmdZise" value="#{msg.catalog_chooseSize}" />
 										</div>
 
-										<h:commandButton rendered="#{cartChoice2View.idSize!=null}" readonly="true"
+										<h:commandButton onclick="return false;" rendered="#{cartChoice2View.idSize!=null}" readonly="true"
 											styleClass="wish-list-tails" value="#{cartChoice2View.txSize}" />
 
 									</div>
 									<div class="col-sm-5">
 										<div class="form-group">
-											<h:outputText value="#{msg.catalog_color}" />
-											<br />
+										
 											<p:commandButton styleClass="btnAddToWishList" disabled="#{cartChoice2View.idSize==null}"
 												onclick="PF('dlgColor').show();" value="#{msg.catalog_chooseColor}" id="cmdColor" />
 										</div>
-										<h:commandButton id="selectedColor" rendered="#{cartChoice2View.txColor!=null}" disabled="true"
+										<h:commandButton onclick="return false;" id="selectedColor" rendered="#{cartChoice2View.txColor!=null}" disabled="true"
 											styleClass="wish-list-tails" value="#{cartChoice2View.txColor}" />
 									</div>
 
@@ -280,7 +277,7 @@
 
 
 
-								<h:panelGroup style="rendered: false;" layout="block" id="qtaArt">
+								<h:panelGroup style="display:none;" layout="block" id="qtaArt">
 									<div class="row">
 										<div class="col-sm-4">
 
@@ -409,7 +406,7 @@
 			<p:dialog widgetVar="dlgSize" id="dlgSize" appendToBody="false" styleClass="borderSizeColor" showHeader="false"
 				header="#{msg.catalog_chooseSize}" closable="true" closeOnEscape="true" resizable="false">
 
-				<h6>#{msg.catalog_chooseSize}</h6>
+				<!-- <h6>#{msg.catalog_chooseSize}</h6>-->
 
 				<div class="row spacer30">
 					<div class="col-sm-12">
@@ -446,7 +443,7 @@
 			<p:dialog widgetVar="dlgColor" id="dlgColor" showHeader="false" styleClass="borderSizeColor"
 				header="#{msg.catalog_chooseColor}" closable="true" closeOnEscape="true" resizable="false">
 
-				<h6 style="text-transform: uppercase">#{msg.catalog_chooseColor}</h6>
+				<!-- <h6 style="text-transform: uppercase">#{msg.catalog_chooseColor}</h6>-->
 				<div class="row spacer30">
 					<div class="col-sm-12">
 						<ui:repeat var="colore" value="#{cartChoice2View.colorItems}">
