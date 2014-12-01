@@ -319,6 +319,7 @@
 	font-size: 10px;
 	float: left !important;
 	background-color: transparent !important;
+	text-transform: uppercase !important;
 }
 
 .breadcrumb>li+li:before {
