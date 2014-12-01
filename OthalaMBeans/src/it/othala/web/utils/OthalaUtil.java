@@ -20,31 +20,30 @@ import org.apache.commons.logging.Log;
 public class OthalaUtil {
 
 	private static ResourceBundle resources;
-	
 
 	public static ResourceBundle getResources() {
-		if (resources==null)
-		{
-			Locale locale=FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
+		if (resources == null) {
+			Locale locale = FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
 
-			resources=ResourceBundle.getBundle("language",locale);
+			resources = ResourceBundle.getBundle("language", locale);
 		}
 		return resources;
 	}
 
+	public static void setResources(Locale locale) {
 
-	
+		resources = ResourceBundle.getBundle("language", locale);
+
+	}
 
 	public static String getWordBundle(String key) {
 		return getResources().getString(key);
-		
+
 	}
-	
-	
-	private static HttpServletRequest getRequest()
-	{
-		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();  
-		HttpServletRequest request =  (HttpServletRequest)context.getRequest();
+
+	private static HttpServletRequest getRequest() {
+		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+		HttpServletRequest request = (HttpServletRequest) context.getRequest();
 		return request;
 	}
 
@@ -104,11 +103,10 @@ public class OthalaUtil {
 		out.println("</H3>");
 
 	}
-	
-	public static Map<String,Object> getSessionMap()
-	{
-		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();  
-		Map<String,Object> map =  context.getSessionMap();
+
+	public static Map<String, Object> getSessionMap() {
+		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+		Map<String, Object> map = context.getSessionMap();
 		return map;
 	}
 
