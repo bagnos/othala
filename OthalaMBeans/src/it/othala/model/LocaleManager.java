@@ -1,5 +1,7 @@
 package it.othala.model;
 
+import it.othala.web.utils.OthalaUtil;
+
 import java.io.IOException;
 import java.util.Locale;
 
@@ -23,6 +25,9 @@ public class LocaleManager {
 
     public void changeLocale(String language) {
         locale = new Locale(language);
+        OthalaUtil.setResources(getLocale());
+        FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
+		Locale.setDefault(locale);
     }
 
 }
