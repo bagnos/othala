@@ -254,8 +254,8 @@
 								<div class="row">
 									<div class="col-sm-5">
 										<div class="form-group">
-											<p:commandButton styleClass="btnAddToWishList" onclick="PF('dlgSize').show();"
-												id="cmdZise" value="#{msg.catalog_chooseSize}" />
+											<p:commandButton styleClass="btnAddToWishList" onclick="PF('dlgSize').show(); PF('dlgColor').hide();"
+												id="cmdZise" value="#{msg.catalog_chooseSize}" style="margin: 0 5px 5px !important;"/>
 										</div>
 
 										<h:commandButton onclick="return false;" rendered="#{cartChoice2View.idSize!=null}" disabled="true"
@@ -266,7 +266,7 @@
 										<div class="form-group">
 										
 											<p:commandButton styleClass="btnAddToWishList" disabled="#{cartChoice2View.idSize==null}"
-												onclick="PF('dlgColor').show();" value="#{msg.catalog_chooseColor}" id="cmdColor" />
+												onclick="PF('dlgColor').show(); PF('dlgSize').hide();" value="#{msg.catalog_chooseColor}" id="cmdColor" style="margin: 0 5px 5px !important;"/>
 										</div>
 										<h:commandButton onclick="return false;" id="selectedColor" rendered="#{cartChoice2View.txColor!=null}" disabled="true"
 											styleClass="wish-list-tails" value="#{cartChoice2View.txColor}" />
