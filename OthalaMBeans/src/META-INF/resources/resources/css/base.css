@@ -1,3 +1,6 @@
+
+
+
 .ui-widget {
 	font-size: 95% !important;
 }
@@ -301,7 +304,7 @@
 }
 
 .articolo .price {
-	margin:0 0 0 0;
+	margin: 0 0 0 0;
 }
 
 .caption.articolo {
@@ -400,7 +403,7 @@
 	border-bottom: 1px solid #ddd !important;
 	padding: 10px;
 	color: #999 !important;
-	font-size: 13px !important;
+	font-size: 12px !important;
 }
 
 .carousel {
@@ -608,39 +611,73 @@ html,body,form {
 }
 
 .bwizard-steps
+
+
 .clickable
+
  
+
 li
+
+
 :not
+
  
+
 (
 .active
+
  
+
 )
 {
 cursor
+
+
 :
+
  
+
 pointer
+
+
 
 
 }
 .bwizard-steps
+
+
 .clickable
+
  
+
 li
+
+
 :hover
+
+
 :not
+
  
+
 (
 .active
+
  
+
 )
 {
 background
+
+
 :
+
  
+
 #ccc
+
+
 
 
 }
@@ -878,31 +915,28 @@ background
 
 .borderSizeColor {
 	border-style: solid !important;
-	border-color: rgba(84,84,84,0.8) !important;
+	border-color: rgba(84, 84, 84, 0.8) !important;
 	border-width: 10px !important;
 	border-radius: 7px !important;
-	
 }
 
-#dlgSize h6
-{
+#dlgSize h6 {
 	text-transform: uppercase !important;
 }
-#dlgSize div 
-{
-	padding-bottom: 0px !important;
-}
-#dlgColor div 
-{
+
+#dlgSize div {
 	padding-bottom: 0px !important;
 }
 
-#dlgColor h6 
-{
+#dlgColor div {
+	padding-bottom: 0px !important;
+}
+
+#dlgColor h6 {
 	text-transform: uppercase !important;
 }
-.footerClose:hover
-{
+
+.footerClose:hover {
 	cursor: pointer;
 }
 /* fine taglie e colori*/
