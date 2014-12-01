@@ -35,7 +35,7 @@
 			<li><h:link value="#{menu.txGender}"
 					outcome="/cart/cart-catalog.xhtml" class="trasparente">
 
-					<f:param name="idMenu" value="1"></f:param>
+					<f:param name="idMenu" value="0"></f:param>
 					<f:param name="idSubMenu" value="0"></f:param>
 					<f:param name="fgNewArrivals" value="true"></f:param>
 					<f:param name="idCampaign" value="0"></f:param>
@@ -83,6 +83,7 @@
 										<f:param name="idSubMenu" value="#{submenu.idType}"></f:param>
 										<f:param name="fgNewArrivals" value="false"></f:param>
 										<f:param name="idCampaign" value="0"></f:param>
+										<f:param name="idSubMenuBrand" value="0"></f:param>
 									</h:link>
 								</div>
 							</ui:repeat>
@@ -100,9 +101,11 @@
 									<h:link value="#{submenu.txBrand}"
 										outcome="/cart/cart-catalog.xhtml">
 										<f:param name="idMenu" value="#{menu.idGender}"></f:param>
+										<f:param name="idSubMenu" value="0"></f:param>																			
 										<f:param name="idSubMenuBrand" value="#{submenu.idBrand}"></f:param>
 										<f:param name="fgNewArrivals" value="false"></f:param>
 										<f:param name="idCampaign" value="0"></f:param>
+										
 									</h:link>
 								</div>
 							</ui:repeat>
@@ -134,6 +137,7 @@
 									<f:param name="idSubMenu" value="0"></f:param>
 									<f:param name="fgNewArrivals" value="false"></f:param>
 									<f:param name="idCampaign" value="#{campaign.idCampaign}"></f:param>
+									<f:param name="idSubMenuBrand" value="0"></f:param>
 								</h:link>
 							</div>
 						</ui:repeat>
