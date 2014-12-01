@@ -2,6 +2,7 @@ package it.othala.web.utils;
 
 import it.othala.execption.OthalaException;
 import it.othala.model.ApplicationBean;
+import it.othala.model.LocaleManager;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,6 +11,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
@@ -18,10 +20,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 
 public class OthalaUtil {
+	
+	
+	private static String langFromContextJSF;
 
+
+	
 	private static ResourceBundle resources;
-
-	public static ResourceBundle getResources() {
+		public static ResourceBundle getResources() {
 		if (resources == null) {
 			Locale locale = FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
 
@@ -74,9 +80,17 @@ public class OthalaUtil {
 		}
 		return message;
 	}
+	
+	public static void setLangFromContextJSF(String langFromContextJSFNew) {
+		langFromContextJSF = langFromContextJSFNew;
+	}
 
 	public static String getLangFromContextJSF() {
-		return FacesContext.getCurrentInstance().getExternalContext().getRequestLocale().getLanguage();
+		if (langFromContextJSF==null)
+		{
+			langFromContextJSF=FacesContext.getCurrentInstance().getExternalContext().getRequestLocale().getLanguage();
+		}
+		return langFromContextJSF;
 		/* return "en"; */
 	}
 

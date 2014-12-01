@@ -16,6 +16,7 @@ import java.util.List;
 
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.model.SelectItem;
 
 /*@Named
@@ -51,6 +52,10 @@ public class ApplicationBean implements Serializable {
 	private List<AttributeDTO> statesOrder = null;
 	private List<AttributeDTO> statesProduct = null;
 	private Boolean configuredBarcodeProduct;
+	
+	
+
+
 
 	public boolean isConfiguredBarcodeProduct() {
 		if (configuredBarcodeProduct==null)
