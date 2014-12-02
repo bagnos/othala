@@ -35,7 +35,7 @@ public class ConfigurationUtil {
 		return path;
 	}
 	
-	private static String getBaseImageThumbinals()
+	public static String getBaseImageThumbinals()
 	{
 		String path=getBaseImagePath()+"cartThumbinals"+File.separator;
 		return path;

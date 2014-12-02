@@ -9,6 +9,7 @@ import it.othala.merchant.model.PromozioniBean;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 import it.othala.web.utils.AutoCompleteUtils;
+import it.othala.web.utils.ConfigurationUtil;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -78,6 +79,9 @@ public class InserisciFidelityCardView extends BaseView {
 	public String doInit() {
 		// TODO Auto-generated method stub
 		try {
+			OthalaFactory.getProductServiceInstance().cleanFolderImages(ConfigurationUtil.getBaseImageThumbinals());
+			
+			
 			if (!isModifica()) {
 				resetFidelity();
 			} else {
