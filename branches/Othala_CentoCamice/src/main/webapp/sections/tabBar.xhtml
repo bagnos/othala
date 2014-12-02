@@ -8,7 +8,7 @@
 
 
 	<div id="logo">
-		<a class=" hidden-xs" href="#{request.contextPath}/faces/home.xhtml"> <h:graphicImage
+		<a class="hidden-xs" href="#{request.contextPath}/faces/home.xhtml"> <h:graphicImage
 				library="images" styleClass="img-responsive"
 				title="#{msg.navTab_goHome}" name="logo2-small.png"></h:graphicImage>
 		</a>
@@ -46,7 +46,7 @@
 			<div class="tab-pane" id="#{menu.idGender}">
 				<div class="row">
 					<div class="col-sm-3">
-						<p:graphicImage styleClass="img-responsive"
+						<p:graphicImage styleClass="img-responsive hidden-xs"
 							library="#{menu.imgLibrary}" name="#{menu.imgName}" />
 					</div>
 
@@ -55,7 +55,7 @@
 							<ui:repeat var="submenu" value="#{menu.subMenu}"
 								varStatus="statusSub">
 								<div class="col-sm-3 spacer10">
-									<h:link value="#{submenu.txType}"
+									<h:link value="#{submenu.txType}" styleClass="linkArt"
 										outcome="/cart/cart-catalog.xhtml">
 										<f:param name="idMenu" value="#{menu.idGender}"></f:param>
 										<f:param name="idSubMenu" value="#{submenu.idType}"></f:param>
@@ -72,17 +72,17 @@
 
 		<!-- new arrivals -->
 
-		<div class="tab-pane" id="newArrival" rendered="">
+		<div class="tab-pane" id="newArrival" >
 			<div class="row">
 				<div class="col-sm-3">
-					<p:graphicImage styleClass="img-responsive"
+					<p:graphicImage styleClass="img-responsive hidden-xs"
 						library="images/home" name="new.png" />
 				</div>
 				<div class="col-sm-9">
 					<div class="row">
 						<ui:repeat var="menu" value="#{applicationBean.menu}">
 							<div class="col-sm-2">
-								<h:link value="#{menu.txGender}"
+								<h:link value="#{menu.txGender}" styleClass="linkArt"
 									outcome="/cart/cart-catalog.xhtml">
 									<f:param name="idMenu" value="#{menu.idGender}"></f:param>
 									<f:param name="idSubMenu" value="0"></f:param>
@@ -100,14 +100,14 @@
 		<div class="tab-pane" id="promo2">
 			<div class="row">
 				<div class="col-sm-3">
-					<p:graphicImage styleClass="img-responsive" library="images/home"
+					<p:graphicImage styleClass="img-responsive hidden-xs" library="images/home"
 						name="promo.png" />
 				</div>
 				<div class="col-sm-9">
 					<div class="row">
 						<ui:repeat var="campaign" value="#{applicationBean.campaigns}">
 							<div class="col-sm-12">
-								<h:link value="#{campaign.txCampaign}"
+								<h:link value="#{campaign.txCampaign}" styleClass="linkArt""
 									outcome="/cart/cart-catalog.xhtml">
 									<f:param name="idMenu" value="0"></f:param>
 									<f:param name="idSubMenu" value="0"></f:param>
