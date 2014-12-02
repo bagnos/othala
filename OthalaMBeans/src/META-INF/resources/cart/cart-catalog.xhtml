@@ -18,10 +18,10 @@
 				value="#{cartFlowBean.catalog.fgNewArrivals}"></f:viewParam>
 			<f:viewParam name="idCampaign"
 				value="#{cartFlowBean.catalog.idCampaign}"></f:viewParam>
-				<f:viewParam name="idSubMenuBrand"
+			<f:viewParam name="idSubMenuBrand"
 				value="#{cartFlowBean.catalog.brand}"></f:viewParam>
-				
-				
+
+
 		</f:metadata>
 	</ui:define>
 
@@ -205,54 +205,66 @@
 
 									<h:link outcome="cart-choice-2">
 										<h:graphicImage styleClass="center-block img-responsive"
-											library="images/cartThumbinals" name="#{art.imagesUrl.get(0)}" />
+											library="images/cartThumbinals"
+											name="#{art.imagesUrl.get(0)}" />
 										<f:param name="idPrd" value="#{art.idProduct}"></f:param>
 									</h:link>
 
 									<div class="caption articolo">
-										<div style="float: right">
-											<p:graphicImage id="imgArt" library="images"
-												name="info-thumb.png" />
-											<p:tooltip for="imgArt">
+										<div class="row">
+											<div class="col-sm-11">
+												<div>
 
-												<h:outputText value="#{msg.catalog_available}" />
-												<br />
-												<h:outputText
-													value="#{msg.catalog_colors} #{art.colorsAsString}" />
-												<br />
-												<h:outputText
-													value="#{msg.catalog_sizes} #{art.sizesAsString}" />
+													<h5 style="text-align: center">#{art.txBrand}</h5>
+												</div>
+												<div>
+													<p class="price" style="text-align: center">
+														<h:outputText value="#{art.price}"
+															styleClass="#{art.price != art.priceDiscounted?'onSale':''}">
+															<f:converter converterId="it.othala.BigDecimalConverter" />
+														</h:outputText>
 
-											</p:tooltip>
+														<h:outputText value="#{art.priceDiscounted}"
+															rendered="#{art.price != art.priceDiscounted}">
+															<f:converter converterId="it.othala.BigDecimalConverter" />
+														</h:outputText>
+
+													</p>
+
+												</div>
+
+												<div>
+													<h6 class="visibile" style="text-align: center">
+														<h:outputText id="descr" value="#{art.description}" />
+													</h6>
+													<p:tooltip for="descr">
+														<h:outputText value="#{art.description}" />
+													</p:tooltip>
+												</div>
+
+											</div>
+											<div class="col-sm-1">
+												<div style="float: right">
+													<p:graphicImage id="imgArt" library="images"
+														name="info-thumb.png" />
+													<p:tooltip for="imgArt">
+
+														<h:outputText value="#{msg.catalog_available}" />
+														<br />
+														<h:outputText
+															value="#{msg.catalog_colors} #{art.colorsAsString}" />
+														<br />
+														<h:outputText
+															value="#{msg.catalog_sizes} #{art.sizesAsString}" />
+
+													</p:tooltip>
+												</div>
+
+											</div>
+
 										</div>
-										<div>
-											<p class="price" style="text-align: center">
-												<h:outputText value="#{art.price}"
-													styleClass="#{art.price != art.priceDiscounted?'onSale':''}">
-													<f:converter converterId="it.othala.BigDecimalConverter" />
-												</h:outputText>
 
-												<h:outputText value="#{art.priceDiscounted}"
-													rendered="#{art.price != art.priceDiscounted}"
-													>
-													<f:converter converterId="it.othala.BigDecimalConverter" />
-												</h:outputText>
 
-											</p>
-
-										</div>
-										<div>
-											
-											<h5 style="text-align: center">#{art.txBrand}</h5>
-										</div>
-										<div>
-											<h6 class="visibile" style="text-align: center">
-												<h:outputText id="descr" value="#{art.description}" />
-											</h6>
-											<p:tooltip for="descr">
-												<h:outputText value="#{art.description}" />
-											</p:tooltip>
-										</div>
 
 									</div>
 

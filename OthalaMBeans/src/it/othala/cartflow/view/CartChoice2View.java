@@ -137,7 +137,7 @@ public class CartChoice2View extends BaseView {
 			}
 
 			//inserita it per il crawler di fb che si presenta in use non trova il prodotto
-			prdFull = OthalaFactory.getProductServiceInstance().getProductFull("it", idProduct);
+			prdFull = OthalaFactory.getProductServiceInstance().getProductFull(OthalaUtil.getLangFromContextJSF(), idProduct);
 			getCartFlowBean().setDetailProductFull(prdFull);
 			
 			if (prdFull==null)
