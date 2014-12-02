@@ -478,7 +478,7 @@ public class ProductService implements IProductService {
 		imagesToDelete.removeAll(imagesToKeep);
 		imagesToDelete.removeAll(thumbsToKeep);
 		//Le immagini LARGE non devono essere eliminate
-		CharSequence car = "_LARGE";
+		CharSequence car = "LARGE_";
 		for (String img : imagesToDelete) {
 			if (img.contains(car))
 				imagesToDelete.remove(img);
