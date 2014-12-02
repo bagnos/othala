@@ -48,13 +48,15 @@
   	
   	var widthResTab = window.innerWidth;
   	
-	
-  	if (widthResTab>=992)
-  	  	{
-	  		
-	  		(function($) {
+try
+{
+	 (function($) {
 	  	        fakewaffle.responsiveTabs(['xs', 'sm']);
 	  	    })(jQuery);
+}
+catch (e)
+{}
+	    
 	$("#tabNav>li>a").bind({
 		mouseenter: function() {
 			    $(this).click();
@@ -65,24 +67,14 @@
 			    $(this).removeClass("active");		
 
 					
-			     $("#tabNav>li[class='active']").removeClass("active");	    
+	$("#tabNav>li[class='active']").removeClass("active");	    
 			    	    
-			  }});
-  	  	}
-  	else
-  	  	{
-  	  	try
-  	  	{
-  		(function($) {
-  	        fakewaffle.responsiveTabs(['xs', 'sm']);
-  	    })(jQuery);
-  	  	}
-	  	catch (e)
-	  	{}  
+	 }});
+  	 
   	
   	$( "a[href*='collapse-/Othala']" ).each(function(){
 
-         var value=  $( this ).attr('href');
+       var value=  $( this ).attr('href');
        var valueRepl=value.replace('#collapse-','');
        $( this ).attr('href','#')
        $( this ).click(function()
@@ -90,7 +82,7 @@
 	       window.open(valueRepl);
 	       })
     })
-  	  	}
+  	  	
 
   	
   	
