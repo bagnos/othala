@@ -403,7 +403,7 @@
 				</div>
 			</div>
 
-			<p:dialog widgetVar="dlgSize" id="dlgSize" appendToBody="false" styleClass="borderSizeColor" showHeader="false"
+			<p:dialog widgetVar="dlgSize" id="dlgSize" width="270" appendToBody="false" styleClass="borderSizeColor" showHeader="false"
 				header="#{msg.catalog_chooseSize}" closable="true" closeOnEscape="true" resizable="false">
 
 				<!-- <h6>#{msg.catalog_chooseSize}</h6>-->
@@ -413,7 +413,7 @@
 
 						<ui:repeat var="size" value="#{cartChoice2View.sizeItems}">
 
-							<h:commandLink   onclick="$('#selSize').val('#{size.value}');$('#selSize').change();PF('dlgSize').hide(); return false;" styleClass="wish-list-tails"
+							<h:commandLink style="font-size: 11px !important;"   onclick="$('#selSize').val('#{size.value}');$('#selSize').change();PF('dlgSize').hide(); return false;" styleClass="wish-list-tails"
 								value="#{size.label}">
 								<f:ajax  render="pnl-scelte">
 
@@ -440,14 +440,14 @@
 				</div>
 			</p:dialog>
 
-			<p:dialog widgetVar="dlgColor" id="dlgColor" showHeader="false" styleClass="borderSizeColor"
+			<p:dialog widgetVar="dlgColor" id="dlgColor" width="300" showHeader="false" styleClass="borderSizeColor"
 				header="#{msg.catalog_chooseColor}" closable="true" closeOnEscape="true" resizable="false">
 
 				<!-- <h6 style="text-transform: uppercase">#{msg.catalog_chooseColor}</h6>-->
 				<div class="row spacer30">
 					<div class="col-sm-12">
 						<ui:repeat var="colore" value="#{cartChoice2View.colorItems}">
-						<h:commandLink   onclick="$('#selColor').val('#{colore.value}');$('#selColor').change();PF('dlgColor').hide(); return false;" styleClass="wish-list-tails"
+						<h:commandLink style="font-size: 11px !important;"   onclick="$('#selColor').val('#{colore.value}');$('#selColor').change();PF('dlgColor').hide(); return false;" styleClass="wish-list-tails"
 								value="#{colore.label}">
 							</h:commandLink>
 						</ui:repeat>
