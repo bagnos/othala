@@ -8,7 +8,7 @@
 
 
 	<div id="logo">
-		<a class=" hidden-xs" href="#{request.contextPath}/faces/home.xhtml">
+		<a class="hidden-xs hidden-sm" href="#{request.contextPath}/faces/home.xhtml">
 			<h:graphicImage library="images" styleClass="img-responsive"
 				title="#{msg.navTab_goHome}" name="logo2-small.png"></h:graphicImage>
 		</a>
@@ -32,7 +32,9 @@
 
 
 		<h:panelGroup rendered="#{applicationBean.menuFull.fgNuoviArrivi}">
-			<li><h:link value="#{menu.txGender}"
+			<li>
+			
+			<h:link value="#{menu.txGender}"    styleClass="visible-xs visible-sm" 
 					outcome="/cart/cart-catalog.xhtml" class="trasparente">
 
 					<f:param name="idMenu" value="0"></f:param>
@@ -41,7 +43,8 @@
 					<f:param name="idCampaign" value="0"></f:param>
 
 					<h:outputText id="newArr" value="#{msg.catalog_newArrival}" />
-				</h:link></li>
+				</h:link>
+			</li>
 		</h:panelGroup>
 
 
@@ -60,12 +63,12 @@
 			varStatus="status">
 			<div class="tab-pane" id="#{menu.idGender}">
 				<div class="row">
-					<div class="col-sm-2">
-						<p:graphicImage styleClass="img-responsive"
+					<div class="col-sm-1 col-md-2">
+						<p:graphicImage styleClass="img-responsive hidden-xs"
 							library="#{menu.imgLibrary}" name="#{menu.imgName}" />
 					</div>
 
-					<div class="col-sm-5">
+					<div class="col-sm-12 col-md-5 spacer10">
 						<div class="row">
 							<div class="col-sm-12 border-brand"
 								style="color: #666666;font-family: ArialMTBold; font-size: 14px; padding-bottom: 10px;">#{msg.articoli}
@@ -77,7 +80,7 @@
 							<ui:repeat var="submenu" value="#{menu.subMenu}"
 								varStatus="statusSub">
 								<div class="col-sm-3 spacer6">
-									<h:link value="#{submenu.txType}"
+									<h:link class="linkArt" value="#{submenu.txType}"
 										outcome="/cart/cart-catalog.xhtml">
 										<f:param name="idMenu" value="#{menu.idGender}"></f:param>
 										<f:param name="idSubMenu" value="#{submenu.idType}"></f:param>
@@ -90,7 +93,7 @@
 						</div>
 					</div>
 
-					<div class="col-sm-5" style="border-left: 1px dotted #ccc"> 
+					<div class="col-sm-12 col-md-5 spacer10" style="border-left: 1px dotted #ccc"> 
 						<div class="row">
 							<div class="col-sm-12 border-brand" style="color: #666666;font-family: ArialMTBold; font-size: 14px; padding-bottom: 10px;">Brands</div>
 						</div>
@@ -98,7 +101,7 @@
 							<ui:repeat var="submenu" value="#{menu.subMenuBrand}"
 								varStatus="statusSub">
 								<div class="col-sm-4 spacer6">
-									<h:link value="#{submenu.txBrand}"
+									<h:link styleClass="linkArt" value="#{submenu.txBrand}"
 										outcome="/cart/cart-catalog.xhtml">
 										<f:param name="idMenu" value="#{menu.idGender}"></f:param>
 										<f:param name="idSubMenu" value="0"></f:param>																			
@@ -120,7 +123,7 @@
 		<!-- promozioni -->
 		<div class="tab-pane" id="promo2">
 			<div class="row">
-				<div class="col-sm-3">
+				<div class="col-sm-1 hidden-xs">
 
 					<p:graphicImage styleClass="img-responsive"
 						library="#{applicationBean.menuFull.imgPromo.txLibrary}"
@@ -131,7 +134,7 @@
 					<div class="row">
 						<ui:repeat var="campaign" value="#{applicationBean.campaigns}">
 							<div class="col-sm-12">
-								<h:link value="#{campaign.txCampaign}"
+								<h:link styleClass="linkArt" value="#{campaign.txCampaign}"
 									outcome="/cart/cart-catalog.xhtml">
 									<f:param name="idMenu" value="0"></f:param>
 									<f:param name="idSubMenu" value="0"></f:param>
