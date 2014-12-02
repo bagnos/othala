@@ -138,6 +138,7 @@ html,body,form {
 
 .navbar-inverse .navbar-nav>li>a {
 	color: white;
+	background-color: #666666 !important;
 }
 
 .back-top {
