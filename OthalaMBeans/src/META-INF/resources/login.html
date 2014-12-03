@@ -1,32 +1,38 @@
 
 <html>
 <head>
-<title>Othala - Login</title>
+<title>Login</title>
 
 <meta http-equiv="pragma" content="no-cache" />
 <meta http-equiv="cache-control" content="no-cache" />
 <meta http-equiv="expires" content="0" />
+<link type="text/css" rel="stylesheet" href="./resources/bootstrap/css/bootstrap.min.css">
 </head>
 <body>
-	
 
-	<form action="j_security_check" method="post">
-		
-		<table>
-			<tr>
-				<td>User:</td>
-				<td><input maxlength="10" size="60"
-					type="text" name="j_username" id="j_username" /></td>
-			</tr>
-			<tr>
-				<td>Password:</td>
-				<td><input maxlength="10" size="12"
-					type="password" id="j_password" name="j_password" /></td>
-			</tr>
-		</table>
+	<form role="form" action="j_security_check" method="post" style="margin-top: 30px">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-4 col-sm-offset-4" style="border-color: gray; border-style: solid; padding: 20px;">
+					<img src="./resources/images/logo2-small.png" class="img-responsive">
+					<h3>Autenticazione</h3>
 
-		<input type="submit" value="Login" id="login"/>
 
+					<div class="form-group">
+						<label for="j_username">Utente</label>
+						<input type="text" class="form-control" name="j_username" id="j_username" placeholder="Utente">
+					</div>
+					<div class="form-group">
+						<label for="j_password">Password</label>
+						<input type="password" class="form-control" id="j_password" name="j_password"
+							placeholder="Password">
+					</div>
+
+					<button type="submit" class="btn  btn-primary">Login</button>
+
+				</div>
+			</div>
+		</div>
 	</form>
 
 </body>
