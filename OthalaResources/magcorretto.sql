@@ -251,7 +251,7 @@ CREATE TABLE `customer` (
 
 LOCK TABLES `customer` WRITE;
 /*!40000 ALTER TABLE `customer` DISABLE KEYS */;
-INSERT INTO `customer` VALUES ('1','ANTANI','A','A','A',1);
+INSERT INTO `customer` VALUES ('shop@magboutique.it','shop@mag','A','A','A',1);
 /*!40000 ALTER TABLE `customer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -277,7 +277,7 @@ CREATE TABLE `customer_roles` (
 
 LOCK TABLES `customer_roles` WRITE;
 /*!40000 ALTER TABLE `customer_roles` DISABLE KEYS */;
-INSERT INTO `customer_roles` VALUES ('1','AMMINISTRATORE');
+INSERT INTO `customer_roles` VALUES ('shop@magboutique.it','AMMINISTRATORE');
 /*!40000 ALTER TABLE `customer_roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -815,7 +815,7 @@ CREATE TABLE `shops` (
 
 LOCK TABLES `shops` WRITE;
 /*!40000 ALTER TABLE `shops` DISABLE KEYS */;
-INSERT INTO `shops` VALUES (1,'Siena','jacopo.frediani@banca.mps.it','Mag Boutique','Via dei Termini, 49','Siena',53100,'SI','Italia','+39 0577 41043');
+INSERT INTO `shops` VALUES (1,'Siena','shop@magboutique.it','Mag Boutique','Via dei Termini, 49','Siena',53100,'SI','Italia','+39 0577 41043');
 /*!40000 ALTER TABLE `shops` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1011,4 +1011,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-12-02 15:58:21
+-- Dump completed on 2014-12-03  9:14:03
