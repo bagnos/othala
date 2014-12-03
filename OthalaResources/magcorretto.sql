@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.5.9, for Win32 (x86)
 --
--- Host: localhost    Database: aduna937_othala
+-- Host: localhost    Database: magbo647_othala
 -- ------------------------------------------------------
 -- Server version	5.5.15
 
@@ -16,12 +16,12 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Current Database: `aduna937_othala`
+-- Current Database: `magbo647_othala`
 --
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `aduna937_othala` /*!40100 DEFAULT CHARACTER SET utf8 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `magbo647_othala` /*!40100 DEFAULT CHARACTER SET utf8 */;
 
-USE `aduna937_othala`;
+USE `magbo647_othala`;
 
 --
 -- Table structure for table `addresses`
