@@ -100,7 +100,7 @@
 		  $('#carouselRelatedPrds').flexslider({
 		    animation: "slide",
 		    animationLoop: false,
-		    itemWidth: 90,
+		    itemWidth: 150,
 		    itemMargin: 5
 		  });
 	
@@ -365,7 +365,7 @@
 						<div id="carouselRelatedPrds" class="flexslider">
 							<ul class="slides">
 								<ui:repeat var="art" value="#{cartFlowBean.catalog.articles}">
-									<li><h:panelGroup
+									<li style="width:150px;"><h:panelGroup
 											rendered="#{art.idProduct!=cartFlowBean.detailProductFull.idProduct}">
 											<h:link outcome="cart-choice-2" rendered="#{art.idProduct != null}">
 
