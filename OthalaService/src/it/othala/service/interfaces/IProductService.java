@@ -1,6 +1,7 @@
 package it.othala.service.interfaces;
 
 import it.othala.dto.ArticleDTO;
+import it.othala.dto.LookBookDTO;
 import it.othala.dto.VetrinaDTO;
 import it.othala.dto.CampaignDTO;
 import it.othala.dto.DomainDTO;
@@ -78,6 +79,16 @@ public interface IProductService {
 	public DomainDTO insertSize(String languages, String txSize);
 	
 	public void cleanFolderImages(String folderPath) throws OthalaException;
+	
+	public int newLookBook(LookBookDTO lookBook);
+	
+	public void addProductToLookBook(int idLookBook, int idProduct); 
+	
+	public void removeLookBook(int idLookBook);
+	
+	public void removeProductFromLookBook(int idLookBook, int idProduct);
+	
+	public List<LookBookDTO> getLookBook(Integer idLookBook);
 
 
 	

@@ -4,6 +4,7 @@ import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.AttributeDTO;
 import it.othala.dto.CampaignDTO;
 import it.othala.dto.ConfigurationDTO;
+import it.othala.dto.LookBookDTO;
 import it.othala.dto.MenuDTO;
 import it.othala.dto.NazioniDTO;
 import it.othala.dto.ProductFullNewDTO;
@@ -169,6 +170,16 @@ public interface IProductDAO {
 	
 	public void deleteBadImages();
 
-		public List<SubMenuBrandDTO> listSubMenuBrand(Integer idMenu);
+	public List<SubMenuBrandDTO> listSubMenuBrand(Integer idMenu);
+	
+	public int insLookBook(LookBookDTO lookBook);
+	
+	public void insLookBookProduct(int idLookBook, int idProduct); 
+	
+	public void delLookBook(int idLookBook);
+	
+	public void delLookBookProduct(int idLookBook, int idProduct);
+	
+	public List<LookBookDTO> listaLookBook(Integer idLookBook);
 
 }

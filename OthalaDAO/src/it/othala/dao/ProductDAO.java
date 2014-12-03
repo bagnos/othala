@@ -6,6 +6,7 @@ import it.othala.dto.AttributeDTO;
 import it.othala.dto.CampaignDTO;
 import it.othala.dto.ConfigurationDTO;
 import it.othala.dto.DescriptionDTO;
+import it.othala.dto.LookBookDTO;
 import it.othala.dto.MenuDTO;
 import it.othala.dto.NazioniDTO;
 import it.othala.dto.ProductFullNewDTO;
@@ -1099,6 +1100,50 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 				"it.othala.product.queries.listSubMenuBrand", map);
 
 		return listSubMenu;
+	}
+
+	@Override
+	public int insLookBook(LookBookDTO lookBook) {
+		
+		return getSqlSession().insert("it.othala.product.queries.insertLookBook", lookBook);
+	}
+
+	@Override
+	public void insLookBookProduct(int idLookBook, int idProduct) {
+		
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("idlookbook", idLookBook);
+		map.put("idProduct", idProduct);
+		getSqlSession().insert("it.othala.product.queries.insertLookBookProduct", map);
+		
+	}
+
+	@Override
+	public void delLookBook(int idLookBook) {
+		
+		getSqlSession().update("it.othala.product.queries.deleteLookBook", idLookBook);
+		
+	}
+
+	@Override
+	public void delLookBookProduct(int idLookBook, int idProduct) {
+		
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("idlookbook", idLookBook);
+		map.put("idProduct", idProduct);
+		getSqlSession().insert("it.othala.product.queries.deleteLookBookProduct", map);
+		
+	}
+
+	@Override
+	public List<LookBookDTO> listaLookBook(Integer idLookBook) {
+		
+		HashMap<String, Object> map = new HashMap<>();
+		if (idLookBook != null){
+			map.put("idlookbook", idLookBook);		
+		}
+	
+		return getSqlSession().selectList("it.othala.product.queries.listLookBook", map);
 	}
 
 }
