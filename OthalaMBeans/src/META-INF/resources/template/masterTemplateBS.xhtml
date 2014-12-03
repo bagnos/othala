@@ -46,45 +46,71 @@
 
 		
   	
-  	var widthResTab = window.innerWidth;
-  	
-try
-{
-	 (function($) {
+    
+
+	 function menuHandler()
+    {
+  		try
+  		{
+  			/*if (!(window.innerWidth>991))
+  			{
+  			 $("#tabNav>li").first().addClass("active");
+  			 $("#tab-content>div").first().addClass("active");
+  			 
+  			}*/  		  	    
+  		 (function($) {
 	  	        fakewaffle.responsiveTabs(['xs', 'sm']);
 	  	    })(jQuery);
-}
-catch (e)
-{}
-	    
-	$("#tabNav>li>a").bind({
-		mouseenter: function() {
-			    $(this).click();
-		}});
+			}
+			catch (e)
+		   {}
 
-	$("#tab-content>div").bind({
-		mouseleave: function() {
-			    $(this).removeClass("active");		
+		
+			if ((window.innerWidth>991))
+  			{
+				$("#tabNav>li>a").bind({
+		    		mouseenter: function() {
+		    			    $(this).click();
+		    		}});
 
-					
-	$("#tabNav>li[class='active']").removeClass("active");	    
-			    	    
-	 }});
-  	 
-  	
-  	$( "a[href*='collapse-/Othala']" ).each(function(){
+		    	$("#tab-content>div").bind({
+		    		mouseleave: function() {
+		    			    $(this).removeClass("active");		
 
-       var value=  $( this ).attr('href');
-       var valueRepl=value.replace('#collapse-','');
-       $( this ).attr('href','#')
-       $( this ).click(function()
-    	       {
-	       window.open(valueRepl);
-	       })
-    })
+		    					
+		    	$("#tabNav>li[class='active']").removeClass("active");	    
+		    			    	    
+		    	 }});
+						  			 
+  			 
+  			}
+			else
+			{	
+	          	 
+      	
+      	$( "a[href*='collapse-/Othala']" ).each(function(){
+
+           var value=  $( this ).attr('href');
+           var valueRepl=value.replace('#collapse-','');
+           $( this ).attr('href','#')
+           $( this ).click(function()
+        	       {
+    	       window.open(valueRepl);
+    	       })
+        });
+
+			}		
+      	
+        
+     }
   	  	
 
-  	
+
+$( document ).ready(function() {
+
+	 menuHandler();
+	
+});
   	
 		
 </script>
