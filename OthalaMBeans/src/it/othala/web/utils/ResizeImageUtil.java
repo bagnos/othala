@@ -149,7 +149,7 @@ public class ResizeImageUtil {
 		}
 	}
 
-	private static String getBasePath() {
+	public static String getBasePath() {
 		ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
 		String path = extContext.getRealPath(getBaseImgPath());
 		return path;
