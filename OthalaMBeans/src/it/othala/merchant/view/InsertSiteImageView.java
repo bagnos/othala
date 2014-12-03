@@ -4,25 +4,22 @@ import it.othala.dto.AttributeDTO;
 import it.othala.dto.GroupImagesDTO;
 import it.othala.dto.SiteImagesDTO;
 import it.othala.service.factory.OthalaFactory;
+import it.othala.service.interfaces.IProductService;
 import it.othala.view.BaseView;
 import it.othala.web.utils.ResizeImageUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 
-import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
@@ -137,6 +134,8 @@ public class InsertSiteImageView extends BaseView {
 
 	public void conferma(ActionEvent e) {
 		try {
+			
+
 			GroupImagesDTO groupImages = new GroupImagesDTO();
 			
 			if (imagesSiteGroup.size() == 0)
@@ -160,6 +159,7 @@ public class InsertSiteImageView extends BaseView {
 			addGenericError(ex, "errore inserimento immagini home");
 
 		}
+		
 	}
 
 	private void reset() {
@@ -272,4 +272,24 @@ public class InsertSiteImageView extends BaseView {
 
 	}
 
+	public void deleteBadImages(ActionEvent e) {
+
+		try {
+
+		IProductService prod = OthalaFactory.getProductServiceInstance();
+
+		prod.cleanFolderImages(ResizeImageUtil.getBasePath());
+
+		} catch (Exception ex) {
+
+		reset();
+
+		addGenericError(ex, "errore inserimento immagini home");
+
+		}
+
+		}
+
+
+	
 }
