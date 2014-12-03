@@ -1941,4 +1941,83 @@
 
 	</delete>
 	
+	<insert id="insertLookBook" parameterType="it.othala.dto.LookBookDTO">
+
+		INSERT INTO
+		${database.schema}lookbook
+		(`txThumbnailUrl`,`idGender`,`idStato`)
+		values
+		(#{txThumbnailUrl},#{idGender},#{idStato})
+
+		<selectKey resultType="java.lang.Integer" keyProperty="idProduct">
+
+			SELECT LAST_INSERT_ID() AS idlookbook
+
+		</selectKey>
+
+	</insert>
+	
+	<insert id="insertLookBookProduct" parameterType="java.util.HashMap">
+
+		INSERT INTO
+		${database.schema}product_lookbook
+		(`idlookbook`,`idProduct`)
+		values
+		(#{idlookbook},#{idProduct})
+
+	</insert>
+	
+	<delete id="deleteLookBookProduct" parameterType="java.util.HashMap">
+
+		DELETE FROM
+		${database.schema}product_lookbook
+		WHERE 
+		idlookbook = #{idlookbook}
+		AND
+		idProduct = #{idProduct}
+
+	</delete>
+	
+	<update id="deleteLookBook" parameterType="Integer">
+
+		UPDATE
+		${database.schema}lookbook
+		SET
+		idStato = 0
+		WHERE
+		idlookbook = #{idlookbook};
+
+	</update>
+	
+	<resultMap id="LookBook" type="it.othala.dto.LookBookDTO">
+		<id property="idLookBook" column="idlookbook" />
+		<result property="txThumbnailUrl" column="txThumbnailUrl" />
+		<result property="idGender" column="idGender" />
+		<result property="idStato" column="idStato" />
+		<collection property="LookBookProduct" ofType="it.othala.dto.LookBookProductDTO">
+			<result property="idProduct" column="idProduct" />
+			<result property="txBrand" column="txBrand" />
+			<result property="txThumbnailsUrl" column="txThumbnailsUrl" />
+		</collection>
+	</resultMap>
+
+
+	<select id="listLookBook" resultMap="LookBook" parameterType="java.util.HashMap">
+
+		SELECT
+		a.idlookbook, a.txThumbnailUrl, a.idGender, a.idStato, 
+		c.idProduct, c.txThumbnailsUrl,
+ 		d.txBrand 
+ 		FROM lookbook a, product_lookbook b, product c, brand d
+		WHERE
+		a.idlookbook = b.idlookbook AND
+		b.idproduct = c.idproduct AND 
+		c.idbrand = d.idbrand
+		<if test="idlookbook != null">
+			AND a.idlookbook = #{idlookbook}
+		</if>
+
+	</select>
+	
+	
 </mapper>

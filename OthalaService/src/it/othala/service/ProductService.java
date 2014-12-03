@@ -6,6 +6,7 @@ import it.othala.dto.ArticleDTO;
 import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.CampaignDTO;
 import it.othala.dto.DomainDTO;
+import it.othala.dto.LookBookDTO;
 import it.othala.dto.MenuDTO;
 import it.othala.dto.MenuFullDTO;
 import it.othala.dto.ProductFullNewDTO;
@@ -496,6 +497,39 @@ public class ProductService implements IProductService {
 		//Elimino le imamgini da tabella
 		productDAO.deleteBadImages();
 		
+	}
+
+	@Override
+	public int newLookBook(LookBookDTO lookBook) {
+		
+		return productDAO.insLookBook(lookBook);
+	}
+
+	@Override
+	public void addProductToLookBook(int idLookBook, int idProduct) {
+		
+		productDAO.insLookBookProduct(idLookBook, idProduct);
+		
+	}
+
+	@Override
+	public void removeLookBook(int idLookBook) {
+		
+		productDAO.delLookBook(idLookBook);
+		
+	}
+
+	@Override
+	public void removeProductFromLookBook(int idLookBook, int idProduct) {
+		
+		productDAO.delLookBookProduct(idLookBook, idLookBook);
+		
+	}
+
+	@Override
+	public List<LookBookDTO> getLookBook(Integer idLookBook) {
+		
+		return productDAO.listaLookBook(idLookBook);
 	}
 
 }
