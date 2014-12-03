@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 
 <configuration>
 
-	<properties resource="it/othala/dao/ibatis/database.properties" />
+	<properties resource="database.properties" />
 
 	<typeHandlers>
 		<typeHandler handler="it.othala.dao.typehandlers.UtilDateTypeHandler"

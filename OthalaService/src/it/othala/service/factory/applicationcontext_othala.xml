@@ -13,7 +13,7 @@
 		<property name="ignoreResourceNotFound" value="true" />
 		<property name="locations">
 			<list>
-				<value>classpath:it/othala/dao/ibatis/database.properties</value>
+				<value>classpath:database.properties</value>
 
 				<value>classpath:Configuration.properties</value>
 			</list>
