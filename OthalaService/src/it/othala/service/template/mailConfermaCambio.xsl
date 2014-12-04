@@ -243,11 +243,11 @@
 					
 				</td>
 				<td>
-					<xsl:value-of select="format-number(unitPrice, '#.###.###,00', 'euro')"/>
+					<xsl:value-of select="format-number(unitPrice, '#.###.##0,00' , 'euro')"/>
 					
 				</td>
 				<td>
-					<xsl:value-of select="format-number(price, '#.###.###,00', 'euro')"/>
+					<xsl:value-of select="format-number(price, '#.###.##0,00' , 'euro')"/>
 					
 				</td>
 
