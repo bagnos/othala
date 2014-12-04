@@ -463,7 +463,8 @@ public class PaymentService implements IPaymentService {
 			out.write("cid:imgPayment");
 			out.write("</imgPayment>");
 			inlineImages.put("imgPayment", mailDTO.getPathImgPayment());
-			out.write("<deliveryCost>" + order.getSpeseSpedizione().getImportoSpese() + "</deliveryCost>");
+			String spese=order.getSpeseSpedizione().getImportoSpese().compareTo(BigDecimal.ZERO)==0?"0":order.getSpeseSpedizione().getImportoSpese().toString();
+			out.write("<deliveryCost>" + spese + "</deliveryCost>");
 			out.write("<totalCost>" + order.getImOrdine() + "</totalCost>");
 
 			out.write("<billingAddress>");
