@@ -19,7 +19,8 @@ public interface IProductService {
 	public DomainDTO getDomain(String languages);
 
 
-	public ProductFullNewDTO getProductFull(String languages, Integer idProduct);
+	public 	ProductFullNewDTO getProductFull(String languages, Integer idProduct,
+			Boolean fgQtaZero);
 
 	
 	public ProductFullNewDTO getProductArticleFull(String languages,
@@ -89,6 +90,9 @@ public interface IProductService {
 	public void removeProductFromLookBook(int idLookBook, int idProduct);
 	
 	public List<LookBookDTO> getLookBook(Integer idLookBook);
+
+
+
 
 
 	

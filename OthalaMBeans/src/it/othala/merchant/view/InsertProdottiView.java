@@ -406,7 +406,7 @@ public class InsertProdottiView extends BaseView {
 
 	private void initProdotto() {
 		prdDetail = OthalaFactory.getProductServiceInstance().getProductFull(getLang(),
-				merchantBean.getSelectedProducts().get(0).getIdProduct());
+				merchantBean.getSelectedProducts().get(0).getIdProduct(), true);
 
 		if (prdDetail.getArticles() != null) {
 			if (!prdDetail.getArticles().isEmpty()) {
