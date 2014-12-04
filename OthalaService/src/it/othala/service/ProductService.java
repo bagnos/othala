@@ -274,7 +274,7 @@ public class ProductService implements IProductService {
 	}
 
 	@Override
-	public ProductFullNewDTO getProductFull(String languages, Integer idProduct) {
+	public ProductFullNewDTO getProductFull(String languages, Integer idProduct, Boolean fgQtaZero) {
 
 		ProductFullNewDTO productFull = productDAO.getProductFull(languages,
 				idProduct);
@@ -284,7 +284,7 @@ public class ProductService implements IProductService {
 		productFull.setImagesUrl(newString);
 
 		List<ArticleFullDTO> listArticleFull = productDAO.listArticleFull(
-				idProduct, languages);
+				idProduct, languages, fgQtaZero);
 
 		for (int i = 0; i <= listArticleFull.size() - 1; i++) {
 

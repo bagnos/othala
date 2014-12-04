@@ -192,7 +192,7 @@ public class RichiediResoView extends BaseView {
 					if (richiediCambio != null && richiediCambio && art.getPgArticle().intValue() == pgArt
 							&& art.getPrdFullDTO().getIdProduct().intValue() == idPrd) {
 						ProductFullNewDTO prd = OthalaFactory.getProductServiceInstance().getProductFull(getLang(),
-								art.getPrdFullDTO().getIdProduct());
+								art.getPrdFullDTO().getIdProduct(),false);
 						updateChangeableArticle(prd, art);
 					}
 				}

@@ -48,8 +48,8 @@ public interface IProductDAO {
 
 	public ProductFullNewDTO getProductFull(String languages, Integer idProduct);
 
-	public List<ArticleFullDTO> listArticleFull(Integer idProduct,
-			String languages);
+	public 	List<ArticleFullDTO> listArticleFull(Integer idProduct, String languages,
+			Boolean fgQtaZero);
 
 	public Integer insertProduct(ProductFullNewDTO productFull, Boolean fgPubblicazione);
 
@@ -181,5 +181,7 @@ public interface IProductDAO {
 	public void delLookBookProduct(int idLookBook, int idProduct);
 	
 	public List<LookBookDTO> listaLookBook(Integer idLookBook);
+
+
 
 }
