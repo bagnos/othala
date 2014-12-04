@@ -188,6 +188,7 @@ html,body,form {
 margin: 0px;
 	padding-top: 0px;
 	padding-bottom: 0px;
+	text-align: justify;
 }
 .tumblr_post {
 	
@@ -195,14 +196,16 @@ margin: 0px;
 
 .tumblr_title {
 	font-size: 18px;
-	color: darkorange !important;
+	color: black !important;
 	font-family: arialMTbold !important;
 	padding-top: 10px;
+	padding-bottom: 10px;
 }
 
 .tumblr_body img {
-		padding-top: 10px;
-	padding-bottom: 10px;
+		padding-top: 20px;
+	padding-bottom: 20px;
+	width: 100%;
 }
 
 .read_more_container {
