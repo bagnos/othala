@@ -1,0 +1,45 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/merchantPageTemplate.xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+	<ui:define name="title">
+		<h:outputText value="Pulizia Immagini Inutilizzate"></h:outputText>
+	</ui:define>
+
+	<ui:define name="Pagina">Pulizia Immagini</ui:define>
+	<ui:define name="PaginaBreadcrumb">Immagini</ui:define>
+
+	<ui:define name="bodyPageContent">
+		<h:form prependId="false" id="frmProd" styleClass="form-horizontal">
+
+			<div class="row">
+				<div class="col-sm-4">
+					<h3 class="form-titoli">
+						<h:outputText value="PULIZIA IMMAGINI" />
+					</h3>
+				</div>
+			</div>
+
+			<div class="row spacer20">
+
+				<div class="col-sm-12">
+					<div class="form-group">
+						<div class="col-sm-2">
+							<p:commandButton styleClass="ui-priority-primary" update="@all"
+								actionListener="#{insertSiteImageView.deleteBadImages}" ajax="false" value="CLEAN">
+							</p:commandButton>
+							
+						</div>
+
+
+
+					</div>
+				</div>
+			</div>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>

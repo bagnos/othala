@@ -475,15 +475,24 @@ public class ProductService implements IProductService {
 		//Recupero i thumbnails da tenere
 		List<String> thumbsToKeep =  productDAO.getGoodThumbs();
 		
+		List<String> imagesLargeToKeep = new ArrayList<String>();
+		
+		for (int i=0; i < imagesToKeep.size(); i++) {
+			imagesLargeToKeep.add("LARGE_" + imagesToKeep.get(i));
+		        
+		}
+		
 		//Elimino dalla collezione leimmagini da tenere
 		imagesToDelete.removeAll(imagesToKeep);
 		imagesToDelete.removeAll(thumbsToKeep);
+		imagesToDelete.removeAll(imagesLargeToKeep);
 		//Le immagini LARGE non devono essere eliminate
+		/*
 		CharSequence car = "LARGE_";
 		for (String img : imagesToDelete) {
 			if (img.contains(car))
 				imagesToDelete.remove(img);
-		}
+		}*/
 		
 		
 		//Elimino fisicamente i files dalla directory
