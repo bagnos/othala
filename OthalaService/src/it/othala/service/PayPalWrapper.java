@@ -235,8 +235,15 @@ class PayPalWrapper {
 	}
 
 	public static Environment getEnvironment(String env) {
-
-		Environment environment = Environment.valueOf(env);
+		Environment environment=null;
+		if (env==null || env.isEmpty())
+		{
+			environment=Environment.LIVE;
+		}
+		else
+		{
+		environment = Environment.valueOf(env);
+		}
 
 		return environment;
 	}
