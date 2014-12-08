@@ -1926,7 +1926,9 @@
 		
 		SELECT txThumbnailsUrl 
 		FROM ${database.schema}product
-		
+		UNION 
+		SELECT txThumbnailsUrl 
+		FROM ${database.schema}article	
 	
 	</select>
 	
