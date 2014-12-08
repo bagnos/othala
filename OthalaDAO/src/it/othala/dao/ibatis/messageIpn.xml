@@ -28,7 +28,9 @@
 		SELECT count(*)
 		FROM ${database.schema}ipnmessages
 		Where  idTransaction = #{idTransaction}
-		
+		<if test="txStato!=null">
+		and upper(trim(txStato))=upper(trim(#{txStato}))
+		</if>
 		
 
 
