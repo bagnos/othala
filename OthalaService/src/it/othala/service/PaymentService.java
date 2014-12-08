@@ -202,8 +202,11 @@ public class PaymentService implements IPaymentService {
 					// inviare una mail in cui si comunica che PayPal ha
 					// accettato il pagamento
 					if (idOrder != null) {
+						int oldState=order.getIdStato();
 						orderService.updateStateOrder(idOrder, order, state);
 						try {
+							if (oldState!=TypeStateOrder.COMPLETEDFUNDSHELD.getState())
+							//questo stato è gia considerato completed, non ha senso reinviare la mail;	
 							sendMailAcceptedPyamentAfterPending(order, mailProps, state);
 						} catch (MailNotSendException e) {
 							// TODO Auto-generated catch block
@@ -211,6 +214,7 @@ public class PaymentService implements IPaymentService {
 									String.format("errore nell'invio della mail di accettazione pagamento",
 											order.getIdOrder()), e);
 						}
+						
 					}
 				}
 
@@ -301,7 +305,7 @@ public class PaymentService implements IPaymentService {
 
 	public boolean isPaymentCompleted(String paypalStatus) {
 		// TODO Auto-generated method stub
-		if (paypalStatus.equalsIgnoreCase("COMPLETED")) {
+		if (paypalStatus.equalsIgnoreCase("COMPLETED") || paypalStatus.equalsIgnoreCase("COMPLETED_FUNDS_HELD")) {
 			return true;
 		}
 
@@ -592,6 +596,7 @@ public class PaymentService implements IPaymentService {
 			// anche
 			// il decremento della qta
 			TypeStateOrder state = TypeStateOrder.fromString(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS());
+			log.info(String.format("stato PayPal %s- stato Othala %s",checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS(),Integer.toString(state.getState())));
 			if (isPaymentCompleted(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS())
 					|| isPaymentPending(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS())) {
 				orderService.confirmOrderPayment(order);

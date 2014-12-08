@@ -176,7 +176,7 @@ public final class PayPal implements Serializable {
 		String response = null;
 		log.info("input:"+nvpString.toString());
 		response = transport.getResponse(endpointUrl.toString(), nvpString.toString());
-		log.info("output:"+nvpString.toString());
+		log.info("output:"+response);
 
 		if (response != null) {
 
