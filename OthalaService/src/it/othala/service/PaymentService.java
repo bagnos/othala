@@ -95,9 +95,9 @@ public class PaymentService implements IPaymentService {
 		messageIpnDAO.insertMessageIpn(ipnDTO);
 	}
 
-	private boolean exitsIdTransaction(String idTransaction) {
+	private boolean exitsIdTransaction(String idTransaction,String txStato) {
 		// TODO Auto-generated method stub
-		return messageIpnDAO.getIdTransaction(idTransaction) > 0;
+		return messageIpnDAO.getIdTransaction(idTransaction,txStato) > 0;
 
 	}
 
@@ -120,7 +120,8 @@ public class PaymentService implements IPaymentService {
 			// check that txn_id has not been previously processed
 			String txn_id = ipnDTO.getTxn_id();
 			Integer idOrder = Integer.valueOf(ipnDTO.getCustom());
-			if (!exitsIdTransaction(txn_id)) {
+			TypeStateOrder state = TypeStateOrder.fromString(ipnDTO.getPayment_status());
+			if (!exitsIdTransaction(txn_id,ipnDTO.getPayment_status())) {
 
 				// check that receiver_email is your Primary PayPal email
 				String recEmailMerchant = profile.getReceiverEmail();
@@ -182,7 +183,7 @@ public class PaymentService implements IPaymentService {
 				}
 
 				// message is correct, process message
-				TypeStateOrder state = TypeStateOrder.fromString(ipnDTO.getPayment_status());
+				
 
 				if (isPaymentKO(ipnDTO.getPayment_status())) {
 					// inviare una mail in cui si comunica che PayPal non ha
@@ -202,19 +203,22 @@ public class PaymentService implements IPaymentService {
 					// inviare una mail in cui si comunica che PayPal ha
 					// accettato il pagamento
 					if (idOrder != null) {
-						int oldState=order.getIdStato();
+						int oldState = order.getIdStato();
+						log.info(String.format("Old state %d ", oldState));
 						orderService.updateStateOrder(idOrder, order, state);
 						try {
-							if (oldState!=TypeStateOrder.COMPLETEDFUNDSHELD.getState())
-							//questo stato è gia considerato completed, non ha senso reinviare la mail;	
-							sendMailAcceptedPyamentAfterPending(order, mailProps, state);
+							if (oldState != TypeStateOrder.COMPLETEDFUNDSHELD.getState()) {
+								// questo stato è gia considerato completed, non
+								// ha senso reinviare la mail;
+								sendMailAcceptedPyamentAfterPending(order, mailProps, state);
+							}
 						} catch (MailNotSendException e) {
 							// TODO Auto-generated catch block
 							log.error(
 									String.format("errore nell'invio della mail di accettazione pagamento",
 											order.getIdOrder()), e);
 						}
-						
+
 					}
 				}
 
@@ -360,7 +364,7 @@ public class PaymentService implements IPaymentService {
 			throw new MailNotSendException(e);
 		}
 
-		content = content.replaceAll("<COMPANY_NAME>", mailProps.getCompanyName());
+		content = content.replaceAll("<COMPANY_NAME>", mailProps.getCompanyName()==null?"":mailProps.getCompanyName());
 		content = content.replaceAll("<NAME>", order.getNameUser() + " " + order.getSurnameUser());
 		content = content.replaceAll("<idTransazione>", order.getIdTransaction());
 		content = content.replaceAll("<idOrder>", String.valueOf(order.getIdOrder()));
@@ -401,9 +405,9 @@ public class PaymentService implements IPaymentService {
 		}
 
 		mailService.inviaHTMLMail(new String[] { order.getIdUser() }, oggetto, html, inlineImages, mailDTO);
-		
+
 		if (state == TypeStateOrder.SPEDITO) {
-			
+
 		} else {
 			// invia la mai di notifica ordine ai negozi
 			List<ShopDTO> lstShop = new ArrayList<ShopDTO>();
@@ -411,17 +415,15 @@ public class PaymentService implements IPaymentService {
 			for (int i = 0; i < lstShop.size(); i++) {
 				for (ArticleFullDTO art : order.getCart()) {
 					if (art.getShop().getIdShop() == lstShop.get(i).getIdShop()) {
-						html = generateHtmlOrder(order, mailDTO, inlineImages, state, "mailInserimentoOrdine",
-								lstShop.get(i).getIdShop());
-						mailService.inviaHTMLMail(new String[] { lstShop.get(i).getTxMail() }, "Nuovo Ordine WEB", html,
-								inlineImages, mailDTO);
+						html = generateHtmlOrder(order, mailDTO, inlineImages, state, "mailInserimentoOrdine", lstShop
+								.get(i).getIdShop());
+						mailService.inviaHTMLMail(new String[] { lstShop.get(i).getTxMail() }, "Nuovo Ordine WEB",
+								html, inlineImages, mailDTO);
 						break;
 					}
 				}
 			}
 		}
-		
-
 
 	}
 
@@ -467,7 +469,8 @@ public class PaymentService implements IPaymentService {
 			out.write("cid:imgPayment");
 			out.write("</imgPayment>");
 			inlineImages.put("imgPayment", mailDTO.getPathImgPayment());
-			String spese=order.getSpeseSpedizione().getImportoSpese().compareTo(BigDecimal.ZERO)==0?"0":order.getSpeseSpedizione().getImportoSpese().toString();
+			String spese = order.getSpeseSpedizione().getImportoSpese().compareTo(BigDecimal.ZERO) == 0 ? "0" : order
+					.getSpeseSpedizione().getImportoSpese().toString();
 			out.write("<deliveryCost>" + spese + "</deliveryCost>");
 			out.write("<totalCost>" + order.getImOrdine() + "</totalCost>");
 
@@ -596,7 +599,8 @@ public class PaymentService implements IPaymentService {
 			// anche
 			// il decremento della qta
 			TypeStateOrder state = TypeStateOrder.fromString(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS());
-			log.info(String.format("stato PayPal %s- stato Othala %s",checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS(),Integer.toString(state.getState())));
+			log.info(String.format("stato PayPal %s- stato Othala %s", checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS(),
+					Integer.toString(state.getState())));
 			if (isPaymentCompleted(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS())
 					|| isPaymentPending(checkDTO.getPAYMENTINFO_0_PAYMENTSTATUS())) {
 				orderService.confirmOrderPayment(order);
@@ -604,7 +608,7 @@ public class PaymentService implements IPaymentService {
 				orderService.updateStateOrder(order.getIdOrder(), order, state);
 			}
 
-			// salvo il messaggio
+			// salvo il messaggio			
 			MessageIpnDTO ipn = new MessageIpnDTO();
 			ipn.setFgElaborato(false);
 			ipn.setIdOrder(order.getIdOrder());

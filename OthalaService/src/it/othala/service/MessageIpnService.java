@@ -23,7 +23,7 @@ public class MessageIpnService implements IMessageIpnService {
 	public Boolean getIdTransaction(String idTransaction) {
 
 		Integer qtIdTransaction = messageIpnDAO.getIdTransaction(
-				idTransaction);
+				idTransaction,null);
 
 		if (qtIdTransaction > 0) {
 			return true;
