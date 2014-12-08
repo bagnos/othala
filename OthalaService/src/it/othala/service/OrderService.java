@@ -65,18 +65,14 @@ public class OrderService implements IOrderService {
 	private IAccountDAO accountDAO;
 	private IMailService mailService;
 	private IOthalaExternalServices externalService;
-	
+
 	public void setExternalService(IOthalaExternalServices externalService) {
 		this.externalService = externalService;
 	}
 
-	
-
 	@Override
 	public List<OrderFullDTO> getOrders(Integer Order, String User, TypeStateOrder StatoOrdine) {
 
-		
-		
 		return getOrders(Order, User, StatoOrdine, null);
 
 	}
@@ -177,12 +173,14 @@ public class OrderService implements IOrderService {
 		while (i.hasNext()) {
 			ArticleFullDTO article = i.next();
 
-/*			Integer qtaProduct = productDAO.getQtStockLock(article.getPrdFullDTO().getIdProduct(),
-					article.getPgArticle());*/
-			
-			Integer qtaProduct = externalService.getQtStockLock(article.getPrdFullDTO().getIdProduct(), 
+			/*
+			 * Integer qtaProduct =
+			 * productDAO.getQtStockLock(article.getPrdFullDTO().getIdProduct(),
+			 * article.getPgArticle());
+			 */
+
+			Integer qtaProduct = externalService.getQtStockLock(article.getPrdFullDTO().getIdProduct(),
 					article.getPgArticle());
-			
 
 			if (qtaProduct < article.getQtBooked()) {
 				List<String> prodNoStock = new ArrayList<String>();
@@ -245,7 +243,9 @@ public class OrderService implements IOrderService {
 
 		orderDAO.updateStateOrder(stateOrder);
 
-		orderDAO.updateOrder(orderFull.getIdOrder(), orderFull.getIdTransaction(), null);
+		if (orderFull.getIdTransaction() != null) {
+			orderDAO.updateOrder(orderFull.getIdOrder(), orderFull.getIdTransaction(), null);
+		}
 
 		/*
 		 * IPaymentService payService =
@@ -699,23 +699,24 @@ public class OrderService implements IOrderService {
 	@Override
 	public FidelityCardDTO checkFidelityCard(String idFidelity, String eMail, String celNum)
 			throws FidelityCardNotPresentException, FidelityCardNotValidException {
-/*		List<FidelityCardDTO> fCard = orderDAO.getFidelityCard(idFidelity, null, null, null);
-		if (fCard.get(0) == null)
-			throw new FidelityCardNotPresentException(idFidelity);
+		/*
+		 * List<FidelityCardDTO> fCard = orderDAO.getFidelityCard(idFidelity,
+		 * null, null, null); if (fCard.get(0) == null) throw new
+		 * FidelityCardNotPresentException(idFidelity);
+		 * 
+		 * if (eMail != null && !eMail.isEmpty()) { if
+		 * (fCard.get(0).getTxEmail() == null ||
+		 * fCard.get(0).getTxEmail().isEmpty()) throw new
+		 * FidelityCardNotValidException(idFidelity); if
+		 * (!fCard.get(0).getTxEmail().equals(eMail)) throw new
+		 * FidelityCardNotValidException(idFidelity); } if (celNum != null &&
+		 * !celNum.isEmpty()) { if (fCard.get(0).getTxTel() == null ||
+		 * fCard.get(0).getTxTel().isEmpty()) throw new
+		 * FidelityCardNotValidException(idFidelity); if
+		 * (!fCard.get(0).getTxTel().equals(celNum)) throw new
+		 * FidelityCardNotValidException(idFidelity); }
+		 */
 
-		if (eMail != null && !eMail.isEmpty()) {
-			if (fCard.get(0).getTxEmail() == null || fCard.get(0).getTxEmail().isEmpty())
-				throw new FidelityCardNotValidException(idFidelity);
-			if (!fCard.get(0).getTxEmail().equals(eMail))
-				throw new FidelityCardNotValidException(idFidelity);
-		}
-		if (celNum != null && !celNum.isEmpty()) {
-			if (fCard.get(0).getTxTel() == null || fCard.get(0).getTxTel().isEmpty())
-				throw new FidelityCardNotValidException(idFidelity);
-			if (!fCard.get(0).getTxTel().equals(celNum))
-				throw new FidelityCardNotValidException(idFidelity);
-		}*/
-		
 		return externalService.checkFidelityCard(idFidelity, eMail, celNum);
 
 	}
@@ -913,9 +914,9 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public RendicontoOrdini getTotaliOrdini(Timestamp dtDa, Timestamp dtA,
-			TypeStateOrder statoOrdine, TypeStateOrder statoRefound) {
-		
+	public RendicontoOrdini getTotaliOrdini(Timestamp dtDa, Timestamp dtA, TypeStateOrder statoOrdine,
+			TypeStateOrder statoRefound) {
+
 		return orderDAO.getTotaliOrdini(dtDa, dtA, statoOrdine, statoRefound);
 	}
 

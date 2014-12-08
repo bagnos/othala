@@ -23,9 +23,9 @@ public enum TypeStateOrder {
 	PENDING(9), REFUNDED(10), REVERSED(11), PROCESSED(12), VOIDED(13), COMPLETEDFUNDSHELD(14) {
 		@Override
 		public String toString() {
-			return "COMPLETED-FUNDS-HELD";
+			return "COMPLETED_FUNDS_HELD";
 		}
-
+		
 	},
 	SPEDITO(15),
 	ANNULLATO_DA_MERCHANT(16){
@@ -126,10 +126,10 @@ public enum TypeStateOrder {
 	}
 
 	public static TypeStateOrder fromString(String dsState) {
-
+		
 		TypeStateOrder result = UNKNOWN;
 		for (TypeStateOrder state : values()) {
-			if (state.toString().equalsIgnoreCase(dsState)) {
+			if (state.toString().equalsIgnoreCase(dsState.trim())) {
 				result = state;
 				;
 				break;
