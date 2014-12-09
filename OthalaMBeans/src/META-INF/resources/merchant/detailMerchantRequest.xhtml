@@ -168,13 +168,11 @@
 				<div class="col-sm-2 col-sm-offset-8">
 					<p:commandButton title="Rimborsa Ordine" process="@this" update="@form"
 						actionListener="#{detailMerchantRequestView.rimborsa}" disabled="#{detailMerchantRequestView.disabledConferma}"
-						rendered="#{merchantBean.refoundSelected.idStato==100 and merchantBean.change==false}"
-						oncomplete="if ($('#btnSpedito').length) {$('#btnSpedito').click()}  else {$('#btnSpeditoHome').click()}"
+						rendered="#{merchantBean.refoundSelected.idStato==100 and merchantBean.change==false}"						
 						styleClass="ui-priority-primary" value="Rimborsa">
 					</p:commandButton>
 					<p:commandButton title="Conferma Cambio" process="@this" update="@form"
-						rendered="#{merchantBean.change}" disabled="#{detailMerchantRequestView.disabledConferma}"
-						oncomplete="if ($('#btnSpedito').length) {$('#btnSpedito').click()}  else {$('#btnSpeditoHome').click()}"
+						rendered="#{merchantBean.change}" disabled="#{detailMerchantRequestView.disabledConferma}"						
 						styleClass="ui-priority-primary" value="Conferma Cambio">
 					</p:commandButton>
 

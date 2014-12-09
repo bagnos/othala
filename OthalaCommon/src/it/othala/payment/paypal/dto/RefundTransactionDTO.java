@@ -15,7 +15,14 @@ public class RefundTransactionDTO extends PayPalResponseDTO {
 	private String PENDINGREASON;
 	private boolean pending;
 	private boolean failed;
+	private boolean instant;
 	
+	public boolean isInstant() {
+		return instant;
+	}
+	public void setInstant(boolean instant) {
+		this.instant = instant;
+	}
 	public boolean isFailed() {
 		return failed;
 	}
