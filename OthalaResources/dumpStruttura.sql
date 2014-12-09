@@ -295,7 +295,7 @@ CREATE TABLE `ipnmessages` (
   `idTransaction` varchar(50) NOT NULL,
   `tsInserimento` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `txMessage` varchar(10000) DEFAULT NULL,
-  `txStato` varchar(45) DEFAULT NOT NULL,
+  `txStato` varchar(45) DEFAULT NULL,
   `txNote` varchar(100) DEFAULT NULL,
   `fgElaborato` tinyint(1) DEFAULT NULL,
   `idRefund` int(11) DEFAULT NULL,
