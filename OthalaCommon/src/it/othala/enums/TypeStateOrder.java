@@ -97,8 +97,8 @@ public enum TypeStateOrder {
 			return "CAMBIO ANNULLATO";
 		}
 		
-	}
-
+	},
+	INSTANT(204)
 	;
 
 	private int stato;

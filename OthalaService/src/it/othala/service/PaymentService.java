@@ -319,13 +319,25 @@ public class PaymentService implements IPaymentService {
 
 	public boolean isPaymenRefunded(String paypalStatus) {
 		// TODO Auto-generated method stub
-		if (paypalStatus.equalsIgnoreCase("REFUNDED") || (paypalStatus.equalsIgnoreCase("INSTANT"))) {
+		if (paypalStatus.equalsIgnoreCase("REFUNDED")) {
 			return true;
 		}
 
 		return false;
 
 	}
+	
+	public boolean isPaymenInstant(String paypalStatus) {
+		// TODO Auto-generated method stub
+		if (paypalStatus.equalsIgnoreCase("instant")) {
+			return true;
+		}
+
+		return false;
+
+	}
+	
+	
 
 	@Override
 	public void sendMailRefusedPayment(OrderFullDTO order, MailPropertiesDTO mailProps) throws MailNotSendException {
@@ -733,8 +745,16 @@ public class PaymentService implements IPaymentService {
 		} else if (isPaymentKO(paypalStatus)) {
 			orderService.updateStateRefound(ref.getIdRefound(), TypeStateOrder.REFOUND_REFUSED, pendingReason);
 			refTrans.setFailed(true);
-		} else {
-			throw new PayPalException(String.format("Stati %s non ammesso nella fase di rimborso", paypalStatus));
+			
+		} 
+		else if(isPaymenInstant(paypalStatus))
+		{
+			orderService.updateStateRefound(ref.getIdRefound(), TypeStateOrder.INSTANT, pendingReason);
+			refTrans.setInstant(true);
+		}
+		else {
+			//throw new PayPalException(String.format("Stati %s non ammesso nella fase di rimborso", paypalStatus));
+			log.info(String.format("nessuna operazione da fare per lo stato  %s di rimborso", paypalStatus));
 		}
 		return refTrans;
 	}
