@@ -246,9 +246,9 @@ public class RichiediResoView extends BaseView {
 
 		keyRefund = HelperCrypt.encrypt(keyRefund);
 		getRequest().getSession().setAttribute(keyRefund, ref);
-
+		String url="http://"+getRequest().getServerName()+getRequest().getContextPath()+"/RichiestaResoServlet?keyRefund=" + keyRefund;
 		RequestContext.getCurrentInstance().execute(
-				"window.open('../RichiestaResoServlet?keyRefund=" + keyRefund + "');");
+				"window.open('"+url+"');");
 	}
 
 	private void getChange(RefoundFullDTO ref) throws OthalaException {

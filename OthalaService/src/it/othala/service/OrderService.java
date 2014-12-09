@@ -352,7 +352,7 @@ public class OrderService implements IOrderService {
 
 		List<ShopDTO> shop = productDAO.listShop();
 
-		String html = generateHtmlReso(orderFullDTO, listRefound.get(0).getCart(), shop.get(1), "mailConfermaReso",
+		String html = generateHtmlReso(orderFullDTO, listRefound.get(0).getCart(), shop.get(0), "mailConfermaReso",
 				mailProps.getPathImgLogo(), idReso.toString());
 
 		String subject = shop.get(0).getTxShop() + " - Conferma Reso Merce";
