@@ -352,12 +352,12 @@ public class OrderService implements IOrderService {
 
 		List<ShopDTO> shop = productDAO.listShop();
 
+		Map<String, String> inlineImages = new HashMap<String, String>();
+		
 		String html = generateHtmlReso(orderFullDTO, listRefound.get(0).getCart(), shop.get(0), "mailConfermaReso",
-				mailProps.getPathImgLogo(), idReso.toString());
+				mailProps.getPathImgLogo(), idReso.toString(), inlineImages);
 
 		String subject = shop.get(0).getTxShop() + " - Conferma Reso Merce";
-
-		Map<String, String> inlineImages = new HashMap<String, String>();
 
 		mailService.inviaHTMLMail(new String[] { orderFullDTO.getIdUser().toString() }, subject, html, inlineImages,
 				mailProps);
@@ -373,12 +373,14 @@ public class OrderService implements IOrderService {
 
 		List<ShopDTO> shop = productDAO.listShop();
 
+		Map<String, String> inlineImages = new HashMap<String, String>();
+		
 		String html = generateHtmlReso(orderFullDTO, listRefound.get(0).getCart(), shop.get(1), "mailConfermaCambio",
-				mailProps.getPathImgLogo(), idReso.toString());
+				mailProps.getPathImgLogo(), idReso.toString(), inlineImages);
 
 		String subject = shop.get(0).getTxShop() + " - Conferma Cambio Merce";
 
-		Map<String, String> inlineImages = new HashMap<String, String>();
+		
 
 		mailService.inviaHTMLMail(new String[] { orderFullDTO.getIdUser().toString() }, subject, html, inlineImages,
 				mailProps);
@@ -394,12 +396,15 @@ public class OrderService implements IOrderService {
 
 		List<ShopDTO> shop = productDAO.listShop();
 
+		
+		Map<String, String> inlineImages = new HashMap<String, String>();
+		
 		String html = generateHtmlReso(orderFullDTO, listRefound.get(0).getCart(), shop.get(1),
-				"mailInserimentoCambio", mailProps.getPathImgLogo(), idReso.toString());
+				"mailInserimentoCambio", mailProps.getPathImgLogo(), idReso.toString(), inlineImages);
 
 		String subject = shop.get(0).getTxShop() + " - Notifica di Cambio";
 
-		Map<String, String> inlineImages = new HashMap<String, String>();
+		
 
 		mailService.inviaHTMLMail(new String[] { orderFullDTO.getIdUser().toString() }, subject, html, inlineImages,
 				mailProps);
@@ -414,13 +419,13 @@ public class OrderService implements IOrderService {
 		OrderFullDTO orderFullDTO = listOrderFullDTO.get(0);
 
 		List<ShopDTO> shop = productDAO.listShop();
-
+		Map<String, String> inlineImages = new HashMap<String, String>();
 		String html = generateHtmlReso(orderFullDTO, listRefound.get(0).getCart(), shop.get(1), "mailInserimentoReso",
-				mailProps.getPathImgLogo(), idReso.toString());
+				mailProps.getPathImgLogo(), idReso.toString(), inlineImages);
 
 		String subject = shop.get(0).getTxShop() + " - Notifica di Reso";
 
-		Map<String, String> inlineImages = new HashMap<String, String>();
+
 
 		mailService.inviaHTMLMail(new String[] { orderFullDTO.getIdUser().toString() }, subject, html, inlineImages,
 				mailProps);
@@ -435,14 +440,14 @@ public class OrderService implements IOrderService {
 		OrderFullDTO orderFullDTO = listOrderFullDTO.get(0);
 
 		List<ShopDTO> shop = productDAO.listShop();
-
+		Map<String, String> inlineImages = new HashMap<String, String>();
 		return generateHtmlReso(orderFullDTO, listRefound.get(0).getCart(), shop.get(1), "reso", pathLogo,
-				idReso.toString());
+				idReso.toString(), inlineImages);
 
 	}
 
 	private String generateHtmlReso(OrderFullDTO order, List<ArticleRefounded> artRef, ShopDTO shop,
-			String xslTemplate, String pathLogo, String numReso) throws Exception {
+			String xslTemplate, String pathLogo, String numReso, Map<String, String> inlineImages) throws Exception {
 		BufferedWriter out = null;
 		FileWriter fstream = null;
 
@@ -456,9 +461,13 @@ public class OrderService implements IOrderService {
 
 			out.write("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
 			out.write("<order>");
+			
 			out.write("<imgLogo>");
-			out.write(pathLogo);
+			out.write("cid:imageLogo");
+			inlineImages.put("imageLogo", pathLogo);
 			out.write("</imgLogo>");
+			
+			
 
 			out.write("<customer>");
 			out.write("<name>" + order.getNameUser() + "</name>");
@@ -560,8 +569,10 @@ public class OrderService implements IOrderService {
 
 		List<ShopDTO> shop = productDAO.listShop();
 
+		Map<String, String> inlineImages = new HashMap<String, String>();
+		
 		return generateHtmlReso(orderFullDTO, listRefound.get(0).getCart(), shop.get(1), "cambi", pathLogo,
-				idReso.toString());
+				idReso.toString(), inlineImages);
 
 	}
 
@@ -763,7 +774,8 @@ public class OrderService implements IOrderService {
 			out.write("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
 			out.write("<order>");
 			out.write("<imgLogo>");
-			out.write(pathLogo);
+			out.write("cid:imageLogo");
+			inlineImages.put("imageLogo", pathLogo);
 			out.write("</imgLogo>");
 
 			out.write("<customer>");
