@@ -123,7 +123,7 @@ public class CartConfirmationView extends BaseView {
 			return false;
 		}
 		int idOrder = Integer.valueOf(details.getCustom());
-		order = OthalaFactory.getOrderServiceInstance().getOrders(idOrder, null, TypeStateOrder.INSERITO)
+		order = OthalaFactory.getOrderServiceInstance().getOrders(idOrder, null, TypeStateOrder.INSERITO, true)
 				.get(0);
 		return esito;
 

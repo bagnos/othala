@@ -34,10 +34,10 @@ public class HomeMerchantView extends BaseView {
 			if (getQueryStringParm("torna") == null || getQueryStringParm("spedito") != null
 					|| getQueryStringParm("rimborsato") != null) {
 				merchantBean.setOrdersCompleted(OthalaFactory.getOrderServiceInstance().getOrders(null, null,
-						TypeStateOrder.COMPLETED));
+						TypeStateOrder.COMPLETED, true));
 
 				merchantBean.setOrdersPending(OthalaFactory.getOrderServiceInstance().getOrders(null, null,
-						TypeStateOrder.PENDING));
+						TypeStateOrder.PENDING, true));
 
 				merchantBean.setRefoundRequest(OthalaFactory.getOrderServiceInstance().getRefounds(null, null, null,
 						TypeStateOrder.REQUEST_REFOUND, null, "R"));

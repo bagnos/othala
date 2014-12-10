@@ -53,7 +53,7 @@ public class SpedisciOrdineServlet extends HttpServlet {
 			if (fgRis == null) {
 				OthalaFactory.getOrderServiceInstance().updateStateOrder(idOrder, null, TypeStateOrder.SPEDITO);
 				MailPropertiesDTO mail = ConfigurationUtil.getMailProps(request);
-				OrderFullDTO order = OthalaFactory.getOrderServiceInstance().getOrders(idOrder, null, null).get(0);
+				OrderFullDTO order = OthalaFactory.getOrderServiceInstance().getOrders(idOrder, null, null, true).get(0);
 				OthalaFactory.getPaymentServiceInstance().sendMailAcceptedPyament(order, mail, "SPEDITO");
 						
 			}

@@ -318,11 +318,11 @@ public class MerchantBean implements Serializable {
 		if (getIdTransazione() != null && !getIdTransazione().isEmpty()) {
 			orders = OthalaFactory.getOrderServiceInstance().getOrders(null,
 					null,
-					null,getIdTransazione());
+					null,true,getIdTransazione() );
 		} else  {
 			orders = OthalaFactory.getOrderServiceInstance().getOrders(getIdOrdine(),
 					getUser() != null && getUser().isEmpty() ? null : getUser(),
-					stateOrder);
+					stateOrder, true);
 		}
 		setOrdersFounded(orders);
 
