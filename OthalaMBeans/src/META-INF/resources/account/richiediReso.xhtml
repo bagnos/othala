@@ -20,6 +20,7 @@
 	<ui:define name="content">
 
 		<h:form prependId="false" id="frmResi">
+			<p:messages autoUpdate="true" showDetail="true" showSummary="true" closable="true"></p:messages>
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-4">
@@ -43,8 +44,7 @@
 						<p:commandButton title="#{msg.account_richiediReso}" styleClass="ui-priority-primary"
 							actionListener="#{richiediResoView.richiediReso}" 
 							onerror="PF('blockAll').unblock();"
-														oncomplete="PF('blockAll').unblock();$(window).scrollTop(0);" onclick="PF('blockAll').block()"
-							
+							oncomplete="PF('blockAll').unblock();$(window).scrollTop(0);" onclick="PF('blockAll').block()"							
 							disabled="#{richiediResoView.disabledConferma}" 
 							process="@form" update="@form" value="#{msg.account_conferma}">
 						</p:commandButton>
@@ -241,8 +241,7 @@
 					<div class="col-sm-2 col-sm-offset-8">
 						<p:commandButton title="#{msg.account_richiediReso}" styleClass="ui-priority-primary"
 							actionListener="#{richiediResoView.richiediReso}" onerror="PF('blockAll').unblock();"
-							oncomplete="PF('blockAll').unblock();$(window).scrollTop(0);" onclick="PF('blockAll').block()"
-								
+							oncomplete="PF('blockAll').unblock();$(window).scrollTop(0);" onclick="PF('blockAll').block()"								
 							disabled="#{richiediResoView.disabledConferma}" 
 							process="@form" update="@form" value="#{msg.account_conferma}">
 						</p:commandButton>

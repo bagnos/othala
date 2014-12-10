@@ -52,7 +52,7 @@ public class DetailMerchantRequestView extends BaseView {
 			RefoundFullDTO ref = merchantBean.getRefoundSelected();
 			OthalaFactory.getOrderServiceInstance().updateStateRefound(ref.getIdRefound(),
 					TypeStateOrder.CHANGE_COMPLETED, null);
-			OthalaFactory.getOrderServiceInstance().sendMailConfirmReso(ref.getIdRefound(), 
+			OthalaFactory.getOrderServiceInstance().sendMailConfirmCambio(ref.getIdRefound(), 
 					ConfigurationUtil.getMailProps(getRequest()));
 		} catch (Exception ex) {
 			addGenericError(ex, "errore nella fase di cambio");

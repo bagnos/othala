@@ -256,18 +256,15 @@
 
 				</div>
 				<div class="col-sm-3 col-sm-offset-7">
-					<p:menuButton disabled="#{myAccountView.order.idStato!=15}" iconPos="right"
-						value="#{msg.account_optionRequest}" styleClass="ui-priority-primary">
-						<p:menuitem icon="ui-icon-triangle-1-e" value="#{msg.account_returnSetRequest}"
-							action="richiediReso.xhtml?richiedireso=true">
-							<f:setPropertyActionListener target="#{richiediResoView.richiedireso}" value="true"></f:setPropertyActionListener>
+					<p:menuitem icon="ui-icon-triangle-1-e" url="richiediReso.xhtml?richiedireso=true"
+							value="#{msg.account_returnSetRequest}">
+
 						</p:menuitem>
 						<p:menuitem icon="ui-icon-triangle-1-e" value="#{msg.account_changeRequest}"
-							action="richiediReso.xhtml?richiediCambio=true">
-							<f:setPropertyActionListener target="#{richiediResoView.richiediCambio}" value="true"></f:setPropertyActionListener>
-						</p:menuitem>
-					</p:menuButton>
+							url="richiediReso.xhtml?richiediCambio=true">
+						
 
+						</p:menuitem>
 
 				</div>
 			</div>
