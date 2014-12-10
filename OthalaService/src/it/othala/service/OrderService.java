@@ -71,20 +71,20 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public List<OrderFullDTO> getOrders(Integer Order, String User, TypeStateOrder StatoOrdine) {
+	public List<OrderFullDTO> getOrders(Integer Order, String User, TypeStateOrder StatoOrdine, Boolean fgStIns) {
 
-		return getOrders(Order, User, StatoOrdine, null);
+		return getOrders(Order, User, StatoOrdine, fgStIns, null);
 
 	}
 
 	@Override
-	public List<OrderFullDTO> getOrders(Integer Order, String User, TypeStateOrder StatoOrdine, String idTransaction) {
+	public List<OrderFullDTO> getOrders(Integer Order, String User, TypeStateOrder StatoOrdine, Boolean fgStIns,String idTransaction) {
 
 		List<OrderFullDTO> listaOrdini;
 		if (StatoOrdine == null) {
-			listaOrdini = orderDAO.getOrders(Order, User, null, idTransaction);
+			listaOrdini = orderDAO.getOrders(Order, User, null, fgStIns,idTransaction);
 		} else {
-			listaOrdini = orderDAO.getOrders(Order, User, StatoOrdine.getState(), idTransaction);
+			listaOrdini = orderDAO.getOrders(Order, User, StatoOrdine.getState(), fgStIns,idTransaction);
 		}
 
 		Iterator<OrderFullDTO> i = listaOrdini.iterator();
@@ -163,7 +163,7 @@ public class OrderService implements IOrderService {
 	public OrderFullDTO checkQtaInStock(Integer idOrder, OrderFullDTO orderFull) throws StockNotPresentException {
 
 		if (orderFull == null) {
-			List<OrderFullDTO> lsOrders = orderDAO.getOrders(idOrder, null, null);
+			List<OrderFullDTO> lsOrders = orderDAO.getOrders(idOrder, null, null, null);
 			Iterator<OrderFullDTO> oi = lsOrders.iterator();
 			orderFull = oi.next();
 		}
@@ -231,7 +231,7 @@ public class OrderService implements IOrderService {
 	public OrderFullDTO updateStateOrder(Integer idOrder, OrderFullDTO orderFull, TypeStateOrder stato) {
 
 		if (orderFull == null) {
-			List<OrderFullDTO> lsOrders = orderDAO.getOrders(idOrder, null, null);
+			List<OrderFullDTO> lsOrders = orderDAO.getOrders(idOrder, null, null, null);
 			Iterator<OrderFullDTO> oi = lsOrders.iterator();
 			orderFull = oi.next();
 		}
@@ -347,7 +347,7 @@ public class OrderService implements IOrderService {
 	public void sendMailConfirmReso(Integer idReso, MailPropertiesDTO mailProps) throws Exception {
 
 		List<RefoundFullDTO> listRefound = getRefounds(idReso, null, null, null, null, null);
-		List<OrderFullDTO> listOrderFullDTO = getOrders(listRefound.get(0).getIdOrder(), null, null);
+		List<OrderFullDTO> listOrderFullDTO = getOrders(listRefound.get(0).getIdOrder(), null, null, null);
 		OrderFullDTO orderFullDTO = listOrderFullDTO.get(0);
 
 		List<ShopDTO> shop = productDAO.listShop();
@@ -368,7 +368,7 @@ public class OrderService implements IOrderService {
 	public void sendMailConfirmCambio(Integer idReso, MailPropertiesDTO mailProps) throws Exception {
 
 		List<RefoundFullDTO> listRefound = getRefounds(idReso, null, null, null, null, null);
-		List<OrderFullDTO> listOrderFullDTO = getOrders(listRefound.get(0).getIdOrder(), null, null);
+		List<OrderFullDTO> listOrderFullDTO = getOrders(listRefound.get(0).getIdOrder(), null, null,null);
 		OrderFullDTO orderFullDTO = listOrderFullDTO.get(0);
 
 		List<ShopDTO> shop = productDAO.listShop();
@@ -391,7 +391,7 @@ public class OrderService implements IOrderService {
 	public void sendMailInsertCambio(Integer idReso, MailPropertiesDTO mailProps) throws Exception {
 
 		List<RefoundFullDTO> listRefound = getRefounds(idReso, null, null, null, null, null);
-		List<OrderFullDTO> listOrderFullDTO = getOrders(listRefound.get(0).getIdOrder(), null, null);
+		List<OrderFullDTO> listOrderFullDTO = getOrders(listRefound.get(0).getIdOrder(), null, null, null);
 		OrderFullDTO orderFullDTO = listOrderFullDTO.get(0);
 
 		List<ShopDTO> shop = productDAO.listShop();
@@ -415,7 +415,7 @@ public class OrderService implements IOrderService {
 	public void sendMailInsertReso(Integer idReso, MailPropertiesDTO mailProps) throws Exception {
 
 		List<RefoundFullDTO> listRefound = getRefounds(idReso, null, null, null, null, null);
-		List<OrderFullDTO> listOrderFullDTO = getOrders(listRefound.get(0).getIdOrder(), null, null);
+		List<OrderFullDTO> listOrderFullDTO = getOrders(listRefound.get(0).getIdOrder(), null, null, null);
 		OrderFullDTO orderFullDTO = listOrderFullDTO.get(0);
 
 		List<ShopDTO> shop = productDAO.listShop();
@@ -436,7 +436,7 @@ public class OrderService implements IOrderService {
 	public String stampaResoHTML(Integer idReso, String pathLogo) throws Exception {
 
 		List<RefoundFullDTO> listRefound = getRefounds(idReso, null, null, null, null, null);
-		List<OrderFullDTO> listOrderFullDTO = getOrders(listRefound.get(0).getIdOrder(), null, null);
+		List<OrderFullDTO> listOrderFullDTO = getOrders(listRefound.get(0).getIdOrder(), null, null,null);
 		OrderFullDTO orderFullDTO = listOrderFullDTO.get(0);
 
 		List<ShopDTO> shop = productDAO.listShop();
@@ -564,7 +564,7 @@ public class OrderService implements IOrderService {
 	public String stampaCambioHTML(Integer idReso, String pathLogo) throws Exception {
 
 		List<RefoundFullDTO> listRefound = getRefounds(idReso, null, null, null, null, null);
-		List<OrderFullDTO> listOrderFullDTO = getOrders(listRefound.get(0).getIdOrder(), null, null);
+		List<OrderFullDTO> listOrderFullDTO = getOrders(listRefound.get(0).getIdOrder(), null, null, null);
 		OrderFullDTO orderFullDTO = listOrderFullDTO.get(0);
 
 		List<ShopDTO> shop = productDAO.listShop();
@@ -750,7 +750,7 @@ public class OrderService implements IOrderService {
 	@Override
 	public String stampaOrdineHTML(Integer idOrder, String pathLogo) throws Exception {
 
-		List<OrderFullDTO> listOrderFullDTO = getOrders(idOrder, null, null);
+		List<OrderFullDTO> listOrderFullDTO = getOrders(idOrder, null, null, null);
 		OrderFullDTO orderFullDTO = listOrderFullDTO.get(0);
 		Map<String, String> inlineImages = new HashMap<String, String>();
 

@@ -171,7 +171,7 @@ public class PaymentService implements IPaymentService {
 
 				// è presente un ordine, recupero i dettagli
 				if (idOrder != null) {
-					order = orderService.getOrders(idOrder, null, null).get(0);
+					order = orderService.getOrders(idOrder, null, null, null).get(0);
 					// check that payment_amount/payment_currency are correct
 					BigDecimal mc_grossBD = new BigDecimal(ipnDTO.getMc_gross());
 					if (order.getImOrdine().compareTo(mc_grossBD.abs()) != 0) {

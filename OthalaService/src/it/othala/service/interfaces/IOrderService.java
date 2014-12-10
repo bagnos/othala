@@ -21,9 +21,9 @@ import java.util.List;
 
 public interface IOrderService {
 
-	public List<OrderFullDTO> getOrders(Integer Order, String User, TypeStateOrder StatoOrdine);
+	public List<OrderFullDTO> getOrders(Integer Order, String User, TypeStateOrder StatoOrdine, Boolean fgStIns);
 
-	public List<OrderFullDTO> getOrders(Integer Order, String User, TypeStateOrder StatoOrdine, String idTransaction);
+	public List<OrderFullDTO> getOrders(Integer Order, String User, TypeStateOrder StatoOrdine, Boolean fgStIns, String idTransaction);
 	
 	public OrderFullDTO insertOrder(OrderFullDTO orderFull) throws  OthalaException;
 
