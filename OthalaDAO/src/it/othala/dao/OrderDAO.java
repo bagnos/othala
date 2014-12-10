@@ -24,14 +24,14 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO {
 
 	@Override
 	public List<OrderFullDTO> getOrders(Integer idOrder, String idUser,
-			Integer idStato) {
+			Integer idStato, Boolean fgStIns) {
 
-		return getOrders(idOrder, idUser, idStato, null);
+		return getOrders(idOrder, idUser, idStato, fgStIns, null);
 	}
 
 	@Override
 	public List<OrderFullDTO> getOrders(Integer idOrder, String idUser,
-			Integer idStato, String idTransaction) {
+			Integer idStato, Boolean fgStIns,String idTransaction) {
 
 		HashMap<String, Object> mapOrder = new HashMap<>();
 		if (idOrder != null && idOrder > 0)
@@ -40,6 +40,8 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO {
 			mapOrder.put("idUser", idUser);
 		if (idStato != null && idStato > 0)
 			mapOrder.put("idStato", idStato);
+		if (fgStIns != null)
+			mapOrder.put("fgStIns", fgStIns);
 		if (idTransaction != null && !idTransaction.isEmpty())
 			mapOrder.put("idTransaction", idTransaction);
 
