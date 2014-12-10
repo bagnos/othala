@@ -105,7 +105,7 @@ public class MyAccountView extends BaseView {
 	public String doInitMyOrders() {
 		// TODO Auto-generated method stub
 		try {
-			orders = OthalaFactory.getOrderServiceInstance().getOrders(null, getLoginBean().getEmail(), null);
+			orders = OthalaFactory.getOrderServiceInstance().getOrders(null, getLoginBean().getEmail(), null, false);
 			renderDetails = false;
 		}
 
