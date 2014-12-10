@@ -140,6 +140,9 @@
 			${database.schema}states_orders e
 			WHERE e.idOrder = a.idOrder)
 		</if>
+		<if test="fgStIns == false">
+			and c.idStato > 1
+		</if>
 
 	</select>
 

@@ -17,9 +17,9 @@ import java.util.List;
 
 public interface IOrderDAO {
 
-	public List<OrderFullDTO> getOrders(Integer idOrder,String idUser,Integer idStato);
+	public List<OrderFullDTO> getOrders(Integer idOrder,String idUser,Integer idStato, Boolean fgStIns);
 	
-	public List<OrderFullDTO> getOrders(Integer idOrder,String idUser,Integer idStato, String idTransaction);
+	public List<OrderFullDTO> getOrders(Integer idOrder,String idUser,Integer idStato, Boolean fgStIns,String idTransaction);
 	
 	public OrderFullDTO insertOrder(OrderFullDTO orderFull);
 	
