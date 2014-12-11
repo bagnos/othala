@@ -159,6 +159,18 @@ public class RichiediResoView extends BaseView {
 		return null;
 	}
 
+	public String doInitRequest() {
+		// TODO Auto-generated method stub
+
+		try {
+			keyRefund = getLoginBean().getEmail() + "-" + myAccountBean.getOrderSelected().getIdOrder();
+			keyRefund = HelperCrypt.encrypt(keyRefund);
+		} catch (Exception e) {
+			addGenericError(e, "errore nella int ri richiesta reso");
+		}
+		return null;
+	}
+
 	private void doInitElencaResi() {
 		// TODO Auto-generated method stub
 		elencoResi = OthalaFactory.getOrderServiceInstance().getRefounds(null, null, getLoginBean().getEmail(), null,
@@ -192,7 +204,7 @@ public class RichiediResoView extends BaseView {
 					if (richiediCambio != null && richiediCambio && art.getPgArticle().intValue() == pgArt
 							&& art.getPrdFullDTO().getIdProduct().intValue() == idPrd) {
 						ProductFullNewDTO prd = OthalaFactory.getProductServiceInstance().getProductFull(getLang(),
-								art.getPrdFullDTO().getIdProduct(),false);
+								art.getPrdFullDTO().getIdProduct(), false);
 						updateChangeableArticle(prd, art);
 					}
 				}
@@ -242,13 +254,20 @@ public class RichiediResoView extends BaseView {
 	}
 
 	private void stampa(RefoundFullDTO ref) {
-		keyRefund = getLoginBean().getEmail() + "-" + ref.getIdRefound();
+		//keyRefund = getLoginBean().getEmail() + "-" + ref.getIdRefound();
 
-		keyRefund = HelperCrypt.encrypt(keyRefund);
+		//keyRefund = HelperCrypt.encrypt(keyRefund);
+		
 		getRequest().getSession().setAttribute(keyRefund, ref);
-		String url="http://"+getRequest().getServerName()+getRequest().getContextPath()+"/RichiestaResoServlet?keyRefund=" + keyRefund;
-		RequestContext.getCurrentInstance().execute(
-				"window.open('"+url+"');");
+		// String
+		// url="http://"+getRequest().getServerName()+getRequest().getContextPath()+"/RichiestaResoServlet?keyRefund="
+		// + keyRefund;
+		/*
+		 * RequestContext.getCurrentInstance().execute(
+		 * "window.open('"+url+"');");
+		 */
+		RequestContext.getCurrentInstance().execute("$('#stampa').click();");
+
 	}
 
 	private void getChange(RefoundFullDTO ref) throws OthalaException {
@@ -278,12 +297,13 @@ public class RichiediResoView extends BaseView {
 	}
 
 	private void getRefund(RefoundFullDTO ref) throws OthalaException {
+		
 		ref.setImRefound(imRefunded);
 		ref.setIdTransaction(myAccountBean.getOrderSelected().getIdTransaction());
 		ref.setFgChangeRefound("R");
 		ref.setFgPartialRefound(ref.getCart().size() != myAccountBean.getOrderSelected().getCart().size());
 		ref = OthalaFactory.getOrderServiceInstance().insertRefound(ref, ConfigurationUtil.getMailProps(getRequest()));
-
+		
 		disabledConferma = true;
 
 		addInfo("Richesta Reso",
