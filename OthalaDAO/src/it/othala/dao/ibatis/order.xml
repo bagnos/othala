@@ -158,7 +158,8 @@
 		#{idUser},#{imOrdine},null,
 		#{billingAddress.idAddress},
 		#{shippingAddress.idAddress},
-		#{speseSpedizione.idDeliveryCost},null, #{idFidelity}, #{idCoupon}, #{pcSconto})
+		#{speseSpedizione.idDeliveryCost},null, #{idFidelity}, #{idCoupon},
+		#{pcSconto})
 
 		<selectKey resultType="java.lang.Integer" keyProperty="idOrder">
 
@@ -314,12 +315,12 @@
 		FROM
 		${database.schema}coupons
 		<where>
-		<if test="idCoupon != null">
-			idCoupon = #{idCoupon}
-		</if>
-		<if test="idUser != null">
-			and idUser = #{idUser}
-		</if>
+			<if test="idCoupon != null">
+				idCoupon = #{idCoupon}
+			</if>
+			<if test="idUser != null">
+				and idUser = #{idUser}
+			</if>
 		</where>
 		order by idUser
 
@@ -331,13 +332,14 @@
 		${database.schema}coupons
 		SET qtUtilizzo = qtUtilizzo - 1
 		WHERE
-		idCoupon =
+		idCoupon
+		=
 		#{idCoupon}
 
 
 	</update>
-	
-	
+
+
 	<delete id="deleteCoupon" parameterType="java.lang.String">
 
 		DELETE FROM
@@ -348,7 +350,7 @@
 
 
 	</delete>
-	
+
 
 	<update id="updateCoupon" parameterType="java.util.HashMap">
 
@@ -374,7 +376,8 @@
 		`dtScadenza`,
 		`qtUtilizzo`)
 		values
-		(#{idCoupon},#{idUser}, #{pcSconto}, #{dtScadenza}, #{qtUtilizzo})
+		(#{idCoupon},#{idUser}, #{pcSconto},
+		#{dtScadenza}, #{qtUtilizzo})
 
 
 	</insert>
@@ -531,7 +534,7 @@
 
 		UPDATE
 		${database.schema}FidelityCards
-		<set> 
+		<set>
 			<if test="txNome != null">
 				txNome = #{txNome}
 			</if>
@@ -547,7 +550,7 @@
 			<if test="txTel != null">
 				, txTel = #{txTel}
 			</if>
-		</set>			
+		</set>
 		WHERE
 		idFidelity = #{idFidelity}
 
@@ -574,42 +577,68 @@
 			</if>
 		</where>
 		order by pcSconto, txCognome
-	
+
 
 	</select>
 
 	<delete id="deleteFidelityCard" parameterType="java.lang.String">
 
-		DELETE FROM 
+		DELETE FROM
 		${database.schema}FidelityCards
 		WHERE
 		idFidelity = #{idFidelity}
 
 	</delete>
-	
+
 	<select id="selectTotOrders" resultType="it.othala.dto.RendicontoOrdini"
 		parameterType="java.util.HashMap">
 
-		SELECT SUM(imOrdine) as impTotOrders, count(*) as numTotOrders 
-		FROM ${database.schema}orders a, 
-			 ${database.schema}states_orders b 
-		WHERE a.idOrder = b.idOrder 
-		AND b.dtStato &gt;= #{dtDa} AND b.dtStato &lt;= #{dtA} 
+		SELECT SUM(imOrdine) as impTotOrders, count(*) as
+		numTotOrders
+		FROM ${database.schema}orders a,
+		${database.schema}states_orders b
+		WHERE a.idOrder = b.idOrder
+		AND b.dtStato &gt;= #{dtDa} AND b.dtStato &lt;= #{dtA}
 		AND b.idStato = #{idStatoOrdine}
-	
+
 
 	</select>
-	
+
 	<select id="selectTotRefounds" resultType="it.othala.dto.RendicontoOrdini"
 		parameterType="java.util.HashMap">
 
-		SELECT SUM(imRefound) as impTotRefounds, count(*) as numTotRefounds 
-		FROM ${database.schema}order_refound a, 
-			 ${database.schema}states_refound b 
-		WHERE a.idRefound = b.idRefound 
-		AND b.dtStato &gt;= #{dtDa} AND b.dtStato &lt;= #{dtA} 
+		SELECT SUM(imRefound) as impTotRefounds, count(*) as
+		numTotRefounds
+		FROM ${database.schema}order_refound a,
+		${database.schema}states_refound b
+		WHERE a.idRefound = b.idRefound
+		AND b.dtStato &gt;= #{dtDa} AND b.dtStato &lt;= #{dtA}
 		AND b.idStato = #{idStatoRefound}
-	
+
+
+	</select>
+
+	<select id="checkRefoundArticle" resultType="Integer"
+		parameterType="java.util.HashMap">
+
+		SELECT
+		count(*)
+		FROM
+		${database.schema}order_refound A,
+		${database.schema}refound_articles B,
+		${database.schema}states_refound
+		C
+		where
+		A.idRefound = B.idRefound
+		and A.idRefound = C.idRefound
+		and A.idOrder = #{idOrder}
+		and B.idProdotto =#{idProdotto}
+		and B.pgArticle =#{pgArticle}
+		and C.idStato in (100,101,200,201)
+		and not exists (select 1 from
+		${database.schema}states_refound D
+		where A.idRefound = D.idRefound
+		and D.dtStato > C.dtStato );
 
 	</select>
 
