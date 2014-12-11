@@ -75,5 +75,7 @@ public interface IOrderDAO {
 	
 	public RendicontoOrdini getTotaliOrdini(Timestamp dtDa, Timestamp dtA, TypeStateOrder statoOrdine, TypeStateOrder statoRefound);
 
+	public Boolean checkRefound(RefoundFullDTO refoundFull);
+
 
 }

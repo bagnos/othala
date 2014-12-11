@@ -624,6 +624,10 @@ public class OrderService implements IOrderService {
 	@Override
 	public RefoundFullDTO insertRefound(RefoundFullDTO refoundFull, MailPropertiesDTO mailProps) throws OthalaException {
 
+		if (orderDAO.checkRefound(refoundFull) == false)
+		{
+			throw new OthalaException("Esistono già richieste di rimborso per alcuni articoli selezionati");
+		}
 		orderDAO.insertRefound(refoundFull);
 
 		HashMap<String, Object> mapProduct = new HashMap<String, Object>();
@@ -666,6 +670,13 @@ public class OrderService implements IOrderService {
 		return refoundFull;
 	}
 
+	private Boolean checkRefound(RefoundFullDTO refoundFull) throws OthalaException {
+
+		return orderDAO.checkRefound(refoundFull);
+
+	}
+
+	
 	@Override
 	public void updateStateRefound(Integer idRefound, TypeStateOrder stato, String txNote) {
 
