@@ -3,5 +3,8 @@ DELETE FROM ipnmessages;
 DELETE FROM orders;
 DELETE FROM orders_articles;
 DELETE FROM states_orders;
+DELETE FROM order_refound;
+DELETE FROM refound_articles;
+DELETE FROM states_refound;
 UPDATE product set dtProductState = '2014-12-14 16:00:00';
 set foreign_key_checks = 1;
