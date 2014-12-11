@@ -38,6 +38,9 @@
 					<p:commandButton icon="ui-icon-triangle-1-w btn-articolo-sel" id="btnTornaHome"
 						rendered="#{gestioneOrdiniView.cercaOrd==null}"
 						action="home.xhtml?faces-redirect=true&#38;torna=true" value="Torna" />
+					<p:commandButton icon="ui-icon-triangle-1-w btn-articolo-sel" id="btnTorna"
+						style="visible:hidden"
+						action="home.xhtml?faces-redirect=true" />
 				</div>
 			</div>
 
@@ -162,7 +165,7 @@
 					<p:commandButton title="Elimina Richiesta" process="@this" update="@form"
 						styleClass="ui-priority-primary" value="Elimina" 
 						actionListener="#{detailMerchantRequestView.elimina}"
-						oncomplete="$('#btnTornaHome').click();">
+						oncomplete="$('#btnTorna').click();">
 						<p:confirm header="Conferma elimina rimborso" message="Sei sicuro di eliminare il rimborso?" icon="ui-icon-alert" />
 					</p:commandButton>
 
