@@ -18,6 +18,7 @@ import it.othala.dto.RendicontoOrdini;
 import it.othala.dto.ShopDTO;
 import it.othala.dto.StateOrderDTO;
 import it.othala.enums.TypeStateOrder;
+import it.othala.execption.BarcodeNotPresentException;
 import it.othala.execption.CouponBurntException;
 import it.othala.execption.CouponExpiredException;
 import it.othala.execption.CouponNotPresentException;
@@ -25,6 +26,7 @@ import it.othala.execption.CouponNotValidException;
 import it.othala.execption.FidelityCardNotPresentException;
 import it.othala.execption.FidelityCardNotValidException;
 import it.othala.execption.OthalaException;
+import it.othala.execption.RefoundPresentException;
 import it.othala.execption.StockNotPresentException;
 import it.othala.external.service.interfaces.IOthalaExternalServices;
 import it.othala.service.interfaces.IMailService;
@@ -622,11 +624,12 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public RefoundFullDTO insertRefound(RefoundFullDTO refoundFull, MailPropertiesDTO mailProps) throws OthalaException {
+	public RefoundFullDTO insertRefound(RefoundFullDTO refoundFull, MailPropertiesDTO mailProps) throws OthalaException,  RefoundPresentException{
 
 		if (orderDAO.checkRefound(refoundFull) == false)
 		{
-			throw new OthalaException("Esistono già richieste di rimborso per alcuni articoli selezionati");
+			throw new RefoundPresentException();
+			
 		}
 		orderDAO.insertRefound(refoundFull);
 
@@ -668,12 +671,6 @@ public class OrderService implements IOrderService {
 		}
 
 		return refoundFull;
-	}
-
-	private Boolean checkRefound(RefoundFullDTO refoundFull) throws OthalaException {
-
-		return orderDAO.checkRefound(refoundFull);
-
 	}
 
 	
