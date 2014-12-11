@@ -58,6 +58,15 @@ public class DetailMerchantRequestView extends BaseView {
 			addGenericError(ex, "errore nella fase di cambio");
 		}
 	}
+	
+	public void elimina(ActionEvent e)
+	{
+		try {
+		OthalaFactory.getOrderServiceInstance().updateStateRefound(merchantBean.getRefoundSelected().getIdRefound(), TypeStateOrder.REFOUND_CANCELED, "eliminato da merchant");
+		} catch (Exception ex) {
+			addGenericError(ex, "errore nella fase di romborso");
+		}
+	}
 
 	public void rimborsa(ActionEvent e) {
 		try {
