@@ -27,7 +27,7 @@ import javax.faces.event.AjaxBehaviorEvent;
 @ViewScoped
 public class CartFlowView1 extends BaseView {
 
-	private final Integer ITEMS_PAGE = 20;
+	private final Integer ITEMS_PAGE = 21;
 
 	private int starIndex = 0;
 	private int endIndex = 0;
