@@ -441,7 +441,7 @@ public class OrderService implements IOrderService {
 
 		List<ShopDTO> shop = productDAO.listShop();
 		Map<String, String> inlineImages = new HashMap<String, String>();
-		return generateHtmlReso(orderFullDTO, listRefound.get(0).getCart(), shop.get(1), "reso", pathLogo,
+		return generateHtmlReso(orderFullDTO, listRefound.get(0).getCart(), shop.get(0), "reso", pathLogo,
 				idReso.toString(), inlineImages);
 
 	}
