@@ -3,6 +3,7 @@ package it.othala.merchant.view;
 import it.othala.dto.ArticleDTO;
 import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.ProductFullNewDTO;
+import it.othala.execption.BarcodeNotPresentException;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 
@@ -88,7 +89,8 @@ public class ScaricaProdottoView extends BaseView {
 					pgArticles.add(art);
 				}
 
-				OthalaFactory.getProductServiceInstance().downloadArticle(pgArticles, !carico);
+				OthalaFactory.getProductServiceInstance().downloadArticle(
+						pgArticles, !carico);
 
 				prdFounded.clear();
 			} else {
@@ -113,18 +115,25 @@ public class ScaricaProdottoView extends BaseView {
 		try {
 
 			if (idBarcode != "") {
-				prdSelected = OthalaFactory.getProductServiceInstance().listFindBarcode(idBarcode);
+				prdSelected = OthalaFactory.getProductServiceInstance()
+						.listFindBarcode(idBarcode);
 
-				if (prdSelected != null && prdSelected.getArticles() != null && prdSelected.getArticles().size() == 1) {
+				if (prdSelected != null && prdSelected.getArticles() != null
+						&& prdSelected.getArticles().size() == 1) {
 					prdFounded.add(prdSelected);
 					idBarcode = "";
 				} else {
 					// mostra dialog per la scelta dell'articolo
-					RequestContext.getCurrentInstance().execute("PF('artsProd').show();");
+					RequestContext.getCurrentInstance().execute(
+							"PF('artsProd').show();");
 
 				}
 
 			}
+		} catch (BarcodeNotPresentException bex) {
+			addOthalaExceptionError
+
+			(bex, "barcode non presente");
 		} catch (Exception ex) {
 			addGenericError(ex, "errore nella ricerca del prodotto");
 		}
