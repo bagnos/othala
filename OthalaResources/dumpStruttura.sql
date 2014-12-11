@@ -460,7 +460,7 @@ DROP TABLE IF EXISTS `product_description`;
 CREATE TABLE `product_description` (
   `idProduct` int(11) NOT NULL,
   `idLanguages` varchar(2) NOT NULL,
-  `txDescription` varchar(200) DEFAULT NULL,
+  `txDescription` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`idProduct`,`idLanguages`),
   KEY `fk_ProductDescription_Product1` (`idProduct`),
   CONSTRAINT `fk_ProductDescription_Product1` FOREIGN KEY (`idProduct`) REFERENCES `product` (`idProduct`) ON DELETE NO ACTION ON UPDATE NO ACTION
