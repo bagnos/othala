@@ -13,6 +13,7 @@ import it.othala.enums.TypeStateOrder;
 import it.othala.execption.FidelityCardNotPresentException;
 import it.othala.execption.FidelityCardNotValidException;
 import it.othala.execption.OthalaException;
+import it.othala.execption.RefoundPresentException;
 import it.othala.execption.StockNotPresentException;
 
 import java.io.File;
@@ -52,7 +53,7 @@ public interface IOrderService {
 
 	public List<RefoundFullDTO> getRefounds(Integer idRefound, Integer Order, String User, TypeStateOrder StatoOrdine, String idTransaction, String fgChangeRefound);
 	
-	public RefoundFullDTO insertRefound(RefoundFullDTO refoundFull, MailPropertiesDTO mailProps) throws  OthalaException;
+	public RefoundFullDTO insertRefound(RefoundFullDTO refoundFull, MailPropertiesDTO mailProps) throws  OthalaException, RefoundPresentException;
 
 	public void updateStateRefound(Integer idRefound, TypeStateOrder stato, String txNote);
 	

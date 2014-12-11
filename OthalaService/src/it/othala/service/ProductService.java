@@ -16,6 +16,7 @@ import it.othala.dto.SubMenuDTO;
 import it.othala.dto.SubMenuBrandDTO;
 import it.othala.dto.VetrinaDTO;
 import it.othala.enums.OrderByCartFlow;
+import it.othala.execption.BarcodeNotPresentException;
 import it.othala.execption.OthalaException;
 import it.othala.service.interfaces.IProductService;
 
@@ -44,10 +45,10 @@ public class ProductService implements IProductService {
 					listMenu.get(i).getIdGender(), languages);
 
 			listMenu.get(i).setSubMenu(listSubMenu);
-			
-			List<SubMenuBrandDTO> listSubMenuBrand = productDAO.listSubMenuBrand(
-					listMenu.get(i).getIdGender());
-			
+
+			List<SubMenuBrandDTO> listSubMenuBrand = productDAO
+					.listSubMenuBrand(listMenu.get(i).getIdGender());
+
 			listMenu.get(i).setSubMenuBrand(listSubMenuBrand);
 
 		}
@@ -132,7 +133,7 @@ public class ProductService implements IProductService {
 		return domainDTO;
 
 	}
-	
+
 	@Override
 	public DomainDTO insertSize(String languages, String txSize) {
 
@@ -149,7 +150,6 @@ public class ProductService implements IProductService {
 		return domainDTO;
 
 	}
-	
 
 	@Override
 	public DomainDTO insertColor(String languages, String txColorIT,
@@ -227,16 +227,14 @@ public class ProductService implements IProductService {
 				type, gender, brand, minPrice, maxPrice, size, color,
 				newArrivals, order, idCampaign, fgCampaign);
 
-		
 		for (int i = 0; i <= listProduct.size() - 1; i++) {
 
-			List<String> newString = productDAO.listProductImages(listProduct.get(i).getIdProduct());
-			
+			List<String> newString = productDAO.listProductImages(listProduct
+					.get(i).getIdProduct());
 
 			listProduct.get(i).setImagesUrl(newString);
 		}
 
-		
 		for (int i = 0; i <= listProduct.size() - 1; i++) {
 
 			List<String> newString = productDAO
@@ -274,7 +272,8 @@ public class ProductService implements IProductService {
 	}
 
 	@Override
-	public ProductFullNewDTO getProductFull(String languages, Integer idProduct, Boolean fgQtaZero) {
+	public ProductFullNewDTO getProductFull(String languages,
+			Integer idProduct, Boolean fgQtaZero) {
 
 		ProductFullNewDTO productFull = productDAO.getProductFull(languages,
 				idProduct);
@@ -361,21 +360,26 @@ public class ProductService implements IProductService {
 	}
 
 	@Override
-	public ProductFullNewDTO listFindBarcode(String txBarcode) {
+	public ProductFullNewDTO listFindBarcode(String txBarcode) throws BarcodeNotPresentException {
 
 		ProductFullNewDTO productFull = productDAO
 				.getProductFullBarcode(txBarcode);
 
-		List<String> newString = productDAO.listProductImages(productFull
-				.getIdProduct());
-		productFull.setImagesUrl(newString);
+		if (productFull == null) {
+			throw new BarcodeNotPresentException(txBarcode);
+		}
+			List<String> newString = productDAO.listProductImages(productFull
+					.getIdProduct());
+			productFull.setImagesUrl(newString);
 
-		List<ArticleFullDTO> listArticleFull = productDAO
-				.listArticleFullBarcode(productFull.getIdProduct(), txBarcode);
+			List<ArticleFullDTO> listArticleFull = productDAO
+					.listArticleFullBarcode(productFull.getIdProduct(),
+							txBarcode);
 
-		productFull.setArticles(listArticleFull);
+			productFull.setArticles(listArticleFull);
 
-		return productFull;
+			return productFull;
+
 
 	}
 
@@ -456,88 +460,86 @@ public class ProductService implements IProductService {
 
 	@Override
 	public void cleanFolderImages(String folderPath) throws OthalaException {
-		//Recupero la directory delle immagini
+		// Recupero la directory delle immagini
 		File dir = new File(folderPath);
-		//Recupreo la lista delle immagini nella direcotry
+		// Recupreo la lista delle immagini nella direcotry
 		String[] folderImages = dir.list();
 		if (folderImages == null) {
-		     throw new OthalaException("La directory " + folderPath + " non esiste");
-		 }
+			throw new OthalaException("La directory " + folderPath
+					+ " non esiste");
+		}
 		List<String> imagesToDelete = new ArrayList<String>();
-		//Crea una collezione di immagini	
-		for (int i=0; i < folderImages.length; i++) {
+		// Crea una collezione di immagini
+		for (int i = 0; i < folderImages.length; i++) {
 			imagesToDelete.add(folderImages[i]);
-		        
+
 		}
-		
-		//Recupero le immagini da tenere
-		List<String> imagesToKeep =  productDAO.getGoodImages();
-		//Recupero i thumbnails da tenere
-		List<String> thumbsToKeep =  productDAO.getGoodThumbs();
-		
+
+		// Recupero le immagini da tenere
+		List<String> imagesToKeep = productDAO.getGoodImages();
+		// Recupero i thumbnails da tenere
+		List<String> thumbsToKeep = productDAO.getGoodThumbs();
+
 		List<String> imagesLargeToKeep = new ArrayList<String>();
-		
-		for (int i=0; i < imagesToKeep.size(); i++) {
+
+		for (int i = 0; i < imagesToKeep.size(); i++) {
 			imagesLargeToKeep.add("LARGE_" + imagesToKeep.get(i));
-		        
+
 		}
-		
-		//Elimino dalla collezione leimmagini da tenere
+
+		// Elimino dalla collezione leimmagini da tenere
 		imagesToDelete.removeAll(imagesToKeep);
 		imagesToDelete.removeAll(thumbsToKeep);
 		imagesToDelete.removeAll(imagesLargeToKeep);
-		//Le immagini LARGE non devono essere eliminate
+		// Le immagini LARGE non devono essere eliminate
 		/*
-		CharSequence car = "LARGE_";
-		for (String img : imagesToDelete) {
-			if (img.contains(car))
-				imagesToDelete.remove(img);
-		}*/
-		
-		
-		//Elimino fisicamente i files dalla directory
+		 * CharSequence car = "LARGE_"; for (String img : imagesToDelete) { if
+		 * (img.contains(car)) imagesToDelete.remove(img); }
+		 */
+
+		// Elimino fisicamente i files dalla directory
 		String fileDelete = null;
 		for (String img : imagesToDelete) {
 			fileDelete = folderPath + File.separator + img;
 			File file = new File(fileDelete);
 			file.delete();
 		}
-		
-		//Elimino le imamgini da tabella
+
+		// Elimino le imamgini da tabella
 		productDAO.deleteBadImages();
-		
+
 	}
 
 	@Override
 	public int newLookBook(LookBookDTO lookBook) {
-		
+
 		return productDAO.insLookBook(lookBook);
 	}
 
 	@Override
 	public void addProductToLookBook(int idLookBook, int idProduct) {
-		
+
 		productDAO.insLookBookProduct(idLookBook, idProduct);
-		
+
 	}
 
 	@Override
 	public void removeLookBook(int idLookBook) {
-		
+
 		productDAO.delLookBook(idLookBook);
-		
+
 	}
 
 	@Override
 	public void removeProductFromLookBook(int idLookBook, int idProduct) {
-		
+
 		productDAO.delLookBookProduct(idLookBook, idLookBook);
-		
+
 	}
 
 	@Override
 	public List<LookBookDTO> getLookBook(Integer idLookBook) {
-		
+
 		return productDAO.listaLookBook(idLookBook);
 	}
 

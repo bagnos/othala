@@ -8,6 +8,7 @@ import it.othala.dto.DomainDTO;
 import it.othala.dto.MenuFullDTO;
 import it.othala.dto.ProductFullNewDTO;
 import it.othala.enums.OrderByCartFlow;
+import it.othala.execption.BarcodeNotPresentException;
 import it.othala.execption.OthalaException;
 
 import java.math.BigDecimal;
@@ -66,7 +67,7 @@ public interface IProductService {
 	public DomainDTO insertMaterial(String languages, String txMaterialIT,
 			String txMaterialEN);
 
-	public ProductFullNewDTO listFindBarcode(String txBarcode);
+	public ProductFullNewDTO listFindBarcode(String txBarcode) throws BarcodeNotPresentException;
 
 	public MenuFullDTO getMenuFull(String languages);
 
