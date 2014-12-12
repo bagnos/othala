@@ -116,8 +116,9 @@ public class ResizeImageUtil {
 
 	public static String resizeAndCopyImageHome(InputStream fileIS, String nomeFile, String format, int w, int h)
 			throws IOException {
-
-		return resizeAndCopyImage(fileIS, getBasePathHome(), getNomeFile(nomeFile), format, w, h);
+		String nomeOutFile= getNomeFile(nomeFile);
+		resizeAndCopyImage(fileIS, getBasePathHome(), getNomeFile(nomeFile), format, w, h);
+		return nomeOutFile;
 	}
 
 	private static String resizeAndCopyImage(InputStream fileIS, String basePathToCopy, String nomeFile, String format,

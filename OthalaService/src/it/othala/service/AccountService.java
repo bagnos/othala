@@ -191,6 +191,18 @@ public class AccountService implements IAccountService {
 
 		accountDAO.changeStateAccount(email, TypeCustomerState.ATTIVATO.getState());
 	}
+	
+	@Override
+	public void changePassworAccount(String email, String psw) throws UserNotFoundException {
+		// TODO Auto-generated method stub
+		AccountDTO acc = accountDAO.getAccount(email);
+
+		if (acc == null) {
+			throw new UserNotFoundException(email);
+		}
+
+		accountDAO.updatePassword(email, psw);
+	}
 
 	@Override
 	public AccountDTO verifyPasswordAccount(String email, String psw) throws BadCredentialException {
@@ -222,6 +234,9 @@ public class AccountService implements IAccountService {
 		// TODO Auto-generated method stub
 		return accountDAO.getAccount(email);
 	}
+
+
+	
 
 	
 
