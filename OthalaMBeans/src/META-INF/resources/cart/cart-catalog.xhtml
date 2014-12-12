@@ -213,38 +213,7 @@
 
 									<div class="caption articolo">
 										<div class="row">
-											<div class="col-sm-11">
-												<div>
-
-													<h5 style="text-align: center">#{art.txBrand}</h5>
-												</div>
-												<div>
-													<p class="price" style="text-align: center">
-														<h:outputText value="#{art.price}"
-															styleClass="#{art.price != art.priceDiscounted?'onSale':''}">
-															<f:converter converterId="it.othala.BigDecimalConverter" />
-														</h:outputText>
-
-														<h:outputText value="#{art.priceDiscounted}"
-															rendered="#{art.price != art.priceDiscounted}">
-															<f:converter converterId="it.othala.BigDecimalConverter" />
-														</h:outputText>
-
-													</p>
-
-												</div>
-
-												<div>
-													<h6 class="visibile" style="text-align: center">
-														<h:outputText id="descr" value="#{art.description}" />
-													</h6>
-													<p:tooltip for="descr">
-														<h:outputText value="#{art.description}" />
-													</p:tooltip>
-												</div>
-
-											</div>
-											<div class="col-sm-1">
+											<div class="col-sm-12">
 												<div style="float: right">
 													<p:graphicImage id="imgArt" library="images"
 														name="info-thumb.png" />
@@ -262,6 +231,41 @@
 												</div>
 
 											</div>
+										
+										</div>
+										<div class="row">
+											<div class="col-sm-12">
+												<div>
+
+													<h5 style="text-align: center">#{art.txBrand}</h5>
+												</div>
+												<div>
+													<p class="price" style="text-align: center">
+														<h:outputText value="#{art.price}"
+															styleClass="#{art.price != art.priceDiscounted?'onSale':''}">
+															<f:converter converterId="it.othala.BigDecimalConverter" />
+														</h:outputText>
+
+														<h:outputText value="#{art.priceDiscounted}"
+															rendered="#{art.price != art.priceDiscounted}" style="padding-left: 5px;">
+															<f:converter converterId="it.othala.BigDecimalConverter" />
+														</h:outputText>
+
+													</p>
+
+												</div>
+
+												<div>
+													<h6 class="visibile" style="text-align: center">
+														<h:outputText id="descr" value="#{art.description}" />
+													</h6>
+													<p:tooltip for="descr">
+														<h:outputText value="#{art.description}" />
+													</p:tooltip>
+												</div>
+
+											</div>
+
 
 										</div>
 
