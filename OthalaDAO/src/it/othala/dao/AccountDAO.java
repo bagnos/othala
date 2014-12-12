@@ -3,6 +3,7 @@ package it.othala.dao;
 import it.othala.dao.interfaces.IAccountDAO;
 import it.othala.dto.AccountDTO;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -53,11 +54,12 @@ public class AccountDAO extends SqlSessionDaoSupport implements IAccountDAO {
 
 	@Override
 	public int changeStateAccount(String email, int stato) {
-		// TODO Auto-generated method stub
-		HashMap<String, Object> map = new HashMap<>();
-		map.put("email", email);
-		map.put("stato", stato);
-		return getSqlSession().update("it.othala.account.queries.changeStateAccount", map);
+		
+		List<String> listEmail = new ArrayList<String>();
+		listEmail.add(email);
+		
+		return changeStateAccount(listEmail, stato);
+		
 	}
 
 	@Override
