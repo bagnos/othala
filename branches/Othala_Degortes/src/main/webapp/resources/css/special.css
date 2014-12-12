@@ -1,25 +1,25 @@
 .ui-widget {
-	font-family: quicksandregular !important;
+	font-family: playregular !important;
 }
 
 .newPromo1 {
-font-family: quicksandbold !important;
+font-family: playbold !important;
 }
 
 .newPromo2 {
-font-family: quicksandbold !important;
+font-family: playbold !important;
 }
 
 .newPromo3 {
-font-family: quicksandbold !important;
+font-family: playbold !important;
 }
 
 .newFlag2 {
-font-family: quicksandbold !important;
+font-family: playbold !important;
 }
 
 .nav-tabs>li>a {
-	font-family: quicksandbold !important;
+	font-family: playbold !important;
 }
 
 #newArr {
@@ -31,19 +31,19 @@ font-family: quicksandbold !important;
 }
 
 #tab-content a {
-	font-family: quicksandbold !important;
+	font-family: playbold !important;
 }
 
 .foot1-title {
-	font-family: quicksandbold !important;
+	font-family: playbold !important;
 }
 
 .foot2-line {
-	font-family: quicksandregular !important;
+	font-family: playregular !important;
 }
 
 html,body,form {
-	font-family: quicksandregular !important;
+	font-family: playregular !important;
 }
 
 .bwizard-steps .active {
@@ -54,3 +54,7 @@ html,body,form {
 	border-left-color: #007ACC;
 }
 
+.thumbnail {
+	padding: 1px !important;
+	height: 650px;
+}
