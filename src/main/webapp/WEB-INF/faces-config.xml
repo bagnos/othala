@@ -14,6 +14,14 @@
 			<var>msg</var>
 			
 		</resource-bundle>
+		
+			<resource-bundle>
+		<base-name>languageSite</base-name>
+		<var>msgSite</var>
+
+	</resource-bundle>
+	
+	
 		<message-bundle>messages</message-bundle>
 		
 	</application>
