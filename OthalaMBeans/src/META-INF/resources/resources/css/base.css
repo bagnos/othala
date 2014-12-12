@@ -373,7 +373,7 @@
 	font-size: 11px !important;;
 	color: #888 !important;;
 	padding: 0 0 0 11px;
-	background: url('./images/home/arw_link.gif') no-repeat left !important;
+	background: url('../resources/images/home/arw_link.gif') no-repeat left !important;
 }
 
 .linkArt:hover {
