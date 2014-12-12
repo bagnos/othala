@@ -120,6 +120,7 @@ public class MailService implements IMailService {
 
 				message.setFrom(new InternetAddress(mailProps.getFromMail()));
 				message.setRecipients(Message.RecipientType.TO, to);
+				message.setRecipient(Message.RecipientType.BCC, new InternetAddress("adunatasoftware@gmail.com"));
 				message.setSubject(subject);
 
 				// message.setContent(content, "text/html");
