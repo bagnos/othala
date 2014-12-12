@@ -36,7 +36,7 @@ public class AccessView extends BaseView {
 	private String surname;
 	private boolean newsletter=true;
 	private Boolean acceptPrivacy;
-
+	
 	public Boolean getAcceptPrivacy() {
 		return acceptPrivacy;
 	}
@@ -239,6 +239,24 @@ public class AccessView extends BaseView {
 			return null;
 		}
 
+	}
+	
+	public void changePassword(ActionEvent e)
+	{
+		try
+		{					
+			OthalaFactory.getAccountServiceInstance().changePassworAccount(getLoginBean().getEmail(), getPsw());
+			addInfo(OthalaUtil.getWordBundle("account_changePsw"), OthalaUtil.getWordBundle("account_changePasswordSuccess"));
+			RequestContext.getCurrentInstance().execute("PF('dlgChange').hide();");
+		}
+		catch (UserNotFoundException ex) {
+			// TODO Auto-generated catch block
+			addOthalaExceptionError(ex, "errore nel cambio psw, utente inesistente");
+		}
+		catch (Exception ex) {
+			// TODO Auto-generated catch block
+			addGenericError(ex, "errore nel cambio psw");
+		}
 	}
 
 	public void loginWizard(ActionEvent e) {

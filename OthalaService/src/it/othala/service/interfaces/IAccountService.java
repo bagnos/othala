@@ -25,7 +25,7 @@ public interface IAccountService {
 
 	public void changePassworResetdAccount(String email, String psw) throws UserNotFoundException,
 			UserNotResetStateException;
-
+	public void changePassworAccount(String email, String psw) throws UserNotFoundException;
 
 	
 	public int removeAccount(List<AccountDTO> account) ;

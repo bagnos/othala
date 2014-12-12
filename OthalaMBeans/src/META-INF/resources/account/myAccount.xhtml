@@ -1,11 +1,7 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	template="/template/masterTemplateBS.xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:pe="http://primefaces.org/ui/extensions">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/masterTemplateBS.xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions">
 
 
 	<ui:define name="metadata">
@@ -33,10 +29,17 @@
 					<div class="col-sm-6">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								<h5>
-									<strong><h:outputText
-											style="text-transform: uppercase;" value="Profilo" /></strong>
-								</h5>
+								<div class="row">
+									<div class="col-sm-6">
+										<h5>
+											<strong><h:outputText style="text-transform: uppercase;" value="Profilo" /></strong>
+										</h5>
+									</div>
+									<div class="col-sm-6">
+										<p:commandButton  styleClass="ui-priority-primary" process="@this" style="margin-top: 6px;" value="#{msg.account_changePsw}" onclick="PF('dlgChange').show();" />
+									</div>
+
+								</div>
 							</div>
 							<div class="panel-body">
 								<div class="row">
@@ -55,8 +58,7 @@
 									<div class="col-sm-2">
 										<strong>Cognome</strong>
 									</div>
-									<div class="col-sm-3">#{myAccountView.loginBean.surname}
-									</div>
+									<div class="col-sm-3">#{myAccountView.loginBean.surname}</div>
 								</div>
 
 							</div>
@@ -73,8 +75,7 @@
 								<div class="row">
 									<div class="col-sm-6">
 										<h5>
-											<strong><h:outputText
-													style="text-transform: uppercase;"
+											<strong><h:outputText style="text-transform: uppercase;"
 													value=" #{msg.account_myAddresses}" /></strong>
 										</h5>
 									</div>
@@ -83,10 +84,8 @@
 
 										<p:commandButton ajax="true" style="margin-top: 6px;"
 											rendered="#{myAccountView.editAddress==false and myAccountView.newAddress==false}"
-											value="#{msg.catalogo_newDeliveryAddr}"
-											actionListener="#{myAccountView.newAddr}"
-											update="frmMyAccount" process="@this"
-											styleClass="ui-priority-primary" />
+											value="#{msg.catalogo_newDeliveryAddr}" actionListener="#{myAccountView.newAddr}"
+											update="frmMyAccount" process="@this" styleClass="ui-priority-primary" />
 
 
 
@@ -97,37 +96,30 @@
 
 								<h:panelGroup id="lstAddr" styleClass="spacer30"
 									rendered="#{myAccountView.editAddress==false and myAccountView.newAddress==false}">
-									<ui:repeat var="addr"
-										value="#{myAccountView.addresses.indirizzo}">
+									<ui:repeat var="addr" value="#{myAccountView.addresses.indirizzo}">
 										<div class="row spacer10">
 											<div class="col-sm-9">
 												<address>
-													<strong><h:outputText value="#{addr.etichetta}" /></strong>
-													<br />
+													<strong><h:outputText value="#{addr.etichetta}" /></strong> <br />
 													<h:outputText value="#{addr.nome}" />
-													<h:outputText id="lblCognomeFat" styleClass="mleft-addr"
-														value="#{addr.cognome}" />
+													<h:outputText id="lblCognomeFat" styleClass="mleft-addr" value="#{addr.cognome}" />
 													<br />
 													<h:outputText id="lblIndirizzoFat" value="#{addr.via}" />
 													<br />
 													<h:outputText id="lblPostaleFat" value="#{addr.cap}" />
-													<h:outputText id="lblCittaFat" styleClass="mleft-addr"
-														value="#{addr.comune}" />
-													<h:outputText id="lblProvFat" styleClass="mleft-addr"
-														value="#{addr.provincia}" />
+													<h:outputText id="lblCittaFat" styleClass="mleft-addr" value="#{addr.comune}" />
+													<h:outputText id="lblProvFat" styleClass="mleft-addr" value="#{addr.provincia}" />
 													<br />
 													<h:outputText id="lblNazFat" value="#{addr.nazione}" />
 													<br /> <span class="glyphicon glyphicon-earphone"></span>
-													<h:outputText id="lblTelefonoFat" styleClass="mleft-addr"
-														value="#{addr.tel}" />
+													<h:outputText id="lblTelefonoFat" styleClass="mleft-addr" value="#{addr.tel}" />
 												</address>
 
 											</div>
 											<div class="col-sm-3">
 
 												<h:commandLink value="#{msg.catalogo_modifyDelivery}">
-													<f:ajax execute="@this" render="frmMyAccount"
-														listener="#{myAccountView.selectAddr}">
+													<f:ajax execute="@this" render="frmMyAccount" listener="#{myAccountView.selectAddr}">
 
 													</f:ajax>
 
@@ -147,30 +139,26 @@
 										<div class="col-sm-3">
 
 											<h:commandLink value="#{msg.catalogo_changeDelivery}">
-												<f:ajax execute="editAddr" render="frmMyAccount"
-													listener="#{myAccountView.saveAddr}">
+												<f:ajax execute="editAddr" render="frmMyAccount" listener="#{myAccountView.saveAddr}">
 												</f:ajax>
 
 											</h:commandLink>
 										</div>
 										<div class="col-sm-3">
 											<h:commandLink value="#{msg.catalogo_annChangeDelivery}">
-												<f:ajax execute="@this" render="frmMyAccount"
-													listener="#{myAccountView.annAddr}"></f:ajax>
+												<f:ajax execute="@this" render="frmMyAccount" listener="#{myAccountView.annAddr}"></f:ajax>
 											</h:commandLink>
 										</div>
 									</div>
 									<div class="form-horizontal spacer10">
 
 										<div class="form-group">
-											<p:outputLabel styleClass="col-sm-3 control-label"
-												value="#{msg.delivery_type}" for="typeSpe" />
+											<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_type}"
+												for="typeSpe" />
 											<div class="col-sm-6">
-												<p:inputText id="typeSpe"
-													placeholder="#{msg.delivery_type_hint}"
+												<p:inputText id="typeSpe" placeholder="#{msg.delivery_type_hint}"
 													styleClass="form-control" label="#{msg.delivery_type}"
-													value="#{myAccountView.address.etichetta}" required="true"
-													maxlength="70">
+													value="#{myAccountView.address.etichetta}" required="true" maxlength="70">
 												</p:inputText>
 												<p:message for="typeSpe" />
 											</div>
@@ -180,13 +168,11 @@
 
 
 										<div class="form-group">
-											<p:outputLabel styleClass="col-sm-3 control-label"
-												value="#{msg.delivery_name}" for="nameSpe" />
+											<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_name}"
+												for="nameSpe" />
 											<div class="col-sm-6">
-												<p:inputText id="nameSpe" styleClass="form-control"
-													label="#{msg.delivery_name}"
-													value="#{myAccountView.address.nome}" required="true"
-													maxlength="70">
+												<p:inputText id="nameSpe" styleClass="form-control" label="#{msg.delivery_name}"
+													value="#{myAccountView.address.nome}" required="true" maxlength="70">
 												</p:inputText>
 												<p:message for="nameSpe" />
 											</div>
@@ -194,13 +180,11 @@
 
 
 										<div class="form-group">
-											<p:outputLabel styleClass="col-sm-3 control-label"
-												value="#{msg.delivery_surname}" for="cognomeSpe" />
+											<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_surname}"
+												for="cognomeSpe" />
 											<div class="col-sm-6">
-												<p:inputText id="cognomeSpe" styleClass="form-control"
-													label="#{msg.delivery_surname}"
-													value="#{myAccountView.address.cognome}" required="true"
-													maxlength="70">
+												<p:inputText id="cognomeSpe" styleClass="form-control" label="#{msg.delivery_surname}"
+													value="#{myAccountView.address.cognome}" required="true" maxlength="70">
 												</p:inputText>
 
 												<p:message for="cognomeSpe" />
@@ -208,14 +192,13 @@
 										</div>
 
 										<div class="form-group">
-											<p:outputLabel styleClass="col-sm-3 control-label"
-												value="#{msg.delivery_tel}" for="telefonoSpe" />
+											<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_tel}"
+												for="telefonoSpe" />
 											<div class="col-sm-6">
 
 
-												<p:inputMask value="#{myAccountView.address.tel}"
-													id="telefonoSpe" placeHolder=" " styleClass="form-control"
-													label="#{msg.delivery_tel}" mask="9?99999999999999"
+												<p:inputMask value="#{myAccountView.address.tel}" id="telefonoSpe" placeHolder=" "
+													styleClass="form-control" label="#{msg.delivery_tel}" mask="9?99999999999999"
 													required="true" maxlength="15" />
 
 												<p:message for="telefonoSpe" />
@@ -223,68 +206,56 @@
 										</div>
 
 										<div class="form-group">
-											<p:outputLabel styleClass="col-sm-3 control-label"
-												value="#{msg.delivery_address}" for="indirizzoSpe" />
+											<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_address}"
+												for="indirizzoSpe" />
 											<div class="col-sm-9">
-												<p:inputText required="true" maxlength="70"
-													id="indirizzoSpe" styleClass="form-control"
-													label="#{msg.delivery_address}"
-													value="#{myAccountView.address.via}" />
+												<p:inputText required="true" maxlength="70" id="indirizzoSpe" styleClass="form-control"
+													label="#{msg.delivery_address}" value="#{myAccountView.address.via}" />
 
 												<p:message for="indirizzoSpe" />
 											</div>
 										</div>
 
 										<div class="form-group">
-											<p:outputLabel styleClass="col-sm-3 control-label"
-												value="#{msg.delivery_cap}" for="postaleSpe" />
+											<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_cap}"
+												for="postaleSpe" />
 											<div class="col-sm-4">
-												<p:inputText id="postaleSpe" styleClass="form-control w120"
-													label="#{msg.delivery_cap}"
-													value="#{myAccountView.address.cap}" required="true"
-													maxlength="10" />
+												<p:inputText id="postaleSpe" styleClass="form-control w120" label="#{msg.delivery_cap}"
+													value="#{myAccountView.address.cap}" required="true" maxlength="10" />
 												<p:message for="postaleSpe" />
 											</div>
 										</div>
 
 										<div class="form-group">
-											<p:outputLabel styleClass="col-sm-3 control-label"
-												value="#{msg.delivery_city}" for="cittaSpe" />
+											<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_city}"
+												for="cittaSpe" />
 											<div class="col-sm-9">
-												<p:inputText id="cittaSpe" styleClass="form-control"
-													label="#{msg.delivery_city}"
-													value="#{myAccountView.address.comune}" required="true"
-													maxlength="70">
+												<p:inputText id="cittaSpe" styleClass="form-control" label="#{msg.delivery_city}"
+													value="#{myAccountView.address.comune}" required="true" maxlength="70">
 												</p:inputText>
 												<p:message for="cittaSpe" />
 											</div>
 										</div>
 
 										<div class="form-group">
-											<p:outputLabel styleClass="col-sm-3 control-label"
-												value="#{msg.delivery_prov}" for="provSpe" />
+											<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_prov}"
+												for="provSpe" />
 											<div class="col-sm-2">
-												<p:inputText id="provSpe" styleClass="form-control"
-													label="#{msg.delivery_prov}"
-													value="#{myAccountView.address.provincia}" required="true"
-													maxlength="4">
+												<p:inputText id="provSpe" styleClass="form-control" label="#{msg.delivery_prov}"
+													value="#{myAccountView.address.provincia}" required="true" maxlength="4">
 												</p:inputText>
 												<p:message for="provSpe" />
 											</div>
 										</div>
 
 										<div class="form-group">
-											<p:outputLabel styleClass="col-sm-3 control-label"
-												value="#{msg.delivery_paese}" />
+											<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_paese}" />
 											<div class="col-sm-5">
-												<h:selectOneMenu id="nazione" label="#{msg.delivery_prov}"
-													styleClass="form-control"
+												<h:selectOneMenu id="nazione" label="#{msg.delivery_prov}" styleClass="form-control"
 													value="#{myAccountView.address.nazione}">
 
-													<f:selectItems
-														value="#{myAccountView.myAccountBean.nazioni}"
-														var="nazione" itemLabel="#{nazione.descrizione}"
-														itemValue="#{nazione.descrizione}" />
+													<f:selectItems value="#{myAccountView.myAccountBean.nazioni}" var="nazione"
+														itemLabel="#{nazione.descrizione}" itemValue="#{nazione.descrizione}" />
 
 												</h:selectOneMenu>
 											</div>
@@ -299,6 +270,42 @@
 					</div>
 				</div>
 			</div>
+
+			<p:dialog header="#{msg.account_changePsw}" id="dlgChange" widgetVar="dlgChange" closable="true">
+				<p:messages id="messChange" autoUpdate="true" />
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="form-group">
+
+							<p:outputLabel styleClass="label-form-grid" value="#{msg.account_psw}" for="psw" />
+							<p:outputLabel value="#{msg.validator_hintPsw}" />
+
+							<p:password styleClass="form-control" id="psw" match="confPsw" value="#{accessView.psw}"
+								required="true" label="#{msg.account_psw}" maxlength="10">
+								<f:validateLength minimum="6" maximum="10" />
+							</p:password>
+							<p:message for="psw"></p:message>
+
+						</div>
+					</div>
+					<div class="col-sm-12">
+						<div class="form-group">
+
+							<p:outputLabel styleClass="label-form-grid" value="#{msg.account_confPsw}" for="confPsw" />
+
+							<p:password id="confPsw" styleClass="form-control" value="#{accessView.confPsw}"
+								required="true" label="#{msg.account_confPsw}" maxlength="10">
+								<f:validateLength minimum="6" maximum="10" />
+							</p:password>
+
+
+							<p:message for="confPsw"></p:message>
+						</div>
+					</div>
+				</div>
+				<p:commandButton styleClass="ui-priority-primary" validateClient="true" 
+							value="#{msg.account_conferma}" actionListener="#{accessView.changePassword}" update="messChange" process="confPsw,psw,@this"></p:commandButton>
+			</p:dialog>
 
 		</h:form>
 

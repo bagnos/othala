@@ -30,7 +30,6 @@ public class InsertSiteImageView extends BaseView {
 	private List<SiteImagesDTO> imagesSiteGroup = new ArrayList<>();
 	private List<SiteImagesDTO> imagesSiteGroupSeletcetd = new ArrayList<>();
 
-
 	private String idTypeGroupImage;
 	private List<GroupImagesDTO> groupImagesDTO = new ArrayList<>();
 	private GroupImagesDTO groupImagesSelected = null;
@@ -102,48 +101,54 @@ public class InsertSiteImageView extends BaseView {
 	}
 
 	public void moveUp(ActionEvent e) {
-		int i = 0;
-		int j = 0;
-		for (SiteImagesDTO img : imagesSiteGroup) {
-			if (img == imagesSiteGroupSeletcetd.get(0)) {
-				break;
+		try {
+			int i = 0;
+			int j = 0;
+			for (SiteImagesDTO img : imagesSiteGroup) {
+				if (img == imagesSiteGroupSeletcetd.get(0)) {
+					break;
+				}
+				i++;
 			}
-			i++;
+
+			j = i - 1;
+			j = j < 0 ? 0 : j;
+
+			Collections.swap(imagesSiteGroup, i, j);
+		} catch (Exception ex) {
+			addGenericError(ex, "errore moveUP immagine");
 		}
-
-		j = i - 1;
-		j = j < 0 ? 0 : j;
-
-		Collections.swap(imagesSiteGroup, i, j);
 	}
 
 	public void moveDown(ActionEvent e) {
-		int i = 0;
-		int j = 0;
-		for (SiteImagesDTO img : imagesSiteGroup) {
-			if (img == imagesSiteGroupSeletcetd.get(0)) {
-				break;
+		try {
+			int i = 0;
+			int j = 0;
+			for (SiteImagesDTO img : imagesSiteGroup) {
+				if (img == imagesSiteGroupSeletcetd.get(0)) {
+					break;
+				}
+				i++;
 			}
-			i++;
-		}
 
-		j = i + 1;
-		j = j > imagesSiteGroup.size() - 1 ? imagesSiteGroup.size() - 1 : j;
-		Collections.swap(imagesSiteGroup, i, j);
+			j = i + 1;
+			j = j > imagesSiteGroup.size() - 1 ? imagesSiteGroup.size() - 1 : j;
+			Collections.swap(imagesSiteGroup, i, j);
+		} catch (Exception ex) {
+			addGenericError(ex, "errore moveUP immagine");
+		}
 	}
 
 	public void conferma(ActionEvent e) {
 		try {
-			
 
 			GroupImagesDTO groupImages = new GroupImagesDTO();
-			
-			if (imagesSiteGroup.size() == 0)
-			{
+
+			if (imagesSiteGroup.size() == 0) {
 				addError("Inserimento Immagine", "Nessuna immagine selezionata");
 				return;
 			}
-							
+
 			groupImages.setTxGroupImages(imagesSiteGroup.get(0).getTxGroupImages());
 
 			groupImages.setListImages(imagesSiteGroup);
@@ -159,7 +164,7 @@ public class InsertSiteImageView extends BaseView {
 			addGenericError(ex, "errore inserimento immagini home");
 
 		}
-		
+
 	}
 
 	private void reset() {
@@ -183,36 +188,38 @@ public class InsertSiteImageView extends BaseView {
 	}
 
 	public void handleFileUpload(FileUploadEvent event) {
+		try {
 		UploadedFile file = event.getFile();
-		String fileResized=null;
+		String fileResized = null;
 
 		if (groupImagesSelected.getFgGender() && (idGenderSelected == null || idGenderSelected.intValue() == -1)) {
-			addError("Inserimento immagine", "selezionare una categoria");
+			addError("Inserimento immagine - selezionare una categoria","");
+			
 			return;
 		}
 
 		if (imagesSiteGroup.size() >= groupImagesSelected.getNrImages()) {
-			addError("Inserimento immagine", "raggiunto il numero massi di immagini per il gruppo selezionato");
+			addError("Inserimento immagine - raggiunto il numero massi di immagini per il gruppo selezionato","");
 			return;
 		}
 
 		if (file == null) {
-			addError("Inserimento immagine", "immagine non selezionata");
+			addError("Inserimento immagine - immagine non selezionata","");
 			return;
 		}
 
 		for (SiteImagesDTO img : imagesSiteGroup) {
 			if (img.getTxName().equalsIgnoreCase(file.getFileName())) {
-				addError("Inserimento immagine", "immagine già presente");
+				addError("Inserimento immagine - immagine già presente","");
 				return;
 			}
 		}
 
-		try {
+	
 			if (file != null) {
 
 				try {
-					fileResized=copyFile(file,groupImagesSelected);
+					fileResized = copyFile(file, groupImagesSelected);
 
 				} catch (IOException e) {
 					log.error("errore upload", e);
@@ -247,7 +254,7 @@ public class InsertSiteImageView extends BaseView {
 		}
 	}
 
-	private String copyFile(UploadedFile file,GroupImagesDTO groupSelected) throws IOException {
+	private String copyFile(UploadedFile file, GroupImagesDTO groupSelected) throws IOException {
 
 		// File result = new File(extContext.getRealPath(BASE_IMG_PATH +
 		// file.getFileName()));
@@ -259,8 +266,10 @@ public class InsertSiteImageView extends BaseView {
 
 		String fileResized = null;
 		try {
-			 
-			fileResized = ResizeImageUtil.resizeAndCopyImageHome(inputStream, file.getFileName(), format,groupSelected.getMaxWidth(),groupSelected.getMaxHeight());
+
+			fileResized = ResizeImageUtil.resizeAndCopyImageHome(inputStream, file.getFileName(), format,
+					groupSelected.getMaxWidth(), groupSelected.getMaxHeight());
+			
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -276,20 +285,18 @@ public class InsertSiteImageView extends BaseView {
 
 		try {
 
-		IProductService prod = OthalaFactory.getProductServiceInstance();
+			IProductService prod = OthalaFactory.getProductServiceInstance();
 
-		prod.cleanFolderImages(ResizeImageUtil.getBasePath());
+			prod.cleanFolderImages(ResizeImageUtil.getBasePath());
 
 		} catch (Exception ex) {
 
-		reset();
+			reset();
 
-		addGenericError(ex, "errore inserimento immagini home");
-
-		}
+			addGenericError(ex, "errore inserimento immagini home");
 
 		}
 
+	}
 
-	
 }
