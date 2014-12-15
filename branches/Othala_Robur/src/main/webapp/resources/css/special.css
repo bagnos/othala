@@ -1,24 +1,24 @@
 .glyphicon-chevron-right,.glyphicon-chevron-left {
-	color: orange;
+	color: red;
 }
 
 .glyphicon-chevron-right:hover,.glyphicon-chevron-left:hover,.glyphicon-chevron-right:focus,.glyphicon-chevron-left:focus
 	{
-	color: darkorange;
+	color: red;
 }
 
 .ui-priority-primary,.ui-widget-content .ui-priority-primary,.ui-widget-header .ui-priority-primary
 	{
 	background-color: #F88017;
-	*background-color: darkorange;
+	*background-color: red;
 	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(orange),
 		to(#0044cc));
-	background-image: -webkit-linear-gradient(top, orange, darkorange);
-	background-image: -o-linear-gradient(top, orange, darkorange);
-	background-image: linear-gradient(to bottom, orange, darkorange);
-	background-image: -moz-linear-gradient(top, orange, darkorange);
+	background-image: -webkit-linear-gradient(top, orange, red);
+	background-image: -o-linear-gradient(top, orange, red);
+	background-image: linear-gradient(to bottom, orange, red);
+	background-image: -moz-linear-gradient(top, orange, red);
 	background-repeat: repeat-x;
-	border-color: darkorange darkorange #E66C2C;
+	border-color: red red #E66C2C;
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 	filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ffFFA500',
 		endColorstr='#ffFF8C00', GradientType=0);
@@ -27,7 +27,7 @@
 
 .ui-priority-primary:hover,.ui-priority-primary:active,.ui-priority-primary.active,.ui-priority-primary.disabled,.ui-priority-primary[disabled]
 	{
-	background-color: darkorange;
+	background-color: red;
 }
 
 .ui-priority-primary:active,.ui-priority-primary.active {
@@ -98,11 +98,11 @@
 }
 
 #promo {
-	color: darkorange !important;
+	color: red !important;
 }
 
 .freeship {
-	color: darkorange !important;
+	color: red !important;
 	font-family: arialMTbold !important;
 	font-size: 16px !important;
 	padding-top: 15px;
@@ -129,11 +129,11 @@ html,body,form {
 }
 
 .bwizard-steps .active {
-	background: darkorange;
+	background: red;
 }
 
 .bwizard-steps .active:after {
-	border-left-color: darkorange;
+	border-left-color: red;
 }
 
 .navbar-inverse .navbar-nav>li>a {
@@ -143,7 +143,7 @@ html,body,form {
 
 .back-top {
 	font-size: 18px;
-	color: darkorange !important;
+	color: red !important;
 }
 
 .back-top:hover,.back-top:focus {
