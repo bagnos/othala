@@ -1,3 +1,4 @@
+
 .glyphicon-chevron-right,.glyphicon-chevron-left {
 	color: red;
 }
@@ -66,31 +67,31 @@
 }
 
 .ui-widget {
-	font-family: arialMT !important;
+	font-family: playregular !important;
 }
 
 .newPromo1 {
-	font-family: arialMTbold;
+	font-family: playbold;
 	display: none;
 }
 
 .newPromo2 {
-	font-family: arialMTbold;
+	font-family: playbold;
 	display: none;
 }
 
 .newPromo3 {
-	font-family: arialMTbold;
+	font-family: playbold;
 	display: none;
 }
 
 .newFlag2 {
-	font-family: arialMTbold;
+	font-family: playbold;
 	display: none;
 }
 
 .nav-tabs>li>a {
-	font-family: arialMTbold !important;
+	font-family: playbold !important;
 }
 
 #newArr {
@@ -103,25 +104,25 @@
 
 .freeship {
 	color: red !important;
-	font-family: arialMTbold !important;
+	font-family: playbold !important;
 	font-size: 16px !important;
 	padding-top: 15px;
 }
 
 #tab-content a {
-	font-family: arialMTbold !important;
+	font-family: playbold !important;
 }
 
 .foot1-title {
-	font-family: arialMTbold !important;
+	font-family: playbold !important;
 }
 
 .foot2-line {
-	font-family: arialMT !important;
+	font-family: playregular !important;
 }
 
 html,body,form {
-	font-family: "arialMT" !important;
+	font-family: "playregular" !important;
 }
 
 .body {
@@ -179,7 +180,7 @@ html,body,form {
 
 .tumblr_body {
 	font-size: 14px;
-	font-family: arialMT !important;
+	font-family: playregular !important;
 	
 	
 }
@@ -197,7 +198,7 @@ margin: 0px;
 .tumblr_title {
 	font-size: 18px;
 	color: black !important;
-	font-family: arialMTbold !important;
+	font-family: playbold !important;
 	padding-top: 10px;
 	padding-bottom: 10px;
 }
