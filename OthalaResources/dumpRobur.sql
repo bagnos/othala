@@ -16,12 +16,12 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Current Database: `aduna937_othala`
+-- Current Database: `robur807_othala`
 --
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `aduna937_othala` /*!40100 DEFAULT CHARACTER SET utf8 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `robur807_othala` /*!40100 DEFAULT CHARACTER SET utf8 */;
 
-USE `aduna937_othala`;
+USE `robur807_othala`;
 
 --
 -- Table structure for table `addresses`
@@ -306,7 +306,7 @@ CREATE TABLE `delivery_cost` (
 
 LOCK TABLES `delivery_cost` WRITE;
 /*!40000 ALTER TABLE `delivery_cost` DISABLE KEYS */;
-INSERT INTO `delivery_cost` VALUES (1,'PIU\' POSTE',4.00,0,'PIU\' POSTE',NULL);
+INSERT INTO `delivery_cost` VALUES (1,'Ritiro in Sede',0.00,0,'Ritiro in Sede',NULL),(2,'PIU\' POSTE - Comune di Siena',3.70,0,'PIU\' POSTE - Comune di Siena',NULL),(3,'PIU\' POSTE - Frazione Arbia',3.70,0,'PIU\' POSTE - Frazione Arbia',NULL),(4,'PIU\' POSTE - Frazione Casetta',3.70,0,'PIU\' POSTE - Frazione Casetta',NULL),(5,'PIU\' POSTE - Frazione Belverde',3.70,0,'PIU\' POSTE - Frazione Belverde',NULL),(6,'PIU\' POSTE - Frazione San Rocco',3.70,0,'PIU\' POSTE - Frazione San Rocco',NULL),(7,'PIU\' POSTE - Frazione Ponte a Tressa',3.70,0,'PIU\' POSTE - Frazione Ponte a Tressa',NULL),(8,'PIU\' POSTE - Frazione Montarioso',3.70,0,'PIU\' POSTE - Frazione Montarioso',NULL),(9,'PIU\' POSTE - Altro',9.00,0,'PIU\' POSTE - Altro',NULL);
 /*!40000 ALTER TABLE `delivery_cost` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -334,7 +334,7 @@ CREATE TABLE `delivery_nazioni` (
 
 LOCK TABLES `delivery_nazioni` WRITE;
 /*!40000 ALTER TABLE `delivery_nazioni` DISABLE KEYS */;
-INSERT INTO `delivery_nazioni` VALUES (1,'ITALIA');
+INSERT INTO `delivery_nazioni` VALUES (1,'ITALIA'),(2,'ITALIA'),(3,'ITALIA'),(4,'ITALIA'),(5,'ITALIA'),(6,'ITALIA'),(7,'ITALIA'),(8,'ITALIA'),(9,'ITALIA');
 /*!40000 ALTER TABLE `delivery_nazioni` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1011,4 +1011,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-12-15 15:22:19
+-- Dump completed on 2014-12-15 17:00:41
