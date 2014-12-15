@@ -53,6 +53,15 @@ public class RichiediResoView extends BaseView {
 	private String note;
 	private List<ChangeArticleDTO> listOptionChanges = new ArrayList<>();
 	private Map<Integer, List<SelectItem>> map = new HashMap<Integer, List<SelectItem>>();
+	private boolean renderStampa;
+
+	public boolean isRenderStampa() {
+		return renderStampa;
+	}
+
+	public void setRenderStampa(boolean renderStampa) {
+		this.renderStampa = renderStampa;
+	}
 
 	public Map<Integer, List<SelectItem>> getMap() {
 		return map;
@@ -270,6 +279,7 @@ public class RichiediResoView extends BaseView {
 		// keyRefund = HelperCrypt.encrypt(keyRefund);
 
 		getRequest().getSession().setAttribute(keyRefund, ref);
+		renderStampa=true;
 		// String
 		// url="http://"+getRequest().getServerName()+getRequest().getContextPath()+"/RichiestaResoServlet?keyRefund="
 		// + keyRefund;
@@ -277,7 +287,7 @@ public class RichiediResoView extends BaseView {
 		 * RequestContext.getCurrentInstance().execute(
 		 * "window.open('"+url+"');");
 		 */
-		RequestContext.getCurrentInstance().execute("$('#stampa').click();");
+		//RequestContext.getCurrentInstance().execute("$('#stampa').click();");
 
 	}
 
