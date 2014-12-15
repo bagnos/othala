@@ -4,21 +4,21 @@
 
 .glyphicon-chevron-right:hover,.glyphicon-chevron-left:hover,.glyphicon-chevron-right:focus,.glyphicon-chevron-left:focus
 	{
-	color: red;
+	color: darkred;
 }
 
 .ui-priority-primary,.ui-widget-content .ui-priority-primary,.ui-widget-header .ui-priority-primary
 	{
 	background-color: #F88017;
-	*background-color: red;
-	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(orange),
-		to(#0044cc));
-	background-image: -webkit-linear-gradient(top, orange, red);
-	background-image: -o-linear-gradient(top, orange, red);
-	background-image: linear-gradient(to bottom, orange, red);
-	background-image: -moz-linear-gradient(top, orange, red);
+	*background-color: darkred;
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(red),
+		to(darkred));
+	background-image: -webkit-linear-gradient(top, red, darkred);
+	background-image: -o-linear-gradient(top, red, darkred);
+	background-image: linear-gradient(to bottom, red, darkred);
+	background-image: -moz-linear-gradient(top, red, darkred);
 	background-repeat: repeat-x;
-	border-color: red red #E66C2C;
+	border-color: darkred darkred red;
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 	filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ffFFA500',
 		endColorstr='#ffFF8C00', GradientType=0);
@@ -27,7 +27,7 @@
 
 .ui-priority-primary:hover,.ui-priority-primary:active,.ui-priority-primary.active,.ui-priority-primary.disabled,.ui-priority-primary[disabled]
 	{
-	background-color: red;
+	background-color: darkred;
 }
 
 .ui-priority-primary:active,.ui-priority-primary.active {
@@ -98,7 +98,7 @@
 }
 
 #promo {
-	color: red !important;
+	color: darkred !important;
 }
 
 .freeship {
@@ -129,11 +129,11 @@ html,body,form {
 }
 
 .bwizard-steps .active {
-	background: red;
+	background: darkred;
 }
 
 .bwizard-steps .active:after {
-	border-left-color: red;
+	border-left-color: darkred;
 }
 
 .navbar-inverse .navbar-nav>li>a {
