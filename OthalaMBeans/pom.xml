@@ -13,7 +13,7 @@
 					<exclude>**/*.java</exclude>
 				</excludes>
 			</resource>
-			
+
 		</resources>
 		<plugins>
 			<plugin>
@@ -24,7 +24,51 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
-			
+
+
+
+
+			<plugin>
+				<groupId>net.alchim31.maven</groupId>
+				<artifactId>yuicompressor-maven-plugin</artifactId>
+				<version>1.5.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compress</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<nosuffix>true</nosuffix>
+					<force>true</force>
+					<includes>
+					<include>${basedir}/src/META-INF/resources/resources/js/*.js</include>
+					<include>${basedir}/src/META-INF/resources/resources/css/*.css</include>
+					</includes>					
+					<aggregations>
+						<aggregation>
+							<insertNewLine>true</insertNewLine>
+							<output>${basedir}/src/META-INF/resources/resources/js/main.js</output>
+							<includes>
+								<include>**/*.js</include>
+							</includes>
+						</aggregation>
+						<aggregation>
+							<insertNewLine>true</insertNewLine>
+							<output>${basedir}/src/META-INF/resources/resources/css/main.css</output>
+							<includes>
+								<include>**/*.css</include>
+							</includes>
+						</aggregation>
+					</aggregations>
+				</configuration>
+			</plugin>
+
+
+
+
+
 		</plugins>
 	</build>
 	<dependencies>
@@ -49,22 +93,22 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
-		
+
 
 		<dependency>
 			<groupId>com.sun.faces</groupId>
 			<artifactId>jsf-api</artifactId>
 			<version>2.2.6</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.sun.faces</groupId>
 			<artifactId>jsf-impl</artifactId>
 			<version>2.2.6</version>
 		</dependency>
 
-		 
-		
+
+
 
 		<dependency>
 			<groupId>org.primefaces</groupId>
@@ -97,41 +141,18 @@
 			<artifactId>spring-tx</artifactId>
 			<version>4.0.0.RELEASE</version>
 		</dependency>
-		<!-- 
-		<dependency>
-			<groupId>org.glassfish.jersey.containers</groupId>
-			if your container implements Servlet API older than 3.0, use "jersey-container-servlet-core" 
-			<artifactId>jersey-container-servlet</artifactId>
-			<version>2.5.1</version>
-		</dependency> -->
+		<!-- <dependency> <groupId>org.glassfish.jersey.containers</groupId> if your container 
+			implements Servlet API older than 3.0, use "jersey-container-servlet-core" <artifactId>jersey-container-servlet</artifactId> 
+			<version>2.5.1</version> </dependency> -->
 
 		<!-- Required only when you are using JAX-RS Client -->
-		<!-- 
-		<dependency>
-			<groupId>org.glassfish.jersey.core</groupId>
-			<artifactId>jersey-client</artifactId>
-			<version>2.5.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.glassfish.jersey.media</groupId>
-			<artifactId>jersey-media-moxy</artifactId>
-			<version>2.5.1</version>
-		</dependency>
-		 -->
-		 <!-- 
-		<dependency>
-			<groupId>com.itextpdf</groupId>
-			<artifactId>itextpdf</artifactId>
-			<version>5.4.5</version>
-		</dependency>
-		-->
-		<!-- 
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi-ooxml</artifactId>
-			<version>3.9</version>
-		</dependency>
-		-->
+		<!-- <dependency> <groupId>org.glassfish.jersey.core</groupId> <artifactId>jersey-client</artifactId> 
+			<version>2.5.1</version> </dependency> <dependency> <groupId>org.glassfish.jersey.media</groupId> 
+			<artifactId>jersey-media-moxy</artifactId> <version>2.5.1</version> </dependency> -->
+		<!-- <dependency> <groupId>com.itextpdf</groupId> <artifactId>itextpdf</artifactId> 
+			<version>5.4.5</version> </dependency> -->
+		<!-- <dependency> <groupId>org.apache.poi</groupId> <artifactId>poi-ooxml</artifactId> 
+			<version>3.9</version> </dependency> -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
@@ -163,12 +184,8 @@
 		</dependency>
 
 		<!-- CDI -->
-		<!-- 
-		<dependency>
-			<groupId>org.jboss.weld.servlet</groupId>
-			<artifactId>weld-servlet</artifactId>
-			<version>2.1.2.Final</version>
-		</dependency>-->
+		<!-- <dependency> <groupId>org.jboss.weld.servlet</groupId> <artifactId>weld-servlet</artifactId> 
+			<version>2.1.2.Final</version> </dependency> -->
 
 
 		<dependency>
@@ -177,9 +194,9 @@
 			<version>0.4.7</version>
 		</dependency>
 
-		
-	
-		
+
+
+
 
 
 		<!-- paypall sdk -->
