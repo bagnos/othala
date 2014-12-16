@@ -15,14 +15,14 @@
 	<!-- TEST -->
 	 
 	<Realm className="org.apache.catalina.realm.DataSourceRealm"
-		dataSourceName="jdbc/othala" userTable="aduna937_othala.customer" userNameCol="idUser"
-		userCredCol="txPassword" userRoleTable="aduna937_othala.customer_roles"
+		dataSourceName="jdbc/othala" userTable="robur807_othala.customer" userNameCol="idUser"
+		userCredCol="txPassword" userRoleTable="robur807_othala.customer_roles"
 		roleNameCol="txRole" localDataSource="true" />
 	<Resource name="jdbc/othala" removeAbandoned="true" logAbandoned="true"
 		auth="Container" type="javax.sql.DataSource" maxActive="10" maxIdle="5"
 		validationQuery="SELECT 1" validationInterval="30000" maxWait="10000"
 		username="root" password="root" driverClassName="com.mysql.jdbc.Driver"
-		url="jdbc:mysql://localhost:3306/aduna937_othala" />
+		url="jdbc:mysql://localhost:3306/robur807_othala" />
 
 	<!-- FINE TEST -->
 
