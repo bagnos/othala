@@ -53,9 +53,11 @@
 							<includes>
 								<include>*.js</include>
 							</includes>
-							<esclude>
-								othalaWizard.js
-							</esclude>
+							<excludes>
+								<exclude>
+									othalaWizard.js
+								</exclude>
+							</excludes>
 						</aggregation>
 						<aggregation>
 							<insertNewLine>true</insertNewLine>
@@ -67,38 +69,15 @@
 					</aggregations>
 				</configuration>
 			</plugin>
- -->
-			<!-- 
-			<plugin>
-				<groupId>com.samaxes.maven</groupId>
-				<artifactId>minify-maven-plugin</artifactId>
-				<version>1.7.4</version>
-				<executions>
-					<execution>
-						<id>default-minify</id>
-						<configuration>
-							<cssSourceIncludes>
-								<cssSourceInclude>**</cssSourceInclude>
-							</cssSourceIncludes>
-							<cssSourceExcludes>
-								<cssSourceExclude>**/*.min.css</cssSourceExclude>
-							</cssSourceExcludes>
-							<jsSourceIncludes>
-								<jsSourceInclude>**</jsSourceInclude>
-							</jsSourceIncludes>
-							<jsSourceExcludes>
-								<jsSourceExclude>**/*.min.js</jsSourceExclude>
-							</jsSourceExcludes>
-							
-						</configuration>
-						<goals>
-							<goal>minify</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			-->
- 
+-->
+			<!-- <plugin> <groupId>com.samaxes.maven</groupId> <artifactId>minify-maven-plugin</artifactId> 
+				<version>1.7.4</version> <executions> <execution> <id>default-minify</id> <configuration> 
+				<cssSourceIncludes> <cssSourceInclude>**</cssSourceInclude> </cssSourceIncludes> 
+				<cssSourceExcludes> <cssSourceExclude>**/*.min.css</cssSourceExclude> </cssSourceExcludes> 
+				<jsSourceIncludes> <jsSourceInclude>**</jsSourceInclude> </jsSourceIncludes> <jsSourceExcludes> 
+				<jsSourceExclude>**/*.min.js</jsSourceExclude> </jsSourceExcludes> </configuration> 
+				<goals> <goal>minify</goal> </goals> </execution> </executions> </plugin> -->
+
 
 
 

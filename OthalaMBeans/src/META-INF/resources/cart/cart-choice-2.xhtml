@@ -87,15 +87,9 @@
 	    slideshow: false,
 	    sync: "#carousel"
 	  });
-
-	  
-
-	  		
-	  	
 	  	 $(".zoom").elevateZoom({
 	  		cursor: "crosshair"	
 			});
-
 	
 		  $('#carouselRelatedPrds').flexslider({
 		    animation: "slide",
@@ -249,27 +243,31 @@
 
 							<br />
 
-							<h:panelGroup layout="block" id="pnl-scelte" rendered="#{cartChoice2View.disponibile and cartChoice2View.renderSize}">
+							<h:panelGroup layout="block" id="pnl-scelte"
+								rendered="#{cartChoice2View.disponibile and cartChoice2View.renderSize}">
 
 								<div class="row">
 									<div class="col-sm-5">
 										<div class="form-group">
-											<p:commandButton styleClass="btnAddToWishList" onclick="PF('dlgSize').show(); PF('dlgColor').hide();"
-												id="cmdZise" value="#{msg.catalog_chooseSize}" style="margin: 0 5px 5px !important;"/>
+											<p:commandButton styleClass="btnAddToWishList"
+												onclick="PF('dlgSize').show(); PF('dlgColor').hide();" id="cmdZise"
+												value="#{msg.catalog_chooseSize}" style="margin: 0 5px 5px !important;" />
 										</div>
 
-										<h:commandButton onclick="return false;" rendered="#{cartChoice2View.idSize!=null}" disabled="true"
-											styleClass="wish-list-tails" value="#{cartChoice2View.txSize}" />
+										<h:commandButton onclick="return false;" rendered="#{cartChoice2View.idSize!=null}"
+											disabled="true" styleClass="wish-list-tails" value="#{cartChoice2View.txSize}" />
 
 									</div>
 									<div class="col-sm-5">
 										<div class="form-group">
-										
+
 											<p:commandButton styleClass="btnAddToWishList" disabled="#{cartChoice2View.idSize==null}"
-												onclick="PF('dlgColor').show(); PF('dlgSize').hide();" value="#{msg.catalog_chooseColor}" id="cmdColor" style="margin: 0 5px 5px !important;"/>
+												onclick="PF('dlgColor').show(); PF('dlgSize').hide();"
+												value="#{msg.catalog_chooseColor}" id="cmdColor" style="margin: 0 5px 5px !important;" />
 										</div>
-										<h:commandButton onclick="return false;" id="selectedColor" rendered="#{cartChoice2View.txColor!=null}" disabled="true"
-											styleClass="wish-list-tails" value="#{cartChoice2View.txColor}" />
+										<h:commandButton onclick="return false;" id="selectedColor"
+											rendered="#{cartChoice2View.txColor!=null}" disabled="true" styleClass="wish-list-tails"
+											value="#{cartChoice2View.txColor}" />
 									</div>
 
 								</div>
@@ -310,8 +308,8 @@
 
 						</div>
 						<br />
-						
-						<!-- 
+
+
 						<div class="row">
 							<div class="col-sm-4">
 								<div class="fb-like" data-layout="button_count" data-share="true" data-width="450"
@@ -320,7 +318,7 @@
 
 							</div>
 						</div>
- 						-->
+
 						<br />
 						<div class="row">
 							<div class="col-sm-12">
@@ -358,7 +356,7 @@
 						<div id="carouselRelatedPrds" class="flexslider">
 							<ul class="slides">
 								<ui:repeat var="art" value="#{cartFlowBean.catalog.articles}">
-									<li style="width:150px;"><h:panelGroup
+									<li style="width: 150px;"><h:panelGroup
 											rendered="#{art.idProduct!=cartFlowBean.detailProductFull.idProduct}">
 											<h:link outcome="cart-choice-2" rendered="#{art.idProduct != null}">
 
@@ -368,15 +366,15 @@
 											</h:link>
 
 											<div class="row text-center">
-											
-																	<h5>
+
+												<h5>
 													<h:outputText value="#{art.txBrand}">
-		
+
 													</h:outputText>
 												</h5>
-												
 
-<!-- 
+
+												<!-- 
 												<h5>
 													<h:outputText value="#{art.price}"
 														styleClass="#{art.price != art.priceDiscounted?'onSale':''}">
@@ -403,19 +401,21 @@
 				</div>
 			</div>
 
-			<p:dialog widgetVar="dlgSize" id="dlgSize" width="190" appendToBody="false" styleClass="borderSizeColor" showHeader="false"
-				header="#{msg.catalog_chooseSize}" closable="true" closeOnEscape="true" resizable="false">
+			<p:dialog widgetVar="dlgSize" id="dlgSize" width="190" appendToBody="false"
+				styleClass="borderSizeColor" showHeader="false" header="#{msg.catalog_chooseSize}"
+				closable="true" closeOnEscape="true" resizable="false">
 
 				<!-- <h6>#{msg.catalog_chooseSize}</h6>-->
 
-				<div class="row spacer30" >
-					<div class="col-sm-12" style="padding:0px">
+				<div class="row spacer30">
+					<div class="col-sm-12" style="padding: 0px">
 
 						<ui:repeat var="size" value="#{cartChoice2View.sizeItems}">
 
-							<h:commandLink style="font-size: 11px !important;"   onclick="$('#selSize').val('#{size.value}');$('#selSize').change();PF('dlgSize').hide(); return false;" styleClass="wish-list-tails"
-								value="#{size.label}">
-								<f:ajax  render="pnl-scelte">
+							<h:commandLink style="font-size: 11px !important;"
+								onclick="$('#selSize').val('#{size.value}');$('#selSize').change();PF('dlgSize').hide(); return false;"
+								styleClass="wish-list-tails" value="#{size.label}">
+								<f:ajax render="pnl-scelte">
 
 									<f:attribute name="idSize" value="#{size.value}"></f:attribute>
 									<f:attribute name="txSize" value="#{size.label}"></f:attribute>
@@ -426,13 +426,11 @@
 
 						</ui:repeat>
 						<h:selectOneMenu style="visibility:hidden;height:0px" id="selSize" styleClass="form-control"
-												value="#{cartChoice2View.idSize}">
-												<f:selectItem itemLabel="#{msg.catalog_chooseSize}"
-													itemValue="-1" noSelectionOption="true" />
-												<f:selectItems value="#{cartChoice2View.sizeItems}"></f:selectItems>
-												<f:ajax execute="@this" render="pnl-scelte dlgColor"
-													listener="#{cartChoice2View.changeSize}"></f:ajax>
-											</h:selectOneMenu>
+							value="#{cartChoice2View.idSize}">
+							<f:selectItem itemLabel="#{msg.catalog_chooseSize}" itemValue="-1" noSelectionOption="true" />
+							<f:selectItems value="#{cartChoice2View.sizeItems}"></f:selectItems>
+							<f:ajax execute="@this" render="pnl-scelte dlgColor" listener="#{cartChoice2View.changeSize}"></f:ajax>
+						</h:selectOneMenu>
 					</div>
 				</div>
 				<div class="footerSizeColor">
@@ -440,27 +438,27 @@
 				</div>
 			</p:dialog>
 
-			<p:dialog widgetVar="dlgColor" id="dlgColor" width="210" showHeader="false" styleClass="borderSizeColor"
-				header="#{msg.catalog_chooseColor}" closable="true" closeOnEscape="true" resizable="false">
+			<p:dialog widgetVar="dlgColor" id="dlgColor" width="210" showHeader="false"
+				styleClass="borderSizeColor" header="#{msg.catalog_chooseColor}" closable="true"
+				closeOnEscape="true" resizable="false">
 
 				<!-- <h6 style="text-transform: uppercase">#{msg.catalog_chooseColor}</h6>-->
-				<div class="row spacer30" >
-					<div class="col-sm-12" style="padding:0px">
+				<div class="row spacer30">
+					<div class="col-sm-12" style="padding: 0px">
 						<ui:repeat var="colore" value="#{cartChoice2View.colorItems}">
-						<h:commandLink style="font-size: 11px !important;"   onclick="$('#selColor').val('#{colore.value}');$('#selColor').change();PF('dlgColor').hide(); return false;" styleClass="wish-list-tails"
-								value="#{colore.label}">
+							<h:commandLink style="font-size: 11px !important;"
+								onclick="$('#selColor').val('#{colore.value}');$('#selColor').change();PF('dlgColor').hide(); return false;"
+								styleClass="wish-list-tails" value="#{colore.label}">
 							</h:commandLink>
 						</ui:repeat>
 					</div>
 					<h:selectOneMenu style="visibility:hidden;height:0px" id="selColor" styleClass="form-control"
-												label="#{msg.catalog_color}" 
-												value="#{cartChoice2View.idColor}">
-												<f:selectItem itemLabel="#{msg.catalog_chooseColor}"
-													itemValue="" noSelectionOption="true" />
-												<f:selectItems value="#{cartChoice2View.colorItems}"></f:selectItems>
-												<f:ajax execute="@form" render="qtaArt add-cart pnl-scelte"
-													listener="#{cartChoice2View.changeColor}"></f:ajax>
-											</h:selectOneMenu>
+						label="#{msg.catalog_color}" value="#{cartChoice2View.idColor}">
+						<f:selectItem itemLabel="#{msg.catalog_chooseColor}" itemValue="" noSelectionOption="true" />
+						<f:selectItems value="#{cartChoice2View.colorItems}"></f:selectItems>
+						<f:ajax execute="@form" render="qtaArt add-cart pnl-scelte"
+							listener="#{cartChoice2View.changeColor}"></f:ajax>
+					</h:selectOneMenu>
 				</div>
 				<div class="footerSizeColor">
 					<span class="glyphicon glyphicon-remove footerClose" onclick="PF('dlgColor').hide()" />

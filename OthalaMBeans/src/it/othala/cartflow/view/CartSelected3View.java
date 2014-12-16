@@ -29,6 +29,10 @@ public class CartSelected3View extends BaseView {
 			totalPrice = art.getPrdFullDTO().getRealPrice().add(totalPrice);
 
 		}
+		if (getCartFlowBean().getDeliveryCost()!=null && getCartFlowBean().getDeliveryCost().getImportoSpese()!=null)
+		{
+			totalPrice=totalPrice.add(getCartFlowBean().getDeliveryCost().getImportoSpese());
+		}
 
 		getCartFlowBean().setTotalPriceOrder(totalPrice);
 
