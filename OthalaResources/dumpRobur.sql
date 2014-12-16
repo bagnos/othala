@@ -334,7 +334,7 @@ CREATE TABLE `delivery_nazioni` (
 
 LOCK TABLES `delivery_nazioni` WRITE;
 /*!40000 ALTER TABLE `delivery_nazioni` DISABLE KEYS */;
-INSERT INTO `delivery_nazioni` VALUES (9999,'ITALIA'),(2,'ITALIA'),(3,'ITALIA'),(4,'ITALIA'),(5,'ITALIA'),(6,'ITALIA'),(7,'ITALIA'),(8,'ITALIA'),(9,'ITALIA');
+INSERT INTO `delivery_nazioni` VALUES (2,'ITALIA'),(3,'ITALIA'),(4,'ITALIA'),(5,'ITALIA'),(6,'ITALIA'),(7,'ITALIA'),(8,'ITALIA'),(9,'ITALIA');
 /*!40000 ALTER TABLE `delivery_nazioni` ENABLE KEYS */;
 UNLOCK TABLES;
 
