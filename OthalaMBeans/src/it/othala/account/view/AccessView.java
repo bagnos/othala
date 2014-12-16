@@ -34,7 +34,7 @@ public class AccessView extends BaseView {
 	private String confPsw;
 	private String name;
 	private String surname;
-	private boolean newsletter=true;
+	private boolean newsletter=false;
 	private Boolean acceptPrivacy;
 	
 	public Boolean getAcceptPrivacy() {
