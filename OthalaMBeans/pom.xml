@@ -27,7 +27,7 @@
 
 
 
-
+<!-- 
 			<plugin>
 				<groupId>net.alchim31.maven</groupId>
 				<artifactId>yuicompressor-maven-plugin</artifactId>
@@ -67,7 +67,7 @@
 					</aggregations>
 				</configuration>
 			</plugin>
-
+ -->
 			<!-- 
 			<plugin>
 				<groupId>com.samaxes.maven</groupId>
