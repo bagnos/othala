@@ -22,12 +22,12 @@
 		<meta property="og:locale" content="en_US" />
 		<meta property="og:locale:alternate" content="it_IT" />
 		<meta property="og:url"
-			content="http://adunata.org/Othala/faces/cart/cart-choice-2.xhtml?idPrd=#{cartChoice2View.idProduct}" />
+			content="http://#{request.serverName}#{request.contextPath}/faces/cart/cart-choice-2.xhtml?idPrd=#{cartChoice2View.idProduct}" />
 		<meta property="og:title" content="#{msgSite.nomeMerchant}" />
 		<meta property="og:description"
 			content="#{cartFlowBean.detailProductFull.txBrand} - #{cartFlowBean.detailProductFull.description}" />
 		<meta property="og:image"
-			content="http://adunata.org/Othala/faces/javax.faces.resource/#{cartFlowBean.detailProductFull.imagesUrl[0]}?ln=images/cartThumbinals" />
+			content="http://#{request.serverName}#{request.contextPath}/faces/javax.faces.resource/#{cartFlowBean.detailProductFull.imagesUrl[0]}?ln=images/cartThumbinals" />
 
 		<meta property="product:price:amount" content="#{cartChoice2View.priceStr}" />
 		<meta property="product:price:currency" content="EUR" />
@@ -249,7 +249,7 @@
 
 							<br />
 
-							<h:panelGroup layout="block" id="pnl-scelte" rendered="#{cartChoice2View.disponibile}">
+							<h:panelGroup layout="block" id="pnl-scelte" rendered="#{cartChoice2View.disponibile and cartChoice2View.renderSize}">
 
 								<div class="row">
 									<div class="col-sm-5">

@@ -42,6 +42,11 @@ public class CartChoice2View extends BaseView {
 	private Boolean nondisponibile;
 	private String txSize;
 	private String txColor;
+	private boolean renderSize;
+
+	public boolean isRenderSize() {
+		return renderSize;
+	}
 
 	public String getTxColor() {
 		return txColor;
@@ -226,6 +231,7 @@ public class CartChoice2View extends BaseView {
 			}
 			
 			colorItems = new ArrayList<>();
+			verifyNA();
 
 			/*
 			 * for (ArticleFullDTO art : prdFull.getArticles()) { boolean found
@@ -244,6 +250,25 @@ public class CartChoice2View extends BaseView {
 
 			addGenericError(e, "errore inizializzazione scelta prodotto");
 			return null;
+		}
+	}
+	
+	private void verifyNA()
+	{
+		renderSize=true;
+		for (ArticleFullDTO art:prdFull.getArticles())
+		{
+			if (art.getTxSize().equalsIgnoreCase("N/A"))
+			{
+				renderSize=false;
+				artSel=art;
+				qtaArticle=1;
+				idSize=art.getIdSize();
+				min=1;
+				max=1;
+				idColor=art.getIdColor();
+				art.setPrdFullDTO(prdFull);
+			}
 		}
 	}
 
