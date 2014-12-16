@@ -346,7 +346,7 @@ CREATE TABLE `order_refound` (
   `idOrder` int(11) NOT NULL,
   `idUser` varchar(100) NOT NULL,
   `idTransaction` varchar(45) DEFAULT NULL,
-  `imRefound` int(11) DEFAULT NULL,
+  `imRefound` decimal(15,2) DEFAULT NULL,
   `txChangeRefound` varchar(250) DEFAULT NULL,
   `fgChangeRefound` char(1) DEFAULT NULL,
   `fgPartialRefound` tinyint(1) DEFAULT NULL,
@@ -368,7 +368,7 @@ DROP TABLE IF EXISTS `orders`;
 CREATE TABLE `orders` (
   `idOrder` int(11) NOT NULL AUTO_INCREMENT,
   `idUser` varchar(100) NOT NULL,
-  `imOrdine` int(11) NOT NULL,
+  `imOrdine` decimal(15,2) NOT NULL,
   `idTransaction` varchar(45) DEFAULT NULL,
   `idAddressFat` int(11) NOT NULL,
   `idAddressSpe` int(11) NOT NULL,

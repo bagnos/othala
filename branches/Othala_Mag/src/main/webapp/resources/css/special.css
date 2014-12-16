@@ -160,6 +160,10 @@ html,body,form {
 	display: none !important;
 }
 
+.descrVisibile {
+	display: none !important;
+}
+
 .altezza75 {
 	height: 75px;
 }
