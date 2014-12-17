@@ -1,0 +1,73 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/masterTemplateBS.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+	<ui:define name="metadata">
+		<f:metadata>
+
+		</f:metadata>
+	</ui:define>
+
+
+	<ui:define name="title">
+		<h:outputText value="GUIDA TAGLIE"></h:outputText>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<div class="container">
+
+			<div class="row">
+				<div class="col-sm-12">
+
+					<div id="header">
+						<div class="row">
+							<div class="col-sm-12">
+								<br />
+								<h1>
+									<h:outputText value="#{msgSite.sizeGuide}" style="color:#666666"/>
+								</h1>
+							</div>
+
+						</div>
+
+
+
+
+					</div>
+
+
+
+					<div id="content">
+
+						<div class="row">
+							<div class="col-sm-4">
+								<br />
+								<p:graphicImage styleClass="img-responsive" name="aboutUs.jpg"
+									width="400" height="400" library="images/static"></p:graphicImage>
+							</div>
+							<div class="col-sm-8">
+								<br />
+								<h3>
+								<h:outputText value="#{msgSite.aboutus}" escape="false" />
+							</h3>
+							</div>
+						</div>
+
+
+
+
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>
