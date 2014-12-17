@@ -35,11 +35,21 @@ public class ConfigurationUtil {
 		return path;
 	}
 	
+	public static String getLogoStampa(HttpServletRequest requestStampa)
+	{		
+		String path= requestStampa.getServletContext().getRealPath("/");
+		 
+		path+="resources"+File.separator+"images"+File.separator;
+		path+="logo2-small.png";
+		return path;
+	}
+	
 	public static String getBaseImageThumbinals()
 	{
 		String path=getBaseImagePath()+"cartThumbinals"+File.separator;
 		return path;
 	}
+	
 	
 	private static String getImagePayment()
 	{
