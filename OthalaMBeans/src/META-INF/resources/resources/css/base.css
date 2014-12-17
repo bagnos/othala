@@ -1,3 +1,7 @@
+.guidaVisible {
+	display: none;
+}
+
 .ui-widget {
 	font-size: 95% !important;
 }

@@ -298,6 +298,7 @@
 		and a.idProduct =
 		#{idProduct}
 		and a.qtStock > 0
+		ORDER BY a.idSize
 
 	</select>
 
