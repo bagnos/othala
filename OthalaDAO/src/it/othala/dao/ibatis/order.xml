@@ -235,6 +235,31 @@
 		a.idAddress desc
 
 	</select>
+	
+		<select id="deliveryAddressesSede" resultType="it.othala.dto.DeliveryAddressDTO"
+		parameterType="java.lang.Integer">
+
+		SELECT
+		a.idAddress, a.idUser as userId, a.txNome as
+		nome,a.txCognome as cognome,
+		a.txVia as via, a.txComune as comune,
+		a.cdCap as cap, a.txEtichetta as
+		etichetta,
+		a.txProvincia as provincia,
+		a.txNazione as nazione,
+		a.txTel as tel
+		FROM
+		${database.schema}addresses a
+
+		WHERE
+		a.idAddress = #{idAddress} 
+		and
+		a.fgDeleted = 0
+
+
+	</select>
+	
+	
 
 	<select id="deliveryCosts" resultType="it.othala.dto.DeliveryCostDTO">
 
@@ -243,7 +268,8 @@
 		imSpese as importospese, txDescrizioneExt
 		as
 		descrizioneExt,
-		txLinkTracking as linkTracking
+		txLinkTracking as linkTracking,
+		idAddress
 		FROM
 		${database.schema}delivery_cost a,
 		${database.schema}delivery_nazioni b

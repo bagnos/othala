@@ -44,8 +44,24 @@ public class DeliveryCostDTO implements Serializable {
 	public void setLinkTracking(String linkTracking) {
 		this.linkTracking = linkTracking;
 	}
+	public Integer getIdAddress() {
+		return idAddress;
+	}
+	public void setIdAddress(Integer idAddress) {
+		this.idAddress = idAddress;
+	}
+
+	public DeliveryAddressDTO getDeliverySede() {
+		return deliverySede;
+	}
+	public void setDeliverySede(DeliveryAddressDTO deliverySede) {
+		this.deliverySede = deliverySede;
+	}
 	private String descrizioneExt;
 	private String linkTracking;
+	private Integer idAddress;
+	
+	private DeliveryAddressDTO deliverySede;
 	
 
 }
