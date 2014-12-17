@@ -5,6 +5,7 @@ import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.AttributeDTO;
 import it.othala.dto.CampaignDTO;
 import it.othala.dto.ConfigurationDTO;
+import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DescriptionDTO;
 import it.othala.dto.LookBookDTO;
 import it.othala.dto.MenuDTO;
@@ -235,6 +236,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 
 		for (int i = 0; i <= listArticleFull.size() - 1; i++) {
 
+			
 			shop = getShop(idProduct, listArticleFull.get(i).getPgArticle());
 			listArticleFull.get(i).setShop(shop);
 
@@ -244,6 +246,14 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 
 	}
 
+
+	private DeliveryAddressDTO getDeliveryAddressSede(Integer idAddress) {
+		return getSqlSession().selectOne(
+				"it.othala.product.queries.deliveryAddressesSede", idAddress);
+
+		
+	}
+	
 	@Override
 	public void downloadArticle(Integer idProduct, Integer pgArticle) {
 

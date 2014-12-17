@@ -103,6 +103,19 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO {
 
 		List<DeliveryCostDTO> listCost = getSqlSession().selectList(
 				"it.othala.order.queries.deliveryCosts", mapUpdate);
+		
+		for (int i = 0; i <= listCost.size() - 1; i++) {
+
+			if (listCost.get(i).getIdAddress() != null)
+			{
+				DeliveryAddressDTO deliverySede = getSqlSession().selectOne(
+						"it.othala.order.queries.deliveryAddressesSede", 
+						listCost.get(i).getIdAddress());
+				
+				listCost.get(i).setDeliverySede(deliverySede);
+			}
+
+		}
 
 		return listCost;
 	}
@@ -114,6 +127,9 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO {
 
 		return listAddress;
 	}
+	
+
+	
 
 	@Override
 	public void insertOrdersArticles(HashMap<String, Object> mapProduct) {

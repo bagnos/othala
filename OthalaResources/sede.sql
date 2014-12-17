@@ -16,4 +16,48 @@ UPDATE `robur807_othala`.`delivery_nazioni` SET `idAddress`=9995 WHERE `idDelive
 UPDATE `robur807_othala`.`delivery_nazioni` SET `idAddress`=9994 WHERE `idDeliveryCost`='7' and`idNazione`='ITALIA';
 UPDATE `robur807_othala`.`delivery_nazioni` SET `idAddress`=9993 WHERE `idDeliveryCost`='8' and`idNazione`='ITALIA';
 
+UPDATE `robur807_othala`.`addresses` SET `fgDeleted`=0, `txEtichetta`='sede' WHERE `idAddress`='9993';
+
+UPDATE `robur807_othala`.`addresses` SET `fgDeleted`=0, `txEtichetta`='sede' WHERE `idAddress`='9994';
+
+UPDATE `robur807_othala`.`addresses` SET `fgDeleted`=0, `txEtichetta`='sede' WHERE `idAddress`='9995';
+
+UPDATE `robur807_othala`.`addresses` SET `fgDeleted`=0, `txEtichetta`='sede' WHERE `idAddress`='9996';
+
+UPDATE `robur807_othala`.`addresses` SET `fgDeleted`=0, `txEtichetta`='sede' WHERE `idAddress`='9997';
+
+UPDATE `robur807_othala`.`addresses` SET `fgDeleted`=0, `txEtichetta`='sede' WHERE `idAddress`='9998';
+
+UPDATE `robur807_othala`.`addresses` SET `txNazione`='ITALIA' WHERE `idAddress`='9993';
+
+UPDATE `robur807_othala`.`addresses` SET `txNazione`='ITALIA' WHERE `idAddress`='9994';
+
+UPDATE `robur807_othala`.`addresses` SET `txNazione`='ITALIA' WHERE `idAddress`='9995';
+
+UPDATE `robur807_othala`.`addresses` SET `txNazione`='ITALIA' WHERE `idAddress`='9996';
+
+UPDATE `robur807_othala`.`addresses` SET `txNazione`='ITALIA' WHERE `idAddress`='9997';
+
+UPDATE `robur807_othala`.`addresses` SET `txNazione`='ITALIA' WHERE `idAddress`='9998';
+
+INSERT INTO `robur807_othala`.`addresses` (`idAddress`, `idUser`, `txComune`, `cdCap`, `txProvincia`, `txNazione`, `txEtichetta`) VALUES (9992, 'shop@robursienashop.it', 'Siena', 53100, 'SI', 'ITALIA', '');
+
+UPDATE `robur807_othala`.`addresses` SET `txEtichetta`='' WHERE `idAddress`='9993';
+
+UPDATE `robur807_othala`.`addresses` SET `txEtichetta`='' WHERE `idAddress`='9994';
+
+UPDATE `robur807_othala`.`addresses` SET `txEtichetta`='' WHERE `idAddress`='9995';
+
+UPDATE `robur807_othala`.`addresses` SET `txEtichetta`='' WHERE `idAddress`='9996';
+
+UPDATE `robur807_othala`.`addresses` SET `txEtichetta`='' WHERE `idAddress`='9997';
+
+UPDATE `robur807_othala`.`addresses` SET `txEtichetta`='' WHERE `idAddress`='9998';
+
+UPDATE `robur807_othala`.`addresses` SET `txEtichetta`='' WHERE `idAddress`='9999';
+
+UPDATE `robur807_othala`.`delivery_nazioni` SET `idAddress`='9992' WHERE `idDeliveryCost`='2' and`idNazione`='ITALIA';
+
+UPDATE `robur807_othala`.`addresses` SET `fgDeleted`=0 WHERE `idAddress`='9992';
+
 set foreign_key_checks = 1;
