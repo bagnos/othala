@@ -781,11 +781,12 @@ public class OrderService implements IOrderService {
 
 			out.write("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
 			out.write("<order>");
+			/*
 			out.write("<imgLogo>");
 			out.write("cid:imageLogo");
 			inlineImages.put("imageLogo", pathLogo);
 			out.write("</imgLogo>");
-
+*/
 			out.write("<customer>");
 			out.write("<name>" + order.getNameUser() + "</name>");
 			out.write("<mail>" + order.getIdUser() + "</mail>");

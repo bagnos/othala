@@ -51,6 +51,7 @@ public class SpedisciOrdineServlet extends HttpServlet {
 			fgRis = request.getParameter("fgRis");
 
 			if (fgRis == null) {
+				
 				OthalaFactory.getOrderServiceInstance().updateStateOrder(idOrder, null, TypeStateOrder.SPEDITO);
 				MailPropertiesDTO mail = ConfigurationUtil.getMailProps(request);
 				OrderFullDTO order = OthalaFactory.getOrderServiceInstance().getOrders(idOrder, null, null, true).get(0);
@@ -75,7 +76,7 @@ public class SpedisciOrdineServlet extends HttpServlet {
 	private void stampaOrdine(int idOrder, HttpServletResponse response,HttpServletRequest request) throws Exception {
 		//File pdfCarrello = OthalaFactory.getOrderServiceInstance().stampaOrdine(idOrder);
 		
-		String img=ConfigurationUtil.getOrderPrintImageUrl(request);
+		String img=ConfigurationUtil.getLogoStampa(request);
 		String html=OthalaFactory.getOrderServiceInstance().stampaOrdineHTML(idOrder,img);
 		
 		PrintWriter out = response.getWriter();
