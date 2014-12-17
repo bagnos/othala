@@ -163,6 +163,14 @@ html,body,form {
 
 
 .emailVisible {
+	display: inline !important;
+}
+
+.guidaVisible {
+	display: none !important;
+}
+
+.brandVisibile {
 	display: none !important;
 }
 

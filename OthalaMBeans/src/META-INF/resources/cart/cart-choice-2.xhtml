@@ -1,7 +1,11 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
-	template="/template/masterTemplateBS.xhtml" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/masterTemplateBS.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
 
 
@@ -29,7 +33,8 @@
 		<meta property="og:image"
 			content="http://#{request.serverName}#{request.contextPath}/faces/javax.faces.resource/#{cartFlowBean.detailProductFull.imagesUrl[0]}?ln=images/cartThumbinals" />
 
-		<meta property="product:price:amount" content="#{cartChoice2View.priceStr}" />
+		<meta property="product:price:amount"
+			content="#{cartChoice2View.priceStr}" />
 		<meta property="product:price:currency" content="EUR" />
 		<!-- 
 		<meta property="product:shipping_cost:amount" content="5" />
@@ -37,7 +42,8 @@
 		-->
 
 
-		<meta property="product:sale_price:amount" content="#{cartChoice2View.priceDiscountedStr}" />
+		<meta property="product:sale_price:amount"
+			content="#{cartChoice2View.priceDiscountedStr}" />
 		<meta property="product:sale_price:currency" content="EUR" />
 
 	</ui:define>
@@ -115,13 +121,17 @@
 				<!-- BREADCRUMB -->
 				<div class="row">
 					<ol class="breadcrumb breadcrumbLink" style="margin-top: 10px">
-						<ui:repeat var="bread" value="#{cartFlowBean.breadCrumb}" varStatus="stBread">
-							<li><h:link rendered="#{stBread.last}" outcome="cartFlow" value="#{bread}"
-									styleClass="active">
-								</h:link> <h:outputLink rendered="#{stBread.first}" value="#{request.contextPath}/faces/home.xhtml"
+						<ui:repeat var="bread" value="#{cartFlowBean.breadCrumb}"
+							varStatus="stBread">
+							<li><h:link rendered="#{stBread.last}" outcome="cartFlow"
+									value="#{bread}" styleClass="active">
+								</h:link> <h:outputLink rendered="#{stBread.first}"
+									value="#{request.contextPath}/faces/home.xhtml"
 									styleClass="glyphicon glyphicon-home">
 									#{bread}
-									</h:outputLink> <h:outputLink rendered="#{stBread.first==false and stBread.last==false}" value="#">
+									</h:outputLink> <h:outputLink
+									rendered="#{stBread.first==false and stBread.last==false}"
+									value="#">
 									#{bread}
 									</h:outputLink></li>
 						</ui:repeat>
@@ -152,7 +162,8 @@
 
 						<div id="slider" class="flexslider">
 							<ul class="slides">
-								<ui:repeat var="image" value="#{cartFlowBean.detailProductFull.imagesUrl}">
+								<ui:repeat var="image"
+									value="#{cartFlowBean.detailProductFull.imagesUrl}">
 									<li><img class="img-responsive zoom"
 										data-zoom-image="#{request.contextPath}/faces/javax.faces.resource/LARGE_#{image}?ln=images/cartThumbinals"
 										src="#{request.contextPath}/faces/javax.faces.resource/#{image}?ln=images/cartThumbinals" />
@@ -164,7 +175,8 @@
 
 						<div id="carousel" class="flexslider">
 							<ul class="slides">
-								<ui:repeat var="image" value="#{cartFlowBean.detailProductFull.imagesUrl}">
+								<ui:repeat var="image"
+									value="#{cartFlowBean.detailProductFull.imagesUrl}">
 									<li><img
 										src="#{request.contextPath}/faces/javax.faces.resource/#{image}?ln=images/cartThumbinals" />
 									</li>
@@ -216,7 +228,8 @@
 
 								<div class="col-sm-4">
 
-									<h:outputText value="#{cartFlowBean.detailProductFull.priceDiscounted}"
+									<h:outputText
+										value="#{cartFlowBean.detailProductFull.priceDiscounted}"
 										rendered="#{cartFlowBean.detailProductFull.price != cartFlowBean.detailProductFull.priceDiscounted}">
 										<f:converter converterId="it.othala.BigDecimalConverter" />
 									</h:outputText>
@@ -232,7 +245,8 @@
 									</h:outputText>
 								</div>
 								<div class="col-sm-4">
-									<h:outputText value="#{cartFlowBean.detailProductFull.imRisparmio}"
+									<h:outputText
+										value="#{cartFlowBean.detailProductFull.imRisparmio}"
 										rendered="#{cartFlowBean.detailProductFull.price != cartFlowBean.detailProductFull.priceDiscounted}">
 										<f:converter converterId="it.othala.BigDecimalConverter" />
 									</h:outputText>
@@ -250,23 +264,29 @@
 									<div class="col-sm-5">
 										<div class="form-group">
 											<p:commandButton styleClass="btnAddToWishList"
-												onclick="PF('dlgSize').show(); PF('dlgColor').hide();" id="cmdZise"
-												value="#{msg.catalog_chooseSize}" style="margin: 0 5px 5px !important;" />
+												onclick="PF('dlgSize').show(); PF('dlgColor').hide();"
+												id="cmdZise" value="#{msg.catalog_chooseSize}"
+												style="margin: 0 5px 5px !important;" />
 										</div>
 
-										<h:commandButton onclick="return false;" rendered="#{cartChoice2View.idSize!=null}"
-											disabled="true" styleClass="wish-list-tails" value="#{cartChoice2View.txSize}" />
+										<h:commandButton onclick="return false;"
+											rendered="#{cartChoice2View.idSize!=null}" disabled="true"
+											styleClass="wish-list-tails"
+											value="#{cartChoice2View.txSize}" />
 
 									</div>
 									<div class="col-sm-5">
 										<div class="form-group">
 
-											<p:commandButton styleClass="btnAddToWishList" disabled="#{cartChoice2View.idSize==null}"
+											<p:commandButton styleClass="btnAddToWishList"
+												disabled="#{cartChoice2View.idSize==null}"
 												onclick="PF('dlgColor').show(); PF('dlgSize').hide();"
-												value="#{msg.catalog_chooseColor}" id="cmdColor" style="margin: 0 5px 5px !important;" />
+												value="#{msg.catalog_chooseColor}" id="cmdColor"
+												style="margin: 0 5px 5px !important;" />
 										</div>
 										<h:commandButton onclick="return false;" id="selectedColor"
-											rendered="#{cartChoice2View.txColor!=null}" disabled="true" styleClass="wish-list-tails"
+											rendered="#{cartChoice2View.txColor!=null}" disabled="true"
+											styleClass="wish-list-tails"
 											value="#{cartChoice2View.txColor}" />
 									</div>
 
@@ -279,11 +299,13 @@
 									<div class="row">
 										<div class="col-sm-4">
 
-											<h:outputText rendered="#{cartChoice2View.min>0}" value="#{msg.catalog_qta}" />
+											<h:outputText rendered="#{cartChoice2View.min>0}"
+												value="#{msg.catalog_qta}" />
 											<div>
 												<p:spinner id="spQta" rendered="#{cartChoice2View.min>0}"
-													value="#{cartChoice2View.qtaArticle}" maxlength="2" size="2"
-													min="#{cartChoice2View.min}" max="#{cartChoice2View.max}" />
+													value="#{cartChoice2View.qtaArticle}" maxlength="2"
+													size="2" min="#{cartChoice2View.min}"
+													max="#{cartChoice2View.max}" />
 											</div>
 										</div>
 									</div>
@@ -291,7 +313,8 @@
 							</h:panelGroup>
 
 
-							<h:panelGroup id="pnl-nondisponibile" rendered="#{cartChoice2View.nondisponibile}"
+							<h:panelGroup id="pnl-nondisponibile"
+								rendered="#{cartChoice2View.nondisponibile}"
 								style="color: red !important;	font-size: 18px;	font-weight: bold;	line-height: 18px;}">
 								<div class="row">
 
@@ -309,11 +332,20 @@
 						</div>
 						<br />
 
+						<div class="row guidaVisible">
+							<div class="col-sm-12">
+								<a target="_blank" href="#{request.contextPath}/faces/static/guidaTaglie.xhtml"
+									class="foot2-line"> <h:outputText
+										value="Guida Taglie" />
+								</a>
+							</div>
+						</div>
+							<br />	
 
 						<div class="row">
 							<div class="col-sm-4">
-								<div class="fb-like" data-layout="button_count" data-share="true" data-width="450"
-									data-show-faces="true"></div>
+								<div class="fb-like" data-layout="button_count"
+									data-share="true" data-width="450" data-show-faces="true"></div>
 
 
 							</div>
@@ -325,17 +357,21 @@
 								<h6>#{msg.catalog_notesDelivery}</h6>
 							</div>
 						</div>
+
+
 						<br />
 						<div class="row">
 							<div class="col-xs-6">
 								<p:commandButton icon="ui-icon-triangle-1-w btn-articolo-sel"
-									action="#{cartChoice2View.goToCatalogo}" value="#{msg.catalog_back}" />
+									action="#{cartChoice2View.goToCatalogo}"
+									value="#{msg.catalog_back}" />
 							</div>
 							<div class="col-xs-6">
 								<p:commandButton
 									disabled="#{cartChoice2View.qtaArticle==null or cartChoice2View.qtaArticle==0 }"
 									id="add-cart" styleClass="ui-priority-primary btn-articolo-sel"
-									value="#{msg.catalog_addToCart}" ajax="false" action="#{cartChoice2View.goToCart}"
+									value="#{msg.catalog_addToCart}" ajax="false"
+									action="#{cartChoice2View.goToCart}"
 									rendered="#{cartChoice2View.disponibile}">
 								</p:commandButton>
 							</div>
@@ -343,7 +379,8 @@
 					</div>
 				</div>
 
-				<div class="row" style="margin-left: 0px; margin-right: 0px; margin-top: 40px;">
+				<div class="row"
+					style="margin-left: 0px; margin-right: 0px; margin-top: 40px;">
 					<div class="col-sm-12">
 						<h3 class="foot1-title"
 							style="font-size: 16px; border-bottom: 0px; margin-left: -15px; font-style: italic; TEXT-TRANSFORM: none;">Related
@@ -358,10 +395,12 @@
 								<ui:repeat var="art" value="#{cartFlowBean.catalog.articles}">
 									<li style="width: 150px;"><h:panelGroup
 											rendered="#{art.idProduct!=cartFlowBean.detailProductFull.idProduct}">
-											<h:link outcome="cart-choice-2" rendered="#{art.idProduct != null}">
+											<h:link outcome="cart-choice-2"
+												rendered="#{art.idProduct != null}">
 
-												<h:graphicImage title="#{art.txBrand} #{art.description}" styleClass="img-responsive"
-													library="images/cartThumbinals" name="#{art.thumbnailsUrl}" />
+												<h:graphicImage title="#{art.txBrand} #{art.description}"
+													styleClass="img-responsive" library="images/cartThumbinals"
+													name="#{art.thumbnailsUrl}" />
 												<f:param name="idPrd" value="#{art.idProduct}"></f:param>
 											</h:link>
 
@@ -401,9 +440,10 @@
 				</div>
 			</div>
 
-			<p:dialog widgetVar="dlgSize" id="dlgSize" width="190" appendToBody="false"
-				styleClass="borderSizeColor" showHeader="false" header="#{msg.catalog_chooseSize}"
-				closable="true" closeOnEscape="true" resizable="false">
+			<p:dialog widgetVar="dlgSize" id="dlgSize" width="190"
+				appendToBody="false" styleClass="borderSizeColor" showHeader="false"
+				header="#{msg.catalog_chooseSize}" closable="true"
+				closeOnEscape="true" resizable="false">
 
 				<!-- <h6>#{msg.catalog_chooseSize}</h6>-->
 
@@ -425,21 +465,25 @@
 							</h:commandLink>
 
 						</ui:repeat>
-						<h:selectOneMenu style="visibility:hidden;height:0px" id="selSize" styleClass="form-control"
-							value="#{cartChoice2View.idSize}">
-							<f:selectItem itemLabel="#{msg.catalog_chooseSize}" itemValue="-1" noSelectionOption="true" />
+						<h:selectOneMenu style="visibility:hidden;height:0px" id="selSize"
+							styleClass="form-control" value="#{cartChoice2View.idSize}">
+							<f:selectItem itemLabel="#{msg.catalog_chooseSize}"
+								itemValue="-1" noSelectionOption="true" />
 							<f:selectItems value="#{cartChoice2View.sizeItems}"></f:selectItems>
-							<f:ajax execute="@this" render="pnl-scelte dlgColor" listener="#{cartChoice2View.changeSize}"></f:ajax>
+							<f:ajax execute="@this" render="pnl-scelte dlgColor"
+								listener="#{cartChoice2View.changeSize}"></f:ajax>
 						</h:selectOneMenu>
 					</div>
 				</div>
 				<div class="footerSizeColor">
-					<span class="glyphicon glyphicon-remove footerClose" onclick="PF('dlgSize').hide()" />
+					<span class="glyphicon glyphicon-remove footerClose"
+						onclick="PF('dlgSize').hide()" />
 				</div>
 			</p:dialog>
 
-			<p:dialog widgetVar="dlgColor" id="dlgColor" width="210" showHeader="false"
-				styleClass="borderSizeColor" header="#{msg.catalog_chooseColor}" closable="true"
+			<p:dialog widgetVar="dlgColor" id="dlgColor" width="210"
+				showHeader="false" styleClass="borderSizeColor"
+				header="#{msg.catalog_chooseColor}" closable="true"
 				closeOnEscape="true" resizable="false">
 
 				<!-- <h6 style="text-transform: uppercase">#{msg.catalog_chooseColor}</h6>-->
@@ -452,16 +496,19 @@
 							</h:commandLink>
 						</ui:repeat>
 					</div>
-					<h:selectOneMenu style="visibility:hidden;height:0px" id="selColor" styleClass="form-control"
-						label="#{msg.catalog_color}" value="#{cartChoice2View.idColor}">
-						<f:selectItem itemLabel="#{msg.catalog_chooseColor}" itemValue="" noSelectionOption="true" />
+					<h:selectOneMenu style="visibility:hidden;height:0px" id="selColor"
+						styleClass="form-control" label="#{msg.catalog_color}"
+						value="#{cartChoice2View.idColor}">
+						<f:selectItem itemLabel="#{msg.catalog_chooseColor}" itemValue=""
+							noSelectionOption="true" />
 						<f:selectItems value="#{cartChoice2View.colorItems}"></f:selectItems>
 						<f:ajax execute="@form" render="qtaArt add-cart pnl-scelte"
 							listener="#{cartChoice2View.changeColor}"></f:ajax>
 					</h:selectOneMenu>
 				</div>
 				<div class="footerSizeColor">
-					<span class="glyphicon glyphicon-remove footerClose" onclick="PF('dlgColor').hide()" />
+					<span class="glyphicon glyphicon-remove footerClose"
+						onclick="PF('dlgColor').hide()" />
 				</div>
 
 			</p:dialog>
