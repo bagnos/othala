@@ -18,11 +18,11 @@
 --
 -- Current Database: `aduna937_othala`
 --
-DROP DATABASE `aduna937_othala`;
+DROP DATABASE `robur807_othala`;
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `aduna937_othala` /*!40100 DEFAULT CHARACTER SET utf8 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `robur807_othala` /*!40100 DEFAULT CHARACTER SET utf8 */;
 
-USE `aduna937_othala`;
+USE `robur807_othala`;
 
 DROP TABLE IF EXISTS `type_size`;
 
@@ -36,16 +36,16 @@ DROP TABLE IF EXISTS `addresses`;
 CREATE TABLE `addresses` (
   `idAddress` int(11) NOT NULL AUTO_INCREMENT,
   `idUser` varchar(100) NOT NULL,
-  `txNome` varchar(45) NOT NULL,
-  `txCognome` varchar(45) NOT NULL,
-  `txVia` varchar(100) NOT NULL,
-  `txComune` varchar(100) NOT NULL,
-  `cdCap` int(11) NOT NULL,
-  `txProvincia` varchar(100) NOT NULL,
-  `txNazione` varchar(100) NOT NULL,
-  `txTel` varchar(45) NOT NULL,
-  `fgDeleted` tinyint(4) NOT NULL,
-  `txEtichetta` varchar(100) NOT NULL,
+  `txNome` varchar(45) NULL,
+  `txCognome` varchar(45) NULL,
+  `txVia` varchar(100) NULL,
+  `txComune` varchar(100) NULL,
+  `cdCap` int(11) NULL,
+  `txProvincia` varchar(100) NULL,
+  `txNazione` varchar(100) NULL,
+  `txTel` varchar(45) NULL,
+  `fgDeleted` tinyint(4) NULL,
+  `txEtichetta` varchar(100) NULL,
   PRIMARY KEY (`idAddress`),
   KEY `fk_Addresses_Customer1` (`idUser`),
   CONSTRAINT `fk_Addresses_Customer1` FOREIGN KEY (`idUser`) REFERENCES `customer` (`idUser`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -225,6 +225,7 @@ DROP TABLE IF EXISTS `delivery_nazioni`;
 CREATE TABLE `delivery_nazioni` (
   `idDeliveryCost` int(11) NOT NULL,
   `idNazione` varchar(100) NOT NULL,
+  `idAddress` varchar(100) NULL DEFAULT NULL,
   PRIMARY KEY (`idDeliveryCost`,`idNazione`),
   KEY `fk_delivery_nazioni_delivery_cost1` (`idDeliveryCost`),
   KEY `fk_delivery_nazioni_nazioni1` (`idNazione`),
