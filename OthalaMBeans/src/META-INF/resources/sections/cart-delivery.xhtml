@@ -11,6 +11,7 @@
 		<!-- tipo di spedizione -->
 		<div class="row spacer10">
 
+			<!-- TIPO SPEDIZIONE -->
 			<div class="col-sm-3">
 				<div class="form-group">
 					<h5>
@@ -18,7 +19,7 @@
 					</h5>
 					<h:selectOneMenu value="#{cartWizardView.cartFlowBean.idTypeDelivery}" id="typeDelivery"
 						label="#{cartWizardView.cartFlowBean.idTypeDelivery}" styleClass="form-control">
-						<f:selectItems value="#{cartWizardView.deliveryDTO.speseSpedizione}" var="spesa"
+						<f:selectItems value="#{cartWizardView.listDeliveryCostDTO}" var="spesa"
 							itemLabel="#{spesa.descrizione}" itemValue="#{spesa.idDeliveryCost}" />
 						<f:ajax execute="@this" render="delivery cartTable-pnl"
 							listener="#{cartWizardView.modifyTypeDelivery}"></f:ajax>
@@ -27,6 +28,7 @@
 
 				</div>
 			</div>
+
 			<div class="col-sm-2">
 				<div class="form-group">
 					<h5>
@@ -71,12 +73,14 @@
 
 						<div class="row spacer10">
 							<div class="col-xs-6 col-sm-3">
-								<h:commandLink value="#{msg.catalogo_modifyDelivery}">
+								<h:commandLink rendered="#{cartWizardView.addressMerchant==false}"
+									value="#{msg.catalogo_modifyDelivery}">
 									<f:ajax execute="@this" render="delivery" listener="#{cartWizardView.modifyAddrSpe}"></f:ajax>
 								</h:commandLink>
 							</div>
 							<div class="col-xs-6 col-sm-3">
-								<h:commandLink value="#{msg.catalogo_newDelivery}">
+								<h:commandLink rendered="#{cartWizardView.addressMerchant==false}"
+									value="#{msg.catalogo_newDelivery}">
 									<f:ajax execute="@this" render="delivery" listener="#{cartWizardView.newAddrSpe}">
 
 									</f:ajax>
@@ -125,7 +129,8 @@
 								</h:commandLink>
 							</div>
 							<div class="col-xs-6 col-sm-3">
-								<h:commandLink rendered="#{cartWizardView.saveAddressSpe}"
+								<h:commandLink
+									rendered="#{cartWizardView.saveAddressSpe and cartWizardView.blockInsAddrDelivery==false}"
 									value="#{msg.catalogo_annChangeDelivery}">
 									<f:ajax execute="@this" render="delivery" listener="#{cartWizardView.annAddrSpe}"></f:ajax>
 								</h:commandLink>
@@ -141,7 +146,9 @@
 								<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_type}"
 									for="typeSpe" />
 								<div class="col-sm-6">
-									<p:inputText id="typeSpe" placeholder="#{msg.delivery_type_hint}" styleClass="form-control"
+									<p:inputText id="typeSpe"
+										disabled="#{cartWizardView.blockInsAddrDelivery and cartFlowBean.addressSpe.etichetta!=null}"
+										placeholder="#{msg.delivery_type_hint}" styleClass="form-control"
 										label="#{msg.delivery_type}" value="#{cartFlowBean.addressSpe.etichetta}" required="true"
 										maxlength="70">
 									</p:inputText>
@@ -157,6 +164,7 @@
 									for="nameSpe" />
 								<div class="col-sm-6">
 									<p:inputText id="nameSpe" styleClass="form-control" label="#{msg.delivery_name}"
+										disabled="#{cartWizardView.blockInsAddrDelivery and cartFlowBean.addressSpe.nome!=null}"
 										value="#{cartFlowBean.addressSpe.nome}" required="true" maxlength="70">
 									</p:inputText>
 									<p:message for="nameSpe" />
@@ -169,6 +177,7 @@
 									for="cognomeSpe" />
 								<div class="col-sm-6">
 									<p:inputText id="cognomeSpe" styleClass="form-control" label="#{msg.delivery_surname}"
+										disabled="#{cartWizardView.blockInsAddrDelivery and cartFlowBean.addressSpe.cognome!=null}"
 										value="#{cartFlowBean.addressSpe.cognome}" required="true" maxlength="70">
 									</p:inputText>
 
@@ -182,6 +191,7 @@
 								<div class="col-sm-6">
 
 									<p:inputText id="telefonoSpe" styleClass="form-control" label="#{msg.delivery_tel}"
+										disabled="#{cartWizardView.blockInsAddrDelivery and cartFlowBean.addressSpe.tel!=null}"
 										value="#{cartFlowBean.addressSpe.tel}" required="true" maxlength="15" />
 
 									<p:message for="telefonoSpe" />
@@ -193,6 +203,7 @@
 									for="indirizzoSpe" />
 								<div class="col-sm-9">
 									<p:inputText required="true" maxlength="70" id="indirizzoSpe" styleClass="form-control"
+										disabled="#{cartWizardView.blockInsAddrDelivery and cartFlowBean.addressSpe.via!=null}"
 										label="#{msg.delivery_address}" value="#{cartFlowBean.addressSpe.via}" />
 
 									<p:message for="indirizzoSpe" />
@@ -204,6 +215,7 @@
 									for="postaleSpe" />
 								<div class="col-sm-4">
 									<p:inputText id="postaleSpe" styleClass="form-control w120" label="#{msg.delivery_cap}"
+										disabled="#{cartWizardView.blockInsAddrDelivery and cartFlowBean.addressSpe.cap!=null}"
 										value="#{cartFlowBean.addressSpe.cap}" required="true" maxlength="10">
 										<pe:keyFilter mask="num"></pe:keyFilter>
 									</p:inputText>
@@ -216,6 +228,7 @@
 									for="cittaSpe" />
 								<div class="col-sm-9">
 									<p:inputText id="cittaSpe" styleClass="form-control" label="#{msg.delivery_city}"
+										disabled="#{cartWizardView.blockInsAddrDelivery and cartFlowBean.addressSpe.comune!=null}"
 										value="#{cartFlowBean.addressSpe.comune}" required="true" maxlength="70">
 									</p:inputText>
 									<p:message for="cittaSpe" />
@@ -227,6 +240,7 @@
 									for="provSpe" />
 								<div class="col-sm-2">
 									<p:inputText id="provSpe" styleClass="form-control" label="#{msg.delivery_prov}"
+										disabled="#{cartWizardView.blockInsAddrDelivery and cartFlowBean.addressSpe.provincia!=null}"
 										value="#{cartFlowBean.addressSpe.provincia}" required="true" maxlength="4">
 									</p:inputText>
 									<p:message for="provSpe" />
@@ -237,6 +251,7 @@
 								<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_paese}" />
 								<div class="col-sm-5">
 									<h:selectOneMenu id="nazione" label="#{msg.delivery_prov}" styleClass="form-control"
+										disabled="#{cartWizardView.blockInsAddrDelivery and cartFlowBean.addressSpe.nazione!=null}"
 										value="#{cartFlowBean.addressSpe.nazione}">
 
 										<f:selectItems value="#{cartWizardView.cartFlowBean.nazioni}" var="nazione"
@@ -265,9 +280,9 @@
 					<div class="col-sm-4">
 
 						<h:selectOneMenu id="select-fat"
-							rendered="#{cartWizardView.deliveryDTO.indirizzo.size()!=0 and cartWizardView.newAddrFat==false}"
+							rendered="#{cartWizardView.delAdressFat.size()!=0 and cartWizardView.newAddrFat==false}"
 							value="#{cartWizardView.idAddressFat}" styleClass="form-control">
-							<f:selectItems value="#{cartWizardView.deliveryDTO.indirizzo}" var="addr"
+							<f:selectItems value="#{cartWizardView.delAdressFat}" var="addr"
 								itemLabel="#{addr.etichetta}" itemValue="#{addr.idAddress}" />
 							<f:ajax execute="@this" render="delivery" listener="#{cartWizardView.changeAddrFat}"></f:ajax>
 						</h:selectOneMenu>
@@ -320,7 +335,7 @@
 				<h:panelGroup id="addrFatNew">
 					<h:panelGroup layout="block" rendered="#{cartWizardView.editAddrFat}">
 						<h:panelGroup
-							rendered="#{cartWizardView.saveAddressFat==false and cartWizardView.editAddrSpe==true}">
+							rendered="#{cartWizardView.addressMerchant==false and cartWizardView.saveAddressFat==false and cartWizardView.editAddrSpe==true}">
 							<div class="form-group">
 								<div class="checkbox">
 									<label> <h:selectBooleanCheckbox id="chkSpe" value="#{cartWizardView.sameAddress}">
@@ -409,7 +424,7 @@
 								<div class="form-group">
 									<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_cap}"
 										for="postaleFat" />
-									<div class="col-sm-2">
+									<div class="col-sm-4">
 										<p:inputText id="postaleFat" styleClass="form-control w120" label="#{msg.delivery_cap}"
 											value="#{cartFlowBean.addressFat.cap}" required="true" maxlength="10">
 											<pe:keyFilter mask="num"></pe:keyFilter>
