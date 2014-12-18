@@ -2,6 +2,7 @@ package it.othala.view;
 
 import it.othala.account.model.CustomerLoginBean;
 import it.othala.cartflow.model.CartFlowBean;
+import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.execption.OthalaException;
 import it.othala.model.ApplicationBean;
@@ -42,8 +43,8 @@ public abstract class BaseView implements Serializable {
 	protected static Log log = LogFactory.getLog(BaseView.class);
 	private List<String> breadCrumb = new ArrayList<>();
 	private AutoCompleteUtils autoUtils=null;
-	
-	
+
+
 
 	public AutoCompleteUtils getAutoUtils() {
 		if (autoUtils==null)

@@ -2,6 +2,7 @@ package it.othala.cartflow.view;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.List;
 
 import it.othala.account.execption.MailNotSendException;
@@ -50,6 +51,30 @@ public class CartWizardView extends BaseView {
 	private boolean newAddrSpe;
 	private boolean newAddrFat;
 	private boolean rendeRiepilogo;
+	private boolean blockInsAddrDelivery;
+	private final int ID_ADDRESS_MERCHANT = 9999;
+	private boolean addressMerchant;
+	private List<DeliveryAddressDTO> delAdress = new ArrayList<DeliveryAddressDTO>();
+	private List<DeliveryCostDTO> listDeliveryCostDTO = null;
+	private DeliveryAddressDTO deliverAddressMerchant;
+	private DeliveryCostDTO deliverCostMerchant;
+	private List<DeliveryAddressDTO> delAdressFat = new ArrayList<DeliveryAddressDTO>();
+
+	public List<DeliveryAddressDTO> getDelAdressFat() {
+		return delAdressFat;
+	}
+
+	public List<DeliveryCostDTO> getListDeliveryCostDTO() {
+		return listDeliveryCostDTO;
+	}
+
+	public boolean isAddressMerchant() {
+		return addressMerchant;
+	}
+
+	public boolean isBlockInsAddrDelivery() {
+		return blockInsAddrDelivery;
+	}
 
 	public boolean isRendeRiepilogo() {
 		rendeRiepilogo = false;
@@ -122,14 +147,19 @@ public class CartWizardView extends BaseView {
 	}
 
 	public DeliveryDTO getDeliveryDTO() {
-		if (getLoginBean().getEmail() != null && deliveryDTO.getIndirizzo().isEmpty()) {
-			retrieveAddresses();
-		}
+		/*
+		 * if (getLoginBean().getEmail() != null &&
+		 * deliveryDTO.getIndirizzo().isEmpty()) { retrieveAddresses(); }
+		 */
 		return deliveryDTO;
 	}
 
 	public String doInit() {
 		// TODO Auto-generated method stub
+		blockInsAddrDelivery = false;
+		newAddrFat = false;
+		newAddrSpe = false;
+
 		idAddressFat = getCartFlowBean().getAddressFat() != null
 				&& getCartFlowBean().getAddressFat().getIdAddress() == null ? 0 : getCartFlowBean().getAddressFat()
 				.getIdAddress();
@@ -137,7 +167,11 @@ public class CartWizardView extends BaseView {
 				&& getCartFlowBean().getAddressSpe().getIdAddress() == null ? 0 : getCartFlowBean().getAddressSpe()
 				.getIdAddress();
 
-		retrieveAddresses();
+		if (getLoginBean().getEmail() != null) {
+			// se è presente il login possiamo recuperare nuovamente i relativi
+			// servizi
+			retrieveAddresses();
+		}
 
 		sameAddress = false;
 
@@ -145,20 +179,17 @@ public class CartWizardView extends BaseView {
 
 		// recupero l'indirizzo di fatturazione e spedizione
 
-		getCartFlowBean().setDeliveryCost(deliveryDTO.getSpeseSpedizione().get(0));
-		getCartFlowBean().setIdTypeDelivery(deliveryDTO.getSpeseSpedizione().get(0).getIdDeliveryCost());
-
-		newAddrFat = false;
-		newAddrSpe = false;
-
 		getCartFlowBean().setNazioni(getBeanApplication().getDomain().getNazioni());
 
 		return null;
 	}
 
-	private void retrieveAddresses() {
+	public void retrieveAddresses() {
 
 		deliveryDTO = OthalaFactory.getOrderServiceInstance().getDeliveryInfo(getLoginBean().getEmail());
+
+		delAdress.addAll(deliveryDTO.getIndirizzo());
+		delAdressFat.addAll(deliveryDTO.getIndirizzo());
 
 		if (idAddressFat == 0 && idAddressSpe == 0) {
 			getCartFlowBean().getAddressFat().setNazione("ITALIA");
@@ -174,11 +205,26 @@ public class CartWizardView extends BaseView {
 		editAddrFat = idAddressFat == 0;
 		editAddrSpe = idAddressSpe == 0;
 
-		deliveryDTO.setSpeseSpedizione(OthalaFactory.getOrderServiceInstance().getSpeseSpedizione(
-				getCartFlowBean().getAddressSpe().getNazione()));
+		listDeliveryCostDTO = OthalaFactory.getOrderServiceInstance().getSpeseSpedizione(
+				getCartFlowBean().getAddressSpe().getNazione());
 
-		getCartFlowBean().setDeliveryCost(deliveryDTO.getSpeseSpedizione().get(0));
-		getCartFlowBean().setIdTypeDelivery(deliveryDTO.getSpeseSpedizione().get(0).getIdDeliveryCost());
+		// recupero indirizzo merchant
+		deliverAddressMerchant = null;
+		for (DeliveryCostDTO del : listDeliveryCostDTO) {
+			if (del.getDeliverySede() != null && del.getDeliverySede().getIdAddress().intValue() == ID_ADDRESS_MERCHANT) {
+				// merchant
+				deliverAddressMerchant = del.getDeliverySede();
+				deliverCostMerchant=del;
+				break;
+			}
+		}
+
+		// inizializzo eventuali indirizzi già presento
+		if (getCartFlowBean().getIdTypeDelivery() == 0) {
+			getCartFlowBean().setDeliveryCost(listDeliveryCostDTO.get(0));
+			getCartFlowBean().setIdTypeDelivery(listDeliveryCostDTO.get(0).getIdDeliveryCost());
+			modifyTypeDelivery(null);
+		}
 
 	}
 
@@ -188,12 +234,95 @@ public class CartWizardView extends BaseView {
 
 	public void modifyTypeDelivery(AjaxBehaviorEvent ev) {
 
-		for (DeliveryCostDTO d : deliveryDTO.getSpeseSpedizione()) {
+		blockInsAddrDelivery = false;
+		addressMerchant = false;
+		getCartFlowBean().setAddressSpe(new DeliveryAddressDTO());
+		for (DeliveryCostDTO d : listDeliveryCostDTO) {
 			if (d.getIdDeliveryCost().intValue() == getCartFlowBean().getIdTypeDelivery()) {
 				getCartFlowBean().setDeliveryCost(d);
+
+				// recupero indirizzi associati al tipo di spedizione
+				if (d.getDeliverySede() != null) {
+
+					// indirizzo presente verifico se sede
+					if (d.getDeliverySede().getIdAddress().intValue() == ID_ADDRESS_MERCHANT) {
+						addressMerchant = true;
+						// indirizzo con sede
+						if (d.getDeliverySede().getEtichetta() == null || d.getDeliverySede().getEtichetta().isEmpty()) {
+							d.getDeliverySede().setEtichetta("sede");
+						}
+					}
+
+					if (d.getDeliverySede().getEtichetta() != null && d.getDeliverySede().getEtichetta().isEmpty()) {
+						d.getDeliverySede().setEtichetta(null);
+					}
+					// si verifica la presenza di indirizzi compatibile con la
+					// spedizione selezionata
+
+					List<DeliveryAddressDTO> filter = new ArrayList<DeliveryAddressDTO>();
+					for (DeliveryAddressDTO del : delAdress) {
+						if (del.getCap().equalsIgnoreCase(d.getDeliverySede().getCap())
+								&& d.getDeliverySede().getComune().equalsIgnoreCase(d.getDeliverySede().getComune())) {
+							// escludiamo address merchant se non sede
+							if (addressMerchant) {
+								// mostro solo sede, indipendentemente dal cal
+								// comune
+								if (del.getCognome().equalsIgnoreCase(deliverAddressMerchant.getCognome())
+										&& del.getNome().equalsIgnoreCase(deliverAddressMerchant.getNome())) {
+									filter.add(del);
+								}
+							}
+
+							else {
+								// non merchant, ecluso la sede anche se stesso
+								// comune
+								if (!del.getCognome().equalsIgnoreCase(
+
+								deliverAddressMerchant.getCognome())
+										&& !del.getNome().equalsIgnoreCase(deliverAddressMerchant.getNome())) {
+									filter.add(del);
+								}
+							}
+
+						}
+					}
+					if (filter.isEmpty()) {
+						// se address non presenti preimpostatiamo i campi di
+						// partenze
+						getCartFlowBean().setAddressSpe(d.getDeliverySede());						
+						editAddrSpe = true;
+						if (!delAdress.isEmpty()) {
+							// editiamo solo se addrre cliente non è vuoto, se
+							// vuoto è già in editt
+							newAddrSpe = true;
+							saveAddressSpe = true;
+
+						}
+					} else {
+						// prendiamo il primo indirizzo valido
+						deliveryDTO.getIndirizzo().clear();
+						deliveryDTO.getIndirizzo().addAll(filter);
+						getCartFlowBean().setAddressSpe(filter.get(0));
+						idAddressSpe = filter.get(0).getIdAddress();
+						newAddrSpe = false;
+						saveAddressSpe = false;
+						editAddrSpe = false;
+
+					}
+
+					blockInsAddrDelivery = true;
+				}
 				break;
 			}
 		}
+		if (blockInsAddrDelivery==false && !delAdress.isEmpty())
+		{
+			newAddrSpe = true;
+			saveAddressSpe = true;
+			editAddrSpe=true;
+		}
+		
+
 	}
 
 	public void changeAddrFat(AjaxBehaviorEvent ev) {
@@ -214,6 +343,7 @@ public class CartWizardView extends BaseView {
 	}
 
 	public void changeAddrSpe(AjaxBehaviorEvent ev) {
+
 		if (idAddressSpe == 0) { // nuovo indirizzo
 			editAddrSpe = true;
 			getCartFlowBean().setAddressSpe(new DeliveryAddressDTO());
@@ -223,17 +353,37 @@ public class CartWizardView extends BaseView {
 			editAddrSpe = false;
 			for (DeliveryAddressDTO addr : deliveryDTO.getIndirizzo()) {
 				if (addr.getIdAddress().intValue() == idAddressSpe) {
-					getCartFlowBean().setAddressSpe(addr);
+					if (deliverAddressMerchant != null) {
+						if (addressMerchant && !addr.getCognome().equalsIgnoreCase(deliverAddressMerchant.getCognome())
+								&& !addr.getNome().equalsIgnoreCase(deliverAddressMerchant.getNome())) {
+							// se tipo sede ma indirizzo diverso da sede
+							getCartFlowBean().setAddressSpe(deliverAddressMerchant);
+							getCartFlowBean().setIdTypeDelivery(deliverAddressMerchant.getIdAddress());
+							idAddressSpe=deliverAddressMerchant.getIdAddress();
+						} else if (!addressMerchant
+								&& addr.getCognome().equalsIgnoreCase(deliverAddressMerchant.getCognome())
+								&& addr.getNome().equalsIgnoreCase(deliverAddressMerchant.getNome())) {
+							//ho selezionato indirizzo sede ma non è selezonato la spedizione in sede
+							getCartFlowBean().setIdTypeDelivery(deliverAddressMerchant.getIdAddress());
+							getCartFlowBean().setDeliveryCost(deliverCostMerchant);					
+							return;
+						}
+					} else {
+
+						getCartFlowBean().setAddressSpe(addr);
+					}
 					break;
 				}
 			}
 
 		}
 
+		/*
 		deliveryDTO.setSpeseSpedizione(OthalaFactory.getOrderServiceInstance().getSpeseSpedizione(
 				getCartFlowBean().getAddressSpe().getNazione()));
 		getCartFlowBean().setDeliveryCost(deliveryDTO.getSpeseSpedizione().get(0));
 		getCartFlowBean().setIdTypeDelivery(deliveryDTO.getSpeseSpedizione().get(0).getIdDeliveryCost());
+		*/
 
 	}
 
@@ -257,6 +407,13 @@ public class CartWizardView extends BaseView {
 	public void newAddrSpe(AjaxBehaviorEvent ev) {
 		modifyAddrSpe(ev);
 		newAddrSpe = true;
+		if (blockInsAddrDelivery) {
+			for (DeliveryCostDTO d : deliveryDTO.getSpeseSpedizione()) {
+				if (d.getIdDeliveryCost().intValue() == getCartFlowBean().getIdTypeDelivery()) {
+					getCartFlowBean().setAddressSpe(d.getDeliverySede());
+				}
+			}
+		}
 	}
 
 	public void annAddrFat(AjaxBehaviorEvent ev) {
@@ -403,31 +560,31 @@ public class CartWizardView extends BaseView {
 	public void newAddr(ActionEvent ev) {
 		try {
 			boolean modify = false;
-			if (getCartFlowBean().getAddressSpe().getIdAddress() == null
-					|| getCartFlowBean().getAddressSpe().getIdAddress() == 0) {
+
+			if (idAddressSpe == 0) {
 				// nuovo spedizione
 				getCartFlowBean().getAddressSpe().setUserId(getLoginBean().getEmail());
 				getCartFlowBean().setAddressSpe(
 						OthalaFactory.getOrderServiceInstance().newAddress(getCartFlowBean().getAddressSpe()));
+				idAddressSpe = getCartFlowBean().getAddressSpe().getIdAddress();
 				modify = true;
 			}
 			if (isSameAddress() == false) {
-				if (getCartFlowBean().getAddressFat().getIdAddress() == null
-						|| getCartFlowBean().getAddressFat().getIdAddress() == 0) {
+				if (idAddressFat == 0) {
 					// nuovo fatturazione
 					getCartFlowBean().getAddressFat().setUserId(getLoginBean().getEmail());
 					getCartFlowBean().setAddressFat(
 							OthalaFactory.getOrderServiceInstance().newAddress(getCartFlowBean().getAddressFat()));
+					idAddressFat = getCartFlowBean().getAddressFat().getIdAddress();
 					modify = true;
 				}
 			} else {
 				getCartFlowBean().setAddressFat(getCartFlowBean().getAddressSpe());
+				idAddressFat = idAddressSpe;
 			}
 			if (modify) {
 				retrieveAddresses();
 			}
-			idAddressSpe = getCartFlowBean().getAddressSpe().getIdAddress();
-			idAddressFat = getCartFlowBean().getAddressFat().getIdAddress();
 			editAddrSpe = false;
 			editAddrFat = false;
 			sameAddress = false;

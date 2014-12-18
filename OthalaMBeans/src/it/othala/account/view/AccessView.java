@@ -5,8 +5,10 @@ import it.othala.account.execption.DuplicateUserException;
 import it.othala.account.execption.MailNotSendException;
 import it.othala.account.execption.UserNotActivatedException;
 import it.othala.account.execption.UserNotFoundException;
+import it.othala.cartflow.view.CartWizardView;
 import it.othala.dto.AccountDTO;
 import it.othala.execption.OthalaException;
+import it.othala.model.ApplicationBean;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 import it.othala.web.utils.ConfigurationUtil;
@@ -15,6 +17,7 @@ import it.othala.web.utils.OthalaUtil;
 import it.othala.web.utils.WizardUtil;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
@@ -37,6 +40,18 @@ public class AccessView extends BaseView {
 	private boolean newsletter=false;
 	private Boolean acceptPrivacy;
 	
+	@ManagedProperty(value="#{cartWizardView}")
+	//@Inject
+	private CartWizardView cartWizardView;
+	
+	public CartWizardView getCartWizardView() {
+		return cartWizardView;
+	}
+
+	public void setCartWizardView(CartWizardView cartWizardView) {
+		this.cartWizardView = cartWizardView;
+	}
+
 	public Boolean getAcceptPrivacy() {
 		return acceptPrivacy;
 	}
@@ -221,7 +236,7 @@ public class AccessView extends BaseView {
 		try {
 			AccountDTO acc = OthalaFactory.getAccountServiceInstance().verifyPasswordAccount(getEmail(), getPsw());
 			getLoginBean().updateLoginBean(acc);
-
+		
 			renderClient = true;
 
 			if (staySignIn) {
@@ -264,6 +279,8 @@ public class AccessView extends BaseView {
 		String outcome = login();
 		if (outcome != null) {
 			// disabilitiamo l'accedi ed avanziiamo allo step successivo
+			//recuperiamo l'indirizzi del cliente
+			cartWizardView.retrieveAddresses();
 			RequestContext.getCurrentInstance().execute(WizardUtil.NextStepWizard());
 		}
 
