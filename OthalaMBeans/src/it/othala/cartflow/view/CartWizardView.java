@@ -257,8 +257,8 @@ public class CartWizardView extends BaseView {
 
 		blockInsAddrDelivery = false;
 		addressMerchant = false;
-		deliverCurrenteAddressMerchant=new DeliveryAddressDTO();
-		getCartFlowBean().setAddressSpe(new DeliveryAddressDTO());
+		deliverCurrenteAddressMerchant=new DeliveryAddressDTO(); 
+		//getCartFlowBean().setAddressSpe(new DeliveryAddressDTO());
 		for (DeliveryCostDTO d : listDeliveryCostDTO) {
 			if (d.getIdDeliveryCost().intValue() == getCartFlowBean().getIdTypeDelivery()) {
 				getCartFlowBean().setDeliveryCost(d);
@@ -337,7 +337,7 @@ public class CartWizardView extends BaseView {
 				break;
 			}
 		}
-		if (blockInsAddrDelivery == false && !delAdress.isEmpty()) {
+		if (blockInsAddrDelivery == false && delAdress.isEmpty()) {
 			newAddrSpe = true;
 			saveAddressSpe = true;
 			editAddrSpe = true;
@@ -379,7 +379,16 @@ public class CartWizardView extends BaseView {
 							// se tipo sede ma indirizzo diverso da sede
 							getCartFlowBean().setAddressSpe(deliverAddressMerchant);
 							getCartFlowBean().setIdTypeDelivery(deliverAddressMerchant.getIdAddress());
-							idAddressSpe = deliverAddressMerchant.getIdAddress();
+							
+							//si recuepera l'id address associtao a sede
+							for (DeliveryAddressDTO addr1 : deliveryDTO.getIndirizzo())
+							{
+								if (addr1.getCognome().equalsIgnoreCase(deliverAddressMerchant.getCognome())
+								&& addr1.getNome().equalsIgnoreCase(deliverAddressMerchant.getNome()))
+								{
+									idAddressSpe=addr1.getIdAddress();
+								}
+							}
 							addressMerchant=true;
 						} else if (!addressMerchant
 								&& addr.getCognome().equalsIgnoreCase(deliverAddressMerchant.getCognome())
