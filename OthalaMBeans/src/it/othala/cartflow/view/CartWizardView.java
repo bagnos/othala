@@ -380,6 +380,7 @@ public class CartWizardView extends BaseView {
 							getCartFlowBean().setAddressSpe(deliverAddressMerchant);
 							getCartFlowBean().setIdTypeDelivery(deliverAddressMerchant.getIdAddress());
 							idAddressSpe = deliverAddressMerchant.getIdAddress();
+							addressMerchant=true;
 						} else if (!addressMerchant
 								&& addr.getCognome().equalsIgnoreCase(deliverAddressMerchant.getCognome())
 								&& addr.getNome().equalsIgnoreCase(deliverAddressMerchant.getNome())) {
@@ -387,6 +388,7 @@ public class CartWizardView extends BaseView {
 							// la spedizione in sede
 							getCartFlowBean().setIdTypeDelivery(deliverAddressMerchant.getIdAddress());
 							getCartFlowBean().setDeliveryCost(deliverCostMerchant);
+							modifyTypeDelivery(null);
 							return;
 						}
 					} else {
