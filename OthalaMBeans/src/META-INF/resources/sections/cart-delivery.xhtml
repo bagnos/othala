@@ -121,7 +121,6 @@
 							</div>
 						 -->
 						<div class="row spacer10">
-
 							<div class="col-xs-6 col-sm-3">
 								<h:commandLink rendered="#{cartWizardView.saveAddressSpe}"
 									value="#{cartWizardView.newAddrSpe?msg.catalogo_insertDelivery:msg.catalogo_changeDelivery}">
@@ -130,9 +129,9 @@
 							</div>
 							<div class="col-xs-6 col-sm-3">
 								<h:commandLink
-									rendered="#{cartWizardView.saveAddressSpe and cartWizardView.blockInsAddrDelivery==false}"
+									rendered="#{cartWizardView.andAddrSpe}"
 									value="#{msg.catalogo_annChangeDelivery}">
-									<f:ajax execute="@this" render="delivery" listener="#{cartWizardView.annAddrSpe}"></f:ajax>
+									<f:ajax execute="@this" immediate="true" render="delivery" listener="#{cartWizardView.annAddrSpe}"></f:ajax>
 								</h:commandLink>
 							</div>
 						</div>
