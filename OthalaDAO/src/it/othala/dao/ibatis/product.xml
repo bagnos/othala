@@ -152,7 +152,7 @@
 		case
 		when
 		DATEDIFF(current_date,
-		a.dtProductState) &lt; 10
+		a.dtProductState) &lt; 20
 		then 'Y'
 		else 'N'
 		end as
@@ -195,7 +195,7 @@
 
 
 		<if test="newArrivals != null and newArrivals == true">
-			and DATEDIFF(current_date, a.dtProductState) &lt; 10
+			and DATEDIFF(current_date, a.dtProductState) &lt; 20
 		</if>
 
 		<if test="type != null">
@@ -497,7 +497,7 @@
 		case
 		when
 		DATEDIFF(current_date,
-		a.dtProductState) &lt; 10
+		a.dtProductState) &lt; 20
 		then 'Y'
 		else
 		'N'
@@ -1529,7 +1529,7 @@
 
 		case
 		when DATEDIFF(current_date,
-		a.dtProductState) &lt; 10
+		a.dtProductState) &lt; 20
 		then 'Y'
 		else
 		'N'
@@ -1612,7 +1612,7 @@
 		and
 		d.qtStock >
 		0)
-		and DATEDIFF(current_date, a.dtProductState) &lt; 10
+		and DATEDIFF(current_date, a.dtProductState) &lt; 20
 		;
 
 
@@ -1702,7 +1702,7 @@
 		and y.idLanguages = #{languages}
 
 		<if test="newArrivals != null and newArrivals == true">
-			and DATEDIFF(current_date, a.dtProductState) &lt;= 10
+			and DATEDIFF(current_date, a.dtProductState) &lt;= 20
 		</if>
 
 		<if test="type != null">
@@ -1759,7 +1759,7 @@
 		and y.idLanguages = #{languages}
 
 		<if test="newArrivals != null and newArrivals == true">
-			and DATEDIFF(current_date, a.dtProductState) &lt;= 10
+			and DATEDIFF(current_date, a.dtProductState) &lt;= 20
 		</if>
 
 		<if test="type != null">
@@ -1816,7 +1816,7 @@
 		and y.idLanguages = #{languages}
 
 		<if test="newArrivals != null and newArrivals == true">
-			and DATEDIFF(current_date, a.dtProductState) &lt;= 10
+			and DATEDIFF(current_date, a.dtProductState) &lt;= 20
 		</if>
 
 		<if test="type != null">
