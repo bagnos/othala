@@ -60,6 +60,11 @@ public class CartWizardView extends BaseView {
 	private DeliveryCostDTO deliverCostMerchant;
 	private List<DeliveryAddressDTO> delAdressFat = new ArrayList<DeliveryAddressDTO>();
 	private boolean andAddrSpe = true;
+	private DeliveryAddressDTO deliverCurrenteAddressMerchant=new DeliveryAddressDTO();
+
+	public DeliveryAddressDTO getDeliverCurrenteAddressMerchant() {
+		return deliverCurrenteAddressMerchant;
+	}
 
 	public boolean isAndAddrSpe() {
 		return andAddrSpe;
@@ -192,8 +197,9 @@ public class CartWizardView extends BaseView {
 	public void retrieveAddresses() {
 
 		deliveryDTO = OthalaFactory.getOrderServiceInstance().getDeliveryInfo(getLoginBean().getEmail());
-
+		delAdress.clear();
 		delAdress.addAll(deliveryDTO.getIndirizzo());
+		delAdressFat.clear();
 		delAdressFat.addAll(deliveryDTO.getIndirizzo());
 
 		if (idAddressFat == 0 && idAddressSpe == 0) {
@@ -251,7 +257,7 @@ public class CartWizardView extends BaseView {
 
 		blockInsAddrDelivery = false;
 		addressMerchant = false;
-
+		deliverCurrenteAddressMerchant=new DeliveryAddressDTO();
 		getCartFlowBean().setAddressSpe(new DeliveryAddressDTO());
 		for (DeliveryCostDTO d : listDeliveryCostDTO) {
 			if (d.getIdDeliveryCost().intValue() == getCartFlowBean().getIdTypeDelivery()) {
@@ -259,7 +265,9 @@ public class CartWizardView extends BaseView {
 
 				// recupero indirizzi associati al tipo di spedizione
 				if (d.getDeliverySede() != null) {
-
+					
+					deliverCurrenteAddressMerchant=d.getDeliverySede();
+					
 					// indirizzo presente verifico se sede
 					if (d.getDeliverySede().getIdAddress().intValue() == ID_ADDRESS_MERCHANT) {
 						addressMerchant = true;
@@ -406,13 +414,14 @@ public class CartWizardView extends BaseView {
 	public void modifyAddrFat(AjaxBehaviorEvent ev) {
 		editAddrFat = true;
 		saveAddressFat = true;
-
+		newAddrFat=false;
 	}
 
 	public void modifyAddrSpe(AjaxBehaviorEvent ev) {
 		editAddrSpe = true;
 		saveAddressSpe = true;
 		andAddrSpe = true;
+		newAddrSpe=false;
 	}
 
 	public void newAddrFat(AjaxBehaviorEvent ev) {
