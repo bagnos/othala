@@ -91,7 +91,7 @@ org.primefaces.webapp.filter.FileUploadFilter
     <filter-name>PrimeFaces FileUpload Filter</filter-name>
     <servlet-name>Faces Servlet</servlet-name>
   </filter-mapping>
-  
+  <!-- 
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>AdminPages</web-resource-name>
@@ -112,6 +112,7 @@ org.primefaces.webapp.filter.FileUploadFilter
   <security-role>
     <role-name>AMMINISTRATORE</role-name>
   </security-role>
+  -->
   <session-config>
     <session-timeout>30</session-timeout>
   </session-config>
