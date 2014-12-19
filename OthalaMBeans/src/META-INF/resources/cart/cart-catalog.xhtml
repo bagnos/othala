@@ -137,8 +137,11 @@
 							<h:outputText value="#{msg.catalog_OrderPrice}" />
 							<h:selectOneMenu styleClass="form-control"
 								value="#{cartFlowBean.catalog.orderPrice}">
-								<f:selectItem itemLabel="#{msg.catalog_priceAsc}" itemValue="2"></f:selectItem>
-								<f:selectItem itemLabel="#{msg.catalog_priceDesc}" itemValue="1"></f:selectItem>
+								<f:selectItem itemLabel="#{msg.catalog_newArr}" itemValue="1"></f:selectItem>
+								<f:selectItem itemLabel="#{msg.catalog_priceDesc}" itemValue="2"></f:selectItem>
+								<f:selectItem itemLabel="#{msg.catalog_priceAsc}" itemValue="3"></f:selectItem>
+								
+								
 								<f:ajax execute="@form" render="products paginazione"
 									listener="#{cartFlowView1.orderListener}"></f:ajax>
 							</h:selectOneMenu>

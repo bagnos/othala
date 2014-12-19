@@ -1,7 +1,6 @@
 package it.othala.service;
 
 import it.othala.dao.interfaces.IProductDAO;
-import it.othala.dao.interfaces.ISiteImagesDAO;
 import it.othala.dto.ArticleDTO;
 import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.CampaignDTO;
@@ -12,10 +11,9 @@ import it.othala.dto.MenuFullDTO;
 import it.othala.dto.ProductFullNewDTO;
 import it.othala.dto.ShopDTO;
 import it.othala.dto.SiteImagesDTO;
-import it.othala.dto.SubMenuDTO;
 import it.othala.dto.SubMenuBrandDTO;
+import it.othala.dto.SubMenuDTO;
 import it.othala.dto.VetrinaDTO;
-import it.othala.enums.OrderByCartFlow;
 import it.othala.execption.BarcodeNotPresentException;
 import it.othala.execption.OthalaException;
 import it.othala.service.interfaces.IProductService;
@@ -24,7 +22,6 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class ProductService implements IProductService {
@@ -220,7 +217,7 @@ public class ProductService implements IProductService {
 	public VetrinaDTO getListProduct(String languages, Integer gender,
 			Integer type, Integer brand, BigDecimal minPrice,
 			BigDecimal maxPrice, Integer size, Integer color,
-			Boolean newArrivals, OrderByCartFlow order, Integer idCampaign,
+			Boolean newArrivals, int order, Integer idCampaign,
 			Boolean fgCampaign) {
 
 		List<ProductFullNewDTO> listProduct = productDAO.listProduct(languages,

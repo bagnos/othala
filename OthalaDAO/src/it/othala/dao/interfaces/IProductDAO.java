@@ -10,9 +10,8 @@ import it.othala.dto.NazioniDTO;
 import it.othala.dto.ProductFullNewDTO;
 import it.othala.dto.ShopDTO;
 import it.othala.dto.SiteImagesDTO;
-import it.othala.dto.SubMenuDTO;
 import it.othala.dto.SubMenuBrandDTO;
-import it.othala.enums.OrderByCartFlow;
+import it.othala.dto.SubMenuDTO;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -44,7 +43,7 @@ public interface IProductDAO {
 	public List<ProductFullNewDTO> listProduct(String languages, Integer type,
 			Integer gender, Integer brand, BigDecimal minPrice,
 			BigDecimal maxPrice, Integer size, Integer color,
-			Boolean newArrivals, OrderByCartFlow order, Integer idCampaign, Boolean fgCampaign);
+			Boolean newArrivals, int order, Integer idCampaign, Boolean fgCampaign);
 
 	public ProductFullNewDTO getProductFull(String languages, Integer idProduct);
 
@@ -141,19 +140,19 @@ public interface IProductDAO {
 	public List<AttributeDTO> listSizeProduct(String languages, Integer type,
 			Integer gender, Integer brand, BigDecimal minPrice,
 			BigDecimal maxPrice, Integer size, Integer color,
-			Boolean newArrivals, OrderByCartFlow order, Integer idCampaign,
+			Boolean newArrivals, int order, Integer idCampaign,
 			Boolean fgCampaign);
 
 	public List<AttributeDTO> listColorProduct(String languages, Integer type,
 			Integer gender, Integer brand, BigDecimal minPrice,
 			BigDecimal maxPrice, Integer size, Integer color,
-			Boolean newArrivals, OrderByCartFlow order, Integer idCampaign,
+			Boolean newArrivals, int order, Integer idCampaign,
 			Boolean fgCampaign);
 
 	public List<AttributeDTO> listBrandProduct(String languages, Integer type,
 			Integer gender, Integer brand, BigDecimal minPrice,
 			BigDecimal maxPrice, Integer size, Integer color,
-			Boolean newArrivals, OrderByCartFlow order, Integer idCampaign,
+			Boolean newArrivals, int order, Integer idCampaign,
 			Boolean fgCampaign);
 	
 

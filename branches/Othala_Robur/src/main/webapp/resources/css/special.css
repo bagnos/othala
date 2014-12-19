@@ -1,5 +1,5 @@
-.guidaVisible {
-	display: inline;
+.guidaVisibile {
+	display: inline !important;
 }
 
 .glyphicon-chevron-right,.glyphicon-chevron-left {

@@ -7,7 +7,6 @@ import it.othala.dto.CampaignDTO;
 import it.othala.dto.DomainDTO;
 import it.othala.dto.MenuFullDTO;
 import it.othala.dto.ProductFullNewDTO;
-import it.othala.enums.OrderByCartFlow;
 import it.othala.execption.BarcodeNotPresentException;
 import it.othala.execption.OthalaException;
 
@@ -34,7 +33,7 @@ public interface IProductService {
 	public VetrinaDTO getListProduct(String languages, Integer gender,
 			Integer type, Integer brand, BigDecimal minPrice,
 			BigDecimal maxPrice, Integer size, Integer color,
-			Boolean newArrivals, OrderByCartFlow order, Integer idCampaign,
+			Boolean newArrivals, int order, Integer idCampaign,
 			Boolean fgCampaign);
 
 	public void publishProduct(List<Integer> listIdProduct);
