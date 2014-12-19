@@ -42,14 +42,16 @@
 
 				<ui:include src="/sections/cart-selected.xhtml"></ui:include>
 				<div class="row spacer10">
-					<div class="pull-left">
-						<p:commandButton icon="ui-icon-triangle-1-w btn-articolo-sel"
-							action="cart-catalog.xhtml?faces-redirect=true" value="#{msg.catalog_back}" />
-					</div>
-					<div class="pull-right">
-						<p:commandButton id="add-cart-bottom" disabled="#{cartFlowBean.cart.size()==0}"
-							styleClass="ui-priority-primary" value="#{msg.catalog_buy}" ajax="false"
-							action="cartCheckout?faces-redirect=true" />
+					<div class="col-xs-12">
+						<div class="pull-left">
+							<p:commandButton icon="ui-icon-triangle-1-w btn-articolo-sel"
+								action="cart-catalog.xhtml?faces-redirect=true" value="#{msg.catalog_back}" />
+						</div>
+						<div class="pull-right">
+							<p:commandButton id="add-cart-bottom" disabled="#{cartFlowBean.cart.size()==0}"
+								styleClass="ui-priority-primary" value="#{msg.catalog_buy}" ajax="false"
+								action="cartCheckout?faces-redirect=true" />
+						</div>
 					</div>
 				</div>
 			</div>
