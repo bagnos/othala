@@ -146,7 +146,7 @@
 									for="typeSpe" />
 								<div class="col-sm-6">
 									<p:inputText id="typeSpe"
-										disabled="#{cartWizardView.blockInsAddrDelivery and cartFlowBean.addressSpe.etichetta!=null}"
+										disabled="#{cartWizardView.blockInsAddrDelivery and cartWizardView.deliverCurrenteAddressMerchant.etichetta!=null}"
 										placeholder="#{msg.delivery_type_hint}" styleClass="form-control"
 										label="#{msg.delivery_type}" value="#{cartFlowBean.addressSpe.etichetta}" required="true"
 										maxlength="70">
@@ -163,7 +163,7 @@
 									for="nameSpe" />
 								<div class="col-sm-6">
 									<p:inputText id="nameSpe" styleClass="form-control" label="#{msg.delivery_name}"
-										disabled="#{cartWizardView.blockInsAddrDelivery and cartFlowBean.addressSpe.nome!=null}"
+										disabled="#{cartWizardView.blockInsAddrDelivery and cartWizardView.deliverCurrenteAddressMerchant.nome!=null}"
 										value="#{cartFlowBean.addressSpe.nome}" required="true" maxlength="70">
 									</p:inputText>
 									<p:message for="nameSpe" />
@@ -176,7 +176,7 @@
 									for="cognomeSpe" />
 								<div class="col-sm-6">
 									<p:inputText id="cognomeSpe" styleClass="form-control" label="#{msg.delivery_surname}"
-										disabled="#{cartWizardView.blockInsAddrDelivery and cartFlowBean.addressSpe.cognome!=null}"
+										disabled="#{cartWizardView.blockInsAddrDelivery and cartWizardView.deliverCurrenteAddressMerchant.cognome!=null}"
 										value="#{cartFlowBean.addressSpe.cognome}" required="true" maxlength="70">
 									</p:inputText>
 
@@ -190,7 +190,7 @@
 								<div class="col-sm-6">
 
 									<p:inputText id="telefonoSpe" styleClass="form-control" label="#{msg.delivery_tel}"
-										disabled="#{cartWizardView.blockInsAddrDelivery and cartFlowBean.addressSpe.tel!=null}"
+										disabled="#{cartWizardView.blockInsAddrDelivery and cartWizardView.deliverCurrenteAddressMerchant.tel!=null}"
 										value="#{cartFlowBean.addressSpe.tel}" required="true" maxlength="15" />
 
 									<p:message for="telefonoSpe" />
@@ -202,7 +202,7 @@
 									for="indirizzoSpe" />
 								<div class="col-sm-9">
 									<p:inputText required="true" maxlength="70" id="indirizzoSpe" styleClass="form-control"
-										disabled="#{cartWizardView.blockInsAddrDelivery and cartFlowBean.addressSpe.via!=null}"
+										disabled="#{cartWizardView.blockInsAddrDelivery and cartWizardView.deliverCurrenteAddressMerchant.via!=null}"
 										label="#{msg.delivery_address}" value="#{cartFlowBean.addressSpe.via}" />
 
 									<p:message for="indirizzoSpe" />
@@ -214,7 +214,7 @@
 									for="postaleSpe" />
 								<div class="col-sm-4">
 									<p:inputText id="postaleSpe" styleClass="form-control w120" label="#{msg.delivery_cap}"
-										disabled="#{cartWizardView.blockInsAddrDelivery and cartFlowBean.addressSpe.cap!=null}"
+										disabled="#{cartWizardView.blockInsAddrDelivery and cartWizardView.deliverCurrenteAddressMerchant.cap!=null}"
 										value="#{cartFlowBean.addressSpe.cap}" required="true" maxlength="10">
 										<pe:keyFilter mask="num"></pe:keyFilter>
 									</p:inputText>
@@ -227,7 +227,7 @@
 									for="cittaSpe" />
 								<div class="col-sm-9">
 									<p:inputText id="cittaSpe" styleClass="form-control" label="#{msg.delivery_city}"
-										disabled="#{cartWizardView.blockInsAddrDelivery and cartFlowBean.addressSpe.comune!=null}"
+										disabled="#{cartWizardView.blockInsAddrDelivery and cartWizardView.deliverCurrenteAddressMerchant.comune!=null}"
 										value="#{cartFlowBean.addressSpe.comune}" required="true" maxlength="70">
 									</p:inputText>
 									<p:message for="cittaSpe" />
@@ -239,7 +239,7 @@
 									for="provSpe" />
 								<div class="col-sm-2">
 									<p:inputText id="provSpe" styleClass="form-control" label="#{msg.delivery_prov}"
-										disabled="#{cartWizardView.blockInsAddrDelivery and cartFlowBean.addressSpe.provincia!=null}"
+										disabled="#{cartWizardView.blockInsAddrDelivery and cartWizardView.deliverCurrenteAddressMerchant.provincia!=null}"
 										value="#{cartFlowBean.addressSpe.provincia}" required="true" maxlength="4">
 									</p:inputText>
 									<p:message for="provSpe" />
@@ -250,7 +250,7 @@
 								<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_paese}" />
 								<div class="col-sm-5">
 									<h:selectOneMenu id="nazione" label="#{msg.delivery_prov}" styleClass="form-control"
-										disabled="#{cartWizardView.blockInsAddrDelivery and cartFlowBean.addressSpe.nazione!=null}"
+										disabled="#{cartWizardView.blockInsAddrDelivery and cartWizardView.deliverCurrenteAddressMerchant.nazione!=null}"
 										value="#{cartFlowBean.addressSpe.nazione}">
 
 										<f:selectItems value="#{cartWizardView.cartFlowBean.nazioni}" var="nazione"
