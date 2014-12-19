@@ -12,7 +12,7 @@
 <Context>
 
 
-	<!-- TEST -->
+	<!-- TEST ROBUR -->
 	 
 	<Realm className="org.apache.catalina.realm.DataSourceRealm"
 		dataSourceName="jdbc/othala" userTable="robur807_othala.customer" userNameCol="idUser"
@@ -24,9 +24,31 @@
 		username="root" password="root" driverClassName="com.mysql.jdbc.Driver"
 		url="jdbc:mysql://localhost:3306/robur807_othala" />
 
-	<!-- FINE TEST -->
+	<!-- FINE TEST ROBUR -->
 
-	<!-- PRODUZIONE adunata -->
+
+
+
+
+
+	<!-- PRODUZIONE ROBUR -->
+	<!-- <Resource url="jdbc:mysql://wc1mysql2.mondoserver.com:3306/robur807_othala"
+		driverClassName="com.mysql.jdbc.Driver" password="LowingRacismLarvaHow80"
+		username="robur807_othala" maxWait="10000" validationInterval="30000"
+		validationQuery="SELECT 1" maxIdle="5" maxActive="10" type="javax.sql.DataSource"
+		auth="Container" logAbandoned="true" removeAbandoned="true" name="jdbc/othala" />
+	<Realm localDataSource="true" roleNameCol="txRole"
+		userRoleTable="robur807_othala.customer_roles" userCredCol="txPassword"
+		userNameCol="idUser" userTable="robur807_othala.customer" dataSourceName="jdbc/othala"
+		className="org.apache.catalina.realm.DataSourceRealm" /> -->
+	<!-- FINE PRODUZIONE -->
+	
+	
+	
+	
+	
+	
+	<!-- PRODUZIONE ADUNATA -->
 	<!-- <Resource url="jdbc:mysql://wc1mysql2.mondoserver.com:3306/aduna937_othala" 
 		driverClassName="com.mysql.jdbc.Driver" password="StileRagingCoatedAnkh62" username="aduna937_othala" 
 		maxWait="10000" validationInterval="30000" validationQuery="SELECT 1" maxIdle="5" 
@@ -37,20 +59,7 @@
 		name="jdbc/othala" removeAbandoned="true" logAbandoned="true" auth="Container" type="javax.sql.DataSource" 
 		maxActive="10" maxIdle="5" validationQuery="SELECT 1" validationInterval="30000" 
 		maxWait="10000" username="root" password="root" driverClassName="com.mysql.jdbc.Driver" 
-		url="jdbc:mysql://localhost:3306/aduna937_othala" /> -->
-	<!-- FINE PRODUZIONE -->
-
-	<!-- PRODUZIONE MAG -->
-	<!-- <Resource url="jdbc:mysql://wc1mysql2.mondoserver.com:3306/robur807_othala"
-		driverClassName="com.mysql.jdbc.Driver" password="LowingRacismLarvaHow80"
-		username="robur807_othala" maxWait="10000" validationInterval="30000"
-		validationQuery="SELECT 1" maxIdle="5" maxActive="10" type="javax.sql.DataSource"
-		auth="Container" logAbandoned="true" removeAbandoned="true" name="jdbc/othala" />
-	<Realm localDataSource="true" roleNameCol="txRole"
-		userRoleTable="robur807_othala.customer_roles" userCredCol="txPassword"
-		userNameCol="idUser" userTable="robur807_othala.customer" dataSourceName="jdbc/othala"
-		className="org.apache.catalina.realm.DataSourceRealm" />
- -->
+		url="jdbc:mysql://localhost:3306/aduna937_othala" />-->
 	<!-- FINE PRODUZIONE -->
 
 

@@ -18,11 +18,11 @@
 --
 -- Current Database: `aduna937_othala`
 --
-DROP DATABASE `robur807_othala`;
+DROP DATABASE `aduna937_othala`;
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `robur807_othala` /*!40100 DEFAULT CHARACTER SET utf8 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `aduna937_othala` /*!40100 DEFAULT CHARACTER SET utf8 */;
 
-USE `robur807_othala`;
+USE `aduna937_othala`;
 
 DROP TABLE IF EXISTS `type_size`;
 
