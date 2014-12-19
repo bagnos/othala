@@ -59,6 +59,11 @@ public class CartWizardView extends BaseView {
 	private DeliveryAddressDTO deliverAddressMerchant;
 	private DeliveryCostDTO deliverCostMerchant;
 	private List<DeliveryAddressDTO> delAdressFat = new ArrayList<DeliveryAddressDTO>();
+	private boolean andAddrSpe = true;
+
+	public boolean isAndAddrSpe() {
+		return andAddrSpe;
+	}
 
 	public List<DeliveryAddressDTO> getDelAdressFat() {
 		return delAdressFat;
@@ -214,16 +219,26 @@ public class CartWizardView extends BaseView {
 			if (del.getDeliverySede() != null && del.getDeliverySede().getIdAddress().intValue() == ID_ADDRESS_MERCHANT) {
 				// merchant
 				deliverAddressMerchant = del.getDeliverySede();
-				deliverCostMerchant=del;
+				deliverCostMerchant = del;
 				break;
 			}
 		}
 
-		// inizializzo eventuali indirizzi già presento
+		// inizializzo eventuali indirizzi già presenti
 		if (getCartFlowBean().getIdTypeDelivery() == 0) {
 			getCartFlowBean().setDeliveryCost(listDeliveryCostDTO.get(0));
 			getCartFlowBean().setIdTypeDelivery(listDeliveryCostDTO.get(0).getIdDeliveryCost());
 			modifyTypeDelivery(null);
+		}
+
+		// elimino la sede come indirizzo di fatturazione
+		if (deliverAddressMerchant != null) {
+			for (DeliveryAddressDTO del : delAdress) {
+				if (del.getCognome().equalsIgnoreCase(deliverAddressMerchant.getCognome())
+						&& del.getNome().equalsIgnoreCase(deliverAddressMerchant.getNome())) {
+					delAdressFat.remove(del);
+				}
+			}
 		}
 
 	}
@@ -236,6 +251,7 @@ public class CartWizardView extends BaseView {
 
 		blockInsAddrDelivery = false;
 		addressMerchant = false;
+
 		getCartFlowBean().setAddressSpe(new DeliveryAddressDTO());
 		for (DeliveryCostDTO d : listDeliveryCostDTO) {
 			if (d.getIdDeliveryCost().intValue() == getCartFlowBean().getIdTypeDelivery()) {
@@ -247,6 +263,7 @@ public class CartWizardView extends BaseView {
 					// indirizzo presente verifico se sede
 					if (d.getDeliverySede().getIdAddress().intValue() == ID_ADDRESS_MERCHANT) {
 						addressMerchant = true;
+
 						// indirizzo con sede
 						if (d.getDeliverySede().getEtichetta() == null || d.getDeliverySede().getEtichetta().isEmpty()) {
 							d.getDeliverySede().setEtichetta("sede");
@@ -265,32 +282,30 @@ public class CartWizardView extends BaseView {
 								&& d.getDeliverySede().getComune().equalsIgnoreCase(d.getDeliverySede().getComune())) {
 							// escludiamo address merchant se non sede
 							if (addressMerchant) {
-								// mostro solo sede, indipendentemente dal cal
+								// mostro solo sede,indipendentemente dal cal
 								// comune
 								if (del.getCognome().equalsIgnoreCase(deliverAddressMerchant.getCognome())
 										&& del.getNome().equalsIgnoreCase(deliverAddressMerchant.getNome())) {
 									filter.add(del);
 								}
-							}
-
-							else {
+							} else {
 								// non merchant, ecluso la sede anche se stesso
 								// comune
-								if (!del.getCognome().equalsIgnoreCase(
-
-								deliverAddressMerchant.getCognome())
+								if (!del.getCognome().equalsIgnoreCase(deliverAddressMerchant.getCognome())
 										&& !del.getNome().equalsIgnoreCase(deliverAddressMerchant.getNome())) {
 									filter.add(del);
 								}
 							}
-
 						}
 					}
 					if (filter.isEmpty()) {
 						// se address non presenti preimpostatiamo i campi di
 						// partenze
-						getCartFlowBean().setAddressSpe(d.getDeliverySede());						
+						getCartFlowBean().setAddressSpe(d.getDeliverySede());
 						editAddrSpe = true;
+						// non ha senso annullare se nessun indirizzo è
+						// presente, va per forza inserito
+						andAddrSpe = false;
 						if (!delAdress.isEmpty()) {
 							// editiamo solo se addrre cliente non è vuoto, se
 							// vuoto è già in editt
@@ -307,7 +322,6 @@ public class CartWizardView extends BaseView {
 						newAddrSpe = false;
 						saveAddressSpe = false;
 						editAddrSpe = false;
-
 					}
 
 					blockInsAddrDelivery = true;
@@ -315,13 +329,11 @@ public class CartWizardView extends BaseView {
 				break;
 			}
 		}
-		if (blockInsAddrDelivery==false && !delAdress.isEmpty())
-		{
+		if (blockInsAddrDelivery == false && !delAdress.isEmpty()) {
 			newAddrSpe = true;
 			saveAddressSpe = true;
-			editAddrSpe=true;
+			editAddrSpe = true;
 		}
-		
 
 	}
 
@@ -359,13 +371,14 @@ public class CartWizardView extends BaseView {
 							// se tipo sede ma indirizzo diverso da sede
 							getCartFlowBean().setAddressSpe(deliverAddressMerchant);
 							getCartFlowBean().setIdTypeDelivery(deliverAddressMerchant.getIdAddress());
-							idAddressSpe=deliverAddressMerchant.getIdAddress();
+							idAddressSpe = deliverAddressMerchant.getIdAddress();
 						} else if (!addressMerchant
 								&& addr.getCognome().equalsIgnoreCase(deliverAddressMerchant.getCognome())
 								&& addr.getNome().equalsIgnoreCase(deliverAddressMerchant.getNome())) {
-							//ho selezionato indirizzo sede ma non è selezonato la spedizione in sede
+							// ho selezionato indirizzo sede ma non è selezonato
+							// la spedizione in sede
 							getCartFlowBean().setIdTypeDelivery(deliverAddressMerchant.getIdAddress());
-							getCartFlowBean().setDeliveryCost(deliverCostMerchant);					
+							getCartFlowBean().setDeliveryCost(deliverCostMerchant);
 							return;
 						}
 					} else {
@@ -379,11 +392,14 @@ public class CartWizardView extends BaseView {
 		}
 
 		/*
-		deliveryDTO.setSpeseSpedizione(OthalaFactory.getOrderServiceInstance().getSpeseSpedizione(
-				getCartFlowBean().getAddressSpe().getNazione()));
-		getCartFlowBean().setDeliveryCost(deliveryDTO.getSpeseSpedizione().get(0));
-		getCartFlowBean().setIdTypeDelivery(deliveryDTO.getSpeseSpedizione().get(0).getIdDeliveryCost());
-		*/
+		 * deliveryDTO.setSpeseSpedizione(OthalaFactory.getOrderServiceInstance()
+		 * .getSpeseSpedizione(
+		 * getCartFlowBean().getAddressSpe().getNazione()));
+		 * getCartFlowBean().setDeliveryCost
+		 * (deliveryDTO.getSpeseSpedizione().get(0));
+		 * getCartFlowBean().setIdTypeDelivery
+		 * (deliveryDTO.getSpeseSpedizione().get(0).getIdDeliveryCost());
+		 */
 
 	}
 
@@ -396,7 +412,7 @@ public class CartWizardView extends BaseView {
 	public void modifyAddrSpe(AjaxBehaviorEvent ev) {
 		editAddrSpe = true;
 		saveAddressSpe = true;
-
+		andAddrSpe = true;
 	}
 
 	public void newAddrFat(AjaxBehaviorEvent ev) {
@@ -407,10 +423,19 @@ public class CartWizardView extends BaseView {
 	public void newAddrSpe(AjaxBehaviorEvent ev) {
 		modifyAddrSpe(ev);
 		newAddrSpe = true;
+		andAddrSpe = true;
 		if (blockInsAddrDelivery) {
-			for (DeliveryCostDTO d : deliveryDTO.getSpeseSpedizione()) {
+			for (DeliveryCostDTO d : listDeliveryCostDTO) {
 				if (d.getIdDeliveryCost().intValue() == getCartFlowBean().getIdTypeDelivery()) {
-					getCartFlowBean().setAddressSpe(d.getDeliverySede());
+					if (d.getIdAddress() == ID_ADDRESS_MERCHANT) {
+						getCartFlowBean().setAddressSpe(d.getDeliverySede());
+					} else {
+						//inserisco solo cap, prov, citta e naz
+						getCartFlowBean().getAddressSpe().setCap(d.getDeliverySede().getCap());
+						getCartFlowBean().getAddressSpe().setComune(d.getDeliverySede().getComune());
+						getCartFlowBean().getAddressSpe().setProvincia(d.getDeliverySede().getProvincia());
+						getCartFlowBean().getAddressSpe().setNazione(d.getDeliverySede().getNazione());
+					}
 				}
 			}
 		}
@@ -497,6 +522,7 @@ public class CartWizardView extends BaseView {
 			// idAddressSpe=getCartFlowBean().getAddressSpe().getIdAddress();
 			editAddrSpe = false;
 			saveAddressSpe = false;
+			andAddrSpe = false;
 		} catch (Exception e) {
 			addGenericError(e, "errore nell'inserimento dell'indirizzo");
 		}
