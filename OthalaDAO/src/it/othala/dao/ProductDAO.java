@@ -13,10 +13,9 @@ import it.othala.dto.NazioniDTO;
 import it.othala.dto.ProductFullNewDTO;
 import it.othala.dto.ShopDTO;
 import it.othala.dto.SiteImagesDTO;
-import it.othala.dto.SubMenuDTO;
 import it.othala.dto.SubMenuBrandDTO;
+import it.othala.dto.SubMenuDTO;
 import it.othala.enums.ArticleUpdate;
-import it.othala.enums.OrderByCartFlow;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -58,7 +57,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	public List<ProductFullNewDTO> listProduct(String languages, Integer type,
 			Integer gender, Integer brand, BigDecimal minPrice,
 			BigDecimal maxPrice, Integer size, Integer color,
-			Boolean newArrivals, OrderByCartFlow order, Integer idCampaign,
+			Boolean newArrivals, int order, Integer idCampaign,
 			Boolean fgCampaign) {
 
 		HashMap<String, Object> mapProduct = new HashMap<>();
@@ -74,12 +73,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		mapProduct.put("idCampaign", idCampaign);
 		mapProduct.put("fgCampaign", fgCampaign);
 
-		if (order == null) {
-			mapProduct.put("order", OrderByCartFlow.PREZZOASC.getState());
-		} else {
-			mapProduct.put("order", order.getState());
-
-		}
+			mapProduct.put("order", order);
 
 		// recupero prodotti
 		List<ProductFullNewDTO> listProduct = getSqlSession().selectList(
@@ -965,7 +959,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	public List<AttributeDTO> listSizeProduct(String languages, Integer type,
 			Integer gender, Integer brand, BigDecimal minPrice,
 			BigDecimal maxPrice, Integer size, Integer color,
-			Boolean newArrivals, OrderByCartFlow order, Integer idCampaign,
+			Boolean newArrivals, int order, Integer idCampaign,
 			Boolean fgCampaign) {
 
 		HashMap<String, Object> mapProduct = new HashMap<>();
@@ -985,7 +979,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	public List<AttributeDTO> listColorProduct(String languages, Integer type,
 			Integer gender, Integer brand, BigDecimal minPrice,
 			BigDecimal maxPrice, Integer size, Integer color,
-			Boolean newArrivals, OrderByCartFlow order, Integer idCampaign,
+			Boolean newArrivals, int order, Integer idCampaign,
 			Boolean fgCampaign) {
 		HashMap<String, Object> mapProduct = new HashMap<>();
 		mapProduct.put("languages", languages);
@@ -1003,7 +997,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	public List<AttributeDTO> listBrandProduct(String languages, Integer type,
 			Integer gender, Integer brand, BigDecimal minPrice,
 			BigDecimal maxPrice, Integer size, Integer color,
-			Boolean newArrivals, OrderByCartFlow order, Integer idCampaign,
+			Boolean newArrivals, int order, Integer idCampaign,
 			Boolean fgCampaign) {
 		HashMap<String, Object> mapProduct = new HashMap<>();
 		mapProduct.put("languages", languages);

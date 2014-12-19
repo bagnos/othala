@@ -6,7 +6,6 @@ import it.othala.dto.MenuDTO;
 import it.othala.dto.ProductFullNewDTO;
 import it.othala.dto.SubMenuDTO;
 import it.othala.dto.VetrinaDTO;
-import it.othala.enums.OrderByCartFlow;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 import it.othala.web.utils.ConfigurationUtil;
@@ -197,8 +196,7 @@ public class CartFlowView1 extends BaseView {
 				getCartFlowBean().getCatalog().getSize(),
 				getCartFlowBean().getCatalog().getColor(),
 				getCartFlowBean().getCatalog().getFgNewArrivals(),
-				getCartFlowBean().getCatalog().getOrderPrice() == 1 ? OrderByCartFlow.PREZZODESC
-						: OrderByCartFlow.PREZZOASC,
+				getCartFlowBean().getCatalog().getOrderPrice(),
 				getCartFlowBean().getCatalog().getIdCampaign() == null
 						|| getCartFlowBean().getCatalog().getIdCampaign().intValue() == 0 ? null : getCartFlowBean()
 						.getCatalog().getIdCampaign(), getCartFlowBean().getCatalog().isIncludePromo());

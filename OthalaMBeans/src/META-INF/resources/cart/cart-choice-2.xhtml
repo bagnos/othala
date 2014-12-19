@@ -332,12 +332,12 @@
 						</div>
 						<br />
 
-						<div class="row guidaVisible">
+						<div class="row guidaVisibile">
 							<div class="col-sm-12">
-								<a target="_blank" href="#{request.contextPath}/faces/static/guidaTaglie.xhtml"
-									class="foot2-line"> <h:outputText
-										value="Guida Taglie" />
-								</a>
+											<p:commandButton styleClass="btnTaglie"
+												onclick="PF('dlgTaglie').show();"
+												value="Guida Taglie" id="cmdTaglie"
+												style="margin: 0 5px 5px !important;" />
 							</div>
 						</div>
 							<br />	
@@ -440,6 +440,29 @@
 				</div>
 			</div>
 
+
+<p:dialog widgetVar="dlgTaglie" id="dlgTaglie" width="400"
+				appendToBody="false" styleClass="borderSizeColor" showHeader="false"
+				header="GUIDA TAGLIE" closable="true"
+				closeOnEscape="true" resizable="false">
+
+
+				<div class="row spacer30">
+
+							<div class="col-sm-12">
+								<br />
+								<h3>
+								<h:outputText value="#{msgSite.sizeGuide}" escape="false" />
+							</h3>
+							</div>
+				</div>
+				<div class="footerSizeColor">
+					<span class="glyphicon glyphicon-remove footerClose"
+						onclick="PF('dlgTaglie').hide()" />
+				</div>
+			</p:dialog>
+			
+			
 			<p:dialog widgetVar="dlgSize" id="dlgSize" width="190"
 				appendToBody="false" styleClass="borderSizeColor" showHeader="false"
 				header="#{msg.catalog_chooseSize}" closable="true"
