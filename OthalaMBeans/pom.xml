@@ -69,7 +69,8 @@
 					</aggregations>
 				</configuration>
 			</plugin>
--->
+			-->
+
 			<!-- <plugin> <groupId>com.samaxes.maven</groupId> <artifactId>minify-maven-plugin</artifactId> 
 				<version>1.7.4</version> <executions> <execution> <id>default-minify</id> <configuration> 
 				<cssSourceIncludes> <cssSourceInclude>**</cssSourceInclude> </cssSourceIncludes> 
