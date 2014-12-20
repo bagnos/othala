@@ -229,7 +229,9 @@ public class CartWizardView extends BaseView {
 		// si recuperano le info di spedizione
 		listDeliveryCostDTO = OthalaFactory.getOrderServiceInstance().getSpeseSpedizione(
 				getCartFlowBean().getAddressSpe().getNazione());
-
+		
+				
+		
 		// verifico presenza indirizzo merchant
 		deliverAddressMerchant = null;
 		for (DeliveryCostDTO del : listDeliveryCostDTO) {
@@ -243,10 +245,10 @@ public class CartWizardView extends BaseView {
 
 		// inizializzo tipo spedizione ed imposto indirizzi compatibile con la
 		// spedizione
-		if (getCartFlowBean().getIdTypeDelivery() == 0) {
+		
 			getCartFlowBean().setDeliveryCost(listDeliveryCostDTO.get(0));
 			getCartFlowBean().setIdTypeDelivery(listDeliveryCostDTO.get(0).getIdDeliveryCost());					
-		}
+		
 		modifyTypeDelivery(null);
 		
 
