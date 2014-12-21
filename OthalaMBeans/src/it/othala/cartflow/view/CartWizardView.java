@@ -35,6 +35,8 @@ import javax.faces.event.AjaxBehaviorEvent;
 
 import org.primefaces.context.RequestContext;
 
+import com.sun.faces.taglib.jsf_core.IdTagParserImpl;
+
 @ManagedBean
 @javax.faces.bean.ViewScoped
 public class CartWizardView extends BaseView {
@@ -179,7 +181,8 @@ public class CartWizardView extends BaseView {
 				.getIdAddress();
 
 		if (getLoginBean().getEmail() != null) {
-			// se è presente il login possiamo recuperare nuovamente i relativi
+			// se è presente il login possiamo recuperare nuovamente i
+			// relativi
 			// servizi
 			retrieveAddresses();
 		}
@@ -200,8 +203,12 @@ public class CartWizardView extends BaseView {
 				.equalsIgnoreCase(deliverAddressMerchant.getNome()));
 	}
 
-	public void retrieveAddresses() {
+	private boolean equalsAddrSede(DeliveryAddressDTO del, DeliveryCostDTO d) {
+		return (del.getCap().equalsIgnoreCase(d.getDeliverySede().getCap()) && d.getDeliverySede().getComune()
+				.equalsIgnoreCase(d.getDeliverySede().getComune()));
+	}
 
+	public void retrieveAddresses() {
 		deliveryDTO = OthalaFactory.getOrderServiceInstance().getDeliveryInfo(getLoginBean().getEmail());
 		delAdress.clear();
 		delAdress.addAll(deliveryDTO.getIndirizzo());
@@ -212,6 +219,8 @@ public class CartWizardView extends BaseView {
 			// nessun indirizzo selezionato
 			getCartFlowBean().getAddressFat().setNazione("ITALIA");
 			getCartFlowBean().getAddressSpe().setNazione("ITALIA");
+			listDeliveryCostDTO = OthalaFactory.getOrderServiceInstance().getSpeseSpedizione(
+					getCartFlowBean().getAddressSpe().getNazione());
 			if (deliveryDTO != null && deliveryDTO.getIndirizzo().isEmpty() == false) {
 				// sono presenti indirizzi utilizzati in precedenza, si imposta
 				// il primo per entrambi
@@ -219,15 +228,23 @@ public class CartWizardView extends BaseView {
 				idAddressSpe = idAddressFat;
 				getCartFlowBean().setAddressFat(deliveryDTO.getIndirizzo().get(0));
 				getCartFlowBean().setAddressSpe(getCartFlowBean().getAddressFat());
+				// si recuperano le info di spedizione
+
+				getCartFlowBean().setDeliveryCost(listDeliveryCostDTO.get(0));
+				getCartFlowBean().setIdTypeDelivery(listDeliveryCostDTO.get(0).getIdDeliveryCost());
+
+			}
+		} else {
+			listDeliveryCostDTO = OthalaFactory.getOrderServiceInstance().getSpeseSpedizione(
+					getCartFlowBean().getAddressSpe().getNazione());
+			if (getCartFlowBean().getIdTypeDelivery() == ID_ADDRESS_MERCHANT) {
+				addressMerchant = true;
 			}
 		}
 
+	
 		editAddrFat = idAddressFat == 0;
 		editAddrSpe = idAddressSpe == 0;
-
-		// si recuperano le info di spedizione
-		listDeliveryCostDTO = OthalaFactory.getOrderServiceInstance().getSpeseSpedizione(
-				getCartFlowBean().getAddressSpe().getNazione());
 
 		// verifico presenza indirizzo merchant
 		deliverAddressMerchant = null;
@@ -240,11 +257,9 @@ public class CartWizardView extends BaseView {
 			}
 		}
 
-		// inizializzo tipo spedizione ed imposto indirizzi compatibile con la
+		// inizializzo tipo spedizione ed imposto indirizzi compatibile con
+		// la
 		// spedizione
-		
-		getCartFlowBean().setDeliveryCost(listDeliveryCostDTO.get(0));
-		getCartFlowBean().setIdTypeDelivery(listDeliveryCostDTO.get(0).getIdDeliveryCost());
 
 		modifyTypeDelivery(null);
 
@@ -325,38 +340,81 @@ public class CartWizardView extends BaseView {
 						// partenza per l'inserimento con quelle presenti della
 						// spedizione
 						getCartFlowBean().setAddressSpe(d.getDeliverySede());
-						editAddrSpe = true;
-						// non ha senso annullare se nessun indirizzo è
-						// presente, va per forza inserito
-						andAddrSpe = false;
-						if (!delAdress.isEmpty()) {
-							// editiamo solo se address cliente non è vuoto, se
-							// vuoto è già in edit
-							newAddrSpe = true;
-							saveAddressSpe = true;
 
-						}
+						editAddrSpe();
 
 					} else {
 						// prendiamo il primo indirizzo valido
 						deliveryDTO.getIndirizzo().clear();
 						deliveryDTO.getIndirizzo().addAll(filter);
-						getCartFlowBean().setAddressSpe(filter.get(0));
-						idAddressSpe = filter.get(0).getIdAddress();
-						newAddrSpe = false;
-						saveAddressSpe = false;
-						editAddrSpe = false;
+
+						readAddrSpe(filter.get(0));
 					}
 
 					blockInsAddrDelivery = true;
+				} else if (deliverAddressMerchant != null) {
+					// sezione altro, rimuovere tutti gli indirizzi associta
+					// alle
+					// atre sedi
+
+					filterOtherAddress();
+
 				}
 				break;
+
 			}
 		}
 		/*
 		 * if (blockInsAddrDelivery == false && delAdress.isEmpty()) {
 		 * newAddrSpe = true; saveAddressSpe = true; editAddrSpe = true; }
 		 */
+
+	}
+
+	private void editAddrSpe() {
+		editAddrSpe = true;
+		// non ha senso annullare se nessun indirizzo è
+		// presente, va per forza inserito
+		andAddrSpe = false;
+		if (!delAdress.isEmpty()) {
+			// editiamo solo se address cliente non è vuoto, se
+			// vuoto è già in edit
+			newAddrSpe = true;
+			saveAddressSpe = true;
+
+		}
+	}
+
+	private void readAddrSpe(DeliveryAddressDTO del) {
+		newAddrSpe = false;
+		saveAddressSpe = false;
+		editAddrSpe = false;
+		getCartFlowBean().setAddressSpe(del);
+		idAddressSpe = del.getIdAddress();
+	}
+
+	private void filterOtherAddress() {
+
+		List<DeliveryAddressDTO> listDelete = new ArrayList<DeliveryAddressDTO>();
+		// eliminiamo tutti gli indirizzi delle altre sedi
+		for (DeliveryAddressDTO add : delAdress) {
+			for (DeliveryCostDTO del : listDeliveryCostDTO) {
+				if (del.getDeliverySede() != null && equalsAddrSede(add, del)) {
+					listDelete.add(add);
+				}
+			}
+
+		}
+		deliveryDTO.getIndirizzo().clear();
+		deliveryDTO.getIndirizzo().addAll(delAdress);		
+		deliveryDTO.getIndirizzo().removeAll(listDelete);
+		if (deliveryDTO.getIndirizzo().isEmpty()) {
+			editAddrSpe();
+			getCartFlowBean().setAddressSpe(new DeliveryAddressDTO());
+			
+		} else {
+			readAddrSpe(deliveryDTO.getIndirizzo().get(0));
+		}
 
 	}
 
@@ -368,7 +426,7 @@ public class CartWizardView extends BaseView {
 
 		} else {
 			editAddrFat = false;
-			for (DeliveryAddressDTO addr : deliveryDTO.getIndirizzo()) {
+			for (DeliveryAddressDTO addr : delAdressFat) {
 				if (addr.getIdAddress().intValue() == idAddressFat) {
 					getCartFlowBean().setAddressFat(addr);
 					break;
@@ -455,14 +513,17 @@ public class CartWizardView extends BaseView {
 		if (blockInsAddrDelivery) {
 			for (DeliveryCostDTO d : listDeliveryCostDTO) {
 				if (d.getIdDeliveryCost().intValue() == getCartFlowBean().getIdTypeDelivery()) {
+
 					if (d.getIdAddress() == ID_ADDRESS_MERCHANT) {
 						getCartFlowBean().setAddressSpe(d.getDeliverySede());
+
 					} else {
 						// inserisco solo cap, prov, citta e naz
 						getCartFlowBean().getAddressSpe().setCap(d.getDeliverySede().getCap());
 						getCartFlowBean().getAddressSpe().setComune(d.getDeliverySede().getComune());
 						getCartFlowBean().getAddressSpe().setProvincia(d.getDeliverySede().getProvincia());
 						getCartFlowBean().getAddressSpe().setNazione(d.getDeliverySede().getNazione());
+
 					}
 				}
 			}
