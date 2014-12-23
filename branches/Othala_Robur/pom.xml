@@ -8,7 +8,7 @@
 	<name>Othala Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>
-				<dependency>
+		<dependency>
 			<groupId>it.adunata</groupId>
 			<artifactId>OthalaMBeans</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
@@ -33,14 +33,14 @@
 			<artifactId>OthalaPayment</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		 
+
 
 		<dependency>
 			<groupId>com.sun.faces</groupId>
 			<artifactId>jsf-api</artifactId>
 			<version>2.2.6</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.sun.faces</groupId>
 			<artifactId>jsf-impl</artifactId>
@@ -48,9 +48,9 @@
 		</dependency>
 
 
-		
 
-		 
+
+
 
 
 		<dependency>
@@ -84,41 +84,18 @@
 			<artifactId>spring-tx</artifactId>
 			<version>4.0.0.RELEASE</version>
 		</dependency>
-		<!-- 
-		<dependency>
-			<groupId>org.glassfish.jersey.containers</groupId>
-			if your container implements Servlet API older than 3.0, use "jersey-container-servlet-core" 
-			<artifactId>jersey-container-servlet</artifactId>
-			<version>2.5.1</version>
-		</dependency> -->
+		<!-- <dependency> <groupId>org.glassfish.jersey.containers</groupId> if your container 
+			implements Servlet API older than 3.0, use "jersey-container-servlet-core" <artifactId>jersey-container-servlet</artifactId> 
+			<version>2.5.1</version> </dependency> -->
 
 		<!-- Required only when you are using JAX-RS Client -->
-		<!-- 
-		<dependency>
-			<groupId>org.glassfish.jersey.core</groupId>
-			<artifactId>jersey-client</artifactId>
-			<version>2.5.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.glassfish.jersey.media</groupId>
-			<artifactId>jersey-media-moxy</artifactId>
-			<version>2.5.1</version>
-		</dependency>
-		 -->
-		 <!-- 
-		<dependency>
-			<groupId>com.itextpdf</groupId>
-			<artifactId>itextpdf</artifactId>
-			<version>5.4.5</version>
-		</dependency>
-		-->
-		<!-- 
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi-ooxml</artifactId>
-			<version>3.9</version>
-		</dependency>
-		-->
+		<!-- <dependency> <groupId>org.glassfish.jersey.core</groupId> <artifactId>jersey-client</artifactId> 
+			<version>2.5.1</version> </dependency> <dependency> <groupId>org.glassfish.jersey.media</groupId> 
+			<artifactId>jersey-media-moxy</artifactId> <version>2.5.1</version> </dependency> -->
+		<!-- <dependency> <groupId>com.itextpdf</groupId> <artifactId>itextpdf</artifactId> 
+			<version>5.4.5</version> </dependency> -->
+		<!-- <dependency> <groupId>org.apache.poi</groupId> <artifactId>poi-ooxml</artifactId> 
+			<version>3.9</version> </dependency> -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
@@ -150,12 +127,8 @@
 		</dependency>
 
 		<!-- CDI -->
-		<!-- 
-		<dependency>
-			<groupId>org.jboss.weld.servlet</groupId>
-			<artifactId>weld-servlet</artifactId>
-			<version>2.1.2.Final</version>
-		</dependency>-->
+		<!-- <dependency> <groupId>org.jboss.weld.servlet</groupId> <artifactId>weld-servlet</artifactId> 
+			<version>2.1.2.Final</version> </dependency> -->
 
 
 		<dependency>
@@ -164,9 +137,9 @@
 			<version>0.4.7</version>
 		</dependency>
 
-		
-	
-		
+
+
+
 
 
 		<!-- paypall sdk -->
@@ -222,6 +195,34 @@
 					</webResources>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>com.samaxes.maven</groupId>
+				<artifactId>minify-maven-plugin</artifactId>
+
+				<version>1.6.2</version>
+				<executions>
+					<execution>
+						<id>default-minify</id>
+						<configuration>
+							<webappSourceDir>${basedir}/src/main/webapp/resources</webappSourceDir>
+							<webappTargetDir>${basedir}/src/main/webapp/resources</webappTargetDir>
+							<cssSourceIncludes>
+								<cssSourceInclude>*.css</cssSourceInclude>
+							</cssSourceIncludes>
+							<cssSourceExcludes>
+							<cssSourceExclude>mainWeb.css</cssSourceExclude>
+							<cssSourceExclude>mainWeb.min.css</cssSourceExclude>
+							</cssSourceExcludes>
+							<cssFinalFile>mainWeb.css</cssFinalFile>
+						</configuration>
+						<goals>
+							<goal>minify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 
 
 			<!-- <plugin> <groupId>org.apache.tomcat.maven</groupId> <artifactId>tomcat7-maven-plugin</artifactId> 
