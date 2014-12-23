@@ -25,59 +25,62 @@
 				</configuration>
 			</plugin>
 
+			<!-- <plugin> <groupId>org.primefaces.extensions</groupId> <artifactId>resources-optimizer-maven-plugin</artifactId> 
+				<version>1.1.0</version> <executions> <execution> <id>optimize</id> <goals> <goal>optimize</goal> 
+				</goals> <phase> process-resources </phase> </execution> </executions> <configuration> 
+				<resourcesSets> <resourcesSet> <inputDir>${basedir}/src/META-INF/resources/resources/js</inputDir> 
+				<includes> <include>**/*.js</include> </includes> <excludes> <exclude>OthalaWizard.js</exclude> 
+				</excludes> <aggregations> <aggregation> <withoutCompress>true</withoutCompress> 
+				<outputFile>${basedir}/src/META-INF/resources/resources/css/main2.js</outputFile> 
+				</aggregation> </aggregations> </resourcesSet> <resourcesSet> <inputDir>${basedir}/src/META-INF/resources/resources/css</inputDir> 
+				<includes> <include>**/*.css</include> </includes> <aggregations> <aggregation> <outputFile>${basedir}/src/META-INF/resources/resources/css/main2.css</outputFile> 
+				</aggregation> </aggregations> </resourcesSet> </resourcesSets> </configuration> 
+				</plugin> -->
 
 
-<!-- 
+
+			<!-- <plugin> <groupId>net.alchim31.maven</groupId> <artifactId>yuicompressor-maven-plugin</artifactId> 
+				<version>1.5.1</version> <executions> <execution> <goals> <goal>compress</goal> </goals> 
+				</execution> </executions> <configuration> <nosuffix>true</nosuffix> <force>true</force> 
+				<preProcessAggregates>true</preProcessAggregates> <excludes> <exclude>**/bootstrap/**/*.js</exclude> 
+				<exclude>**/bootstrap/**/*.css</exclude> <exclude>**/flexslider/**/*.js</exclude> 
+				<exclude>**/flexslider/**/*.css</exclude> <exclude>**/fonts/**/*.css</exclude> <exclude>**/fonts/**/*.js</exclude> 
+				</excludes> <aggregations> <aggregation> <insertNewLine>true</insertNewLine> <output>${basedir}/src/META-INF/resources/resources/js/main.js</output> 
+				<includes> <include>**/*.js</include> </includes> <excludes> <exclude> othalaWizard.js 
+				</exclude> </excludes> </aggregation> <aggregation> <insertNewLine>true</insertNewLine> 
+				<output>${basedir}/src/META-INF/resources/resources/css/main.css</output> <includes> 
+				<include>**/*.css</include> </includes> </aggregation> </aggregations> </configuration> 
+				</plugin> -->
+
 			<plugin>
-				<groupId>net.alchim31.maven</groupId>
-				<artifactId>yuicompressor-maven-plugin</artifactId>
-				<version>1.5.1</version>
+				<groupId>com.samaxes.maven</groupId>
+				<artifactId>minify-maven-plugin</artifactId>
+				
+				<version>1.6.2</version>
 				<executions>
 					<execution>
+						<id>default-minify</id>
+						<configuration>
+							
+							<webappSourceDir>${basedir}/src/META-INF/resources/resources</webappSourceDir>
+							<webappTargetDir>${basedir}/src/META-INF/resources/resources/public</webappTargetDir>
+							
+							<cssSourceIncludes>
+								<cssSourceInclude>*.css</cssSourceInclude>
+							</cssSourceIncludes>
+							 <cssFinalFile>main.css</cssFinalFile>							
+							<jsSourceIncludes>
+								<jsSourceInclude>*.js</jsSourceInclude>
+							</jsSourceIncludes>							
+							<jsFinalFile>main.js</jsFinalFile>
+							<jsEngine>CLOSURE</jsEngine>
+						</configuration>
 						<goals>
-							<goal>compress</goal>
+							<goal>minify</goal>
 						</goals>
 					</execution>
 				</executions>
-				<configuration>
-					<nosuffix>true</nosuffix>
-					<force>true</force>
-					<includes>
-						<include>${basedir}/src/META-INF/resources/resources/js/*.js</include>
-						<include>${basedir}/src/META-INF/resources/resources/css/*.css</include>
-					</includes>
-					<aggregations>
-						<aggregation>
-							<insertNewLine>true</insertNewLine>
-							<output>${basedir}/src/META-INF/resources/resources/js/main.js</output>
-							<includes>
-								<include>*.js</include>
-							</includes>
-							<excludes>
-								<exclude>
-									othalaWizard.js
-								</exclude>
-							</excludes>
-						</aggregation>
-						<aggregation>
-							<insertNewLine>true</insertNewLine>
-							<output>${basedir}/src/META-INF/resources/resources/css/main.css</output>
-							<includes>
-								<include>*.css</include>
-							</includes>
-						</aggregation>
-					</aggregations>
-				</configuration>
 			</plugin>
-			-->
-
-			<!-- <plugin> <groupId>com.samaxes.maven</groupId> <artifactId>minify-maven-plugin</artifactId> 
-				<version>1.7.4</version> <executions> <execution> <id>default-minify</id> <configuration> 
-				<cssSourceIncludes> <cssSourceInclude>**</cssSourceInclude> </cssSourceIncludes> 
-				<cssSourceExcludes> <cssSourceExclude>**/*.min.css</cssSourceExclude> </cssSourceExcludes> 
-				<jsSourceIncludes> <jsSourceInclude>**</jsSourceInclude> </jsSourceIncludes> <jsSourceExcludes> 
-				<jsSourceExclude>**/*.min.js</jsSourceExclude> </jsSourceExcludes> </configuration> 
-				<goals> <goal>minify</goal> </goals> </execution> </executions> </plugin> -->
 
 
 

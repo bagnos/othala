@@ -9,31 +9,32 @@
 <f:view locale="#{localeManager.locale}">
 
 
-<pe:head title="#{msgSite.titleMerchant}" pt:prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# product: http://ogp.me/ns/product#"
-	shortcutIcon="#{request.contextPath}/resources/images/logo16.png">
-	<meta name="description" content="#{msgSite.descrMerchant}"> </meta> 
-	<meta name="keywords" content="#{msgSite.keyMerchant}"> </meta>
-	
-	<f:facet name="first">
-	<ui:insert name="fb" />
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta http-equiv="pragma" content="no-cache" />
-		<meta http-equiv="cache-control" content="no-cache" />
-		<meta http-equiv="expires" content="0" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta charset="utf-8" />
-		
-	</f:facet>
+	<pe:head title="#{msgSite.titleMerchant}"
+		pt:prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# product: http://ogp.me/ns/product#"
+		shortcutIcon="#{request.contextPath}/resources/images/logo16.png">
+		<meta name="description" content="#{msgSite.descrMerchant}"></meta>
+		<meta name="keywords" content="#{msgSite.keyMerchant}"></meta>
+
+		<f:facet name="first">
+			<ui:insert name="fb" />
+			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+			<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+			<meta http-equiv="pragma" content="no-cache" />
+			<meta http-equiv="cache-control" content="no-cache" />
+			<meta http-equiv="expires" content="0" />
+			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+			<meta charset="utf-8" />
+
+		</f:facet>
 
 
-	<link type="text/css" rel="stylesheet" href="#{request.contextPath}/resources/css/font.css" />
-	<h:outputStylesheet name="special.css" library="css"></h:outputStylesheet>
-	<h:outputStylesheet name="main.css" library="css"></h:outputStylesheet>
-	<h:outputStylesheet name="main.css" library="resources/css"></h:outputStylesheet>
-	
-	
-	<!-- 
+		<link type="text/css" rel="stylesheet" href="#{request.contextPath}/resources/css/mainWeb.min.css" />
+		<!-- <h:outputStylesheet name="mainWeb.min.css" library="css"></h:outputStylesheet>-->
+		<h:outputStylesheet name="main.min.css" library="public/css"></h:outputStylesheet>
+
+
+
+		<!-- 
 	<h:outputStylesheet name="bootstrap.min.css" library="bootstrap/css"></h:outputStylesheet>
 	<h:outputStylesheet name="bootstrap-social.css" library="bootstrap/css"></h:outputStylesheet>
 	<h:outputStylesheet name="base.css" library="css"></h:outputStylesheet>	
@@ -43,33 +44,33 @@
 	<h:outputStylesheet name="prettify.css" library="bootstrap/css"></h:outputStylesheet>
 	<h:outputStylesheet name="special.css" library="css"></h:outputStylesheet>	
 	 -->
-	
 
 
-	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 
 
-</pe:head>
+	</pe:head>
 
-<h:body>
+	<h:body>
 
 
-	<h:outputText
-		value="&lt;!--[if lt IE 9]&gt;&lt;script src=&quot;https&#58;&#47;&#47;oss.maxcdn.com&#47;libs&#47;respond.js&#47;1.4.2&#47;respond.min.js&quot; /&gt;
+		<h:outputText
+			value="&lt;!--[if lt IE 9]&gt;&lt;script src=&quot;https&#58;&#47;&#47;oss.maxcdn.com&#47;libs&#47;respond.js&#47;1.4.2&#47;respond.min.js&quot; /&gt;
     &lt;script src=&quot;https&#58;&#47;&#47;oss.maxcdn.com&#47;libs&#47;html5shiv&#47;3.7.0&#47;html5shiv.js&quot; /&gt;
     &lt;![endif]--&gt;"
-		escape="false" />
+			escape="false" />
 
 
-	<ui:insert name="masterBody" />
+		<ui:insert name="masterBody" />
 
 
-	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-	
-	<h:outputScript library="primefaces" name="jquery/jquery.js" />
-	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<!-- 
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+
+		<h:outputScript library="primefaces" name="jquery/jquery.js" target="body" />
+		<!-- Include all compiled plugins (below), or include individual files as needed -->
+		<!-- 
 	<h:outputScript name="bootstrap.min.js" library="bootstrap/js"></h:outputScript>
 	<h:outputScript name="responsive-tabs.js" library="bootstrap/js"></h:outputScript>
 	<h:outputScript name="prettify.js" library="bootstrap/js"></h:outputScript>
@@ -79,18 +80,18 @@
 	<h:outputScript name="jquery.flexslider.js" library="flexslider"></h:outputScript>
 	<h:outputScript name="jquery.elevatezoom.js" library="flexslider"></h:outputScript>
 	 -->
-	<h:outputScript name="main.js" library="js"></h:outputScript>
+		<h:outputScript name="main.min.js" library="public/js"></h:outputScript>
 
-	<ui:insert name="script" />
+		<ui:insert name="script" />
 
 
 
-	<pe:blockUI widgetVar="blockAll">
+		<pe:blockUI widgetVar="blockAll">
         LOADING<br />
-		<p:graphicImage library="images" name="ajax_loading_bar.gif" />
-	</pe:blockUI>
+			<p:graphicImage library="images" name="ajax_loading_bar.gif" />
+		</pe:blockUI>
 
-</h:body>
+	</h:body>
 
 </f:view>
 </html>
