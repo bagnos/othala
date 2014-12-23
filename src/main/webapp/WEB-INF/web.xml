@@ -43,6 +43,11 @@
     <param-name>primefaces.UPLOADER</param-name>
     <param-value>auto</param-value>
   </context-param>
+  <!-- 
+<context-param>
+    <param-name>org.primefaces.extensions.DELIVER_UNCOMPRESSED_RESOURCES</param-name>
+    <param-value>false</param-value>
+</context-param>-->
   <servlet>
     <servlet-name>IPNServlet</servlet-name>
     <servlet-class>it.othala.servlet.IpnPayPalServlet</servlet-class>
