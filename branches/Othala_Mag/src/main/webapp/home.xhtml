@@ -1,11 +1,7 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	template="/template/masterTemplateBS.xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:pe="http://primefaces.org/ui/extensions">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/masterTemplateBS.xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions">
 
 
 	<ui:define name="metadata">
@@ -27,8 +23,7 @@
 
 				<div class="col-sm-12">
 
-					<div id="carousel-example-generic" class="carousel slide"
-						data-ride="carousel">
+					<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
 						<!-- Indicators -->
 						<!-- 
 								<ol class="carousel-indicators">
@@ -40,12 +35,11 @@
 
 						<!-- Wrapper for slides -->
 						<div class="carousel-inner">
-							<ui:repeat var="imgCar" value="#{applicationBean.imgsCarousel}"
-								varStatus="staCar">
+							<ui:repeat var="imgCar" value="#{applicationBean.imgsCarousel}" varStatus="staCar">
 								<div class="#{staCar.first?'item active':'item'}">
 									<h:link outcome="#{imgCar.urlRedirect}">
-										<p:graphicImage styleClass="img-responsive"
-											library="#{imgCar.txLibrary}" name="#{imgCar.txName}" />
+										<p:graphicImage styleClass="img-responsive" library="#{imgCar.txLibrary}"
+											name="#{imgCar.txName}" />
 									</h:link>
 								</div>
 							</ui:repeat>
@@ -53,12 +47,11 @@
 						</div>
 
 						<!-- Controls -->
-						<a class="left carousel-control" href="#carousel-example-generic"
-							data-slide="prev"> <span
-							class="glyphicon glyphicon-chevron-left"></span>
-						</a> <a class="right carousel-control"
-							href="#carousel-example-generic" data-slide="next"> <span
-							class="glyphicon glyphicon-chevron-right"></span>
+						<a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+							<span class="glyphicon glyphicon-chevron-left"></span>
+						</a>
+						<a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+							<span class="glyphicon glyphicon-chevron-right"></span>
 						</a>
 					</div>
 
@@ -72,8 +65,7 @@
 			<div class="row">
 				<div class="col-sm-12">
 
-					<h1
-						style="text-align: center; background-color: #800000; font-size: -webkit-xxx-large;  ">
+					<h1 style="text-align: center; background-color: #800000; font-size: -webkit-xxx-large;">
 						<h:outputText value="WHAT'S NEW" style="color:white" />
 
 					</h1>
@@ -87,8 +79,8 @@
 					<div class="col-sm-6">
 						<div class="thumbnail thumbnail-home">
 							<h:link outcome="#{imgNewArr.urlRedirect}">
-								<p:graphicImage styleClass="img-responsive"
-									library="#{imgNewArr.txLibrary}" name="#{imgNewArr.txName}" style="max-height:100%"/>
+								<p:graphicImage styleClass="img-responsive" library="#{imgNewArr.txLibrary}"
+									name="#{imgNewArr.txName}" style="max-height:100%" />
 							</h:link>
 						</div>
 					</div>
@@ -104,28 +96,48 @@
 				<div class="col-sm-4"></div>
 				<div class="col-sm-4">
 
-					<p:graphicImage styleClass="img-responsive" library="images"
-						name="instagram-banner.png" />
+					<p:graphicImage styleClass="img-responsive" library="images" name="instagram-banner.png" />
 				</div>
 				<div class="col-sm-4"></div>
 			</div>
 			<div class="row">
 				<div class="col-sm-12" id="blog">
 
-				<iframe
+					<iframe
 						src="http://instaembedder.com/gallery-v2.php?username=mag_boutique&amp;width=270&amp;cols=4&amp;rows=2&amp;color=white&amp;likes=1&amp;share_buttons=1&amp;comments=1&amp;frame_color=white"
 						width="100%" height="280px" style="border: none"> </iframe>
 
 				</div>
 			</div>
 		</div>
+	</ui:define>
+	<ui:define name="script">
+		<script>
+	 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-
-
-
-
-
-
+		  ga('create', 'UA-57965216-1', 'auto');
+		  ga('send', 'pageview');
+	
+			/*
+			function downloadJSAtOnload() {
+				var blog=document.getElementById('blog');
+				var element = document.createElement("iframe");
+				element.src = "http://instaembedder.com/gallery-v2.php?username=mag_boutique&amp;width=270&amp;cols=4&amp;rows=2&amp;color=white&amp;likes=1&amp;share_buttons=1&amp;comments=1&amp;frame_color=white";
+				element.width="100%";
+				element.height="100%";
+				element.style="border: none";	
+				blog.appendChild(element);	
+				
+			}
+			if (window.addEventListener)
+				window.addEventListener("load", downloadJSAtOnload, false);
+			else if (window.attachEvent)
+				window.attachEvent("onload", downloadJSAtOnload);
+			else window.onload = downloadJSAtOnload;*/
+			</script>
 	</ui:define>
 
 </ui:composition>
