@@ -389,7 +389,7 @@
 	font-size: 11px !important;;
 	color: #888 !important;;
 	padding: 0 0 0 11px;
-	background: url('../resources/images/home/arw_link.gif') no-repeat left !important;
+	background: url("#{resource['images:home/arw_link.gif?#iefix']}")  no-repeat left !important;
 }
 
 .linkArt:hover {
@@ -483,6 +483,7 @@
 
 html,body,form {
 	height: 100% !important;;;
+	margin:0 !important;
 }
 
 #wrap {
