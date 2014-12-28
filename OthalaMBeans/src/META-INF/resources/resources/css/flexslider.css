@@ -23,16 +23,17 @@
 /* Icon Fonts
 *********************************/
 /* Font-face Icons */ 
-@font-face {
+@font-face { 
 	font-family: 'flexslider-icon';
 	src:url("#{resource['fonts:flexslider-icon.eot']}");
-	src:url("#{resource['flexslider-icon.eot?#iefix']}"),
+	src:url("#{resource['fonts:flexslider-icon.eot']}&#iefix"),
 		url("#{resource['fonts:flexslider-icon.woff']}"),
 		url("#{resource['fonts:flexslider-icon.ttf']}"),
-		url("#{resource['fonts:flexslider-icon.svg#flexslider-icon']}");
+		url("#{resource['fonts:flexslider-icon.svg']}&#flexslider-icon");
 	font-weight: normal;
 	font-style: normal;
-}
+	
+	
 
 /* FlexSlider Necessary Styles
 *********************************/
