@@ -1012,13 +1012,13 @@ st:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,details,figcap
 @font-face { 
 	font-family: 'flexslider-icon';
 	src:url("#{resource['fonts:flexslider-icon.eot']}");
-	src:url("#{resource['fonts:flexslider-icon.eot']}&#iefix"),
-		url("#{resource['fonts:flexslider-icon.woff']}"),
-		url("#{resource['fonts:flexslider-icon.ttf']}"),
-		url("#{resource['fonts:flexslider-icon.svg']}&#flexslider-icon");
+	src:url("#{resource['fonts:flexslider-icon.eot']}&#iefix") format('embedded-opentype'),
+		url("#{resource['fonts:flexslider-icon.woff']}") format('woff'),
+		url("#{resource['fonts:flexslider-icon.ttf']}") format('truetype'),
+		url("#{resource['fonts:flexslider-icon.svg']}&#flexslider-icon")  format('svg');
 	font-weight: normal;
 	font-style: normal;
-	
+}	
 	
 
 /* FlexSlider Necessary Styles
