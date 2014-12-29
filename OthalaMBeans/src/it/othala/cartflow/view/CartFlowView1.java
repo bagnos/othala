@@ -11,10 +11,12 @@ import it.othala.view.BaseView;
 import it.othala.web.utils.ConfigurationUtil;
 import it.othala.web.utils.OthalaUtil;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 
@@ -206,6 +208,25 @@ public class CartFlowView1 extends BaseView {
 		getCartFlowBean().setColorDTO(vetrinaDTO.getColor());
 		getCartFlowBean().setBrandDTO(vetrinaDTO.getBrand());
 		initPaginator(page);
+		redirectOneProduct();
+	}
+	
+	
+	private void redirectOneProduct()
+	{
+		getCartFlowBean().setSingleProductCatalog(false);
+		if (getCartFlowBean().getCatalog().getArticles()!=null && getCartFlowBean().getCatalog().getArticles().size()==1)
+		{
+			try {
+				getCartFlowBean().setSingleProductCatalog(true);
+				FacesContext.getCurrentInstance().getExternalContext().redirect("cart-choice-2.xhtml?idPrd="+getCartFlowBean().getCatalog().getArticles().get(0).getIdProduct());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				log.error("errore redirect prodotto singolo", e);
+			}
+		}
+		
+		
 	}
 
 	public void updateBreadCrumb() {

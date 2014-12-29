@@ -60,7 +60,16 @@ public class CartFlowBean implements Serializable {
 	private int pcScontoFidelity;	
 	private BigDecimal amtDiscount;
 	private BigDecimal totalPriceOrdeNoDiscount;
+	private boolean singleProductCatalog;
 	
+	public boolean isSingleProductCatalog() {
+		return singleProductCatalog;
+	}
+
+	public void setSingleProductCatalog(boolean singleProductCatalog) {
+		this.singleProductCatalog = singleProductCatalog;
+	}
+
 	public BigDecimal getTotalPriceOrdeNoDiscount() {
 		return totalPriceOrdeNoDiscount;
 	}
