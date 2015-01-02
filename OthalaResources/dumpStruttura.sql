@@ -558,6 +558,7 @@ CREATE TABLE `site_images` (
   `txName` varchar(150) DEFAULT NULL,
   `idGender` int(11) DEFAULT NULL,
   `urlRedirect` varchar(100) DEFAULT NULL,
+  `txAlt` varchar(45) DEFAULT NULL
   PRIMARY KEY (`txGroupImages`,`pgGroupImages`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
