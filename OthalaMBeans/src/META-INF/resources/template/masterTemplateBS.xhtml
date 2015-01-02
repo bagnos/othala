@@ -43,11 +43,6 @@
 
 	<ui:define name="script">
 		<script type="text/javascript">
-
-		
-  	
-    
-
 	 function menuHandler()
     {
   		try
@@ -57,7 +52,8 @@
   			 $("#tabNav>li").first().addClass("active");
   			 $("#tab-content>div").first().addClass("active");
   			 
-  			}*/  		  	    
+  			}*/  
+  					  	    
   		 (function($) {
 	  	        fakewaffle.responsiveTabs(['xs', 'sm']);
 	  	    })(jQuery);
@@ -98,24 +94,17 @@
     	       window.open(valueRepl);
     	       })
         });
-
-			}		
-      	
-        
+			}      	
      }
-  	  	
-
-
+  	  
 $( document ).ready(function() {
-
-	 menuHandler();
-	
+	 menuHandler();	
 });
   	
 		
 </script>
-
-	</ui:define>
+<ui:insert name="scriptPage"></ui:insert>
+</ui:define>
 
 
 </ui:composition>
