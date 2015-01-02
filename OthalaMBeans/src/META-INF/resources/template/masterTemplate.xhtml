@@ -25,7 +25,7 @@
 			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 			<meta charset="utf-8" />
 		</f:facet>
-	</h:head>
+	
 
 
 
@@ -34,7 +34,7 @@
 	<h:outputStylesheet name="mainWeb.min.css" library="css"></h:outputStylesheet>
 	<h:outputStylesheet name="main.min.css" library="public/css"></h:outputStylesheet>
 
-
+</h:head>
 
 	<!-- 
 	<h:outputStylesheet name="bootstrap.min.css" library="bootstrap/css"></h:outputStylesheet>
@@ -84,7 +84,7 @@
 	 -->
 		<h:outputScript name="main.min.js" library="public/js"></h:outputScript>
 
-		<ui:insert name="script" />
+	
 
 		<pe:blockUI widgetVar="blockAll">
         LOADING<br />
@@ -94,7 +94,7 @@
 
 
 
-
+			<ui:insert name="script" />
 	</h:body>
 
 </f:view>
