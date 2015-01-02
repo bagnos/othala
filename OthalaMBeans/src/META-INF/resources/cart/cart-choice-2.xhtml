@@ -12,6 +12,9 @@
 			<f:viewParam name="idPrd" value="#{cartChoice2View.idProduct}" />
 		</f:metadata>
 	</ui:define>
+	
+	
+	<ui:define name="title">#{msgSite.nomeMerchant} | #{cartFlowBean.detailProductFull.txBrand} | #{cartFlowBean.detailProductFull.txType} </ui:define>
 
 
 
@@ -152,11 +155,11 @@
 							<ul class="slides">
 								<ui:repeat var="image" value="#{cartFlowBean.detailProductFull.imagesUrl}">
 									<li><c:if test="#{cartChoice2View.requestComingFromAMobileDevice}">
-											<img class="img-responsive zoom" data-zoom-image=""
+											<img class="img-responsive zoom" title="#{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.txType}" alt="#{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.txType} #{cartFlowBean.detailProductFull.descriptionEN} number #{cartFlowBean.detailProductFull.idProduct}" data-zoom-image=""
 												src="#{request.contextPath}/faces/javax.faces.resource/#{image}?ln=images/cartThumbinals" />
 										</c:if> 
 										<c:if test="#{cartChoice2View.requestComingFromAMobileDevice==false}">
-											<img class="img-responsive zoom" title="#{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.txGender}" alt="#{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.txGender} #{cartFlowBean.detailProductFull.descriptionEN} number #{cartFlowBean.detailProductFull.idProduct}"
+											<img class="img-responsive zoom" title="#{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.txType}" alt="#{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.txType} #{cartFlowBean.detailProductFull.descriptionEN} number #{cartFlowBean.detailProductFull.idProduct}"
 												data-zoom-image="#{request.contextPath}/faces/javax.faces.resource/LARGE_#{image}?ln=images/cartThumbinals"
 												src="#{request.contextPath}/faces/javax.faces.resource/#{image}?ln=images/cartThumbinals" />
 										</c:if></li>
