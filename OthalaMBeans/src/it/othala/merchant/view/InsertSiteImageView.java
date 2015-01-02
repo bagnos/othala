@@ -18,6 +18,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.event.PhaseId;
 import javax.faces.model.SelectItem;
 
 import org.primefaces.event.FileUploadEvent;
@@ -34,6 +35,15 @@ public class InsertSiteImageView extends BaseView {
 	private List<GroupImagesDTO> groupImagesDTO = new ArrayList<>();
 	private GroupImagesDTO groupImagesSelected = null;
 	private List<AttributeDTO> gender;
+	private String txAlt;
+
+	public String getTxAlt() {
+		return txAlt;
+	}
+
+	public void setTxAlt(String txAlt) {
+		this.txAlt = txAlt;
+	}
 
 	public GroupImagesDTO getGroupImagesSelected() {
 		return groupImagesSelected;
@@ -172,6 +182,7 @@ public class InsertSiteImageView extends BaseView {
 		idTypeGroupImage = null;
 		groupImagesSelected = null;
 		imagesSiteGroup = null;
+		txAlt=null;
 		groupImagesDTO = OthalaFactory.getSiteImagesServiceInstance().getSiteImagesForUpdate();
 	}
 
@@ -189,65 +200,75 @@ public class InsertSiteImageView extends BaseView {
 
 	public void handleFileUpload(FileUploadEvent event) {
 		try {
-		UploadedFile file = event.getFile();
-		String fileResized = null;
+			if (!PhaseId.INVOKE_APPLICATION.equals(event.getPhaseId())) {
+				event.setPhaseId(PhaseId.INVOKE_APPLICATION);
+				event.queue();
+			} else {
+				// do stuff here, #{ngoPhotoBean.description} is set
 
-		if (groupImagesSelected.getFgGender() && (idGenderSelected == null || idGenderSelected.intValue() == -1)) {
-			addError("Inserimento immagine - selezionare una categoria","");
-			
-			return;
-		}
+				UploadedFile file = event.getFile();
+				String fileResized = null;
 
-		if (imagesSiteGroup.size() >= groupImagesSelected.getNrImages()) {
-			addError("Inserimento immagine - raggiunto il numero massi di immagini per il gruppo selezionato","");
-			return;
-		}
+				if (groupImagesSelected.getFgGender()
+						&& (idGenderSelected == null || idGenderSelected.intValue() == -1)) {
+					addError("Inserimento immagine - selezionare una categoria", "");
 
-		if (file == null) {
-			addError("Inserimento immagine - immagine non selezionata","");
-			return;
-		}
-
-		for (SiteImagesDTO img : imagesSiteGroup) {
-			if (img.getTxName().equalsIgnoreCase(file.getFileName())) {
-				addError("Inserimento immagine - immagine già presente","");
-				return;
-			}
-		}
-
-	
-			if (file != null) {
-
-				try {
-					fileResized = copyFile(file, groupImagesSelected);
-
-				} catch (IOException e) {
-					log.error("errore upload", e);
-					addError("Upload", file.getFileName() + " errore nell'upload");
+					return;
 				}
 
-				SiteImagesDTO siteImgDTO = new SiteImagesDTO();
+				if (imagesSiteGroup.size() >= groupImagesSelected.getNrImages()) {
+					addError("Inserimento immagine - raggiunto il numero massi di immagini per il gruppo selezionato",
+							"");
+					return;
+				}
 
-				siteImgDTO.setTxName(fileResized);
-				siteImgDTO.setTxLibrary(groupImagesSelected.getTxLibrary());
-				siteImgDTO.setTxGroupImages(groupImagesSelected.getTxGroupImages());
+				if (file == null) {
+					addError("Inserimento immagine - immagine non selezionata", "");
+					return;
+				}
 
-				if (groupImagesSelected.getFgGender()) {
-					siteImgDTO.setIdGender(idGenderSelected);
+				for (SiteImagesDTO img : imagesSiteGroup) {
+					if (img.getTxName().equalsIgnoreCase(file.getFileName())) {
+						addError("Inserimento immagine - immagine già presente", "");
+						return;
+					}
+				}
 
-					for (SelectItem group : genderGroup) {
-						if (((int) group.getValue()) == idGenderSelected.intValue()) {
-							siteImgDTO.setTxGender(group.getLabel());
-							break;
-						}
+				if (file != null) {
+
+					try {
+						fileResized = copyFile(file, groupImagesSelected);
+
+					} catch (IOException e) {
+						log.error("errore upload", e);
+						addError("Upload", file.getFileName() + " errore nell'upload");
 					}
 
-				}
-				siteImgDTO.setUrlRedirect(null);
-				imagesSiteGroup.add(siteImgDTO);
-				// addInfo("Upload", file.getFileName() +
-				// " è stata caricata correttamente");
+					SiteImagesDTO siteImgDTO = new SiteImagesDTO();
 
+					siteImgDTO.setTxName(fileResized);
+					siteImgDTO.setTxLibrary(groupImagesSelected.getTxLibrary());
+					siteImgDTO.setTxGroupImages(groupImagesSelected.getTxGroupImages());
+					siteImgDTO.setTxAlt(txAlt);
+
+					if (groupImagesSelected.getFgGender()) {
+						siteImgDTO.setIdGender(idGenderSelected);
+
+						for (SelectItem group : genderGroup) {
+							if (((int) group.getValue()) == idGenderSelected.intValue()) {
+								siteImgDTO.setTxGender(group.getLabel());
+								break;
+							}
+						}
+
+					}
+					siteImgDTO.setUrlRedirect(null);
+					imagesSiteGroup.add(siteImgDTO);
+
+					// addInfo("Upload", file.getFileName() +
+					// " è stata caricata correttamente");
+
+				}
 			}
 		} catch (Exception e) {
 			addGenericError(e, "errore inserimento immagine");
@@ -269,7 +290,6 @@ public class InsertSiteImageView extends BaseView {
 
 			fileResized = ResizeImageUtil.resizeAndCopyImageHome(inputStream, file.getFileName(), format,
 					groupSelected.getMaxWidth(), groupSelected.getMaxHeight());
-			
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

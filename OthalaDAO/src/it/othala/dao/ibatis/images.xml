@@ -12,7 +12,8 @@
 		a.pgGroupImages,
 		b.txLibrary,
 		a.txName,
-		a.urlRedirect
+		a.urlRedirect,
+		a.txAlt
 		FROM
 		${database.schema}site_images a,
 		${database.schema}group_images b
@@ -34,9 +35,9 @@
 
 		INSERT INTO
 		${database.schema}site_images
-		(`txGroupImages`,`pgGroupImages`,`txName`,`urlRedirect`,`idGender`)
+		(`txGroupImages`,`pgGroupImages`,`txName`,`urlRedirect`,`idGender`,`txAlt`)
 		values
-		(#{txGroupImages},#{pgGroupImages},#{txName},#{urlRedirect},#{idGender})
+		(#{txGroupImages},#{pgGroupImages},#{txName},#{urlRedirect},#{idGender},#{txAlt})
 
 	</insert>
 
@@ -50,7 +51,8 @@
 		a.pgGroupImages,
 		b.txLibrary,
 		a.txName,
-		a.urlRedirect
+		a.urlRedirect,
+		a.txAlt
 		FROM
 		${database.schema}site_images a,
 		${database.schema}group_images b
@@ -89,10 +91,10 @@
 		tab1.pgGroupImages,
 		tab1.txLibrary,
 		tab1.txName,
-
 		tab1.urlRedirect,
-			c.txGender,
-					tab1.idGender
+		c.txGender,
+		tab1.idGender,
+		tab1.txAlt
 		FROM
 
 		(
@@ -104,7 +106,8 @@
 		b.txLibrary,
 		a.txName,
 		a.idGender,
-		a.urlRedirect
+		a.urlRedirect,
+		a.txAlt
 
 		FROM
 		${database.schema}site_images a,

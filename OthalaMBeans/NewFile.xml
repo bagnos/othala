@@ -1,0 +1,44 @@
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+	<S:Header>
+		<ns:JSessionID wsa:IsReferenceParameter="true"
+			xmlns:ns="http://www.copergmps.it" xmlns:wsa="http://www.w3.org/2005/08/addressing">0102400062160912S5062735F948EE50.__JK_PASCHIFACE_LX103005850302
+		</ns:JSessionID>
+		<ns:RouterInfo wsa:IsReferenceParameter="true"
+			xmlns:ns="http://www.copergmps.it" xmlns:wsa="http://www.w3.org/2005/08/addressing">http://soa.copergmps.it/Verifica_AssegnazioneClassePSD_V01/Interfaccia/Verifica_AssegnazioneClassePSD_PortType_V01_01
+		</ns:RouterInfo>
+		<ns:Token wsa:IsReferenceParameter="true" xmlns:ns="http://www.copergmps.it"
+			xmlns:wsa="http://www.w3.org/2005/08/addressing">$1WM1:{5F93FB1B-9ACC-4ED2-85C5-EDD0E933560A}</ns:Token>
+		<ns:ContestoChiamata wsa:IsReferenceParameter="true"
+			xmlns:ns="http://www.copergmps.it" xmlns:wsa="http://www.w3.org/2005/08/addressing">IDRichiesta=5c6fb34b-7ee6-49d4-b4de-b9c84a87cc99,TSCreazione=09/12/14
+			16:09:02,IPAddressChiamata=10.241.35.242,AmbSoftwConsumer=SYSPROD,AppChiamante=it.copergmps.ef.pf.verificaassegnazioneclassepsd.Wrapper,IdConversazione=36637cfef8044290b2cbd83f782d1ff2,IdInterazione=iZi1HjBYKLuoFMlrgYcnTA==,IdAttivita=36637cfef8044290b2cbd83f782d1ff2,IdWorkingSituation=ba38fcf3e7da42469a0f2c676eb311d0,CdAttivita=W0055VENPT,CdWorkingSituation=W0055VENPT,LivelloGgs=0,LivelloEJB=0,CdChiamata=,TipoOper=null,Token=$1WM1:{5F93FB1B-9ACC-4ED2-85C5-EDD0E933560A},LogEnabled=false,Versione=2,CorrelationID=bfc499a0-7dce-49d1-8ee0-8d5cee37690e,isInBatch=false,Language=it,DtInizioGGS=09/12/14
+			16:09:02,ContextInterceptorCalled=false,TsInizioGGS=09122014160902525,TsInizioAttivita=09122014160856644,
+		</ns:ContestoChiamata>
+		<ns:CD wsa:IsReferenceParameter="true" xmlns:ns="http://www.copergmps.it"
+			xmlns:wsa="http://www.w3.org/2005/08/addressing">VCnERzt4uHIgPC2HgNGgUpBXQL4n6HnNexkx0hEOpeOz8168jAj+YOF94p/iWfvpgJ7o2/ZpxUIup0EvJL01JaxobV7nW0ale3v0ceMifjjX1FiIvKef7YL7jHQIZvW/09ci+LxhRHDJyNOxCP+TqwuLavNvqOJKr4jpoYBNnE+ZUeGyqWj5dqEJnNhC4ydYH6HlgxtidMAl/nx/HES89fTUTqy30peNFulzNWOnPZTIui/MLn3aQGkW7ek=
+		</ns:CD>
+		<ns:DatiRapporti wsa:IsReferenceParameter="true"
+			xmlns:ns="http://www.copergmps.it" xmlns:wsa="http://www.w3.org/2005/08/addressing">$1WM1:{5F93FB1B-9ACC-4ED2-85C5-EDD0E933560A}
+		</ns:DatiRapporti>
+		<ns:OperationInfo wsa:IsReferenceParameter="true"
+			xmlns:ns="http://www.copergmps.it" xmlns:wsa="http://www.w3.org/2005/08/addressing" />
+		<ns:To wsa:IsReferenceParameter="true" xmlns:ns="http://www.copergmps.it"
+			xmlns:wsa="http://www.w3.org/2005/08/addressing">https://services-ambiente--rac--azienda-local/Verifica_AssegnazioneClassePSD_Servizio_V01/VerificaAssegnazioneClassePSDServizioV01Bean
+		</ns:To>
+	</S:Header>
+	<S:Body>
+		<ns3:VerificaAssegnazioneClassePSD
+			xmlns:ns3="http://soa.copergmps.it/Verifica_AssegnazioneClassePSD_V01/Interfaccia"
+			xmlns:ns2="http://dtgov.soa.copergmps.it/Common/Schema">
+			<InputVerificaAssegnazioneClassePSD>
+				<CodiceAzienda>1030</CodiceAzienda>
+				<NGR>43642501</NGR>
+				<TipologiaCliente>SPF</TipologiaCliente>
+				<BankitSettore>600</BankitSettore>
+				<ServizioRapporto>CC</ServizioRapporto>
+				<TipologiaRapporto>ORD</TipologiaRapporto>
+				<CanaleOperatore>10</CanaleOperatore>
+				<IdPratica>562D5D4BE5E9425685026F5EC32323CB</IdPratica>
+			</InputVerificaAssegnazioneClassePSD>
+		</ns3:VerificaAssegnazioneClassePSD>
+	</S:Body>
+</S:Envelope>

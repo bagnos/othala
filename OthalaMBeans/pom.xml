@@ -55,23 +55,23 @@
 			<plugin>
 				<groupId>com.samaxes.maven</groupId>
 				<artifactId>minify-maven-plugin</artifactId>
-				
+
 				<version>1.6.2</version>
 				<executions>
 					<execution>
 						<id>default-minify</id>
 						<configuration>
-							
+
 							<webappSourceDir>${basedir}/src/META-INF/resources/resources</webappSourceDir>
 							<webappTargetDir>${basedir}/src/META-INF/resources/resources/public</webappTargetDir>
-							
+
 							<cssSourceIncludes>
 								<cssSourceInclude>*.css</cssSourceInclude>
 							</cssSourceIncludes>
-							 <cssFinalFile>main.css</cssFinalFile>							
+							<cssFinalFile>main.css</cssFinalFile>
 							<jsSourceIncludes>
 								<jsSourceInclude>*.js</jsSourceInclude>
-							</jsSourceIncludes>							
+							</jsSourceIncludes>
 							<jsFinalFile>main.js</jsFinalFile>
 							<jsEngine>CLOSURE</jsEngine>
 						</configuration>
@@ -211,7 +211,13 @@
 		</dependency>
 
 
-
+		<dependency>
+    <groupId>org.imgscalr</groupId>
+    <artifactId>imgscalr-lib</artifactId>
+    <version>4.2</version>
+    <type>jar</type>
+    <scope>compile</scope>
+  </dependency>
 
 
 

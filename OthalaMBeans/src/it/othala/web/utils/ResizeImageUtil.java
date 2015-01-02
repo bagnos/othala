@@ -48,15 +48,15 @@ public class ResizeImageUtil {
 	}
 
 	public static String resizeImageThumb(String fileThumb, String format) throws IOException {
-		
+
 		File fileIn = new File(getBasePath() + File.separator + fileThumb);
-		
+
 		int w = Integer.valueOf(ConfigurationUtil.getProperty("resizeImageThumbW"));
 		int h = Integer.valueOf(ConfigurationUtil.getProperty("resizeImageThumbH"));
 		String prefix = ConfigurationUtil.getProperty("prefixImageThumb");
 		String fileResized = fileIn.getParent() + File.separator + prefix + fileIn.getName();
 		Thumbnails.of(fileIn).size(w, h).outputFormat(format).toFile(fileResized);
-		
+
 		return prefix + fileIn.getName();
 	}
 
@@ -83,8 +83,8 @@ public class ResizeImageUtil {
 
 			String fileResized = resizeAndCopyImage(fileIS, getBasePath(), LARGE + nomeFile, format, w, h);
 			File fLarge = new File(fileResized);
-			String sampleName=fLarge.getName();
-			sampleName=sampleName.replace(LARGE, "");
+			String sampleName = fLarge.getName();
+			sampleName = sampleName.replace(LARGE, "");
 			isLarge = new FileInputStream(fLarge);
 
 			w = Integer.valueOf(ConfigurationUtil.getProperty("resizeImageW"));
@@ -116,8 +116,16 @@ public class ResizeImageUtil {
 
 	public static String resizeAndCopyImageHome(InputStream fileIS, String nomeFile, String format, int w, int h)
 			throws IOException {
-		String nomeOutFile= getNomeFile(nomeFile);
-		resizeAndCopyImage(fileIS, getBasePathHome(), getNomeFile(nomeFile), format, w, h);
+		String nomeOutFile = getNomeFile(nomeFile);
+
+		// mettere la dimensione del carosel a 1140*757
+		if (w > 1140) {
+			w = 1140;
+		}
+		if (h > 757) {
+			h = 757;
+		}
+		resizeAndCopyImage(fileIS, getBasePathHome(), nomeOutFile, format, w, h, 0.4d);
 		return nomeOutFile;
 	}
 
@@ -125,12 +133,21 @@ public class ResizeImageUtil {
 			int w, int h) throws IOException {
 
 		// fileIn.delete();
-		
+
+		return resizeAndCopyImage(fileIS, getBasePathHome(), getNomeFile(nomeFile), format, w, h, 0.9d);
+
+	}
+
+	private static String resizeAndCopyImage(InputStream fileIS, String basePathToCopy, String nomeFile, String format,
+			int w, int h, double quality) throws IOException {
+
+		// fileIn.delete();
+
 		String fileResized = basePathToCopy + File.separator + nomeFile;
-		Thumbnails.of(fileIS).size(w, h).outputFormat(format).outputQuality(0.9d).toFile(fileResized);
+		Thumbnails.of(fileIS).size(w, h).outputFormat(format).outputQuality(quality).toFile(fileResized);
 
 		return fileResized;
-		
+
 	}
 
 	public static void deleteImages(List<String> images) {
