@@ -182,7 +182,7 @@ INSERT INTO `gender` (`idGender`, `idLanguages`, `txGender`) VALUES
 
 
 
-INSERT INTO `group_images` VALUES ('carousel','images/home',20,757,1140,0),('new','images/home',1,130,260,0),('newArrivals','images/home',6,580,580,1),('promo','images/home',1,130,260,0),('tabNav','images/home',6,130,260,1);
+INSERT INTO `group_images` VALUES ('carousel','images/home',20,761,1140,0),('new','images/home',1,130,260,0),('newArrivals','images/home',6,580,580,1),('promo','images/home',1,130,260,0),('tabNav','images/home',6,130,260,1);
 
 
 INSERT INTO `ipnmessages` (`idOrder`, `idTransaction`, `tsInserimento`, `txMessage`, `txStato`, `txNote`, `fgElaborato`, `idRefund`) VALUES
