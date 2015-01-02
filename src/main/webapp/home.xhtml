@@ -44,7 +44,7 @@
 								varStatus="staCar">
 								<div class="#{staCar.first?'item active':'item'}">
 									<h:link outcome="#{imgCar.urlRedirect}">
-										<p:graphicImage styleClass="img-responsive"
+										<p:graphicImage styleClass="img-responsive" title="#{iimgCar.txAlt}"
 											library="#{imgCar.txLibrary}" name="#{imgCar.txName}" />
 									</h:link>
 								</div>
@@ -85,7 +85,7 @@
 					<div class="col-sm-6">
 						<div class="thumbnail thumbnail-home">
 							<h:link outcome="#{imgNewArr.urlRedirect}">
-								<p:graphicImage styleClass="img-responsive"
+								<p:graphicImage styleClass="img-responsive" alt="#{imgNewArr.txAlt}"
 									library="#{imgNewArr.txLibrary}" name="#{imgNewArr.txName}" />
 							</h:link>
 						</div>
