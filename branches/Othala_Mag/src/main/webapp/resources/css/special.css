@@ -1,3 +1,7 @@
+.navbar-inverse {
+background-color: #666!important;
+}
+
 .glyphicon-chevron-right,.glyphicon-chevron-left {
 	color: orange;
 }
