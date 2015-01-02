@@ -38,7 +38,7 @@
 							<ui:repeat var="imgCar" value="#{applicationBean.imgsCarousel}" varStatus="staCar">
 								<div class="#{staCar.first?'item active':'item'}">
 									<h:link outcome="#{imgCar.urlRedirect}">
-										<p:graphicImage styleClass="img-responsive" library="#{imgCar.txLibrary}"
+										<p:graphicImage styleClass="img-responsive" title="#{imgCar.txAlt}" alt="#{imgCar.txAlt}" library="#{imgCar.txLibrary}"
 											name="#{imgCar.txName}" />
 									</h:link>
 								</div>
@@ -79,7 +79,7 @@
 					<div class="col-sm-6">
 						<div class="thumbnail thumbnail-home">
 							<h:link outcome="#{imgNewArr.urlRedirect}">
-								<p:graphicImage styleClass="img-responsive" library="#{imgNewArr.txLibrary}"
+								<p:graphicImage styleClass="img-responsive" title="#{imgNewArr.txAlt}" alt="#{imgNewArr.txAlt}" library="#{imgNewArr.txLibrary}"
 									name="#{imgNewArr.txName}" style="max-height:100%" />
 							</h:link>
 						</div>
