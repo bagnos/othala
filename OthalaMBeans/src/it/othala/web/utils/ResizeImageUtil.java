@@ -119,12 +119,7 @@ public class ResizeImageUtil {
 		String nomeOutFile = getNomeFile(nomeFile);
 
 		// mettere la dimensione del carosel a 1140*757
-		if (w > 1140) {
-			w = 1140;
-		}
-		if (h > 757) {
-			h = 757;
-		}
+		
 		resizeAndCopyImage(fileIS, getBasePathHome(), nomeOutFile, format, w, h, 0.4d);
 		return nomeOutFile;
 	}
