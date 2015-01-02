@@ -74,7 +74,7 @@
 												<h:panelGroup id="registration">
 													<ui:include src="../sections/registration.xhtml" />
 													<p:commandButton id="ajaxReg" process="registration" validateClient="true"
-														update="registration @(form:first)" onerror="PF('blockAll').unblock();"
+														update="registration @(form:first) delivery" onerror="PF('blockAll').unblock();"
 														oncomplete="PF('blockAll').unblock();" onclick="PF('blockAll').block()"
 														styleClass="ui-priority-primary" actionListener="#{accessView.registrationWizard}"
 														value="#{msg.account_create}">

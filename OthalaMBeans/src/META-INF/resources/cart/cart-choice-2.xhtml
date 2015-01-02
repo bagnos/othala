@@ -131,7 +131,7 @@
 
 				<div class="row">
 					<!-- IMMAGINE PRINCIPALE E GALLERIA -->
-					<div class="col-md-5" style="z-index:1">
+					<div class="col-md-5" style="z-index: 1">
 
 
 
@@ -151,10 +151,15 @@
 						<div id="slider" class="flexslider">
 							<ul class="slides">
 								<ui:repeat var="image" value="#{cartFlowBean.detailProductFull.imagesUrl}">
-									<li><img class="img-responsive zoom"
-										data-zoom-image="#{request.contextPath}/faces/javax.faces.resource/LARGE_#{image}?ln=images/cartThumbinals"
-										src="#{request.contextPath}/faces/javax.faces.resource/#{image}?ln=images/cartThumbinals" />
-									</li>
+									<li><c:if test="#{cartChoice2View.requestComingFromAMobileDevice}">
+											<img class="img-responsive zoom" data-zoom-image=""
+												src="#{request.contextPath}/faces/javax.faces.resource/#{image}?ln=images/cartThumbinals" />
+										</c:if> 
+										<c:if test="#{cartChoice2View.requestComingFromAMobileDevice==false}">
+											<img class="img-responsive zoom" title="#{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.txGender}" alt="#{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.txGender} #{cartFlowBean.detailProductFull.descriptionEN} number #{cartFlowBean.detailProductFull.idProduct}"
+												data-zoom-image="#{request.contextPath}/faces/javax.faces.resource/LARGE_#{image}?ln=images/cartThumbinals"
+												src="#{request.contextPath}/faces/javax.faces.resource/#{image}?ln=images/cartThumbinals" />
+										</c:if></li>
 								</ui:repeat>
 
 							</ul>
@@ -163,7 +168,7 @@
 						<div id="carousel" class="flexslider">
 							<ul class="slides">
 								<ui:repeat var="image" value="#{cartFlowBean.detailProductFull.imagesUrl}">
-									<li><img
+									<li><img 
 										src="#{request.contextPath}/faces/javax.faces.resource/#{image}?ln=images/cartThumbinals" />
 									</li>
 								</ui:repeat>
@@ -304,7 +309,7 @@
 						</div>
 
 
-						
+
 						<div class="row guidaVisibile">
 
 							<h:panelGroup styleClass="col-sm-12" rendered="#{cartChoice2View.renderSize}">
@@ -339,8 +344,9 @@
 
 						<div class="row spacer20">
 							<div class="col-xs-6">
-								<p:commandButton rendered="#{cartFlowBean.singleProductCatalog==false}" icon="ui-icon-triangle-1-w btn-articolo-sel"
-									action="#{cartChoice2View.goToCatalogo}" value="#{msg.catalog_back}" />
+								<p:commandButton rendered="#{cartFlowBean.singleProductCatalog==false}"
+									icon="ui-icon-triangle-1-w btn-articolo-sel" action="#{cartChoice2View.goToCatalogo}"
+									value="#{msg.catalog_back}" />
 							</div>
 							<div class="col-xs-6">
 								<p:commandButton
@@ -372,7 +378,7 @@
 												rendered="#{art.idProduct!=cartFlowBean.detailProductFull.idProduct}">
 												<h:link outcome="cart-choice-2" rendered="#{art.idProduct != null}">
 
-													<h:graphicImage title="#{art.txBrand} #{art.description}" styleClass="img-responsive"
+													<h:graphicImage title="#{art.txBrand} #{art.description}" alt="#{art.txBrand} #{art.description}" styleClass="img-responsive"
 														library="images/cartThumbinals" name="#{art.thumbnailsUrl}" />
 													<f:param name="idPrd" value="#{art.idProduct}"></f:param>
 												</h:link>

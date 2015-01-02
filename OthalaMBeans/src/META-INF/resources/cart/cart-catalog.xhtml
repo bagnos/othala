@@ -208,7 +208,7 @@
 
 
 									<h:link outcome="cart-choice-2">
-										<h:graphicImage styleClass="center-block img-responsive"
+										<h:graphicImage styleClass="center-block img-responsive" title="#{art.txBrand} #{art.txGender}" alt="#{art.txBrand} #{art.txGender} #{art.descriptionEN}"
 											library="images/cartThumbinals"
 											name="#{art.imagesUrl.get(0)}" />
 										<f:param name="idPrd" value="#{art.idProduct}"></f:param>
@@ -218,7 +218,7 @@
 										<div class="row">
 											<div class="col-sm-12">
 												<div style="float: right">
-													<p:graphicImage id="imgArt" library="images"
+													<p:graphicImage id="imgArt" library="images" alt=" availiable #{art.colorsAsString} #{art.sizesAsString} "
 														name="info-thumb.png" />
 													<p:tooltip for="imgArt">
 

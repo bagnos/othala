@@ -61,8 +61,15 @@
 		</h:form>
 
 		<h:form enctype="multipart/form-data" prependId="false" id="frmImages">
-			<p:growl autoUpdate="true"></p:growl>
+			<p:growl autoUpdate="true" showDetail="false"></p:growl>
 			<h:panelGroup rendered="#{insertSiteImageView.idTypeGroupImage!=null}">
+				<div class="row spacer10">
+				<label for="txImmagine" class="control-label col-sm-2">Descrizione</label>
+				<div class="col-sm-4">
+					<p:inputText  id="txImmagine" label="descrizione immagine" maxlength="40" size="80" value="#{insertSiteImageView.txAlt}" required="true" placeholder="inserire descrizione immagine" />
+			
+				</div>
+				</div>
 				<div class="row spacer10">
 					<!-- immagini -->
 					<label for="immagini" class="control-label col-sm-2">Aggiungi Immagine</label>
@@ -78,10 +85,10 @@
 					</h:panelGroup>
 
 					<div class="col-sm-4">
-						<p:fileUpload fileUploadListener="#{insertSiteImageView.handleFileUpload}"
+						<p:fileUpload fileUploadListener="#{insertSiteImageView.handleFileUpload}" 
 							allowTypes="/(\.|\/)(gif|jpe?g|png)$/" onerror="PF('blockAll').unblock();"
-							oncomplete="PF('blockAll').unblock();" onstart="PF('blockAll').block()"
-							process="@this categoria" update="imgs" multiple="true" auto="true" />
+							oncomplete="PF('blockAll').unblock();" onstart="PF('blockAll').block();"
+							process="@this categoria txImmagine" update="imgs" multiple="true" auto="true" />
 					</div>
 
 				</div>
@@ -112,6 +119,10 @@
 
 							<p:column headerText="Nome" style="border-color:rgb(221, 221, 221)">
 								<h:outputText value="#{img.txName}" />
+							</p:column>
+							
+							<p:column headerText="Descrizione" style="border-color:rgb(221, 221, 221)">
+								<h:outputText value="#{img.txAlt}" />
 							</p:column>
 
 							<p:column headerText="Tipo Tab"

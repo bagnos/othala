@@ -16,6 +16,16 @@ public class SiteImagesDTO implements Serializable {
 	private String urlRedirect;
 	private String txGender;
 	private Integer idGender;
+	private String txAlt;
+
+	
+	public String getTxAlt() {
+		return txAlt;
+	}
+
+	public void setTxAlt(String txAlt) {
+		this.txAlt = txAlt;
+	}
 
 	public Integer getPgGroupImages() {
 		return pgGroupImages;
