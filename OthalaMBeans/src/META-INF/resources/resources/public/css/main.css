@@ -5,14 +5,11 @@
 	border: none;
 }
 
-.a1
-{
-	padding:0px;
+.a1 {
+	padding: 0px;
 }
 
-
-#artSel-well
-{
+#artSel-well {
 	padding-bottom: 0px !important;
 	margin-bottom: 0px !important;
 }
@@ -381,6 +378,10 @@
 	color: red !important;
 }
 
+.img-related-prds {
+	width: 130px;
+}
+
 /*
 #tab-content a {
 	font-size: 11px !important;;
@@ -396,7 +397,8 @@
 	font-size: 11px !important;;
 	color: #888 !important;;
 	padding: 0 0 0 11px;
-	background: url("#{resource['images:home/arw_link.gif']}")  no-repeat left !important;
+	background: url("#{resource['images:home/arw_link.gif']}") no-repeat
+		left !important;
 }
 
 .linkArt:hover {
@@ -407,8 +409,6 @@
 	padding-top: 20px !important;;
 	padding-bottom: 20px !important;;
 }
-
-
 
 .nav-tabs>li.active>a {
 	background-color: #f9f9f9 !important;
@@ -490,7 +490,7 @@
 
 html,body,form {
 	height: 100% !important;;;
-	margin:0 !important;
+	margin: 0 !important;
 }
 
 #wrap {
@@ -641,29 +641,63 @@ html,body,form {
 }
 
 .bwizard-steps
+
+
 .clickable
+
+
 li
+
+
 :not
+
+
 (
 .active
+
+
 )
 {
 cursor
+
+
 :
+
+
 pointer
+
+
 }
 .bwizard-steps
+
+
 .clickable
+
+
 li
+
+
 :hover
+
+
 :not
+
+
 (
 .active
+
+
 )
 {
 background
+
+
 :
+
+
 #ccc
+
+
 }
 .bwizard-steps.clickable li:hover:not (.active ):after {
 	border-left-color: #ccc
@@ -700,13 +734,19 @@ background
 		right: 15px;
 	}
 	#contentTabNav {
-	padding-top: 60px !important;;
-}
-	
+		padding-top: 60px !important;;
+	}
 }
 
 }
-@media ( max-width: @screen-md-max) {
+@media ( max-width : @screen-sm-max) {
+	.caption.articolo {
+		height: 20px !important;
+		overflow: hidden;
+	}
+}
+
+@media ( max-width : @screen-md-max) {
 	#content {
 		padding-top: 2px !important;
 		padding-bottom: 2px !important;
