@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="it.othala.images.queries">
+
+
+	<select id="listSiteImages" resultType="it.othala.dto.SiteImagesDTO">
+
+
+		SELECT
+
+		a.txGroupImages,
+		a.pgGroupImages,
+		b.txLibrary,
+		a.txName,
+		a.urlRedirect,
+		a.txAlt
+		FROM
+		${database.schema}site_images a,
+		${database.schema}group_images b
+		where
+		a.txGroupImages = b.txGroupImages;
+
+	</select>
+
+	<delete id="deleteSiteImages" parameterType="java.lang.String">
+
+		DELETE FROM
+		${database.schema}site_images
+		WHERE
+		txGroupImages = #{groupImage}
+
+	</delete>
+
+	<insert id="insertSiteImages" parameterType="it.othala.dto.SiteImagesDTO">
+
+		INSERT INTO
+		${database.schema}site_images
+		(`txGroupImages`,`pgGroupImages`,`txName`,`urlRedirect`,`idGender`,`txAlt`)
+		values
+		(#{txGroupImages},#{pgGroupImages},#{txName},#{urlRedirect},#{idGender},#{txAlt})
+
+	</insert>
+
+
+	<select id="getImage" parameterType="java.lang.String"
+		resultType="it.othala.dto.SiteImagesDTO">
+
+		SELECT
+
+		a.txGroupImages,
+		a.pgGroupImages,
+		b.txLibrary,
+		a.txName,
+		a.urlRedirect,
+		a.txAlt
+		FROM
+		${database.schema}site_images a,
+		${database.schema}group_images b
+		where
+		a.txGroupImages = #{string}
+		and
+		a.txGroupImages = b.txGroupImages;
+
+	</select>
+
+
+	<select id="listGroupImages" resultType="it.othala.dto.GroupImagesDTO">
+
+
+
+		SELECT
+		`txGroupImages`,
+		`txLibrary`,
+		`nrImages`,
+		`maxHeight`,
+		`maxWidth`,
+		`fgGender`
+		FROM ${database.schema}group_images;
+
+
+
+	</select>
+
+
+	<select id="getSiteImages" resultType="it.othala.dto.SiteImagesDTO"
+	parameterType="java.util.HashMap">
+
+		SELECT
+
+		tab1.txGroupImages,
+		tab1.pgGroupImages,
+		tab1.txLibrary,
+		tab1.txName,
+		tab1.urlRedirect,
+		c.txGender,
+		tab1.idGender,
+		tab1.txAlt
+		FROM
+
+		(
+
+		SELECT
+
+		a.txGroupImages,
+		a.pgGroupImages,
+		b.txLibrary,
+		a.txName,
+		a.idGender,
+		a.urlRedirect,
+		a.txAlt
+
+		FROM
+		${database.schema}site_images a,
+		${database.schema}group_images b
+		where
+		a.txGroupImages = b.txGroupImages
+		and a.txGroupImages = #{txGroupImages}
+		) tab1
+		left join
+		${database.schema}gender c
+
+		on tab1.idGender = c.idGender
+		and c.idLanguages = 'it'
+
+
+		;
+
+	</select>
+
+
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+	<properties resource="database.properties" />
+
+	<typeHandlers>
+		<typeHandler handler="it.othala.dao.typehandlers.UtilDateTypeHandler"
+			javaType="java.util.Date" />
+	</typeHandlers>
+
+
+	<mappers>
+		<mapper resource="it/othala/dao/ibatis/account.xml" /> 
+		<mapper resource="it/othala/dao/ibatis/newsletter.xml" />
+		<mapper resource="it/othala/dao/ibatis/product.xml" />
+		<mapper resource="it/othala/dao/ibatis/order.xml" />
+		<mapper resource="it/othala/dao/ibatis/images.xml" />
+		<mapper resource="it/othala/dao/ibatis/messageIpn.xml" />
+	</mappers>
+
+</configuration>
