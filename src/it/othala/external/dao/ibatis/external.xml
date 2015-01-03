@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="it.othala.external.queries">
+
+	<select id="getQtStock" resultType="Integer" parameterType="java.lang.String">
+
+		SELECT MAX(QtaGiacUmMag) QTA 
+		FROM Y_ARTICOLI_VARIANTI 
+		WHERE CodBarre = #{barcode}
+
+	</select>
+	
+	<resultMap id="ScontoFidelity" type="it.othala.dto.FidelityCardDTO">
+		<id property="idFidelity" column="NumeroFidelity" javaType="java.lang.String" />
+		<result property="pcSconto" column="ValoreSconto" />
+	</resultMap>
+	
+	<select id="getScontoFidelity" resultMap="ScontoFidelity" parameterType="java.lang.Integer">
+		
+		SELECT NumeroFidelity, ValoreSconto 
+		FROM Y_FIDELITY_CARDS_ESHOP 
+		WHERE NumeroFidelity = #{idFidelity}
+		
+	</select>
+
+
+</mapper>
