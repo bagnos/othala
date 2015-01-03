@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<order>
+	<imgLogo>
+	</imgLogo>
+	<customer>
+		<name></name>
+		<mail></mail>
+		<surname></surname>
+	</customer>
+
+	<number></number>
+	<transaction></transaction>
+	<imgPayment></imgPayment>
+	<deliveryCost></deliveryCost>
+	<totalCost></totalCost>
+
+	<billingAddress>
+		<name></name>
+		<surname></surname>
+		<tel></tel>
+		<street></street>
+		<zipCode></zipCode>
+		<city></city>
+		<prov></prov>
+	</billingAddress>
+	<shippingAddress>
+		<name></name>
+		<surname></surname>
+		<tel></tel>
+		<street></street>
+		<zipCode></zipCode>
+		<city></city>
+		<prov></prov>
+	</shippingAddress>
+	<cart>
+		<item>
+			<img></img>
+			<number></number>
+			<brand></brand>
+			<description></description>
+			<color></color>
+			<size></size>
+			<unitPrice></unitPrice>
+			<quantity></quantity>
+			<price></price>
+		</item>
+	</cart>
+</order>

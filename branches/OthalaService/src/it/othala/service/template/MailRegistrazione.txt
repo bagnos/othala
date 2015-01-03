@@ -1,0 +1,18 @@
+gentile <NAME>, 
+
+ringraziandoti per la tua registrazione ti diamo il benvenuto su <COMPANY_NAME>! 
+
+Questi i tuoi dati:
+
+----------------------------
+Username: <MAIL>
+
+Password: <PSW>
+----------------------------
+
+Accedi alla tua area riservata per modifcare i tuoi dati e visualizzare i tuoi ordini.
+Visita il sito http://<SITE><CONTEXT_ROOT>/faces/home.xhtml ed inizia il tuo Shopping!
+
+
+Buon Divertimento !
+ 
