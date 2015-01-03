@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd">
+
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreResourceNotFound" value="true" />
+		<property name="locations">
+			<list>
+				<value>classpath:database.properties</value>
+
+				<value>classpath:Configuration.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<!--  <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean"
+		scope="singleton">
+		<property name="jndiName" value="${database.jndi_name}" />
+		<property name="resourceRef" value="true" />
+	</bean>-->
+	
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">  
+     	<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>  
+     	<property name="url" value="jdbc:sqlserver://46.37.27.103:49522;database=esolver_eventi;instanceName=SISTEMI"/>  
+     	<property name="username" value="ecom_ev"/>  
+     	<property name="password" value="eventi!2014"/>    
+	</bean>
+
+
+	<bean id="SqlMapClient" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation">
+			<value>it/othala/external/dao/ibatis/configuration_ext.xml</value>
+		</property>
+	</bean>
+
+	<!-- <jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/othala" /> -->
+
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="get*" read-only="true" />
+			<tx:method name="*" rollback-for="Throwable" />
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+		<aop:pointcut id="txBeanMethods" expression="execution(* it.othala.external.service.*.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="txBeanMethods" />
+	</aop:config>
+
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	
+	<bean id="externalServices" class="it.othala.external.service.DegortesService" autowire="byType" >
+		
+	</bean>
+	
+	<bean id="externalDAO" class="it.othala.external.dao.ExternalDAO">
+		<property name="sqlSessionFactory" ref="SqlMapClient" />
+	</bean>
+		
+
+</beans> 
