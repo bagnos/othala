@@ -1,0 +1,671 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="it.othala.order.queries">
+
+	<resultMap id="Order" type="it.othala.dto.OrderFullDTO">
+		<id property="idOrder" column="idOrder" />
+		<result property="idUser" column="idUser" />
+		<result property="imOrdine" column="imOrdine" />
+		<result property="imOrdineSenzaSpese" column="imOrdineSenzaSpese" />
+
+		<result property="idStato" column="idStato" />
+		<result property="dtStato" column="dtStato" />
+		<result property="txNote" column="txNote" />
+		<result property="txStato" column="txStato" />
+		<result property="nameUser" column="txNome" />
+		<result property="surnameUser" column="txCognome" />
+		<result property="idTransaction" column="idTransaction" />
+		<result property="idTrackingNumber" column="idTrackingNumber" />
+		<result property="idFidelity" column="idFidelity" />
+		<result property="idCoupon" column="idCoupon" />
+		<result property="pcSconto" column="pcSconto" />
+		<collection property="billingAddress" ofType="it.othala.dto.DeliveryAddressDTO">
+			<result property="idAddress" column="idAddressBilling" />
+			<result property="userId" column="idUser" />
+			<result property="nome" column="txNomeBilling" />
+			<result property="cognome" column="txCognomeBilling" />
+			<result property="via" column="txViaBilling" />
+			<result property="comune" column="txComuneBilling" />
+			<result property="cap" column="cdCapBilling" />
+			<result property="provincia" column="txProvinciaBilling" />
+			<result property="nazione" column="txNazioneBilling" />
+			<result property="tel" column="txTelBilling" />
+			<result property="etichetta" column="etichettaBilling" />
+		</collection>
+		<collection property="shippingAddress" ofType="it.othala.dto.DeliveryAddressDTO">
+			<result property="idAddress" column="idAddressDelivery" />
+			<result property="userId" column="idUser" />
+			<result property="nome" column="txNomeDelivery" />
+			<result property="cognome" column="txCognomeDelivery" />
+			<result property="via" column="txViaDelivery" />
+			<result property="comune" column="txComuneDelivery" />
+			<result property="cap" column="cdCapDelivery" />
+			<result property="provincia" column="txProvinciaDelivery" />
+			<result property="nazione" column="txNazioneDelivery" />
+			<result property="tel" column="txTelDelivery" />
+			<result property="etichetta" column="etichettaDelivery" />
+		</collection>
+		<collection property="cart" ofType="it.othala.dto.ArticleFullDTO">
+			<result property="prdFullDTO.idProduct" column="idProdotto" />
+			<result property="pgArticle" column="pgArticle" />
+			<result property="qtBooked" column="qtArticle" />
+		</collection>
+		<collection property="speseSpedizione" ofType="it.othala.dto.DeliveryCostDTO">
+			<result property="idDeliveryCost" column="deliveryCost" />
+			<result property="descrizione" column="desSpeseSpedizione" />
+			<result property="importoSpese" column="speseSpedizione" />
+			<result property="descrizioneExt" column="txDescrizioneExt" />
+			<result property="linkTracking" column="txLinkTracking" />
+		</collection>
+	</resultMap>
+
+
+	<select id="listOrder" resultMap="Order" parameterType="java.util.HashMap">
+
+		SELECT
+		a.idOrder, a.idUser, a.imOrdine, a.idDeliveryCost,
+		a.idTransaction,
+		a.idAddressFat, a.idAddressSpe, a.idTrackingNumber,
+		a.idFidelity, a.idCoupon, a.pcSconto,
+		b.idProdotto,
+		b.pgArticle,(a.imOrdine-i.imSpese) as imOrdineSenzaSpese,
+		b.qtArticle,
+		c.idStato, c.dtStato, c.txNote,
+		d.txStato, f.IDAddress as
+		idAddressBilling,
+		f.txNome as txNomeBilling,f.txCognome as
+		txCognomeBilling,
+		f.txVia as txViaBilling, f.txComune as
+		txComuneBilling,
+		f.cdCap as cdCapBilling, f.txProvincia as
+		txProvinciaBilling,
+		f.txNazione as txNazioneBilling, f.txTel as
+		txTelBilling,
+		f.txEtichetta as
+		etichettaBilling, f.fgDeleted,
+		g.IDAddress as idAddressDelivery,
+		g.txNome as txNomeDelivery,
+		g.txCognome as txCognomeDelivery,
+		g.txVia as txViaDelivery, g.txComune
+		as txComuneDelivery,
+		g.cdCap as cdCapDelivery, g.txProvincia as
+		txProvinciaDelivery,
+		g.txNazione as txNazioneDelivery, g.txTel as
+		txTelDelivery,g.txEtichetta as
+		etichettaDelivery,
+		g.fgDeleted, h.txNome,
+		h.txCognome, i.idDeliveryCost as deliveryCost,
+		i.txDescrizione as
+		desSpeseSpedizione, i.imSpese as speseSpedizione,
+		i.txDescrizioneExt,
+		i.txLinkTracking
+		FROM
+		${database.schema}orders a,
+		${database.schema}orders_articles b,
+		${database.schema}states_orders c,
+		${database.schema}states d,
+		${database.schema}addresses f,
+		${database.schema}addresses g,
+		${database.schema}customer h,
+		${database.schema}delivery_cost i
+		WHERE a.idOrder = b.idOrder
+		and
+		a.idOrder = c.idOrder
+		and a.idAddressFat = f.idAddress
+		and
+		a.idAddressSpe = g.idAddress
+		and a.idDeliveryCost = i.idDeliveryCost
+		and a.idUser = h.idUser
+		and c.idStato = d.idStato
+		<if test="idOrder != null">
+			and a.idOrder = #{idOrder}
+		</if>
+		<if test="idUser != null">
+			and a.idUser = #{idUser}
+		</if>
+		<if test="idTransaction != null">
+			and a.idTransaction = #{idTransaction}
+		</if>
+		<if test="idStato != null">
+			and c.dtStato = (SELECT MAX(e.dtStato)
+			FROM
+			${database.schema}states_orders e
+			WHERE e.idOrder = a.idOrder)
+			and
+			c.idStato = #{idStato}
+		</if>
+		<if test="idStato == null">
+			and c.dtStato = (SELECT MAX(e.dtStato)
+			FROM
+			${database.schema}states_orders e
+			WHERE e.idOrder = a.idOrder)
+		</if>
+		<if test="fgStIns == false">
+			and c.idStato > 1
+		</if>
+
+	</select>
+
+
+	<insert id="insertOrder" parameterType="it.othala.dto.OrderFullDTO">
+
+		INSERT INTO
+		${database.schema}orders
+		(`idUser`,`imOrdine`,`idTransaction`,`idAddressFat`
+		,`idAddressSpe`,`idDeliveryCost`,`idTrackingNumber`,`idFidelity`,
+		`idCoupon`, `pcSconto` )
+		values (
+		#{idUser},#{imOrdine},null,
+		#{billingAddress.idAddress},
+		#{shippingAddress.idAddress},
+		#{speseSpedizione.idDeliveryCost},null, #{idFidelity}, #{idCoupon},
+		#{pcSconto})
+
+		<selectKey resultType="java.lang.Integer" keyProperty="idOrder">
+
+			SELECT LAST_INSERT_ID() AS idOrder
+
+		</selectKey>
+	</insert>
+
+	<update id="updateOrder" parameterType="java.util.HashMap">
+
+		UPDATE ${database.schema}orders
+		<set>
+			<if test="idTransaction != null">
+				idTransaction = #{idTransaction},
+			</if>
+			<if test="idTrackingNumber != null">
+				idTrackingNumber = #{idTrackingNumber}
+			</if>
+		</set>
+		WHERE idOrder = #{idOrder}
+
+	</update>
+
+	<insert id="insertOrdersArticles" parameterType="java.util.HashMap">
+
+		INSERT INTO
+		${database.schema}orders_articles
+		(`idOrder`,`idProdotto`,`pgArticle`,`qtArticle`)
+		values
+		(#{idOrder},#{idProdotto},#{pgArticle},#{qtArticle})
+
+	</insert>
+
+	<insert id="insertStatesOrders" parameterType="it.othala.dto.OrderFullDTO">
+		INSERT INTO
+		${database.schema}states_orders
+		(`idOrder`,`idStato`,`txNote`)
+		VALUES
+		(#{idOrder},1,#{txNote});
+
+	</insert>
+
+	<insert id="updateStatesOrders" parameterType="it.othala.dto.StateOrderDTO">
+		INSERT INTO
+		${database.schema}states_orders
+		(`idOrder`,`idStato`,`txNote`)
+		VALUES
+		(#{idOrder},#{idStato},#{txNote});
+
+	</insert>
+
+	<select id="deliveryAddresses" resultType="it.othala.dto.DeliveryAddressDTO"
+		parameterType="java.lang.String">
+
+		SELECT
+		a.idAddress, a.idUser as userId, a.txNome as
+		nome,a.txCognome as cognome,
+		a.txVia as via, a.txComune as comune,
+		a.cdCap as cap, a.txEtichetta as
+		etichetta,
+		a.txProvincia as provincia,
+		a.txNazione as nazione,
+		a.txTel as tel, c.idUser as userId
+		FROM
+		${database.schema}addresses a,
+		${database.schema}customer c
+		WHERE
+		a.idUser = #{userId} and
+		a.idUser = c.idUser
+		and
+		a.fgDeleted = 0
+		order by
+		a.idAddress desc
+
+	</select>
+	
+		<select id="deliveryAddressesSede" resultType="it.othala.dto.DeliveryAddressDTO"
+		parameterType="java.lang.Integer">
+
+		SELECT
+		a.idAddress, a.idUser as userId, a.txNome as
+		nome,a.txCognome as cognome,
+		a.txVia as via, a.txComune as comune,
+		a.cdCap as cap, a.txEtichetta as
+		etichetta,
+		a.txProvincia as provincia,
+		a.txNazione as nazione,
+		a.txTel as tel
+		FROM
+		${database.schema}addresses a
+
+		WHERE
+		a.idAddress = #{idAddress} 
+		and
+		a.fgDeleted = 0
+
+
+	</select>
+	
+	
+
+	<select id="deliveryCosts" resultType="it.othala.dto.DeliveryCostDTO">
+
+		SELECT a.idDeliveryCost,
+		txDescrizione as descrizione,
+		imSpese as importospese, txDescrizioneExt
+		as
+		descrizioneExt,
+		txLinkTracking as linkTracking,
+		idAddress
+		FROM
+		${database.schema}delivery_cost a,
+		${database.schema}delivery_nazioni b
+		WHERE
+		a.fgDeleted = 0
+		and a.idDeliveryCost = b.idDeliveryCost
+		and
+		b.idNazione = #{idNazione}
+
+
+	</select>
+
+	<insert id="insertAddress" parameterType="it.othala.dto.DeliveryAddressDTO">
+		INSERT INTO
+		${database.schema}addresses
+		(`idUser`,`txNome`,`txCognome`,`txVia`,
+		`txComune`,`cdCap`,
+		`txProvincia`,`txNazione`,`txTel`,`fgDeleted`,`txEtichetta`)
+		VALUES
+		(#{userId},#{nome},#{cognome},#{via},
+		#{comune},#{cap},#{provincia},#{nazione},#{tel},0,#{etichetta});
+
+		<selectKey resultType="java.lang.Integer" keyProperty="idAddress">
+
+			SELECT LAST_INSERT_ID() AS idAddress
+
+		</selectKey>
+
+	</insert>
+
+
+	<delete id="deleteAddress" parameterType="java.lang.Integer">
+
+		UPDATE
+		${database.schema}addresses
+		SET fgDeleted = 1
+		WHERE
+		idAddress =
+		#{idAddress}
+
+
+	</delete>
+
+	<delete id="deleteDeliveryCost" parameterType="java.lang.Integer">
+
+		UPDATE
+		${database.schema}delivery_cost
+		SET fgDeleted = 1
+		WHERE
+		idAddress =
+		#{idDeliveryCost}
+
+
+	</delete>
+
+	<insert id="insertDeliveryCost" parameterType="it.othala.dto.DeliveryCostDTO">
+		INSERT INTO
+		${database.schema}delivery_cost
+		(`txDescrizione`,`imSpese`,`fgDeleted`,`txDescrizioneExt`,`txLinkTracking`)
+		VALUES
+		(#{descrizione},#{importospese},0,#{descrizioneExt},#{linkTracking});
+
+	</insert>
+
+	<select id="listCoupons" resultType="it.othala.dto.CouponDTO"
+		parameterType="java.util.HashMap">
+
+		SELECT idCoupon, idUser, pcSconto, dtScadenza, qtUtilizzo
+		FROM
+		${database.schema}coupons
+		<where>
+			<if test="idCoupon != null">
+				idCoupon = #{idCoupon}
+			</if>
+			<if test="idUser != null">
+				and idUser = #{idUser}
+			</if>
+		</where>
+		order by idUser
+
+	</select>
+
+	<update id="burnCoupon" parameterType="java.lang.String">
+
+		UPDATE
+		${database.schema}coupons
+		SET qtUtilizzo = qtUtilizzo - 1
+		WHERE
+		idCoupon
+		=
+		#{idCoupon}
+
+
+	</update>
+
+
+	<delete id="deleteCoupon" parameterType="java.lang.String">
+
+		DELETE FROM
+		${database.schema}coupons
+		WHERE
+		idCoupon =
+		#{idCoupon}
+
+
+	</delete>
+
+
+	<update id="updateCoupon" parameterType="java.util.HashMap">
+
+		UPDATE
+		${database.schema}coupons
+		SET idUser = #{idUser},
+		pcSconto =
+		#{pcSconto},
+		dtScadenza = #{dtScadenza},
+		qtUtilizzo = #{qtUtilizzo}
+		WHERE
+		idCoupon = #{idCoupon}
+
+	</update>
+
+	<insert id="insertCoupon" parameterType="java.util.HashMap">
+
+		INSERT INTO
+		${database.schema}coupons
+		(`idCoupon`,
+		`idUser`,
+		`pcSconto`,
+		`dtScadenza`,
+		`qtUtilizzo`)
+		values
+		(#{idCoupon},#{idUser}, #{pcSconto},
+		#{dtScadenza}, #{qtUtilizzo})
+
+
+	</insert>
+
+
+
+	<insert id="insertRefound" parameterType="it.othala.dto.RefoundFullDTO">
+
+		INSERT INTO
+		${database.schema}order_refound
+		(`idOrder`,`idUser`,`idTransaction`,`imRefound`,`txChangeRefound`,
+		`fgChangeRefound`, `fgPartialRefound`)
+		values (
+		#{idOrder},#{idUser},#{idTransaction},
+		#{imRefound},#{txMotivoReso},#{fgChangeRefound},#{fgPartialRefound})
+
+		<selectKey resultType="java.lang.Integer" keyProperty="idRefound">
+
+			SELECT LAST_INSERT_ID() AS idRefound
+
+		</selectKey>
+	</insert>
+
+	<update id="updateRefound" parameterType="java.util.HashMap">
+
+		UPDATE ${database.schema}order_refound
+		<set>
+			<if test="idTransaction != null">
+				idTransaction = #{idTransaction},
+			</if>
+
+		</set>
+		WHERE idRefound = #{idRefound}
+
+	</update>
+
+	<insert id="insertRefoundArticles" parameterType="java.util.HashMap">
+
+		INSERT INTO
+		${database.schema}refound_articles
+		(`idRefound`,`idProdotto`,`pgArticle`,`qtArticle`,`fgChangeRefound`,`txChangeRefound`,`pgArticleNew`)
+		values
+		(#{idRefound},#{idProdotto},#{pgArticle},#{qtArticle},#{fgChangeRefound},#{txChangeRefound},#{pgArticleNew})
+
+	</insert>
+
+	<insert id="insertStatesRefound" parameterType="it.othala.dto.RefoundFullDTO">
+		INSERT INTO
+		${database.schema}states_refound
+		(`idRefound`,`idStato`,`txNote`)
+		VALUES
+		(#{idRefound},100,#{txNote});
+
+	</insert>
+
+	<insert id="updateStatesRefound" parameterType="java.util.HashMap">
+		INSERT INTO
+		${database.schema}states_refound
+		(`idRefound`,`idStato`,`txNote`)
+		VALUES
+		(#{idRefound},#{idStato},#{txNote});
+
+	</insert>
+
+	<resultMap id="Refound" type="it.othala.dto.RefoundFullDTO">
+		<id property="idRefound" column="idRefound" />
+		<result property="idOrder" column="idOrder" />
+		<result property="idUser" column="idUser" />
+		<result property="idTransaction" column="idTransaction" />
+		<result property="imRefound" column="imRefound" />
+		<result property="idStato" column="idStato" />
+		<result property="dtStato" column="dtStato" />
+		<result property="txNote" column="txNote" />
+		<result property="txStato" column="txStato" />
+		<result property="txMotivoReso" column="MotivoReso" />
+		<result property="fgChangeRefound" column="fgChangeRefound" />
+		<result property="fgPartialRefound" column="fgPartialRefound" />
+		<collection property="cart" ofType="it.othala.dto.ArticleRefounded">
+			<result property="prdFullDTO.idProduct" column="idProdotto" />
+			<result property="pgArticle" column="pgArticle" />
+			<result property="qtBooked" column="qtArticle" />
+			<result property="fgChangeRefound" column="fgChangeRefound" />
+			<result property="txChangeRefound" column="txChangeRefound" />
+			<result property="pgArticleChangeSelected" column="pgArticleNew" />
+		</collection>
+	</resultMap>
+
+
+	<select id="listRefounds" resultMap="Refound" parameterType="java.util.HashMap">
+
+		SELECT
+		a.idRefound, a.idOrder, a.idUser, a.imRefound, a.idTransaction,
+		a.txChangeRefound as MotivoReso,
+		a.fgChangeRefound, a.fgPartialRefound,
+		b.idProdotto, b.pgArticle, b.qtArticle, b.fgChangeRefound,
+		b.txChangeRefound,
+		b.pgArticleNew, c.idStato, c.dtStato, c.txNote,
+		d.txStato
+		FROM
+		${database.schema}order_refound a,
+		${database.schema}refound_articles
+		b,
+		${database.schema}states_refound
+		c,
+		${database.schema}states d
+		WHERE
+		a.idRefound = b.idRefound
+		and
+		a.idRefound = c.idRefound
+		and c.idStato =
+		d.idStato
+		<if test="idRefound != null">
+			and a.idRefound = #{idRefound}
+		</if>
+		<if test="idOrder != null">
+			and a.idOrder = #{idOrder}
+		</if>
+		<if test="idUser != null">
+			and a.idUser = #{idUser}
+		</if>
+		<if test="idTransaction != null">
+			and a.idTransaction = #{idTransaction}
+		</if>
+		<if test="fgChangeRefound != null">
+			and a.fgChangeRefound = #{fgChangeRefound}
+		</if>
+		<if test="idStato != null">
+			and c.dtStato = (SELECT MAX(e.dtStato)
+			FROM
+			${database.schema}states_refound e
+			WHERE e.idRefound = a.idRefound)
+			and c.idStato = #{idStato}
+		</if>
+		<if test="idStato == null">
+			and c.dtStato = (SELECT MAX(e.dtStato)
+			FROM
+			${database.schema}states_refound e
+			WHERE e.idRefound = a.idRefound)
+		</if>
+
+	</select>
+
+	<insert id="insertFidelityCard" parameterType="it.othala.dto.FidelityCardDTO">
+
+		INSERT INTO
+		${database.schema}FidelityCards
+		(`idFidelity`,`txNome`,`txCognome`,`dtRilascio`,`txEmail`,`txTel`,`pcSconto`)
+		values
+		(#{idFidelity},#{txNome},#{txCognome},#{dtRilascio},#{txEmail},#{txTel},#{pcSconto})
+
+	</insert>
+
+	<update id="updateFidelityCard" parameterType="java.util.HashMap">
+
+		UPDATE
+		${database.schema}FidelityCards
+		<set>
+			<if test="txNome != null">
+				txNome = #{txNome}
+			</if>
+			<if test="txCognome != null">
+				, txCognome = #{txCognome}
+			</if>
+			<if test="txEmail != null">
+				, txEmail = #{txEmail}
+			</if>
+			<if test="pcSconto != null">
+				, pcSconto = #{pcSconto}
+			</if>
+			<if test="txTel != null">
+				, txTel = #{txTel}
+			</if>
+		</set>
+		WHERE
+		idFidelity = #{idFidelity}
+
+
+	</update>
+
+	<select id="selectFidelityCard" resultType="it.othala.dto.FidelityCardDTO"
+		parameterType="java.util.HashMap">
+
+		SELECT * FROM
+		${database.schema}FidelityCards
+		<where>
+			<if test="idFidelity != null">
+				idFidelity = #{idFidelity}
+			</if>
+			<if test="txNome != null">
+				AND txNome = #{txNome}
+			</if>
+			<if test="txCognome != null">
+				AND txCognome = #{txCognome}
+			</if>
+			<if test="txEmail != null">
+				AND txEmail = #{txEmail}
+			</if>
+		</where>
+		order by pcSconto, txCognome
+
+
+	</select>
+
+	<delete id="deleteFidelityCard" parameterType="java.lang.String">
+
+		DELETE FROM
+		${database.schema}FidelityCards
+		WHERE
+		idFidelity = #{idFidelity}
+
+	</delete>
+
+	<select id="selectTotOrders" resultType="it.othala.dto.RendicontoOrdini"
+		parameterType="java.util.HashMap">
+
+		SELECT SUM(imOrdine) as impTotOrders, count(*) as
+		numTotOrders
+		FROM ${database.schema}orders a,
+		${database.schema}states_orders b
+		WHERE a.idOrder = b.idOrder
+		AND b.dtStato &gt;= #{dtDa} AND b.dtStato &lt;= #{dtA}
+		AND b.idStato = #{idStatoOrdine}
+
+
+	</select>
+
+	<select id="selectTotRefounds" resultType="it.othala.dto.RendicontoOrdini"
+		parameterType="java.util.HashMap">
+
+		SELECT SUM(imRefound) as impTotRefounds, count(*) as
+		numTotRefounds
+		FROM ${database.schema}order_refound a,
+		${database.schema}states_refound b
+		WHERE a.idRefound = b.idRefound
+		AND b.dtStato &gt;= #{dtDa} AND b.dtStato &lt;= #{dtA}
+		AND b.idStato = #{idStatoRefound}
+
+
+	</select>
+
+	<select id="checkRefoundArticle" resultType="Integer"
+		parameterType="java.util.HashMap">
+
+		SELECT
+		count(*)
+		FROM
+		${database.schema}order_refound A,
+		${database.schema}refound_articles B,
+		${database.schema}states_refound
+		C
+		where
+		A.idRefound = B.idRefound
+		and A.idRefound = C.idRefound
+		and A.idOrder = #{idOrder}
+		and B.idProdotto =#{idProdotto}
+		and B.pgArticle =#{pgArticle}
+		and C.idStato in (100,101,200,201)
+		and not exists (select 1 from
+		${database.schema}states_refound D
+		where A.idRefound = D.idRefound
+		and D.dtStato > C.dtStato );
+
+	</select>
+
+</mapper>

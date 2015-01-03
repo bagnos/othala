@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="it.othala.newsletter.queries">
+
+	
+	<select id="getMailNewsLetter" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+		SELECT count(txMail)
+		FROM
+		${database.schema}NEWSLETTER
+		WHERE txMail like #{txMail}
+	</select>
+
+	
+	
+	<insert id="insertMailNewsLetter" parameterType="java.util.HashMap">
+		INSERT INTO
+		${database.schema}NEWSLETTER (txMail)		
+		values
+		(#{email})
+	</insert>
+
+
+</mapper>
