@@ -9,7 +9,7 @@
 
 
 		<header>
-			<div class="navbar navbar-inverse navbar-static-top" style="background-image: url(#{request.contextPath}/faces/resources/images/static/tabBar.jpg)">
+			<div class="navbar navbar-inverse navbar-static-top" style="background-image: url(#{request.contextPath}/resources/images/static/tabBar.jpg)">
 				<div class="container">
 					<h:form id="navFormMerchant" prependId="false">
 
@@ -29,11 +29,11 @@
 										PRODOTTI <b class="caret"></b>
 									</a>
 									<ul class="dropdown-menu">
-										<li><a href="#{request.contextPath}/faces/merchant/insertProdotti.xhtml">Inserimento</a></li>
-										<li><a href="#{request.contextPath}/faces/merchant/cercaProdotti.xhtml">Ricerca</a></li>
+										<li><a href="#{request.contextPath}/merchant/insertProdotti.xhtml">Inserimento</a></li>
+										<li><a href="#{request.contextPath}/merchant/cercaProdotti.xhtml">Ricerca</a></li>
 										<li><a
-												href="#{request.contextPath}/faces/merchant/scaricaProdotto.xhtml?carico=false">Scarico</a></li>
-										<li><a href="#{request.contextPath}/faces/merchant/scaricaProdotto.xhtml?carico=true">Carico</a></li>
+												href="#{request.contextPath}/merchant/scaricaProdotto.xhtml?carico=false">Scarico</a></li>
+										<li><a href="#{request.contextPath}/merchant/scaricaProdotto.xhtml?carico=true">Carico</a></li>
 									</ul></li>
 							</ul>
 							<ul class="nav navbar-nav">
@@ -41,7 +41,7 @@
 										ORDINI <b class="caret"></b>
 									</a>
 									<ul class="dropdown-menu">
-										<li><a href="#{request.contextPath}/faces/merchant/cercaOrdini.xhtml">Ricerca</a></li>
+										<li><a href="#{request.contextPath}/merchant/cercaOrdini.xhtml">Ricerca</a></li>
 									</ul></li>
 							</ul>
 							<ul class="nav navbar-nav">
@@ -49,15 +49,15 @@
 										PROMOZIONI <b class="caret"></b>
 									</a>
 									<ul class="dropdown-menu">
-										<li><a href="#{request.contextPath}/faces/merchant/ricercaCampagne.xhtml">Ricerca
+										<li><a href="#{request.contextPath}/merchant/ricercaCampagne.xhtml">Ricerca
 												Campagne</a></li>
-										<li><a href="#{request.contextPath}/faces/merchant/generaCoupon.xhtml">Genera
+										<li><a href="#{request.contextPath}/merchant/generaCoupon.xhtml">Genera
 												Coupon</a></li>
-										<li><a href="#{request.contextPath}/faces/merchant/ricercaCoupon.xhtml">Ricerca
+										<li><a href="#{request.contextPath}/merchant/ricercaCoupon.xhtml">Ricerca
 												Coupon</a></li>
-												<li><a href="#{request.contextPath}/faces/merchant/inserisciFidelityCard.xhtml">Inserisci
+												<li><a href="#{request.contextPath}/merchant/inserisciFidelityCard.xhtml">Inserisci
 												Fidelity Card</a></li>
-												<li><a href="#{request.contextPath}/faces/merchant/ricercaFidelity.xhtml">Ricerca
+												<li><a href="#{request.contextPath}/merchant/ricercaFidelity.xhtml">Ricerca
 												Fidelity Card</a></li>
 												
 												
@@ -70,7 +70,7 @@
 										UTENTI <b class="caret"></b>
 									</a>
 									<ul class="dropdown-menu">
-										<li><a href="#{request.contextPath}/faces/merchant/ricercaAccount.xhtml">Ricerca
+										<li><a href="#{request.contextPath}/merchant/ricercaAccount.xhtml">Ricerca
 												Utenti</a></li>
 									</ul></li>
 							</ul>
@@ -79,8 +79,8 @@
 										IMMAGINI <b class="caret"></b>
 									</a>
 									<ul class="dropdown-menu">
-										<li><a href="#{request.contextPath}/faces/merchant/insertSiteImage.xhtml">Modifica</a></li>
-										<li><a href="#{request.contextPath}/faces/merchant/cleanSiteImage.xhtml">Pulizia</a></li>
+										<li><a href="#{request.contextPath}/merchant/insertSiteImage.xhtml">Modifica</a></li>
+										<li><a href="#{request.contextPath}/merchant/cleanSiteImage.xhtml">Pulizia</a></li>
 									</ul></li>
 							</ul>
 
@@ -149,7 +149,7 @@
 
 			<div class="row">
 				<div class="col-sm-2">
-					<a href="#{request.contextPath}/faces/merchant/home.xhtml">
+					<a href="#{request.contextPath}/merchant/home.xhtml">
 						<h:graphicImage library="images" styleClass="img-responsive" title="#{msg.navTab_goHome}"
 							name="logo2-small.png"></h:graphicImage>
 
