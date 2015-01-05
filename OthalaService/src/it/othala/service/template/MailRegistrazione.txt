@@ -11,7 +11,7 @@ Password: <PSW>
 ----------------------------
 
 Accedi alla tua area riservata per modifcare i tuoi dati e visualizzare i tuoi ordini.
-Visita il sito http://<SITE><CONTEXT_ROOT>/faces/home.xhtml ed inizia il tuo Shopping!
+Visita il sito http://<SITE><CONTEXT_ROOT>/home.xhtml ed inizia il tuo Shopping!
 
 
 Buon Divertimento !
