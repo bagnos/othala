@@ -1,7 +1,8 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
 	template="/template/masterTemplateBS.xhtml" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions">
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
 
 
 	<ui:define name="metadata">
@@ -33,12 +34,13 @@
 						<!-- Wrapper for slides -->
 						<div class="carousel-inner">
 							<ui:repeat var="imgCar" value="#{applicationBean.imgsCarousel}" varStatus="staCar">
-								<div class="#{staCar.first?'item active':'item'}">
+								<h:panelGroup styleClass="#{staCar.first?'item active':'item'}"
+									rendered="#{imgCar.txName!=null}">
 									<h:link outcome="#{imgCar.urlRedirect}">
 										<p:graphicImage styleClass="img-responsive" title="#{imgCar.txAlt}" alt="#{imgCar.txAlt}"
 											library="#{imgCar.txLibrary}" name="#{imgCar.txName}" />
 									</h:link>
-								</div>
+								</h:panelGroup>
 							</ui:repeat>
 
 						</div>
@@ -61,10 +63,8 @@
 
 			<div class="row">
 				<div class="col-sm-12">
-
-					<h1 style="text-align: center; background-color: #800000; font-size: -webkit-xxx-large;">
-						<h:outputText value="WHAT'S NEW" style="color:white" />
-
+					<h1 style="text-align: center; background-color: #800000; color: white">
+						<h:outputText value="WHAT'S NEW" />
 					</h1>
 				</div>
 			</div>
@@ -73,7 +73,8 @@
 			<div class="row">
 
 				<ui:repeat var="imgNewArr" value="#{applicationBean.imgsNewArrival}">
-					<div class="col-sm-6">
+
+					<h:panelGroup styleClass="col-sm-6" rendered="#{imgNewArr.txName!=null}">
 						<div class="thumbnail thumbnail-home">
 							<h:link outcome="#{imgNewArr.urlRedirect}">
 								<p:graphicImage styleClass="img-responsive" title="#{imgNewArr.txAlt}"
@@ -81,7 +82,7 @@
 									style="max-height:100%" />
 							</h:link>
 						</div>
-					</div>
+					</h:panelGroup>
 				</ui:repeat>
 
 			</div>
