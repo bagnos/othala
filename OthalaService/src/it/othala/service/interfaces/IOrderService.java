@@ -106,4 +106,6 @@ public interface IOrderService {
 	
 	public RendicontoOrdini getTotaliOrdini(Timestamp dtDa, Timestamp dtA, TypeStateOrder statoOrdine, TypeStateOrder statoRefound);
 	
+	
+	
 }
