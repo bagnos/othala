@@ -177,7 +177,7 @@ public abstract class BaseView implements Serializable {
 					.getExternalContext()
 					.redirect(
 							FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath()
-									+ "/faces/home.xhtml");
+									+ "/home.xhtml");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
