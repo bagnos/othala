@@ -3,65 +3,46 @@
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
-
-
-
 	<ui:define name="metadata">
 		<f:metadata>
 			<f:viewAction action="#{cartChoice2View.doInit}"></f:viewAction>
 			<f:viewParam name="idPrd" value="#{cartChoice2View.idProduct}" />
 		</f:metadata>
 	</ui:define>
-	
-	
+
 	<ui:define name="title">#{msgSite.nomeMerchant} | #{cartFlowBean.detailProductFull.txBrand} | #{cartFlowBean.detailProductFull.txType} </ui:define>
 
-
-
 	<ui:define name="fb">
-
 		<meta property="fb:app_id" content="1462056920726471" />
 		<meta property="og:type" content="product" />
 		<meta property="og:locale" content="en_US" />
 		<meta property="og:locale:alternate" content="it_IT" />
 		<meta property="og:url"
-			content="http://#{request.serverName}#{request.contextPath}/faces/cart/cart-choice-2.xhtml?idPrd=#{cartChoice2View.idProduct}" />
+			content="http://#{request.serverName}#{request.contextPath}/cart/cart-choice-2.xhtml?idPrd=#{cartChoice2View.idProduct}" />
 		<meta property="og:title" content="#{msgSite.nomeMerchant}" />
 		<meta property="og:description"
 			content="#{cartFlowBean.detailProductFull.txBrand} - #{cartFlowBean.detailProductFull.description}" />
 		<meta property="og:image"
-			content="http://#{request.serverName}#{request.contextPath}/faces/javax.faces.resource/#{cartFlowBean.detailProductFull.imagesUrl[0]}?ln=images/cartThumbinals" />
-
+			content="http://#{request.serverName}#{request.contextPath}/javax.faces.resource/#{cartFlowBean.detailProductFull.imagesUrl[0]}.xhtml?ln=images/cartThumbinals" />
 		<meta property="product:price:amount" content="#{cartChoice2View.priceStr}" />
 		<meta property="product:price:currency" content="EUR" />
 		<!-- 
 		<meta property="product:shipping_cost:amount" content="5" />
 		<meta property="product:shipping_cost:currency" content="EUR" />
 		-->
-
-
 		<meta property="product:sale_price:amount" content="#{cartChoice2View.priceDiscountedStr}" />
 		<meta property="product:sale_price:currency" content="EUR" />
-
 	</ui:define>
-
-
-
 	<ui:define name="content">
-
 		<div id="fb-root"></div>
-
-		<script>
-		 		
-		
-  window.fbAsyncInit = function() {
+		<script> 		
+	window.fbAsyncInit = function() {
     FB.init({
       appId      : '1462056920726471',
       xfbml      : true,
       version    : 'v2.1'
     });
   };
-
   (function(d, s, id){
      var js, fjs = d.getElementsByTagName(s)[0];
      if (d.getElementById(id)) {return;}
@@ -69,10 +50,8 @@
      js.src = "//connect.facebook.net/en_US/sdk.js";
      fjs.parentNode.insertBefore(js, fjs);
    }(document, 'script', 'facebook-jssdk'));
-
   $(window).load(function() {
-	  // The slider being synced must be initialized first
-	 
+	  // The slider being synced must be initialized first	 
 	  $('#carousel').flexslider({
 	    animation: "slide",
 	    controlNav: false,
@@ -81,8 +60,7 @@
 	    itemWidth: 90,
 	    itemMargin: 5,
 	    asNavFor: '#slider'
-	  });
-	   
+	  });	   
 	  $('#slider').flexslider({
 	    animation: "fade",
 	    controlNav: false,
@@ -92,34 +70,25 @@
 	  });
 	  	 $(".zoom").elevateZoom({
 	  		cursor: "crosshair"	
-			});
-	
+			});	
 		  $('#carouselRelatedPrds').flexslider({
 		    animation: "slide",
 		    animationLoop: false,
 		    itemWidth: 150,
 		    itemMargin: 5
-		  });
-	
+		  });	
 	});
       </script>
-
-
 		<!--  <div class="fb-like" data-share="true" data-width="450" data-show-faces="true"></div>-->
-
 		<h:form id="prd-detail" prependId="false">
-
-
-
 			<div class="container">
-
 				<!-- BREADCRUMB -->
 				<div class="row">
 					<ol class="breadcrumb breadcrumbLink" style="margin-top: 10px">
 						<ui:repeat var="bread" value="#{cartFlowBean.breadCrumb}" varStatus="stBread">
 							<li><h:link rendered="#{stBread.last}" outcome="cartFlow" value="#{bread}"
 									styleClass="active">
-								</h:link> <h:outputLink rendered="#{stBread.first}" value="#{request.contextPath}/faces/home.xhtml"
+								</h:link> <h:outputLink rendered="#{stBread.first}" value="#{request.contextPath}/home.xhtml"
 									styleClass="glyphicon glyphicon-home">
 									#{bread}
 									</h:outputLink> <h:outputLink rendered="#{stBread.first==false and stBread.last==false}" value="#">
@@ -128,74 +97,52 @@
 						</ui:repeat>
 					</ol>
 				</div>
-
-
-
-
 				<div class="row">
 					<!-- IMMAGINE PRINCIPALE E GALLERIA -->
 					<div class="col-md-5" style="z-index: 1">
-
-
-
-						<!-- 
-						<p:galleria value="#{cartFlowBean.detailProductFull.imagesUrl}" var="image" autoPlay="false"
-							panelWidth="400" panelHeight="543" showCaption="false" frameWidth="50" frameHeight="66">
-						 
-							<p:graphicImage
-								pt:data-zoom-image="/Othala/faces/javax.faces.resource/#{image}?ln=images/cartThumbinals"
-								id="prdPrinc" library="images/cartThumbinals" name="#{image}" />
-						
-							
-
-						</p:galleria>-->
-
-
 						<div id="slider" class="flexslider">
 							<ul class="slides">
 								<ui:repeat var="image" value="#{cartFlowBean.detailProductFull.imagesUrl}">
 									<li><c:if test="#{cartChoice2View.requestComingFromAMobileDevice}">
-											<img class="img-responsive zoom" title="#{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.txType}" alt="#{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.txType} #{cartFlowBean.detailProductFull.descriptionEN} number #{cartFlowBean.detailProductFull.idProduct}" data-zoom-image=""
-												src="#{request.contextPath}/faces/javax.faces.resource/#{image}?ln=images/cartThumbinals" />
-										</c:if> 
-										<c:if test="#{cartChoice2View.requestComingFromAMobileDevice==false}">
-											<img class="img-responsive zoom" title="#{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.txType}" alt="#{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.txType} #{cartFlowBean.detailProductFull.descriptionEN} number #{cartFlowBean.detailProductFull.idProduct}"
-												data-zoom-image="#{request.contextPath}/faces/javax.faces.resource/LARGE_#{image}?ln=images/cartThumbinals"
-												src="#{request.contextPath}/faces/javax.faces.resource/#{image}?ln=images/cartThumbinals" />
+											<img class="img-responsive zoom"
+												title="#{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.txType}"
+												alt="#{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.txType} #{cartFlowBean.detailProductFull.descriptionEN} number #{cartFlowBean.detailProductFull.idProduct}"
+												data-zoom-image=""
+												src="#{request.contextPath}/javax.faces.resource/#{image}.xhtml?ln=images/cartThumbinals" />
+										</c:if> <c:if test="#{cartChoice2View.requestComingFromAMobileDevice==false}">
+											<img class="img-responsive zoom"
+												title="#{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.txType}"
+												alt="#{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.txType} #{cartFlowBean.detailProductFull.descriptionEN} number #{cartFlowBean.detailProductFull.idProduct}"
+												data-zoom-image="#{request.contextPath}/javax.faces.resource/LARGE_#{image}.xhtml?ln=images/cartThumbinals"
+												src="#{request.contextPath}/javax.faces.resource/#{image}.xhtml?ln=images/cartThumbinals" />
 										</c:if></li>
 								</ui:repeat>
-
 							</ul>
 						</div>
-
 						<div id="carousel" class="flexslider">
 							<ul class="slides">
 								<ui:repeat var="image" value="#{cartFlowBean.detailProductFull.imagesUrl}">
-									<li><img 
-										src="#{request.contextPath}/faces/javax.faces.resource/#{image}?ln=images/cartThumbinals" />
+									<li><img
+										alt="#{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.txType}"
+										title="#{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.txType}"
+										src="#{request.contextPath}/javax.faces.resource/#{image}.xhtml?ln=images/cartThumbinals" />
 									</li>
 								</ui:repeat>
 							</ul>
 						</div>
-
 					</div>
-
-
-
 					<!-- DESCRZIONE ARTICOLE, TAGLIE E COLORI -->
-
 					<div class="col-md-5 articolo-sel" id="artSel">
 						<div class="row well trasparente" id="artSel-well"
 							style="padding-bottom: 0px !important; margin-bottom: 0px !important;">
 							<div class="col-sm-10">
-								<h4 style="margin-left: -15px">#{cartFlowBean.detailProductFull.txBrand}</h4>
-								<h5 style="margin-left: -15px">#{cartFlowBean.detailProductFull.description}</h5>
+								<h1 style="margin-left: -15px;font-size:18px">#{cartFlowBean.detailProductFull.txBrand}</h1>
+								<h2 style="margin-left: -15px;font-size:14px">#{cartFlowBean.detailProductFull.description}</h2>
 							</div>
 							<div class="col-sm-2">
 								<h:outputText styleClass="newPromo1" style="float:right"
 									rendered="#{cartFlowBean.detailProductFull.specialPrice != null and cartFlowBean.detailProductFull.specialPrice != 0}"
 									value="SPECIAL" />
-
 								<h:outputText styleClass="newPromo2" style="float:right"
 									rendered="#{(cartFlowBean.detailProductFull.specialPrice == null or cartFlowBean.detailProductFull.specialPrice == 0) and cartFlowBean.detailProductFull.discount != null and cartFlowBean.detailProductFull.discount != 0 and cartFlowBean.detailProductFull.idCampaign == null}"
 									value="#{cartFlowBean.detailProductFull.discount} %" />
@@ -203,52 +150,28 @@
 									rendered="#{(cartFlowBean.detailProductFull.specialPrice == null or cartFlowBean.detailProductFull.specialPrice == 0) and cartFlowBean.detailProductFull.discount != null and cartFlowBean.detailProductFull.discount != 0 and cartFlowBean.detailProductFull.idCampaign != null}"
 									value="#{cartFlowBean.detailProductFull.discount} %" />
 							</div>
-
 							<br />
 							<div class="row" style="font-size: 16px;">
 								<div class="col-sm-3">
-
 									<h:outputText value="#{msg.catalog_price}">
 									</h:outputText>
 								</div>
-
 								<div class="col-sm-3">
-
 									<h:outputText value="#{cartFlowBean.detailProductFull.price}"
 										styleClass="#{cartFlowBean.detailProductFull.discount!=null and cartFlowBean.detailProductFull.discount!=0?'onSale':''}">
 										<f:converter converterId="it.othala.BigDecimalConverter" />
 									</h:outputText>
-
 								</div>
-
 								<div class="col-sm-4">
-
 									<h:outputText value="#{cartFlowBean.detailProductFull.priceDiscounted}"
 										rendered="#{cartFlowBean.detailProductFull.price != cartFlowBean.detailProductFull.priceDiscounted}">
 										<f:converter converterId="it.othala.BigDecimalConverter" />
 									</h:outputText>
-
 								</div>
 							</div>
 							<br />
-							<div class="row">
-
-								<div class="col-sm-3">
-									<h:outputText value="#{msg.catalog_discounted}"
-										rendered="#{cartFlowBean.detailProductFull.price != cartFlowBean.detailProductFull.priceDiscounted}">
-									</h:outputText>
-								</div>
-								<div class="col-sm-4">
-									<h:outputText value="#{cartFlowBean.detailProductFull.imRisparmio}"
-										rendered="#{cartFlowBean.detailProductFull.price != cartFlowBean.detailProductFull.priceDiscounted}">
-										<f:converter converterId="it.othala.BigDecimalConverter" />
-									</h:outputText>
-								</div>
-							</div>
-
 							<h:panelGroup layout="block" id="pnl-scelte"
 								rendered="#{cartChoice2View.disponibile and cartChoice2View.renderSize}">
-
 								<div class="row">
 									<div class="col-sm-5">
 										<div class="form-group">
@@ -256,14 +179,11 @@
 												onclick="PF('dlgSize').show(); PF('dlgColor').hide();" id="cmdZise"
 												value="#{msg.catalog_chooseSize}" style="margin: 0 5px 5px !important;" />
 										</div>
-
 										<h:commandButton onclick="return false;" rendered="#{cartChoice2View.idSize!=null}"
 											disabled="true" styleClass="wish-list-tails" value="#{cartChoice2View.txSize}" />
-
 									</div>
 									<div class="col-sm-5">
 										<div class="form-group">
-
 											<p:commandButton styleClass="btnAddToWishList" disabled="#{cartChoice2View.idSize==null}"
 												onclick="PF('dlgColor').show(); PF('dlgSize').hide();"
 												value="#{msg.catalog_chooseColor}" id="cmdColor" style="margin: 0 5px 5px !important;" />
@@ -272,16 +192,10 @@
 											rendered="#{cartChoice2View.txColor!=null}" disabled="true" styleClass="wish-list-tails"
 											value="#{cartChoice2View.txColor}" />
 									</div>
-
 								</div>
-
-
-
-
 								<h:panelGroup style="display:none;" layout="block" id="qtaArt">
 									<div class="row">
 										<div class="col-sm-4">
-
 											<h:outputText rendered="#{cartChoice2View.min>0}" value="#{msg.catalog_qta}" />
 											<div>
 												<p:spinner id="spQta" rendered="#{cartChoice2View.min>0}"
@@ -292,59 +206,34 @@
 									</div>
 								</h:panelGroup>
 							</h:panelGroup>
-
-
 							<h:panelGroup id="pnl-nondisponibile" rendered="#{cartChoice2View.nondisponibile}"
 								style="color: red !important;	font-size: 18px;	font-weight: bold;	line-height: 18px;}">
 								<div class="row">
-
 									<div class="col-sm-12">
-
 										<h:outputText value="#{msg.nondisponibile}" />
-
-
 									</div>
 								</div>
-
 							</h:panelGroup>
-
-
 						</div>
-
-
-
 						<div class="row guidaVisibile">
-
 							<h:panelGroup styleClass="col-sm-12" rendered="#{cartChoice2View.renderSize}">
 								<p:graphicImage style="cursor: pointer;" onclick="PF('dlgTaglie').show();"
 									title="visualizza la guida delle taglie" id="imgArt" library="images" name="info-thumb.png" />
 								<span title="visualizza la guida delle taglie" style="cursor: pointer;"
 									onclick="PF('dlgTaglie').show();">Guida Taglie</span>
-
 							</h:panelGroup>
-
 						</div>
-
-
-
 						<div class="row spacer10">
 							<div class="col-sm-4">
 								<div class="fb-like" data-layout="button_count" data-share="true" data-width="450"
 									data-show-faces="true"></div>
-
-
 							</div>
 						</div>
-
-
 						<div class="row spacer20">
 							<div class="col-sm-12">
 								<h6>#{msg.catalog_notesDelivery}</h6>
 							</div>
 						</div>
-
-
-
 						<div class="row spacer20">
 							<div class="col-xs-6">
 								<p:commandButton rendered="#{cartFlowBean.singleProductCatalog==false}"
@@ -362,7 +251,6 @@
 						</div>
 					</div>
 				</div>
-
 				<h:panelGroup rendered="#{cartFlowBean.catalog.articles.size()!=1}">
 					<div class="row" style="margin-left: 0px; margin-right: 0px; margin-top: 40px;">
 						<div class="col-sm-12">
@@ -371,7 +259,6 @@
 								products:</h3>
 						</div>
 					</div>
-
 					<div class="row">
 						<div class="col-sm-12">
 							<div id="carouselRelatedPrds" class="flexslider">
@@ -380,57 +267,29 @@
 										<li style="width: 150px;"><h:panelGroup
 												rendered="#{art.idProduct!=cartFlowBean.detailProductFull.idProduct}">
 												<h:link outcome="cart-choice-2" rendered="#{art.idProduct != null}">
-
-													<h:graphicImage title="#{art.txBrand} #{art.description}" alt="#{art.txBrand} #{art.description}" styleClass="img-responsive"
+													<h:graphicImage title="#{art.txBrand} #{art.description}"
+														alt="#{art.txBrand} #{art.description}" styleClass="img-responsive"
 														library="images/cartThumbinals" name="#{art.thumbnailsUrl}" />
 													<f:param name="idPrd" value="#{art.idProduct}"></f:param>
 												</h:link>
-
 												<div class="row text-center">
-
 													<h5>
 														<h:outputText value="#{art.txBrand}">
-
 														</h:outputText>
 													</h5>
-
-
-													<!-- 
-												<h5>
-													<h:outputText value="#{art.price}"
-														styleClass="#{art.price != art.priceDiscounted?'onSale':''}">
-														<f:converter converterId="it.othala.BigDecimalConverter" />
-													</h:outputText>
-												</h5>
-
-
-
-												<h5>
-													<h:outputText value="#{art.priceDiscounted}"
-														rendered="#{art.price != art.priceDiscounted}">
-														<f:converter converterId="it.othala.BigDecimalConverter" />
-													</h:outputText>
-												</h5>
- -->
 												</div>
 											</h:panelGroup></li>
 									</ui:repeat>
 								</ul>
 							</div>
-
 						</div>
 					</div>
 				</h:panelGroup>
 			</div>
-
-
 			<p:dialog widgetVar="dlgTaglie" id="dlgTaglie" width="280" appendToBody="false"
 				styleClass="borderSizeColor" showHeader="false" header="GUIDA TAGLIE" closable="true"
 				closeOnEscape="true" resizable="false">
-
-
 				<div class="row">
-
 					<div class="col-sm-12">
 						<br />
 						<h3>
@@ -442,31 +301,21 @@
 					<span class="glyphicon glyphicon-remove footerClose" onclick="PF('dlgTaglie').hide()" />
 				</div>
 			</p:dialog>
-
-
 			<p:dialog widgetVar="dlgSize" id="dlgSize" width="190" appendToBody="false"
 				styleClass="borderSizeColor" showHeader="false" header="#{msg.catalog_chooseSize}"
 				closable="true" closeOnEscape="true" resizable="false">
-
 				<!-- <h6>#{msg.catalog_chooseSize}</h6>-->
-
 				<div class="row spacer30">
 					<div class="col-sm-12" style="padding: 0px">
-
 						<ui:repeat var="size" value="#{cartChoice2View.sizeItems}">
-
 							<h:commandLink style="font-size: 11px !important;"
 								onclick="$('#selSize').val('#{size.value}');$('#selSize').change();PF('dlgSize').hide(); return false;"
 								styleClass="wish-list-tails" value="#{size.label}">
 								<f:ajax render="pnl-scelte">
-
 									<f:attribute name="idSize" value="#{size.value}"></f:attribute>
 									<f:attribute name="txSize" value="#{size.label}"></f:attribute>
 								</f:ajax>
-
-
 							</h:commandLink>
-
 						</ui:repeat>
 						<h:selectOneMenu style="visibility:hidden;height:0px" id="selSize" styleClass="form-control"
 							value="#{cartChoice2View.idSize}">
@@ -480,12 +329,9 @@
 					<span class="glyphicon glyphicon-remove footerClose" onclick="PF('dlgSize').hide()" />
 				</div>
 			</p:dialog>
-
 			<p:dialog widgetVar="dlgColor" id="dlgColor" width="210" showHeader="false"
 				styleClass="borderSizeColor" header="#{msg.catalog_chooseColor}" closable="true"
 				closeOnEscape="true" resizable="false">
-
-				<!-- <h6 style="text-transform: uppercase">#{msg.catalog_chooseColor}</h6>-->
 				<div class="row spacer30">
 					<div class="col-sm-12" style="padding: 0px">
 						<ui:repeat var="colore" value="#{cartChoice2View.colorItems}">
@@ -506,10 +352,7 @@
 				<div class="footerSizeColor">
 					<span class="glyphicon glyphicon-remove footerClose" onclick="PF('dlgColor').hide()" />
 				</div>
-
 			</p:dialog>
 		</h:form>
-
-
 	</ui:define>
 </ui:composition>
