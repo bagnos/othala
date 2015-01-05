@@ -619,30 +619,60 @@
 	<select id="selectTotOrders" resultType="it.othala.dto.RendicontoOrdini"
 		parameterType="java.util.HashMap">
 
-		SELECT SUM(imOrdine) as impTotOrders, count(*) as
+		SELECT SUM(a.imOrdine - c.imSpese) as impTotOrders, count(*) as
 		numTotOrders
 		FROM ${database.schema}orders a,
-		${database.schema}states_orders b
+			${database.schema}states_orders b,
+			${database.schema}delivery_cost c
 		WHERE a.idOrder = b.idOrder
+		AND a.idDeliveryCost = c.idDeliveryCost
+		AND b.dtStato &gt;= #{dtDa} AND b.dtStato &lt;= #{dtA}
+		AND b.idStato = #{idStatoOrdine}
+
+	</select>
+	
+	<select id="selectTotArtOrders" resultType="java.lang.Integer"
+		parameterType="java.util.HashMap">
+
+		SELECT count(*) as numTotArticles
+		FROM ${database.schema}orders a,
+			${database.schema}states_orders b,
+			${database.schema}orders_articles c
+		WHERE a.idOrder = b.idOrder
+		AND a.idOrder = c.idOrder
 		AND b.dtStato &gt;= #{dtDa} AND b.dtStato &lt;= #{dtA}
 		AND b.idStato = #{idStatoOrdine}
 
 
 	</select>
 
-	<select id="selectTotRefounds" resultType="it.othala.dto.RendicontoOrdini"
+	<select id="selectTotRefounds" resultType="it.othala.dto.RendicontoRefound"
 		parameterType="java.util.HashMap">
 
 		SELECT SUM(imRefound) as impTotRefounds, count(*) as
 		numTotRefounds
 		FROM ${database.schema}order_refound a,
-		${database.schema}states_refound b
+			${database.schema}states_refound b
 		WHERE a.idRefound = b.idRefound
 		AND b.dtStato &gt;= #{dtDa} AND b.dtStato &lt;= #{dtA}
 		AND b.idStato = #{idStatoRefound}
 
+	</select>
+	
+	<select id="selectTotArtRefound" resultType="java.lang.Integer"
+		parameterType="java.util.HashMap">
+
+		SELECT count(*) as numTotArticles
+		FROM ${database.schema}order_refound a,
+			${database.schema}states_refound b,
+			${database.schema}refound_articles c
+		WHERE a.idRefound = b.idRefound
+		AND a.idRefound = c.idRefound 
+		AND b.dtStato &gt;= #{dtDa} AND b.dtStato &lt;= #{dtA}
+		AND b.idStato = #{idStatoRefound}
 
 	</select>
+	
 
 	<select id="checkRefoundArticle" resultType="Integer"
 		parameterType="java.util.HashMap">
