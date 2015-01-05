@@ -211,9 +211,7 @@ html,body,form {
 	display: none;
 }
 
-.caption.articolo {
-	height: 150px;
-}
+
 
 .onSale {
 	padding-right: 10px;
@@ -256,4 +254,10 @@ margin: 0px;
 
 .read_more_container a {
 	
+}
+
+@media ( max-width : 480px) {
+	.thumbnail { 
+	border: 0px !important;	
+	height:auto !important;
 }
