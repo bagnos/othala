@@ -9,6 +9,7 @@ import it.othala.dto.FidelityCardDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.RefoundFullDTO;
 import it.othala.dto.RendicontoOrdini;
+import it.othala.dto.RendicontoRefound;
 import it.othala.dto.StateOrderDTO;
 import it.othala.enums.TypeStateOrder;
 
@@ -386,26 +387,49 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO {
 			TypeStateOrder statoOrdine, TypeStateOrder statoRefound) {
 
 		HashMap<String, Object> mapOrder = new HashMap<>();
+		
 		mapOrder.put("dtDa", dtDa);
 		mapOrder.put("dtA", dtA);
 		if (statoOrdine != null)
 			mapOrder.put("idStatoOrdine", statoOrdine.getState());
 		else
 			mapOrder.put("idStatoOrdine", statoOrdine.SPEDITO.getState());
+
+		RendicontoOrdini rcoOrd = getSqlSession().selectOne(
+				"it.othala.order.queries.selectTotOrders", mapOrder);
+		
+		Integer totArt = getSqlSession().selectOne(
+				"it.othala.order.queries.selectTotArtOrders", mapOrder);
+		
+		rcoOrd.setNumTotArticles(totArt);
+		
+		return rcoOrd;
+	}
+	
+	@Override
+	public RendicontoRefound getTotaliRefound(Timestamp dtDa, Timestamp dtA,
+			TypeStateOrder statoOrdine, TypeStateOrder statoRefound) {
+		HashMap<String, Object> mapOrder = new HashMap<>();
+		
+		mapOrder.put("dtDa", dtDa);
+		mapOrder.put("dtA", dtA);
 		if (statoRefound != null)
 			mapOrder.put("idStatoRefound", statoRefound.getState());
 		else
 			mapOrder.put("idStatoRefound",
 					statoRefound.REFOUND_COMPLETED.getState());
 
-		RendicontoOrdini rcoOrd = getSqlSession().selectOne(
-				"it.othala.order.queries.selectTotOrders", mapOrder);
-		RendicontoOrdini rcoRef = getSqlSession().selectOne(
+		RendicontoRefound rcoRef = getSqlSession().selectOne(
 				"it.othala.order.queries.selectTotRefounds", mapOrder);
-		rcoOrd.setImpTotRefounds(rcoRef.getImpTotRefounds());
-		rcoOrd.setNumTotRefounds(rcoRef.getNumTotRefounds());
+		
+		Integer totArt = getSqlSession().selectOne(
+				"it.othala.order.queries.selectTotArtRefound", mapOrder);
 
-		return rcoOrd;
+		
+		rcoRef.setNumTotArticles(totArt);
+		
+		return rcoRef;
+
 	}
 
 	@Override
