@@ -1,6 +1,7 @@
 package it.othala.dto;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 public class RendicontoOrdini implements Serializable {
 	/**
@@ -8,15 +9,14 @@ public class RendicontoOrdini implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private int impTotOrders;
+	private BigDecimal impTotOrders;
 	private int numTotOrders;
-	private int impTotRefounds;
-	private int numTotRefounds;
+	private int numTotArticles;
 	
-	public int getImpTotOrders() {
+	public BigDecimal getImpTotOrders() {
 		return impTotOrders;
 	}
-	public void setImpTotOrders(int impTotOrders) {
+	public void setImpTotOrders(BigDecimal impTotOrders) {
 		this.impTotOrders = impTotOrders;
 	}
 	public int getNumTotOrders() {
@@ -25,18 +25,11 @@ public class RendicontoOrdini implements Serializable {
 	public void setNumTotOrders(int numTotOrders) {
 		this.numTotOrders = numTotOrders;
 	}
-	public int getImpTotRefounds() {
-		return impTotRefounds;
+	public int getNumTotArticles() {
+		return numTotArticles;
 	}
-	public void setImpTotRefounds(int impTotRefounds) {
-		this.impTotRefounds = impTotRefounds;
+	public void setNumTotArticles(int numTotArticles) {
+		this.numTotArticles = numTotArticles;
 	}
-	public int getNumTotRefounds() {
-		return numTotRefounds;
-	}
-	public void setNumTotRefounds(int numTotRefounds) {
-		this.numTotRefounds = numTotRefounds;
-	}
-
 
 }
