@@ -1,5 +1,6 @@
 package it.othala.cartflow.view;
 
+import it.othala.cartflow.model.CartFlowBean;
 import it.othala.dto.AttributeDTO;
 import it.othala.dto.CampaignDTO;
 import it.othala.dto.MenuDTO;
@@ -20,6 +21,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 
+import org.apache.commons.lang3.StringUtils;
+
 /*@Named
  @javax.faces.view.ViewScoped*/
 // @javax.faces.flow.FlowScoped("cartFlow")
@@ -34,6 +37,11 @@ public class CartFlowView1 extends BaseView {
 	private int endIndex = 0;
 	private String classForw;
 	private String classBack;
+	private String category;
+
+	public String getCategory() {
+		return category;
+	}
 
 	public String getClassForw() {
 		return classForw;
@@ -47,16 +55,15 @@ public class CartFlowView1 extends BaseView {
 	public String doInit() {
 		// TODO Auto-generated method stub
 		initBean();
-		
+
 		callServiceProduct(1);
 
 		updateBreadCrumb();
 
 		return null;
 	}
-	
-	private void initBean()
-	{
+
+	private void initBean() {
 		getCartFlowBean().getCatalog().setColor(null);
 		getCartFlowBean().getCatalog().setSize(null);
 		getCartFlowBean().getCatalog().setIncludePromo(false);
@@ -210,23 +217,25 @@ public class CartFlowView1 extends BaseView {
 		initPaginator(page);
 		redirectOneProduct();
 	}
-	
-	
-	private void redirectOneProduct()
-	{
+
+	private void redirectOneProduct() {
 		getCartFlowBean().setSingleProductCatalog(false);
-		if (getCartFlowBean().getCatalog().getArticles()!=null && getCartFlowBean().getCatalog().getArticles().size()==1)
-		{
+		if (getCartFlowBean().getCatalog().getArticles() != null
+				&& getCartFlowBean().getCatalog().getArticles().size() == 1) {
 			try {
 				getCartFlowBean().setSingleProductCatalog(true);
-				FacesContext.getCurrentInstance().getExternalContext().redirect("cart-choice-2.xhtml?idPrd="+getCartFlowBean().getCatalog().getArticles().get(0).getIdProduct());
+				FacesContext
+						.getCurrentInstance()
+						.getExternalContext()
+						.redirect(
+								"cart-choice-2.xhtml?idPrd="
+										+ getCartFlowBean().getCatalog().getArticles().get(0).getIdProduct());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				log.error("errore redirect prodotto singolo", e);
 			}
 		}
-		
-		
+
 	}
 
 	public void updateBreadCrumb() {
@@ -243,28 +252,28 @@ public class CartFlowView1 extends BaseView {
 
 		}
 
-		//aggiungo il submenu
+		// aggiungo il submenu
 		if (getCartFlowBean().getCatalog().getIdSubMenu() != null) {
 			Integer idMenu = getCartFlowBean().getCatalog().getIdMenu();
 			Integer idSubMenu = getCartFlowBean().getCatalog().getIdSubMenu();
 
 			if (idMenu != null && idSubMenu != null) {
-				//getCartFlowBean().getBreadCrumb().add("");
+				// getCartFlowBean().getBreadCrumb().add("");
 				for (MenuDTO m : getBeanApplication().getMenu()) {
 					if (m.getIdGender() == idMenu.intValue()) {
-						//getCartFlowBean().getBreadCrumb().add(m.getTxGender());
+						// getCartFlowBean().getBreadCrumb().add(m.getTxGender());
 						for (SubMenuDTO sm : m.getSubMenu()) {
 							if (sm.getIdType() == idSubMenu.intValue()) {
 								getCartFlowBean().getBreadCrumb().add(sm.getTxType());
-								break;	
+								break;
 							}
 						}
 					}
 				}
 			}
 
-		} else if (getCartFlowBean().getCatalog().getFgNewArrivals() == true) {			
-			
+		} else if (getCartFlowBean().getCatalog().getFgNewArrivals() == true) {
+
 			getCartFlowBean().getBreadCrumb().add(OthalaUtil.getWordBundle("catalog_newArrival"));
 		} else if (getCartFlowBean().getCatalog().getBrand() != null) { // brand
 			for (AttributeDTO attr : getBeanApplication().getBrandDTO()) {
@@ -274,18 +283,18 @@ public class CartFlowView1 extends BaseView {
 				}
 			}
 
-		}
-		else if(getCartFlowBean().getCatalog().isIncludePromo())
-		{
+		} else if (getCartFlowBean().getCatalog().isIncludePromo()) {
 			getCartFlowBean().getBreadCrumb().add(OthalaUtil.getWordBundle("catalog_promo"));
-			for (CampaignDTO c: getBeanApplication().getCampaigns())
-			{
-				if (c.getIdCampaign().intValue()==getCartFlowBean().getCatalog().getIdCampaign())
-				{
+			for (CampaignDTO c : getBeanApplication().getCampaigns()) {
+				if (c.getIdCampaign().intValue() == getCartFlowBean().getCatalog().getIdCampaign()) {
 					getCartFlowBean().getBreadCrumb().add(c.getTxCampaign());
 				}
 			}
 		}
+		if (getCartFlowBean().getBreadCrumb() != null) {
+			category = StringUtils.join(getCartFlowBean().getBreadCrumb(), " ");
+		}
+
 	}
 
 }
