@@ -11,50 +11,40 @@
 						data-target=".navbar-collapse">
 						<span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand visible-xs visible-sm" href="#{request.contextPath}/home.xhtml" style="padding:4px;">
-						 
+					<a class="navbar-brand visible-xs visible-sm" href="#{request.contextPath}/home.xhtml"
+						style="padding: 4px;">
 						<h:graphicImage library="images" styleClass="img-responsive" title="#{msg.navTab_goHome}"
 							name="logoMobile.png" style="padding-bottom:10px"></h:graphicImage>
-						
 					</a>
-					
-
 					<ul class="nav navbar-nav">
-						<li class="dropdown pull-right visible-xs"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
-								style="color: white">
+						<li class="dropdown pull-right visible-xs"><a href="#" class="dropdown-toggle"
+								data-toggle="dropdown" style="color: white">
 								<span class="glyphicon glyphicon-shopping-cart"></span>
 								<h:outputText styleClass="hidden-xs" value="#{msg.header_Cart}" />
-								<h:outputText  value="(#{cartFlowBean.cart.size()})" />
+								<h:outputText value="(#{cartFlowBean.cart.size()})" />
 								<h:panelGroup rendered="#{cartFlowBean.cart.size()>0}">
 									<b class="caret"></b>
 								</h:panelGroup>
-
 							</a> <h:panelGroup rendered="#{cartFlowBean.cart.size()>0}">
 								<ul class="dropdown-menu">
-
 									<li><a class="dropdown-toggle"
 											href="#{request.contextPath}/cart/cart-selected-3.xhtml">
 											<h:outputText value="#{msg.header_viewCart}" />
 										</a></li>
-
-									<li><h:commandLink  actionListener="#{myAccountView.clearCart}">
+									<li><h:commandLink actionListener="#{myAccountView.clearCart}">
 											<h:outputText value="#{msg.header_clearCart}" />
 										</h:commandLink></li>
-
 								</ul>
 							</h:panelGroup></li>
-
-
 					</ul>
 				</div>
-
-
 				<div class="collapse navbar-collapse navbar-right">
 					<ul class="nav navbar-nav pull-right">
 						<!-- LANGUAGE -->
 						<li class="dropdown "><a href="#" class="dropdown-toggle" data-toggle="dropdown"
 								style="color: white">
-								<h:graphicImage width="20px" height="20px" library="images" name="flag_#{localeManager.language}.png" />
+								<h:graphicImage width="20px" height="20px" alt="language site" library="images"
+									name="flag_#{localeManager.language}.png" />
 								<h:outputText value="Language" style="margin-left:3px" />
 								<b class="caret"></b>
 							</a>
@@ -68,34 +58,25 @@
 										<h:outputText value="ENGLISH" />
 									</h:commandLink></li>
 							</ul></li>
-						<!-- <li class="dropdown">-->
-
-<li class="dropdown hidden-xs"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
+						<li class="dropdown hidden-xs"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
 								style="color: white">
 								<span class="glyphicon glyphicon-shopping-cart"></span>
 								<h:outputText styleClass="hidden-xs" value="#{msg.header_Cart}" />
-								<h:outputText  value="(#{cartFlowBean.cart.size()})" />
+								<h:outputText value="(#{cartFlowBean.cart.size()})" />
 								<h:panelGroup rendered="#{cartFlowBean.cart.size()>0}">
 									<b class="caret"></b>
 								</h:panelGroup>
-
 							</a> <h:panelGroup rendered="#{cartFlowBean.cart.size()>0}">
 								<ul class="dropdown-menu">
-
 									<li><a class="dropdown-toggle"
 											href="#{request.contextPath}/cart/cart-selected-3.xhtml">
 											<h:outputText value="#{msg.header_viewCart}" />
 										</a></li>
-
 									<li><h:commandLink id="clearCart" actionListener="#{myAccountView.clearCart}">
 											<h:outputText value="#{msg.header_clearCart}" />
 										</h:commandLink></li>
-
 								</ul>
 							</h:panelGroup></li>
-
-
-
 						<h:panelGroup rendered="#{customerLoginBean.name==null}">
 							<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
 									style="color: white">
@@ -112,13 +93,12 @@
 											class="dropdown-toggle">
 											<h:outputText value="#{msg.header_registration}" />
 										</a></li>
-										<li><a href="#{request.contextPath}/account/requestResetPsw.xhtml"
+									<li><a href="#{request.contextPath}/account/requestResetPsw.xhtml"
 											class="dropdown-toggle">
 											<h:outputText value="#{msg.account_assistanceResetPsw}" />
 										</a></li>
 								</ul></li>
 						</h:panelGroup>
-
 						<h:panelGroup rendered="#{not empty customerLoginBean.name}">
 							<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
 									style="color: white">
@@ -130,16 +110,13 @@
 									<li><h:commandLink ajax="false" actionListener="#{accessView.logout}">
 											<h:outputText value="#{msg.header_logout}" />
 										</h:commandLink></li>
-									<li><a href="#{request.contextPath}/account/myAccount.xhtml"
-											class="dropdown-toggle">
+									<li><a href="#{request.contextPath}/account/myAccount.xhtml" class="dropdown-toggle">
 											<h:outputText value="#{msg.account_myAccount}" />
 										</a></li>
-									<li><a href="#{request.contextPath}/account/myOrders.xhtml"
-											class="dropdown-toggle">
+									<li><a href="#{request.contextPath}/account/myOrders.xhtml" class="dropdown-toggle">
 											<h:outputText value="#{msg.account_myOrders}" />
 										</a></li>
-									<li><a
-											href="#{request.contextPath}/account/myMerchantRequest.xhtml?richiedireso=true"
+									<li><a href="#{request.contextPath}/account/myMerchantRequest.xhtml?richiedireso=true"
 											class="dropdown-toggle">
 											<h:outputText value="#{msg.account_myReturns}" />
 										</a></li>
@@ -148,9 +125,6 @@
 											class="dropdown-toggle">
 											<h:outputText value="#{msg.account_myChanges}" />
 										</a></li>
-
-
-
 								</ul></li>
 						</h:panelGroup>
 					</ul>

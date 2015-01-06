@@ -2,8 +2,6 @@
 	template="/template/masterTemplateBS.xhtml" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions">
-
-
 	<ui:define name="metadata">
 		<f:metadata>
 			<f:viewAction action="#{cartFlowView1.doInit}"></f:viewAction>
@@ -12,19 +10,10 @@
 			<f:viewParam name="fgNewArrivals" value="#{cartFlowBean.catalog.fgNewArrivals}"></f:viewParam>
 			<f:viewParam name="idCampaign" value="#{cartFlowBean.catalog.idCampaign}"></f:viewParam>
 			<f:viewParam name="idSubMenuBrand" value="#{cartFlowBean.catalog.brand}"></f:viewParam>
-
-
 		</f:metadata>
 	</ui:define>
-
-
-
-
 	<ui:define name="content">
 		<h:form prependId="false">
-
-
-
 			<div class="container">
 				<!-- BREADCRUMB -->
 				<div class="row">
@@ -41,10 +30,8 @@
 						</ui:repeat>
 					</ol>
 				</div>
-
 				<!-- FILTRI RICERCA -->
 				<div class="row container visibile  altezza75 " style="clear: both;">
-
 					<div class="panel panel-default">
 						<div class="panel-body">
 							<div class="row">
@@ -56,7 +43,6 @@
 										</h:selectOneMenu>
 									</div>
 								</div>
-
 								<div class="col-sm-3">
 									<div class="form-group">
 										<h:outputText value="#{msg.catalog_color}" />
@@ -65,7 +51,6 @@
 										</h:selectOneMenu>
 									</div>
 								</div>
-
 								<div class="col-sm-3">
 									<div class="form-group">
 										<h:outputText value="Brand" />
@@ -81,7 +66,6 @@
 											displayTemplate="{min} &#8364; - {max} &#8364;" />
 										<h:outputText id="displayRange"
 											value="#{cartFlowBean.catalog.priceMin} &#8364; - #{cartFlowBean.catalog.priceMax} &#8364;" />
-
 										<h:inputHidden id="txt6" value="#{cartFlowBean.catalog.priceMin}" />
 										<h:inputHidden id="txt7" value="#{cartFlowBean.catalog.priceMax}" />
 									</div>
@@ -94,18 +78,15 @@
 										</label>
 									</div>
 								</div>
-
 							</div>
 							<div>
 								<p:commandButton styleClass="ui-priority-primary" process="@form" update="products"
 									id="findPrds" actionListener="#{cartFlowView1.find}" value="#{msg.catalog_find}">
 								</p:commandButton>
-
 							</div>
 						</div>
 					</div>
 				</div>
-
 				<!-- ORDINAMENTO -->
 				<div class="row">
 					<div class="col-sm-3 visibile">
@@ -115,14 +96,11 @@
 								<f:selectItem itemLabel="#{msg.catalog_newArr}" itemValue="1"></f:selectItem>
 								<f:selectItem itemLabel="#{msg.catalog_priceDesc}" itemValue="2"></f:selectItem>
 								<f:selectItem itemLabel="#{msg.catalog_priceAsc}" itemValue="3"></f:selectItem>
-
-
 								<f:ajax execute="@form" render="products paginazione"
 									listener="#{cartFlowView1.orderListener}"></f:ajax>
 							</h:selectOneMenu>
 						</div>
 					</div>
-
 					<!-- PAGINAZIONE -->
 					<div class="col-sm-4 pull-right">
 						<h:panelGroup id="paginazione" rendered="#{cartFlowBean.catalog.renderPaginator}">
@@ -143,38 +121,23 @@
 						</h:panelGroup>
 					</div>
 				</div>
-
 				<!-- PANNELLO PRODOTTI -->
 				<h:panelGroup id="products" styleClass="emptyPnl">
-
-
-
-
-
 					<!-- CATALOGO PRODOTTI -->
 					<div class="row">
 						<ui:repeat var="art" value="#{cartFlowBean.catalog.articlesPage}" varStatus="status">
 							<div class="col-sm-4">
 								<div class="thumbnail">
-
-
 									<h:outputText styleClass="newFlag2" style="float:left" rendered="#{art.fgNewArrivals}"
 										value="NEW" />
-
-
 									<h:outputText styleClass="newPromo1" style="float:right"
 										rendered="#{art.specialPrice != null and art.specialPrice != 0}" value="SPECIAL" />
-
 									<h:outputText styleClass="newPromo2" style="float:right"
 										rendered="#{(art.specialPrice == null or art.specialPrice == 0) and art.discount != null and art.discount != 0 and art.idCampaign == null}"
 										value="#{art.discount} %" />
 									<h:outputText styleClass="newPromo3" style="float:right"
 										rendered="#{(art.specialPrice == null or art.specialPrice == 0) and art.discount != null and art.discount != 0 and art.idCampaign != null}"
 										value="#{art.discount} %" />
-
-
-
-
 									<h:link outcome="cart-choice-2">
 										<h:graphicImage styleClass="center-block img-responsive"
 											title="#{art.txBrand} #{art.txGender}"
@@ -182,7 +145,6 @@
 											name="#{art.imagesUrl.get(0)}" />
 										<f:param name="idPrd" value="#{art.idProduct}"></f:param>
 									</h:link>
-
 									<div class="caption articolo">
 										<div class="row">
 											<div class="col-sm-12">
@@ -190,23 +152,18 @@
 													<p:graphicImage id="imgArt" library="images"
 														alt=" availiable #{art.colorsAsString} #{art.sizesAsString} " name="info-thumb.png" />
 													<p:tooltip for="imgArt">
-
 														<h:outputText value="#{msg.catalog_available}" />
 														<br />
 														<h:outputText value="#{msg.catalog_colors} #{art.colorsAsString}" />
 														<br />
 														<h:outputText value="#{msg.catalog_sizes} #{art.sizesAsString}" />
-
 													</p:tooltip>
 												</div>
-
 											</div>
-
 										</div>
 										<div class="row">
 											<div class="col-sm-12">
 												<div>
-
 													<h5 class="brandVisibile" style="text-align: center">#{art.txBrand}</h5>
 												</div>
 												<div>
@@ -215,16 +172,12 @@
 															styleClass="#{art.price != art.priceDiscounted?'onSale':''}">
 															<f:converter converterId="it.othala.BigDecimalConverter" />
 														</h:outputText>
-
 														<h:outputText value="#{art.priceDiscounted}"
 															rendered="#{art.price != art.priceDiscounted}" style="padding-left: 5px;">
 															<f:converter converterId="it.othala.BigDecimalConverter" />
 														</h:outputText>
-
 													</p>
-
 												</div>
-
 												<div>
 													<h6 class="descrVisibile" style="text-align: center">
 														<h:outputText id="descr" value="#{art.description}" />
@@ -233,22 +186,12 @@
 														<h:outputText value="#{art.description}" />
 													</p:tooltip>
 												</div>
-
 											</div>
-
-
 										</div>
-
-
-
 									</div>
-
 								</div>
-
 							</div>
 						</ui:repeat>
-
-
 					</div>
 				</h:panelGroup>
 			</div>
