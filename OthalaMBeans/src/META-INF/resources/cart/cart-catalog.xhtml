@@ -11,7 +11,9 @@
 			<f:viewParam name="idCampaign" value="#{cartFlowBean.catalog.idCampaign}"></f:viewParam>
 			<f:viewParam name="idSubMenuBrand" value="#{cartFlowBean.catalog.brand}"></f:viewParam>
 		</f:metadata>
-	</ui:define>
+	</ui:define>	
+	<ui:define name="title">#{msgSite.nomeMerchant}: #{cartFlowView1.category}</ui:define>
+	<ui:define name="description"><meta name="description" content="#{msgSite.nomeMerchant}: #{cartFlowView1.category}"></meta></ui:define>
 	<ui:define name="content">
 		<h:form prependId="false">
 			<div class="container">
