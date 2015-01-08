@@ -75,7 +75,7 @@
 						<p:dataTable var="ord" rowKey="#{ord.idOrder}" id="orders" stickyHeader="true"
 							value="#{merchantBean.ordersFounded}" rows="10" paginator="true" paginatorPosition="bottom"
 							selection="#{merchantBean.orderSelected}" emptyMessage="Nessun ordine trovato" 
-							currentPageReportTemplate="Nr. Elementi {totalRecords}"
+							currentPageReportTemplate="Nr. Elementi {totalRecords} - Totale Importo &#8364; #{merchantBean.currencyAmountOrders}"
 							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 							selectionMode="single">
 

@@ -8,6 +8,8 @@ import it.othala.dto.RefoundFullDTO;
 import it.othala.dto.ShopDTO;
 import it.othala.enums.TypeStateOrder;
 import it.othala.service.factory.OthalaFactory;
+import it.othala.util.OthalaCommonUtils;
+import it.othala.web.utils.OthalaUtil;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -59,7 +61,13 @@ public class MerchantBean implements Serializable {
 	private RefoundFullDTO refoundSelected=null;
 	private List<RefoundFullDTO> changeRequest=null;
 	private boolean change;
+	private BigDecimal amountOrders;
+	private String currencyAmountOrders;
 	
+
+	public String getCurrencyAmountOrders() {
+		return currencyAmountOrders;
+	}
 
 	public boolean isChange() {
 		return change;
@@ -330,6 +338,17 @@ public class MerchantBean implements Serializable {
 			setIdOrdine(null);
 		}
 		setOrderSelected(null);
+		summAmountOrders();
+	}
+	
+	private void summAmountOrders()
+	{
+		amountOrders=BigDecimal.ZERO;
+		for (OrderFullDTO ord:ordersFounded)
+		{
+			amountOrders=amountOrders.add(ord.getImOrdine());
+		}
+		currencyAmountOrders=OthalaCommonUtils.getImportoNoCurrency(amountOrders);
 	}
 
 

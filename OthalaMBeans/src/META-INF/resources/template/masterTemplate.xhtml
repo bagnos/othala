@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="#{localeManager.language}" xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:pe="http://primefaces.org/ui/extensions" xmlns:c="http://java.sun.com/jsp/jstl/core">
+<html lang="#{localeManager.language}" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
 
 <ui:insert name="metadata" />
 <f:view locale="#{localeManager.locale}">
@@ -10,9 +11,11 @@
 		pt:prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# product: http://ogp.me/ns/product#">
 		<f:facet name="first">
 			<title><ui:insert name="title">#{msgSite.titleMerchant}</ui:insert></title>
-			<ui:insert name="description"><meta name="description" content="#{msgSite.descrMerchant}"></meta></ui:insert>						
+			<ui:insert name="description">
+				<meta name="description" content="#{msgSite.descrMerchant}"></meta>
+			</ui:insert>
 			<meta name="keywords" content="#{msgSite.keyMerchant}"></meta>
-			<link rel="shortcut icon" href="#{resource['images/logo16.png']}"/>
+			<link rel="shortcut icon" href="#{resource['images/logo16.png']}" />
 			<ui:insert name="fb" />
 			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
 			<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
@@ -35,8 +38,8 @@
     		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
     		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
     		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  			})();
-			</script>
+  			})();			
+  			</script>
 		</c:if>
 	</h:head>
 	<h:body>
@@ -44,7 +47,7 @@
 			value="&lt;!--[if lt IE 9]&gt;&lt;script src=&quot;https&#58;&#47;&#47;oss.maxcdn.com&#47;libs&#47;respond.js&#47;1.4.2&#47;respond.min.js&quot; /&gt;
     &lt;script src=&quot;https&#58;&#47;&#47;oss.maxcdn.com&#47;libs&#47;html5shiv&#47;3.7.0&#47;html5shiv.js&quot; /&gt;
     &lt;![endif]--&gt;"
-			escape="false" />
+			escape="false" />		
 		<ui:insert name="masterBody" />
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<h:outputScript library="primefaces" name="jquery/jquery.js" target="body" />
@@ -52,7 +55,7 @@
 		<pe:blockUI widgetVar="blockAll">
         LOADING<br />
 			<p:graphicImage library="images" name="ajax_loading_bar.gif" />
-		</pe:blockUI>
+		</pe:blockUI>		
 		<ui:insert name="script" />
 	</h:body>
 </f:view>
