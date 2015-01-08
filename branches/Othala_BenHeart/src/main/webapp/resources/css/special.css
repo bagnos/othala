@@ -1,31 +1,31 @@
 .navbar-color {
-background-color: #666!important;
+background-color: #654321!important;
 }
 
 .navbar-inverse {
-background-color: #666!important;
+background-color: #654321!important;
 }
 .glyphicon-chevron-right,.glyphicon-chevron-left {
-	color: orange;
+	color: #964B00;
 }
 
 .glyphicon-chevron-right:hover,.glyphicon-chevron-left:hover,.glyphicon-chevron-right:focus,.glyphicon-chevron-left:focus
 	{
-	color: darkorange;
+	color: #654321;
 }
 
 .ui-priority-primary,.ui-widget-content .ui-priority-primary,.ui-widget-header .ui-priority-primary
 	{
-	background-color: #F88017;
-	*background-color: darkorange;
-	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(orange),
-		to(#0044cc));
-	background-image: -webkit-linear-gradient(top, orange, darkorange);
-	background-image: -o-linear-gradient(top, orange, darkorange);
-	background-image: linear-gradient(to bottom, orange, darkorange);
-	background-image: -moz-linear-gradient(top, orange, darkorange);
+	background-color: #964B00;
+	*background-color: #654321;
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#964B00),
+		to(#654321));
+	background-image: -webkit-linear-gradient(top, #964B00, #654321);
+	background-image: -o-linear-gradient(top, #964B00, #654321);
+	background-image: linear-gradient(to bottom, #964B00, #654321);
+	background-image: -moz-linear-gradient(top, #964B00, #654321);
 	background-repeat: repeat-x;
-	border-color: darkorange darkorange #E66C2C;
+	border-color: #654321 #654321 #964B00;
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 	filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ffFFA500',
 		endColorstr='#ffFF8C00', GradientType=0);
@@ -34,7 +34,7 @@ background-color: #666!important;
 
 .ui-priority-primary:hover,.ui-priority-primary:active,.ui-priority-primary.active,.ui-priority-primary.disabled,.ui-priority-primary[disabled]
 	{
-	background-color: darkorange;
+	background-color: #654321;
 }
 
 .ui-priority-primary:active,.ui-priority-primary.active {
@@ -105,11 +105,11 @@ background-color: #666!important;
 }
 
 #promo {
-	color: darkorange !important;
+	color: #654321 !important;
 }
 
 .freeship {
-	color: darkorange !important;
+	color: #654321 !important;
 	font-family: arialMTbold !important;
 	font-size: 16px !important;
 	padding-top: 15px;
@@ -136,21 +136,21 @@ html,body,form {
 }
 
 .bwizard-steps .active {
-	background: darkorange;
+	background: #654321;
 }
 
 .bwizard-steps .active:after {
-	border-left-color: darkorange;
+	border-left-color: #654321;
 }
 
 .navbar-inverse .navbar-nav>li>a {
 	color: white;
-	background-color: #666666 !important;
+	background-color: #654321 !important;
 }
 
 .back-top {
 	font-size: 18px;
-	color: darkorange !important;
+	color: #654321 !important;
 }
 
 .back-top:hover,.back-top:focus {
