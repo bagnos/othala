@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.5.9, for Win32 (x86)
 --
--- Host: localhost    Database: aduna937_othala
+-- Host: localhost    Database: benha999_othala
 -- ------------------------------------------------------
 -- Server version	5.5.15
 
@@ -16,13 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Current Database: `aduna937_othala`
+-- Current Database: `benha999_othala`
 --
-DROP DATABASE `aduna937_othala`;
+DROP DATABASE `benha999_othala`;
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `aduna937_othala` /*!40100 DEFAULT CHARACTER SET utf8 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `benha999_othala` /*!40100 DEFAULT CHARACTER SET utf8 */;
 
-USE `aduna937_othala`;
+USE `benha999_othala`;
 
 DROP TABLE IF EXISTS `type_size`;
 
@@ -558,7 +558,7 @@ CREATE TABLE `site_images` (
   `txName` varchar(150) DEFAULT NULL,
   `idGender` int(11) DEFAULT NULL,
   `urlRedirect` varchar(100) DEFAULT NULL,
-  `txAlt` varchar(45) DEFAULT NULL
+  `txAlt` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`txGroupImages`,`pgGroupImages`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
