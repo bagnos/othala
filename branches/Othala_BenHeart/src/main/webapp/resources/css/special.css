@@ -6,6 +6,11 @@ background-color: #654321 !important;
 background-color: #654321 !important;
 color: white !important;
 }
+
+.navbar-nav>li>a
+{
+	color: white !important;
+}
 .glyphicon-chevron-right,.glyphicon-chevron-left {
 	color: #964B00;
 }
