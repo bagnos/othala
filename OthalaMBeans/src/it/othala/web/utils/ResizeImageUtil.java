@@ -129,7 +129,7 @@ public class ResizeImageUtil {
 
 		// fileIn.delete();
 
-		return resizeAndCopyImage(fileIS, getBasePathHome(), getNomeFile(nomeFile), format, w, h, 0.9d);
+		return resizeAndCopyImage(fileIS, getBasePath(), getNomeFile(nomeFile), format, w, h, 0.9d);
 
 	}
 
