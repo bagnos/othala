@@ -293,6 +293,7 @@ public class CartFlowView1 extends BaseView {
 		}
 		if (getCartFlowBean().getBreadCrumb() != null) {
 			category = StringUtils.join(getCartFlowBean().getBreadCrumb(), " ");
+			category=category.replace("Shop", "");
 		}
 
 	}
