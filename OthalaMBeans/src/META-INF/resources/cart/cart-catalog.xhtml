@@ -12,7 +12,7 @@
 			<f:viewParam name="idSubMenuBrand" value="#{cartFlowBean.catalog.brand}"></f:viewParam>
 		</f:metadata>
 	</ui:define>	
-	<ui:define name="title">#{msgSite.nomeMerchant}: #{cartFlowView1.category}</ui:define>
+	<ui:define name="title">Online Shop #{cartFlowView1.category} :#{msgSite.nomeMerchant}</ui:define>
 	<ui:define name="description"><meta name="description" content="#{msgSite.nomeMerchant}: #{cartFlowView1.category}"></meta></ui:define>
 	<ui:define name="content">
 		<h:form prependId="false">
@@ -142,8 +142,8 @@
 										value="#{art.discount} %" />
 									<h:link outcome="cart-choice-2">
 										<h:graphicImage styleClass="center-block img-responsive"
-											title="#{art.txBrand} #{art.txGender}"
-											alt="#{art.txBrand} #{art.txGender} #{art.descriptionEN}" library="images/cartThumbinals"
+											title="#{art.txBrand}:#{art.txType} #{art.description} #{art.descriptionEN}"
+											alt="#{art.txBrand}:#{art.txType} #{art.description} #{art.descriptionEN}" library="images/cartThumbinals"
 											name="#{art.imagesUrl.get(0)}" />
 										<f:param name="idPrd" value="#{art.idProduct}"></f:param>
 									</h:link>

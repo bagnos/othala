@@ -10,7 +10,7 @@
 		</f:metadata>
 	</ui:define>
 
-	<ui:define name="title">#{msgSite.nomeMerchant}: #{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.txType} </ui:define>
+	<ui:define name="title">Online Shop  #{cartFlowBean.detailProductFull.txBrand!='Shop'?cartFlowBean.detailProductFull.txBrand:''} #{cartFlowBean.detailProductFull.txType} :#{msgSite.nomeMerchant}</ui:define>
 	<ui:define name="description"><meta name="description" content="#{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.txType} #{cartFlowBean.detailProductFull.descriptionEN}"></meta></ui:define>
 	<ui:define name="fb">
 		<meta property="fb:app_id" content="1462056920726471" />
