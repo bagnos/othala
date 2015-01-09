@@ -10,13 +10,47 @@
 
 		</f:metadata>
 	</ui:define>
+	<ui:define name="fb">
+		<meta property="fb:app_id" content="1462056920726471" />
+		<meta property="og:type" content="product" />
+		<meta property="og:locale" content="en_US" />
+		<meta property="og:locale:alternate" content="it_IT" />
+		<meta property="og:url" content="http://#{request.serverName}#{request.contextPath}/home.xhtml" />
+		<meta property="og:title" content="#{msgSite.nomeMerchant}" />
+		<meta property="og:description" content="Online Shopping #{msgSite.titleMerchant}" />
+		<meta property="og:image"
+			content="http://#{request.serverName}#{request.contextPath}/javax.faces.resource/#{applicationBean.imgsCarousel[0].txName}.xhtml?ln=images/home" />
+	</ui:define>
 
 
 
 	<ui:define name="content">
+		<div id="fb-root"></div>
+		<script> 		
+	window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1462056920726471',
+      xfbml      : true,
+      version    : 'v2.1'
+    });
+  };
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+  </script>
 
-		<div class="container" style="margin-top: 20px;">
+		<div class="container spacer10">
 
+			<div class="row">
+				<div class="col-sm-4 col-sm-offset-8 text-right">
+					<div class="fb-like" data-layout="button_count" data-share="true" data-width="450"
+									data-show-faces="true"></div>
+				</div>
+			</div>
 			<div class="row">
 
 				<div class="col-sm-12">
