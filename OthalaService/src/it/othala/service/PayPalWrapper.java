@@ -255,7 +255,7 @@ class PayPalWrapper {
 		
 		for (int i = 0; i <= cart.getAricles().size() - 1; i++) {
 			item = new PaymentItem();
-			description = String.format("%s %s %S", cart.getAricles().get(i).getPrdFullDTO().getDescription(), cart
+			description = String.format("%s %s %S", cart.getAricles().get(i).getPrdFullDTO().getDescription().subSequence(0, 80), cart
 					.getAricles().get(i).getTxSize(), cart.getAricles().get(i).getTxColor());
 			item.setDescription(description);
 			item.setAmount(cart.getAricles().get(i).getPrdFullDTO().getRealPrice().toString());
