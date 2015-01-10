@@ -22,14 +22,16 @@
 		<meta property="og:title" content="#{msgSite.nomeMerchant}" />
 		<meta property="og:description" content="Online Shopping #{msgSite.titleMerchant}" />
 		<meta property="og:image"
-			content="http://#{request.serverName}#{request.contextPath}/javax.faces.resource/#{applicationBean.imgsCarousel[0].txName}.xhtml?ln=images/home" />					
+			content="http://#{request.serverName}#{request.contextPath}/javax.faces.resource/#{applicationBean.imgsCarousel[0].txName}.xhtml?ln=images/home" />
 	</ui:define>
 
 
 
 	<ui:define name="content">
 		<div id="fb-root"></div>
-		<script> 		
+		
+		<script>
+		 		
 	window.fbAsyncInit = function() {
     FB.init({
       appId      : '1462056920726471',
@@ -49,7 +51,8 @@
 		<div class="container spacer10">
 
 			<div class="row">
-					<script type="text/javascript">					
+			<!-- 
+				<script type="text/javascript">					
       window.___gcfg = {
         lang: 'en-US'
       };
@@ -59,13 +62,23 @@
         po.src = 'https://apis.google.com/js/plusone.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
       })();
-    </script>
-				<div class="col-sm-12 text-right">
-					<div style="float: right">
+    </script>-->
+				<div class="col-xs-12 text-right">
+						<!-- 
+						<a class="twitter-share-button" href="https://twitter.com/share"> Tweet </a>
+						<script type="text/javascript">
+window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id)){return}js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);return window.twttr||(t={_e:[],ready:function(f){t._e.push(f)}})}(document,"script","twitter-wjs"));
+</script>-->
+					<!-- 
+					<div style="float:right" >
 						<g:plusone align="right" size="medium"></g:plusone>
 					</div>
-					<div class="fb-like" data-layout="button_count" data-share="true" data-width="450"
+					-->
+					
+					<div style="float:right" class="fb-like" data-layout="button_count" data-share="true" data-width="450"
 						data-show-faces="true"></div>
+					
+
 				</div>
 			</div>
 			<div class="row">
