@@ -10,7 +10,7 @@
 		</f:metadata>
 	</ui:define>
 
-	<ui:define name="title">Online Shop  #{cartFlowBean.detailProductFull.txBrand!='Shop'?cartFlowBean.detailProductFull.txBrand:''} #{cartFlowBean.detailProductFull.txType} :#{msgSite.nomeMerchant}</ui:define>
+	<ui:define name="title">Online Shop  #{cartFlowBean.detailProductFull.txBrand!='Shop'?cartFlowBean.detailProductFull.txBrand:''} #{cartFlowBean.detailProductFull.txType} | #{msgSite.nomeMerchant}</ui:define>
 	<ui:define name="description">
 		<meta name="description"
 			content="#{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.txType} #{cartFlowBean.detailProductFull.descriptionEN}"></meta>
@@ -22,18 +22,17 @@
 		<meta property="og:locale:alternate" content="it_IT" />
 		<meta property="og:url"
 			content="http://#{request.serverName}#{request.contextPath}/cart/cart-choice-2.xhtml?idPrd=#{cartChoice2View.idProduct}" />
-		<meta property="og:title" content="#{msgSite.nomeMerchant}" />
-		<meta property="og:description"
-			content="#{cartFlowBean.detailProductFull.txBrand} - #{cartFlowBean.detailProductFull.description}" />
+		<meta property="og:title"
+			content="Online Shop  #{cartFlowBean.detailProductFull.txBrand!='Shop'?cartFlowBean.detailProductFull.txBrand:''} #{cartFlowBean.detailProductFull.txType} | #{msgSite.nomeMerchant}" />
+		<meta property="og:description" content="#{cartFlowBean.detailProductFull.description}" />
 		<meta property="og:image"
 			content="http://#{request.serverName}#{request.contextPath}/javax.faces.resource/#{cartFlowBean.detailProductFull.imagesUrl[0]}.xhtml?ln=images/cartThumbinals" />
-		<meta property="product:price:amount" content="#{cartChoice2View.priceStr}" />
-		<meta property="product:price:currency" content="EUR" />
+		<meta itemprop="description" content="#{cartFlowBean.detailProductFull.description}" />
 		<!-- 
 		<meta property="product:shipping_cost:amount" content="5" />
 		<meta property="product:shipping_cost:currency" content="EUR" />
 		-->
-		<meta property="product:sale_price:amount" content="#{cartChoice2View.priceDiscountedStr}" />
+		<meta property="product:sale_price:amount" content="#{cartChoice2View.priceStr}" />
 		<meta property="product:sale_price:currency" content="EUR" />
 	</ui:define>
 	<ui:define name="content">
@@ -226,30 +225,33 @@
 									onclick="PF('dlgTaglie').show();">Guida Taglie</span>
 							</h:panelGroup>
 						</div>
-						<div class="row spacer10">
-							<script type="text/javascript">					
-      window.___gcfg = {
-        lang: 'en-US'
-      };
+						<div class="row">
+							<div class="col-sm-12">
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="fb-like" data-layout="button_count" data-share="true" data-width="450"
+										data-show-faces="true"></div>
+								</div>
+							</div>
 
-      (function() {
+							<div class="row spacer10">
+								<div class="col-sm-6">
+									<g:plus action="share" annotation="bubble" size="medium" />
+									<g:plusone size="medium"></g:plusone>
+									<script type="text/javascript">				
+           (function() {
         var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
         po.src = 'https://apis.google.com/js/plusone.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
       })();
     </script>
-							
-							<div class="col-sm-4">
-								<div class="fb-like" data-layout="button_count" data-share="true" data-width="450"
-									data-show-faces="true"></div>
+								</div>
 							</div>
-							
-							<div class="col-sm-2">
-								<g:plusone size="medium"></g:plusone>
-							</div>
-							<div class="col-sm-2">
-								<a href="#" class="twitter-share-button">Tweet</a>
-								<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+							<div class="row spacer10">
+								<div class="col-sm-2">
+									<a href="#" class="twitter-share-button">Tweet</a>
+									<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+								</div>
 							</div>
 
 
@@ -274,6 +276,7 @@
 									rendered="#{cartChoice2View.disponibile}">
 								</p:commandButton>
 							</div>
+						</div>
 						</div>
 					</div>
 				</div>

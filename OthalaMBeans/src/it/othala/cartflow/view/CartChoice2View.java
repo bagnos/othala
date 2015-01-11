@@ -151,7 +151,7 @@ public class CartChoice2View extends BaseView {
 				return null;
 			}
 
-			priceStr =getCartFlowBean().getDetailProductFull().getPrice().setScale(2, RoundingMode.HALF_UP).toString();
+			priceStr =getCartFlowBean().getDetailProductFull().getRealPrice().setScale(2, RoundingMode.HALF_UP).toString();
 					
 			
 			priceDiscountedStr = null;
