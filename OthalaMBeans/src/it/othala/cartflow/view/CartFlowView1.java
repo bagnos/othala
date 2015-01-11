@@ -38,6 +38,53 @@ public class CartFlowView1 extends BaseView {
 	private String classForw;
 	private String classBack;
 	private String category;
+	private int idMenu;
+	private int idSubMenu;
+	private int idCampaign;
+	private boolean fgNewArrivals;
+	private int brand;
+	
+	
+
+	public int getBrand() {
+		return brand;
+	}
+
+	public void setBrand(int brand) {
+		this.brand = brand;
+	}
+
+	public int getIdMenu() {
+		return idMenu;
+	}
+
+	public void setIdMenu(int idMenu) {
+		this.idMenu = idMenu;
+	}
+
+	public int getIdSubMenu() {
+		return idSubMenu;
+	}
+
+	public void setIdSubMenu(int idSubMenu) {
+		this.idSubMenu = idSubMenu;
+	}
+
+	public int getIdCampaign() {
+		return idCampaign;
+	}
+
+	public void setIdCampaign(int idCampaign) {
+		this.idCampaign = idCampaign;
+	}
+
+	public boolean isFgNewArrivals() {
+		return fgNewArrivals;
+	}
+
+	public void setFgNewArrivals(boolean fgNewArrivals) {
+		this.fgNewArrivals = fgNewArrivals;
+	}
 
 	public String getCategory() {
 		return category;
@@ -53,13 +100,26 @@ public class CartFlowView1 extends BaseView {
 
 	@Override
 	public String doInit() {
-		// TODO Auto-generated method stub
-		initBean();
+		try {
+			// TODO Auto-generated method stub 
+			initBean();
 
-		callServiceProduct(1);
+			callServiceProduct(1);
 
-		updateBreadCrumb();
+			updateBreadCrumb();
 
+			// reset querystring value
+			/*
+			 * getCartFlowBean().getCatalog().setIdMenu(0);
+			 * getCartFlowBean().getCatalog().setIdSubMenu(0);
+			 * getCartFlowBean().getCatalog().setIdCampaign(0);
+			 * getCartFlowBean().getCatalog().setBrand(0);
+			 * getCartFlowBean().getCatalog().setFgNewArrivals(false);
+			 */
+
+		} catch (Exception e) {
+			addGenericError(e, "errore init catalog");
+		}
 		return null;
 	}
 
@@ -67,6 +127,13 @@ public class CartFlowView1 extends BaseView {
 		getCartFlowBean().getCatalog().setColor(null);
 		getCartFlowBean().getCatalog().setSize(null);
 		getCartFlowBean().getCatalog().setIncludePromo(false);
+		
+		getCartFlowBean().getCatalog().setIdMenu(idMenu);
+		getCartFlowBean().getCatalog().setIdSubMenu(idSubMenu);
+		getCartFlowBean().getCatalog().setIdCampaign(idCampaign);
+		getCartFlowBean().getCatalog().setBrand(brand);
+		getCartFlowBean().getCatalog().setFgNewArrivals(fgNewArrivals);
+		
 
 		getCartFlowBean().setCheckoutCart(false);
 		getCartFlowBean().getCatalog().setPriceMin(Integer.valueOf(ConfigurationUtil.getProperty("catalogPriceMin")));
@@ -214,6 +281,7 @@ public class CartFlowView1 extends BaseView {
 		getCartFlowBean().setSizeDTO(vetrinaDTO.getSize());
 		getCartFlowBean().setColorDTO(vetrinaDTO.getColor());
 		getCartFlowBean().setBrandDTO(vetrinaDTO.getBrand());
+
 		initPaginator(page);
 		redirectOneProduct();
 	}
@@ -291,10 +359,17 @@ public class CartFlowView1 extends BaseView {
 				}
 			}
 		}
-		if (getCartFlowBean().getBreadCrumb() != null) {
-			category = StringUtils.join(getCartFlowBean().getBreadCrumb(), " ");
-			category=category.replace("Shop", "");
+		
+		if (getCartFlowBean().getBreadCrumb().size()==1)
+		{
+			getCartFlowBean().getBreadCrumb().clear();
 		}
+		
+		if (getCartFlowBean().getBreadCrumb() != null && getCartFlowBean().getBreadCrumb().isEmpty()==false) {
+			category = StringUtils.join(getCartFlowBean().getBreadCrumb(), " ");
+			category = category.replace("Shop", "");
+		}
+		
 
 	}
 

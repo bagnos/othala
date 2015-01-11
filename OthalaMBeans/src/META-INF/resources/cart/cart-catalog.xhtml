@@ -5,11 +5,11 @@
 	<ui:define name="metadata">
 		<f:metadata>
 			<f:viewAction action="#{cartFlowView1.doInit}"></f:viewAction>
-			<f:viewParam name="idMenu" value="#{cartFlowBean.catalog.idMenu}"></f:viewParam>
-			<f:viewParam name="idSubMenu" value="#{cartFlowBean.catalog.idSubMenu}"></f:viewParam>
-			<f:viewParam name="fgNewArrivals" value="#{cartFlowBean.catalog.fgNewArrivals}"></f:viewParam>
-			<f:viewParam name="idCampaign" value="#{cartFlowBean.catalog.idCampaign}"></f:viewParam>
-			<f:viewParam name="idSubMenuBrand" value="#{cartFlowBean.catalog.brand}"></f:viewParam>
+			<f:viewParam name="idMenu" value="#{cartFlowView1.idMenu}"></f:viewParam>
+			<f:viewParam name="idSubMenu" value="#{cartFlowView1.idSubMenu}"></f:viewParam>
+			<f:viewParam name="fgNewArrivals" value="#{cartFlowView1.fgNewArrivals}"></f:viewParam>
+			<f:viewParam name="idCampaign" value="#{cartFlowView1.idCampaign}"></f:viewParam>
+			<f:viewParam name="idSubMenuBrand" value="#{cartFlowView1.brand}"></f:viewParam>
 		</f:metadata>
 	</ui:define>	
 	<ui:define name="title">Online Shop #{cartFlowView1.category} :#{msgSite.nomeMerchant}</ui:define>
@@ -23,7 +23,7 @@
 						<ui:repeat var="bread" value="#{cartFlowBean.breadCrumb}" varStatus="stBread">
 							<li><h:outputLink rendered="#{stBread.last}" value="#" styleClass="active">
 							#{bread}
-						</h:outputLink> <h:outputLink rendered="#{stBread.first}" value="#{request.contextPath}/faces/home.xhtml"
+						</h:outputLink> <h:outputLink rendered="#{stBread.first}" value="#{request.contextPath}/home.xhtml"
 									styleClass="glyphicon glyphicon-home">
 						 	#{bread}
 						</h:outputLink> <h:outputLink rendered="#{stBread.first==false and stBread.last==false}" value="#">

@@ -140,11 +140,6 @@ html,body,form {
 	border-left-color: darkred;
 }
 
-.navbar-inverse .navbar-nav>li>a {
-	color: white;
-	background-color: black !important;
-}
-
 .back-top {
 	font-size: 18px;
 	color: red !important;
