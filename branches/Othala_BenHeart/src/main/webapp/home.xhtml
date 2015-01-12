@@ -35,33 +35,35 @@
 				</div>
 			</div>
 		</div>
-		<div class="container" style="margin-top: 20px;">
-			<div class="row">
-				<div class="col-sm-12">
-					<h1 style="text-align: center; background-color: #654321; color: white">
-						<h:outputText value="WHAT'S NEW" />
-					</h1>
+		<h:panelGroup rendered="#{applicationBean.menuFull.fgNuoviArrivi}">
+			<div class="container" style="margin-top: 20px;">
+				<div class="row">
+					<div class="col-sm-12">
+						<h1 style="text-align: center; background-color: #654321; color: white">
+							<h:outputText value="WHAT'S NEW" />
+						</h1>
+					</div>
 				</div>
 			</div>
-		</div>
-		<div class="container" style="margin-top: 5px;">
-			<div class="row">
-				<ui:repeat var="imgNewArr" value="#{applicationBean.imgsNewArrival}">
-					<h:panelGroup styleClass="col-sm-6" rendered="#{imgNewArr.txName!=null}">
-						<div class="thumbnail thumbnail-home">
-							<h:link outcome="#{imgNewArr.urlRedirect}">
-								<p:graphicImage styleClass="img-responsive" title="#{imgNewArr.txAlt}"
-									alt="#{imgNewArr.txAlt}" library="#{imgNewArr.txLibrary}" name="#{imgNewArr.txName}"
-									style="max-height:100%" />
+			<div class="container" style="margin-top: 5px;">
+				<div class="row">
+					<ui:repeat var="imgNewArr" value="#{applicationBean.imgsNewArrival}">
+						<h:panelGroup styleClass="col-sm-6" rendered="#{imgNewArr.txName!=null}">
+							<div class="thumbnail thumbnail-home">
+								<h:link outcome="#{imgNewArr.urlRedirect}">
+									<p:graphicImage styleClass="img-responsive" title="#{imgNewArr.txAlt}"
+										alt="#{imgNewArr.txAlt}" library="#{imgNewArr.txLibrary}" name="#{imgNewArr.txName}"
+										style="max-height:100%" />
 									<h:panelGroup rendered="#{not empty imgNewArr.txAlt}" styleClass="headlineBox">
-									<h1 class="headline">#{imgNewArr.txAlt}</h1>
+										<h1 class="headline">#{imgNewArr.txAlt}</h1>
 									</h:panelGroup>
-							</h:link>
-						</div>
-					</h:panelGroup>
-				</ui:repeat>
+								</h:link>
+							</div>
+						</h:panelGroup>
+					</ui:repeat>
+				</div>
 			</div>
-		</div>
+		</h:panelGroup>
 		<div class="container" style="margin-top: 20px;">
 			<div class="row">
 				<div class="col-sm-4"></div>
