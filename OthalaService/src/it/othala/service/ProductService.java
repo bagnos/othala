@@ -3,6 +3,7 @@ package it.othala.service;
 import it.othala.dao.interfaces.IProductDAO;
 import it.othala.dto.ArticleDTO;
 import it.othala.dto.ArticleFullDTO;
+import it.othala.dto.AttributeDTO;
 import it.othala.dto.CampaignDTO;
 import it.othala.dto.DomainDTO;
 import it.othala.dto.LookBookDTO;
@@ -22,7 +23,9 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ProductService implements IProductService {
 
@@ -254,6 +257,7 @@ public class ProductService implements IProductService {
 
 		VetrinaDTO vetrinaDTO = new VetrinaDTO();
 		vetrinaDTO.setProdotti(listProduct);
+		
 		vetrinaDTO.setSize(productDAO.listSizeProduct(languages, type, gender,
 				brand, minPrice, maxPrice, size, color, newArrivals, order,
 				idCampaign, fgCampaign));

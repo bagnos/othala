@@ -1,7 +1,6 @@
 package it.othala.cartflow.view;
 
 import it.othala.dto.ArticleFullDTO;
-import it.othala.dto.ProductCarouselDTO;
 import it.othala.dto.ProductFullNewDTO;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
@@ -17,9 +16,6 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
-
-import org.apache.catalina.tribes.transport.RxTaskPool;
-import org.primefaces.context.RequestContext;
 
 /*@Named
  @javax.faces.view.ViewScoped*/

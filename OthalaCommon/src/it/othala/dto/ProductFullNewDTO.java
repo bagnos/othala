@@ -17,6 +17,7 @@ public class ProductFullNewDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer idProduct;
+	
 	private BigDecimal price;
 	private Integer discount;
 	private BigDecimal priceDiscounted;
