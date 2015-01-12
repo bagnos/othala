@@ -701,7 +701,8 @@ public class InsertProdottiView extends BaseView {
 			return;
 		}
 		try {
-			OthalaFactory.getProductServiceInstance().insertBrand(getLang(), newBrand);
+			OthalaFactory.getProductServiceInstance().insertBrand(getLang(), newBrand, null, null, null, null, null, null);
+			
 			getBeanApplication().resetDomain();
 			brand = completeBrand(newBrand).get(0);
 			addInfo("Nuovo Brand", "brand inserito correttamente");

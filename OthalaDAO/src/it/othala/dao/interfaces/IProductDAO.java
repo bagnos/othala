@@ -2,6 +2,7 @@ package it.othala.dao.interfaces;
 
 import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.AttributeDTO;
+import it.othala.dto.BrandFullDTO;
 import it.othala.dto.CampaignDTO;
 import it.othala.dto.ConfigurationDTO;
 import it.othala.dto.LookBookDTO;
@@ -62,7 +63,6 @@ public interface IProductDAO {
 	public ProductFullNewDTO getProductArticleFull(String languages, Integer idProduct,
 			Integer pgArticle);
 
-	public void insertBrand(String txBrand);
 
 	public Integer updateQtStock(Integer idProduct, Integer pgArticle, Integer qtArticles, Boolean fgVendita);
 
@@ -180,6 +180,12 @@ public interface IProductDAO {
 	public void delLookBookProduct(int idLookBook, int idProduct);
 	
 	public List<LookBookDTO> listaLookBook(Integer idLookBook);
+
+	public List<BrandFullDTO> listBrandFull(String languages,
+			Integer idProvincia, Integer idRegione, Integer idBrand);
+
+	public void insertBrand(String txBrand, Integer idRegione, Integer idProvincia,
+			String idUser, String urlFoto, String txDescrIT, String txDescrEN);
 
 
 

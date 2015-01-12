@@ -3,6 +3,7 @@ package it.othala.dao;
 import it.othala.dao.interfaces.IProductDAO;
 import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.AttributeDTO;
+import it.othala.dto.BrandFullDTO;
 import it.othala.dto.CampaignDTO;
 import it.othala.dto.ConfigurationDTO;
 import it.othala.dto.DeliveryAddressDTO;
@@ -562,12 +563,32 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	}
 
 	@Override
-	public void insertBrand(String txBrand) {
+	public void insertBrand(String txBrand, Integer idRegione, Integer idProvincia, String idUser, String urlFoto, String txDescrIT, String txDescrEN) {
 
 		HashMap<String, Object> map = new HashMap<>();
+		map.put("idBrand", null);
 		map.put("txBrand", txBrand);
+		map.put("idRegione", idRegione);
+		map.put("idProvincia", idProvincia);
+		map.put("idUser", idUser);
+		map.put("urlFoto", urlFoto);
+	
 
 		getSqlSession().insert("it.othala.product.queries.insertBrand", map);
+		
+		HashMap<String, Object> map2 = new HashMap<>();
+		map2.put("idBrand",map.get("idBrand"));
+		map2.put("idLanguages", "it");
+		map2.put("txDescrizione", txDescrIT);
+
+		getSqlSession().insert("it.othala.product.queries.insertBrandDescr", map2);
+		
+		HashMap<String, Object> map3 = new HashMap<>();
+		map3.put("idBrand",map.get("idBrand"));
+		map3.put("idLanguages", "en");
+		map3.put("txDescrizione", txDescrEN);
+
+		getSqlSession().insert("it.othala.product.queries.insertBrandDescr", map3);
 
 	}
 
@@ -1149,6 +1170,21 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		}
 	
 		return getSqlSession().selectList("it.othala.product.queries.listLookBook", map);
+	}
+
+	@Override
+	public List<BrandFullDTO> listBrandFull(String languages,
+			Integer idProvincia, Integer idRegione, Integer idBrand) {
+		
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("languages", languages);
+		map.put("idProvincia", idProvincia);
+		map.put("idRegione", idRegione);
+		map.put("idBrand", idBrand);
+		
+		return getSqlSession().selectList(
+				"it.othala.product.queries.listBrandFull", map);
+
 	}
 
 }
