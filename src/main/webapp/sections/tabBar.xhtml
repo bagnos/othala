@@ -6,10 +6,9 @@
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:pe="http://primefaces.org/ui/extensions">
 
-
 	<div id="logo">
 		<a class="hidden-xs hidden-sm" href="#{request.contextPath}/home.xhtml">
-			<h:graphicImage library="images" styleClass="img-responsive" alt="logo mobile magboutique.it"
+			<h:graphicImage library="images" styleClass="img-responsive" alt="logo #{msgSite.titleMerchant}"
 				title="#{msg.navTab_goHome}" name="logo2-small.png"></h:graphicImage>
 		</a>
 	</div>
@@ -49,7 +48,7 @@
 			<div class="tab-pane" id="#{menu.idGender}">
 				<div class="row">
 					<div class="col-xs-1 col-md-2 hidden-xs">
-						<p:graphicImage styleClass="img-responsive" alt="#{msgSite.imgTabArticle}"
+						<p:graphicImage styleClass="img-responsive" alt="#{menu.txGender}"
 							library="#{menu.imgLibrary}" name="#{menu.imgName}" />
 					</div>
 					<div class="col-xs-6 col-sm-4  spacer10">
