@@ -185,7 +185,6 @@ html,body,form {
 	display: none !important;
 }
 
-
 .emailVisible {
 	display: inline !important;
 }
@@ -218,16 +217,15 @@ html,body,form {
 .tumblr_body {
 	font-size: 14px;
 	font-family: playregular !important;
-	
-	
 }
 
 .tumblr_body>p {
-margin: 0px;
+	margin: 0px;
 	padding-top: 0px;
 	padding-bottom: 0px;
 	text-align: justify;
 }
+
 .tumblr_post {
 	
 }
@@ -241,7 +239,7 @@ margin: 0px;
 }
 
 .tumblr_body img {
-		padding-top: 20px;
+	padding-top: 20px;
 	padding-bottom: 20px;
 	width: 100%;
 }

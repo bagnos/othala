@@ -68,7 +68,7 @@
 							<cssSourceIncludes>
 								<cssSourceInclude>*.css</cssSourceInclude>
 							</cssSourceIncludes>
-							<cssFinalFile>main.css</cssFinalFile>
+							<cssFinalFile>main120115.css</cssFinalFile>
 							<jsSourceIncludes>
 								<jsSourceInclude>*.js</jsSourceInclude>
 							</jsSourceIncludes>
