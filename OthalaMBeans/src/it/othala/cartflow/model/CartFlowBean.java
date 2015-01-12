@@ -5,13 +5,11 @@ import it.othala.dto.AttributeDTO;
 import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryCostDTO;
 import it.othala.dto.NazioniDTO;
-import it.othala.dto.ProductCarouselDTO;
 import it.othala.dto.ProductFullNewDTO;
 import it.othala.web.utils.OthalaUtil;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +46,6 @@ public class CartFlowBean implements Serializable {
 	private int idTypeDelivery;
 	private String fidelityCard;
 	private String coupon;
-	private List<ProductCarouselDTO> carouselList;
 	private List<NazioniDTO> nazioni;
 	private List<SelectItem> colors = null;
 	private List<SelectItem> brands = null;
@@ -304,13 +301,7 @@ public class CartFlowBean implements Serializable {
 		this.detailProduct = detailProduct;
 	}
 
-	public List<ProductCarouselDTO> getCarouselList() {
-		return carouselList;
-	}
 
-	public void setCarouselList(List<ProductCarouselDTO> carouselList) {
-		this.carouselList = carouselList;
-	}
 
 	public List<NazioniDTO> getNazioni() {
 		return nazioni;
