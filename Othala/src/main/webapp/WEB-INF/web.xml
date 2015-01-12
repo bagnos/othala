@@ -121,6 +121,5 @@ org.primefaces.webapp.filter.FileUploadFilter
   </session-config>
   <welcome-file-list>
    <welcome-file>home.xhtml</welcome-file>
-    </welcome-file-list>
-       
+    </welcome-file-list>       
 </web-app>
