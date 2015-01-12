@@ -275,8 +275,29 @@
 
 		INSERT INTO
 		${database.schema}brand
-		(`txBrand`)
-		values (#{txBrand})
+		(`txBrand`,`idRegione`,
+		`idProvincia`,`idUser`,`urlFoto`)
+		values
+		(#{txBrand},
+  #{idRegione}, #{idProvincia},
+		 #{idProvincia},#{idUser},#{urlFoto})
+
+		<selectKey resultType="java.lang.Integer" keyProperty="idBrand">
+
+			SELECT LAST_INSERT_ID() AS idBrand
+
+		</selectKey>
+
+	</insert>
+	<insert id="insertBrandDescr" parameterType="java.util.HashMap">
+
+		INSERT INTO
+		${database.schema}brand_descr
+		(`idBrand`,
+		`idLanguages`,
+		`txDescrizione`)
+		VALUES
+		(#{idBrand},#{idLanguages},#{txDescrizione})
 
 	</insert>
 
@@ -360,6 +381,60 @@
 		FROM
 		${database.schema}brand d
 		order by 2
+
+	</select>
+
+	<select id="listBrandFull" resultType="it.othala.dto.BrandFullDTO">
+
+		SELECT * FROM
+		(
+		SELECT a.idBrand,
+		a.txBrand,
+		a.idProvincia,
+		e.txProvincia,
+		e.idRegione,
+		e.txRegione,
+		a.idUser,
+		a.urlFoto,
+		b.txDescrizione as txDescrOnline,
+		c.txDescrizione as txDescrIT,
+		d.txDescrizione as txDescrEN
+		FROM ${database.schema}brand a
+		left join
+		${database.schema}brand_descr b
+		on a.idBrand = b.idBrand
+		and b.idLanguages = #{languages}
+		left join
+		${database.schema}brand_descr c
+		on a.idBrand = c.idBrand
+		and c.idLanguages = "it"
+		left join
+		${database.schema}brand_descr d
+		on a.idBrand = d.idBrand
+		and d.idLanguages = "en"
+		left join
+		(select f.idregione, f.txRegione, g.idProvincia, h.txProvincia
+		from ${database.schema}regione f,
+		${database.schema}provincia h
+		where f.idregione = h.idregione) e
+		on a.idProvincia = e.idProvincia
+		and a.idregione = e.idregione
+		) TAB1
+		WHERE 1 = 1
+				
+		<if test="idBrand != null">
+			and a.idBrand = #{idBrand}
+		</if>
+		
+		<if test="idProvincia != null">
+			and a.idProvincia = #{idProvincia}
+		</if>
+
+		<if test="idRegione != null">
+			and a.idRegione = #{idRegione}
+		</if>
+		
+		order by txBrand
 
 	</select>
 
@@ -504,7 +579,7 @@
 		b.idShop
 
 	</select>
-	
+
 	<select id="listStatesOrder" resultType="it.othala.dto.AttributeDTO">
 
 		SELECT idStato as
@@ -525,7 +600,7 @@
 		order by 2
 
 	</select>
-	
+
 	<select id="getListNazioni" resultType="it.othala.dto.NazioniDTO">
 
 
@@ -540,7 +615,7 @@
 
 
 	</select>
-	
+
 	<select id="getMaxIdColor" resultType="Integer">
 
 		SELECT MAX(idColor)
@@ -575,7 +650,7 @@
 
 
 	</select>
-	
+
 	<select id="getListConfiguration" resultType="it.othala.dto.ConfigurationDTO">
 
 
@@ -587,7 +662,7 @@
 		${database.schema}configuration;
 
 	</select>
-	
+
 	<!-- PULIZIA IMMAGINI -->
 
 	<select id="listGoodImages" resultType="String">
@@ -768,7 +843,7 @@
 	</select>
 
 	<!-- VETRINA -->
-	
+
 	<select id="listProduct" resultType="it.othala.dto.ProductFullNewDTO"
 		parameterType="java.util.HashMap">
 
@@ -1151,7 +1226,7 @@
 	</select>
 
 	<!-- DETTAGLIO -->
-	
+
 	<select id="getProductFull" resultType="it.othala.dto.ProductFullNewDTO"
 		parameterType="java.util.HashMap">
 
@@ -1274,7 +1349,7 @@
 		current_date;
 
 	</select>
-	
+
 	<select id="listProductImages" resultType="String"
 		parameterType="java.util.HashMap">
 
@@ -1283,7 +1358,7 @@
 		idProduct = #{idProduct}
 
 	</select>
-	
+
 	<!-- MERCHANT -->
 
 	<insert id="insertProduct" parameterType="it.othala.dto.ProductFullNewDTO">
@@ -1383,7 +1458,7 @@
 
 
 	</select>
-	
+
 	<update id="deleteProduct" parameterType="java.util.HashMap">
 
 
@@ -1398,7 +1473,7 @@
 
 
 	</update>
-	
+
 	<delete id="deleteArticle" parameterType="java.util.HashMap">
 
 		DELETE FROM
@@ -1491,7 +1566,7 @@
 		</foreach>
 
 	</update>
-	
+
 	<select id="listFindProduct" resultType="it.othala.dto.ProductFullNewDTO"
 		parameterType="java.util.HashMap">
 
@@ -1659,7 +1734,7 @@
 
 
 	</select>
-	
+
 	<select id="getProductFullBarcode" resultType="it.othala.dto.ProductFullNewDTO"
 		parameterType="java.util.HashMap">
 
@@ -1773,7 +1848,7 @@
 
 
 	</select>
-	
+
 	<select id="listArticleFullBarcode" resultType="it.othala.dto.ArticleFullDTO"
 		parameterType="java.util.HashMap">
 
@@ -1821,8 +1896,8 @@
 
 
 	</select>
-	
-	
+
+
 	<!-- CARRELLO -->
 
 	<select id="getQtStock" resultType="Integer" parameterType="java.util.HashMap">
@@ -1847,7 +1922,7 @@
 
 
 	</select>
-	
+
 	<update id="updateQtStock" parameterType="java.util.HashMap">
 
 		UPDATE
@@ -1865,9 +1940,9 @@
 
 
 	</update>
-	
-	<!--  -->
-	
+
+	<!-- -->
+
 	<select id="listArticleFull" resultType="it.othala.dto.ArticleFullDTO"
 		parameterType="java.util.HashMap">
 
@@ -1966,7 +2041,7 @@
 
 
 	</select>
-		
+
 	<update id="updateArticle" parameterType="java.util.HashMap">
 
 		UPDATE
@@ -2008,8 +2083,8 @@
 
 	</select>
 
-	
-	
+
+
 
 
 

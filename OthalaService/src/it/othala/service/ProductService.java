@@ -4,6 +4,7 @@ import it.othala.dao.interfaces.IProductDAO;
 import it.othala.dto.ArticleDTO;
 import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.AttributeDTO;
+import it.othala.dto.BrandFullDTO;
 import it.othala.dto.CampaignDTO;
 import it.othala.dto.DomainDTO;
 import it.othala.dto.LookBookDTO;
@@ -118,10 +119,10 @@ public class ProductService implements IProductService {
 	}
 
 	@Override
-	public DomainDTO insertBrand(String languages, String txBrand) {
+	public DomainDTO insertBrand(String languages, String txBrand, Integer idRegione, Integer idProvincia, String idUser, String urlFoto, String txDescrIT, String txDescrEN) {
 
 		if (productDAO.checkEsistenza("brand", txBrand, null)) {
-			productDAO.insertBrand(txBrand);
+			productDAO.insertBrand(txBrand, idRegione, idProvincia, idUser, urlFoto, txDescrIT, txDescrEN);
 		}
 		DomainDTO domainDTO = new DomainDTO();
 		domainDTO.setSize(productDAO.listSize(languages));
@@ -544,4 +545,13 @@ public class ProductService implements IProductService {
 		return productDAO.listaLookBook(idLookBook);
 	}
 
+	
+	@Override
+	public List<BrandFullDTO> listBrandFull(String languages, Integer idProvincia, Integer idRegione, Integer idBrand) {
+
+		return	productDAO.listBrandFull(languages, idProvincia, idRegione, idBrand);
+
+	}
+	
+	
 }
