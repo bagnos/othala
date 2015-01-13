@@ -407,6 +407,7 @@ CREATE TABLE `orders_articles` (
   `idProdotto` int(11) NOT NULL,
   `pgArticle` int(11) NOT NULL,
   `qtArticle` int(11) NOT NULL,
+  `imArticle` decimal(15,2) DEFAULT NULL,
   PRIMARY KEY (`idOrder`,`idProdotto`,`pgArticle`),
   KEY `fk_OrdersArticles_Article1_idx` (`idProdotto`,`pgArticle`),
   KEY `fk_OrdersArticles_Orders1_idx` (`idOrder`),
