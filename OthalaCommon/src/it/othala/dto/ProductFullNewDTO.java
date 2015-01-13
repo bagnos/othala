@@ -67,6 +67,9 @@ public class ProductFullNewDTO implements Serializable {
 	private List<ShopDTO> listShop;
 
 	private Date dtProductstate;
+	
+	private List<InfAggiuntiveDTO> infAggiuntive;
+	
 
 	public String getColorsAsString() {
 		return StringUtils.collectionToCommaDelimitedString(color);
@@ -322,6 +325,14 @@ public class ProductFullNewDTO implements Serializable {
 
 	public void setDtProductstate(Date dtProductstate) {
 		this.dtProductstate = dtProductstate;
+	}
+
+	public List<InfAggiuntiveDTO> getInfAggiuntive() {
+		return infAggiuntive;
+	}
+
+	public void setInfAggiuntive(List<InfAggiuntiveDTO> infAggiuntive) {
+		this.infAggiuntive = infAggiuntive;
 	}
 
 }

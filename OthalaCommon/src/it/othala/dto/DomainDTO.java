@@ -21,6 +21,8 @@ public class DomainDTO implements Serializable {
 	private List<AttributeDTO> statesProduct;
 	private List<NazioniDTO> nazioni;
 	private List<ConfigurationDTO> configuration;
+	private List<RegioneDTO> regioni;
+	private List<AttributeDTO> infAggiuntive;
 	
 
 	
@@ -110,6 +112,22 @@ public class DomainDTO implements Serializable {
 
 	public void setConfiguration(List<ConfigurationDTO> configuration) {
 		this.configuration = configuration;
+	}
+
+	public List<RegioneDTO> getRegioni() {
+		return regioni;
+	}
+
+	public void setRegioni(List<RegioneDTO> regioni) {
+		this.regioni = regioni;
+	}
+
+	public List<AttributeDTO> getInfAggiuntive() {
+		return infAggiuntive;
+	}
+
+	public void setInfAggiuntive(List<AttributeDTO> infAggiuntive) {
+		this.infAggiuntive = infAggiuntive;
 	}
 
 }
