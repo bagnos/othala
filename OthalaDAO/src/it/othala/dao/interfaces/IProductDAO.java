@@ -1,5 +1,6 @@
 package it.othala.dao.interfaces;
 
+import it.othala.dto.ArticleCashedDTO;
 import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.AttributeDTO;
 import it.othala.dto.BrandFullDTO;
@@ -195,6 +196,8 @@ public interface IProductDAO {
 			String languages);
 
 	public List<AttributeDTO> listInfAggiuntive(String languages);
+	
+	public List<ArticleCashedDTO> listArticlesCached();
 
 
 
