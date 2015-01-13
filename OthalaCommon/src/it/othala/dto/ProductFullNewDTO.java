@@ -70,6 +70,8 @@ public class ProductFullNewDTO implements Serializable {
 	
 	private List<InfAggiuntiveDTO> infAggiuntive;
 	
+	private Integer tyProduct;
+	
 
 	public String getColorsAsString() {
 		return StringUtils.collectionToCommaDelimitedString(color);
@@ -333,6 +335,14 @@ public class ProductFullNewDTO implements Serializable {
 
 	public void setInfAggiuntive(List<InfAggiuntiveDTO> infAggiuntive) {
 		this.infAggiuntive = infAggiuntive;
+	}
+
+	public Integer getTyProduct() {
+		return tyProduct;
+	}
+
+	public void setTyProduct(Integer tyProduct) {
+		this.tyProduct = tyProduct;
 	}
 
 }
