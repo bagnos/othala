@@ -943,7 +943,8 @@
 		a.tyProduct
 		FROM
 
-		${database.schema}product a,
+		${database.schema}product
+		a,
 		${database.schema}product_description
 		b,
 		${database.schema}brand c,
@@ -1325,11 +1326,13 @@
 		a.txThumbnailsUrl
 		as
 		thumbnailsUrl,
-		a.pcDiscount as discount,
+		a.pcDiscount as
+		discount,
 
 		b.txDescription as
 		description,
-		bb.txDescription as descriptionEN,
+		bb.txDescription as
+		descriptionEN,
 
 		case
 		when
@@ -1513,10 +1516,14 @@
 		`qtStock`,
 		`txThumbnailsUrl`,
 		`idShop`,
-		`txBarCode`)
+		`txBarCode`,
+		`imPrice`,
+		`specialPrice`,
+		`pcDiscount`)
 		VALUES
 		(#{idProduct},
-		#{pgArticle},#{idSize},#{idColor},#{qtStock},#{thumbnailsUrl},#{idShop},#{txBarCode});
+		#{pgArticle},#{idSize},#{idColor},#{qtStock},#{thumbnailsUrl},
+		#{idShop},#{txBarCode},#{imPrice},#{specialPrice},#{pcDiscount});
 
 
 	</insert>
@@ -1610,7 +1617,7 @@
 		WHERE idProduct
 		= #{idProduct}
 	</delete>
-	
+
 	<update id="downloadArticle" parameterType="java.util.HashMap">
 
 		UPDATE
@@ -1756,7 +1763,8 @@
 		=
 		f.idLanguages
 		and b.idLanguages
-		= g.idLanguages
+		=
+		g.idLanguages
 		and c.idBrand =
 		a.idBrand
 		and
@@ -1903,19 +1911,23 @@
 		price,
 		a.txThumbnailsUrl as
 		thumbnailsUrl,
-		a.pcDiscount as discount,
+		a.pcDiscount as
+		discount,
 		ceiling(a.imPrice * (100 -
 		a.pcDiscount) /
-		100) as priceDiscounted,
+		100) as
+		priceDiscounted,
 		b.txDescription as description,
 
 		case
-		when DATEDIFF(current_date,
+		when
+		DATEDIFF(current_date,
 		a.dtProductState) &lt; 20
 		then 'Y'
 		else
 		'N'
-		end as fgNewArrivals,
+		end as
+		fgNewArrivals,
 
 		a.idGender,
 		txGender,
@@ -2075,6 +2087,26 @@
 
 
 		SELECT
+		TAB1.pgArticle,
+		TAB1.qtStock,
+		TAB1.idSize,
+		TAB1.txSize,
+		TAB1.idColor,
+		TAB1.txColor,
+		TAB1.thumbnailsUrl,
+		TAB1.txBarCode,
+		TAB1.price,
+		TAB1.specialPrice,
+		TAB1.discount,
+		coalesce(TAB1.specialPrice,
+		ceiling(TAB1.price * (100 -
+		coalesce(tab2.pcSconto,TAB1.discount)) /
+		100)) as
+		priceDiscounted
+
+		from
+		(
+		SELECT
 		a.pgArticle as pgArticle,
 		a.qtStock as qtStock,
 
@@ -2088,9 +2120,11 @@
 		coalesce(a.txThumbnailsUrl,
 		d.txThumbnailsUrl) as
 		thumbnailsUrl,
-		a.txBarCode
-
-
+		a.txBarCode,
+		a.imPrice as price,
+		a.specialPrice,
+		a.pcDiscount as discount,
+		d.idCampaign
 
 		FROM
 		${database.schema}article a,
@@ -2113,6 +2147,16 @@
 		<if test="fgQtaZero == null or fgQtaZero == false">
 			and a.qtStock > 0
 		</if>
+		) TAB1
+		left join
+		${database.schema}campaigns tab2
+
+		on TAB1.idCampaign =
+		tab2.idCampaign
+		and tab2.dtInizio &lt;= current_date
+		and tab2.dtFine
+		&gt;=
+		current_date;
 
 
 
@@ -2122,6 +2166,27 @@
 	<select id="getArticleFull" resultType="it.othala.dto.ArticleFullDTO"
 		parameterType="java.util.HashMap">
 
+
+		SELECT
+		TAB1.pgArticle,
+		TAB1.qtStock,
+		TAB1.idSize,
+		TAB1.txSize,
+		TAB1.idColor,
+		TAB1.txColor,
+		TAB1.thumbnailsUrl,
+		TAB1.txBarCode,
+		TAB1.price,
+		TAB1.specialPrice,
+		TAB1.discount,
+		coalesce(TAB1.specialPrice,
+		ceiling(TAB1.price * (100 -
+		coalesce(tab2.pcSconto,TAB1.discount)) /
+		100)) as
+		priceDiscounted
+
+		from
+		(
 
 		SELECT
 		a.pgArticle as pgArticle,
@@ -2135,8 +2200,13 @@
 
 		txColor,
 		coalesce(a.txThumbnailsUrl,
-		d.txThumbnailsUrl) as thumbnailsUrl,
-		a.txBarCode
+		d.txThumbnailsUrl) as
+		thumbnailsUrl,
+		a.txBarCode,
+		a.imPrice,
+		a.specialPrice,
+		a.pcDiscount,
+		d.idCampaign
 
 
 
@@ -2165,6 +2235,16 @@
 		and
 		d.idProduct =
 		a.idProduct
+		) TAB1
+		left join
+		${database.schema}campaigns tab2
+
+		on TAB1.idCampaign =
+		tab2.idCampaign
+		and tab2.dtInizio &lt;= current_date
+		and tab2.dtFine
+		&gt;=
+		current_date;
 
 
 	</select>
@@ -2174,8 +2254,12 @@
 		UPDATE
 		${database.schema}article
 		set qtStock = #{qtStock},
-		`idShop` = #{idShop}
-		Where idProduct =
+		`idShop` =
+		#{idShop},
+		imPrice = #{imPrice},
+		specialPrice = #{specialPrice},
+		pcDiscount = #{pcDiscount}
+		where idProduct =
 		#{idProduct}
 		and
 		pgArticle =
