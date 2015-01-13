@@ -14,6 +14,7 @@ import it.othala.dto.ShopDTO;
 import it.othala.enums.TypeStateOrder;
 import it.othala.execption.OthalaException;
 import it.othala.execption.StockNotPresentException;
+import it.othala.external.service.interfaces.IOthalaExternalServices;
 import it.othala.payment.paypal.dto.DoExpressCheckoutPaymentDTO;
 import it.othala.payment.paypal.dto.GetExpressCheckoutDetailsDTO;
 import it.othala.payment.paypal.dto.IpnDTO;
@@ -71,6 +72,7 @@ public class PaymentService implements IPaymentService {
 	private PayPalWrapper wrapper;
 	private ProfilePayPalDTO profilePayPal;
 	private IProductDAO productDAO;
+	private IOthalaExternalServices externalService;
 
 	public void setMessageIpnDAO(IMessagelIpnDAO messageIpnDAO) {
 		this.messageIpnDAO = messageIpnDAO;
@@ -421,6 +423,17 @@ public class PaymentService implements IPaymentService {
 		if (state == TypeStateOrder.SPEDITO) {
 
 		} else {
+			for (ArticleFullDTO art : order.getCart()) {
+				
+				ShopDTO shop = externalService.getShopStock(art.getPrdFullDTO().getIdProduct(), art.getPgArticle(), art.getTxBarCode());
+				
+				html = generateHtmlOrder(order, mailDTO, inlineImages, state, "mailInserimentoOrdine", shop.getIdShop());
+						
+				mailService.inviaHTMLMail(new String[] { shop.getTxMail() }, "Nuovo Ordine WEB",
+						html, inlineImages, mailDTO);
+				
+			}
+			
 			//Cambiare
 			//Creare un metodo doppio in externalservice che tira fuori nel caso del deg il magazzino con maggior capienza
 			//nel caso normale il negozio
@@ -428,7 +441,7 @@ public class PaymentService implements IPaymentService {
 			//Per ogni articolo va preso il magazzino con maggior capienza e mandata la mail per deg
 			//Per ogni articolo mandare la mail al negozio
 			// invia la mai di notifica ordine ai negozi
-			List<ShopDTO> lstShop = new ArrayList<ShopDTO>();
+			/*List<ShopDTO> lstShop = new ArrayList<ShopDTO>();
 			lstShop = productDAO.listShop();
 			for (int i = 0; i < lstShop.size(); i++) {
 				for (ArticleFullDTO art : order.getCart()) {
@@ -440,7 +453,7 @@ public class PaymentService implements IPaymentService {
 						break;
 					}
 				}
-			}
+			}*/
 		}
 
 	}
@@ -763,6 +776,14 @@ public class PaymentService implements IPaymentService {
 			log.info(String.format("nessuna operazione da fare per lo stato  %s di rimborso", paypalStatus));
 		}
 		return refTrans;
+	}
+
+	public IOthalaExternalServices getExternalService() {
+		return externalService;
+	}
+
+	public void setExternalService(IOthalaExternalServices externalService) {
+		this.externalService = externalService;
 	}
 
 }
