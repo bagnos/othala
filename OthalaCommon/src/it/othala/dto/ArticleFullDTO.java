@@ -8,6 +8,38 @@ import java.util.List;
 
 public class ArticleFullDTO implements Serializable {
 
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+
+	public Integer getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(Integer discount) {
+		this.discount = discount;
+	}
+
+	public BigDecimal getPriceDiscounted() {
+		return priceDiscounted;
+	}
+
+	public void setPriceDiscounted(BigDecimal priceDiscounted) {
+		this.priceDiscounted = priceDiscounted;
+	}
+
+	public BigDecimal getSpecialPrice() {
+		return specialPrice;
+	}
+
+	public void setSpecialPrice(BigDecimal specialPrice) {
+		this.specialPrice = specialPrice;
+	}
+
 	/**
 	 * 
 	 */
@@ -30,7 +62,10 @@ public class ArticleFullDTO implements Serializable {
 	private List<ChangeArticleDTO> changesAvailable;
 	private ArticleUpdate articleUpdate;
 	private Integer pgArticleChangeSelected;
-	
+	private BigDecimal price;
+	private Integer discount;
+	private BigDecimal priceDiscounted;
+	private BigDecimal specialPrice;
 	
 	public Integer getPgArticleChangeSelected() {
 		return pgArticleChangeSelected;
