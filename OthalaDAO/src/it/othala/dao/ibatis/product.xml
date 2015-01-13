@@ -2211,7 +2211,7 @@
 	</select>
 	<!-- prodotti venduti -->
 	<select id="getProdottiVenduti" resultType="it.othala.dto.ArticleCashed">
-	select sp.idProduct,SP.pgArticle,b.txBrand,t.txType,c.txColor,s.txSize,spedita,coalesce(rimborsata,0) as rimborsata, (spedita-coalesce(rimborsata,0)) as totale
+	select sp.idProduct,SP.pgArticle,b.txBrand,t.txType,c.txColor,s.txSize,(coalesce(spedita,0)-coalesce(rimborsata,0)) as qtaCached
 	from
 	(SELECT p.idProduct,p.idbrand,p.idType,a.pgArticle,a.idColor,a.idSize,sum(qtArticle) as spedita
 	from ${database.schema}orders_articles oa, ${database.schema}article a, ${database.schema}product p
