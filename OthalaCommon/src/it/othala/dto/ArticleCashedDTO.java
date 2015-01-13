@@ -3,7 +3,7 @@ package it.othala.dto;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class ArticleCashed implements Serializable {
+public class ArticleCashedDTO implements Serializable {
 	/**
 	 * 
 	 */
