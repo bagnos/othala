@@ -1,5 +1,6 @@
 package it.othala.service.interfaces;
 
+import it.othala.dto.ArticleCashedDTO;
 import it.othala.dto.ArticleDTO;
 import it.othala.dto.BrandFullDTO;
 import it.othala.dto.LookBookDTO;
@@ -99,7 +100,7 @@ public interface IProductService {
 			Integer idProvincia, String idUser, String urlFoto,
 			String txDescrIT, String txDescrEN);
 
-
+	public List<ArticleCashedDTO> listArticleCashed();
 
 
 

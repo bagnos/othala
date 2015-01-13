@@ -1,6 +1,7 @@
 package it.othala.service;
 
 import it.othala.dao.interfaces.IProductDAO;
+import it.othala.dto.ArticleCashedDTO;
 import it.othala.dto.ArticleDTO;
 import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.AttributeDTO;
@@ -521,6 +522,12 @@ public class ProductService implements IProductService {
 
 		return	productDAO.listBrandFull(languages, idProvincia, idRegione, idBrand);
 
+	}
+
+	@Override
+	public List<ArticleCashedDTO> listArticleCashed() {
+		// TODO Auto-generated method stub
+		return productDAO.getArticlesCached();
 	}
 	
 	
