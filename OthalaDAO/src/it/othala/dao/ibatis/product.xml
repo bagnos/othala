@@ -279,8 +279,9 @@
 		`idProvincia`,`idUser`,`urlFoto`)
 		values
 		(#{txBrand},
-  #{idRegione}, #{idProvincia},
-		 #{idProvincia},#{idUser},#{urlFoto})
+		#{idRegione},
+		#{idProvincia},
+		#{idProvincia},#{idUser},#{urlFoto})
 
 		<selectKey resultType="java.lang.Integer" keyProperty="idBrand">
 
@@ -362,6 +363,20 @@
 
 	</select>
 
+	<select id="listInfAggiuntive" resultType="it.othala.dto.AttributeDTO"
+		parameterType="java.util.HashMap">
+
+		SELECT idInformazione as attributo,txInformazione as
+		valore
+		FROM
+		${database.schema}infaggiuntive d
+		where
+		idLanguages =
+		#{languages}
+		order by 2
+
+	</select>
+
 	<select id="listMaterial" resultType="it.othala.dto.AttributeDTO"
 		parameterType="java.util.HashMap">
 
@@ -396,14 +411,17 @@
 		e.txRegione,
 		a.idUser,
 		a.urlFoto,
-		b.txDescrizione as txDescrOnline,
+		b.txDescrizione as
+		txDescrOnline,
 		c.txDescrizione as txDescrIT,
-		d.txDescrizione as txDescrEN
+		d.txDescrizione as
+		txDescrEN
 		FROM ${database.schema}brand a
 		left join
 		${database.schema}brand_descr b
 		on a.idBrand = b.idBrand
-		and b.idLanguages = #{languages}
+		and
+		b.idLanguages = #{languages}
 		left join
 		${database.schema}brand_descr c
 		on a.idBrand = c.idBrand
@@ -411,21 +429,25 @@
 		left join
 		${database.schema}brand_descr d
 		on a.idBrand = d.idBrand
-		and d.idLanguages = "en"
+		and
+		d.idLanguages = "en"
 		left join
-		(select f.idregione, f.txRegione, g.idProvincia, h.txProvincia
+		(select f.idregione, f.txRegione,
+		h.idProvincia, h.txProvincia
 		from ${database.schema}regione f,
 		${database.schema}provincia h
 		where f.idregione = h.idregione) e
-		on a.idProvincia = e.idProvincia
+		on
+		a.idProvincia = e.idProvincia
 		and a.idregione = e.idregione
 		) TAB1
-		WHERE 1 = 1
-				
+		WHERE
+		1 = 1
+
 		<if test="idBrand != null">
 			and a.idBrand = #{idBrand}
 		</if>
-		
+
 		<if test="idProvincia != null">
 			and a.idProvincia = #{idProvincia}
 		</if>
@@ -433,7 +455,7 @@
 		<if test="idRegione != null">
 			and a.idRegione = #{idRegione}
 		</if>
-		
+
 		order by txBrand
 
 	</select>
@@ -662,6 +684,32 @@
 		${database.schema}configuration;
 
 	</select>
+
+	<resultMap id="Regioni" type="it.othala.dto.RegioneDTO">
+		<id property="idRegione" column="idRegione" />
+		<result property="txRegione" column="txRegione" />
+		<collection property="province" ofType="it.othala.dto.ProvinciaDTO">
+			<result property="idProvincia" column="idProvincia" />
+			<result property="txProvincia" column="txProvincia" />
+		</collection>
+	</resultMap>
+
+	<select id="listRegioni" resultMap="Regioni">
+
+		SELECT f.idregione as
+		idRegione, f.txRegione, h.idProvincia, h.txProvincia
+		from
+		${database.schema}regione f,
+		${database.schema}provincia h
+		where
+		f.idregione = h.idregione
+
+	</select>
+
+
+
+
+
 
 	<!-- PULIZIA IMMAGINI -->
 
@@ -1359,6 +1407,51 @@
 
 	</select>
 
+	<select id="listProductInfAggiuntive" resultType="it.othala.dto.InfAggiuntiveDTO"
+		parameterType="java.util.HashMap">
+
+		SELECT a.idProduct,
+		a.idLanguages,
+		b.idInformazione,
+		b.txInformazione as txInformazione,
+		a.txDescrizione as txDescrizione,
+		d.txInformazione as txInformazioneIT,
+		c.txDescrizione as
+		txDescrizioneIT,
+		f.txInformazione as txInformazioneEN,
+		e.txDescrizione
+		as txDescrizioneEN
+		FROM ${database.schema}product_info a,
+		${database.schema}infaggiuntive b,
+		${database.schema}product_info c,
+		${database.schema}infaggiuntive d,
+		${database.schema}product_info e,
+		${database.schema}infaggiuntive f
+		where a.idProduct = #{idProduct}
+		and
+		a.idInformazione = b.idInformazione
+		and a.idLanguages = b.idLanguages
+		and a.idLanguages = #{languages}
+		and c.idInformazione =
+		a.idInformazione
+		and c.idInformazione = d.idInformazione
+		and
+		c.idLanguages = d.idLanguages
+		and c.idLanguages = "it"
+		and
+		e.idInformazione = a.idInformazione
+		and e.idInformazione =
+		f.idInformazione
+		and e.idLanguages = f.idLanguages
+		and e.idLanguages =
+		"en"
+
+
+	</select>
+
+
+
+
 	<!-- MERCHANT -->
 
 	<insert id="insertProduct" parameterType="it.othala.dto.ProductFullNewDTO">
@@ -1435,6 +1528,22 @@
 
 	</insert>
 
+	<insert id="insertInfAggiuntive" parameterType="java.util.HashMap">
+
+		INSERT INTO
+		${database.schema}product_info
+		(`idProduct`,
+		`idInformazione`,
+		`idLanguages`,
+		`txDescrizione`)
+		VALUES
+		(#{idProduct},
+		#{idInformazione},#{idLanguages},#{txDescrizione});
+
+	</insert>
+
+
+
 	<select id="getDescrizione" resultType="String">
 
 		SELECT CONCAT(txBrand, '
@@ -1490,6 +1599,13 @@
 		= #{idProduct}
 	</delete>
 
+	<delete id="deleteInfAggiuntive" parameterType="java.util.HashMap">
+		DELETE FROM
+		${database.schema}product_info
+		WHERE idProduct
+		= #{idProduct}
+	</delete>
+	
 	<update id="downloadArticle" parameterType="java.util.HashMap">
 
 		UPDATE
