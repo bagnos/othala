@@ -1281,7 +1281,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	}
 
 	@Override
-	public List<ArticleCashedDTO> listArticlesCached() {
+	public List<ArticleCashedDTO> getArticlesCached() {
 		// TODO Auto-generated method stub
 		return null;
 	}
