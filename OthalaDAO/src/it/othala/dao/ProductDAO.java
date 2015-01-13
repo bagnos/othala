@@ -1,6 +1,7 @@
 package it.othala.dao;
 
 import it.othala.dao.interfaces.IProductDAO;
+import it.othala.dto.ArticleCashedDTO;
 import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.AttributeDTO;
 import it.othala.dto.BrandFullDTO;
@@ -1277,6 +1278,12 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		return getSqlSession().selectList(
 				"it.othala.product.queries.listProductInfAggiuntive", map1);
 
+	}
+
+	@Override
+	public List<ArticleCashedDTO> listArticlesCached() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
