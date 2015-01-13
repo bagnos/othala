@@ -2209,13 +2209,31 @@
 
 
 	</select>
-
-
-
-
-
-
-
-
-
+	<!-- prodotti venduti -->
+	<select id="getProdottiVenduti" resultType="it.othala.dto.ArticleCashed">
+	select sp.idProduct,SP.pgArticle,b.txBrand,t.txType,c.txColor,s.txSize,spedita,coalesce(rimborsata,0) as rimborsata, (spedita-coalesce(rimborsata,0)) as totale
+	from
+	(SELECT p.idProduct,p.idbrand,p.idType,a.pgArticle,a.idColor,a.idSize,sum(qtArticle) as spedita
+	from ${database.schema}orders_articles oa, ${database.schema}article a, ${database.schema}product p
+	where oa.idProdotto=a.idProduct
+	and oa.pgArticle=a.pgArticle
+	and p.idProduct=a.idProduct
+	group by p.idProduct,p.idbrand,p.idType,a.pgArticle,a.idColor,a.idSize)SP
+	left join
+	(SELECT p.idProduct,p.idbrand,p.idType,a.pgArticle,a.idColor,a.idSize,sum(coalesce(qtArticle,0)) as rimborsata
+	from ${database.schema}refound_articles oa, ${database.schema}article a, ${database.schema}product p
+	where oa.idProdotto=a.idProduct
+	and oa.pgArticle=a.pgArticle
+	and p.idProduct=a.idProduct
+	group by p.idProduct,p.idbrand,p.idType,a.pgArticle,a.idColor,a.idSize)RIM
+	on( 
+	sp.idProduct=RIM.idProduct
+	and 
+	sp.pgArticle=rim.pgArticle
+	)
+	join ${database.schema}brand b on b.idbrand=sp.idBrand
+	join ${database.schema}type t on t.idType=sp.idType
+	join ${database.schema}size s on s.idSize=sp.idSize
+	join ${database.schema}color c on c.idColor=sp.idColor
+	</select>
 </mapper>
