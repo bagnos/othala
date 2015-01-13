@@ -4,9 +4,11 @@ import java.util.List;
 
 import it.othala.dto.FidelityCardDTO;
 import it.othala.dto.OrderFullDTO;
+import it.othala.dto.ShopDTO;
 import it.othala.execption.FidelityCardNotPresentException;
 import it.othala.execption.FidelityCardNotValidException;
 import it.othala.external.dao.interfaces.IExternalDAO;
+import it.othala.external.dto.ShopDegortesDTO;
 import it.othala.external.service.interfaces.IOthalaExternalServices;
 
  class DegortesService implements IOthalaExternalServices {
@@ -48,6 +50,19 @@ import it.othala.external.service.interfaces.IOthalaExternalServices;
 			throw new FidelityCardNotPresentException(idFidelity);
 
 		return fCard;
+	}
+
+	@Override
+	public ShopDTO getShopStock(Integer idProduct, Integer pgArticle,
+			String codBarre) {
+		ShopDegortesDTO shopDeg = externalDAO.getShopStock(codBarre);
+		ShopDTO shop = new ShopDTO();
+		shop.setIdShop(shopDeg.getCodMagaz());
+		shop.setTxShop(shopDeg.getDescrizioneNegozio());
+		//shop.setTxMail(shopDeg.getTxMail());
+		
+		return shop;
+		
 	}
 
 }
