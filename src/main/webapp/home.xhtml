@@ -64,7 +64,7 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 						data-width="450" data-show-faces="true"></div>
 				</div>
 			</div>
-			<div class="row">
+			<div id="main-carousel" class="row">
 				<div class="col-sm-12">
 					<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
 						<!-- Wrapper for slides -->
@@ -95,7 +95,7 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 					<h2 class="title">
 						<span>#{msg.catalog_newArrival}</span>
 					</h2>
-					<h:link value="#{menu.txGender}" outcome="/cart/cart-catalog.xhtml" styleClass="show-more-link">
+					<h:link value="#{menu.txGender}" outcome="/cart/cart-catalog.xhtml" styleClass="show-more-link hidden-xs">
 						<f:param name="idMenu" value="0"></f:param>
 						<f:param name="idSubMenu" value="0"></f:param>
 						<f:param name="fgNewArrivals" value="true"></f:param>
@@ -104,7 +104,7 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 					</h:link>
 				</div>
 			</div>
-			<div class="container" style="margin-top: 5px;">
+			<div class="container">
 				<div class="row">
 					<ui:repeat var="imgNewArr" value="#{applicationBean.imgsNewArrival}">
 						<h:panelGroup styleClass="col-sm-6" rendered="#{imgNewArr.txName!=null}">
