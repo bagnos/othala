@@ -911,7 +911,8 @@
 		discount,
 		fgNewArrivals,
 		tab2.idCampaign,
-		specialPrice
+		specialPrice,
+		tyProduct
 		FROM
 		(
 		SELECT
@@ -938,7 +939,8 @@
 		fgNewArrivals,
 
 		a.idCampaign,
-		a.specialPrice
+		a.specialPrice,
+		a.tyProduct
 		FROM
 
 		${database.schema}product a,
@@ -1308,7 +1310,8 @@
 		tab1.idMaterial,
 		tab1.txMaterial,
 		tab1.specialPrice,
-		tab1.idProductState
+		tab1.idProductState,
+		tab1.tyProduct
 
 
 
@@ -1349,7 +1352,8 @@
 		a.idMaterial,
 		txMaterial,
 		specialPrice,
-		a.idProductState
+		a.idProductState,
+		a.tyProduct
 
 		FROM
 		${database.schema}product a,
@@ -1470,11 +1474,12 @@
 		`dtProductState`,
 		`idCampaign`,
 		`idMaterial`,
-		`specialPrice`)
+		`specialPrice`,
+		`tyProduct`)
 
 		values
 		(#{idGender},#{idType},#{idBrand},
-		#{price},#{discount},#{thumbnailsUrl},0,now(),#{idCampaign},#{idMaterial},#{specialPrice})
+		#{price},#{discount},#{thumbnailsUrl},0,now(),#{idCampaign},#{idMaterial},#{specialPrice},#{tyProduct})
 
 		<selectKey resultType="java.lang.Integer" keyProperty="idProduct">
 
@@ -1648,7 +1653,9 @@
 		`idMaterial` =
 		#{idMaterial},
 		`specialPrice` =
-		#{specialPrice}
+		#{specialPrice},
+		`tyProduct` =
+		#{tyProduct}
 		WHERE idProduct
 		=
 		#{idProduct}
@@ -1705,7 +1712,8 @@
 		description,
 		dtProductState,
 		thumbnailsUrl,
-		specialPrice
+		specialPrice,
+		tyProduct
 
 		FROM
 		(
@@ -1728,7 +1736,8 @@
 		txThumbnailsUrl as
 		thumbnailsUrl,
 		idCampaign,
-		specialPrice
+		specialPrice,
+		a.tyProduct
 
 		FROM
 
@@ -1878,7 +1887,8 @@
 		tab1.idCampaign,
 		tab1.idMaterial,
 		tab1.txMaterial,
-		tab1.specialPrice
+		tab1.specialPrice,
+		tab1.tyProduct
 
 
 
@@ -1916,7 +1926,8 @@
 		idCampaign,
 		a.idMaterial,
 		f.txMaterial,
-		specialPrice
+		specialPrice,
+		a.tyProduct
 
 		FROM
 		${database.schema}product a,
