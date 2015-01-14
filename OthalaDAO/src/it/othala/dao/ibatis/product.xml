@@ -2295,20 +2295,21 @@
 	</select>
 	<!-- prodotti venduti -->
 	<select id="getProdottiVenduti" resultType="it.othala.dto.ArticleCashedDTO">
-	select sp.idProduct,SP.pgArticle,b.txBrand,t.txType,c.txColor,s.txSize,(coalesce(spedita,0)-coalesce(rimborsata,0)) as qtaCached
+	select sp.idProduct,SP.pgArticle,b.txBrand,t.txType,c.txColor,s.txSize,(coalesce(spedita,0)-coalesce(rimborsata,0)) as qtaCached,(coalesce(incasso,0)-coalesce(incassoRimborsato,0)) as imCached
 	from
-	(SELECT p.idProduct,p.idbrand,p.idType,a.pgArticle,a.idColor,a.idSize,sum(qtArticle) as spedita
+	(SELECT p.idProduct,p.idbrand,p.idType,a.pgArticle,a.idColor,a.idSize,sum(qtArticle) as spedita,sum(imArticle) as incasso
 	from ${database.schema}orders_articles oa, ${database.schema}article a, ${database.schema}product p
 	where oa.idProdotto=a.idProduct
 	and oa.pgArticle=a.pgArticle
 	and p.idProduct=a.idProduct
 	group by p.idProduct,p.idbrand,p.idType,a.pgArticle,a.idColor,a.idSize)SP
 	left join
-	(SELECT p.idProduct,p.idbrand,p.idType,a.pgArticle,a.idColor,a.idSize,sum(coalesce(qtArticle,0)) as rimborsata
+	(SELECT p.idProduct,p.idbrand,p.idType,a.pgArticle,a.idColor,a.idSize,sum(coalesce(qtArticle,0)) as rimborsata,sum(imArticle) as incassoRimborsato
 	from ${database.schema}refound_articles oa, ${database.schema}article a, ${database.schema}product p
 	where oa.idProdotto=a.idProduct
 	and oa.pgArticle=a.pgArticle
 	and p.idProduct=a.idProduct
+	and fgChangeRefound='S'
 	group by p.idProduct,p.idbrand,p.idType,a.pgArticle,a.idColor,a.idSize)RIM
 	on( 
 	sp.idProduct=RIM.idProduct
