@@ -2295,7 +2295,7 @@
 	</select>
 	<!-- prodotti venduti -->
 	<select id="getProdottiVenduti" resultType="it.othala.dto.ArticleCashedDTO">
-	select sp.idProduct,SP.pgArticle,b.txBrand,t.txType,c.txColor,s.txSize,(coalesce(spedita,0)-coalesce(rimborsata,0)) as qtaCached,(coalesce(incasso,0)-coalesce(incassoRimborsato,0)) as imCached
+	select sp.idProduct,SP.pgArticle,b.txBrand,t.txType,c.txColor,s.txSize,(coalesce(spedita,0)-coalesce(rimborsata,0)) as qtaCashed,(coalesce(incasso,0)-coalesce(incassoRimborsato,0)) as imCashed
 	from
 	(SELECT p.idProduct,p.idbrand,p.idType,a.pgArticle,a.idColor,a.idSize,sum(qtArticle) as spedita,sum(imArticle) as incasso
 	from ${database.schema}orders_articles oa, ${database.schema}article a, ${database.schema}product p
@@ -2320,5 +2320,6 @@
 	join ${database.schema}type t on t.idType=sp.idType
 	join ${database.schema}size s on s.idSize=sp.idSize
 	join ${database.schema}color c on c.idColor=sp.idColor
+	order by imCashed
 	</select>
 </mapper>
