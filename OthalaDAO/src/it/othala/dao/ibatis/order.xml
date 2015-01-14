@@ -187,9 +187,9 @@
 
 		INSERT INTO
 		${database.schema}orders_articles
-		(`idOrder`,`idProdotto`,`pgArticle`,`qtArticle`)
+		(`idOrder`,`idProdotto`,`pgArticle`,`qtArticle`,`imArticle`)
 		values
-		(#{idOrder},#{idProdotto},#{pgArticle},#{qtArticle})
+		(#{idOrder},#{idProdotto},#{pgArticle},#{qtArticle},#{imArticle})
 
 	</insert>
 
