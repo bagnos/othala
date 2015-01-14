@@ -649,6 +649,7 @@ public class OrderService implements IOrderService {
 			mapProduct.put("fgChangeRefound", article.getFgChangeRefound());
 			mapProduct.put("txChangeRefound", article.getTxChangeRefound());
 			mapProduct.put("pgArticleNew", article.getPgArticleChangeSelected());
+			mapProduct.put("imArticle", article.getPrdFullDTO().getRealPrice());
 
 			orderDAO.insertRefoundArticles(mapProduct);
 
