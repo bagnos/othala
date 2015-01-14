@@ -516,6 +516,7 @@ CREATE TABLE `refound_articles` (
   `fgChangeRefound` char(1) DEFAULT NULL,
   `txChangeRefound` varchar(250) DEFAULT NULL,
   `pgArticleNew` int(11) DEFAULT NULL,
+   `imArticle` decimal(15,2) DEFAULT NULL,
   PRIMARY KEY (`idRefound`,`idProdotto`,`pgArticle`),
   KEY `fk_OrdersArticles_Article1_idx` (`idProdotto`,`pgArticle`),
   KEY `fk_Refound_Articles_Order_Refound1_idx` (`idRefound`),
