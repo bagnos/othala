@@ -1457,6 +1457,219 @@
 	</select>
 
 
+<select id="listArticleFull" resultType="it.othala.dto.ArticleFullDTO"
+		parameterType="java.util.HashMap">
+
+
+		SELECT
+		TAB1.pgArticle,
+		TAB1.qtStock,
+		TAB1.idSize,
+		TAB1.txSize,
+		TAB1.idColor,
+		TAB1.txColor,
+		TAB1.thumbnailsUrl,
+		TAB1.txBarCode,
+		TAB1.price,
+		TAB1.specialPrice,
+		TAB1.discount,
+		coalesce(TAB1.specialPrice,
+		ceiling(TAB1.price * (100 -
+		coalesce(tab2.pcSconto,TAB1.discount)) /
+		100)) as
+		priceDiscounted
+
+		from
+		(
+		SELECT
+		a.pgArticle as pgArticle,
+		a.qtStock as qtStock,
+
+		a.idSize,
+
+		txSize,
+
+		a.idColor,
+
+		txColor,
+		coalesce(a.txThumbnailsUrl,
+		d.txThumbnailsUrl) as
+		thumbnailsUrl,
+		a.txBarCode,
+		a.imPrice as price,
+		a.specialPrice,
+		a.pcDiscount as discount,
+		d.idCampaign
+
+		FROM
+		${database.schema}article a,
+		${database.schema}size b,
+		${database.schema}color c,
+		${database.schema}product d
+
+
+		where
+		a.idProduct
+		=
+		#{idProduct}
+		and a.idSize =
+		b.idSize
+		and c.idColor = a.idColor
+		and
+		c.idLanguages = #{languages}
+		and
+		d.idProduct = a.idProduct
+		<if test="fgQtaZero == null or fgQtaZero == false">
+			and a.qtStock > 0
+		</if>
+		) TAB1
+		left join
+		${database.schema}campaigns tab2
+
+		on TAB1.idCampaign =
+		tab2.idCampaign
+		and tab2.dtInizio &lt;= current_date
+		and tab2.dtFine
+		&gt;=
+		current_date;
+
+
+
+
+	</select>
+
+	<select id="getArticleFull" resultType="it.othala.dto.ArticleFullDTO"
+		parameterType="java.util.HashMap">
+
+
+		SELECT
+		TAB1.pgArticle,
+		TAB1.qtStock,
+		TAB1.idSize,
+		TAB1.txSize,
+		TAB1.idColor,
+		TAB1.txColor,
+		TAB1.thumbnailsUrl,
+		TAB1.txBarCode,
+		TAB1.price,
+		TAB1.specialPrice,
+		TAB1.discount,
+		coalesce(TAB1.specialPrice,
+		ceiling(TAB1.price * (100 -
+		coalesce(tab2.pcSconto,TAB1.discount)) /
+		100)) as
+		priceDiscounted
+
+		from
+		(
+
+		SELECT
+		a.pgArticle as pgArticle,
+		a.qtStock as qtStock,
+
+		a.idSize,
+
+		txSize,
+
+		a.idColor,
+
+		txColor,
+		coalesce(a.txThumbnailsUrl,
+		d.txThumbnailsUrl) as
+		thumbnailsUrl,
+		a.txBarCode,
+		a.imPrice,
+		a.specialPrice,
+		a.pcDiscount,
+		d.idCampaign
+
+
+
+		FROM
+		${database.schema}article a,
+		${database.schema}size b,
+		${database.schema}color c,
+		${database.schema}product d
+
+
+		where
+		a.idProduct
+		=
+		#{idProduct}
+		and
+		a.pgArticle
+		=
+		#{pgArticle}
+		and a.idSize =
+		b.idSize
+		and
+		c.idColor =
+		a.idColor
+		and
+		c.idLanguages = #{languages}
+		and
+		d.idProduct =
+		a.idProduct
+		) TAB1
+		left join
+		${database.schema}campaigns tab2
+
+		on TAB1.idCampaign =
+		tab2.idCampaign
+		and tab2.dtInizio &lt;= current_date
+		and tab2.dtFine
+		&gt;=
+		current_date;
+
+
+	</select>
+
+	<update id="updateArticle" parameterType="java.util.HashMap">
+
+		UPDATE
+		${database.schema}article
+		set qtStock = #{qtStock},
+		`idShop` =
+		#{idShop},
+		imPrice = #{imPrice},
+		specialPrice = #{specialPrice},
+		pcDiscount = #{pcDiscount}
+		where idProduct =
+		#{idProduct}
+		and
+		pgArticle =
+		#{pgArticle};
+
+
+	</update>
+
+	<select id="listDistinctShop" resultType="it.othala.dto.ShopDTO"
+		parameterType="java.util.HashMap">
+
+
+		SELECT b.idShop, b.txShop, b.txMail,
+		b.txNome,
+		b.txVia,
+		b.txComune,
+		b.cdCap,
+		b.txProvincia,
+		b.txNazione,
+		b.txTel
+
+		FROM
+		${database.schema}article
+		a,
+		${database.schema}shops b
+		where a.idShop =
+		b.idShop
+		and a.idProduct
+		= #{idProduct}
+		group by 1,2,3
+
+
+	</select>
+
+
 
 
 	<!-- MERCHANT -->
@@ -2080,220 +2293,8 @@
 
 	</update>
 
-	<!-- -->
-
-	<select id="listArticleFull" resultType="it.othala.dto.ArticleFullDTO"
-		parameterType="java.util.HashMap">
-
-
-		SELECT
-		TAB1.pgArticle,
-		TAB1.qtStock,
-		TAB1.idSize,
-		TAB1.txSize,
-		TAB1.idColor,
-		TAB1.txColor,
-		TAB1.thumbnailsUrl,
-		TAB1.txBarCode,
-		TAB1.price,
-		TAB1.specialPrice,
-		TAB1.discount,
-		coalesce(TAB1.specialPrice,
-		ceiling(TAB1.price * (100 -
-		coalesce(tab2.pcSconto,TAB1.discount)) /
-		100)) as
-		priceDiscounted
-
-		from
-		(
-		SELECT
-		a.pgArticle as pgArticle,
-		a.qtStock as qtStock,
-
-		a.idSize,
-
-		txSize,
-
-		a.idColor,
-
-		txColor,
-		coalesce(a.txThumbnailsUrl,
-		d.txThumbnailsUrl) as
-		thumbnailsUrl,
-		a.txBarCode,
-		a.imPrice as price,
-		a.specialPrice,
-		a.pcDiscount as discount,
-		d.idCampaign
-
-		FROM
-		${database.schema}article a,
-		${database.schema}size b,
-		${database.schema}color c,
-		${database.schema}product d
-
-
-		where
-		a.idProduct
-		=
-		#{idProduct}
-		and a.idSize =
-		b.idSize
-		and c.idColor = a.idColor
-		and
-		c.idLanguages = #{languages}
-		and
-		d.idProduct = a.idProduct
-		<if test="fgQtaZero == null or fgQtaZero == false">
-			and a.qtStock > 0
-		</if>
-		) TAB1
-		left join
-		${database.schema}campaigns tab2
-
-		on TAB1.idCampaign =
-		tab2.idCampaign
-		and tab2.dtInizio &lt;= current_date
-		and tab2.dtFine
-		&gt;=
-		current_date;
-
-
-
-
-	</select>
-
-	<select id="getArticleFull" resultType="it.othala.dto.ArticleFullDTO"
-		parameterType="java.util.HashMap">
-
-
-		SELECT
-		TAB1.pgArticle,
-		TAB1.qtStock,
-		TAB1.idSize,
-		TAB1.txSize,
-		TAB1.idColor,
-		TAB1.txColor,
-		TAB1.thumbnailsUrl,
-		TAB1.txBarCode,
-		TAB1.price,
-		TAB1.specialPrice,
-		TAB1.discount,
-		coalesce(TAB1.specialPrice,
-		ceiling(TAB1.price * (100 -
-		coalesce(tab2.pcSconto,TAB1.discount)) /
-		100)) as
-		priceDiscounted
-
-		from
-		(
-
-		SELECT
-		a.pgArticle as pgArticle,
-		a.qtStock as qtStock,
-
-		a.idSize,
-
-		txSize,
-
-		a.idColor,
-
-		txColor,
-		coalesce(a.txThumbnailsUrl,
-		d.txThumbnailsUrl) as
-		thumbnailsUrl,
-		a.txBarCode,
-		a.imPrice,
-		a.specialPrice,
-		a.pcDiscount,
-		d.idCampaign
-
-
-
-		FROM
-		${database.schema}article a,
-		${database.schema}size b,
-		${database.schema}color c,
-		${database.schema}product d
-
-
-		where
-		a.idProduct
-		=
-		#{idProduct}
-		and
-		a.pgArticle
-		=
-		#{pgArticle}
-		and a.idSize =
-		b.idSize
-		and
-		c.idColor =
-		a.idColor
-		and
-		c.idLanguages = #{languages}
-		and
-		d.idProduct =
-		a.idProduct
-		) TAB1
-		left join
-		${database.schema}campaigns tab2
-
-		on TAB1.idCampaign =
-		tab2.idCampaign
-		and tab2.dtInizio &lt;= current_date
-		and tab2.dtFine
-		&gt;=
-		current_date;
-
-
-	</select>
-
-	<update id="updateArticle" parameterType="java.util.HashMap">
-
-		UPDATE
-		${database.schema}article
-		set qtStock = #{qtStock},
-		`idShop` =
-		#{idShop},
-		imPrice = #{imPrice},
-		specialPrice = #{specialPrice},
-		pcDiscount = #{pcDiscount}
-		where idProduct =
-		#{idProduct}
-		and
-		pgArticle =
-		#{pgArticle};
-
-
-	</update>
-
-	<select id="listDistinctShop" resultType="it.othala.dto.ShopDTO"
-		parameterType="java.util.HashMap">
-
-
-		SELECT b.idShop, b.txShop, b.txMail,
-		b.txNome,
-		b.txVia,
-		b.txComune,
-		b.cdCap,
-		b.txProvincia,
-		b.txNazione,
-		b.txTel
-
-		FROM
-		${database.schema}article
-		a,
-		${database.schema}shops b
-		where a.idShop =
-		b.idShop
-		and a.idProduct
-		= #{idProduct}
-		group by 1,2,3
-
-
-	</select>
 	<!-- prodotti venduti -->
+
 	<select id="getProdottiVenduti" resultType="it.othala.dto.ArticleCashedDTO">
 	select sp.idProduct,SP.pgArticle,b.txBrand,t.txType,c.txColor,s.txSize,(coalesce(spedita,0)-coalesce(rimborsata,0)) as qtaCashed,(coalesce(incasso,0)-coalesce(incassoRimborsato,0)) as imCashed
 	from
