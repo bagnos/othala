@@ -475,12 +475,22 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 					.getIdShop());
 			map4.put("txBarCode", productFull.getArticles().get(i)
 					.getTxBarCode());
+			if (productFull.getArticles().get(i).getPrice() == null)
+			{
+				map4.put("imPrice", productFull.getPrice());
+				map4.put("specialPrice", productFull
+						.getSpecialPrice());
+				map4.put("pcDiscount", productFull
+						.getDiscount());
+			}
+			else
+			{
 			map4.put("imPrice", productFull.getArticles().get(i).getPrice());
 			map4.put("specialPrice", productFull.getArticles().get(i)
 					.getSpecialPrice());
 			map4.put("pcDiscount", productFull.getArticles().get(i)
 					.getDiscount());
-
+			}
 			getSqlSession().insert("it.othala.product.queries.insertArticle",
 					map4);
 
@@ -870,11 +880,22 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 						.getIdShop());
 				map4.put("txBarCode", productFull.getArticles().get(i)
 						.getTxBarCode());
+				if (productFull.getArticles().get(i).getPrice() == null)
+				{
+					map4.put("imPrice", productFull.getPrice());
+					map4.put("specialPrice", productFull
+							.getSpecialPrice());
+					map4.put("pcDiscount", productFull
+							.getDiscount());
+				}
+				else
+				{
 				map4.put("imPrice", productFull.getArticles().get(i).getPrice());
 				map4.put("specialPrice", productFull.getArticles().get(i)
 						.getSpecialPrice());
 				map4.put("pcDiscount", productFull.getArticles().get(i)
 						.getDiscount());
+				}
 
 				getSqlSession().insert(
 						"it.othala.product.queries.insertArticle", map4);
