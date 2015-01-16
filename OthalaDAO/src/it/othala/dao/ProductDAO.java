@@ -1325,7 +1325,8 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	@Override
 	public List<ArticleCashedDTO> getArticlesCached() {
 		// TODO Auto-generated method stub
-		return null;
+		return getSqlSession().selectList(
+				"it.othala.product.queries.getProdottiVenduti");
 	}
 
 }

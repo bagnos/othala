@@ -26,7 +26,7 @@ public class CartSelected3View extends BaseView {
 		totalPrice = BigDecimal.ZERO;
 		getCartFlowBean().setCheckoutCart(false);
 		for (ArticleFullDTO art : getCartFlowBean().getCart()) {
-			totalPrice = art.getPrdFullDTO().getRealPrice().add(totalPrice);
+			totalPrice = art.getPriceDiscounted().add(totalPrice);
 
 		}
 		if (getCartFlowBean().getDeliveryCost()!=null && getCartFlowBean().getDeliveryCost().getImportoSpese()!=null)

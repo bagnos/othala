@@ -246,7 +246,7 @@ public class RichiediResoView extends BaseView {
 				if (art.isSelected()) {
 					ArticleRefounded artref = new ArticleRefounded(art);
 					artToRefund.add(artref);
-					imRefunded = imRefunded.add(art.getTotalPriced());
+					imRefunded = imRefunded.add(art.getPriceDiscounted());
 				}
 			}
 			if (artToRefund.isEmpty()) {

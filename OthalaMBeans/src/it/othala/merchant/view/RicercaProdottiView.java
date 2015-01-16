@@ -1,5 +1,6 @@
 package it.othala.merchant.view;
 
+import it.othala.dto.ArticleCashedDTO;
 import it.othala.dto.AttributeDTO;
 import it.othala.dto.CampaignDTO;
 import it.othala.dto.DomainDTO;
@@ -11,6 +12,7 @@ import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 import it.othala.web.utils.ResizeImageUtil;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +43,7 @@ public class RicercaProdottiView extends BaseView {
 	List<CampaignDTO> campaigns;
 	private CampaignDTO campaignDTO = new CampaignDTO();
 	
+
 	public Integer getIdCampaign() {
 		return idCampaign;
 	}
@@ -104,6 +107,8 @@ public class RicercaProdottiView extends BaseView {
 
 		return null;
 	}
+		
+	
 
 	public List<AttributeDTO> completeGenere(String query) {
 		return getAutoUtils().completeGenere(query);

@@ -15,6 +15,13 @@ public class ArticleCashedDTO implements Serializable {
 	private Integer qtaCashed;
 	private String txType;
 	private BigDecimal imCashed;
+	private String txBrand;
+	public String getTxBrand() {
+		return txBrand;
+	}
+	public void setTxBrand(String txBrand) {
+		this.txBrand = txBrand;
+	}
 	public Integer getIdProduct() {
 		return idProduct;
 	}
