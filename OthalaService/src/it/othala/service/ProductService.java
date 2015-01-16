@@ -527,7 +527,8 @@ public class ProductService implements IProductService {
 	@Override
 	public List<ArticleCashedDTO> listArticleCashed() {
 		// TODO Auto-generated method stub
-		return productDAO.getArticlesCached();
+		List<ArticleCashedDTO> arts= productDAO.getArticlesCached();
+		return arts;
 	}
 	
 	

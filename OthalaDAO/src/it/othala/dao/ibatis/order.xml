@@ -7,7 +7,6 @@
 		<result property="idUser" column="idUser" />
 		<result property="imOrdine" column="imOrdine" />
 		<result property="imOrdineSenzaSpese" column="imOrdineSenzaSpese" />
-
 		<result property="idStato" column="idStato" />
 		<result property="dtStato" column="dtStato" />
 		<result property="txNote" column="txNote" />
@@ -49,6 +48,7 @@
 			<result property="prdFullDTO.idProduct" column="idProdotto" />
 			<result property="pgArticle" column="pgArticle" />
 			<result property="qtBooked" column="qtArticle" />
+			<result property="priceDiscounted" column="imArticle" />
 		</collection>
 		<collection property="speseSpedizione" ofType="it.othala.dto.DeliveryCostDTO">
 			<result property="idDeliveryCost" column="deliveryCost" />
@@ -70,6 +70,7 @@
 		b.idProdotto,
 		b.pgArticle,(a.imOrdine-i.imSpese) as imOrdineSenzaSpese,
 		b.qtArticle,
+		b.imArticle,
 		c.idStato, c.dtStato, c.txNote,
 		d.txStato, f.IDAddress as
 		idAddressBilling,

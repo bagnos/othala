@@ -100,11 +100,12 @@ public class ArticleFullDTO implements Serializable {
 	}
 
 	public BigDecimal getTotalPriced() {
+		/*
 		if (prdFullDTO != null) {
 			totalPriced = prdFullDTO.getPriceDiscounted() != null ? prdFullDTO.getPriceDiscounted() : prdFullDTO
 					.getPrice();
 			totalPriced = totalPriced.multiply(new BigDecimal(qtBooked));
-		}
+		}*/
 		return totalPriced;
 	}
 
