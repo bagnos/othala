@@ -2,6 +2,7 @@ package it.othala.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class ArticleCashedDTO implements Serializable {
 	/**
@@ -16,6 +17,14 @@ public class ArticleCashedDTO implements Serializable {
 	private String txType;
 	private BigDecimal imCashed;
 	private String txBrand;
+	private Date dtSpedizione;
+	
+	public Date getDtSpedizione() {
+		return dtSpedizione;
+	}
+	public void setDtSpedizione(Date dtSpedizione) {
+		this.dtSpedizione = dtSpedizione;
+	}
 	public String getTxBrand() {
 		return txBrand;
 	}
