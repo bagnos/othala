@@ -68,11 +68,11 @@
 							<cssSourceIncludes>
 								<cssSourceInclude>*.css</cssSourceInclude>
 							</cssSourceIncludes>
-							<cssFinalFile>main120115.css</cssFinalFile>
+							<cssFinalFile>main170115.css</cssFinalFile>
 							<jsSourceIncludes>
 								<jsSourceInclude>*.js</jsSourceInclude>
 							</jsSourceIncludes>
-							<jsFinalFile>main.js</jsFinalFile>
+							<jsFinalFile>main170115.js</jsFinalFile>
 							<jsEngine>CLOSURE</jsEngine>
 						</configuration>
 						<goals>

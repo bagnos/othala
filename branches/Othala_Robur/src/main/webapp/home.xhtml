@@ -7,6 +7,7 @@
 	</ui:define>
 	<ui:define name="metadata">
 		<f:metadata>
+			<f:viewAction action="#{homeView.doInit}"></f:viewAction>
 		</f:metadata>
 	</ui:define>
 	<ui:define name="content">
@@ -18,8 +19,11 @@
 							<ui:repeat var="imgCar" value="#{applicationBean.imgsCarousel}" varStatus="staCar">
 								<div class="#{staCar.first?'item active':'item'}">
 									<h:link outcome="#{imgCar.urlRedirect}">
-										<p:graphicImage styleClass="img-responsive" title="#{imgCar.txAlt}" alt="#{imgCar.txAlt}"
+										<p:graphicImage styleClass="img-responsive " title="#{imgCar.txAlt}" alt="#{imgCar.txAlt}"
 											library="#{imgCar.txLibrary}" name="#{imgCar.txName}" />
+										<h:panelGroup rendered="#{not empty imgCar.txAlt}" styleClass="headlineBox">
+											<h1 class="headline">#{imgCar.txAlt}</h1>
+										</h:panelGroup>
 									</h:link>
 								</div>
 							</ui:repeat>
@@ -40,33 +44,146 @@
 					<h2 class="title">
 						<span>#{msg.catalog_newArr}</span>
 					</h2>
-					<h:link value="#{menu.txGender}" outcome="/cart/cart-catalog.xhtml" styleClass="show-more-link hidden-xs">
+					<h:link value="#{menu.txGender}" outcome="/cart/cart-catalog.xhtml"
+						styleClass="show-more-link hidden-xs">
 						<f:param name="idMenu" value="0"></f:param>
 						<f:param name="idSubMenu" value="0"></f:param>
 						<f:param name="fgNewArrivals" value="true"></f:param>
 						<f:param name="idCampaign" value="0"></f:param>
 						<h:outputText value="#{msg.catalog_findNewArr}&#62;" />
 					</h:link>
+
 				</div>
 			</div>
 			<div class="container" style="margin-top: 5px;">
 				<div class="row">
-					<ui:repeat var="imgNewArr" varStatus="img" value="#{applicationBean.imgsNewArrival}">
-						<div class="col-sm-6">
-							<div class="thumbnail thumbnail-home">
-								<h:link outcome="#{imgNewArr.urlRedirect}">
-									<p:graphicImage styleClass="img-responsive" title="#{imgNewArr.txAlt}"
-										alt="#{imgNewArr.txAlt}" library="#{imgNewArr.txLibrary}" name="#{imgNewArr.txName}"
-										style="max-height:100%" />
-									<h:panelGroup rendered="#{not empty imgNewArr.txAlt}" styleClass="headlineBox">
-										<h1 class="headline">#{imgNewArr.txAlt}</h1>
-									</h:panelGroup>
+					<div id="owl-newArr" class="owl-carousel col-sm-12">
+						<ui:repeat var="art" value="#{homeView.articleNewArrivals}">
+							<div class="item">
+								<h:link outcome="cart/cart-choice-2" rendered="#{art.idProduct != null}">
+									<img title="#{art.txBrand} #{art.description}" alt="#{art.txBrand} #{art.description}"
+										class="lazyOwl img-responsive"
+										data-src="#{request.contextPath}/javax.faces.resource/#{art.thumbnailsUrl}.xhtml?ln=images/cartThumbinals" />
+									<f:param name="idPrd" value="#{art.idProduct}"></f:param>
 								</h:link>
+								<div class="row">
+									<div class="col-sm-12">
+										<h5 class="descrVisibile" style="text-transform: uppercase;">
+											<h:outputText id="descr" value="#{art.description}" />
+										</h5>
+										<h3 style="color: #a59061">
+											<strong> <h:outputText value="#{art.price}"
+													styleClass="#{art.price != art.priceDiscounted?'onSale':''}">
+													<f:converter converterId="it.othala.BigDecimalConverter" />
+												</h:outputText> <h:outputText value="#{art.priceDiscounted}"
+													rendered="#{art.price != art.priceDiscounted}" style="padding-left: 5px;">
+													<f:converter converterId="it.othala.BigDecimalConverter" />
+												</h:outputText>
+											</strong>
+										</h3>
+									</div>
+								</div>
+							</div>
+						</ui:repeat>
+					</div>
+				</div>
+			</div>
+
+
+			<!-- 
+			<div class="container" style="margin-top: 5px;">
+				<div class="row">
+					<div id="flexsliderNewArr" class="flexslider">
+						<ul class="slides">
+							<ui:repeat var="art" value="#{homeView.articleNewArrivals}">
+								<li style="width: 150px;"><h:panelGroup>
+									</h:panelGroup></li>
+							</ui:repeat>
+						</ul>
+					</div>
+				</div>
+			</div>
+			-->
+		</h:panelGroup>
+
+		<div class="container spacer30">
+			<div class="more-title">
+				<h2 class="title">
+					<span>I PIU' VENDUTI</span>
+				</h2>
+			</div>
+		</div>
+		<div class="container" style="margin-top: 5px;">
+			<div class="row">
+				<div id="owl-cashed" class="owl-carousel">
+					<ui:repeat var="art" value="#{homeView.articleCached}">
+						<div>
+							<h:link outcome="cart/cart-choice-2" rendered="#{art.idProduct != null}">
+								<img title="#{art.txBrand} #{art.description}" alt="#{art.txBrand} #{art.description}"
+									class="lazyOwl img-responsive"
+									data-src="#{request.contextPath}/javax.faces.resource/#{art.txThumbnailsUrl}.xhtml?ln=images/cartThumbinals" />
+								<f:param name="idPrd" value="#{art.idProduct}"></f:param>
+							</h:link>
+							<div class="row">
+								<div class="col-sm-12">
+									<h5 class="descrVisibile" style="text-transform: uppercase;">
+										<h:outputText id="descr" value="#{art.description}" />
+									</h5>
+									<h3 style="color: #a59061">
+										<strong> <h:outputText value="#{art.imPrice}">
+												<f:converter converterId="it.othala.BigDecimalConverter" />
+											</h:outputText>
+										</strong>
+									</h3>
+								</div>
 							</div>
 						</div>
 					</ui:repeat>
+
 				</div>
 			</div>
-		</h:panelGroup>
+		</div>
+
+	</ui:define>
+	<ui:define name="scriptPage">
+		<script>
+	$(window).load(function() {
+/*
+		 $('#flexsliderNewArr').flexslider({
+    animation: "slide",
+    animationLoop: false,    
+    itemWidth: 250,
+    itemMargin: 5,
+    minItems: 2,
+    maxItems: 4
+  });*/
+  $('#flexsliderCashed').flexslider({
+	    animation: "slide",
+	    animationLoop: false,    
+	    itemWidth: 250,
+	    itemMargin: 5,
+	    minItems: 2,
+	    maxItems: 4
+	  });
+ 
+
+});
+	 $(document).ready(function() {
+			$("#owl-newArr").owlCarousel({
+			    items : 4,			    
+			    navigation : true,
+			    pagination:false,
+			    lazyLoad : true,		
+			    navigationText:	["&#60;","&#62;"]
+			  });
+			$("#owl-cashed").owlCarousel({
+			    items : 4,			    
+			    navigation : true,
+			    pagination:false,
+			    lazyLoad : true,
+			    navigationText:	["&#60;","&#62;"]
+			  });
+	    });
+	    	</script>
 	</ui:define>
 </ui:composition>

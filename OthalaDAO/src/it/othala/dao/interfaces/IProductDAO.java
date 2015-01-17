@@ -198,6 +198,7 @@ public interface IProductDAO {
 	public List<AttributeDTO> listInfAggiuntive(String languages);
 	
 	public List<ArticleCashedDTO> getArticlesCached();
+	public List<ArticleCashedDTO> getArticlesMajorCached(String language);
 
 
 

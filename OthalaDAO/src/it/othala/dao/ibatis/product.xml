@@ -2320,7 +2320,19 @@
 	join ${database.schema}brand b on b.idbrand=sp.idBrand
 	join ${database.schema}type t on t.idType=sp.idType
 	join ${database.schema}size s on s.idSize=sp.idSize
-	join ${database.schema}color c on c.idColor=sp.idColor
+	join ${database.schema}color c on c.idColor=sp.idColor	
 	order by imCashed
+	</select>
+	
+	<select id="getProdottiPiuVenduti" resultType="it.othala.dto.ArticleCashedDTO">	
+	SELECT p.idProduct,coalesce(a.imPrice,p.imPrice) as imPrice,pd.txDescription as description,p.idbrand,p.idType,a.txThumbnailsUrl,sum(qtArticle) as spedita,sum(imArticle) as incasso
+	from ${database.schema}orders_articles oa, ${database.schema}article a, ${database.schema}product p,${database.schema}product_description pd
+	where oa.idProdotto=a.idProduct
+	and oa.pgArticle=a.pgArticle
+	and p.idProduct=a.idProduct
+	and pd.idProduct=p.idProduct
+	and pd.idLanguages=#{language}
+	group by p.idProduct,p.idbrand,p.idType
+	order by spedita desc
 	</select>
 </mapper>
