@@ -18,7 +18,28 @@ public class ArticleCashedDTO implements Serializable {
 	private BigDecimal imCashed;
 	private String txBrand;
 	private Date dtSpedizione;
+	private String txThumbnailsUrl;
+	private BigDecimal imPrice;
+	private String description;
 	
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public BigDecimal getImPrice() {
+		return imPrice;
+	}
+	public void setImPrice(BigDecimal imPrice) {
+		this.imPrice = imPrice;
+	}
+	public String getTxThumbnailsUrl() {
+		return txThumbnailsUrl;
+	}
+	public void setTxThumbnailsUrl(String txThumbnailsUrl) {
+		this.txThumbnailsUrl = txThumbnailsUrl;
+	}
 	public Date getDtSpedizione() {
 		return dtSpedizione;
 	}

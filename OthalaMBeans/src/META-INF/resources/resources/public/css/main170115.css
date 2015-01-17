@@ -1313,13 +1313,13 @@ background
 }
  
 .owl-theme .owl-controls .owl-buttons .owl-prev{
-  left: 0x;
-  top: 55px; 
+  left: 0px;
+  top: 20px; 
 }
  
 .owl-theme .owl-controls .owl-buttons .owl-next{
   right: 0px;
-  top: 55px;
+  top: 20px;
 }
 /*
  * Social Buttons for Bootstrap

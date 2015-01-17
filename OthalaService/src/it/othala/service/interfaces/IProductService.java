@@ -101,7 +101,7 @@ public interface IProductService {
 			String txDescrIT, String txDescrEN);
 
 	public List<ArticleCashedDTO> listArticleCashed();
-
+	public List<ArticleCashedDTO> listArticleMajorCashed(String language);
 
 
 	

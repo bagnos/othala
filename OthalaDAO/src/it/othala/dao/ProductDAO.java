@@ -1329,4 +1329,13 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 				"it.othala.product.queries.getProdottiVenduti");
 	}
 
+	@Override
+	public List<ArticleCashedDTO> getArticlesMajorCached(String language) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> map = new HashMap<>();		
+		map.put("language", language);
+		return getSqlSession().selectList(
+				"it.othala.product.queries.getProdottiPiuVenduti",map);
+	}
+
 }

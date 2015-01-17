@@ -531,5 +531,12 @@ public class ProductService implements IProductService {
 		return arts;
 	}
 	
+	@Override
+	public List<ArticleCashedDTO> listArticleMajorCashed(String language) {
+		// TODO Auto-generated method stub
+		List<ArticleCashedDTO> arts= productDAO.getArticlesMajorCached(language);
+		return arts;
+	}
+	
 	
 }
