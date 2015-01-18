@@ -2316,7 +2316,7 @@
 	join ${database.schema}brand b on b.idbrand=sp.idBrand
 	join ${database.schema}type t on (t.idType=sp.idType and t.idLanguages='it')
 	join ${database.schema}size s on s.idSize=sp.idSize
-	join ${database.schema}color c on c.idColor=sp.idColor	
+	join ${database.schema}color c on (c.idColor=sp.idColor and c.idLanguages='it')	
 	order by imCashed
 	</select>
 	
