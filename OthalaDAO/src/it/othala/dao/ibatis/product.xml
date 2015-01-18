@@ -1566,21 +1566,17 @@
 		SELECT
 		a.pgArticle as pgArticle,
 		a.qtStock as qtStock,
-
 		a.idSize,
-
 		txSize,
-
 		a.idColor,
-
 		txColor,
 		coalesce(a.txThumbnailsUrl,
 		d.txThumbnailsUrl) as
 		thumbnailsUrl,
 		a.txBarCode,
-		a.imPrice,
+		a.imPrice as price,
 		a.specialPrice,
-		a.pcDiscount,
+		a.pcDiscount as discount,
 		d.idCampaign
 
 
@@ -2331,7 +2327,7 @@
 	and oa.pgArticle=a.pgArticle
 	and p.idProduct=a.idProduct
 	and pd.idProduct=p.idProduct
-	and pd.idLanguages=#{language}
+	and pd.idLanguages=#{language}	 
 	group by p.idProduct,p.idbrand,p.idType
 	order by spedita desc
 	</select>

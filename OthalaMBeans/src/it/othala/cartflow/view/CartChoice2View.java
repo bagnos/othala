@@ -270,7 +270,7 @@ public class CartChoice2View extends BaseView {
 
 	public String goToCart() {
 		getCartFlowBean().getCart().add(artSel);
-		artSel.setQtBooked(qtaArticle);
+		artSel.setQtBooked(qtaArticle);	
 		return "cart-selected-3?faces-redirect=true";
 	}
 
