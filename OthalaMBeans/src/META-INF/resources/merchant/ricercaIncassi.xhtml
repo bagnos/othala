@@ -45,15 +45,15 @@
             ELENCO PRODOTTI
         </f:facet>
 
-						<p:column headerText="Id">
-							<h:outputText value="#{prd.idProduct}" />
+						<p:column headerText="Id" sortBy="#{prd.idProduct}">
+							<h:outputText value="#{prd.idProduct}"  />
 						</p:column>
 
-						<p:column headerText="Genere">
+						<p:column headerText="Genere" sortBy="#{prd.txBrand}">
 							<h:outputText value="#{prd.txBrand}" />
 						</p:column>
 						<p:column headerText="Tipo">
-							<h:outputText value="#{prd.txType}" />
+							<h:outputText value="#{prd.txType}" sortBy="#{prd.txType}" />
 						</p:column>
 						<p:column headerText="Color">
 							<h:outputText value="#{prd.txColor}" />
@@ -61,10 +61,10 @@
 						<p:column headerText="Taglia">
 							<h:outputText value="#{prd.txSize}" />
 						</p:column>
-						<p:column headerText="Qta">
+						<p:column headerText="Qta" sortBy="#{prd.qtaCashed}">
 							<h:outputText value="#{prd.qtaCashed}" />
 						</p:column>
-						<p:column headerText="Incasso">
+						<p:column headerText="Incasso" sortBy="#{prd.imCashed}">
 							<h:outputText value="#{prd.imCashed}" converter="it.othala.BigDecimalConverter" />
 						</p:column>
 					</p:dataTable>
