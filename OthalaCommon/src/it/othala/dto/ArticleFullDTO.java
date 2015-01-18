@@ -53,7 +53,7 @@ public class ArticleFullDTO implements Serializable {
 	private String txColor;
 	private ProductFullNewDTO prdFullDTO;
 	private Integer qtBooked;
-	
+
 	private String thumbnailsUrl;
 	private ShopDTO shop;
 	private String txBarCode;
@@ -67,12 +67,14 @@ public class ArticleFullDTO implements Serializable {
 	private BigDecimal priceDiscounted;
 	private BigDecimal specialPrice;
 	private BigDecimal totalPriced;
-	
+
 	public BigDecimal getTotalPriced() {
-		
-			return priceDiscounted.multiply(new BigDecimal(qtBooked));
+
+		totalPriced = priceDiscounted.multiply(new BigDecimal(qtBooked));
+		return totalPriced;
+
 	}
-	
+
 	public Integer getPgArticleChangeSelected() {
 		return pgArticleChangeSelected;
 	}
@@ -104,7 +106,6 @@ public class ArticleFullDTO implements Serializable {
 	public void setSelected(boolean selected) {
 		this.selected = selected;
 	}
-
 
 	public Integer getQtBooked() {
 		return qtBooked;
