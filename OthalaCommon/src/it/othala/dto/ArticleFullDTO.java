@@ -66,6 +66,12 @@ public class ArticleFullDTO implements Serializable {
 	private Integer discount;
 	private BigDecimal priceDiscounted;
 	private BigDecimal specialPrice;
+	private BigDecimal totalPriced;
+	
+	public BigDecimal getTotalPriced() {
+		
+			return priceDiscounted.multiply(new BigDecimal(qtBooked));
+	}
 	
 	public Integer getPgArticleChangeSelected() {
 		return pgArticleChangeSelected;
