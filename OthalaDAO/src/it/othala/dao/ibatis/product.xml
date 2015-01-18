@@ -2314,7 +2314,7 @@
 	sp.pgArticle=rim.pgArticle
 	)
 	join ${database.schema}brand b on b.idbrand=sp.idBrand
-	join ${database.schema}type t on t.idType=sp.idType
+	join ${database.schema}type t on (t.idType=sp.idType and t.idLanguages='it')
 	join ${database.schema}size s on s.idSize=sp.idSize
 	join ${database.schema}color c on c.idColor=sp.idColor	
 	order by imCashed
@@ -2327,7 +2327,7 @@
 	and oa.pgArticle=a.pgArticle
 	and p.idProduct=a.idProduct
 	and pd.idProduct=p.idProduct
-	and pd.idLanguages=#{language}	 
+	and pd.idLanguages=#{language}
 	group by p.idProduct,p.idbrand,p.idType
 	order by spedita desc
 	</select>
