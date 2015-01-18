@@ -213,7 +213,8 @@ public class RichiediResoView extends BaseView {
 				if (art.isSelected()) {
 					artref = new ArticleRefounded(art);
 					artToRefund.add(artref);
-					imRefunded = imRefunded.add(art.getTotalPriced());
+					
+					imRefunded = imRefunded.add(art.getPriceDiscounted().multiply(new BigDecimal(art.getQtBooked())));
 
 					if (richiediCambio != null
 							&& richiediCambio

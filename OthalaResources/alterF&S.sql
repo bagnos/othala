@@ -75,4 +75,21 @@ INSERT INTO `provincia` VALUES (1,'Ancona',1),(2,'Macerata',1),(3,'Pesaro Urbino
 
 INSERT INTO `regione` VALUES (1,'Marche'),(2,'Abruzzo'),(3,'Basilicata'),(4,'Molise'),(5,'Trentino Alto Adige'),(6,'Puglia'),(7,'Calabria'),(8,'Campania'),(9,'Lazio'),(10,'Sardegna'),(11,'Sicilia'),(12,'Toscana'),(13,'Piemonte'),(14,'Emilia Romagna'),(15,'Friuli Venezia Giulia'),(16,'Valle d\'Aosta'),(17,'Veneto'),(18,'Liguria'),(19,'Lombardia'),(20,'Umbria');
 
+
+UPDATE article a
+SET
+imPrice = (select imPrice from product b
+where a.idProduct = b.idProduct);
+
+UPDATE article a
+SET
+specialPrice = (select specialPrice from product b
+where a.idProduct = b.idProduct);
+
+UPDATE article a
+SET
+pcDiscount = (select pcDiscount from product b
+where a.idProduct = b.idProduct);
+
+
 SET FOREIGN_KEY_CHECKS = 1;
