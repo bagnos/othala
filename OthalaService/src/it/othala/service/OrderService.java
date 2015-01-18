@@ -39,6 +39,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.OutputStreamWriter;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.sql.Timestamp;
@@ -527,7 +528,8 @@ public class OrderService implements IOrderService {
 				out.write("<size>" + refArticle.getTxSize() + "</size>");
 				out.write("<unitPrice>" + refArticle.getPrdFullDTO().getRealPrice() + "</unitPrice>");
 				out.write("<quantity>" + refArticle.getQtBooked() + "</quantity>");
-				out.write("<price>" + refArticle.getTotalPriced() + "</price>");
+				out.write("<price>" + refArticle.getPriceDiscounted().multiply(new BigDecimal(refArticle.getQtBooked())) + "</price>");
+				
 				out.write("<cambio>" + refArticle.getTxChangeRefound() + "</cambio>");
 				out.write("</item>");
 				i++;
@@ -834,7 +836,7 @@ public class OrderService implements IOrderService {
 				out.write("<size>" + art.getTxSize() + "</size>");
 				out.write("<unitPrice>" + art.getPrdFullDTO().getRealPrice() + "</unitPrice>");
 				out.write("<quantity>" + art.getQtBooked() + "</quantity>");
-				out.write("<price>" + art.getTotalPriced() + "</price>");
+				out.write("<price>" + art.getPriceDiscounted().multiply(new BigDecimal(art.getQtBooked())) + "</price>");
 				out.write("</item>");
 
 			}

@@ -197,7 +197,7 @@ public class CartFlowBean implements Serializable {
 		totalItemOrder = BigDecimal.ZERO;
 		if (cart != null) {
 			for (ArticleFullDTO art : cart) {
-				totalItemOrder = totalItemOrder.add(art.getTotalPriced());
+				totalItemOrder = totalItemOrder.add(art.getPriceDiscounted().multiply(new BigDecimal(art.getQtBooked())));
 			}
 		}
 
