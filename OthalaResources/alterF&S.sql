@@ -30,12 +30,12 @@ CREATE TABLE `infaggiuntive`(
 
 
 
-/*ALTER TABLE `orders_articles` 
+ALTER TABLE `orders_articles` 
 	ADD COLUMN `imArticle` decimal(15,2)   NULL after `qtArticle` ;
-*/
-/*ALTER TABLE `refound_articles` 
+
+ALTER TABLE `refound_articles` 
 	ADD COLUMN `imArticle` decimal(15,2)   NULL after `pgArticleNew` ;
-*/
+
 
 ALTER TABLE `product` 
 	ADD COLUMN `tyProduct` int(11)   NULL after `specialPrice` ;
