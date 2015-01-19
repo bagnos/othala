@@ -41,7 +41,7 @@
 						<div class="row spacer10">
 							<ui:repeat var="submenu" value="#{menu.subMenu}" varStatus="statusSub">
 								<div class="col-sm-12 col-md-4 spacer6">
-									<h:link class="linkArt" value="#{submenu.txType}" style="text-transform:uppercase;font-size:13px" outcome="/cart/cart-catalog.xhtml">
+									<h:link class="linkArt" value="#{submenu.txType}" style="text-transform:uppercase;font-size:12px" outcome="/cart/cart-catalog.xhtml">
 										<f:param name="idMenu" value="#{menu.idGender}"></f:param>
 										<f:param name="idSubMenu" value="#{submenu.idType}"></f:param>
 										<f:param name="fgNewArrivals" value="false"></f:param>
