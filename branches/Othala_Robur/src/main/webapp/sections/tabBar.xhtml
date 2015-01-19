@@ -34,25 +34,21 @@
 			<div class="tab-pane" id="#{menu.idGender}">
 				<div class="row">
 					<div class="col-xs-1 col-md-2 hidden-xs">
-						<p:graphicImage styleClass="img-responsive" alt="#{menu.txGender}" library="#{menu.imgLibrary}"
+						<p:graphicImage styleClass="img-responsive"  alt="#{menu.txGender}" library="#{menu.imgLibrary}"
 							name="#{menu.imgName}" />
 					</div>
-					<div class="col-xs-10 col-sm-8  spacer10">
-						<div class="row">
-							<div class="col-sm-6 col-md-4 border-brand"
-								style="color: #666666; font-family: playbold; font-size: 14px;">#{msg.articoli}</div>
-						</div>
+					<div class="col-xs-10 col-sm-8  spacer10">						
 						<div class="row spacer10">
 							<ui:repeat var="submenu" value="#{menu.subMenu}" varStatus="statusSub">
 								<div class="col-sm-12 col-md-4 spacer6">
-									<h:link class="linkArt" value="#{submenu.txType}" style="text-transform:uppercase" outcome="/cart/cart-catalog.xhtml">
+									<h:link class="linkArt" value="#{submenu.txType}" style="text-transform:uppercase;font-size:13px" outcome="/cart/cart-catalog.xhtml">
 										<f:param name="idMenu" value="#{menu.idGender}"></f:param>
 										<f:param name="idSubMenu" value="#{submenu.idType}"></f:param>
 										<f:param name="fgNewArrivals" value="false"></f:param>
 										<f:param name="idCampaign" value="0"></f:param>
 										<f:param name="idSubMenuBrand" value="0"></f:param>
 									</h:link>
-								</div>
+								</div> 
 							</ui:repeat>
 						</div>
 					</div>

@@ -2300,7 +2300,7 @@
 	and oa.pgArticle=a.pgArticle
 	and p.idProduct=a.idProduct
 	and oa.idOrder=so.idOrder
-	and so.idStato=3
+	and so.idStato=15
 	group by p.idProduct,p.idbrand,p.idType,a.pgArticle,a.idColor,a.idSize)SP
 	left join
 	(SELECT p.idProduct,p.idbrand,p.idType,a.pgArticle,a.idColor,a.idSize,sum(coalesce(qtArticle,0)) as rimborsata,sum(imArticle) as incassoRimborsato
