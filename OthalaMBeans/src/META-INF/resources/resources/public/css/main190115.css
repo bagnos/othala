@@ -1224,7 +1224,7 @@ background
 .title:before {
 	content: "";
 	display: block;
-	border-top: solid 1px rgb(102, 102, 102);;
+	border-top: solid 1px #ddd;;
 	width: 100%;
 	position: absolute;
 	top: 50%;
