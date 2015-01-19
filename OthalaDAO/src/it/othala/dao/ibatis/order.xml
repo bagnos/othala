@@ -148,7 +148,7 @@
 	</select>
 
 
-	<insert id="insertOrder" parameterType="it.othala.dto.OrderFullDTO">
+	<insert id="insertOrder" parameterType="it.othala.dto.OrderFullDTO" useGeneratedKeys="true" keyProperty="idOrder" keyColumn="idOrder">
 
 		INSERT INTO
 		${database.schema}orders
@@ -162,12 +162,7 @@
 		#{speseSpedizione.idDeliveryCost},null, #{idFidelity}, #{idCoupon},
 		#{pcSconto})
 
-		<selectKey resultType="java.lang.Integer" keyProperty="idOrder">
-
-			SELECT LAST_INSERT_ID() AS idOrder
-
-		</selectKey>
-	</insert>
+			</insert>
 
 	<update id="updateOrder" parameterType="java.util.HashMap">
 
