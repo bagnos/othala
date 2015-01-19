@@ -120,25 +120,17 @@ public class OrderService implements IOrderService {
 	public OrderFullDTO insertOrder(OrderFullDTO orderFull) throws OthalaException {
 
 		checkQtaInStock(null, orderFull);
-
 		orderDAO.insertOrder(orderFull);
-
-		HashMap<String, Object> mapProduct = new HashMap<String, Object>();
-
-		List<ArticleFullDTO> lsProd = orderFull.getCart();
-		Iterator<ArticleFullDTO> i = lsProd.iterator();
-		while (i.hasNext()) {
-			ArticleFullDTO article = i.next();
-
+		HashMap<String, Object> mapProduct = new HashMap<String, Object>();		
+		for (ArticleFullDTO article: orderFull.getCart())
+		{
 			mapProduct.clear();
 			mapProduct.put("idOrder", orderFull.getIdOrder());
 			mapProduct.put("idProdotto", article.getPrdFullDTO().getIdProduct());
 			mapProduct.put("pgArticle", article.getPgArticle());
 			mapProduct.put("qtArticle", article.getQtBooked());
 			mapProduct.put("imArticle", article.getPriceDiscounted());
-
 			orderDAO.insertOrdersArticles(mapProduct);
-
 		}
 
 		orderDAO.insertStatesOrders(orderFull);
