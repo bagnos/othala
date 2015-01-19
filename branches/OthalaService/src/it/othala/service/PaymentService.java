@@ -420,17 +420,27 @@ public class PaymentService implements IPaymentService {
 
 		mailService.inviaHTMLMail(new String[] { order.getIdUser() }, oggetto, html, inlineImages, mailDTO);
 
+		List<ShopDTO> lsShop = productDAO.listShop();
 		if (state == TypeStateOrder.SPEDITO) {
 
 		} else {
 			for (ArticleFullDTO art : order.getCart()) {
 				
-				ShopDTO shop = externalService.getShopStock(art.getPrdFullDTO().getIdProduct(), art.getPgArticle(), art.getTxBarCode());
+				ShopDTO shopStock = externalService.getShopStock(art.getPrdFullDTO().getIdProduct(), art.getPgArticle(), art.getTxBarCode());
 				
-				html = generateHtmlOrder(order, mailDTO, inlineImages, state, "mailInserimentoOrdine", shop.getIdShop());
+				for (ShopDTO shop :  lsShop){
+					
+					if (shopStock.getIdShop() == shop.getIdShop()){
 						
-				mailService.inviaHTMLMail(new String[] { shop.getTxMail() }, "Nuovo Ordine WEB",
-						html, inlineImages, mailDTO);
+						html = generateHtmlOrder(order, mailDTO, inlineImages, state, "mailInserimentoOrdine", shop.getIdShop());
+						
+						mailService.inviaHTMLMail(new String[] { shop.getTxMail() }, "Nuovo Ordine WEB",
+								html, inlineImages, mailDTO);
+							
+					}
+					
+				}
+				
 				
 			}
 			
