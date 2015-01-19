@@ -2295,10 +2295,12 @@
 	select sp.idProduct,SP.pgArticle,b.txBrand,t.txType,c.txColor,s.txSize,(coalesce(spedita,0)-coalesce(rimborsata,0)) as qtaCashed,(coalesce(incasso,0)-coalesce(incassoRimborsato,0)) as imCashed
 	from
 	(SELECT p.idProduct,p.idbrand,p.idType,a.pgArticle,a.idColor,a.idSize,sum(qtArticle) as spedita,sum(imArticle) as incasso
-	from ${database.schema}orders_articles oa, ${database.schema}article a, ${database.schema}product p
+	from ${database.schema}orders_articles oa,${database.schema}states_orders so, ${database.schema}article a, ${database.schema}product p
 	where oa.idProdotto=a.idProduct
 	and oa.pgArticle=a.pgArticle
 	and p.idProduct=a.idProduct
+	and oa.idOrder=so.idOrder
+	and so.idStato=3
 	group by p.idProduct,p.idbrand,p.idType,a.pgArticle,a.idColor,a.idSize)SP
 	left join
 	(SELECT p.idProduct,p.idbrand,p.idType,a.pgArticle,a.idColor,a.idSize,sum(coalesce(qtArticle,0)) as rimborsata,sum(imArticle) as incassoRimborsato
