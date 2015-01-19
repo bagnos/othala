@@ -21,7 +21,7 @@
 									<h:link outcome="#{imgCar.urlRedirect}">
 										<p:graphicImage styleClass="img-responsive " title="#{imgCar.txAlt}" alt="#{imgCar.txAlt}"
 											library="#{imgCar.txLibrary}" name="#{imgCar.txName}" />
-										<h:panelGroup rendered="#{not empty imgCar.txAlt}" styleClass="headlineBox">
+										<h:panelGroup rendered="#{not empty imgCar.txAlt}" styleClass="headlineBox hidden-xs">
 											<h1 class="headline">#{imgCar.txAlt}</h1>
 										</h:panelGroup>
 									</h:link>
