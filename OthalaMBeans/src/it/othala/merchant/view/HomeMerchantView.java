@@ -43,7 +43,7 @@ public class HomeMerchantView extends BaseView {
 						TypeStateOrder.REQUEST_REFOUND, null, "R"));
 
 				merchantBean.setChangeRequest(OthalaFactory.getOrderServiceInstance().getRefounds(null, null, null,
-						TypeStateOrder.REQUEST_REFOUND, null, "C"));
+						TypeStateOrder.REQUEST_CHANGE, null, "C"));
 
 				merchantBean.setOrderSelected(null);
 

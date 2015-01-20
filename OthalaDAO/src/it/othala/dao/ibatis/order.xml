@@ -453,7 +453,7 @@
 		${database.schema}states_refound
 		(`idRefound`,`idStato`,`txNote`)
 		VALUES
-		(#{idRefound},100,#{txNote});
+		(#{idRefound},#{idStato},#{txNote});
 
 	</insert>
 
@@ -466,7 +466,7 @@
 
 	</insert>
 
-	<resultMap id="Refound" type="it.othala.dto.RefoundFullDTO">
+	<resultMap id="Refound" type="it.othala.dto.RefoundFullDTO">		
 		<id property="idRefound" column="idRefound" />
 		<result property="idOrder" column="idOrder" />
 		<result property="idUser" column="idUser" />
@@ -486,6 +486,7 @@
 			<result property="fgChangeRefound" column="fgChangeRefound" />
 			<result property="txChangeRefound" column="txChangeRefound" />
 			<result property="pgArticleChangeSelected" column="pgArticleNew" />
+			<result property="idRefoundArticle" column="idRefoundArticle" />
 		</collection>
 	</resultMap>
 
@@ -493,7 +494,7 @@
 	<select id="listRefounds" resultMap="Refound" parameterType="java.util.HashMap">
 
 		SELECT
-		a.idRefound, a.idOrder, a.idUser, a.imRefound, a.idTransaction,
+		b.idRefoundArticle, a.idRefound, a.idOrder, a.idUser, a.imRefound, a.idTransaction,
 		a.txChangeRefound as MotivoReso,
 		a.fgChangeRefound, a.fgPartialRefound,
 		b.idProdotto, b.pgArticle, b.qtArticle, b.fgChangeRefound,
