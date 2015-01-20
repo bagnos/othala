@@ -186,7 +186,7 @@ html,body,form {
 }
 
 .emailVisible {
-	display: inline !important;
+	display: none !important;
 }
 
 .guidaVisible {
