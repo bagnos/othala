@@ -10,6 +10,15 @@ public class ArticleRefounded extends ArticleFullDTO {
 	
 	private String fgChangeRefound;
 	private String txChangeRefound;
+private Integer idRefoundArticle;
+	
+	public Integer getIdRefoundArticle() {
+		return idRefoundArticle;
+	}
+	public void setIdRefoundArticle(Integer idRefoundArticle) {
+		this.idRefoundArticle = idRefoundArticle;
+	}
+	
 	
 	
 	public ArticleRefounded(){
@@ -31,7 +40,7 @@ public class ArticleRefounded extends ArticleFullDTO {
 		this.setTxSize(artFull.getTxSize());
 		this.setChangesAvailable(artFull.getChangesAvailable());
 		this.setPgArticleChangeSelected(artFull.getPgArticleChangeSelected());
-		
+		this.setPriceDiscounted(artFull.getPriceDiscounted());
 	};
 	
 	public String getFgChangeRefound() {

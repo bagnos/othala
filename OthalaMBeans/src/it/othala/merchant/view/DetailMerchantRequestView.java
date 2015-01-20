@@ -63,6 +63,7 @@ public class DetailMerchantRequestView extends BaseView {
 	{
 		try {
 		OthalaFactory.getOrderServiceInstance().updateStateRefound(merchantBean.getRefoundSelected().getIdRefound(), TypeStateOrder.REFOUND_CANCELED, "eliminato da merchant");
+		addInfo("Richiesta di Cambio", "Operazione eseguita correttamente");
 		} catch (Exception ex) {
 			addGenericError(ex, "errore nella fase di romborso");
 		}

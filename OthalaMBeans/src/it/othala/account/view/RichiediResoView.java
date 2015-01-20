@@ -8,6 +8,7 @@ import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.ProductFullNewDTO;
 import it.othala.dto.RefoundFullDTO;
+import it.othala.enums.TypeStateOrder;
 import it.othala.execption.BarcodeNotPresentException;
 import it.othala.execption.OthalaException;
 import it.othala.execption.RefoundPresentException;
@@ -263,6 +264,7 @@ public class RichiediResoView extends BaseView {
 			ref.setCart(artToRefund);
 			ref.setIdOrder(myAccountBean.getOrderSelected().getIdOrder());
 			ref.setIdUser(myAccountBean.getOrderSelected().getIdUser());
+			
 			ref.setTxMotivoReso(note);
 			if (richiedireso != null && richiedireso == true) {
 				getRefund(ref);
@@ -321,6 +323,8 @@ public class RichiediResoView extends BaseView {
 
 		}
 		ref.setFgChangeRefound("C");
+		ref.setIdStato(TypeStateOrder.REQUEST_CHANGE.getState());
+		
 		OthalaFactory.getOrderServiceInstance().insertRefound(ref,
 				ConfigurationUtil.getMailProps(getRequest()));
 		addInfo("Richesta Cambio",
@@ -345,6 +349,7 @@ public class RichiediResoView extends BaseView {
 			ref.setFgChangeRefound("R");
 			ref.setFgPartialRefound(ref.getCart().size() != myAccountBean
 					.getOrderSelected().getCart().size());
+			ref.setIdStato(TypeStateOrder.REQUEST_REFOUND.getState());
 			ref = OthalaFactory.getOrderServiceInstance().insertRefound(ref,
 					ConfigurationUtil.getMailProps(getRequest()));
 

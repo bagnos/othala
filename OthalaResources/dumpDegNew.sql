@@ -668,14 +668,14 @@ DROP TABLE IF EXISTS `orders_articles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `orders_articles` (
-  `idOrder` int(11) NOT NULL,
+`idOrderArticle` int(11) NOT NULL AUTO_INCREMENT,  
+`idOrder` int(11) NOT NULL,
   `idProdotto` int(11) NOT NULL,
   `pgArticle` int(11) NOT NULL,
   `qtArticle` int(11) NOT NULL,
   `imArticle` decimal(15,2) DEFAULT NULL,
-  `txOrderArticle` varchar(10000) DEFAULT NULL,
-  `idOrderArticle` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`idOrderArticle`,`idOrder`,`idProdotto`,`pgArticle`),
+  `txOrderArticle` varchar(10000) DEFAULT NULL  
+  PRIMARY KEY (`idOrderArticle`),
   KEY `fk_OrdersArticles_Article1_idx` (`idProdotto`,`pgArticle`),
   KEY `fk_OrdersArticles_Orders1_idx` (`idOrder`),
   CONSTRAINT `fk_OrdersArticles_Article1` FOREIGN KEY (`idProdotto`, `pgArticle`) REFERENCES `article` (`idProduct`, `pgArticle`) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -877,6 +877,7 @@ DROP TABLE IF EXISTS `refound_articles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `refound_articles` (
+  `idRefoundArticle` INT(11) NOT NULL AUTO_INCREMENT
   `idRefound` int(11) NOT NULL,
   `idProdotto` int(11) NOT NULL,
   `pgArticle` int(11) NOT NULL,
@@ -885,7 +886,7 @@ CREATE TABLE `refound_articles` (
   `txChangeRefound` varchar(250) DEFAULT NULL,
   `pgArticleNew` int(11) DEFAULT NULL,
   `imArticle` decimal(15,2) DEFAULT NULL,
-  PRIMARY KEY (`idRefound`,`idProdotto`,`pgArticle`),
+  PRIMARY KEY (`idRefound`),
   KEY `fk_OrdersArticles_Article1_idx` (`idProdotto`,`pgArticle`),
   KEY `fk_Refound_Articles_Order_Refound1_idx` (`idRefound`),
   CONSTRAINT `fk_OrdersArticles_Article10` FOREIGN KEY (`idProdotto`, `pgArticle`) REFERENCES `article` (`idProduct`, `pgArticle`) ON DELETE NO ACTION ON UPDATE NO ACTION,

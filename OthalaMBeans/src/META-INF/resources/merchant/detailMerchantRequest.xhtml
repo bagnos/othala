@@ -187,7 +187,7 @@
 
 					</p:commandButton>
 					<p:commandButton title="Conferma Cambio" process="@this" update="@form"
-						onerror="PF('blockAll').unblock();"
+						onerror="PF('blockAll').unblock();" actionListener="#{detailMerchantRequestView.cambia}"
 						oncomplete="PF('blockAll').unblock();$(window).scrollTop(0);" onclick="PF('blockAll').block()"
 						rendered="#{merchantBean.change}" disabled="#{detailMerchantRequestView.disabledConferma}"
 						styleClass="ui-priority-primary" value="Conferma Cambio">
