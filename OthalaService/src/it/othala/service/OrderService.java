@@ -107,6 +107,8 @@ public class OrderService implements IOrderService {
 				artFull.setPrdFullDTO(productDAO.getProductArticleFull("it", article.getPrdFullDTO().getIdProduct(),
 						article.getPgArticle()));
 				artFull.setQtBooked(article.getQtBooked());
+				artFull.setIdOrderArticle(article.getIdOrderArticle());
+				
 				newlistArticle.add(artFull);
 			}
 			order.setCart(newlistArticle);

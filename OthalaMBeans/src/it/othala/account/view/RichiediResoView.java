@@ -207,6 +207,7 @@ public class RichiediResoView extends BaseView {
 			String[] items = idArt.split("-");
 			int pgArt = Integer.valueOf(items[1].trim());
 			int idPrd = Integer.valueOf(items[0].trim());
+			
 			ArticleRefounded artref = null;
 			for (ArticleFullDTO art : myAccountBean.getOrderSelected()
 					.getCart()) {

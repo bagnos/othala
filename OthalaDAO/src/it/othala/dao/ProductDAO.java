@@ -901,7 +901,12 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 						"it.othala.product.queries.insertArticle", map4);
 			}
 
+			else
+			{
+				
+			/*
 			if (productFull.getArticles().get(i).getArticleUpdate() == ArticleUpdate.MODIFICATO) {
+			*/
 				map4.clear();
 				map4.put("idProduct", productFull.getIdProduct());
 				map4.put("pgArticle", productFull.getArticles().get(i)
@@ -910,6 +915,30 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 						.getQtStock());
 				map4.put("idShop", productFull.getArticles().get(i).getShop()
 						.getIdShop());
+				/*
+				if (productFull.getArticles().get(i).getPrice() == null)
+				{
+				*/
+					map4.put("imPrice", productFull.getPrice());
+					map4.put("specialPrice", productFull
+							.getSpecialPrice());
+					map4.put("pcDiscount", productFull
+							.getDiscount());
+				/*	
+				}
+				else
+				{
+				
+				map4.put("imPrice", productFull.getArticles().get(i).getPrice());
+				map4.put("specialPrice", productFull.getArticles().get(i)
+						.getSpecialPrice());
+				map4.put("pcDiscount", productFull.getArticles().get(i)
+						.getDiscount());
+				
+				}
+				*/
+				
+				
 				getSqlSession().insert(
 						"it.othala.product.queries.updateArticle", map4);
 			}
