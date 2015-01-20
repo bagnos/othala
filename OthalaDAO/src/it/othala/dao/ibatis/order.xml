@@ -49,6 +49,7 @@
 			<result property="pgArticle" column="pgArticle" />
 			<result property="qtBooked" column="qtArticle" />
 			<result property="priceDiscounted" column="imArticle" />
+			<result property="idOrderArticle" column="idOrderArticle" />
 		</collection>
 		<collection property="speseSpedizione" ofType="it.othala.dto.DeliveryCostDTO">
 			<result property="idDeliveryCost" column="deliveryCost" />
@@ -71,6 +72,7 @@
 		b.pgArticle,(a.imOrdine-i.imSpese) as imOrdineSenzaSpese,
 		b.qtArticle,
 		b.imArticle,
+		b.idOrderArticle,
 		c.idStato, c.dtStato, c.txNote,
 		d.txStato, f.IDAddress as
 		idAddressBilling,

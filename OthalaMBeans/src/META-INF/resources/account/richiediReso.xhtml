@@ -140,7 +140,7 @@
 												</f:facet>
 												<h:selectBooleanCheckbox value="#{art.selected}">
 													<f:ajax execute="@this" render="pnlArts" listener="#{richiediResoView.updateReso}"></f:ajax>
-													<f:attribute value="#{art.prdFullDTO.idProduct} - #{art.pgArticle}" name="pgArt"></f:attribute>
+													<f:attribute value="#{art.prdFullDTO.idProduct} - #{art.pgArticle} - #{art.idOrderArticle}" name="pgArt"></f:attribute>
 
 												</h:selectBooleanCheckbox>
 											</h:column>

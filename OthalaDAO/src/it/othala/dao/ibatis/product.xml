@@ -1559,6 +1559,7 @@
 		coalesce(tab2.pcSconto,TAB1.discount)) /
 		100)) as
 		priceDiscounted
+		
 
 		from
 		(
@@ -1578,6 +1579,7 @@
 		a.specialPrice,
 		a.pcDiscount as discount,
 		d.idCampaign
+
 
 
 

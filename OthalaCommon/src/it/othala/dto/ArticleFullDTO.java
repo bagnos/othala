@@ -67,7 +67,7 @@ public class ArticleFullDTO implements Serializable {
 	private BigDecimal priceDiscounted;
 	private BigDecimal specialPrice;
 	private BigDecimal totalPriced;
-
+	private Integer idOrderArticle;
 	public BigDecimal getTotalPriced() {
 
 		totalPriced = priceDiscounted.multiply(new BigDecimal(qtBooked));
@@ -201,6 +201,14 @@ public class ArticleFullDTO implements Serializable {
 
 	public void setArticleUpdate(ArticleUpdate articleUpdate) {
 		this.articleUpdate = articleUpdate;
+	}
+
+	public Integer getIdOrderArticle() {
+		return idOrderArticle;
+	}
+
+	public void setIdOrderArticle(Integer idOrderArticle) {
+		this.idOrderArticle = idOrderArticle;
 	}
 
 }
