@@ -230,6 +230,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	@Override
 	public ProductFullNewDTO getProductFull(String languages, Integer idProduct) {
 
+		 getSqlSession().clearCache();
 		HashMap<String, Object> mapProduct = new HashMap<>();
 		mapProduct.put("languages", languages);
 		mapProduct.put("idProduct", idProduct);
@@ -244,7 +245,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	@Override
 	public List<ArticleFullDTO> listArticleFull(Integer idProduct,
 			String languages, Boolean fgQtaZero) {
-
+			
 		HashMap<String, Object> map2 = new HashMap<>();
 		map2.put("idProduct", idProduct);
 		map2.put("languages", languages);

@@ -95,19 +95,18 @@ public class OrderService implements IOrderService {
 			OrderFullDTO order = i.next();
 
 			List<ArticleFullDTO> newlistArticle = new ArrayList<ArticleFullDTO>();
-
-			List<ArticleFullDTO> listArticle = order.getCart();
-			Iterator<ArticleFullDTO> it = listArticle.iterator();
-			while (it.hasNext()) {
-				ArticleFullDTO article = it.next();
-
-				ArticleFullDTO artFull = productDAO.getArticleFull(article.getPrdFullDTO().getIdProduct(),
-						article.getPgArticle(), "it");
+			ArticleFullDTO artFull=null;
+			
+			for (ArticleFullDTO article:order.getCart())
+			{
+				artFull=new ArticleFullDTO();
+				artFull = productDAO.getArticleFull(article.getPrdFullDTO().getIdProduct(),
+				article.getPgArticle(), "it");
 				artFull.setShop(productDAO.getShop(article.getPrdFullDTO().getIdProduct(), article.getPgArticle()));
 				artFull.setPrdFullDTO(productDAO.getProductArticleFull("it", article.getPrdFullDTO().getIdProduct(),
 						article.getPgArticle()));
 				artFull.setQtBooked(article.getQtBooked());
-				artFull.setIdOrderArticle(article.getIdOrderArticle());
+				artFull.setIdOrderArticle(article.getIdOrderArticle().intValue());
 				
 				newlistArticle.add(artFull);
 			}
