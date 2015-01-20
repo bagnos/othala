@@ -93,3 +93,11 @@ where a.idProduct = b.idProduct);
 
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+ALTER TABLE `aduna937_othala`.`orders_articles` ADD COLUMN `idOrderArticle` INT(11) NOT NULL AUTO_INCREMENT  AFTER `txOrderArticle` 
+
+, DROP PRIMARY KEY 
+
+, ADD PRIMARY KEY (`idOrderArticle`, `idOrder`, `idProdotto`, `pgArticle`) ;
+
+
