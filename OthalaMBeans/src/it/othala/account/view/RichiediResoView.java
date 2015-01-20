@@ -207,6 +207,8 @@ public class RichiediResoView extends BaseView {
 			String[] items = idArt.split("-");
 			int pgArt = Integer.valueOf(items[1].trim());
 			int idPrd = Integer.valueOf(items[0].trim());
+			int idOrderArticle = Integer.valueOf(items[2].trim());
+			
 			
 			ArticleRefounded artref = null;
 			for (ArticleFullDTO art : myAccountBean.getOrderSelected()
@@ -220,7 +222,8 @@ public class RichiediResoView extends BaseView {
 					if (richiediCambio != null
 							&& richiediCambio
 							&& art.getPgArticle().intValue() == pgArt
-							&& art.getPrdFullDTO().getIdProduct().intValue() == idPrd) {
+							&& art.getPrdFullDTO().getIdProduct().intValue() == idPrd
+							&& art.getIdOrderArticle().intValue() == idOrderArticle) {
 						ProductFullNewDTO prd = OthalaFactory
 								.getProductServiceInstance().getProductFull(
 										getLang(),
