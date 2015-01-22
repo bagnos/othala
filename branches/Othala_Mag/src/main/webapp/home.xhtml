@@ -5,6 +5,7 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:g="http://base.google.com/ns/1.0">
 	<ui:define name="metadata">
 		<f:metadata>
+			<f:viewAction action="#{homeView.doInit}"></f:viewAction>
 		</f:metadata>
 	</ui:define>
 	<ui:define name="canonical">
@@ -89,7 +90,7 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 				</div>
 			</div>
 		</div>
-			<h:panelGroup rendered="#{applicationBean.menuFull.fgNuoviArrivi}">
+		<h:panelGroup rendered="#{applicationBean.menuFull.fgNuoviArrivi}">
 			<div class="container">
 				<div class="more-title">
 					<h2 class="title">
@@ -113,7 +114,7 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 							<div class="item">
 								<h:link outcome="cart/cart-choice-2" rendered="#{art.idProduct != null}">
 									<img title="#{art.txBrand} #{art.description}" alt="#{art.txBrand} #{art.description}"
-										class="lazyOwl img-responsive" style="margin:auto"
+										class="lazyOwl img-responsive" style="margin: auto"
 										data-src="#{request.contextPath}/javax.faces.resource/#{art.thumbnailsUrl}.xhtml?ln=images/cartThumbinals" />
 									<f:param name="idPrd" value="#{art.idProduct}"></f:param>
 								</h:link>
@@ -139,9 +140,10 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 					</div>
 				</div>
 			</div>
+		</h:panelGroup>
 
 
-			<!-- 
+		<!-- 
 			<div class="container" style="margin-top: 5px;">
 				<div class="row">
 					<div id="flexsliderNewArr" class="flexslider">
@@ -155,7 +157,7 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 				</div>
 			</div>
 			-->
-		</h:panelGroup>
+
 		<div class="container" style="margin-top: 20px;">
 			<div class="row">
 				<div class="col-sm-4"></div>
@@ -173,49 +175,36 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 	</ui:define>
 	<ui:define name="scriptPage">
 		<script>
+		
 		$(window).load(function() {
+			
 					setTimeout(function(){ var blog=document.getElementById('instamember');
 					var element = document.createElement("iframe");
 					element.src = "http://instaembedder.com/gallery-v2.php?username=mag_boutique&amp;width=270&amp;cols=4&amp;rows=2&amp;color=white&amp;likes=1&amp;share_buttons=1&amp;comments=1&amp;frame_color=white";
 					element.width="100%";
 					element.height="280px";
 					element.style="border: none";	
-					blog.appendChild(element); }, 3000);	
-
-
-
-					 $('#flexsliderCashed').flexslider({
-						    animation: "slide",
-						    animationLoop: false,    
-						    itemWidth: 250,
-						    itemMargin: 5,
-						    minItems: 2,
-						    maxItems: 4
+					blog.appendChild(element); }, 3000);
+							 	
+					setTimeout(function() {
+						$("#owl-newArr").owlCarousel({
+						    items : 4,			    	    
+						    navigation : false,
+						    pagination:true,
+						    lazyLoad : true,		
+						    navigationText:	["&#60;","&#62;"]
 						  });
-
-
-					 	
-
+					$("#owl-cashed").owlCarousel({
+						    items : 4,			     			    
+						    navigation : false,
+						    pagination:true,
+						    lazyLoad : true,
+						    navigationText:	["&#60;","&#62;"]
+						  })}, 2500);
 		});
 
 
-		 $(document).ready(function() {
-				$("#owl-newArr").owlCarousel({
-				    items : 4,			    	    
-				    navigation : false,
-				    pagination:true,
-				    lazyLoad : true,		
-				    navigationText:	["&#60;","&#62;"]
-				  });
-				$("#owl-cashed").owlCarousel({
-				    items : 4,			     			    
-				    navigation : false,
-				    pagination:true,
-				    lazyLoad : true,
-				    navigationText:	["&#60;","&#62;"]
-				  });
-		    });
-
+		 
 		    		
 			</script>
 	</ui:define>
