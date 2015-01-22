@@ -106,4 +106,7 @@ ALTER TABLE refound_articles ADD COLUMN `idRefoundArticle` INT(11) NOT NULL AUTO
 
 , ADD PRIMARY KEY (`idRefoundArticle`) ;
 
-
+update `orders_articles` a
+set imArticle = (select imPrice from article b
+where a.idProdotto = b.idProduct
+and a.pgArticle = b.pgArticle)
