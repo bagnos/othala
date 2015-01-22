@@ -323,7 +323,7 @@ public class OrderService implements IOrderService {
 
 		List<CouponDTO> listCoupons = orderDAO.getCoupons(idCoupon, idUser);
 
-		if (listCoupons.get(0) != null) {
+		if (listCoupons!=null && listCoupons.isEmpty()==false && listCoupons.get(0) != null) {
 			if (listCoupons.get(0).getDtScadenza().compareTo(new Date()) < 0) {
 				throw new CouponExpiredException(idCoupon);
 			}
