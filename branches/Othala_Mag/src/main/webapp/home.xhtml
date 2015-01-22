@@ -67,8 +67,21 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 			</div>
 			<div id="main-carousel" class="row">
 				<div class="col-sm-12">
+					<div id="owl-mainCarousel" class="owl-carousel">
+						<ui:repeat var="imgCar" value="#{applicationBean.imgsCarousel}">
+							<div class="item">
+								<h:link outcome="#{imgCar.urlRedirect}">
+									<img title="#{imgCar.txAlt}" alt="#{imgCar.txAlt}" class="lazyOwl img-responsive"
+										style="margin: auto"
+										data-src="#{request.contextPath}/javax.faces.resource/#{imgCar.txName}.xhtml?ln=images/home" />
+
+								</h:link>
+
+							</div>
+						</ui:repeat>
+					</div>
+					<!-- 
 					<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-						<!-- Wrapper for slides -->
 						<div class="carousel-inner">
 							<ui:repeat var="imgCar" value="#{applicationBean.imgsCarousel}" varStatus="staCar">
 								<h:panelGroup styleClass="#{staCar.first?'item active':'item'}"
@@ -87,6 +100,7 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 							<span class="glyphicon glyphicon-chevron-right"></span>
 						</a>
 					</div>
+					 -->
 				</div>
 			</div>
 		</div>
@@ -175,6 +189,27 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 	</ui:define>
 	<ui:define name="scriptPage">
 		<script>
+		$(document).ready(function() {
+			 
+			  $("#owl-mainCarousel").owlCarousel({
+			 
+			      slideSpeed : 300,
+			      paginationSpeed : 400,
+			      singleItem:true,
+			      lazyLoad : true,
+			      navigation : false,
+			      autoPlay: true
+			 
+			      // "singleItem:true" is a shortcut for:
+			      // items : 1, 
+			      // itemsDesktop : false,
+			      // itemsDesktopSmall : false,
+			      // itemsTablet: false,
+			      // itemsMobile : false
+			 
+			  });
+			 
+			});
 		
 		$(window).load(function() {
 			
@@ -194,13 +229,7 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 						    lazyLoad : true,		
 						    navigationText:	["&#60;","&#62;"]
 						  });
-					$("#owl-cashed").owlCarousel({
-						    items : 4,			     			    
-						    navigation : false,
-						    pagination:true,
-						    lazyLoad : true,
-						    navigationText:	["&#60;","&#62;"]
-						  })}, 2500);
+					}, 2500);
 		});
 
 
