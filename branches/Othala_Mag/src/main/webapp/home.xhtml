@@ -89,39 +89,72 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 				</div>
 			</div>
 		</div>
-		<h:panelGroup rendered="#{applicationBean.menuFull.fgNuoviArrivi}">
+			<h:panelGroup rendered="#{applicationBean.menuFull.fgNuoviArrivi}">
 			<div class="container">
 				<div class="more-title">
 					<h2 class="title">
-						<span>#{msg.catalog_newArrival}</span>
+						<span>#{msg.catalog_newArr}</span>
 					</h2>
-					<h:link value="#{menu.txGender}" outcome="/cart/cart-catalog.xhtml" styleClass="show-more-link hidden-xs">
+					<h:link value="#{menu.txGender}" outcome="/cart/cart-catalog.xhtml"
+						styleClass="show-more-link hidden-xs">
 						<f:param name="idMenu" value="0"></f:param>
 						<f:param name="idSubMenu" value="0"></f:param>
 						<f:param name="fgNewArrivals" value="true"></f:param>
 						<f:param name="idCampaign" value="0"></f:param>
 						<h:outputText value="#{msg.catalog_findNewArr}&#62;" />
 					</h:link>
+
 				</div>
 			</div>
-			<div class="container">
+			<div class="container" style="margin-top: 5px;">
 				<div class="row">
-					<ui:repeat var="imgNewArr" value="#{applicationBean.imgsNewArrival}">
-						<h:panelGroup styleClass="col-sm-6" rendered="#{imgNewArr.txName!=null}">
-							<div class="thumbnail thumbnail-home">
-								<h:link outcome="#{imgNewArr.urlRedirect}">
-									<p:graphicImage styleClass="img-responsive" title="#{imgNewArr.txAlt}"
-										alt="#{imgNewArr.txAlt}" library="#{imgNewArr.txLibrary}" name="#{imgNewArr.txName}"
-										style="max-height:100%" />
-									<h:panelGroup rendered="#{not empty imgNewArr.txAlt}" styleClass="headlineBox">
-										<h1 class="headline">#{imgNewArr.txAlt}</h1>
-									</h:panelGroup>
+					<div id="owl-newArr" class="owl-carousel col-sm-12">
+						<ui:repeat var="art" value="#{homeView.articleNewArrivals}">
+							<div class="item">
+								<h:link outcome="cart/cart-choice-2" rendered="#{art.idProduct != null}">
+									<img title="#{art.txBrand} #{art.description}" alt="#{art.txBrand} #{art.description}"
+										class="lazyOwl img-responsive" style="margin:auto"
+										data-src="#{request.contextPath}/javax.faces.resource/#{art.thumbnailsUrl}.xhtml?ln=images/cartThumbinals" />
+									<f:param name="idPrd" value="#{art.idProduct}"></f:param>
 								</h:link>
+								<div class="row">
+									<div class="col-sm-12" style="text-align: center;">
+										<h5 class="descrVisibile" style="text-transform: uppercase;">
+											<h:outputText id="descr" value="#{art.description}" />
+										</h5>
+										<h3 style="color: #a59061">
+											<strong> <h:outputText value="#{art.price}"
+													styleClass="#{art.price != art.priceDiscounted?'onSale':''}">
+													<f:converter converterId="it.othala.BigDecimalConverter" />
+												</h:outputText> <h:outputText value="#{art.priceDiscounted}"
+													rendered="#{art.price != art.priceDiscounted}" style="padding-left: 5px;">
+													<f:converter converterId="it.othala.BigDecimalConverter" />
+												</h:outputText>
+											</strong>
+										</h3>
+									</div>
+								</div>
 							</div>
-						</h:panelGroup>
-					</ui:repeat>
+						</ui:repeat>
+					</div>
 				</div>
 			</div>
+
+
+			<!-- 
+			<div class="container" style="margin-top: 5px;">
+				<div class="row">
+					<div id="flexsliderNewArr" class="flexslider">
+						<ul class="slides">
+							<ui:repeat var="art" value="#{homeView.articleNewArrivals}">
+								<li style="width: 150px;"><h:panelGroup>
+									</h:panelGroup></li>
+							</ui:repeat>
+						</ul>
+					</div>
+				</div>
+			</div>
+			-->
 		</h:panelGroup>
 		<div class="container" style="margin-top: 20px;">
 			<div class="row">
@@ -147,10 +180,43 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 					element.width="100%";
 					element.height="280px";
 					element.style="border: none";	
-					blog.appendChild(element); }, 3000);		
+					blog.appendChild(element); }, 3000);	
+
+
+
+					 $('#flexsliderCashed').flexslider({
+						    animation: "slide",
+						    animationLoop: false,    
+						    itemWidth: 250,
+						    itemMargin: 5,
+						    minItems: 2,
+						    maxItems: 4
+						  });
+
+
+					 	
 
 		});
-						
+
+
+		 $(document).ready(function() {
+				$("#owl-newArr").owlCarousel({
+				    items : 4,			    	    
+				    navigation : false,
+				    pagination:true,
+				    lazyLoad : true,		
+				    navigationText:	["&#60;","&#62;"]
+				  });
+				$("#owl-cashed").owlCarousel({
+				    items : 4,			     			    
+				    navigation : false,
+				    pagination:true,
+				    lazyLoad : true,
+				    navigationText:	["&#60;","&#62;"]
+				  });
+		    });
+
+		    		
 			</script>
 	</ui:define>
 </ui:composition>
