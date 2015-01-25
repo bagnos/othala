@@ -11,9 +11,15 @@
 			<f:viewParam name="idCampaign" value="#{cartFlowView1.idCampaign}"></f:viewParam>
 			<f:viewParam name="idSubMenuBrand" value="#{cartFlowView1.brand}"></f:viewParam>
 		</f:metadata>
-	</ui:define>	
+	</ui:define>
 	<ui:define name="title">Online Shop #{cartFlowView1.category} :#{msgSite.nomeMerchant}</ui:define>
-	<ui:define name="description"><meta name="description" content="#{msgSite.nomeMerchant}: #{cartFlowView1.category}"></meta></ui:define>
+	<ui:define name="description">
+		<meta name="description" content="#{msgSite.nomeMerchant}: #{cartFlowView1.category}"></meta>
+	</ui:define>
+	<ui:define name="canonical">
+		<link rel="canonical"
+			href="http://#{request.serverName}#{request.contextPath}/cart/cart-catalog.xhtml?idMenu=#{cartFlowView1.idMenu}&amp;idSubMenu=#{cartFlowView1.idSubMenu}&amp;fgNewArrivals=#{cartFlowView1.fgNewArrivals}&amp;idCampaign=#{cartFlowView1.idCampaign}&amp;idSubMenuBrand=#{cartFlowView1.brand}" />
+	</ui:define>
 	<ui:define name="content">
 		<h:form prependId="false">
 			<div class="container">
@@ -143,8 +149,8 @@
 									<h:link outcome="cart-choice-2">
 										<h:graphicImage styleClass="center-block img-responsive"
 											title="#{art.txBrand}:#{art.txType} #{art.description} #{art.descriptionEN}"
-											alt="#{art.txBrand}:#{art.txType} #{art.description} #{art.descriptionEN}" library="images/cartThumbinals"
-											name="#{art.imagesUrl.get(0)}" />
+											alt="#{art.txBrand}:#{art.txType} #{art.description} #{art.descriptionEN}"
+											library="images/cartThumbinals" name="#{art.imagesUrl.get(0)}" />
 										<f:param name="idPrd" value="#{art.idProduct}"></f:param>
 									</h:link>
 									<div class="caption articolo">
@@ -152,8 +158,8 @@
 											<div class="col-sm-12">
 												<div style="float: right">
 													<p:graphicImage id="imgArt" library="images"
-														alt=" availiable #{art.colorsAsString} #{art.sizesAsString} " name="info-thumb.png" />
-													<p:tooltip for="imgArt">
+														alt="shop #{art.txBrand}:#{art.txType} #{art.description} #{art.descriptionEN} availiable #{art.colorsAsString} #{art.sizesAsString} " name="info-thumb.png" />
+													<p:tooltip for="imgArt">														
 														<h:outputText value="#{msg.catalog_available}" />
 														<br />
 														<h:outputText value="#{msg.catalog_colors} #{art.colorsAsString}" />

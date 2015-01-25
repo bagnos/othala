@@ -1,7 +1,8 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
 	template="/template/masterTemplateBS.xhtml" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions">
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
 
 
 	<ui:define name="metadata">
@@ -11,7 +12,7 @@
 	</ui:define>
 
 
-	
+
 
 	<ui:define name="content">
 		<h:form prependId="false" id="cart-checkout">
@@ -37,12 +38,21 @@
 										<li><a href="#tab2" data-toggle="tab">
 												<span class="label">3</span> #{msg.catalogo_delivery}
 											</a></li>
-										<li><a href="#tab3" data-toggle="tab">
-												<span class="label">4</span> #{msg.catalogo_discounted}
-											</a></li>
+										<c:if test="#{applicationBean.discountTabEnabled}">
+											<li><a href="#tab3" data-toggle="tab">
+													<span class="label">4</span> #{msg.catalogo_discounted}
+												</a></li>
+										</c:if>
+										<c:if test="#{applicationBean.discountTabEnabled}">
 										<li><a href="#tab4" data-toggle="tab">
 												<span class="label">5</span> #{msg.catalogo_payment}
 											</a></li>
+											</c:if>
+											<c:if test="#{applicationBean.discountTabEnabled==false}">
+										<li><a href="#tab4" data-toggle="tab">
+												<span class="label">4</span> #{msg.catalogo_payment}
+											</a></li>
+											</c:if>
 										<!-- 
 										<li><a href="#tab4" data-toggle="tab">
 												<span class="label">5</span> #{msg.catalogo_confirmation}
@@ -88,9 +98,11 @@
 										<div class="tab-pane" id="tab2">
 											<ui:include src="../sections/cart-delivery.xhtml" />
 										</div>
-										<div class="tab-pane" id="tab3">
-											<ui:include src="../sections/cart-discount.xhtml" />
-										</div>
+										<c:if test="#{applicationBean.discountTabEnabled}">
+											<div class="tab-pane" id="tab3">
+												<ui:include src="../sections/cart-discount.xhtml" />
+											</div>
+										</c:if>
 
 										<div class="tab-pane" id="tab4">
 											<ui:include src="../sections/cart-wrapUpAndPayment.xhtml" />
@@ -234,7 +246,7 @@ function initAddress() {
 	});
 }
 //]]>
-</h:outputScript>
+		</h:outputScript>
 
 	</ui:define>
 </ui:composition>
