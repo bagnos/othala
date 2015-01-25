@@ -35,6 +35,7 @@ public class HomeView extends BaseView {
 	@Override
 	public String doInit() {
 		// TODO Auto-generated method stub
+		log.info("Access Site");
 		articleCached = OthalaFactory.getProductServiceInstance().listArticleMajorCashed(getLang());
 		VetrinaDTO vetrina = OthalaFactory.getProductServiceInstance().getListProduct(getLang(), null, null, null,
 				null, null, null, null, true, 0, null, false);

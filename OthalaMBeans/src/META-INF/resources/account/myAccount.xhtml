@@ -36,7 +36,8 @@
 										</h5>
 									</div>
 									<div class="col-sm-6">
-										<p:commandButton  styleClass="ui-priority-primary" process="@this" style="margin-top: 6px;" value="#{msg.account_changePsw}" onclick="PF('dlgChange').show();" />
+										<p:commandButton styleClass="ui-priority-primary" process="@this" style="margin-top: 6px;"
+											value="#{msg.account_changePsw}" onclick="PF('dlgChange').show();" />
 									</div>
 
 								</div>
@@ -269,6 +270,46 @@
 						</div>
 					</div>
 				</div>
+				<h:panelGroup rendered="#{myAccountView.myAccountFidelity}">
+					<!-- le mie fidelity -->
+					<div class="col-sm-6">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<div class="row">
+									<div class="col-sm-6">
+										<h5>
+											<strong><h:outputText style="text-transform: uppercase;" value="Fidelity" /></strong>
+										</h5>
+									</div>
+									<div class="col-sm-6">
+										<p:commandButton rendered="#{empty myAccountView.listFidelity}"
+											styleClass="ui-priority-primary" process="@this" style="margin-top: 6px;"
+											value="New Fidelity" actionListener="#{myAccountView.richiediCarta}" />
+									</div>
+								</div>
+							</div>
+							<div class="panel-body">
+								<h:panelGroup rendered="#{empty myAccountView.listFidelity}">
+									<h:outputText value="Nessuna Fidelity insertita" />
+								</h:panelGroup>
+								<h:panelGroup rendered="#{not empty myAccountView.listFidelity}">
+									<div class="row">
+										<div class="col-sm-2">
+											<strong>Nr. Fidelity</strong>
+										</div>
+										<div class="col-sm-3">#{myAccountView.listFidelity[0].idFidelity}</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-2">
+											<strong>Sconto</strong>
+										</div>
+										<div class="col-sm-3">#{myAccountView.listFidelity[0].pcSconto}</div>
+									</div>
+								</h:panelGroup>
+							</div>
+						</div>
+					</div>
+				</h:panelGroup>
 			</div>
 
 			<p:dialog header="#{msg.account_changePsw}" id="dlgChange" widgetVar="dlgChange" closable="true">
@@ -303,8 +344,9 @@
 						</div>
 					</div>
 				</div>
-				<p:commandButton styleClass="ui-priority-primary" validateClient="true" 
-							value="#{msg.account_conferma}" actionListener="#{accessView.changePassword}" update="messChange" process="confPsw,psw,@this"></p:commandButton>
+				<p:commandButton styleClass="ui-priority-primary" validateClient="true"
+					value="#{msg.account_conferma}" actionListener="#{accessView.changePassword}"
+					update="messChange" process="confPsw,psw,@this"></p:commandButton>
 			</p:dialog>
 
 		</h:form>

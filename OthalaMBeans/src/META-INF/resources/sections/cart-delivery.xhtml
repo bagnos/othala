@@ -516,7 +516,7 @@
 						<p:commandButton validateClient="true" ajax="true" rendered="#{cartWizardView.rendeRiepilogo}"
 							actionListener="#{cartWizardView.newAddr}" update="delivery wrapUp cartTable-pnl"
 							process="delivery addrFatNew addrSpeNew" icon="ui-icon-triangle-1-e" iconPos="right"
-							value="#{msg.catalogo_discounted}" />
+							value="#{applicationBean.discountTabEnabled?msg.catalogo_discounted:msg.delivery_wrapUpOrder}" />
 
 					</div>
 				</div>

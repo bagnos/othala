@@ -15,7 +15,12 @@
 		<meta name="description"
 			content="#{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.txType} #{cartFlowBean.detailProductFull.descriptionEN}"></meta>
 	</ui:define>
+	<ui:insert name="canonical">
+		<link rel="canonical"
+			href="http://#{request.serverName}#{request.contextPath}/cart/cart-choice-2.xhtml?idPrd=#{cartChoice2View.idProduct}" />
+	</ui:insert>	
 	<ui:define name="fb">
+		<meta itemprop="name" content="#{cartFlowBean.detailProductFull.txBrand}-#{cartFlowBean.detailProductFull.txType}"></meta>	
 		<meta property="fb:app_id" content="1462056920726471" />
 		<meta property="og:type" content="product" />
 		<meta property="og:locale" content="en_US" />
@@ -108,13 +113,13 @@
 									<li><c:if test="#{cartChoice2View.requestComingFromAMobileDevice}">
 											<img class="img-responsive zoom"
 												title="#{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.txType}"
-												alt="#{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.txType} #{cartFlowBean.detailProductFull.descriptionEN} number #{cartFlowBean.detailProductFull.idProduct}"
+												alt="shop #{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.txType} #{cartFlowBean.detailProductFull.descriptionEN} number #{cartFlowBean.detailProductFull.idProduct}"
 												data-zoom-image=""
 												src="#{request.contextPath}/javax.faces.resource/#{image}.xhtml?ln=images/cartThumbinals" />
 										</c:if> <c:if test="#{cartChoice2View.requestComingFromAMobileDevice==false}">
 											<img class="img-responsive zoom"
 												title="#{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.txType}"
-												alt="#{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.txType} #{cartFlowBean.detailProductFull.descriptionEN} number #{cartFlowBean.detailProductFull.idProduct}"
+												alt="shop #{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.txType} #{cartFlowBean.detailProductFull.descriptionEN} number #{cartFlowBean.detailProductFull.idProduct}"
 												data-zoom-image="#{request.contextPath}/javax.faces.resource/LARGE_#{image}.xhtml?ln=images/cartThumbinals"
 												src="#{request.contextPath}/javax.faces.resource/#{image}.xhtml?ln=images/cartThumbinals" />
 										</c:if></li>
@@ -227,56 +232,56 @@
 						</div>
 						<div class="row">
 							<div class="col-sm-12">
-							<div class="row">
-								<div class="col-sm-4">
-									<div class="fb-like" data-layout="button_count" data-share="true" data-width="450"
-										data-show-faces="true"></div>
+								<div class="row">
+									<div class="col-sm-4">
+										<div class="fb-like" data-layout="button_count" data-share="true" data-width="450"
+											data-show-faces="true"></div>
+									</div>
 								</div>
-							</div>
 
-							<div class="row spacer10">
-								<div class="col-sm-6">
-									<g:plus action="share" annotation="bubble" size="medium" />
-									<g:plusone size="medium"></g:plusone>
-									<script type="text/javascript">				
+								<div class="row spacer10">
+									<div class="col-sm-6">
+										<g:plus action="share" annotation="bubble" size="medium" />
+										<g:plusone size="medium"></g:plusone>
+										<script type="text/javascript">				
            (function() {
         var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
         po.src = 'https://apis.google.com/js/plusone.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
       })();
     </script>
+									</div>
+								</div>
+								<div class="row spacer10">
+									<div class="col-sm-2">
+										<a href="#" class="twitter-share-button">Tweet</a>
+										<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+									</div>
+								</div>
+
+
+
+							</div>
+							<div class="row spacer20">
+								<div class="col-sm-12">
+									<h6>#{msg.catalog_notesDelivery}</h6>
 								</div>
 							</div>
-							<div class="row spacer10">
-								<div class="col-sm-2">
-									<a href="#" class="twitter-share-button">Tweet</a>
-									<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+							<div class="row spacer20">
+								<div class="col-xs-6">
+									<p:commandButton rendered="#{cartFlowBean.singleProductCatalog==false}"
+										icon="ui-icon-triangle-1-w btn-articolo-sel" action="#{cartChoice2View.goToCatalogo}"
+										value="#{msg.catalog_back}" />
+								</div>
+								<div class="col-xs-6">
+									<p:commandButton
+										disabled="#{cartChoice2View.qtaArticle==null or cartChoice2View.qtaArticle==0 }"
+										id="add-cart" styleClass="ui-priority-primary btn-articolo-sel"
+										value="#{msg.catalog_addToCart}" ajax="false" action="#{cartChoice2View.goToCart}"
+										rendered="#{cartChoice2View.disponibile}">
+									</p:commandButton>
 								</div>
 							</div>
-
-
-
-						</div>
-						<div class="row spacer20">
-							<div class="col-sm-12">
-								<h6>#{msg.catalog_notesDelivery}</h6>
-							</div>
-						</div>
-						<div class="row spacer20">
-							<div class="col-xs-6">
-								<p:commandButton rendered="#{cartFlowBean.singleProductCatalog==false}"
-									icon="ui-icon-triangle-1-w btn-articolo-sel" action="#{cartChoice2View.goToCatalogo}"
-									value="#{msg.catalog_back}" />
-							</div>
-							<div class="col-xs-6">
-								<p:commandButton
-									disabled="#{cartChoice2View.qtaArticle==null or cartChoice2View.qtaArticle==0 }"
-									id="add-cart" styleClass="ui-priority-primary btn-articolo-sel"
-									value="#{msg.catalog_addToCart}" ajax="false" action="#{cartChoice2View.goToCart}"
-									rendered="#{cartChoice2View.disponibile}">
-								</p:commandButton>
-							</div>
-						</div>
 						</div>
 					</div>
 				</div>

@@ -3,10 +3,12 @@ package it.othala.account.view;
 import it.othala.account.model.MyAccountBean;
 import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryDTO;
+import it.othala.dto.FidelityCardDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.model.ApplicationBean;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
+import it.othala.web.utils.ConfigurationUtil;
 
 import java.util.List;
 
@@ -30,6 +32,33 @@ public class MyAccountView extends BaseView {
 	private int idAddrSel;
 	private OrderFullDTO order;
 	private Boolean renderDetails;
+	private List<FidelityCardDTO> listFidelity;
+	private Boolean myAccountFidelity;
+	private String emailFidelityRequest;
+	private String cell;
+
+	
+
+	public String getCell() {
+		return cell;
+	}
+
+	public void setCell(String cell) {
+		this.cell = cell;
+	}
+
+	public String getEmailFidelityRequest() {
+		return emailFidelityRequest;
+	}
+
+	public boolean isMyAccountFidelity() {
+		return myAccountFidelity;
+	}
+
+
+	public List<FidelityCardDTO> getListFidelity() {
+		return listFidelity;
+	}
 
 	@ManagedProperty(value = "#{myAccountBean}")
 	private MyAccountBean myAccountBean;
@@ -94,6 +123,14 @@ public class MyAccountView extends BaseView {
 			getMyAccountBean().setNazioni(getBeanApplication().getDomain().getNazioni());
 
 			getMyAccountBean().setNazioni(getBeanApplication().getDomain().getNazioni());
+
+			listFidelity = OthalaFactory.getOrderServiceInstance().getFidelityCards(null, null, null,
+					getLoginBean().getEmail());
+			
+			myAccountFidelity = Boolean
+					.parseBoolean(ConfigurationUtil.getProperty("MyAccount_Fidelity") != null ? ConfigurationUtil
+							.getProperty("MyAccount_Fidelity") : "false");
+			emailFidelityRequest =ConfigurationUtil.getProperty("MyAccount_EmailFidelityRequest");
 
 		} catch (Exception e) {
 			addGenericError(e, "errore nella inizializzazione della myAccount");
@@ -190,6 +227,22 @@ public class MyAccountView extends BaseView {
 		deleteCart(getCartFlowBean());
 		redirectHome();
 
+	}
+
+	public void richiediCarta(ActionEvent e) {
+		try {
+			cell="";
+			if (addresses.getIndirizzo().isEmpty()==false)
+			{
+				cell=addresses.getIndirizzo().get(0).getTel();
+			}
+			OthalaFactory.getAccountServiceInstance().richiediFidelity(getLoginBean().getName(),
+					getLoginBean().getSurname(), getLoginBean().getEmail(),cell,emailFidelityRequest,ConfigurationUtil.getProperty("DNS_SITE"),ConfigurationUtil.getMailProps(getRequest()));
+			addInfo("Richiedi Fidelity",
+					"La richiesta è stata inoltrata correttamente, tra qualche giorno sarà visibile nella sezione MyAccount");
+		} catch (Exception ex) {
+			addGenericError(ex, "errore richiesta fidelity");
+		}
 	}
 
 }
