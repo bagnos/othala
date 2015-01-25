@@ -16,11 +16,9 @@
 					<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
 						<div class="carousel-inner">
 							<ui:repeat var="imgCar" value="#{applicationBean.imgsCarousel}" varStatus="staCar">
-								<div class="#{staCar.first?'item active':'item'}">
-									<h:link outcome="#{imgCar.urlRedirect}">
+								<div class="#{staCar.first?'item active':'item'}">									
 										<p:graphicImage styleClass="img-responsive" library="#{imgCar.txLibrary}"
-											name="#{imgCar.txName}" />
-									</h:link>
+											name="#{imgCar.txName}" />									
 								</div>
 							</ui:repeat>
 						</div>
