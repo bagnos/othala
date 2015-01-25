@@ -25,14 +25,13 @@ public class AccountService implements IAccountService {
 
 	private IAccountDAO accountDAO;
 	private IMailService mailService;
-	
+
 	private final String CUSTOMER_ROLE = "CUSTOMER";
 
 	public void setMailService(IMailService mailService) {
 		this.mailService = mailService;
 	}
 
-	
 	public void setAccountDAO(IAccountDAO accountDAO) {
 		this.accountDAO = accountDAO;
 	}
@@ -53,8 +52,6 @@ public class AccountService implements IAccountService {
 
 		accountDAO.insertAccount(account);
 		accountDAO.insertAccountRole(account.getEmail(), CUSTOMER_ROLE);
-
-		
 
 		inviaMailRegistrazione(account.getEmail(), account.getName(), account.getPsw(), mailProps);
 
@@ -89,7 +86,7 @@ public class AccountService implements IAccountService {
 		}
 		return accountDAO.changeStateAccount(email, TypeCustomerState.CESSATO.getState());
 	}
-	
+
 	@Override
 	public int activeAccount(List<AccountDTO> listAccount) {
 		// TODO Auto-generated method stub
@@ -191,7 +188,7 @@ public class AccountService implements IAccountService {
 
 		accountDAO.changeStateAccount(email, TypeCustomerState.ATTIVATO.getState());
 	}
-	
+
 	@Override
 	public void changePassworAccount(String email, String psw) throws UserNotFoundException {
 		// TODO Auto-generated method stub
@@ -235,9 +232,32 @@ public class AccountService implements IAccountService {
 		return accountDAO.getAccount(email);
 	}
 
+	@Override
+	public void richiediFidelity(String nome, String cognome, String email,String cell, String emailMerchant,String site, MailPropertiesDTO mail)
+			throws MailNotSendException {
+		// TODO Auto-generated method stub
+		StringBuilder sb = new StringBuilder();
+		sb.append("<nome>" + nome + "</nome>");
+		sb.append("<cognome>" + cognome + "</cognome>");
+		sb.append("<email>" + email + "</email>");
+		sb.append("<cell>" + cell + "</emacellil>");
+		sb.append("<site>" + email + "</site>");
 
-	
+		String content = null;
+		
+		try {
+			content = Template.getContenFile(TipoTemplate.MailFidelityRequest);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			throw new MailNotSendException(e);
+		}
 
-	
+		content = content.replaceAll("<nome>", nome);
+		content = content.replaceAll("<cognome>", cognome);
+		content = content.replaceAll("<email>", email);
+
+		mailService.inviaMail(new String[] { emailMerchant }, site+":richiesta censimento Fidelity Card", content,
+				mail);
+	}
 
 }

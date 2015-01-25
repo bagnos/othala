@@ -25,12 +25,12 @@ public interface IAccountService {
 
 	public void changePassworResetdAccount(String email, String psw) throws UserNotFoundException,
 			UserNotResetStateException;
+
 	public void changePassworAccount(String email, String psw) throws UserNotFoundException;
 
-	
-	public int removeAccount(List<AccountDTO> account) ;
-	
-	public int activeAccount(List<AccountDTO> account) ;
+	public int removeAccount(List<AccountDTO> account);
+
+	public int activeAccount(List<AccountDTO> account);
 
 	public void modifyAccount(String OldEmail, AccountDTO account) throws BadCredentialException;
 
@@ -43,5 +43,8 @@ public interface IAccountService {
 	public AccountDTO findAccount(String email);
 
 	public List<AccountDTO> listAccount();
+
+	public void richiediFidelity(String nome, String cognome, String email, String cell, String emailMerchant,
+			String site, MailPropertiesDTO mail) throws MailNotSendException;
 
 }
