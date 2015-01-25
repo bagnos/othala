@@ -16,11 +16,9 @@
 						<div class="carousel-inner">
 							<ui:repeat var="imgCar" value="#{applicationBean.imgsCarousel}" varStatus="staCar">
 								<h:panelGroup styleClass="#{staCar.first?'item active':'item'}"
-									rendered="#{imgCar.txName!=null}">
-									<h:link outcome="#{imgCar.urlRedirect}">
+									rendered="#{imgCar.txName!=null}">							
 										<p:graphicImage styleClass="img-responsive" title="#{imgCar.txAlt}" alt="#{imgCar.txAlt}"
-											library="#{imgCar.txLibrary}" name="#{imgCar.txName}" />
-									</h:link>
+											library="#{imgCar.txLibrary}" name="#{imgCar.txName}" />									
 								</h:panelGroup>
 							</ui:repeat>
 						</div>
