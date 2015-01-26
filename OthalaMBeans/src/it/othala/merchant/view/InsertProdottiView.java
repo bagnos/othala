@@ -421,6 +421,7 @@ public class InsertProdottiView extends BaseView {
 		imagesFile = prdDetail.getImagesUrl();
 		prezzo = prdDetail.getPrice();
 		prezzoScontato = prdDetail.getPriceDiscounted();
+		prezzoSpeciale=prdDetail.getSpecialPrice();
 		fileThumb = prdDetail.getThumbnailsUrl();
 		sconto = prdDetail.getDiscount();
 
