@@ -2149,7 +2149,7 @@
 		idCampaign,
 		a.idMaterial,
 		f.txMaterial,
-		specialPrice,
+		g.specialPrice,
 		a.tyProduct
 
 		FROM
