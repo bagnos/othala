@@ -67,6 +67,10 @@
 	<bean id="externalDAO" class="it.othala.external.dao.ExternalDAO">
 		<property name="sqlSessionFactory" ref="SqlMapClient" />
 	</bean>
+	
+	<bean id="productDAO" class="it.othala.dao.ProductDAO">
+		<property name="sqlSessionFactory" ref="SqlMapClient" />
+	</bean>
 		
 
 </beans> 

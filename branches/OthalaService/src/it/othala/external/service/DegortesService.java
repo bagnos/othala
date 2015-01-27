@@ -2,6 +2,7 @@ package it.othala.external.service;
 
 import java.util.List;
 
+import it.othala.dao.interfaces.IProductDAO;
 import it.othala.dto.FidelityCardDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.ShopDTO;
@@ -14,9 +15,14 @@ import it.othala.external.service.interfaces.IOthalaExternalServices;
  class DegortesService implements IOthalaExternalServices {
 	 
 	 private IExternalDAO externalDAO;
+	 private IProductDAO productDAO;
 	 
 	public void setExternalDAO(IExternalDAO externalDAO) {
 		this.externalDAO = externalDAO;
+	}
+	
+	public void setProductDAO(IProductDAO productDAO) {
+		this.productDAO = productDAO;
 	}
 
 	@Override
@@ -28,7 +34,11 @@ import it.othala.external.service.interfaces.IOthalaExternalServices;
 	@Override
 	public int getQtStockLock(Integer idProduct, Integer pgArticle, String barcode) {
 		
-		return externalDAO.getQtStock(barcode);
+		int qtStock = externalDAO.getQtStock(barcode);
+		
+		productDAO.setNewQtStock(idProduct, pgArticle, qtStock);
+		
+		return qtStock;
 	}
 
 	@Override
