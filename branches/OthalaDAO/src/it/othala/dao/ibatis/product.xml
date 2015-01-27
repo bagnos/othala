@@ -1,11 +1,13 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?> 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="it.othala.product.queries">
+
+	<!-- MENU HOME -->
 
 	<select id="listMenu" resultType="it.othala.dto.MenuDTO"
 		parameterType="java.util.HashMap">
 
- 
+
 		SELECT
 		a.idGender,
 		a.txGender,
@@ -17,10 +19,12 @@
 		${database.schema}group_images c
 		where
 		a.idLanguages = #{languages}
-		and b.txGroupImages = c.txGroupImages
+		and
+		b.txGroupImages = c.txGroupImages
 		and
 		b.txGroupImages = 'tabNav'
-		and b.pgGroupImages = a.idGender
+		and
+		b.pgGroupImages = a.idGender
 
 		and exists
 		(select 1 from
@@ -80,7 +84,7 @@
 
 	</select>
 
-<select id="listSubMenuBrand" resultType="it.othala.dto.SubMenuBrandDTO"
+	<select id="listSubMenuBrand" resultType="it.othala.dto.SubMenuBrandDTO"
 		parameterType="java.util.HashMap">
 
 
@@ -112,7 +116,782 @@
 
 
 	</select>
-	
+
+	<select id="countNewArrivals" resultType="integer">
+
+		SELECT
+		count(*)
+		FROM
+
+		${database.schema}product a
+		where
+		a.idProductState = 1
+		and exists
+		(select
+		1 from
+		${database.schema}article
+		d where
+		d.idProduct =
+		a.idProduct
+		and
+		d.qtStock >
+		0)
+		and DATEDIFF(current_date, a.dtProductState) &lt; 20
+		;
+
+
+	</select>
+
+	<select id="countSpecialPrice" resultType="integer">
+
+		SELECT
+		count(*)
+		FROM
+
+		${database.schema}product a
+		where
+		a.idProductState = 1
+		and exists
+		(select
+		1 from
+		${database.schema}article
+		d where
+		d.idProduct =
+		a.idProduct
+		and
+		d.qtStock >
+		0)
+		and a.specialPrice is not null
+		;
+
+
+	</select>
+
+	<select id="countPromozioni" resultType="integer">
+
+		SELECT
+		count(*)
+		FROM
+
+		campaigns tab2
+
+		where
+		tab2.dtInizio
+		&lt;= current_date
+		and tab2.dtFine
+		&gt;= current_date
+		;
+
+
+	</select>
+
+
+	<!-- LOOKBOOK -->
+
+	<insert id="insertLookBook" parameterType="it.othala.dto.LookBookDTO">
+
+		INSERT INTO
+		${database.schema}lookbook
+		(`txThumbnailUrl`,`idGender`,`idStato`)
+		values
+		(#{txThumbnailUrl},#{idGender},#{idStato})
+
+		<selectKey resultType="java.lang.Integer" keyProperty="idProduct">
+
+			SELECT LAST_INSERT_ID() AS idlookbook
+
+		</selectKey>
+
+	</insert>
+
+	<insert id="insertLookBookProduct" parameterType="java.util.HashMap">
+
+		INSERT INTO
+		${database.schema}product_lookbook
+		(`idlookbook`,`idProduct`)
+		values
+		(#{idlookbook},#{idProduct})
+
+	</insert>
+
+	<delete id="deleteLookBookProduct" parameterType="java.util.HashMap">
+
+		DELETE FROM
+		${database.schema}product_lookbook
+		WHERE
+		idlookbook = #{idlookbook}
+		AND
+		idProduct = #{idProduct}
+
+	</delete>
+
+	<update id="deleteLookBook" parameterType="Integer">
+
+		UPDATE
+		${database.schema}lookbook
+		SET
+		idStato = 0
+		WHERE
+		idlookbook =
+		#{idlookbook};
+
+	</update>
+
+	<resultMap id="LookBook" type="it.othala.dto.LookBookDTO">
+		<id property="idLookBook" column="idlookbook" />
+		<result property="txThumbnailUrl" column="txThumbnailUrl" />
+		<result property="idGender" column="idGender" />
+		<result property="idStato" column="idStato" />
+		<collection property="LookBookProduct" ofType="it.othala.dto.LookBookProductDTO">
+			<result property="idProduct" column="idProduct" />
+			<result property="txBrand" column="txBrand" />
+			<result property="txThumbnailsUrl" column="txThumbnailsUrl" />
+		</collection>
+	</resultMap>
+
+	<select id="listLookBook" resultMap="LookBook" parameterType="java.util.HashMap">
+
+		SELECT
+		a.idlookbook, a.txThumbnailUrl, a.idGender, a.idStato,
+		c.idProduct, c.txThumbnailsUrl,
+		d.txBrand
+		FROM lookbook a,
+		product_lookbook b, product c, brand d
+		WHERE
+		a.idlookbook =
+		b.idlookbook
+		AND
+		b.idproduct = c.idproduct AND
+		c.idbrand = d.idbrand
+		<if test="idlookbook != null">
+			AND a.idlookbook = #{idlookbook}
+		</if>
+
+	</select>
+
+	<!-- DOMINIO -->
+
+	<insert id="insertBrand" parameterType="java.util.HashMap">
+
+		INSERT INTO
+		${database.schema}brand
+		(`txBrand`,`idRegione`,
+		`idProvincia`,`idUser`,`urlFoto`)
+		values
+		(#{txBrand},
+		#{idRegione},
+		#{idProvincia},
+		#{idProvincia},#{idUser},#{urlFoto})
+
+		<selectKey resultType="java.lang.Integer" keyProperty="idBrand">
+
+			SELECT LAST_INSERT_ID() AS idBrand
+
+		</selectKey>
+
+	</insert>
+	<insert id="insertBrandDescr" parameterType="java.util.HashMap">
+
+		INSERT INTO
+		${database.schema}brand_descr
+		(`idBrand`,
+		`idLanguages`,
+		`txDescrizione`)
+		VALUES
+		(#{idBrand},#{idLanguages},#{txDescrizione})
+
+	</insert>
+
+	<insert id="insertSize" parameterType="java.util.HashMap">
+
+		INSERT INTO
+		${database.schema}size
+		(`idSize`,`txSize`)
+		values (#{idSize},#{txSize})
+
+	</insert>
+
+	<insert id="insertColor" parameterType="java.util.HashMap">
+
+		INSERT INTO
+		${database.schema}color
+		(`idColor`,`idLanguages`,`txColor`)
+		values (
+		#{idColor},#{languages},#{txColor})
+
+	</insert>
+
+	<insert id="insertMaterial" parameterType="java.util.HashMap">
+
+		INSERT INTO
+		${database.schema}material
+		(`idMaterial`,`idLanguages`,`txMaterial`)
+		values (
+		#{idMaterial},#{languages},#{txMaterial})
+
+	</insert>
+
+	<insert id="insertType" parameterType="java.util.HashMap">
+
+		INSERT INTO
+		${database.schema}type
+		(`idType`,`idLanguages`,`txType`)
+		values (
+		#{idType},#{languages},#{txType})
+
+	</insert>
+
+	<select id="listSize" resultType="it.othala.dto.AttributeDTO">
+
+		SELECT idSize as
+		attributo,txSize as valore
+		FROM
+		${database.schema}size a
+		order by 2
+
+	</select>
+
+	<select id="listColor" resultType="it.othala.dto.AttributeDTO"
+		parameterType="java.util.HashMap">
+
+		SELECT idColor as attributo,txColor as valore
+		FROM
+		${database.schema}color d
+		where
+		idLanguages = #{languages}
+		order by 2
+
+	</select>
+
+	<select id="listInfAggiuntive" resultType="it.othala.dto.AttributeDTO"
+		parameterType="java.util.HashMap">
+
+		SELECT idInformazione as attributo,txInformazione as
+		valore
+		FROM
+		${database.schema}infaggiuntive d
+		where
+		idLanguages =
+		#{languages}
+		order by 2
+
+	</select>
+
+	<select id="listMaterial" resultType="it.othala.dto.AttributeDTO"
+		parameterType="java.util.HashMap">
+
+		SELECT idMaterial as attributo,txMaterial as valore
+		FROM
+		${database.schema}material d
+		where
+		idLanguages = #{languages}
+		order by 2
+
+	</select>
+
+	<select id="listBrand" resultType="it.othala.dto.AttributeDTO">
+
+		SELECT idBrand as
+		attributo,txBrand as valore
+		FROM
+		${database.schema}brand d
+		order by 2
+
+	</select>
+
+	<select id="listBrandFull" resultType="it.othala.dto.BrandFullDTO">
+
+		SELECT * FROM
+		(
+		SELECT a.idBrand,
+		a.txBrand,
+		a.idProvincia,
+		e.txProvincia,
+		e.idRegione,
+		e.txRegione,
+		a.idUser,
+		a.urlFoto,
+		b.txDescrizione as
+		txDescrOnline,
+		c.txDescrizione as txDescrIT,
+		d.txDescrizione as
+		txDescrEN
+		FROM ${database.schema}brand a
+		left join
+		${database.schema}brand_descr b
+		on a.idBrand = b.idBrand
+		and
+		b.idLanguages = #{languages}
+		left join
+		${database.schema}brand_descr c
+		on a.idBrand = c.idBrand
+		and c.idLanguages = "it"
+		left join
+		${database.schema}brand_descr d
+		on a.idBrand = d.idBrand
+		and
+		d.idLanguages = "en"
+		left join
+		(select f.idregione, f.txRegione,
+		h.idProvincia, h.txProvincia
+		from ${database.schema}regione f,
+		${database.schema}provincia h
+		where f.idregione = h.idregione) e
+		on
+		a.idProvincia = e.idProvincia
+		and a.idregione = e.idregione
+		) TAB1
+		WHERE
+		1 = 1
+
+		<if test="idBrand != null">
+			and a.idBrand = #{idBrand}
+		</if>
+
+		<if test="idProvincia != null">
+			and a.idProvincia = #{idProvincia}
+		</if>
+
+		<if test="idRegione != null">
+			and a.idRegione = #{idRegione}
+		</if>
+
+		order by txBrand
+
+	</select>
+
+	<select id="listGender" resultType="it.othala.dto.AttributeDTO"
+		parameterType="java.util.HashMap">
+
+		SELECT idGender as attributo,txGender as valore
+		FROM
+		${database.schema}gender d
+		where
+		idLanguages = #{languages}
+		order by 2
+
+	</select>
+
+	<select id="listType" resultType="it.othala.dto.AttributeDTO"
+		parameterType="java.util.HashMap">
+
+		SELECT idType as attributo,txType as valore
+		FROM
+		${database.schema}type d
+		where
+		idLanguages = #{languages}
+		order by 2
+
+	</select>
+
+	<select id="listShop" resultType="it.othala.dto.ShopDTO">
+
+		SELECT idShop, txShop, txMail,
+		txNome,
+		txVia,
+		txComune,
+		cdCap,
+		txProvincia,
+		txNazione,
+		txTel
+		FROM
+		${database.schema}shops
+		order by 1;
+
+
+	</select>
+
+	<select id="getType" resultType="Integer" parameterType="java.util.HashMap">
+
+		SELECT
+		count(*)
+		FROM
+		${database.schema}type
+		where
+		idLanguages = #{languages}
+		and
+		txType = #{txValore};
+
+
+	</select>
+
+	<select id="getBrand" resultType="Integer" parameterType="java.util.HashMap">
+
+		SELECT
+		count(*)
+		FROM
+		${database.schema}brand
+		where
+
+		txBrand = #{txValore};
+
+
+	</select>
+
+	<select id="getSize" resultType="Integer" parameterType="java.util.HashMap">
+
+		SELECT
+		count(*)
+		FROM
+		${database.schema}size
+		where
+
+		txSize = #{txValore};
+
+
+	</select>
+
+	<select id="getColor" resultType="Integer" parameterType="java.util.HashMap">
+
+		SELECT
+		count(*)
+		FROM
+		${database.schema}color
+		where
+		idLanguages = #{languages}
+		and
+		txColor = #{txValore};
+
+
+	</select>
+
+	<select id="getMaterial" resultType="Integer" parameterType="java.util.HashMap">
+
+		SELECT
+		count(*)
+		FROM
+		${database.schema}material
+		where
+		idLanguages =
+		#{languages}
+		and
+		txMaterial = #{txValore};
+
+
+	</select>
+
+	<select id="getShop" resultType="it.othala.dto.ShopDTO"
+		parameterType="java.util.HashMap">
+
+
+		SELECT
+		a.idShop,
+		a.txShop,
+		a.txMail,
+		txNome,
+		txVia,
+		txComune,
+		cdCap,
+		txProvincia,
+		txNazione,
+		txTel
+
+		FROM
+		${database.schema}shops a,
+		${database.schema}article b
+
+
+
+		Where b.idProduct
+		= #{idProduct}
+		and
+		b.pgArticle = #{pgArticle}
+		and a.idShop
+		=
+		b.idShop
+
+	</select>
+
+	<select id="listStatesOrder" resultType="it.othala.dto.AttributeDTO">
+
+		SELECT idStato as
+		attributo,txStato as valore
+		FROM
+		${database.schema}states d
+		order by 2
+
+	</select>
+
+	<select id="listStatesProduct" resultType="it.othala.dto.AttributeDTO">
+
+		SELECT idProductState
+		as
+		attributo,txProductState as valore
+		FROM
+		${database.schema}product_state d
+		order by 2
+
+	</select>
+
+	<select id="getListNazioni" resultType="it.othala.dto.NazioniDTO">
+
+
+		SELECT idNazione as
+		descrizione,
+		idLanguages as language
+		FROM
+		${database.schema}nazioni
+		ORDER
+		BY 1;
+
+
+
+	</select>
+
+	<select id="getMaxIdColor" resultType="Integer">
+
+		SELECT MAX(idColor)
+		FROM
+		${database.schema}color;
+
+
+	</select>
+
+	<select id="getMaxIdSize" resultType="Integer">
+
+		SELECT MAX(idSize)
+		FROM
+		${database.schema}size;
+
+
+	</select>
+
+	<select id="getMaxIdMaterial" resultType="Integer">
+
+		SELECT MAX(idMaterial)
+		FROM ${database.schema}material;
+
+
+	</select>
+
+	<select id="getMaxIdType" resultType="Integer">
+
+		SELECT MAX(idType)
+		FROM
+		${database.schema}type;
+
+
+	</select>
+
+	<select id="getListConfiguration" resultType="it.othala.dto.ConfigurationDTO">
+
+
+		SELECT
+		idConfiguration,
+		txConfiguration,
+		nrConfiguration
+		FROM
+		${database.schema}configuration;
+
+	</select>
+
+	<resultMap id="Regioni" type="it.othala.dto.RegioneDTO">
+		<id property="idRegione" column="idRegione" />
+		<result property="txRegione" column="txRegione" />
+		<collection property="province" ofType="it.othala.dto.ProvinciaDTO">
+			<result property="idProvincia" column="idProvincia" />
+			<result property="txProvincia" column="txProvincia" />
+		</collection>
+	</resultMap>
+
+	<select id="listRegioni" resultMap="Regioni">
+
+		SELECT f.idregione as
+		idRegione, f.txRegione, h.idProvincia, h.txProvincia
+		from
+		${database.schema}regione f,
+		${database.schema}provincia h
+		where
+		f.idregione = h.idregione
+
+	</select>
+
+
+
+
+
+
+	<!-- PULIZIA IMMAGINI -->
+
+	<select id="listGoodImages" resultType="String">
+		SELECT
+		a.tximageurl
+		FROM
+		${database.schema}product_image a, ${database.schema}product b
+		WHERE
+		a.idproduct = b.idproduct AND
+		EXISTS (
+		SELECT DISTINCT c.idproduct from
+		${database.schema}article c where
+		c.idproduct = b.idproduct
+		and
+		c.qtstock > 0)
+
+
+	</select>
+
+	<select id="listGoodThumbs" resultType="String">
+
+		SELECT txThumbnailsUrl
+		FROM ${database.schema}product
+		UNION
+		SELECT txThumbnailsUrl
+		FROM
+		${database.schema}article
+
+	</select>
+
+	<delete id="deleteBadImages">
+
+		DELETE FROM ${database.schema}product_image
+		WHERE NOT
+		EXISTS (
+		SELECT DISTINCT c.idproduct
+		FROM ${database.schema}product b,
+		${database.schema}article c
+		WHERE product_image.idproduct = b.idproduct
+		AND c.idproduct = b.idproduct
+		AND c.qtstock > 0)
+
+
+	</delete>
+
+	<!-- CAMPAGNE -->
+
+	<insert id="insertCampaign" parameterType="it.othala.dto.CampaignDTO">
+
+
+
+		INSERT INTO
+		${database.schema}campaigns
+		(`txCampaign`,
+		`dtInizio`,
+		`dtFine`,
+		`pcSconto`)
+
+		values
+		(#{txCampaign},#{dtInizio},#{dtFine},
+		#{pcSconto})
+
+		<selectKey resultType="java.lang.Integer" keyProperty="idCampaign">
+
+			SELECT LAST_INSERT_ID() AS idCampaign
+
+		</selectKey>
+
+
+
+	</insert>
+
+	<update id="updateCampaign" parameterType="it.othala.dto.CampaignDTO">
+
+
+
+		UPDATE
+		${database.schema}campaigns
+		SET
+
+		`txCampaign` = #{txCampaign},
+		`dtInizio`
+		= #{dtInizio},
+		`dtFine` = #{dtFine},
+		`pcSconto` = #{pcSconto}
+		WHERE
+		idCampaign =
+		#{idCampaign}
+
+
+	</update>
+
+	<delete id="deleteCampaign" parameterType="java.util.HashMap">
+
+
+
+		DELETE FROM
+		${database.schema}campaigns
+
+		Where
+		idCampaign =
+		#{idCampaign}
+
+
+	</delete>
+
+	<update id="addProductToCampaign" parameterType="java.util.HashMap">
+
+
+		UPDATE
+		${database.schema}product
+
+		set idCampaign = #{idCampaign}
+
+		Where
+		idProduct
+		in
+
+
+		<foreach item="item" index="index" collection="listIdProduct"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+
+
+	</update>
+
+	<update id="removeProductFromCampaign" parameterType="java.util.HashMap">
+
+
+		UPDATE
+		${database.schema}product
+
+		set idCampaign = null
+
+		Where
+		idCampaign =
+		#{idCampaign}
+		and idProduct
+		in
+
+
+		<foreach item="item" index="index" collection="listIdProduct"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+
+
+	</update>
+
+	<update id="removeProductCampaign" parameterType="java.util.HashMap">
+
+
+		UPDATE
+		${database.schema}product
+
+		set idCampaign = null
+
+		Where
+		idCampaign =
+		#{idCampaign}
+
+
+
+	</update>
+
+	<select id="getListCampaign" resultType="it.othala.dto.CampaignDTO">
+
+
+		SELECT * FROM
+		${database.schema}campaigns
+		where dtInizio &lt; current_date
+		and dtFine
+		&gt; current_date;
+
+
+
+	</select>
+
+	<!-- VETRINA -->
+
 	<select id="listProduct" resultType="it.othala.dto.ProductFullNewDTO"
 		parameterType="java.util.HashMap">
 
@@ -132,7 +911,8 @@
 		discount,
 		fgNewArrivals,
 		tab2.idCampaign,
-		specialPrice
+		specialPrice,
+		tyProduct
 		FROM
 		(
 		SELECT
@@ -159,10 +939,12 @@
 		fgNewArrivals,
 
 		a.idCampaign,
-		a.specialPrice
+		a.specialPrice,
+		a.tyProduct
 		FROM
 
-		${database.schema}product a,
+		${database.schema}product
+		a,
 		${database.schema}product_description
 		b,
 		${database.schema}brand c,
@@ -274,19 +1056,19 @@
 			coalesce(pcSconto,discount)) / 100)) &lt;= #{maxPrice}
 		</if>
 
-			<if test="order == 0">
-				order by idProduct desc
-			</if>
-			
-			<if test="order == 1">
-				order by idProduct desc
-			</if>
-			<if test="order == 2">
-				order by priceDiscounted desc
-			</if>
-			<if test="order == 3">
-				order by priceDiscounted asc
-			</if>
+		<if test="order == 0">
+			order by idProduct desc
+		</if>
+
+		<if test="order == 1">
+			order by idProduct desc
+		</if>
+		<if test="order == 2">
+			order by priceDiscounted desc
+		</if>
+		<if test="order == 3">
+			order by priceDiscounted asc
+		</if>
 
 		;
 
@@ -308,7 +1090,6 @@
 
 	</select>
 
-
 	<select id="listDistinctArticleColor" resultType="String"
 		parameterType="java.util.HashMap">
 
@@ -323,1370 +1104,6 @@
 		and b.idLanguages = #{languages}
 
 	</select>
-
-
-	<select id="listSize" resultType="it.othala.dto.AttributeDTO">
-
-		SELECT idSize as
-		attributo,txSize as valore
-		FROM
-		${database.schema}size a
-		order by 2
-
-	</select>
-
-	<select id="listColor" resultType="it.othala.dto.AttributeDTO"
-		parameterType="java.util.HashMap">
-
-		SELECT idColor as attributo,txColor as valore
-		FROM
-		${database.schema}color d
-		where
-		idLanguages = #{languages}
-		order by 2
-
-	</select>
-
-	<select id="listMaterial" resultType="it.othala.dto.AttributeDTO"
-		parameterType="java.util.HashMap">
-
-		SELECT idMaterial as attributo,txMaterial as valore
-		FROM
-		${database.schema}material d
-		where
-		idLanguages = #{languages}
-		order by 2
-
-	</select>
-
-	<select id="listStatesOrder" resultType="it.othala.dto.AttributeDTO">
-
-		SELECT idStato as
-		attributo,txStato as valore
-		FROM
-		${database.schema}states d
-		order by 2
-
-	</select>
-
-	<select id="listStatesProduct" resultType="it.othala.dto.AttributeDTO">
-
-		SELECT idProductState
-		as
-		attributo,txProductState as valore
-		FROM
-		${database.schema}product_state d
-		order by 2
-
-	</select>
-
-
-
-	<select id="listShop" resultType="it.othala.dto.ShopDTO">
-
-		SELECT idShop, txShop, txMail,
-		txNome,
-		txVia,
-		txComune,
-		cdCap,
-		txProvincia,
-		txNazione,
-		txTel
-		FROM
-		${database.schema}shops
-		order by 1;
-
-
-	</select>
-
-	<select id="listBrand" resultType="it.othala.dto.AttributeDTO">
-
-		SELECT idBrand as
-		attributo,txBrand as valore
-		FROM
-		${database.schema}brand d
-		order by 2
-
-	</select>
-
-	<select id="listGender" resultType="it.othala.dto.AttributeDTO"
-		parameterType="java.util.HashMap">
-
-		SELECT idGender as attributo,txGender as valore
-		FROM
-		${database.schema}gender d
-		where
-		idLanguages = #{languages}
-		order by 2
-
-	</select>
-
-	<select id="listType" resultType="it.othala.dto.AttributeDTO"
-		parameterType="java.util.HashMap">
-
-		SELECT idType as attributo,txType as valore
-		FROM
-		${database.schema}type d
-		where
-		idLanguages = #{languages}
-		order by 2
-
-	</select>
-
-	<select id="listProductImages" resultType="String"
-		parameterType="java.util.HashMap">
-
-		SELECT txImageUrl FROM ${database.schema}product_image
-		where
-		idProduct = #{idProduct}
-
-	</select>
-
-	<select id="getProductFull" resultType="it.othala.dto.ProductFullNewDTO"
-		parameterType="java.util.HashMap">
-
-
-
-		SELECT
-
-		tab1.idProduct,
-		tab1.price,
-		tab1.thumbnailsUrl,
-		coalesce(tab2.pcSconto,tab1.discount) as
-		discount,
-
-
-		coalesce(specialPrice,
-		ceiling(tab1.price * (100 -
-		coalesce(tab2.pcSconto,tab1.discount)) /
-		100)) as
-		priceDiscounted,
-
-		tab1.description,
-		tab1.descriptionEN,
-		tab1.fgNewArrivals,
-		tab1.idGender,
-		tab1.txGender,
-		tab1.idType,
-		tab1.txType,
-		tab1.idBrand,
-		tab1.txBrand,
-		tab1.idCampaign,
-		tab1.idMaterial,
-		tab1.txMaterial,
-		tab1.specialPrice,
-		tab1.idProductState
-
-
-
-		FROM
-
-		(
-		SELECT
-		a.idProduct as idProduct,
-		a.imPrice as price,
-		a.txThumbnailsUrl
-		as
-		thumbnailsUrl,
-		a.pcDiscount as discount,
-
-		b.txDescription as
-		description,
-		bb.txDescription as descriptionEN,
-
-		case
-		when
-		DATEDIFF(current_date,
-		a.dtProductState) &lt; 20
-		then 'Y'
-		else
-		'N'
-		end as
-		fgNewArrivals,
-
-		a.idGender,
-		txGender,
-		a.idType,
-		txType,
-		a.idBrand,
-		txBrand,
-		idCampaign,
-		a.idMaterial,
-		txMaterial,
-		specialPrice,
-		a.idProductState
-
-		FROM
-		${database.schema}product a,
-		${database.schema}product_description b,
-		${database.schema}product_description bb,
-
-
-		${database.schema}gender c,
-		${database.schema}type d,
-		${database.schema}brand e,
-		${database.schema}material f
-
-		where
-		a.idProduct = #{idProduct}
-		and
-		a.idProduct = b.idProduct
-		and
-		b.idLanguages = #{languages}
-		and
-		a.idProduct = bb.idProduct
-		and
-		bb.idLanguages = "en"
-		and a.idType =
-		d.idType
-		and a.idGender =
-		c.idGender
-		and a.idBrand = e.idBrand
-		and
-		f.idMaterial = a.idMaterial
-		and
-		d.idLanguages = b.idLanguages
-		and
-		c.idLanguages = b.idLanguages
-		and
-		f.idLanguages = b.idLanguages
-		) tab1
-		left join
-		${database.schema}campaigns tab2
-
-		on tab1.idCampaign =
-		tab2.idCampaign
-		and tab2.dtInizio &lt;= current_date
-		and tab2.dtFine
-		&gt;=
-		current_date;
-
-	</select>
-
-	<select id="listArticleFull" resultType="it.othala.dto.ArticleFullDTO"
-		parameterType="java.util.HashMap">
-
-
-		SELECT
-		a.pgArticle as pgArticle,
-		a.qtStock as qtStock,
-
-		a.idSize,
-
-		txSize,
-
-		a.idColor,
-
-		txColor,
-		coalesce(a.txThumbnailsUrl,
-		d.txThumbnailsUrl) as thumbnailsUrl,
-		a.txBarCode
-
-
-
-		FROM
-		${database.schema}article a,
-		${database.schema}size b,
-		${database.schema}color c,
-		${database.schema}product d
-
-
-		where
-		a.idProduct
-		=
-		#{idProduct}
-		and a.idSize =
-		b.idSize
-		and c.idColor = a.idColor
-		and
-		c.idLanguages = #{languages}
-		and
-		d.idProduct = a.idProduct
-		<if test="fgQtaZero == null or fgQtaZero == false">
-			and a.qtStock > 0
-		</if>
-		
-
-
-
-	</select>
-
-	<select id="getArticleFull" resultType="it.othala.dto.ArticleFullDTO"
-		parameterType="java.util.HashMap">
-
-
-		SELECT
-		a.pgArticle as pgArticle,
-		a.qtStock as qtStock,
-
-		a.idSize,
-
-		txSize,
-
-		a.idColor,
-
-		txColor,
-		coalesce(a.txThumbnailsUrl,
-		d.txThumbnailsUrl) as thumbnailsUrl,
-		a.txBarCode
-
-
-
-		FROM
-		${database.schema}article a,
-		${database.schema}size b,
-		${database.schema}color c,
-		${database.schema}product d
-
-
-		where
-		a.idProduct
-		=
-		#{idProduct}
-		and
-		a.pgArticle
-		=
-		#{pgArticle}
-		and a.idSize =
-		b.idSize
-		and
-		c.idColor =
-		a.idColor
-		and
-		c.idLanguages = #{languages}
-		and
-		d.idProduct =
-		a.idProduct
-
-
-	</select>
-
-	<select id="getArticleFullBarcode" resultType="it.othala.dto.ArticleFullDTO"
-		parameterType="java.util.HashMap">
-
-
-		SELECT
-		a.pgArticle as pgArticle,
-		a.qtStock as qtStock,
-
-		a.idSize,
-
-		txSize,
-
-		a.idColor,
-
-		txColor,
-		coalesce(a.txThumbnailsUrl,
-		d.txThumbnailsUrl) as thumbnailsUrl,
-		a.txBarCode,
-		a.idShop
-
-
-
-		FROM
-		${database.schema}article a,
-		${database.schema}size b,
-		${database.schema}color c,
-		${database.schema}product d
-
-
-		where
-		a.txBarcode
-		=
-		#{txBarcode}
-		and a.idSize =
-		b.idSize
-		and
-		c.idColor =
-		a.idColor
-		and
-		c.idLanguages = #{languages}
-		and
-		d.idProduct =
-		a.idProduct
-
-
-	</select>
-
-	<select id="getShop" resultType="it.othala.dto.ShopDTO"
-		parameterType="java.util.HashMap">
-
-
-		SELECT
-		a.idShop,
-		a.txShop,
-		a.txMail,
-		txNome,
-		txVia,
-		txComune,
-		cdCap,
-		txProvincia,
-		txNazione,
-		txTel
-
-		FROM
-		${database.schema}shops a,
-		${database.schema}article b
-
-
-
-		Where b.idProduct
-		= #{idProduct}
-		and
-		b.pgArticle = #{pgArticle}
-		and a.idShop
-		=
-		b.idShop
-
-	</select>
-
-	<insert id="insertProduct" parameterType="it.othala.dto.ProductFullNewDTO">
-
-
-
-		INSERT INTO
-		${database.schema}product
-		(`idGender`,
-		`idType`,
-		`idBrand`,
-		`imPrice`,
-		`pcDiscount`,
-		`txThumbnailsUrl`,
-		`idProductState`,
-		`dtProductState`,
-		`idCampaign`,
-		`idMaterial`,
-		`specialPrice`)
-
-		values
-		(#{idGender},#{idType},#{idBrand},
-		#{price},#{discount},#{thumbnailsUrl},0,now(),#{idCampaign},#{idMaterial},#{specialPrice})
-
-		<selectKey resultType="java.lang.Integer" keyProperty="idProduct">
-
-			SELECT LAST_INSERT_ID() AS idProduct
-
-		</selectKey>
-
-
-
-
-	</insert>
-
-	<insert id="insertProductDescription" parameterType="java.util.HashMap">
-
-		INSERT INTO
-		${database.schema}product_description
-		(`idProduct`,`idLanguages`,`txDescription`)
-		values (#{idProduct},
-		#{idLanguages},#{txDescription})
-
-	</insert>
-
-	<insert id="insertBrand" parameterType="java.util.HashMap">
-
-		INSERT INTO
-		${database.schema}brand
-		(`txBrand`)
-		values (#{txBrand})
-
-	</insert>
-	
-		<insert id="insertSize" parameterType="java.util.HashMap">
-
-		INSERT INTO
-		${database.schema}size
-		(`idSize`,`txSize`)
-		values (#{idSize},#{txSize})
-
-	</insert>
-	
-
-	<insert id="insertColor" parameterType="java.util.HashMap">
-
-		INSERT INTO
-		${database.schema}color
-		(`idColor`,`idLanguages`,`txColor`)
-		values (
-		#{idColor},#{languages},#{txColor})
-
-	</insert>
-
-	<insert id="insertMaterial" parameterType="java.util.HashMap">
-
-		INSERT INTO
-		${database.schema}material
-		(`idMaterial`,`idLanguages`,`txMaterial`)
-		values (
-		#{idMaterial},#{languages},#{txMaterial})
-
-	</insert>
-
-	<insert id="insertType" parameterType="java.util.HashMap">
-
-		INSERT INTO
-		${database.schema}type
-		(`idType`,`idLanguages`,`txType`)
-		values (
-		#{idType},#{languages},#{txType})
-
-	</insert>
-
-	<insert id="insertArticle" parameterType="java.util.HashMap">
-
-		INSERT INTO
-		${database.schema}article
-		(`idProduct`,
-		`pgArticle`,
-		`idSize`,
-		`idColor`,
-		`qtStock`,
-		`txThumbnailsUrl`,
-		`idShop`,
-		`txBarCode`)
-		VALUES
-		(#{idProduct},
-		#{pgArticle},#{idSize},#{idColor},#{qtStock},#{thumbnailsUrl},#{idShop},#{txBarCode});
-
-
-	</insert>
-
-	<insert id="insertProductImage" parameterType="java.util.HashMap">
-
-		INSERT INTO
-		${database.schema}product_image
-		(`idProduct`,
-		`pgImage`,
-		`txImageUrl`)
-		VALUES
-		(#{idProduct}, #{pgImage},#{txImageUrl});
-
-	</insert>
-
-	<select id="getQtStock" resultType="Integer" parameterType="java.util.HashMap">
-
-		SELECT qtStock
-		FROM ${database.schema}article
-		Where idProduct =
-		#{idProduct}
-		and pgArticle = #{pgArticle};
-
-
-	</select>
-
-	<select id="getMaxIdColor" resultType="Integer">
-
-		SELECT MAX(idColor)
-		FROM
-		${database.schema}color;
-
-
-	</select>
-
-	<select id="getMaxIdSize" resultType="Integer">
-
-		SELECT MAX(idSize)
-		FROM
-		${database.schema}size;
-
-
-	</select>
-	
-	<select id="getDescrizione" resultType="String">
-
-		SELECT CONCAT(txBrand, '
-		', txType, ' ', txGender, ' ',txMaterial)
-		as txDescrizione FROM
-		${database.schema}`brand` a,
-		${database.schema}`type` b,
-		${database.schema}`material` c,
-		${database.schema}`gender` d
-		where
-		a.idBrand = #{idBrand}
-		and b.idType = #{idType}
-		and c.idMaterial =
-		#{idMaterial}
-		and d.idGender = #{idGender}
-		and b.idLanguages =
-		#{languages}
-		and c.idLanguages = b.idLanguages
-		and d.idLanguages =
-		b.idLanguages;
-
-
-	</select>
-
-	<select id="getMaxIdMaterial" resultType="Integer">
-
-		SELECT MAX(idMaterial)
-		FROM ${database.schema}material;
-
-
-	</select>
-
-	<select id="getMaxIdType" resultType="Integer">
-
-		SELECT MAX(idType)
-		FROM
-		${database.schema}type;
-
-
-	</select>
-
-
-	<select id="getQtStockLock" resultType="Integer" parameterType="java.util.HashMap">
-
-		SELECT qtStock
-		FROM ${database.schema}article
-		Where idProduct =
-		#{idProduct}
-		and pgArticle = #{pgArticle}
-		FOR UPDATE;
-
-
-	</select>
-
-	<update id="downloadArticle" parameterType="java.util.HashMap">
-
-		UPDATE
-		${database.schema}article
-		set qtStock = qtStock - 1
-		Where idProduct =
-		#{idProduct}
-		and pgArticle =
-		#{pgArticle};
-
-
-	</update>
-
-	<update id="uploadArticle" parameterType="java.util.HashMap">
-
-		UPDATE
-		${database.schema}article
-		set qtStock = qtStock + 1
-		Where idProduct =
-		#{idProduct}
-		and pgArticle =
-		#{pgArticle};
-
-
-	</update>
-
-	<update id="updateArticle" parameterType="java.util.HashMap">
-
-		UPDATE
-		${database.schema}article
-		set qtStock = #{qtStock},
-		`idShop` = #{idShop}
-		Where idProduct =
-		#{idProduct}
-		and
-		pgArticle =
-		#{pgArticle};
-
-
-	</update>
-
-	<update id="updateQtStock" parameterType="java.util.HashMap">
-
-		UPDATE
-		${database.schema}article
-		<if test="fgVendita == true">
-			set qtStock = qtStock - #{qtArticles}
-		</if>
-		<if test="fgVendita == false">
-			set qtStock = qtStock + #{qtArticles}
-		</if>
-		Where idProduct =
-		#{idProduct}
-		and
-		pgArticle = #{pgArticle};
-
-
-	</update>
-	
-	<update id="setNewQtStock" parameterType="java.util.HashMap">
-
-		UPDATE
-		${database.schema}article
-		set qtStock = #{qtArticles}
-		Where idProduct = #{idProduct} 
-		and pgArticle = #{pgArticle};
-
-
-	</update>
-
-
-	<select id="getListCampaign" resultType="it.othala.dto.CampaignDTO">
-
-
-		SELECT * FROM
-		${database.schema}campaigns
-		where dtInizio &lt; current_date
-		and dtFine
-		&gt; current_date;
-
-
-
-	</select>
-
-	<select id="getListConfiguration" resultType="it.othala.dto.ConfigurationDTO">
-
-
-		SELECT
-		idConfiguration,
-		txConfiguration,
-		nrConfiguration
-		FROM
-		${database.schema}configuration;
-
-	</select>
-
-
-
-	<update id="publishProduct" parameterType="list">
-
-		UPDATE
-		${database.schema}product
-
-		set idProductState = 1
-
-		Where idProduct
-		in
-
-
-		<foreach item="item" index="index" collection="list" open="("
-			separator="," close=")">
-			#{item}
-		</foreach>
-
-	</update>
-
-	<insert id="insertCampaign" parameterType="it.othala.dto.CampaignDTO">
-
-
-
-		INSERT INTO
-		${database.schema}campaigns
-		(`txCampaign`,
-		`dtInizio`,
-		`dtFine`,
-		`pcSconto`)
-
-		values
-		(#{txCampaign},#{dtInizio},#{dtFine},
-		#{pcSconto})
-
-		<selectKey resultType="java.lang.Integer" keyProperty="idCampaign">
-
-			SELECT LAST_INSERT_ID() AS idCampaign
-
-		</selectKey>
-
-
-
-	</insert>
-
-	<update id="updateCampaign" parameterType="it.othala.dto.CampaignDTO">
-
-
-
-		UPDATE
-		${database.schema}campaigns
-		SET
-
-		`txCampaign` = #{txCampaign},
-		`dtInizio`
-		= #{dtInizio},
-		`dtFine` = #{dtFine},
-		`pcSconto` = #{pcSconto}
-		WHERE
-		idCampaign =
-		#{idCampaign}
-
-
-	</update>
-
-	<delete id="deleteCampaign" parameterType="java.util.HashMap">
-
-
-
-		DELETE FROM
-		${database.schema}campaigns
-
-		Where
-		idCampaign =
-		#{idCampaign}
-
-
-	</delete>
-
-
-	<update id="addProductToCampaign" parameterType="java.util.HashMap">
-
-
-		UPDATE
-		${database.schema}product
-
-		set idCampaign = #{idCampaign}
-
-		Where
-		idProduct
-		in
-
-
-		<foreach item="item" index="index" collection="listIdProduct"
-			open="(" separator="," close=")">
-			#{item}
-		</foreach>
-
-
-	</update>
-
-	<update id="removeProductFromCampaign" parameterType="java.util.HashMap">
-
-
-		UPDATE
-		${database.schema}product
-
-		set idCampaign = null
-
-		Where
-		idCampaign =
-		#{idCampaign}
-		and idProduct
-		in
-
-
-		<foreach item="item" index="index" collection="listIdProduct"
-			open="(" separator="," close=")">
-			#{item}
-		</foreach>
-
-
-	</update>
-
-	<update id="removeProductCampaign" parameterType="java.util.HashMap">
-
-
-		UPDATE
-		${database.schema}product
-
-		set idCampaign = null
-
-		Where
-		idCampaign =
-		#{idCampaign}
-
-
-
-	</update>
-
-
-
-
-	<select id="listFindProduct" resultType="it.othala.dto.ProductFullNewDTO"
-		parameterType="java.util.HashMap">
-
-		SELECT
-		idProduct,
-		idProductState,
-		txProductState,
-		idGender,
-		txGender,
-		idType,
-		txType,
-		idBrand,
-		txBrand,
-		imPrice as price,
-		coalesce(specialPrice,
-		ceiling(imPrice * (100 -
-		coalesce(pcSconto,pcDiscount)) / 100)) as
-		priceDiscounted,
-
-		description,
-		dtProductState,
-		thumbnailsUrl,
-		specialPrice
-
-		FROM
-		(
-		SELECT
-		a.idProduct ,
-		a.idProductState,
-		h.txProductState as
-		txProductState,
-		a.idGender,
-		txGender,
-		a.idType,
-		txType,
-		a.idBrand,
-		txBrand,
-		imPrice,
-		pcDiscount,
-		txDescription as
-		description,
-		a.dtProductState,
-		txThumbnailsUrl as
-		thumbnailsUrl,
-		idCampaign,
-		specialPrice
-
-		FROM
-
-		${database.schema}product a,
-		${database.schema}product_description b,
-		${database.schema}brand c,
-		${database.schema}gender f,
-		${database.schema}`type` g,
-		${database.schema}product_state h
-		where
-		a.idProduct
-		= b.idProduct
-		and
-		b.idLanguages = "it"
-		and b.idLanguages
-		=
-		f.idLanguages
-		and b.idLanguages
-		= g.idLanguages
-		and c.idBrand =
-		a.idBrand
-		and
-		f.idGender =
-		a.idGender
-		and
-		g.idType = a.idType
-		and
-		h.idProductState =
-		a.idProductState
-
-		<if test="txBarcode != null">
-			and exists (select 1 from
-			${database.schema}article u
-			where
-			u.idProduct =
-			a.idProduct
-			and
-			u.txBarcode = #{txBarcode}
-			)
-
-		</if>
-
-		<if test="state != null">
-			and a.idProductState = #{state}
-		</if>
-
-		<if test="state == null">
-			and a.idProductState in (0,1)
-		</if>
-
-		<if test="gender != null">
-			and a.idGender = #{gender}
-		</if>
-
-		<if test="type != null">
-			and a.idType = #{type}
-		</if>
-
-		<if test="brand != null">
-			and a.idBrand = #{brand}
-		</if>
-
-		<if test="description != null">
-			and b.txDescription like CONCAT('%', #{description},'%')
-		</if>
-
-		<if test="dtBegin != null">
-			and a.dtProductState &gt;= #{dtBegin}
-		</if>
-
-		<if test="minPrice != null">
-			and a.imPrice &gt;= #{minPrice}
-		</if>
-
-		<if test="maxPrice != null">
-			and a.imPrice &lt;= #{maxPrice}
-		</if>
-
-		<if test="dtEnd != null">
-			and a.dtProductState &gt;= #{dtEnd}
-		</if>
-
-
-
-		<if test="shop != null">
-			and exists (select 1 from
-			${database.schema}article r
-			where
-			r.idProduct = a.idProduct
-			and
-			r.idShop = #{shop}
-			)
-		</if>
-
-
-
-		) tab1
-
-		left join
-
-		campaigns tab2
-
-		on tab1.idCampaign = tab2.idCampaign
-		and
-		tab2.dtInizio &lt;= current_date
-		and tab2.dtFine &gt;= current_date
-
-
-	</select>
-
-	<update id="deleteProduct" parameterType="java.util.HashMap">
-
-
-		UPDATE
-		${database.schema}product
-		SET
-		idProductState = 2,
-		dtProductState =
-		current_date
-		WHERE idProduct
-		= #{idProduct};
-
-
-	</update>
-
-	<select id="listDistinctTxBarcode" resultType="String"
-		parameterType="java.util.HashMap">
-
-		SELECT distinct(txBarcode) FROM
-		${database.schema}article
-		a
-		where a.idProduct
-		= #{idProduct}
-
-
-	</select>
-
-	<select id="listDistinctShop" resultType="it.othala.dto.ShopDTO"
-		parameterType="java.util.HashMap">
-
-
-		SELECT b.idShop, b.txShop, b.txMail,
-		b.txNome,
-		b.txVia,
-		b.txComune,
-		b.cdCap,
-		b.txProvincia,
-		b.txNazione,
-		b.txTel
-
-		FROM
-		${database.schema}article
-		a,
-		${database.schema}shops b
-		where a.idShop =
-		b.idShop
-		and a.idProduct
-		= #{idProduct}
-		group by 1,2,3
-
-
-	</select>
-
-	<update id="updateProduct" parameterType="it.othala.dto.ProductFullNewDTO">
-
-		UPDATE
-		${database.schema}product
-		SET
-		`idGender` = #{idGender},
-		`idType` =
-		#{idType},
-		`idBrand` = #{idBrand},
-		`imPrice` = #{price},
-		`pcDiscount` =
-		#{discount},
-		`txThumbnailsUrl` = #{thumbnailsUrl},
-		`idMaterial` = #{idMaterial},
-		`specialPrice` =
-		#{specialPrice}
-		WHERE idProduct
-		=
-		#{idProduct}
-
-
-	</update>
-
-	<delete id="deleteProductDescription" parameterType="java.util.HashMap">
-
-		DELETE FROM
-		${database.schema}product_description
-		WHERE idProduct
-		= #{idProduct}
-
-	</delete>
-
-	<delete id="deleteArticle" parameterType="java.util.HashMap">
-
-		DELETE FROM
-		${database.schema}article
-		WHERE idProduct
-		= #{idProduct}
-
-	</delete>
-
-	<delete id="deleteProductImage" parameterType="java.util.HashMap">
-		DELETE FROM
-		${database.schema}product_image
-		WHERE idProduct
-		= #{idProduct}
-	</delete>
-
-	<select id="listArticleFullBarcode" resultType="it.othala.dto.ArticleFullDTO"
-		parameterType="java.util.HashMap">
-
-
-		SELECT
-		a.pgArticle as pgArticle,
-		a.qtStock as qtStock,
-
-		a.idSize,
-
-		txSize,
-
-		a.idColor,
-
-		txColor,
-		coalesce(a.txThumbnailsUrl,
-		d.txThumbnailsUrl) as thumbnailsUrl,
-		a.txBarCode
-
-
-
-		FROM
-		${database.schema}article a,
-		${database.schema}size b,
-		${database.schema}color c,
-		${database.schema}product d
-
-
-		where
-		a.idProduct
-		=
-		#{idProduct}
-		and a.txBarCode
-		=
-		#{txBarcode}
-		and a.idSize =
-		b.idSize
-		and
-		c.idColor = a.idColor
-		and
-		c.idLanguages = "it"
-		and
-		d.idProduct =
-		a.idProduct
-
-
-	</select>
-
-	<select id="getProductFullBarcode" resultType="it.othala.dto.ProductFullNewDTO"
-		parameterType="java.util.HashMap">
-
-		SELECT DISTINCT
-
-		tab1.idProduct,
-		tab1.price,
-		tab1.thumbnailsUrl,
-		tab1.discount,
-
-		coalesce(specialPrice,
-		ceiling(tab1.price * (100 -
-		coalesce(tab2.pcSconto,tab1.discount)) /
-		100)) as
-		priceDiscounted,
-
-		tab1.description,
-		tab1.fgNewArrivals,
-		tab1.idGender,
-		tab1.txGender,
-		tab1.idType,
-		tab1.txType,
-		tab1.idBrand,
-		tab1.txBrand,
-		tab1.idCampaign,
-		tab1.idMaterial,
-		tab1.txMaterial,
-		tab1.specialPrice
-
-
-
-		FROM
-
-		(
-
-
-		SELECT
-		a.idProduct as idProduct,
-		a.imPrice as
-		price,
-		a.txThumbnailsUrl as
-		thumbnailsUrl,
-		a.pcDiscount as discount,
-		ceiling(a.imPrice * (100 -
-		a.pcDiscount) /
-		100) as priceDiscounted,
-		b.txDescription as description,
-
-		case
-		when DATEDIFF(current_date,
-		a.dtProductState) &lt; 20
-		then 'Y'
-		else
-		'N'
-		end as fgNewArrivals,
-
-		a.idGender,
-		txGender,
-		a.idType,
-		txType,
-		a.idBrand,
-		txBrand,
-		idCampaign,
-		a.idMaterial,
-		f.txMaterial,
-		specialPrice
-
-		FROM
-		${database.schema}product a,
-		${database.schema}product_description
-		b,
-
-		${database.schema}gender c,
-		${database.schema}type d,
-		${database.schema}brand e,
-		${database.schema}material f,
-		${database.schema}article g
-		where
-		a.idProduct = b.idProduct
-		and
-		a.idProduct = g.idProduct
-		and g.txBarCode =
-		#{txBarcode}
-		and
-		b.idLanguages = "it"
-		and a.idType =
-		d.idType
-		and
-		a.idGender = c.idGender
-		and a.idBrand = e.idBrand
-		and
-		f.idMaterial =
-		a.idMaterial
-		and
-		d.idLanguages = b.idLanguages
-		and
-		c.idLanguages =
-		b.idLanguages
-		and
-		f.idLanguages = b.idLanguages
-		) tab1
-		left join
-		${database.schema}campaigns tab2
-
-		on tab1.idCampaign =
-		tab2.idCampaign
-		and tab2.dtInizio &lt;= current_date
-		and tab2.dtFine
-		&gt;=
-		current_date;
-
-
-	</select>
-
-	<select id="countNewArrivals" resultType="integer">
-
-		SELECT
-		count(*)
-		FROM
-
-		${database.schema}product a
-		where
-		a.idProductState = 1
-		and exists
-		(select
-		1 from
-		${database.schema}article
-		d where
-		d.idProduct =
-		a.idProduct
-		and
-		d.qtStock >
-		0)
-		and DATEDIFF(current_date, a.dtProductState) &lt; 20
-		;
-
-
-	</select>
-
-	<select id="countSpecialPrice" resultType="integer">
-
-		SELECT
-		count(*)
-		FROM
-
-		${database.schema}product a
-		where
-		a.idProductState = 1
-		and exists
-		(select
-		1 from
-		${database.schema}article
-		d where
-		d.idProduct =
-		a.idProduct
-		and
-		d.qtStock >
-		0)
-		and a.specialPrice is not null
-		;
-
-
-	</select>
-
-	<select id="countPromozioni" resultType="integer">
-
-		SELECT
-		count(*)
-		FROM
-
-		campaigns tab2
-
-		where
-		tab2.dtInizio
-		&lt;= current_date
-		and tab2.dtFine
-		&gt;= current_date
-		;
-
-
-	</select>
-
-	<select id="getListNazioni" resultType="it.othala.dto.NazioniDTO">
-
-
-		SELECT idNazione as
-		descrizione,
-		idLanguages as language
-		FROM
-		${database.schema}nazioni
-		ORDER
-		BY 1;
-
-
-
-	</select>
-
 
 	<select id="listSizeProduct" resultType="it.othala.dto.AttributeDTO"
 		parameterType="java.util.HashMap">
@@ -1859,188 +1276,1074 @@
 
 	</select>
 
-	<select id="getType" resultType="Integer" parameterType="java.util.HashMap">
+	<!-- DETTAGLIO -->
+
+	<select id="getProductFull" resultType="it.othala.dto.ProductFullNewDTO"
+		parameterType="java.util.HashMap">
+
+
 
 		SELECT
-		count(*)
+
+		tab1.idProduct,
+		tab1.price,
+		tab1.thumbnailsUrl,
+		coalesce(tab2.pcSconto,tab1.discount) as
+		discount,
+
+
+		coalesce(specialPrice,
+		ceiling(tab1.price * (100 -
+		coalesce(tab2.pcSconto,tab1.discount)) /
+		100)) as
+		priceDiscounted,
+
+		tab1.description,
+		tab1.descriptionEN,
+		tab1.fgNewArrivals,
+		tab1.idGender,
+		tab1.txGender,
+		tab1.idType,
+		tab1.txType,
+		tab1.idBrand,
+		tab1.txBrand,
+		tab1.idCampaign,
+		tab1.idMaterial,
+		tab1.txMaterial,
+		tab1.specialPrice,
+		tab1.idProductState,
+		tab1.tyProduct
+
+
+
 		FROM
-		${database.schema}type
+
+		(
+		SELECT
+		a.idProduct as idProduct,
+		a.imPrice as
+		price,
+		a.txThumbnailsUrl
+		as
+		thumbnailsUrl,
+		a.pcDiscount as
+		discount,
+
+		b.txDescription as
+		description,
+		bb.txDescription as
+		descriptionEN,
+
+		case
+		when
+		DATEDIFF(current_date,
+		a.dtProductState) &lt; 20
+		then 'Y'
+		else
+		'N'
+		end
+		as
+		fgNewArrivals,
+
+		a.idGender,
+		txGender,
+		a.idType,
+		txType,
+		a.idBrand,
+		txBrand,
+		idCampaign,
+		a.idMaterial,
+		txMaterial,
+		specialPrice,
+		a.idProductState,
+		a.tyProduct
+
+		FROM
+		${database.schema}product a,
+		${database.schema}product_description b,
+		${database.schema}product_description bb,
+
+
+		${database.schema}gender c,
+		${database.schema}type d,
+		${database.schema}brand e,
+		${database.schema}material f
+
 		where
-		idLanguages = #{languages}
+		a.idProduct = #{idProduct}
 		and
-		txType = #{txValore};
-
-
-	</select>
-
-	<select id="getBrand" resultType="Integer" parameterType="java.util.HashMap">
-
-		SELECT
-		count(*)
-		FROM
-		${database.schema}brand
-		where
-		
-		txBrand = #{txValore};
-
-
-	</select>
-	
-		<select id="getSize" resultType="Integer" parameterType="java.util.HashMap">
-
-		SELECT
-		count(*)
-		FROM
-		${database.schema}size
-		where
-		
-		txSize = #{txValore};
-
-
-	</select>
-	
-
-	<select id="getColor" resultType="Integer" parameterType="java.util.HashMap">
-
-		SELECT
-		count(*)
-		FROM
-		${database.schema}color
-		where
-		idLanguages = #{languages}
+		a.idProduct = b.idProduct
 		and
-		txColor = #{txValore};
+		b.idLanguages = #{languages}
+		and
+		a.idProduct = bb.idProduct
+		and
+		bb.idLanguages = "en"
+		and a.idType =
+		d.idType
+		and a.idGender =
+		c.idGender
+		and a.idBrand = e.idBrand
+		and
+		f.idMaterial = a.idMaterial
+		and
+		d.idLanguages = b.idLanguages
+		and
+		c.idLanguages = b.idLanguages
+		and
+		f.idLanguages = b.idLanguages
+		) tab1
+		left join
+		${database.schema}campaigns tab2
+
+		on tab1.idCampaign =
+		tab2.idCampaign
+		and tab2.dtInizio &lt;= current_date
+		and tab2.dtFine
+		&gt;=
+		current_date;
+
+	</select>
+
+	<select id="listProductImages" resultType="String"
+		parameterType="java.util.HashMap">
+
+		SELECT txImageUrl FROM ${database.schema}product_image
+		where
+		idProduct = #{idProduct}
+
+	</select>
+
+	<select id="listProductInfAggiuntive" resultType="it.othala.dto.InfAggiuntiveDTO"
+		parameterType="java.util.HashMap">
+
+		SELECT a.idProduct,
+		a.idLanguages,
+		b.idInformazione,
+		b.txInformazione as txInformazione,
+		a.txDescrizione as txDescrizione,
+		d.txInformazione as txInformazioneIT,
+		c.txDescrizione as
+		txDescrizioneIT,
+		f.txInformazione as txInformazioneEN,
+		e.txDescrizione
+		as txDescrizioneEN
+		FROM ${database.schema}product_info a,
+		${database.schema}infaggiuntive b,
+		${database.schema}product_info c,
+		${database.schema}infaggiuntive d,
+		${database.schema}product_info e,
+		${database.schema}infaggiuntive f
+		where a.idProduct = #{idProduct}
+		and
+		a.idInformazione = b.idInformazione
+		and a.idLanguages = b.idLanguages
+		and a.idLanguages = #{languages}
+		and c.idInformazione =
+		a.idInformazione
+		and c.idInformazione = d.idInformazione
+		and
+		c.idLanguages = d.idLanguages
+		and c.idLanguages = "it"
+		and
+		e.idInformazione = a.idInformazione
+		and e.idInformazione =
+		f.idInformazione
+		and e.idLanguages = f.idLanguages
+		and e.idLanguages =
+		"en"
 
 
 	</select>
-	
-	<select id="getMaterial" resultType="Integer" parameterType="java.util.HashMap">
+
+
+<select id="listArticleFull" resultType="it.othala.dto.ArticleFullDTO"
+		parameterType="java.util.HashMap">
+
 
 		SELECT
-		count(*)
+		TAB1.pgArticle,
+		TAB1.qtStock,
+		TAB1.idSize,
+		TAB1.txSize,
+		TAB1.idColor,
+		TAB1.txColor,
+		TAB1.thumbnailsUrl,
+		TAB1.txBarCode,
+		TAB1.price,
+		TAB1.specialPrice,
+		TAB1.discount,
+		coalesce(TAB1.specialPrice,
+		ceiling(TAB1.price * (100 -
+		coalesce(tab2.pcSconto,TAB1.discount)) /
+		100)) as
+		priceDiscounted
+
+		from
+		(
+		SELECT
+		a.pgArticle as pgArticle,
+		a.qtStock as qtStock,
+
+		a.idSize,
+
+		txSize,
+
+		a.idColor,
+
+		txColor,
+		coalesce(a.txThumbnailsUrl,
+		d.txThumbnailsUrl) as
+		thumbnailsUrl,
+		a.txBarCode,
+		a.imPrice as price,
+		a.specialPrice,
+		a.pcDiscount as discount,
+		d.idCampaign
+
 		FROM
-		${database.schema}material
+		${database.schema}article a,
+		${database.schema}size b,
+		${database.schema}color c,
+		${database.schema}product d
+
+
 		where
-		idLanguages = #{languages}
+		a.idProduct
+		=
+		#{idProduct}
+		and a.idSize =
+		b.idSize
+		and c.idColor = a.idColor
 		and
-		txMaterial = #{txValore};
+		c.idLanguages = #{languages}
+		and
+		d.idProduct = a.idProduct
+		<if test="fgQtaZero == null or fgQtaZero == false">
+			and a.qtStock > 0
+		</if>
+		) TAB1
+		left join
+		${database.schema}campaigns tab2
+
+		on TAB1.idCampaign =
+		tab2.idCampaign
+		and tab2.dtInizio &lt;= current_date
+		and tab2.dtFine
+		&gt;=
+		current_date;
+
+
 
 
 	</select>
-	
-	<select id="listGoodImages" resultType="String">
-		SELECT 
-			a.tximageurl 
-		FROM ${database.schema}product_image a, ${database.schema}product b  
-		WHERE a.idproduct = b.idproduct AND 
-		EXISTS ( 
-			SELECT DISTINCT c.idproduct from ${database.schema}article c where c.idproduct = b.idproduct 
-			and c.qtstock > 0)
+
+	<select id="getArticleFull" resultType="it.othala.dto.ArticleFullDTO"
+		parameterType="java.util.HashMap">
+
+
+		SELECT
+		TAB1.pgArticle,
+		TAB1.qtStock,
+		TAB1.idSize,
+		TAB1.txSize,
+		TAB1.idColor,
+		TAB1.txColor,
+		TAB1.thumbnailsUrl,
+		TAB1.txBarCode,
+		TAB1.price,
+		TAB1.specialPrice,
+		TAB1.discount,
+		coalesce(TAB1.specialPrice,
+		ceiling(TAB1.price * (100 -
+		coalesce(tab2.pcSconto,TAB1.discount)) /
+		100)) as
+		priceDiscounted
 		
-	
+
+		from
+		(
+
+		SELECT
+		a.pgArticle as pgArticle,
+		a.qtStock as qtStock,
+		a.idSize,
+		txSize,
+		a.idColor,
+		txColor,
+		coalesce(a.txThumbnailsUrl,
+		d.txThumbnailsUrl) as
+		thumbnailsUrl,
+		a.txBarCode,
+		a.imPrice as price,
+		a.specialPrice,
+		a.pcDiscount as discount,
+		d.idCampaign
+
+
+
+
+		FROM
+		${database.schema}article a,
+		${database.schema}size b,
+		${database.schema}color c,
+		${database.schema}product d
+
+
+		where
+		a.idProduct
+		=
+		#{idProduct}
+		and
+		a.pgArticle
+		=
+		#{pgArticle}
+		and a.idSize =
+		b.idSize
+		and
+		c.idColor =
+		a.idColor
+		and
+		c.idLanguages = #{languages}
+		and
+		d.idProduct =
+		a.idProduct
+		) TAB1
+		left join
+		${database.schema}campaigns tab2
+
+		on TAB1.idCampaign =
+		tab2.idCampaign
+		and tab2.dtInizio &lt;= current_date
+		and tab2.dtFine
+		&gt;=
+		current_date;
+
+
 	</select>
-	
-	<select id="listGoodThumbs" resultType="String">
-		
-		SELECT txThumbnailsUrl 
-		FROM ${database.schema}product
-		UNION 
-		SELECT txThumbnailsUrl 
-		FROM ${database.schema}article	
-	
+
+	<update id="updateArticle" parameterType="java.util.HashMap">
+
+		UPDATE
+		${database.schema}article
+		set qtStock = #{qtStock},
+		`idShop` =
+		#{idShop},
+		imPrice = #{imPrice},
+		specialPrice = #{specialPrice},
+		pcDiscount = #{pcDiscount}
+		where idProduct =
+		#{idProduct}
+		and
+		pgArticle =
+		#{pgArticle};
+
+
+	</update>
+
+	<select id="listDistinctShop" resultType="it.othala.dto.ShopDTO"
+		parameterType="java.util.HashMap">
+
+
+		SELECT b.idShop, b.txShop, b.txMail,
+		b.txNome,
+		b.txVia,
+		b.txComune,
+		b.cdCap,
+		b.txProvincia,
+		b.txNazione,
+		b.txTel
+
+		FROM
+		${database.schema}article
+		a,
+		${database.schema}shops b
+		where a.idShop =
+		b.idShop
+		and a.idProduct
+		= #{idProduct}
+		group by 1,2,3
+
+
 	</select>
-	
-	<delete id="deleteBadImages">
-
-		DELETE FROM ${database.schema}product_image 
-		WHERE NOT EXISTS ( 
-			SELECT DISTINCT c.idproduct 
-			FROM ${database.schema}product b, 
-			${database.schema}article c 
-			WHERE product_image.idproduct = b.idproduct
-			AND c.idproduct = b.idproduct 
-			AND c.qtstock > 0)
 
 
-	</delete>
-	
-	<insert id="insertLookBook" parameterType="it.othala.dto.LookBookDTO">
+
+
+	<!-- MERCHANT -->
+
+	<insert id="insertProduct" parameterType="it.othala.dto.ProductFullNewDTO">
+
+
 
 		INSERT INTO
-		${database.schema}lookbook
-		(`txThumbnailUrl`,`idGender`,`idStato`)
+		${database.schema}product
+		(`idGender`,
+		`idType`,
+		`idBrand`,
+		`imPrice`,
+		`pcDiscount`,
+		`txThumbnailsUrl`,
+		`idProductState`,
+		`dtProductState`,
+		`idCampaign`,
+		`idMaterial`,
+		`specialPrice`,
+		`tyProduct`)
+
 		values
-		(#{txThumbnailUrl},#{idGender},#{idStato})
+		(#{idGender},#{idType},#{idBrand},
+		#{price},#{discount},#{thumbnailsUrl},0,now(),#{idCampaign},#{idMaterial},#{specialPrice},#{tyProduct})
 
 		<selectKey resultType="java.lang.Integer" keyProperty="idProduct">
 
-			SELECT LAST_INSERT_ID() AS idlookbook
+			SELECT LAST_INSERT_ID() AS idProduct
 
 		</selectKey>
 
+
+
+
 	</insert>
-	
-	<insert id="insertLookBookProduct" parameterType="java.util.HashMap">
+
+	<insert id="insertProductDescription" parameterType="java.util.HashMap">
 
 		INSERT INTO
-		${database.schema}product_lookbook
-		(`idlookbook`,`idProduct`)
-		values
-		(#{idlookbook},#{idProduct})
+		${database.schema}product_description
+		(`idProduct`,`idLanguages`,`txDescription`)
+		values (#{idProduct},
+		#{idLanguages},#{txDescription})
 
 	</insert>
-	
-	<delete id="deleteLookBookProduct" parameterType="java.util.HashMap">
 
-		DELETE FROM
-		${database.schema}product_lookbook
-		WHERE 
-		idlookbook = #{idlookbook}
-		AND
-		idProduct = #{idProduct}
+	<insert id="insertArticle" parameterType="java.util.HashMap">
 
-	</delete>
-	
-	<update id="deleteLookBook" parameterType="Integer">
+		INSERT INTO
+		${database.schema}article
+		(`idProduct`,
+		`pgArticle`,
+		`idSize`,
+		`idColor`,
+		`qtStock`,
+		`txThumbnailsUrl`,
+		`idShop`,
+		`txBarCode`,
+		`imPrice`,
+		`specialPrice`,
+		`pcDiscount`)
+		VALUES
+		(#{idProduct},
+		#{pgArticle},#{idSize},#{idColor},#{qtStock},#{thumbnailsUrl},
+		#{idShop},#{txBarCode},#{imPrice},#{specialPrice},#{pcDiscount});
+
+
+	</insert>
+
+	<insert id="insertProductImage" parameterType="java.util.HashMap">
+
+		INSERT INTO
+		${database.schema}product_image
+		(`idProduct`,
+		`pgImage`,
+		`txImageUrl`)
+		VALUES
+		(#{idProduct}, #{pgImage},#{txImageUrl});
+
+	</insert>
+
+	<insert id="insertInfAggiuntive" parameterType="java.util.HashMap">
+
+		INSERT INTO
+		${database.schema}product_info
+		(`idProduct`,
+		`idInformazione`,
+		`idLanguages`,
+		`txDescrizione`)
+		VALUES
+		(#{idProduct},
+		#{idInformazione},#{idLanguages},#{txDescrizione});
+
+	</insert>
+
+
+
+	<select id="getDescrizione" resultType="String">
+
+		SELECT CONCAT(txBrand, '
+		', txType, ' ', txGender, ' ',txMaterial)
+		as txDescrizione FROM
+		${database.schema}`brand` a,
+		${database.schema}`type` b,
+		${database.schema}`material` c,
+		${database.schema}`gender` d
+		where
+		a.idBrand = #{idBrand}
+		and b.idType = #{idType}
+		and c.idMaterial =
+		#{idMaterial}
+		and d.idGender = #{idGender}
+		and b.idLanguages =
+		#{languages}
+		and c.idLanguages = b.idLanguages
+		and d.idLanguages =
+		b.idLanguages;
+
+
+	</select>
+
+	<update id="deleteProduct" parameterType="java.util.HashMap">
+
 
 		UPDATE
-		${database.schema}lookbook
+		${database.schema}product
 		SET
-		idStato = 0
-		WHERE
-		idlookbook = #{idlookbook};
+		idProductState = 2,
+		dtProductState =
+		current_date
+		WHERE idProduct
+		= #{idProduct};
+
+
+	</update>
+
+	<delete id="deleteArticle" parameterType="java.util.HashMap">
+
+		DELETE FROM
+		${database.schema}article
+		WHERE idProduct
+		= #{idProduct}
+
+	</delete>
+
+	<delete id="deleteProductImage" parameterType="java.util.HashMap">
+		DELETE FROM
+		${database.schema}product_image
+		WHERE idProduct
+		= #{idProduct}
+	</delete>
+
+	<delete id="deleteInfAggiuntive" parameterType="java.util.HashMap">
+		DELETE FROM
+		${database.schema}product_info
+		WHERE idProduct
+		= #{idProduct}
+	</delete>
+
+	<update id="downloadArticle" parameterType="java.util.HashMap">
+
+		UPDATE
+		${database.schema}article
+		set qtStock = qtStock - 1
+		Where idProduct =
+		#{idProduct}
+		and pgArticle =
+		#{pgArticle};
+
+
+	</update>
+
+	<update id="uploadArticle" parameterType="java.util.HashMap">
+
+		UPDATE
+		${database.schema}article
+		set qtStock = qtStock + 1
+		Where idProduct =
+		#{idProduct}
+		and pgArticle =
+		#{pgArticle};
+
+
+	</update>
+
+	<update id="updateProduct" parameterType="it.othala.dto.ProductFullNewDTO">
+
+		UPDATE
+		${database.schema}product
+		SET
+		`idGender` = #{idGender},
+		`idType` =
+		#{idType},
+		`idBrand` = #{idBrand},
+		`imPrice` = #{price},
+		`pcDiscount` =
+		#{discount},
+		`txThumbnailsUrl` = #{thumbnailsUrl},
+		`idMaterial` =
+		#{idMaterial},
+		`specialPrice` =
+		#{specialPrice},
+		`tyProduct` =
+		#{tyProduct}
+		WHERE idProduct
+		=
+		#{idProduct}
+
+
+	</update>
+
+	<delete id="deleteProductDescription" parameterType="java.util.HashMap">
+
+		DELETE FROM
+		${database.schema}product_description
+		WHERE idProduct
+		= #{idProduct}
+
+	</delete>
+
+	<update id="publishProduct" parameterType="list">
+
+		UPDATE
+		${database.schema}product
+
+		set idProductState = 1
+
+		Where idProduct
+		in
+
+
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+
+	</update>
+
+	<select id="listFindProduct" resultType="it.othala.dto.ProductFullNewDTO"
+		parameterType="java.util.HashMap">
+
+		SELECT
+		idProduct,
+		idProductState,
+		txProductState,
+		idGender,
+		txGender,
+		idType,
+		txType,
+		idBrand,
+		txBrand,
+		imPrice as price,
+		coalesce(specialPrice,
+		ceiling(imPrice * (100 -
+		coalesce(pcSconto,pcDiscount)) / 100)) as
+		priceDiscounted,
+
+		description,
+		dtProductState,
+		thumbnailsUrl,
+		specialPrice,
+		tyProduct
+
+		FROM
+		(
+		SELECT
+		a.idProduct ,
+		a.idProductState,
+		h.txProductState as
+		txProductState,
+		a.idGender,
+		txGender,
+		a.idType,
+		txType,
+		a.idBrand,
+		txBrand,
+		imPrice,
+		pcDiscount,
+		txDescription as
+		description,
+		a.dtProductState,
+		txThumbnailsUrl as
+		thumbnailsUrl,
+		idCampaign,
+		specialPrice,
+		a.tyProduct
+
+		FROM
+
+		${database.schema}product a,
+		${database.schema}product_description b,
+		${database.schema}brand c,
+		${database.schema}gender f,
+		${database.schema}`type` g,
+		${database.schema}product_state h
+		where
+		a.idProduct
+		= b.idProduct
+		and
+		b.idLanguages = "it"
+		and b.idLanguages
+		=
+		f.idLanguages
+		and b.idLanguages
+		=
+		g.idLanguages
+		and c.idBrand =
+		a.idBrand
+		and
+		f.idGender =
+		a.idGender
+		and
+		g.idType = a.idType
+		and
+		h.idProductState =
+		a.idProductState
+
+		<if test="txBarcode != null">
+			and exists (select 1 from
+			${database.schema}article u
+			where
+			u.idProduct =
+			a.idProduct
+			and
+			u.txBarcode = #{txBarcode}
+			)
+
+		</if>
+
+		<if test="state != null">
+			and a.idProductState = #{state}
+		</if>
+
+		<if test="state == null">
+			and a.idProductState in (0,1)
+		</if>
+
+		<if test="gender != null">
+			and a.idGender = #{gender}
+		</if>
+
+		<if test="type != null">
+			and a.idType = #{type}
+		</if>
+
+		<if test="brand != null">
+			and a.idBrand = #{brand}
+		</if>
+
+		<if test="description != null">
+			and b.txDescription like CONCAT('%', #{description},'%')
+		</if>
+
+		<if test="dtBegin != null">
+			and a.dtProductState &gt;= #{dtBegin}
+		</if>
+
+		<if test="minPrice != null">
+			and a.imPrice &gt;= #{minPrice}
+		</if>
+
+		<if test="maxPrice != null">
+			and a.imPrice &lt;= #{maxPrice}
+		</if>
+
+		<if test="dtEnd != null">
+			and a.dtProductState &gt;= #{dtEnd}
+		</if>
+
+
+
+		<if test="shop != null">
+			and exists (select 1 from
+			${database.schema}article r
+			where
+			r.idProduct = a.idProduct
+			and
+			r.idShop = #{shop}
+			)
+		</if>
+
+
+
+		) tab1
+
+		left join
+
+		campaigns tab2
+
+		on tab1.idCampaign = tab2.idCampaign
+		and
+		tab2.dtInizio &lt;= current_date
+		and tab2.dtFine &gt;= current_date
+
+
+	</select>
+
+	<select id="listDistinctTxBarcode" resultType="String"
+		parameterType="java.util.HashMap">
+
+		SELECT distinct(txBarcode) FROM
+		${database.schema}article
+		a
+		where a.idProduct
+		= #{idProduct}
+
+
+	</select>
+
+	<select id="getProductFullBarcode" resultType="it.othala.dto.ProductFullNewDTO"
+		parameterType="java.util.HashMap">
+
+		SELECT DISTINCT
+
+		tab1.idProduct,
+		tab1.price,
+		tab1.thumbnailsUrl,
+		tab1.discount,
+
+		coalesce(specialPrice,
+		ceiling(tab1.price * (100 -
+		coalesce(tab2.pcSconto,tab1.discount)) /
+		100)) as
+		priceDiscounted,
+
+		tab1.description,
+		tab1.fgNewArrivals,
+		tab1.idGender,
+		tab1.txGender,
+		tab1.idType,
+		tab1.txType,
+		tab1.idBrand,
+		tab1.txBrand,
+		tab1.idCampaign,
+		tab1.idMaterial,
+		tab1.txMaterial,
+		tab1.specialPrice,
+		tab1.tyProduct
+
+
+
+		FROM
+
+		(
+
+
+		SELECT
+		a.idProduct as idProduct,
+		a.imPrice as
+		price,
+		a.txThumbnailsUrl as
+		thumbnailsUrl,
+		a.pcDiscount as
+		discount,
+		ceiling(a.imPrice * (100 -
+		a.pcDiscount) /
+		100) as
+		priceDiscounted,
+		b.txDescription as description,
+
+		case
+		when
+		DATEDIFF(current_date,
+		a.dtProductState) &lt; 20
+		then 'Y'
+		else
+		'N'
+		end as
+		fgNewArrivals,
+
+		a.idGender,
+		txGender,
+		a.idType,
+		txType,
+		a.idBrand,
+		txBrand,
+		idCampaign,
+		a.idMaterial,
+		f.txMaterial,
+		g.specialPrice,
+		a.tyProduct
+
+		FROM
+		${database.schema}product a,
+		${database.schema}product_description
+		b,
+
+		${database.schema}gender c,
+		${database.schema}type d,
+		${database.schema}brand e,
+		${database.schema}material f,
+		${database.schema}article g
+		where
+		a.idProduct = b.idProduct
+		and
+		a.idProduct = g.idProduct
+		and g.txBarCode =
+		#{txBarcode}
+		and
+		b.idLanguages = "it"
+		and a.idType =
+		d.idType
+		and
+		a.idGender = c.idGender
+		and a.idBrand = e.idBrand
+		and
+		f.idMaterial =
+		a.idMaterial
+		and
+		d.idLanguages = b.idLanguages
+		and
+		c.idLanguages =
+		b.idLanguages
+		and
+		f.idLanguages = b.idLanguages
+		) tab1
+		left join
+		${database.schema}campaigns tab2
+
+		on tab1.idCampaign =
+		tab2.idCampaign
+		and tab2.dtInizio &lt;= current_date
+		and tab2.dtFine
+		&gt;=
+		current_date;
+
+
+	</select>
+
+	<select id="listArticleFullBarcode" resultType="it.othala.dto.ArticleFullDTO"
+		parameterType="java.util.HashMap">
+
+
+		SELECT
+		a.pgArticle as pgArticle,
+		a.qtStock as qtStock,
+
+		a.idSize,
+
+		txSize,
+
+		a.idColor,
+
+		txColor,
+		coalesce(a.txThumbnailsUrl,
+		d.txThumbnailsUrl) as thumbnailsUrl,
+		a.txBarCode
+
+
+
+		FROM
+		${database.schema}article a,
+		${database.schema}size b,
+		${database.schema}color c,
+		${database.schema}product d
+
+
+		where
+		a.idProduct
+		=
+		#{idProduct}
+		and a.txBarCode
+		=
+		#{txBarcode}
+		and a.idSize =
+		b.idSize
+		and
+		c.idColor = a.idColor
+		and
+		c.idLanguages = "it"
+		and
+		d.idProduct =
+		a.idProduct
+
+
+	</select>
+
+
+	<!-- CARRELLO -->
+
+	<select id="getQtStock" resultType="Integer" parameterType="java.util.HashMap">
+
+		SELECT qtStock
+		FROM ${database.schema}article
+		Where idProduct =
+		#{idProduct}
+		and pgArticle = #{pgArticle};
+
+
+	</select>
+
+	<select id="getQtStockLock" resultType="Integer" parameterType="java.util.HashMap">
+
+		SELECT qtStock
+		FROM ${database.schema}article
+		Where idProduct =
+		#{idProduct}
+		and pgArticle = #{pgArticle}
+		FOR UPDATE;
+
+
+	</select>
+
+	<update id="updateQtStock" parameterType="java.util.HashMap">
+
+		UPDATE
+		${database.schema}article
+		<if test="fgVendita == true">
+			set qtStock = qtStock - #{qtArticles}
+		</if>
+		<if test="fgVendita == false">
+			set qtStock = qtStock + #{qtArticles}
+		</if>
+		Where idProduct =
+		#{idProduct}
+		and
+		pgArticle = #{pgArticle};
+
 
 	</update>
 	
-	<resultMap id="LookBook" type="it.othala.dto.LookBookDTO">
-		<id property="idLookBook" column="idlookbook" />
-		<result property="txThumbnailUrl" column="txThumbnailUrl" />
-		<result property="idGender" column="idGender" />
-		<result property="idStato" column="idStato" />
-		<collection property="LookBookProduct" ofType="it.othala.dto.LookBookProductDTO">
-			<result property="idProduct" column="idProduct" />
-			<result property="txBrand" column="txBrand" />
-			<result property="txThumbnailsUrl" column="txThumbnailsUrl" />
-		</collection>
-	</resultMap>
+	<update id="setNewQtStock" parameterType="java.util.HashMap">
+
+		UPDATE
+		${database.schema}article
+		set qtStock = #{qtArticles}
+		Where idProduct = #{idProduct}
+		and pgArticle = #{pgArticle};
 
 
-	<select id="listLookBook" resultMap="LookBook" parameterType="java.util.HashMap">
+	</update>
 
-		SELECT
-		a.idlookbook, a.txThumbnailUrl, a.idGender, a.idStato, 
-		c.idProduct, c.txThumbnailsUrl,
- 		d.txBrand 
- 		FROM lookbook a, product_lookbook b, product c, brand d
-		WHERE
-		a.idlookbook = b.idlookbook AND
-		b.idproduct = c.idproduct AND 
-		c.idbrand = d.idbrand
-		<if test="idlookbook != null">
-			AND a.idlookbook = #{idlookbook}
-		</if>
+	<!-- prodotti venduti -->
 
+	<select id="getProdottiVenduti" resultType="it.othala.dto.ArticleCashedDTO">
+	select sp.idProduct,SP.pgArticle,b.txBrand,t.txType,c.txColor,s.txSize,(coalesce(spedita,0)-coalesce(rimborsata,0)) as qtaCashed,(coalesce(incasso,0)-coalesce(incassoRimborsato,0)) as imCashed
+	from
+	(SELECT p.idProduct,p.idbrand,p.idType,a.pgArticle,a.idColor,a.idSize,sum(qtArticle) as spedita,sum(imArticle) as incasso
+	from ${database.schema}orders_articles oa,${database.schema}states_orders so, ${database.schema}article a, ${database.schema}product p
+	where oa.idProdotto=a.idProduct
+	and oa.pgArticle=a.pgArticle
+	and p.idProduct=a.idProduct
+	and oa.idOrder=so.idOrder
+	and so.idStato=15
+	group by p.idProduct,p.idbrand,p.idType,a.pgArticle,a.idColor,a.idSize)SP
+	left join
+	(SELECT p.idProduct,p.idbrand,p.idType,a.pgArticle,a.idColor,a.idSize,sum(coalesce(qtArticle,0)) as rimborsata,sum(imArticle) as incassoRimborsato
+	from ${database.schema}refound_articles oa, ${database.schema}article a, ${database.schema}product p
+	where oa.idProdotto=a.idProduct
+	and oa.pgArticle=a.pgArticle
+	and p.idProduct=a.idProduct
+	and fgChangeRefound='S'
+	group by p.idProduct,p.idbrand,p.idType,a.pgArticle,a.idColor,a.idSize)RIM
+	on( 
+	sp.idProduct=RIM.idProduct
+	and 
+	sp.pgArticle=rim.pgArticle
+	)
+	join ${database.schema}brand b on b.idbrand=sp.idBrand
+	join ${database.schema}type t on (t.idType=sp.idType and t.idLanguages='it')
+	join ${database.schema}size s on s.idSize=sp.idSize
+	join ${database.schema}color c on (c.idColor=sp.idColor and c.idLanguages='it')	
+	order by imCashed
 	</select>
 	
-	
+	<select id="getProdottiPiuVenduti" resultType="it.othala.dto.ArticleCashedDTO">	
+	SELECT p.idProduct,coalesce(a.imPrice,p.imPrice) as imPrice,pd.txDescription as description,p.idbrand,p.idType,a.txThumbnailsUrl,sum(qtArticle) as spedita,sum(imArticle) as incasso
+	from ${database.schema}orders_articles oa, ${database.schema}article a, ${database.schema}product p,${database.schema}product_description pd
+	where oa.idProdotto=a.idProduct
+	and oa.pgArticle=a.pgArticle
+	and p.idProduct=a.idProduct
+	and pd.idProduct=p.idProduct
+	and pd.idLanguages=#{language}
+	group by p.idProduct,p.idbrand,p.idType
+	order by spedita desc
+	</select>
 </mapper>

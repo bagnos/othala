@@ -7,7 +7,6 @@
 		<result property="idUser" column="idUser" />
 		<result property="imOrdine" column="imOrdine" />
 		<result property="imOrdineSenzaSpese" column="imOrdineSenzaSpese" />
-
 		<result property="idStato" column="idStato" />
 		<result property="dtStato" column="dtStato" />
 		<result property="txNote" column="txNote" />
@@ -49,6 +48,8 @@
 			<result property="prdFullDTO.idProduct" column="idProdotto" />
 			<result property="pgArticle" column="pgArticle" />
 			<result property="qtBooked" column="qtArticle" />
+			<result property="priceDiscounted" column="imArticle" />
+			<result property="idOrderArticle" column="idOrderArticle" />
 		</collection>
 		<collection property="speseSpedizione" ofType="it.othala.dto.DeliveryCostDTO">
 			<result property="idDeliveryCost" column="deliveryCost" />
@@ -70,6 +71,8 @@
 		b.idProdotto,
 		b.pgArticle,(a.imOrdine-i.imSpese) as imOrdineSenzaSpese,
 		b.qtArticle,
+		b.imArticle,
+		b.idOrderArticle,
 		c.idStato, c.dtStato, c.txNote,
 		d.txStato, f.IDAddress as
 		idAddressBilling,
@@ -147,7 +150,7 @@
 	</select>
 
 
-	<insert id="insertOrder" parameterType="it.othala.dto.OrderFullDTO">
+	<insert id="insertOrder" parameterType="it.othala.dto.OrderFullDTO" useGeneratedKeys="true" keyProperty="idOrder" keyColumn="idOrder">
 
 		INSERT INTO
 		${database.schema}orders
@@ -161,12 +164,7 @@
 		#{speseSpedizione.idDeliveryCost},null, #{idFidelity}, #{idCoupon},
 		#{pcSconto})
 
-		<selectKey resultType="java.lang.Integer" keyProperty="idOrder">
-
-			SELECT LAST_INSERT_ID() AS idOrder
-
-		</selectKey>
-	</insert>
+			</insert>
 
 	<update id="updateOrder" parameterType="java.util.HashMap">
 
@@ -187,9 +185,9 @@
 
 		INSERT INTO
 		${database.schema}orders_articles
-		(`idOrder`,`idProdotto`,`pgArticle`,`qtArticle`)
+		(`idOrder`,`idProdotto`,`pgArticle`,`qtArticle`,`imArticle`)
 		values
-		(#{idOrder},#{idProdotto},#{pgArticle},#{qtArticle})
+		(#{idOrder},#{idProdotto},#{pgArticle},#{qtArticle},#{imArticle})
 
 	</insert>
 
@@ -455,7 +453,7 @@
 		${database.schema}states_refound
 		(`idRefound`,`idStato`,`txNote`)
 		VALUES
-		(#{idRefound},100,#{txNote});
+		(#{idRefound},#{idStato},#{txNote});
 
 	</insert>
 
@@ -488,6 +486,7 @@
 			<result property="fgChangeRefound" column="fgChangeRefound" />
 			<result property="txChangeRefound" column="txChangeRefound" />
 			<result property="pgArticleChangeSelected" column="pgArticleNew" />
+			<result property="idRefoundArticle" column="idRefoundArticle" />
 		</collection>
 	</resultMap>
 
@@ -495,7 +494,7 @@
 	<select id="listRefounds" resultMap="Refound" parameterType="java.util.HashMap">
 
 		SELECT
-		a.idRefound, a.idOrder, a.idUser, a.imRefound, a.idTransaction,
+		b.idRefoundArticle, a.idRefound, a.idOrder, a.idUser, a.imRefound, a.idTransaction,
 		a.txChangeRefound as MotivoReso,
 		a.fgChangeRefound, a.fgPartialRefound,
 		b.idProdotto, b.pgArticle, b.qtArticle, b.fgChangeRefound,
@@ -619,30 +618,60 @@
 	<select id="selectTotOrders" resultType="it.othala.dto.RendicontoOrdini"
 		parameterType="java.util.HashMap">
 
-		SELECT SUM(imOrdine) as impTotOrders, count(*) as
+		SELECT SUM(a.imOrdine - c.imSpese) as impTotOrders, count(*) as
 		numTotOrders
 		FROM ${database.schema}orders a,
-		${database.schema}states_orders b
+			${database.schema}states_orders b,
+			${database.schema}delivery_cost c
 		WHERE a.idOrder = b.idOrder
+		AND a.idDeliveryCost = c.idDeliveryCost
+		AND b.dtStato &gt;= #{dtDa} AND b.dtStato &lt;= #{dtA}
+		AND b.idStato = #{idStatoOrdine}
+
+	</select>
+	
+	<select id="selectTotArtOrders" resultType="java.lang.Integer"
+		parameterType="java.util.HashMap">
+
+		SELECT count(*) as numTotArticles
+		FROM ${database.schema}orders a,
+			${database.schema}states_orders b,
+			${database.schema}orders_articles c
+		WHERE a.idOrder = b.idOrder
+		AND a.idOrder = c.idOrder
 		AND b.dtStato &gt;= #{dtDa} AND b.dtStato &lt;= #{dtA}
 		AND b.idStato = #{idStatoOrdine}
 
 
 	</select>
 
-	<select id="selectTotRefounds" resultType="it.othala.dto.RendicontoOrdini"
+	<select id="selectTotRefounds" resultType="it.othala.dto.RendicontoRefound"
 		parameterType="java.util.HashMap">
 
 		SELECT SUM(imRefound) as impTotRefounds, count(*) as
 		numTotRefounds
 		FROM ${database.schema}order_refound a,
-		${database.schema}states_refound b
+			${database.schema}states_refound b
 		WHERE a.idRefound = b.idRefound
 		AND b.dtStato &gt;= #{dtDa} AND b.dtStato &lt;= #{dtA}
 		AND b.idStato = #{idStatoRefound}
 
+	</select>
+	
+	<select id="selectTotArtRefound" resultType="java.lang.Integer"
+		parameterType="java.util.HashMap">
+
+		SELECT count(*) as numTotArticles
+		FROM ${database.schema}order_refound a,
+			${database.schema}states_refound b,
+			${database.schema}refound_articles c
+		WHERE a.idRefound = b.idRefound
+		AND a.idRefound = c.idRefound 
+		AND b.dtStato &gt;= #{dtDa} AND b.dtStato &lt;= #{dtA}
+		AND b.idStato = #{idStatoRefound}
 
 	</select>
+	
 
 	<select id="checkRefoundArticle" resultType="Integer"
 		parameterType="java.util.HashMap">
