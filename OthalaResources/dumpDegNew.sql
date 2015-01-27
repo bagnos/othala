@@ -668,14 +668,14 @@ DROP TABLE IF EXISTS `orders_articles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `orders_articles` (
-`idOrderArticle` int(11) NOT NULL AUTO_INCREMENT,  
-`idOrder` int(11) NOT NULL,
+  `idOrder` int(11) NOT NULL,
   `idProdotto` int(11) NOT NULL,
   `pgArticle` int(11) NOT NULL,
   `qtArticle` int(11) NOT NULL,
   `imArticle` decimal(15,2) DEFAULT NULL,
-  `txOrderArticle` varchar(10000) DEFAULT NULL  
-  PRIMARY KEY (`idOrderArticle`),
+  `txOrderArticle` varchar(10000) DEFAULT NULL,
+  `idOrderArticle` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`idOrderArticle`,`idOrder`,`idProdotto`,`pgArticle`),
   KEY `fk_OrdersArticles_Article1_idx` (`idProdotto`,`pgArticle`),
   KEY `fk_OrdersArticles_Orders1_idx` (`idOrder`),
   CONSTRAINT `fk_OrdersArticles_Article1` FOREIGN KEY (`idProdotto`, `pgArticle`) REFERENCES `article` (`idProduct`, `pgArticle`) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -689,7 +689,7 @@ CREATE TABLE `orders_articles` (
 
 LOCK TABLES `orders_articles` WRITE;
 /*!40000 ALTER TABLE `orders_articles` DISABLE KEYS */;
-INSERT INTO `orders_articles` VALUES (2,28,1,1,2.00,NULL,3),(3,28,1,1,2.00,NULL,4),(3,28,1,1,2.00,NULL,5),(4,28,1,1,2.00,NULL,6),(4,28,1,1,2.00,NULL,7),(5,28,1,1,2.00,NULL,8),(5,28,1,1,2.00,NULL,9);
+INSERT INTO `orders_articles` VALUES (2,28,1,1,690.00,NULL,3),(3,28,1,1,690.00,NULL,4),(3,28,1,1,690.00,NULL,5),(4,28,1,1,690.00,NULL,6),(4,28,1,1,690.00,NULL,7),(5,28,1,1,690.00,NULL,8),(5,28,1,1,690.00,NULL,9);
 /*!40000 ALTER TABLE `orders_articles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -877,7 +877,7 @@ DROP TABLE IF EXISTS `refound_articles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `refound_articles` (
-  `idRefoundArticle` INT(11) NOT NULL AUTO_INCREMENT
+  `idRefoundArticle` int(11) NOT NULL AUTO_INCREMENT,
   `idRefound` int(11) NOT NULL,
   `idProdotto` int(11) NOT NULL,
   `pgArticle` int(11) NOT NULL,
@@ -886,7 +886,7 @@ CREATE TABLE `refound_articles` (
   `txChangeRefound` varchar(250) DEFAULT NULL,
   `pgArticleNew` int(11) DEFAULT NULL,
   `imArticle` decimal(15,2) DEFAULT NULL,
-  PRIMARY KEY (`idRefound`),
+  PRIMARY KEY (`idRefoundArticle`),
   KEY `fk_OrdersArticles_Article1_idx` (`idProdotto`,`pgArticle`),
   KEY `fk_Refound_Articles_Order_Refound1_idx` (`idRefound`),
   CONSTRAINT `fk_OrdersArticles_Article10` FOREIGN KEY (`idProdotto`, `pgArticle`) REFERENCES `article` (`idProduct`, `pgArticle`) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -983,7 +983,7 @@ CREATE TABLE `site_images` (
 
 LOCK TABLES `site_images` WRITE;
 /*!40000 ALTER TABLE `site_images` DISABLE KEYS */;
-INSERT INTO `site_images` VALUES ('carousel',1,'A2.jpg',NULL,NULL,NULL),('carousel',2,'A1.jpg',NULL,NULL,NULL),('carousel',3,'A3.jpg',NULL,NULL,NULL),('carousel',4,'A4.jpg',NULL,NULL,NULL),('new',1,'new.png',NULL,NULL,NULL),('newArrivals',1,'newuomo2.jpg',1,'/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=true&idSubMenu=0&idCampaign=0',NULL),('newArrivals',2,'newdonna2.jpg',2,'/cart/cart-catalog.xhtml?idMenu=2&fgNewArrivals=true&idSubMenu=0&idCampaign=0',NULL),('promo',1,'promo.png',NULL,NULL,NULL),('tabNav',1,'uomo.png',1,NULL,NULL),('tabNav',2,'donna.png',2,NULL,NULL),('tabNav',3,'bambino.png',3,NULL,NULL),('tabNav',4,'bambina.png',4,NULL,NULL),('tabNav',5,'unisex.png',5,NULL,NULL);
+INSERT INTO `site_images` VALUES ('carousel',1,'26012015103234776&foto 1 (2).JPG',NULL,NULL,'Degortes online shop'),('carousel',2,'26012015103244631&foto 1.JPG',NULL,NULL,'Degortes online shop'),('carousel',3,'26012015103248885&foto 2 (2).JPG',NULL,NULL,'Degortes online shop'),('carousel',4,'26012015103253448&foto 2.JPG',NULL,NULL,'Degortes online shop'),('carousel',5,'26012015103257495&foto 3 (2).JPG',NULL,NULL,'Degortes online shop'),('carousel',6,'26012015103307196&foto 3.JPG',NULL,NULL,'Degortes online shop'),('carousel',7,'26012015103311767&foto 4 (2).JPG',NULL,NULL,'Degortes online shop'),('carousel',8,'26012015103316296&foto 4.JPG',NULL,NULL,'Degortes online shop'),('new',1,'new.png',NULL,NULL,NULL),('newArrivals',1,'newuomo2.jpg',1,'/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=true&idSubMenu=0&idCampaign=0',NULL),('newArrivals',2,'newdonna2.jpg',2,'/cart/cart-catalog.xhtml?idMenu=2&fgNewArrivals=true&idSubMenu=0&idCampaign=0',NULL),('promo',1,'promo.png',NULL,NULL,NULL),('tabNav',1,'uomo.png',1,NULL,NULL),('tabNav',2,'donna.png',2,NULL,NULL),('tabNav',3,'bambino.png',3,NULL,NULL),('tabNav',4,'bambina.png',4,NULL,NULL),('tabNav',5,'unisex.png',5,NULL,NULL);
 /*!40000 ALTER TABLE `site_images` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1153,4 +1153,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-01-20 13:21:02
+-- Dump completed on 2015-01-26 12:49:05
