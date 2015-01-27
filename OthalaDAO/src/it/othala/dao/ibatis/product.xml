@@ -2290,6 +2290,17 @@
 
 
 	</update>
+	
+	<update id="setNewQtStock" parameterType="java.util.HashMap">
+
+		UPDATE
+		${database.schema}article
+		set qtStock = #{qtArticles}
+		Where idProduct = #{idProduct}
+		and pgArticle = #{pgArticle};
+
+
+	</update>
 
 	<!-- prodotti venduti -->
 
