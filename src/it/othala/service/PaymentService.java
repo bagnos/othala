@@ -788,10 +788,6 @@ public class PaymentService implements IPaymentService {
 		return refTrans;
 	}
 
-	public IOthalaExternalServices getExternalService() {
-		return externalService;
-	}
-
 	public void setExternalService(IOthalaExternalServices externalService) {
 		this.externalService = externalService;
 	}
