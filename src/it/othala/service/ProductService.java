@@ -1,8 +1,11 @@
 package it.othala.service;
 
 import it.othala.dao.interfaces.IProductDAO;
+import it.othala.dto.ArticleCashedDTO;
 import it.othala.dto.ArticleDTO;
 import it.othala.dto.ArticleFullDTO;
+import it.othala.dto.AttributeDTO;
+import it.othala.dto.BrandFullDTO;
 import it.othala.dto.CampaignDTO;
 import it.othala.dto.DomainDTO;
 import it.othala.dto.LookBookDTO;
@@ -22,7 +25,9 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ProductService implements IProductService {
 
@@ -96,6 +101,9 @@ public class ProductService implements IProductService {
 		domainDTO.setNazioni(productDAO.listNazioni());
 		domainDTO.setConfiguration(productDAO.listConfiguration());
 
+		domainDTO.setRegioni(productDAO.listRegioni());
+		domainDTO.setInfAggiuntive(productDAO.listInfAggiuntive(languages));
+		
 		return domainDTO;
 
 	}
@@ -115,19 +123,13 @@ public class ProductService implements IProductService {
 	}
 
 	@Override
-	public DomainDTO insertBrand(String languages, String txBrand) {
+	public DomainDTO insertBrand(String languages, String txBrand, Integer idRegione, Integer idProvincia, String idUser, String urlFoto, String txDescrIT, String txDescrEN) {
 
 		if (productDAO.checkEsistenza("brand", txBrand, null)) {
-			productDAO.insertBrand(txBrand);
+			productDAO.insertBrand(txBrand, idRegione, idProvincia, idUser, urlFoto, txDescrIT, txDescrEN);
 		}
-		DomainDTO domainDTO = new DomainDTO();
-		domainDTO.setSize(productDAO.listSize(languages));
-		domainDTO.setColor(productDAO.listColor(languages));
-		domainDTO.setBrand(productDAO.listBrand());
-		domainDTO.setGender(productDAO.listGender(languages));
-		domainDTO.setType(productDAO.listType(languages));
 
-		return domainDTO;
+		return getDomain(languages);
 
 	}
 
@@ -137,14 +139,7 @@ public class ProductService implements IProductService {
 		if (productDAO.checkEsistenza("size", txSize, null)) {
 			productDAO.insertSize(txSize);
 		}
-		DomainDTO domainDTO = new DomainDTO();
-		domainDTO.setSize(productDAO.listSize(languages));
-		domainDTO.setColor(productDAO.listColor(languages));
-		domainDTO.setBrand(productDAO.listBrand());
-		domainDTO.setGender(productDAO.listGender(languages));
-		domainDTO.setType(productDAO.listType(languages));
-
-		return domainDTO;
+		return getDomain(languages);
 
 	}
 
@@ -158,14 +153,7 @@ public class ProductService implements IProductService {
 			productDAO.insertColor(maxIdColor, "it", txColorIT);
 			productDAO.insertColor(maxIdColor, "en", txColorEN);
 		}
-		DomainDTO domainDTO = new DomainDTO();
-		domainDTO.setSize(productDAO.listSize(languages));
-		domainDTO.setColor(productDAO.listColor(languages));
-		domainDTO.setBrand(productDAO.listBrand());
-		domainDTO.setGender(productDAO.listGender(languages));
-		domainDTO.setType(productDAO.listType(languages));
-
-		return domainDTO;
+		return getDomain(languages);
 
 	}
 
@@ -180,15 +168,7 @@ public class ProductService implements IProductService {
 			productDAO.insertMaterial(maxIdMaterial, "it", txMaterialIT);
 			productDAO.insertMaterial(maxIdMaterial, "en", txMaterialEN);
 		}
-		DomainDTO domainDTO = new DomainDTO();
-		domainDTO.setSize(productDAO.listSize(languages));
-		domainDTO.setColor(productDAO.listColor(languages));
-		domainDTO.setBrand(productDAO.listBrand());
-		domainDTO.setGender(productDAO.listGender(languages));
-		domainDTO.setType(productDAO.listType(languages));
-		domainDTO.setMaterial(productDAO.listMaterial(languages));
-
-		return domainDTO;
+		return getDomain(languages);
 
 	}
 
@@ -202,14 +182,7 @@ public class ProductService implements IProductService {
 			productDAO.insertType(maxIdType, "it", txType);
 			productDAO.insertType(maxIdType, "en", txTypeEN);
 		}
-		DomainDTO domainDTO = new DomainDTO();
-		domainDTO.setSize(productDAO.listSize(languages));
-		domainDTO.setColor(productDAO.listColor(languages));
-		domainDTO.setBrand(productDAO.listBrand());
-		domainDTO.setGender(productDAO.listGender(languages));
-		domainDTO.setType(productDAO.listType(languages));
-
-		return domainDTO;
+		return getDomain(languages);
 
 	}
 
@@ -254,6 +227,7 @@ public class ProductService implements IProductService {
 
 		VetrinaDTO vetrinaDTO = new VetrinaDTO();
 		vetrinaDTO.setProdotti(listProduct);
+		
 		vetrinaDTO.setSize(productDAO.listSizeProduct(languages, type, gender,
 				brand, minPrice, maxPrice, size, color, newArrivals, order,
 				idCampaign, fgCampaign));
@@ -276,6 +250,8 @@ public class ProductService implements IProductService {
 				idProduct);
 
 		List<String> newString = productDAO.listProductImages(idProduct);
+		
+		productFull.setInfAggiuntive(productDAO.listInfAggiuntive(idProduct, languages));
 
 		productFull.setImagesUrl(newString);
 
@@ -540,4 +516,27 @@ public class ProductService implements IProductService {
 		return productDAO.listaLookBook(idLookBook);
 	}
 
+	
+	@Override
+	public List<BrandFullDTO> listBrandFull(String languages, Integer idProvincia, Integer idRegione, Integer idBrand) {
+
+		return	productDAO.listBrandFull(languages, idProvincia, idRegione, idBrand);
+
+	}
+
+	@Override
+	public List<ArticleCashedDTO> listArticleCashed() {
+		// TODO Auto-generated method stub
+		List<ArticleCashedDTO> arts= productDAO.getArticlesCached();
+		return arts;
+	}
+	
+	@Override
+	public List<ArticleCashedDTO> listArticleMajorCashed(String language) {
+		// TODO Auto-generated method stub
+		List<ArticleCashedDTO> arts= productDAO.getArticlesMajorCached(language);
+		return arts;
+	}
+	
+	
 }

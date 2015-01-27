@@ -146,12 +146,14 @@ class PayPalWrapper {
 	}
 
 	public RefundTransactionDTO refundTransaction(String idTransaction, BigDecimal amt, boolean fgPartial,
-			List<String> articles,String refundId) throws PayPalException, PayPalFailureException, PayPalPostRefundPaymentException {
+			List<String> articles, String refundId) throws PayPalException, PayPalFailureException,
+			PayPalPostRefundPaymentException {
 		RefundTransaction refTransaction;
 		RefundTransactionDTO refundTransactionDTO = null;
 
 		if (fgPartial) {
-			refTransaction = RefundTransaction.getPartialRefund(idTransaction, OthalaCommonUtils.getImportoNoCurrency(amt));
+			refTransaction = RefundTransaction.getPartialRefund(idTransaction,
+					OthalaCommonUtils.getImportoNoCurrency(amt));
 			refTransaction.getNVPRequest().put("CURRENCYCODE", "EUR");
 			StringBuilder sb = new StringBuilder();
 			if (articles != null && !articles.isEmpty()) {
@@ -235,14 +237,11 @@ class PayPalWrapper {
 	}
 
 	public static Environment getEnvironment(String env) {
-		Environment environment=null;
-		if (env==null || env.isEmpty())
-		{
-			environment=Environment.LIVE;
-		}
-		else
-		{
-		environment = Environment.valueOf(env);
+		Environment environment = null;
+		if (env == null || env.isEmpty()) {
+			environment = Environment.LIVE;
+		} else {
+			environment = Environment.valueOf(env);
 		}
 
 		return environment;
@@ -252,34 +251,39 @@ class PayPalWrapper {
 		PaymentItem item = null;
 		List<PaymentItem> items = new ArrayList<PaymentItem>();
 		String description;
-		
+
 		for (int i = 0; i <= cart.getAricles().size() - 1; i++) {
 			item = new PaymentItem();
-			description = String.format("%s %s %S", cart.getAricles().get(i).getPrdFullDTO().getDescription(), cart
-					.getAricles().get(i).getTxSize(), cart.getAricles().get(i).getTxColor());
+			String descrArt = cart.getAricles().get(i).getPrdFullDTO().getDescription().length() > 80 ? cart
+					.getAricles().get(i).getPrdFullDTO().getDescription().substring(0, 79) : cart.getAricles().get(i)
+					.getPrdFullDTO().getDescription();
+			description = String.format("%s %s %s", descrArt, cart.getAricles().get(i).getTxSize() != null ? cart.getAricles().get(i)
+					.getTxSize() : "", cart.getAricles().get(i).getTxColor() != null ? cart.getAricles().get(i)
+					.getTxColor() : "");
 			item.setDescription(description);
 			item.setAmount(cart.getAricles().get(i).getPrdFullDTO().getRealPrice().toString());
 			item.setQuantity(cart.getAricles().get(i).getQtBooked());
 			item.setItemNumber(cart.getAricles().get(i).getPrdFullDTO().getMerchantCode());
-			
+
 			items.add(item);
 		}
-		//sconto
-		if (cart.getTotalDiscountOrder()!=null && cart.getTotalDiscountOrder().compareTo(BigDecimal.ZERO)>0)
-		{
-			//sono presenti degli sconti, inserisco un item con importo negativo
+		// sconto
+		if (cart.getTotalDiscountOrder() != null && cart.getTotalDiscountOrder().compareTo(BigDecimal.ZERO) > 0) {
+			// sono presenti degli sconti, inserisco un item con importo
+			// negativo
 			item = new PaymentItem();
 			item.setDescription("Discount");
-			String discFormat=cart.getTotalDiscountOrder().setScale(2, RoundingMode.HALF_UP).toString();
-			item.setAmount("-"+discFormat);
+			String discFormat = cart.getTotalDiscountOrder().setScale(2, RoundingMode.HALF_UP).toString();
+			item.setAmount("-" + discFormat);
 			item.setItemNumber(cart.getTxDiscounted());
 			item.setQuantity(1);
 			items.add(item);
-			
+
 		}
-		
+
 		// Payment payment = new Payment(cart.getTotalPriceOrder().toString());
-		BigDecimal itemOrder=cart.getTotalItemOrder().subtract(cart.getTotalDiscountOrder()==null?BigDecimal.ZERO:cart.getTotalDiscountOrder());
+		BigDecimal itemOrder = cart.getTotalItemOrder().subtract(
+				cart.getTotalDiscountOrder() == null ? BigDecimal.ZERO : cart.getTotalDiscountOrder());
 		Payment payment = new Payment(cart.getTotalPriceOrder().setScale(2, RoundingMode.HALF_UP).toString(), items);
 		payment.setCurrency(Currency.EUR);
 		payment.setAllowingNote(true);
@@ -334,17 +338,14 @@ class PayPalWrapper {
 
 		RefundTransactionDTO refundTransactionDTO = new RefundTransactionDTO();
 		if (response.get("ACK").toString().equalsIgnoreCase("Success")) {
-			try
-			{
-			refundTransactionDTO.setPENDINGREASON(response.get("PENDINGREASON").toString());
-			refundTransactionDTO.setREFUNDSTATUS(response.get("REFUNDSTATUS").toString());
-			refundTransactionDTO.setREFUNDTRANSACTIONID(response.get("REFUNDTRANSACTIONID").toString());
-			refundTransactionDTO.setTOTALREFUNDEDAMT(new BigDecimal(response.get("GROSSREFUNDAMT")));			
-			refundTransactionDTO.setOkMessage(sn.toString());
-			}
-			catch (Exception e)
-			{
-				throw new PayPalPostRefundPaymentException(e,"","errore nella costruzione di RefundTransactionDTO ");
+			try {
+				refundTransactionDTO.setPENDINGREASON(response.get("PENDINGREASON").toString());
+				refundTransactionDTO.setREFUNDSTATUS(response.get("REFUNDSTATUS").toString());
+				refundTransactionDTO.setREFUNDTRANSACTIONID(response.get("REFUNDTRANSACTIONID").toString());
+				refundTransactionDTO.setTOTALREFUNDEDAMT(new BigDecimal(response.get("GROSSREFUNDAMT")));
+				refundTransactionDTO.setOkMessage(sn.toString());
+			} catch (Exception e) {
+				throw new PayPalPostRefundPaymentException(e, "", "errore nella costruzione di RefundTransactionDTO ");
 			}
 
 		} else {
@@ -479,8 +480,7 @@ class PayPalWrapper {
 				key = L_PAYMENTREQUEST_0_AMTm + i;
 				item.setPrice(new BigDecimal(response.get(key)));
 				paymentDetails.put(key, response.get(key));
-				if (item.getPrice().compareTo(BigDecimal.ZERO)<0)
-				{
+				if (item.getPrice().compareTo(BigDecimal.ZERO) < 0) {
 					details.setDiscount(item.getPrice());
 				}
 

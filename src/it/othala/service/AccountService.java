@@ -235,9 +235,32 @@ public class AccountService implements IAccountService {
 		return accountDAO.getAccount(email);
 	}
 
+	@Override
+	public void richiediFidelity(String nome, String cognome, String email,String cell, String emailMerchant,String site, MailPropertiesDTO mail)
+			throws MailNotSendException {
+		// TODO Auto-generated method stub
+		StringBuilder sb = new StringBuilder();
+		sb.append("<nome>" + nome + "</nome>");
+		sb.append("<cognome>" + cognome + "</cognome>");
+		sb.append("<email>" + email + "</email>");
+		sb.append("<cell>" + cell + "</emacellil>");
+		sb.append("<site>" + email + "</site>");
 
-	
+		String content = null;
+		
+		try {
+			content = Template.getContenFile(TipoTemplate.MailFidelityRequest);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			throw new MailNotSendException(e);
+		}
 
-	
+		content = content.replaceAll("<nome>", nome);
+		content = content.replaceAll("<cognome>", cognome);
+		content = content.replaceAll("<email>", email);
+
+		mailService.inviaMail(new String[] { emailMerchant }, site+":richiesta censimento Fidelity Card", content,
+				mail);
+	}
 
 }
