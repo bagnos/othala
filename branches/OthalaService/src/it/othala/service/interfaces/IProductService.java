@@ -1,6 +1,8 @@
 package it.othala.service.interfaces;
 
+import it.othala.dto.ArticleCashedDTO;
 import it.othala.dto.ArticleDTO;
+import it.othala.dto.BrandFullDTO;
 import it.othala.dto.LookBookDTO;
 import it.othala.dto.VetrinaDTO;
 import it.othala.dto.CampaignDTO;
@@ -25,8 +27,6 @@ public interface IProductService {
 	
 	public ProductFullNewDTO getProductArticleFull(String languages,
 			Integer idProduct, Integer pgArticle);
-
-	public DomainDTO insertBrand(String languages, String txBrand);
 
 	public List<CampaignDTO> getListCampaign();
 
@@ -92,7 +92,16 @@ public interface IProductService {
 	public List<LookBookDTO> getLookBook(Integer idLookBook);
 
 
+	public List<BrandFullDTO> listBrandFull(String languages, Integer idProvincia,
+			Integer idRegione, Integer idBrand);
 
+
+	public DomainDTO insertBrand(String languages, String txBrand, Integer idRegione,
+			Integer idProvincia, String idUser, String urlFoto,
+			String txDescrIT, String txDescrEN);
+
+	public List<ArticleCashedDTO> listArticleCashed();
+	public List<ArticleCashedDTO> listArticleMajorCashed(String language);
 
 
 	
