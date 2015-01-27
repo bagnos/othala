@@ -1,13 +1,17 @@
 package it.othala.dao.interfaces;
 
+import it.othala.dto.ArticleCashedDTO;
 import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.AttributeDTO;
+import it.othala.dto.BrandFullDTO;
 import it.othala.dto.CampaignDTO;
 import it.othala.dto.ConfigurationDTO;
+import it.othala.dto.InfAggiuntiveDTO;
 import it.othala.dto.LookBookDTO;
 import it.othala.dto.MenuDTO;
 import it.othala.dto.NazioniDTO;
 import it.othala.dto.ProductFullNewDTO;
+import it.othala.dto.RegioneDTO;
 import it.othala.dto.ShopDTO;
 import it.othala.dto.SiteImagesDTO;
 import it.othala.dto.SubMenuBrandDTO;
@@ -62,7 +66,6 @@ public interface IProductDAO {
 	public ProductFullNewDTO getProductArticleFull(String languages, Integer idProduct,
 			Integer pgArticle);
 
-	public void insertBrand(String txBrand);
 
 	public Integer updateQtStock(Integer idProduct, Integer pgArticle, Integer qtArticles, Boolean fgVendita);
 
@@ -180,6 +183,22 @@ public interface IProductDAO {
 	public void delLookBookProduct(int idLookBook, int idProduct);
 	
 	public List<LookBookDTO> listaLookBook(Integer idLookBook);
+
+	public List<BrandFullDTO> listBrandFull(String languages,
+			Integer idProvincia, Integer idRegione, Integer idBrand);
+
+	public void insertBrand(String txBrand, Integer idRegione, Integer idProvincia,
+			String idUser, String urlFoto, String txDescrIT, String txDescrEN);
+
+	public List<RegioneDTO> listRegioni();
+
+	public List<InfAggiuntiveDTO> listInfAggiuntive(Integer idProduct,
+			String languages);
+
+	public List<AttributeDTO> listInfAggiuntive(String languages);
+	
+	public List<ArticleCashedDTO> getArticlesCached();
+	public List<ArticleCashedDTO> getArticlesMajorCached(String language);
 
 
 
