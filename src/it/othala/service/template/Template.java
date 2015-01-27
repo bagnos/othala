@@ -10,7 +10,7 @@ import org.apache.commons.io.IOUtils;
 public class Template {
 
 	public enum TipoTemplate {
-		MailRegistrazione,MailResetPSW,MailIPNRefusePayment,MailIPNAcceptedPaymemtAfetPending;
+		MailRegistrazione,MailResetPSW,MailIPNRefusePayment,MailIPNAcceptedPaymemtAfetPending,MailFidelityRequest;
 
 		private TipoTemplate() {
 
@@ -28,7 +28,9 @@ public class Template {
 		case MailResetPSW:
 			nameFile = "MailResetPSW.txt";
 			break;
-		
+		case MailFidelityRequest:
+			nameFile="MailFidelityRequest.txt";
+			break;
 		case MailIPNRefusePayment:
 			nameFile = "MailIPNPagamentoRifiutato.txt";
 			break;

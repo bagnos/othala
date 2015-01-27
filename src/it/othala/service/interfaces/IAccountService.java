@@ -44,4 +44,7 @@ public interface IAccountService {
 
 	public List<AccountDTO> listAccount();
 
+	public void richiediFidelity(String nome, String cognome, String email, String cell, String emailMerchant,
+			String site, MailPropertiesDTO mail) throws MailNotSendException;
+
 }
