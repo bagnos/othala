@@ -551,7 +551,7 @@ public class PaymentService implements IPaymentService {
 					out.write("<size>" + art.getTxSize() + "</size>");
 					out.write("<unitPrice>" + art.getPrdFullDTO().getRealPrice() + "</unitPrice>");
 					out.write("<quantity>" + art.getQtBooked() + "</quantity>");
-					out.write("<price>" + art.getTotalPriced() + "</price>");
+					out.write("<price>" + art.getPriceDiscounted().multiply(new BigDecimal(art.getQtBooked())) + "</price>");
 					out.write("</item>");
 					i++;
 				}
