@@ -40,6 +40,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.OutputStreamWriter;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.sql.Timestamp;
@@ -95,18 +96,19 @@ public class OrderService implements IOrderService {
 			OrderFullDTO order = i.next();
 
 			List<ArticleFullDTO> newlistArticle = new ArrayList<ArticleFullDTO>();
-
-			List<ArticleFullDTO> listArticle = order.getCart();
-			Iterator<ArticleFullDTO> it = listArticle.iterator();
-			while (it.hasNext()) {
-				ArticleFullDTO article = it.next();
-
-				ArticleFullDTO artFull = productDAO.getArticleFull(article.getPrdFullDTO().getIdProduct(),
-						article.getPgArticle(), "it");
+			ArticleFullDTO artFull=null;
+			
+			for (ArticleFullDTO article:order.getCart())
+			{
+				artFull=new ArticleFullDTO();
+				artFull = productDAO.getArticleFull(article.getPrdFullDTO().getIdProduct(),
+				article.getPgArticle(), "it");
 				artFull.setShop(productDAO.getShop(article.getPrdFullDTO().getIdProduct(), article.getPgArticle()));
 				artFull.setPrdFullDTO(productDAO.getProductArticleFull("it", article.getPrdFullDTO().getIdProduct(),
 						article.getPgArticle()));
 				artFull.setQtBooked(article.getQtBooked());
+				artFull.setIdOrderArticle(article.getIdOrderArticle().intValue());
+				
 				newlistArticle.add(artFull);
 			}
 			order.setCart(newlistArticle);
@@ -120,24 +122,17 @@ public class OrderService implements IOrderService {
 	public OrderFullDTO insertOrder(OrderFullDTO orderFull) throws OthalaException {
 
 		checkQtaInStock(null, orderFull);
-
 		orderDAO.insertOrder(orderFull);
-
-		HashMap<String, Object> mapProduct = new HashMap<String, Object>();
-
-		List<ArticleFullDTO> lsProd = orderFull.getCart();
-		Iterator<ArticleFullDTO> i = lsProd.iterator();
-		while (i.hasNext()) {
-			ArticleFullDTO article = i.next();
-
+		HashMap<String, Object> mapProduct = new HashMap<String, Object>();		
+		for (ArticleFullDTO article: orderFull.getCart())
+		{
 			mapProduct.clear();
 			mapProduct.put("idOrder", orderFull.getIdOrder());
 			mapProduct.put("idProdotto", article.getPrdFullDTO().getIdProduct());
 			mapProduct.put("pgArticle", article.getPgArticle());
 			mapProduct.put("qtArticle", article.getQtBooked());
-
+			mapProduct.put("imArticle", article.getPriceDiscounted());
 			orderDAO.insertOrdersArticles(mapProduct);
-
 		}
 
 		orderDAO.insertStatesOrders(orderFull);
@@ -329,7 +324,7 @@ public class OrderService implements IOrderService {
 
 		List<CouponDTO> listCoupons = orderDAO.getCoupons(idCoupon, idUser);
 
-		if (listCoupons.get(0) != null) {
+		if (listCoupons!=null && listCoupons.isEmpty()==false && listCoupons.get(0) != null) {
 			if (listCoupons.get(0).getDtScadenza().compareTo(new Date()) < 0) {
 				throw new CouponExpiredException(idCoupon);
 			}
@@ -527,7 +522,8 @@ public class OrderService implements IOrderService {
 				out.write("<size>" + refArticle.getTxSize() + "</size>");
 				out.write("<unitPrice>" + refArticle.getPrdFullDTO().getRealPrice() + "</unitPrice>");
 				out.write("<quantity>" + refArticle.getQtBooked() + "</quantity>");
-				out.write("<price>" + refArticle.getTotalPriced() + "</price>");
+				out.write("<price>" + refArticle.getPriceDiscounted().multiply(new BigDecimal(refArticle.getQtBooked())) + "</price>");
+				
 				out.write("<cambio>" + refArticle.getTxChangeRefound() + "</cambio>");
 				out.write("</item>");
 				i++;
@@ -649,6 +645,7 @@ public class OrderService implements IOrderService {
 			mapProduct.put("fgChangeRefound", article.getFgChangeRefound());
 			mapProduct.put("txChangeRefound", article.getTxChangeRefound());
 			mapProduct.put("pgArticleNew", article.getPgArticleChangeSelected());
+			mapProduct.put("imArticle", article.getPriceDiscounted());
 
 			orderDAO.insertRefoundArticles(mapProduct);
 
@@ -833,7 +830,7 @@ public class OrderService implements IOrderService {
 				out.write("<size>" + art.getTxSize() + "</size>");
 				out.write("<unitPrice>" + art.getPrdFullDTO().getRealPrice() + "</unitPrice>");
 				out.write("<quantity>" + art.getQtBooked() + "</quantity>");
-				out.write("<price>" + art.getTotalPriced() + "</price>");
+				out.write("<price>" + art.getPriceDiscounted().multiply(new BigDecimal(art.getQtBooked())) + "</price>");
 				out.write("</item>");
 
 			}
