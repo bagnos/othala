@@ -6,6 +6,7 @@ import it.othala.dao.interfaces.IOrderDAO;
 import it.othala.dao.interfaces.IProductDAO;
 import it.othala.dto.FidelityCardDTO;
 import it.othala.dto.OrderFullDTO;
+import it.othala.dto.ShopDTO;
 import it.othala.execption.FidelityCardNotPresentException;
 import it.othala.execption.FidelityCardNotValidException;
 import it.othala.external.service.interfaces.IOthalaExternalServices;
@@ -46,14 +47,9 @@ class OthalaExternalService implements IOthalaExternalServices {
 		return fCard.get(0);
 	}
 
-	@Override
-	public int getQtStockLock(String barcode) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 	@Override
-	public int getQtStockLock(Integer idProduct, Integer pgArticle) {
+	public int getQtStockLock(Integer idProduct, Integer pgArticle, String barcode) {
 		
 		return productDAO.getQtStockLock(idProduct, pgArticle);
 
@@ -63,6 +59,13 @@ class OthalaExternalService implements IOthalaExternalServices {
 	public void updateStock(OrderFullDTO orderFull, boolean fgVendita) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public ShopDTO getShopStock(Integer idProduct, Integer pgArticle, String codBarre) {
+		
+		return productDAO.getShop(idProduct, pgArticle);
+		
 	}
 
 
