@@ -466,7 +466,7 @@
 
 	</insert>
 
-	<resultMap id="Refound" type="it.othala.dto.RefoundFullDTO">		
+	<resultMap id="Refound" type="it.othala.dto.RefoundFullDTO">
 		<id property="idRefound" column="idRefound" />
 		<result property="idOrder" column="idOrder" />
 		<result property="idUser" column="idUser" />
