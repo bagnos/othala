@@ -13,6 +13,7 @@ import it.othala.dto.DeliveryDTO;
 import it.othala.dto.FidelityCardDTO;
 import it.othala.dto.MailPropertiesDTO;
 import it.othala.dto.OrderFullDTO;
+import it.othala.dto.ProductFullNewDTO;
 import it.othala.dto.RefoundFullDTO;
 import it.othala.dto.RendicontoOrdini;
 import it.othala.dto.ShopDTO;
@@ -175,10 +176,10 @@ public class OrderService implements IOrderService {
 			 * productDAO.getQtStockLock(article.getPrdFullDTO().getIdProduct(),
 			 * article.getPgArticle());
 			 */
-
+			
 			Integer qtaProduct = externalService.getQtStockLock(article.getPrdFullDTO().getIdProduct(),
-					article.getPgArticle());
-
+					article.getPgArticle(), article.getTxBarCode());
+			
 			if (qtaProduct < article.getQtBooked()) {
 				List<String> prodNoStock = new ArrayList<String>();
 				prodNoStock.add(article.getPrdFullDTO().getDescription());

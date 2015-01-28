@@ -11,8 +11,8 @@ import java.util.List;
 public interface IOthalaExternalServices {
 
 	public FidelityCardDTO checkFidelityCard(String idFidelity, String eMail, String celNum) throws FidelityCardNotPresentException, FidelityCardNotValidException;;	
-	public int getQtStockLock(String barcode);
-	public int getQtStockLock(Integer idProduct, Integer pgArticle);
+	public int getQtStockLock(Integer idProduct, Integer pgArticle, String barcode);
 	public void updateStock(OrderFullDTO orderFull, boolean fgVendita);
+	public ShopDTO getShopStock(Integer idProduct, Integer pgArticle, String codBarre);
 	
 }
