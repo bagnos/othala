@@ -14,7 +14,7 @@
 			</div>
 			<div class="container">
 				<ui:insert name="messageUser">
-					<p:messages autoUpdate="true" globalOnly="true" closable="true" showDetail="true"
+					<p:messages  autoUpdate="true" globalOnly="true" closable="true" showDetail="true"
 						showSummary="true"></p:messages>
 				</ui:insert>
 			</div>
@@ -26,50 +26,64 @@
 		</div>
 	</ui:define>
 	<ui:define name="script">
-		<script type="text/javascript">
-	 function menuHandler()
-    {
-  		try
-  		{
-  			/*if (!(window.innerWidth>991))
-  			{
-  			 $("#tabNav>li").first().addClass("active");
-  			 $("#tab-content>div").first().addClass("active");  			 
-  			}*/  				  	    
-  		 (function($) {
-	  	        fakewaffle.responsiveTabs(['xs']);
-	  	    })(jQuery);
+		<script type="text/javascript">	  
+		function menuHandler(tipoMenu) {			
+			if (tipoMenu == undefined || tipoMenu==null || tipoMenu==0) {
+				try {
+					(function($) {
+						fakewaffle.responsiveTabs([ 'xs' ]);
+					})(jQuery);
+				} catch (e) {
+				}
+				if ((window.innerWidth > 767)) {
+					$("#tabNav>li>a").bind({
+						mouseenter : function() {
+							$(this).click();
+						}
+					});
+					$("#tab-content>div").bind({
+						mouseleave : function() {
+							$(this).removeClass("active");
+							$("#tabNav>li[class='active']").removeClass("active");
+						}
+					});
+				} else {
+					$("a[href*='collapse-/']").each(function() {
+						var value = $(this).attr('href');
+						var valueRepl = value.replace('#collapse-', '');
+						$(this).attr('href', '#')
+						$(this).click(function() {
+							window.open(valueRepl);
+						})
+					});
+				}
 			}
-			catch (e)
-		   {}		
-			if ((window.innerWidth>767))
-  			{
-				$("#tabNav>li>a").bind({
-		    		mouseenter: function() {
-		    			    $(this).click();
-		    		}});
-		    	$("#tab-content>div").bind({
-		    		mouseleave: function() {
-		    			    $(this).removeClass("active");		    					
-		    	$("#tabNav>li[class='active']").removeClass("active");  
-		    	}});			  			 
-  			}
-			else
-			{
-      	$( "a[href*='collapse-/']" ).each(function(){
-           var value=  $( this ).attr('href');
-           var valueRepl=value.replace('#collapse-','');
-           $( this ).attr('href','#')
-           $( this ).click(function(){
-    	       window.open(valueRepl);
-    	       })
-        });
-			}      	
-     }  	  
-$( document ).ready(function() {
-	 menuHandler();	
+			else if (tipoMenu==1) {				
+				$(".nav li.mega-dropdown").eq( 0 ).append('<p class="arrow1 arrOw"><span></span></p>');
+				$(".nav li.mega-dropdown").eq( 1 ).append('<p class="arrow2 arrOw"><span></span></p>');			
+				$(".nav li.mega-dropdown").eq( 0 ).click(function () {				
+				    x = $(this).position();
+				    aa = x.left+75;
+				    $(this).find(".arrow1").css("left", aa);
+				});
+				$(".nav li.mega-dropdown").eq( 1 ).click(function () {				   
+				    x = $(this).position();
+				    aa = x.left + 75;
+				    $(this).find(".arrow2").css("left", aa);
+				});
+				$(".dropdown.mega-dropdown").hover(
+				        function() { $('.dropdown-menu', this).fadeIn("fast");
+				        $('p',this).fadeIn("fast");
+				        },
+				        function() { $('.dropdown-menu', this).fadeOut("fast");
+				        $('p',this ).fadeOut("fast");
+				    });
+			}
+		}  
+	$(document).ready(function() {
+		menuHandler("#{applicationBean.tipoMenu}");
 }); 
 </script>
-<ui:insert name="scriptPage"></ui:insert>
-</ui:define>
+		<ui:insert name="scriptPage"></ui:insert>
+	</ui:define>
 </ui:composition>
