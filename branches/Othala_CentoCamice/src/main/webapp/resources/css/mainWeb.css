@@ -28,12 +28,21 @@
 	#nav-tab {
 		margin-right: 1px;
 	}
+	a
+	{
+		color: #999 !important;
+	}
+	
 }
 
-@media ( min-width : 992px) {
-	#nav-tab {
-		margin-right: 150px;
-	}
+@media ( max-width : 768px) {
+	#nav-tab .navbar-nav>li>.dropdown-menu {
+	margin-top: 0px;
+		
+}
+}
+
+@media ( min-width : 992px) {	
 }
 
 h4 span {
@@ -43,6 +52,10 @@ h4 span {
 
 body {
 	background: #f0f0f0 !important;;
+}
+
+#logo {
+top: -70px !important;
 }
 
 .dropdown-menu {
@@ -55,14 +68,14 @@ body {
 }
 
 #nav-tab .navbar-nav>li>.dropdown-menu {
-	margin-top: 20px !important;
+	margin-top: 20px;
 	border-top-left-radius: 4px;
 	border-top-right-radius: 4px;
 }
 
-.navbar-default .navbar-nav>li>a {
-	width: 200px;
+.navbar-default .navbar-nav>li>a {	
 	font-weight: bold;
+	text-transform: uppercase;
 }
 
 .mega-dropdown {
@@ -151,17 +164,17 @@ body {
 	display: block;
 }
 
-.arrow1,.arrow2 {
+.arrow1,.arrow2,.arrow3,.arrow4,.arrow5 {
 	position: absolute;
 	z-index: 99999;
 	display: none;
 }
 
-.open .arrow1,.open .arrow2 {
+.open .arrow1,.open .arrow2,.open .arrow3,.open .arrow4,.open .arrow5 {
 	display: block;
 }
 
-.arrow1 span:after,.arrow2 span:after {
+.arrow1 span:after,.arrow2 span:after,.arrow3 span:after,.arrow4 span:after,.arrow5 span:after,.arrow5 span:before {
 	content: "";
 	border-bottom: 15px solid #fff;
 	border-right: 17px solid transparent;
@@ -171,7 +184,7 @@ body {
 	left: 2px;
 }
 
-.arrow1 span:before,.arrow2 span:before {
+.arrow1 span:before,.arrow2 span:before,.arrow3 span:before,.arrow4 span:before,.arrow5 span:before,.arrow6 span:before  {
 	content: "";
 	border-bottom: 17px solid #ccc;
 	border-right: 19px solid transparent;
