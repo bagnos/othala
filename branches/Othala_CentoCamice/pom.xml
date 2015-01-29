@@ -240,6 +240,32 @@
 					</webResources>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>com.samaxes.maven</groupId>
+				<artifactId>minify-maven-plugin</artifactId>
+
+				<version>1.6.2</version>
+				<executions>
+					<execution>
+						<id>default-minify</id>
+						<configuration>
+							<webappSourceDir>${basedir}/src/main/webapp/resources</webappSourceDir>
+							<webappTargetDir>${basedir}/src/main/webapp/resources</webappTargetDir>
+							<cssSourceIncludes>
+								<cssSourceInclude>*.css</cssSourceInclude>
+							</cssSourceIncludes>
+							<cssSourceExcludes>
+							<cssSourceExclude>mainWeb.css</cssSourceExclude>
+							<cssSourceExclude>mainWeb.min.css</cssSourceExclude>
+							</cssSourceExcludes>
+							<cssFinalFile>mainWeb.css</cssFinalFile>
+						</configuration>
+						<goals>
+							<goal>minify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 
 
 			<!-- <plugin> <groupId>org.apache.tomcat.maven</groupId> <artifactId>tomcat7-maven-plugin</artifactId> 
