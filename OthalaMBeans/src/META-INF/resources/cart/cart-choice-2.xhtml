@@ -15,10 +15,10 @@
 		<meta name="description"
 			content="#{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.txType} #{cartFlowBean.detailProductFull.descriptionEN}"></meta>
 	</ui:define>
-	<ui:insert name="canonical">
+	<ui:define name="canonical">
 		<link rel="canonical"
 			href="http://#{request.serverName}#{request.contextPath}/cart/cart-choice-2.xhtml?idPrd=#{cartChoice2View.idProduct}" />
-	</ui:insert>	
+	</ui:define>	
 	<ui:define name="fb">
 		<meta itemprop="name" content="#{cartFlowBean.detailProductFull.txBrand}-#{cartFlowBean.detailProductFull.txType}"></meta>	
 		<meta property="fb:app_id" content="1462056920726471" />
