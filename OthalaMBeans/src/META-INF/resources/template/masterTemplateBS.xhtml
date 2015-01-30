@@ -14,7 +14,7 @@
 			</div>
 			<div class="container">
 				<ui:insert name="messageUser">
-					<p:messages  autoUpdate="true" globalOnly="true" closable="true" showDetail="true"
+					<p:messages autoUpdate="true" globalOnly="true" closable="true" showDetail="true"
 						showSummary="true"></p:messages>
 				</ui:insert>
 			</div>
@@ -58,26 +58,33 @@
 					});
 				}
 			}
-			else if (tipoMenu==1) {				
-				$(".nav li.mega-dropdown").eq( 0 ).append('<p class="arrow1 arrOw"><span></span></p>');
-				$(".nav li.mega-dropdown").eq( 1 ).append('<p class="arrow2 arrOw"><span></span></p>');			
-				$(".nav li.mega-dropdown").eq( 0 ).click(function () {				
-				    x = $(this).position();
-				    aa = x.left+75;
-				    $(this).find(".arrow1").css("left", aa);
-				});
-				$(".nav li.mega-dropdown").eq( 1 ).click(function () {				   
-				    x = $(this).position();
-				    aa = x.left + 75;
-				    $(this).find(".arrow2").css("left", aa);
-				});
-				$(".dropdown.mega-dropdown").hover(
+			else if (tipoMenu==1) {
+				if (window.innerWidth>=768)
+					{			
+				var items=$(".nav li.mega-dropdown");	
+				$.each(items, function( index, value ) {
+					  var i=index+1;
+					  
+					  if (i!=items.length)
+						  {
+					  $(value).append('<p class="arrow'+i+' arrOw"><span></span></p>');
+						  
+						/*
+					  $(value).click(function () {				
+						    x = $(value).position();
+						    aa = x.left+75;
+						    $(value).find(".arrow"+i).css("left", aa);
+						});*/
+							}
+					});
+							$(".dropdown.mega-dropdown").hover(
 				        function() { $('.dropdown-menu', this).fadeIn("fast");
 				        $('p',this).fadeIn("fast");
 				        },
 				        function() { $('.dropdown-menu', this).fadeOut("fast");
 				        $('p',this ).fadeOut("fast");
 				    });
+					}
 			}
 		}  
 	$(document).ready(function() {
