@@ -1,27 +1,33 @@
 @font-face {
-    font-family: 'sinkinregular';
-    src: url('sinkinsans-400regular-webfont.eot');
-    src: url('sinkinsans-400regular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('sinkinsans-400regular-webfont.woff') format('woff'),
-         url('sinkinsans-400regular-webfont.ttf') format('truetype'),
-         url('sinkinsans-400regular-webfont.svg#sinkin_sans400_regular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-
+	font-family: 'sinkinregular';
+	src: url("#{resource['fonts:sinkinsans-400regular-webfont.eot']}");
+	src: url("#{resource['fonts:sinkinsans-400regular-webfont.eot']}&#iefix")
+		format('embedded-opentype'),
+		url("#{resource['fonts:sinkinsans-400regular-webfont.woff']}") format('woff'),
+		url("#{resource['fonts:sinkinsans-400regular-webfont.ttf']}")
+		format('truetype'),
+		url("#{resource['fonts:sinkinsans-400regular-webfont.svg']}&#sinkinregular")
+		format('svg');
+	font-weight: normal;
+	font-style: normal;
 }
-
+}
 
 @font-face {
-    font-family: 'sinkinbold';
-    src: url('sinkinsans-700bold-webfont.eot');
-    src: url('sinkinsans-700bold-webfont.eot?#iefix') format('embedded-opentype'),
-         url('sinkinsans-700bold-webfont.woff') format('woff'),
-         url('sinkinsans-700bold-webfont.ttf') format('truetype'),
-         url('sinkinsans-700bold-webfont.svg#sinkin_sans700_bold') format('svg');
-    font-weight: normal;
-    font-style: normal;
-
+	font-family: 'sinkinbold';
+	src: url("#{resource['fonts:sinkinsans-700bold-webfont.eot']}");
+	src: url("#{resource['fonts:sinkinsans-700bold-webfont.eot']}&#iefix")
+		format('embedded-opentype'),
+		url("#{resource['fonts:sinkinsans-700bold-webfont.woff']}") format('woff'),
+		url("#{resource['fonts:sinkinsans-700bold-webfont.ttf']}")
+		format('truetype'),
+		url("#{resource['fonts:sinkinsans-700bold-webfont.svg']}&#sinkinbold")
+		format('svg');
+	font-weight: normal;
+	font-style: normal;
 }
+}
+
 
 .navbar-inverse {
 	/*background: url("#{resource['images/tessuto_camicia.jpg']}") !important;*/
@@ -250,4 +256,67 @@ html,body,form {
 .foot2-line {
 	color: #888 !important;
 	font-size: 14px !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.ui-widget {
+	font-family: sinkinregular !important;
+}
+
+.newPromo1 {
+	font-family: sinkinregular;
+
+}
+
+.newPromo2 {
+	font-family: sinkinregular;
+
+}
+
+.newPromo3 {
+	font-family: sinkinregular;
+
+}
+
+.newFlag2 {
+	font-family: sinkinregular;
+
+}
+
+.nav-tabs>li>a {
+	font-family: sinkinregular !important;
+}
+
+
+
+
+#tab-content a {
+	font-family: sinkinregular !important;
+}
+
+.foot1-title {
+	font-family: sinkinregular !important;
+}
+
+.foot2-line {
+	font-family: sinkinregular !important;
+}
+
+html,body,form {
+	font-family: "sinkinregular" !important;
+}
+
+.body {
+	font-family: sinkinregular !important;
 }
