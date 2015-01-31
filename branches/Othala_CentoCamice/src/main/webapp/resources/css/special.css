@@ -1,8 +1,7 @@
-.ui-widget {	
-	font-family: Arial,Helvetica,sans-serif;
+.ui-widget {
+	font-family: Arial, Helvetica, sans-serif;
 	color: rgb(57, 57, 57);
 }
-
 
 #newArr {
 	color: green !important;
@@ -12,9 +11,8 @@
 	color: red !important;
 }
 
-
-html,body,form {	
-	font-family: Arial,Helvetica,sans-serif;
+html,body,form {
+	font-family: Arial, Helvetica, sans-serif;
 	color: rgb(57, 57, 57);
 }
 
@@ -26,4 +24,7 @@ html,body,form {
 	border-left-color: #007ACC;
 }
 
-
+.foot2-line {
+	color: #888 !important;
+	font-size: 14px !important;
+}
