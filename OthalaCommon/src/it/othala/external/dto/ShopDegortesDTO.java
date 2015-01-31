@@ -7,7 +7,7 @@ public class ShopDegortesDTO {
 	private static final long serialVersionUID = 1L;
 
 	private Integer codMagaz;
-	private String DescrizioneNegozio;
+	private String DesNegozio;
 	private String txMail;
 	public Integer getCodMagaz() {
 		return codMagaz;
@@ -15,11 +15,11 @@ public class ShopDegortesDTO {
 	public void setCodMagaz(Integer codMagaz) {
 		this.codMagaz = codMagaz;
 	}
-	public String getDescrizioneNegozio() {
-		return DescrizioneNegozio;
+	public String getDesNegozio() {
+		return DesNegozio;
 	}
-	public void setDescrizioneNegozio(String descrizioneNegozio) {
-		DescrizioneNegozio = descrizioneNegozio;
+	public void setDesNegozio(String desNegozio) {
+		DesNegozio = desNegozio;
 	}
 	public String getTxMail() {
 		return txMail;
