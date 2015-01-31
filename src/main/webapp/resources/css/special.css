@@ -1,30 +1,8 @@
-.ui-widget {
-	font-family: ralewayregular !important;
+.ui-widget {	
+	font-family: Arial,Helvetica,sans-serif;
+	color: rgb(57, 57, 57);
 }
 
-.newPromo1 {
-font-family:ralewaybold !important;
-}
-
-.newPromo2 {
-font-family:ralewaybold !important;
-}
-
-.newPromo3 {
-font-family:ralewaybold !important;
-}
-
-html,body,form {
-	font-family:ralewaybold !important;
-}
-
-.newFlag2 {
-font-family:ralewaybold !important;
-}
-
-.nav-tabs>li>a {
-	font-family: ralewaybold !important;
-}
 
 #newArr {
 	color: green !important;
@@ -34,20 +12,10 @@ font-family:ralewaybold !important;
 	color: red !important;
 }
 
-#tab-content a {
-	font-family: ralewaybold !important;
-}
 
-.foot1-title {
-	font-family: ralewaybold !important;
-}
-
-.foot2-line {
-	font-family: ralewayregular !important;
-}
-
-html,body,form {
-	font-family: ralewayregular !important;
+html,body,form {	
+	font-family: Arial,Helvetica,sans-serif;
+	color: rgb(57, 57, 57);
 }
 
 .bwizard-steps .active {
