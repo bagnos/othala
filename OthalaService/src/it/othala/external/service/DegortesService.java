@@ -68,7 +68,7 @@ import it.othala.external.service.interfaces.IOthalaExternalServices;
 		ShopDegortesDTO shopDeg = externalDAO.getShopStock(codBarre);
 		ShopDTO shop = new ShopDTO();
 		shop.setIdShop(shopDeg.getCodMagaz());
-		shop.setTxShop(shopDeg.getDescrizioneNegozio());
+		shop.setTxShop(shopDeg.getDesNegozio());
 		//shop.setTxMail(shopDeg.getTxMail());
 		
 		return shop;
