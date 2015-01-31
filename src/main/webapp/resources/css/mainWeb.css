@@ -1,30 +1,29 @@
 @font-face {
-	font-family: 'ralewaybold';
-	src: url('#{resource[' fonts : Raleway-Bold.eot ']}');
-	src: url('#{resource[' fonts : Raleway-Bold.eot ']}&#iefix')
-		format('embedded-opentype'),
-		url('#{resource[' fonts : Raleway-Bold.woff ']}') format('woff'),
-		url('#{resource[' fonts : Raleway-Bold.ttf ']}') format('truetype'),
-		url('#{resource[' fonts : Raleway-Bold.svg ']}#Raleway-Bold')
-		format('svg');
-	font-weight: normal;
-	font-style: normal;
+    font-family: 'sinkinregular';
+    src: url('sinkinsans-400regular-webfont.eot');
+    src: url('sinkinsans-400regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('sinkinsans-400regular-webfont.woff') format('woff'),
+         url('sinkinsans-400regular-webfont.ttf') format('truetype'),
+         url('sinkinsans-400regular-webfont.svg#sinkin_sans400_regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
 }
 
+
 @font-face {
-	font-family: 'ralewayregular';
-	src: url('#{resource[' fonts : raleway-regular-webfont.eot ']}');
-	src: url('#{resource[' fonts : raleway-regular-webfont.eot ']}&#iefix')
-		format('embedded-opentype'),
-		url('#{resource[' fonts : raleway-regular-webfont.woff ']}')
-		format('woff'),
-		url('#{resource[' fonts : raleway-regular-webfont.ttf ']}')
-		format('truetype'),
-		url('#{resource[' fonts : raleway-regular-webfont.svg
-		']}#ralewayregular') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}.navbar-inverse {
+    font-family: 'sinkinbold';
+    src: url('sinkinsans-700bold-webfont.eot');
+    src: url('sinkinsans-700bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('sinkinsans-700bold-webfont.woff') format('woff'),
+         url('sinkinsans-700bold-webfont.ttf') format('truetype'),
+         url('sinkinsans-700bold-webfont.svg#sinkin_sans700_bold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+.navbar-inverse {
 	/*background: url("#{resource['images/tessuto_camicia.jpg']}") !important;*/
 	max-height: 100%;
 	background-color: #505050 !important;
@@ -223,7 +222,7 @@ h4 span {
 .mega-dropdown-menu:after,.mega-dropdown-menu:before {
 	border: none;
 }.ui-widget {
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: sinkinregular;
 	color: rgb(57, 57, 57);
 }
 
@@ -236,7 +235,7 @@ h4 span {
 }
 
 html,body,form {
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: sinkinregular;
 	color: rgb(57, 57, 57);
 }
 
