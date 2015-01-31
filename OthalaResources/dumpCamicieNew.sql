@@ -46,7 +46,7 @@ CREATE TABLE `addresses` (
   PRIMARY KEY (`idAddress`),
   KEY `fk_Addresses_Customer1` (`idUser`),
   CONSTRAINT `fk_Addresses_Customer1` FOREIGN KEY (`idUser`) REFERENCES `customer` (`idUser`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -55,7 +55,6 @@ CREATE TABLE `addresses` (
 
 LOCK TABLES `addresses` WRITE;
 /*!40000 ALTER TABLE `addresses` DISABLE KEYS */;
-INSERT INTO `addresses` VALUES (1,'jacopo.frediani@gmail.com','JACOPO','FREDIANI','STRADA CASSIA SUD 15/A','SIENA',53100,'SI','ITALIA','3392113342',0,'casa'),(2,'simone.bagnolesi@gmail.com','simone','bagnolesi','via aretina 89','siena',53100,'si','ITALIA','3332965518',0,'casa');
 /*!40000 ALTER TABLE `addresses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -96,7 +95,7 @@ CREATE TABLE `article` (
 
 LOCK TABLES `article` WRITE;
 /*!40000 ALTER TABLE `article` DISABLE KEYS */;
-INSERT INTO `article` VALUES (26,1,9,11,1,'thumb20141212125853994&056_67e9e8a5-d66d-44cd-a47c-cd3ea09fd7e1.JPG',1,'111111',1292.00,NULL,30),(26,2,10,11,1,'thumb20141212125853994&056_67e9e8a5-d66d-44cd-a47c-cd3ea09fd7e1.JPG',1,'111111',1292.00,NULL,30),(27,1,9,11,1,'thumb20141212130310393&126_7d3eddbf-a535-4b73-8fad-d8dcba0417de.JPG',1,'111112',1910.00,500.00,0),(28,1,26,13,1,'thumb20141212130809331&036_1bbd79c9-88f1-413f-bd28-c62935725194.JPG',1,'111113',690.00,NULL,0),(28,2,3,8,1,'thumb20141212130818063&033_1eb358a5-5e31-4e96-b8c7-764352cbb62a.JPG',1,'111113',690.00,NULL,0);
+INSERT INTO `article` VALUES (1,1,8,5,1,'thumb20141105110020651&PATREGDENJEATUUO_1_ori.jpeg',1,'PATREGDENJEATUUO',109.00,NULL,0),(1,2,9,5,1,'thumb20141105110020651&PATREGDENJEATUUO_1_ori.jpeg',1,'PATREGDENJEATUUO',109.00,NULL,0),(1,3,10,5,1,'thumb20141105110020651&PATREGDENJEATUUO_1_ori.jpeg',1,'PATREGDENJEATUUO',109.00,NULL,0),(2,1,16,5,1,'thumb20141105110245170&ABTSMABLUVISTUDO_1_ori.jpeg',1,'ABTSMABLUVISTUDO',109.00,NULL,20),(2,2,18,5,1,'thumb20141105110245170&ABTSMABLUVISTUDO_1_ori.jpeg',1,'ABTSMABLUVISTUDO',109.00,NULL,20),(2,3,17,13,1,'thumb20141105110246509&ABTSMAROSVISTUDO_1_ori.jpeg',1,'ABTSMABLUVISTUDO',109.00,NULL,20),(2,4,19,13,1,'thumb20141105110246509&ABTSMAROSVISTUDO_1_ori.jpeg',1,'ABTSMABLUVISTUDO',109.00,NULL,20);
 /*!40000 ALTER TABLE `article` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -115,7 +114,7 @@ CREATE TABLE `brand` (
   `idUser` varchar(100) DEFAULT NULL,
   `urlFoto` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`idBrand`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -124,7 +123,7 @@ CREATE TABLE `brand` (
 
 LOCK TABLES `brand` WRITE;
 /*!40000 ALTER TABLE `brand` DISABLE KEYS */;
-INSERT INTO `brand` VALUES (1,'LANVIN',NULL,NULL,NULL,NULL),(2,'BALMAIN',NULL,NULL,NULL,NULL),(3,'DSQUARED',NULL,NULL,NULL,NULL),(4,'MOSCHINO',NULL,NULL,NULL,NULL),(5,'DOLCE E GABBANA',NULL,NULL,NULL,NULL),(6,'STONE ISLAND',NULL,NULL,NULL,NULL),(7,'BLOCH',NULL,NULL,NULL,NULL),(8,'ARMANI',NULL,NULL,NULL,NULL),(9,'DIOR',NULL,NULL,NULL,NULL),(10,'SAINT LAURENT',NULL,NULL,NULL,NULL),(11,'ALEXANDER MCQUEEN',NULL,NULL,NULL,NULL),(12,'UGG AUSTRALIA',NULL,NULL,NULL,NULL),(13,'GIVENCHY',NULL,NULL,NULL,NULL),(14,'APRIL 77',NULL,NULL,NULL,NULL),(15,'VALENTINO',NULL,NULL,NULL,NULL),(16,'ANN DEMEULEMEESTER',NULL,NULL,NULL,NULL),(17,'JUST CAVALLI',NULL,NULL,NULL,NULL),(18,'DIESEL',NULL,NULL,NULL,NULL),(19,'EACH X OTHER',NULL,NULL,NULL,NULL);
+INSERT INTO `brand` VALUES (20,'KEATON',NULL,NULL,NULL,NULL),(21,'SWAROVSKI COMPONENTS',NULL,NULL,NULL,NULL),(22,'BURLINGTON',NULL,NULL,NULL,NULL),(23,'PAOLO DA PONTE',NULL,NULL,NULL,NULL),(24,'NENETTE',NULL,NULL,NULL,NULL),(25,'ANDERSON\'S',NULL,NULL,NULL,NULL),(26,'IL CENTIMETRO',NULL,NULL,NULL,NULL),(27,'GERMANO',NULL,NULL,NULL,NULL),(29,'AVIREX',NULL,NULL,NULL,NULL),(30,'RICHARD J. BROWN',NULL,NULL,NULL,NULL),(31,'SPIN',NULL,NULL,NULL,NULL),(32,'HAVANA & CO.',NULL,NULL,NULL,NULL),(33,'LEIDIRO\'',NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `brand` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -175,7 +174,7 @@ CREATE TABLE `campaigns` (
 
 LOCK TABLES `campaigns` WRITE;
 /*!40000 ALTER TABLE `campaigns` DISABLE KEYS */;
-INSERT INTO `campaigns` VALUES (1,'SALDI A/I 2014','2014-09-18','2014-12-31',70);
+INSERT INTO `campaigns` VALUES (1,'SALDI P/E 2014','2014-11-04','2014-12-31',50);
 /*!40000 ALTER TABLE `campaigns` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -200,7 +199,7 @@ CREATE TABLE `color` (
 
 LOCK TABLES `color` WRITE;
 /*!40000 ALTER TABLE `color` DISABLE KEYS */;
-INSERT INTO `color` VALUES (1,'en','ORANGE'),(1,'it','ARANCIONE'),(2,'en','SILVER'),(2,'it','ARGENTO'),(3,'en','BEIGE'),(3,'it','BEIGE'),(4,'en','WHITE'),(4,'it','BIANCO'),(5,'en','BLUE'),(5,'it','BLU'),(6,'en','LIGHT BLUE'),(6,'it','CELESTE'),(7,'en','DENIM'),(7,'it','DENIM'),(8,'en','YELLOW'),(8,'it','GIALLO'),(9,'en','GREY'),(9,'it','GRIGIO'),(10,'en','BROWN'),(10,'it','MARRONE'),(11,'en','BLACK'),(11,'it','NERO'),(12,'en','GOLD'),(12,'it','ORO'),(13,'en','ROSE'),(13,'it','ROSA'),(14,'en','RED'),(14,'it','ROSSO'),(15,'en','GREEN'),(15,'it','VERDE'),(16,'en','PURPLE'),(16,'it','VIOLA'),(17,'en','LEOPARD'),(17,'it','LEOPARD');
+INSERT INTO `color` VALUES (1,'en','ORANGE'),(1,'it','ARANCIONE'),(2,'en','SILVER'),(2,'it','ARGENTO'),(3,'en','BEIGE'),(3,'it','BEIGE'),(4,'en','WHITE'),(4,'it','BIANCO'),(5,'en','BLUE'),(5,'it','BLU'),(6,'en','LIGHT BLUE'),(6,'it','CELESTE'),(7,'en','DENIM'),(7,'it','DENIM'),(8,'en','YELLOW'),(8,'it','GIALLO'),(9,'en','GREY'),(9,'it','GRIGIO'),(10,'en','BROWN'),(10,'it','MARRONE'),(11,'en','BLACK'),(11,'it','NERO'),(12,'en','GOLD'),(12,'it','ORO'),(13,'en','ROSE'),(13,'it','ROSA'),(14,'en','RED'),(14,'it','ROSSO'),(15,'en','GREEN'),(15,'it','VERDE'),(16,'en','PURPLE'),(16,'it','VIOLA'),(17,'en','LEOPARD'),(17,'it','LEOPARD'),(18,'en','MULTICOLOR'),(18,'it','MULTICOLOR');
 /*!40000 ALTER TABLE `color` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -225,7 +224,7 @@ CREATE TABLE `configuration` (
 
 LOCK TABLES `configuration` WRITE;
 /*!40000 ALTER TABLE `configuration` DISABLE KEYS */;
-INSERT INTO `configuration` VALUES ('1','Configurazione txBarcode - se 0 a livello di prodotto, se 1 a livello di articolo',1);
+INSERT INTO `configuration` VALUES ('1','Configurazione txBarcode - se 0 a livello di prodotto, se 1 a livello di articolo',0);
 /*!40000 ALTER TABLE `configuration` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -283,7 +282,7 @@ CREATE TABLE `customer` (
 
 LOCK TABLES `customer` WRITE;
 /*!40000 ALTER TABLE `customer` DISABLE KEYS */;
-INSERT INTO `customer` VALUES ('jacopo.frediani@gmail.com','benito79','JACOPO','FREDIANI',NULL,2),('shop@magboutique.it','shop@mag','A','A','A',1),('simone.bagnolesi@gmail.com','didone1976','simone','bagnolesi',NULL,2);
+INSERT INTO `customer` VALUES ('1','ANTANI','A','A','A',1);
 /*!40000 ALTER TABLE `customer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -309,7 +308,7 @@ CREATE TABLE `customer_roles` (
 
 LOCK TABLES `customer_roles` WRITE;
 /*!40000 ALTER TABLE `customer_roles` DISABLE KEYS */;
-INSERT INTO `customer_roles` VALUES ('jacopo.frediani@gmail.com','CUSTOMER'),('shop@magboutique.it','AMMINISTRATORE'),('simone.bagnolesi@gmail.com','CUSTOMER');
+INSERT INTO `customer_roles` VALUES ('1','AMMINISTRATORE');
 /*!40000 ALTER TABLE `customer_roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -338,7 +337,7 @@ CREATE TABLE `delivery_cost` (
 
 LOCK TABLES `delivery_cost` WRITE;
 /*!40000 ALTER TABLE `delivery_cost` DISABLE KEYS */;
-INSERT INTO `delivery_cost` VALUES (1,'SPEDIZIONE GRATUITA',0.00,0,'GLS Parcel camionistico',NULL),(2,'GLS Zefiro via aerea',9.74,0,'GLS Zefiro via aerea',NULL),(3,'GLS Zefiro via aerea',20.04,0,'GLS Zefiro via aerea',NULL),(4,'GLS Zefiro via aerea',17.19,0,'GLS Zefiro via aerea',NULL),(5,'GLS Zefiro via aerea',17.43,0,'GLS Zefiro via aerea',NULL),(6,'GLS Zefiro via aerea',19.56,0,'GLS Zefiro via aerea',NULL),(7,'GLS Zefiro via aerea',34.15,0,'GLS Zefiro via aerea',NULL),(8,'GLS Zefiro via aerea',48.94,0,'GLS Zefiro via aerea',NULL),(9,'GLS Zefiro via aerea',49.46,0,'GLS Zefiro via aerea',NULL),(10,'GLS Parcel camionistico',13.80,0,'GLS Parcel camionistico',NULL),(11,'GLS Parcel camionistico',14.05,0,'GLS Parcel camionistico',NULL),(12,'GLS Parcel camionistico',15.70,0,'GLS Parcel camionistico',NULL),(13,'GLS Parcel camionistico',16.76,0,'GLS Parcel camionistico',NULL),(14,'GLS Parcel camionistico',17.25,0,'GLS Parcel camionistico',NULL),(15,'GLS Parcel camionistico',18.97,0,'GLS Parcel camionistico',NULL),(16,'GLS Parcel camionistico',19.35,0,'GLS Parcel camionistico',NULL),(17,'GLS Parcel camionistico',20.45,0,'GLS Parcel camionistico',NULL),(18,'GLS Parcel camionistico',21.48,0,'GLS Parcel camionistico',NULL),(19,'GLS Parcel camionistico',23.66,0,'GLS Parcel camionistico',NULL),(20,'GLS Parcel camionistico',25.88,0,'GLS Parcel camionistico',NULL),(21,'GLS Parcel camionistico',27.46,0,'GLS Parcel camionistico',NULL),(22,'GLS Parcel camionistico',28.34,0,'GLS Parcel camionistico',NULL),(23,'GLS Parcel camionistico',28.59,0,'GLS Parcel camionistico',NULL),(24,'GLS Parcel camionistico',30.68,0,'GLS Parcel camionistico',NULL),(25,'GLS Parcel camionistico',31.45,0,'GLS Parcel camionistico',NULL),(26,'GLS Parcel camionistico',36.73,0,'GLS Parcel camionistico',NULL),(27,'GLS Parcel camionistico',40.91,0,'GLS Parcel camionistico',NULL),(28,'GLS Parcel camionistico',41.35,0,'GLS Parcel camionistico',NULL),(29,'GLS Parcel camionistico',45.30,0,'GLS Parcel camionistico',NULL);
+INSERT INTO `delivery_cost` VALUES (1,'GLS Parcel camionistico',7.90,0,'GLS Parcel camionistico',NULL),(2,'GLS Zefiro via aerea',9.74,0,'GLS Zefiro via aerea',NULL),(3,'GLS Zefiro via aerea',20.04,0,'GLS Zefiro via aerea',NULL),(4,'GLS Zefiro via aerea',17.19,0,'GLS Zefiro via aerea',NULL),(5,'GLS Zefiro via aerea',17.43,0,'GLS Zefiro via aerea',NULL),(6,'GLS Zefiro via aerea',19.56,0,'GLS Zefiro via aerea',NULL),(7,'GLS Zefiro via aerea',34.15,0,'GLS Zefiro via aerea',NULL),(8,'GLS Zefiro via aerea',48.94,0,'GLS Zefiro via aerea',NULL),(9,'GLS Zefiro via aerea',49.46,0,'GLS Zefiro via aerea',NULL),(10,'GLS Parcel camionistico',13.80,0,'GLS Parcel camionistico',NULL),(11,'GLS Parcel camionistico',14.05,0,'GLS Parcel camionistico',NULL),(12,'GLS Parcel camionistico',15.70,0,'GLS Parcel camionistico',NULL),(13,'GLS Parcel camionistico',16.76,0,'GLS Parcel camionistico',NULL),(14,'GLS Parcel camionistico',17.25,0,'GLS Parcel camionistico',NULL),(15,'GLS Parcel camionistico',18.97,0,'GLS Parcel camionistico',NULL),(16,'GLS Parcel camionistico',19.35,0,'GLS Parcel camionistico',NULL),(17,'GLS Parcel camionistico',20.45,0,'GLS Parcel camionistico',NULL),(18,'GLS Parcel camionistico',21.48,0,'GLS Parcel camionistico',NULL),(19,'GLS Parcel camionistico',23.66,0,'GLS Parcel camionistico',NULL),(20,'GLS Parcel camionistico',25.88,0,'GLS Parcel camionistico',NULL),(21,'GLS Parcel camionistico',27.46,0,'GLS Parcel camionistico',NULL),(22,'GLS Parcel camionistico',28.34,0,'GLS Parcel camionistico',NULL),(23,'GLS Parcel camionistico',28.59,0,'GLS Parcel camionistico',NULL),(24,'GLS Parcel camionistico',30.68,0,'GLS Parcel camionistico',NULL),(25,'GLS Parcel camionistico',31.45,0,'GLS Parcel camionistico',NULL),(26,'GLS Parcel camionistico',36.73,0,'GLS Parcel camionistico',NULL),(27,'GLS Parcel camionistico',40.91,0,'GLS Parcel camionistico',NULL),(28,'GLS Parcel camionistico',41.35,0,'GLS Parcel camionistico',NULL),(29,'GLS Parcel camionistico',45.30,0,'GLS Parcel camionistico',NULL);
 /*!40000 ALTER TABLE `delivery_cost` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -446,7 +445,7 @@ CREATE TABLE `gender` (
 
 LOCK TABLES `gender` WRITE;
 /*!40000 ALTER TABLE `gender` DISABLE KEYS */;
-INSERT INTO `gender` VALUES (1,'en','Man'),(1,'it','Uomo'),(2,'en','Woman'),(2,'it','Donna'),(3,'en','Boy'),(3,'it','Bambino'),(4,'en','Girl'),(4,'it','Bambina'),(5,'en','Unisex'),(5,'it','Unisex');
+INSERT INTO `gender` VALUES (1,'en','MAN'),(1,'it','UOMO'),(2,'en','WOMAN'),(2,'it','DONNA');
 /*!40000 ALTER TABLE `gender` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -474,7 +473,7 @@ CREATE TABLE `group_images` (
 
 LOCK TABLES `group_images` WRITE;
 /*!40000 ALTER TABLE `group_images` DISABLE KEYS */;
-INSERT INTO `group_images` VALUES ('carousel','images/home',20,761,1140,0),('new','images/home',1,130,260,0),('newArrivals','images/home',6,580,580,1),('promo','images/home',1,130,260,0),('tabNav','images/home',6,130,260,1);
+INSERT INTO `group_images` VALUES ('carousel','images/home',20,1080,1560,0),('new','images/home',1,130,260,0),('newArrivals','images/home',6,960,960,1),('promo','images/home',1,130,260,0),('tabNav','images/home',6,130,260,1);
 /*!40000 ALTER TABLE `group_images` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -552,7 +551,7 @@ CREATE TABLE `material` (
 
 LOCK TABLES `material` WRITE;
 /*!40000 ALTER TABLE `material` DISABLE KEYS */;
-INSERT INTO `material` VALUES (1,'en','COTTON'),(1,'it','COTONE'),(2,'en','SILK'),(2,'it','SETA'),(3,'en','WOOL'),(3,'it','LANA'),(4,'en','LEATHER'),(4,'it','PELLE');
+INSERT INTO `material` VALUES (1,'en','COTTON'),(1,'it','COTONE'),(2,'en','SILK'),(2,'it','SETA'),(3,'en','BRUSHED CALF LEATHER'),(3,'it','VITELLO SPAZZOLATO'),(4,'en','NEOPRENE'),(4,'it','NEOPRENE'),(5,'en','POLIESTERE'),(5,'it','POLIESTERE'),(6,'en','ELASTAM'),(6,'it','ELASTAM'),(7,'en','VISCOSE'),(7,'it','VISCOSA');
 /*!40000 ALTER TABLE `material` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -646,7 +645,7 @@ CREATE TABLE `orders` (
   CONSTRAINT `fk_Orders_Delivery_Cost1` FOREIGN KEY (`idDeliveryCost`) REFERENCES `delivery_cost` (`idDeliveryCost`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_orders_FidelityCards1` FOREIGN KEY (`idFidelity`) REFERENCES `fidelitycards` (`idFidelity`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_orders_coupons1` FOREIGN KEY (`idCoupon`) REFERENCES `coupons` (`idCoupon`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -666,13 +665,14 @@ DROP TABLE IF EXISTS `orders_articles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `orders_articles` (
+  `idOrderArticle` int(11) NOT NULL AUTO_INCREMENT,
   `idOrder` int(11) NOT NULL,
   `idProdotto` int(11) NOT NULL,
   `pgArticle` int(11) NOT NULL,
   `qtArticle` int(11) NOT NULL,
   `imArticle` decimal(15,2) DEFAULT NULL,
   `txOrderArticle` varchar(10000) DEFAULT NULL,
-  PRIMARY KEY (`idOrder`,`idProdotto`,`pgArticle`),
+  PRIMARY KEY (`idOrderArticle`),
   KEY `fk_OrdersArticles_Article1_idx` (`idProdotto`,`pgArticle`),
   KEY `fk_OrdersArticles_Orders1_idx` (`idOrder`),
   CONSTRAINT `fk_OrdersArticles_Article1` FOREIGN KEY (`idProdotto`, `pgArticle`) REFERENCES `article` (`idProduct`, `pgArticle`) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -724,7 +724,7 @@ CREATE TABLE `product` (
   CONSTRAINT `fk_Product_Material1` FOREIGN KEY (`idMaterial`) REFERENCES `material` (`idMaterial`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_Product_Product_State1` FOREIGN KEY (`idProductState`) REFERENCES `product_state` (`idProductState`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_Product_Type1` FOREIGN KEY (`idType`) REFERENCES `type` (`idType`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -733,7 +733,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (26,1,5,13,1292,30,'thumb20141212125853994&056_67e9e8a5-d66d-44cd-a47c-cd3ea09fd7e1.JPG',1,'2015-01-19 12:59:19',NULL,3,NULL,NULL),(27,1,5,3,1910,0,'thumb20141212130310393&126_7d3eddbf-a535-4b73-8fad-d8dcba0417de.JPG',1,'2015-01-19 12:59:19',NULL,3,500,NULL),(28,2,20,15,690,0,'thumb20141212130818063&033_1eb358a5-5e31-4e96-b8c7-764352cbb62a.JPG',1,'2015-01-19 12:59:19',1,4,NULL,NULL);
+INSERT INTO `product` VALUES (1,1,16,27,109,0,'thumb20150131191736942&PATESTBLUCOTCHUO_1_ori.jpeg',1,'2015-01-30 11:00:51',1,1,NULL,NULL),(2,2,19,24,109,20,'thumb20150131192318937&ABTSMABLUVISTUDO_1_ori.jpeg',1,'2014-11-05 11:03:44',NULL,7,NULL,NULL);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -760,7 +760,7 @@ CREATE TABLE `product_description` (
 
 LOCK TABLES `product_description` WRITE;
 /*!40000 ALTER TABLE `product_description` DISABLE KEYS */;
-INSERT INTO `product_description` VALUES (26,'en','LIGHT WOOL GABARDINE SUIT'),(26,'it','ABITO IN GABARDINA DI LANA LEGGERA'),(27,'en','WOOL AND SILK BLEND TOKYO SUIT'),(27,'it','ABITO TOKYO IN LANA MISTO SETA'),(28,'en','65MM ROCKSTUD LEATHER PUMPS'),(28,'it','DECOLLET├ê \"ROCKSTUD\" IN PELLE 65MM');
+INSERT INTO `product_description` VALUES (1,'en','JEANS GERMANO REGULAR MADE IN ITALY SARTORIALE'),(1,'it','JEANS GERMANO REGULAR MADE IN ITALY SARTORIALE'),(2,'en','ABITO NENETTE BLU NAVY CON GEORGETTE'),(2,'it','ABITO NENETTE BLU NAVY CON GEORGETTE');
 /*!40000 ALTER TABLE `product_description` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -787,7 +787,7 @@ CREATE TABLE `product_image` (
 
 LOCK TABLES `product_image` WRITE;
 /*!40000 ALTER TABLE `product_image` DISABLE KEYS */;
-INSERT INTO `product_image` VALUES (26,1,'20141212125853994&056_67e9e8a5-d66d-44cd-a47c-cd3ea09fd7e1.JPG'),(26,2,'20141212125853946&056_62a572b8-fff6-45bb-9fd1-a62e92f36f9a.JPG'),(26,3,'20141212125854176&056_f30d981a-4328-4d9d-90e4-f5d57d8dfb47 (1).JPG'),(27,1,'20141212130310393&126_7d3eddbf-a535-4b73-8fad-d8dcba0417de.JPG'),(27,2,'20141212130317826&126_fd3ec518-e9ac-499f-988c-06f2a2f4288e.JPG'),(27,3,'20141212130317861&126_0433937d-6f71-4eef-b33b-49d7bac974ce.JPG'),(28,1,'20141212130809331&036_1bbd79c9-88f1-413f-bd28-c62935725194.JPG'),(28,2,'20141212130818063&033_1eb358a5-5e31-4e96-b8c7-764352cbb62a.JPG'),(28,3,'20141212130818323&036_c89186f5-812d-42f7-be8c-13030095561b.JPG'),(28,4,'20141212130818290&036_7fab07d1-d8be-4582-bf31-fb485b1ea4b4.JPG');
+INSERT INTO `product_image` VALUES (1,1,'20150131191736942&PATESTBLUCOTCHUO_1_ori.jpeg'),(1,2,'20150131191736839&PATESTBLUCOTCHUO_2_ori.jpeg'),(2,1,'20150131192318937&ABTSMABLUVISTUDO_1_ori.jpeg'),(2,2,'20150131192318916&ABTSMABLUVISTUDO_2_ori.jpeg'),(2,3,'20150131192318949&ABTSMAROSVISTUDO_1_ori.jpeg');
 /*!40000 ALTER TABLE `product_image` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -873,6 +873,7 @@ DROP TABLE IF EXISTS `refound_articles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `refound_articles` (
+  `idRefoundArticle` int(11) NOT NULL AUTO_INCREMENT,
   `idRefound` int(11) NOT NULL,
   `idProdotto` int(11) NOT NULL,
   `pgArticle` int(11) NOT NULL,
@@ -881,7 +882,7 @@ CREATE TABLE `refound_articles` (
   `txChangeRefound` varchar(250) DEFAULT NULL,
   `pgArticleNew` int(11) DEFAULT NULL,
   `imArticle` decimal(15,2) DEFAULT NULL,
-  PRIMARY KEY (`idRefound`,`idProdotto`,`pgArticle`),
+  PRIMARY KEY (`idRefoundArticle`),
   KEY `fk_OrdersArticles_Article1_idx` (`idProdotto`,`pgArticle`),
   KEY `fk_Refound_Articles_Order_Refound1_idx` (`idRefound`),
   CONSTRAINT `fk_OrdersArticles_Article10` FOREIGN KEY (`idProdotto`, `pgArticle`) REFERENCES `article` (`idProduct`, `pgArticle`) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -950,7 +951,7 @@ CREATE TABLE `shops` (
 
 LOCK TABLES `shops` WRITE;
 /*!40000 ALTER TABLE `shops` DISABLE KEYS */;
-INSERT INTO `shops` VALUES (1,'Siena - via Banchi di Sotto','adunatasoftware@gmail.com','Degortes Outlet','Via Banchi di Sotto, 19 - 21','Siena',53100,'SI','Italia','+390577281103 '),(2,'Magazzino Badesse','adunatasoftware@gmail.com','Degortes Outlet','Via della Resistenza, 117/C','Siena',53100,'SI','Italia','+390577309334 ');
+INSERT INTO `shops` VALUES (1,'Siena','jacopo.frediani@banca.mps.it','100% Camicie','Via Camollia, 82-84','Siena',53100,'SI','Italia','+39 0577 221311');
 /*!40000 ALTER TABLE `shops` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -978,7 +979,7 @@ CREATE TABLE `site_images` (
 
 LOCK TABLES `site_images` WRITE;
 /*!40000 ALTER TABLE `site_images` DISABLE KEYS */;
-INSERT INTO `site_images` VALUES ('carousel',1,'A2.jpg',NULL,NULL,NULL),('carousel',2,'A1.jpg',NULL,NULL,NULL),('carousel',3,'A3.jpg',NULL,NULL,NULL),('carousel',4,'A4.jpg',NULL,NULL,NULL),('new',1,'new.png',NULL,NULL,NULL),('newArrivals',1,'newuomo2.jpg',1,'/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=true&idSubMenu=0&idCampaign=0',NULL),('newArrivals',2,'newdonna2.jpg',2,'/cart/cart-catalog.xhtml?idMenu=2&fgNewArrivals=true&idSubMenu=0&idCampaign=0',NULL),('promo',1,'promo.png',NULL,NULL,NULL),('tabNav',1,'uomo.png',1,NULL,NULL),('tabNav',2,'donna.png',2,NULL,NULL),('tabNav',3,'bambino.png',3,NULL,NULL),('tabNav',4,'bambina.png',4,NULL,NULL),('tabNav',5,'unisex.png',5,NULL,NULL);
+INSERT INTO `site_images` VALUES ('carousel',1,'carousel1.jpg',NULL,NULL,'100% camicie'),('carousel',2,'carousel2.jpg',NULL,NULL,'100% camicie'),('carousel',3,'carousel3.jpg',NULL,NULL,'100% camicie'),('carousel',4,'carousel4.jpg',NULL,NULL,'100% camicie'),('carousel',5,'carousel5.jpg',NULL,NULL,'100% camicie'),('carousel',6,'carousel6.jpg',NULL,NULL,'100% camicie'),('new',1,'new.png',NULL,NULL,'100% camicie'),('newArrivals',1,'newuomo2.png',1,'/cart/cart-catalog.xhtml?idMenu=1&fgNewArrivals=true&idSubMenu=0&idCampaign=0','100% camicie'),('newArrivals',2,'newdonna2.png',2,'/cart/cart-catalog.xhtml?idMenu=2&fgNewArrivals=true&idSubMenu=0&idCampaign=0','100% camicie'),('promo',1,'promo.png',NULL,NULL,'100% camicie'),('tabNav',1,'logoUomoOK.png',1,NULL,'100% camicie'),('tabNav',2,'logoDonnaOK.png',2,NULL,'100% camicie');
 /*!40000 ALTER TABLE `site_images` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1002,7 +1003,7 @@ CREATE TABLE `size` (
 
 LOCK TABLES `size` WRITE;
 /*!40000 ALTER TABLE `size` DISABLE KEYS */;
-INSERT INTO `size` VALUES (1,'34'),(2,'36'),(3,'38'),(4,'40'),(5,'42'),(6,'44'),(7,'46'),(8,'48'),(9,'50'),(10,'52'),(11,'54'),(12,'56'),(13,'58'),(14,'60'),(15,'XXS'),(16,'XS'),(17,'S'),(18,'M'),(19,'L'),(20,'XL'),(21,'XXL'),(22,'U'),(24,'35'),(26,'37'),(28,'39'),(30,'41'),(32,'43'),(34,'45'),(36,'47'),(37,'24'),(38,'25'),(39,'26'),(40,'27'),(41,'28'),(42,'29'),(43,'30'),(44,'31'),(45,'32'),(46,'33'),(47,'36 1/2'),(48,'37 1/2'),(49,'38 1/2'),(50,'39 1/2');
+INSERT INTO `size` VALUES (1,'34'),(2,'36'),(3,'38'),(4,'40'),(5,'42'),(6,'44'),(7,'46'),(8,'48'),(9,'50'),(10,'52'),(11,'54'),(12,'56'),(13,'58'),(14,'60'),(15,'XXS'),(16,'XS'),(17,'S'),(18,'M'),(19,'L'),(20,'XL'),(21,'XXL'),(22,'U'),(24,'35'),(26,'37'),(28,'39'),(30,'41'),(32,'43'),(34,'45'),(36,'47'),(37,'24'),(38,'25'),(39,'26'),(40,'27'),(41,'28'),(42,'29'),(43,'30'),(44,'31'),(45,'32'),(46,'33');
 /*!40000 ALTER TABLE `size` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1027,7 +1028,7 @@ CREATE TABLE `states` (
 
 LOCK TABLES `states` WRITE;
 /*!40000 ALTER TABLE `states` DISABLE KEYS */;
-INSERT INTO `states` VALUES (1,'INSERITO'),(2,'CANCELEDREVERSAL'),(3,'COMPLETED'),(4,'DENIED'),(5,'EXPIRED'),(6,'FAILED'),(7,'INPROGRESS'),(8,'PARTIALLYREFUNDED'),(9,'PENDING'),(10,'REFUNDED'),(11,'REVERSED'),(12,'PROCESSED'),(13,'VOIDED'),(14,'COMPLETEDFUNDSHELD'),(15,'SPEDITO'),(100,'REQUEST REFOUND'),(101,'REFOUND COMPLETED'),(102,'REFOUND REFUSED'),(103,'REFOUND CANCELED'),(200,'REQUEST CHANGE'),(201,'CHANGE COMPLETED'),(202,'CHANGE REFUSED'),(203,'CHANGE CANCELED'),(204,'INSTANT');
+INSERT INTO `states` VALUES (1,'INSERITO'),(2,'CANCELEDREVERSAL'),(3,'COMPLETED'),(4,'DENIED'),(5,'EXPIRED'),(6,'FAILED'),(7,'INPROGRESS'),(8,'PARTIALLYREFUNDED'),(9,'PENDING'),(10,'REFUNDED'),(11,'REVERSED'),(12,'PROCESSED'),(13,'VOIDED'),(14,'COMPLETEDFUNDSHELD'),(15,'SPEDITO'),(100,'REQUEST REFOUND'),(101,'REFOUND COMPLETED'),(102,'REFOUND REFUSED'),(103,'REFOUND CANCELED'),(200,'REQUEST CHANGE'),(201,'CHANGE COMPLETED'),(202,'CHANGE REFUSED'),(203,'CHANGE CANCELED');
 /*!40000 ALTER TABLE `states` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1110,7 +1111,7 @@ CREATE TABLE `type` (
 
 LOCK TABLES `type` WRITE;
 /*!40000 ALTER TABLE `type` DISABLE KEYS */;
-INSERT INTO `type` VALUES (1,'en','ACCESSORIES'),(1,'it','ACCESSORI'),(2,'en','SHORTS'),(2,'it','BERMUDA'),(3,'en','SHIRTS'),(3,'it','CAMICIE'),(4,'en','COATS'),(4,'it','CAPPOTTI'),(5,'en','SUITS'),(5,'it','COMPLETI'),(6,'en','SWIMWEAR'),(6,'it','COSTUMI DA BAGNO'),(7,'en','SWEATSHIRTS'),(7,'it','FELPE'),(8,'en','JACKETS'),(8,'it','GIACCHE'),(9,'en','LEATHER JACKETS'),(9,'it','GIACCHE DI PELLE'),(10,'en','GILET'),(10,'it','GILET'),(11,'en','CASUAL JACKETS'),(11,'it','GIUBBOTTI'),(12,'en','SKIRTS'),(12,'it','GONNE'),(13,'en','UNDERWEAR'),(13,'it','INTIMO'),(14,'en','JEANS'),(14,'it','JEANS'),(15,'en','KNITWEAR'),(15,'it','MAGLIERIA'),(16,'en','PANTS'),(16,'it','PANTALONI'),(17,'en','FUR AND SHEARLING'),(17,'it','PELLICCE E SHEARLING'),(18,'en','DOWN JACKETS'),(18,'it','PIUMINI'),(19,'en','POLOS'),(19,'it','POLO'),(20,'en','SHOES'),(20,'it','SCARPE'),(21,'en','T-SHIRTS'),(21,'it','T-SHIRTS'),(22,'en','VESTS'),(22,'it','VESTITI');
+INSERT INTO `type` VALUES (1,'en','CUFFLINKS'),(1,'it','GEMELLI'),(3,'en','SHIRTS'),(3,'it','CAMICIE'),(4,'en','SLINGS'),(4,'it','BRETELLE'),(5,'en','SCARFS & FOULARDS'),(5,'it','SCIARPE E FOULARDS'),(7,'en','POCHETTES'),(7,'it','POCHETTES'),(8,'en','TIES'),(8,'it','CRAVATTE'),(9,'en','BELTS'),(9,'it','CINTURE'),(11,'en','SOCKS'),(11,'it','CALZINI'),(12,'en','HANDMADE JEWELRY'),(12,'it','BIGIOTTERIA ARTIGIANALE'),(15,'en','HANDMADE SHOES'),(15,'it','SCARPE ARTIGIANALI'),(16,'en','PANTS'),(16,'it','PANTALONI'),(17,'en','KNITWEAR'),(17,'it','MAGLIERIA'),(18,'en','JACKETS'),(18,'it','GIACCHE'),(19,'en','SUITS'),(19,'it','ABITI'),(20,'en','SKIRTS'),(20,'it','GONNE');
 /*!40000 ALTER TABLE `type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1147,4 +1148,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-01-19 16:15:54
+-- Dump completed on 2015-01-31 19:25:29
