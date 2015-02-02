@@ -9,6 +9,8 @@ import it.othala.account.execption.UserNotFoundException;
 import it.othala.account.execption.UserNotResetStateException;
 import it.othala.dao.interfaces.IAccountDAO;
 import it.othala.dto.AccountDTO;
+import it.othala.dto.MailDTO;
+import it.othala.dto.MailGroupDTO;
 import it.othala.dto.MailPropertiesDTO;
 import it.othala.enums.TypeCustomerState;
 import it.othala.service.interfaces.IAccountService;
@@ -260,4 +262,52 @@ public class AccountService implements IAccountService {
 				mail);
 	}
 
+	@Override
+	public void insertMail(Integer idMailGroup, String txUser) {
+		accountDAO.insertMail(idMailGroup, txUser);
+		
+	}
+
+	@Override
+	public void updateMail(Integer idMail, Integer idMailGroup, String txUser) {
+		accountDAO.updateMail(idMail, idMailGroup, txUser);
+		
+	}
+
+	@Override
+	public void deleteMail(Integer idMail) {
+		accountDAO.deleteMail(idMail);
+		
+	}
+
+	@Override
+	public void insertMailGroup(String txMailGroup) {
+		accountDAO.insertMailGroup(txMailGroup);
+		
+	}
+
+	@Override
+	public void updateMailGroup(Integer idMailGroup, String txMailGroup) {
+		accountDAO.updateMailGroup(idMailGroup,txMailGroup);
+		
+	}
+
+	@Override
+	public void deleteMailGroup(Integer idMailGroup) {
+		accountDAO.deleteMailGroup(idMailGroup);
+		
+	}
+
+	@Override
+	public List<MailGroupDTO> listMailGroup(Integer idMailGroup) {
+
+		return accountDAO.listMailGroup(idMailGroup);
+	}
+
+	@Override
+	public List<MailDTO> listMail(Integer idMailGroup, String txUser) {
+		return accountDAO.listMail(idMailGroup,txUser);
+	}
+
+	
 }
