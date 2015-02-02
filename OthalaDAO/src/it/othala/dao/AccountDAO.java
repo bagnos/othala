@@ -119,21 +119,23 @@ public class AccountDAO extends SqlSessionDaoSupport implements IAccountDAO {
 	}
 
 	@Override
-	public void insertMail(Integer idMailGroup, String txUser) {
+	public void insertMail(Integer idMailGroup, String txUser, String txNome) {
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("idMailGroup", idMailGroup);
 		map.put("txUser", txUser);
+		map.put("txNome", txNome);
 		getSqlSession().insert("it.othala.account.queries.insertMail", map);
 
 		
 	}
 
 	@Override
-	public void updateMail(Integer idMail, Integer idMailGroup, String txUser) {
+	public void updateMail(Integer idMail, Integer idMailGroup, String txUser, String txNome) {
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("idMail", idMail);
 		map.put("idMailGroup", idMailGroup);
 		map.put("txUser", txUser);
+		map.put("txNome", txNome);
 		getSqlSession().update("it.othala.account.queries.updateMail", map);
 		
 	}

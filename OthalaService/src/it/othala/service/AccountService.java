@@ -263,14 +263,14 @@ public class AccountService implements IAccountService {
 	}
 
 	@Override
-	public void insertMail(Integer idMailGroup, String txUser) {
-		accountDAO.insertMail(idMailGroup, txUser);
+	public void insertMail(Integer idMailGroup, String txUser, String txNome) {
+		accountDAO.insertMail(idMailGroup, txUser, txNome);
 		
 	}
 
 	@Override
-	public void updateMail(Integer idMail, Integer idMailGroup, String txUser) {
-		accountDAO.updateMail(idMail, idMailGroup, txUser);
+	public void updateMail(Integer idMail, Integer idMailGroup, String txUser, String txNome) {
+		accountDAO.updateMail(idMail, idMailGroup, txUser, txNome);
 		
 	}
 

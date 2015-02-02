@@ -22,11 +22,18 @@ public class MailDTO implements Serializable {
 	public void setTxUser(String txUser) {
 		this.txUser = txUser;
 	}
+	public String getTxNome() {
+		return txNome;
+	}
+	public void setTxNome(String txNome) {
+		this.txNome = txNome;
+	}
 	private static final long serialVersionUID = 1L;
 
 	private Integer idMail;
 	private Integer idMailGroup;
 	private String txUser;
+	private String txNome;
 
 
 	

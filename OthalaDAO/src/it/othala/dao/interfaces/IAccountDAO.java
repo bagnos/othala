@@ -34,9 +34,9 @@ public interface IAccountDAO {
 	
 	public List<AccountDTO> getAccount(String cognome,String nome);
 
-	public void	insertMail(Integer idMailGroup, String txUser);
+	public void	insertMail(Integer idMailGroup, String txUser, String txNome);
 
-	public void updateMail(Integer idMail, Integer idMailGroup, String txUser);
+	public void updateMail(Integer idMail, Integer idMailGroup, String txUser, String txNome);
 
 	public void deleteMail(Integer idMail);
 
