@@ -97,9 +97,9 @@
 		${database.schema}mail
 		(
 		`idMailGroup`,
-		`txUser`)
+		`txUser`, `txNome`)
 		values
-		(#{idMailGroup},#{txUser})
+		(#{idMailGroup},#{txUser},#{txNome})
 
 	</insert>
 
@@ -125,7 +125,8 @@
 		SELECT
 		idMail,
 		idMailGroup,
-		txUser
+		txUser,
+		txNome
 		FROM ${database.schema}mail
 
 		<where>
@@ -144,7 +145,8 @@
 		UPDATE
 		${database.schema}mail
 		set idMailGroup=#{idMailGroup},
-		txUser=#{txUser}
+		txUser=#{txUser},
+		txNome=#{txNome}
 		where idMail =#{idMail}
 	</update>
 	

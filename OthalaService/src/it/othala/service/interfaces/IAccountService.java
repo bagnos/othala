@@ -48,8 +48,8 @@ public interface IAccountService {
 	public void richiediFidelity(String nome, String cognome, String email, String cell, String emailMerchant,
 			String site, MailPropertiesDTO mail) throws MailNotSendException;
 	
-	public void insertMail(Integer idMailGroup, String txUser);
-	public void updateMail(Integer idMail, Integer idMailGroup, String txUser);
+	public void insertMail(Integer idMailGroup, String txUser, String txNome);
+	public void updateMail(Integer idMail, Integer idMailGroup, String txUser, String txNome);
 	public void deleteMail(Integer idMail);
 	public void insertMailGroup(String txMailGroup);
 	public void updateMailGroup(Integer idMailGroup, String txMailGroup);
