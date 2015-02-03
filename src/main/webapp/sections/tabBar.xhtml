@@ -1,0 +1,120 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+	<div id="logo">
+		<a class="hidden-xs hidden-sm" href="#{request.contextPath}/home.xhtml">
+			<h:graphicImage library="images" styleClass="img-responsive" alt="logo #{msgSite.titleMerchant}"
+				title="#{msg.navTab_goHome}" name="logo2-small.png"></h:graphicImage>
+		</a>
+	</div>
+	<ul class="nav nav-tabs responsive" id="tabNav">
+		<ui:repeat var="menu" value="#{applicationBean.menu}"
+			varStatus="status">
+			<li><a href="##{menu.idGender}" data-toggle="tab"> <h:outputText
+						value="#{menu.txGender}" />
+			</a></li>
+		</ui:repeat>
+		<h:panelGroup rendered="#{applicationBean.menuFull.fgPromozioni}">
+			<li><a href="#promo2" id="promo" data-toggle="tab"> <h:outputText
+						value="#{msg.catalog_promo}" />
+			</a></li>
+		</h:panelGroup>
+		<h:panelGroup rendered="#{applicationBean.menuFull.fgNuoviArrivi}">
+			<li>			
+			<h:link value="#{menu.txGender}"     
+					outcome="/cart/cart-catalog.xhtml" class="trasparente">
+					<f:param name="idMenu" value="0"></f:param>
+					<f:param name="idSubMenu" value="0"></f:param>
+					<f:param name="fgNewArrivals" value="true"></f:param>
+					<f:param name="idCampaign" value="0"></f:param>
+					<h:outputText id="newArr" value="#{msg.catalog_newArrival}" />
+				</h:link>
+			</li>
+		</h:panelGroup>
+	</ul>
+	<div id="tab-content" class="tab-content responsive row col-sm-12">
+		<ui:repeat var="menu" value="#{applicationBean.menu}"
+			varStatus="status">
+			<div class="tab-pane" id="#{menu.idGender}">
+				<div class="row">
+					<div class="col-xs-1 col-md-2 hidden-xs">
+						<p:graphicImage styleClass="img-responsive" alt="#{menu.txGender}"
+							library="#{menu.imgLibrary}" name="#{menu.imgName}" />
+					</div>
+					<div class="col-xs-6 col-sm-4  spacer10">
+						<div class="row">
+							<div class="col-sm-6 col-md-4 border-brand"
+								style="color: #666666;font-family: sinkinbold; font-size: 14px;">#{msg.articoli}
+							</div>
+						</div>
+						<div class="row spacer10">
+							<ui:repeat var="submenu" value="#{menu.subMenu}"
+								varStatus="statusSub"> 
+								<div class="col-sm-12 col-md-4 spacer6" style="padding-left: 5px; padding-right: 5px;">
+									<h:link class="linkArt" value="#{submenu.txType}"
+										outcome="/cart/cart-catalog.xhtml">
+										<f:param name="idMenu" value="#{menu.idGender}"></f:param>
+										<f:param name="idSubMenu" value="#{submenu.idType}"></f:param>
+										<f:param name="fgNewArrivals" value="false"></f:param>
+										<f:param name="idCampaign" value="0"></f:param>
+										<f:param name="idSubMenuBrand" value="0"></f:param>
+									</h:link> 
+								</div>
+							</ui:repeat>
+						</div>
+					</div>
+					<div class="col-sm-6 col-xs-6  spacer10" style="border-left: 1px dotted #ccc"> 
+						<div class="row">
+							<div class="col-sm-12 border-brand" style="color: #666666;font-family: sinkinbold; font-size: 14px;">Brands</div>
+						</div>
+						<div class="row spacer10">
+							<ui:repeat var="submenu" value="#{menu.subMenuBrand}"
+								varStatus="statusSub">
+								<div class="col-sm-12 col-md-4 spacer6" >
+									<h:link styleClass="linkArt" value="#{submenu.txBrand}"
+										outcome="/cart/cart-catalog.xhtml">
+										<f:param name="idMenu" value="#{menu.idGender}"></f:param>
+										<f:param name="idSubMenu" value="0"></f:param>																			
+										<f:param name="idSubMenuBrand" value="#{submenu.idBrand}"></f:param>
+										<f:param name="fgNewArrivals" value="false"></f:param>
+										<f:param name="idCampaign" value="0"></f:param>										
+									</h:link>
+								</div>
+							</ui:repeat>
+						</div>
+					</div>
+				</div>
+			</div>
+		</ui:repeat>
+		<!-- promozioni -->		
+		<div class="tab-pane" id="promo2">
+			<div class="row">
+				<div class="col-xs-1 col-md-2 hidden-xs">
+					<p:graphicImage styleClass="img-responsive" alt="promotions"
+						library="#{applicationBean.menuFull.imgPromo.txLibrary}"
+						name="#{applicationBean.menuFull.imgPromo.txName}" />
+				</div>
+				<div class="col-xs-10  spacer10">
+					<div class="row">
+						<ui:repeat var="campaign" value="#{applicationBean.campaigns}">
+							<div class="col-sm-12">
+								<h:link styleClass="linkArt" value="#{campaign.txCampaign}"
+									outcome="/cart/cart-catalog.xhtml">
+									<f:param name="idMenu" value="0"></f:param>
+									<f:param name="idSubMenu" value="0"></f:param>
+									<f:param name="fgNewArrivals" value="false"></f:param>
+									<f:param name="idCampaign" value="#{campaign.idCampaign}"></f:param>
+									<f:param name="idSubMenuBrand" value="0"></f:param>
+								</h:link>
+							</div>
+						</ui:repeat>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</ui:composition>
