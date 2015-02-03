@@ -1,0 +1,70 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/masterTemplateBS.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+	<ui:define name="metadata">
+		<f:metadata>
+
+		</f:metadata>
+	</ui:define>
+
+
+	<ui:define name="title">
+		<h:outputText value="#{msg.footer_inf5}"></h:outputText>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<div class="container">
+
+			<div class="row">
+				<div class="col-sm-12">
+
+					<div id="header">
+						<div class="row">
+							<div class="col-sm-1">
+								<br />
+								<p:graphicImage styleClass="img-responsive" name="logoTab.png"
+									width="100" height="50" library="images/static"></p:graphicImage>
+							</div>
+							<div class="col-sm-11">
+								<br />
+								<h1>
+									<h:outputText value="#{msg.footer_inf5}" />
+								</h1>
+							</div>
+						</div>
+
+
+
+
+					</div>
+
+
+
+					<div id="content">
+						<h> Magazzino e Amministrazione<br />
+						<br />
+						Via della Resistenza, 117/C (Badesse) - 53035 Monteriggioni (SI) <br />
+						Tel: +390577309334 <br />
+						Email: magazzino@degortes.it <br />
+						Email: amministrazione@degortes.it <br />
+						<br />
+						<br />
+
+						KPP8 srl<br />
+						Via Banchi di Sotto 21 53100 Siena<br />
+						Partita Iva 01376520522 </h>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>
