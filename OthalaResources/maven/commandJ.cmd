@@ -1,3 +1,3 @@
-cd C:\Users\s505417\Documents\OTHALA\Sviluppo\Othala_CentoCamice
+cd C:\Users\s505417\Documents\OTHALA\Sviluppo\Othala_FS
 C:\Users\s505417\Documents\OTHALA\apache-maven-3.1.1\bin\mvn minify:minify -target process-resources
 @pause
