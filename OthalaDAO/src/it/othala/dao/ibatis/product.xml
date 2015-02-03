@@ -281,7 +281,7 @@
 		(#{txBrand},
 		#{idRegione},
 		#{idProvincia},
-		#{idProvincia},#{idUser},#{urlFoto})
+		#{idUser},#{urlFoto})
 
 		<selectKey resultType="java.lang.Integer" keyProperty="idBrand">
 
