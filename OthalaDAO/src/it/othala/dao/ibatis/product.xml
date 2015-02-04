@@ -1435,6 +1435,8 @@
 		${database.schema}product_info e,
 		${database.schema}infaggiuntive f
 		where a.idProduct = #{idProduct}
+		        and c.idProduct = a.idProduct
+        and e.idProduct = a.idProduct
 		and
 		a.idInformazione = b.idInformazione
 		and a.idLanguages = b.idLanguages
