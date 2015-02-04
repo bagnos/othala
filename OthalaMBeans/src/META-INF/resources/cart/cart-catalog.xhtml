@@ -162,9 +162,10 @@
 													<p:tooltip for="imgArt">														
 														<h:outputText value="#{msg.catalog_available}" />
 														<br />
-														<h:outputText value="#{msg.catalog_colors} #{art.colorsAsString}" />
+														<h:outputText value="#{msg.catalog_colors} #{art.colorsAsString}" rendered="#{art.tyProduct == null}"/>
 														<br />
-														<h:outputText value="#{msg.catalog_sizes} #{art.sizesAsString}" />
+														<h:outputText value="#{msg.catalog_sizes} #{art.sizesAsString}" rendered="#{art.tyProduct == null}"/>
+														<h:outputText value="#{msg.catalog_formati} #{art.sizesAsString}" rendered="#{art.tyProduct != null}"/>
 													</p:tooltip>
 												</div>
 											</div>
