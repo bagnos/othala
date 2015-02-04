@@ -28,12 +28,8 @@
 
 					<div id="header">
 						<div class="row">
-							<div class="col-sm-1">
-							<br/>
-								<p:graphicImage styleClass="img-responsive" name="logoTab.png"
-									width="100" height="50"  library="images/static"></p:graphicImage>
-							</div>
-							<div class="col-sm-11">						<br/>
+							<div class="col-sm-12">
+								<br />
 								<h1>
 									<h:outputText value="#{msg.footer_inf2}" />
 								</h1>
@@ -48,9 +44,22 @@
 
 
 					<div id="content">
-					
-					<h:outputText value="#{msgSite.aboutus}" escape="false" />
-					
+
+						<div class="row">
+							<div class="col-sm-4">
+								<br />
+								<p:graphicImage styleClass="img-responsive" name="banner.png"
+									library="images/static"></p:graphicImage>
+							</div>
+							<div class="col-sm-8">
+								<br />
+								<h:outputText value="#{msgSite.aboutus}" escape="false" />
+							</div>
+						</div>
+
+
+
+
 					</div>
 
 				</div>
