@@ -195,7 +195,7 @@ html,body,form {
 
 .tumblr_body>p {
 margin: 0px;
-	padding-top: 0px;
+	padding-top: 20px;
 	padding-bottom: 0px;
 	text-align: justify;
 }
@@ -204,7 +204,7 @@ margin: 0px;
 }
 
 .tumblr_title {
-	font-size: 18px;
+	font-size: 24px;
 	color: black !important;
 	font-family: arialMTbold !important;
 	padding-top: 10px;
