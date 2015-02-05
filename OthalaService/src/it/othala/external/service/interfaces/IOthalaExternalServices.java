@@ -14,5 +14,5 @@ public interface IOthalaExternalServices {
 	public int getQtStockLock(Integer idProduct, Integer pgArticle, String barcode);
 	public void updateStock(OrderFullDTO orderFull, boolean fgVendita);
 	public ShopDTO getShopStock(Integer idProduct, Integer pgArticle, String codBarre);
-	
+	public void aggiornaQtArticle(Integer idProduct);
 }

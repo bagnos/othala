@@ -3,6 +3,7 @@ package it.othala.external.service;
 import java.util.List;
 
 import it.othala.dao.interfaces.IProductDAO;
+import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.FidelityCardDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.ShopDTO;
@@ -72,6 +73,18 @@ import it.othala.external.service.interfaces.IOthalaExternalServices;
 		//shop.setTxMail(shopDeg.getTxMail());
 		
 		return shop;
+		
+	}
+
+	@Override
+	public void aggiornaQtArticle(Integer idProduct) {
+		List<ArticleFullDTO> arts = productDAO.listArticleFull(idProduct, "it", false);
+		
+		for(ArticleFullDTO art: arts){
+			
+			getQtStockLock(idProduct,art.getPgArticle(),art.getTxBarCode());
+			
+		}
 		
 	}
 
