@@ -68,6 +68,12 @@ class OthalaExternalService implements IOthalaExternalServices {
 		
 	}
 
+	@Override
+	public void aggiornaQtArticle(Integer idProduct) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 
 }

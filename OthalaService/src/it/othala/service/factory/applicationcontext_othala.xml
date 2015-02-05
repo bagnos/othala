@@ -38,7 +38,7 @@
 
 	<tx:advice id="txAdvice" transaction-manager="txManager">
 		<tx:attributes>
-			<tx:method name="get*" read-only="true" />
+			
 			<tx:method name="*" rollback-for="Throwable" />
 		</tx:attributes>
 	</tx:advice>
@@ -53,8 +53,9 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
-	<bean id="productService" class="it.othala.service.ProductService"
-		autowire="byType" />
+	<bean id="productService" class="it.othala.service.ProductService" autowire="byType">
+		<property name="externalService" ref="externalService" />
+	</bean>
 	<bean id="accountService" class="it.othala.service.AccountService"
 		autowire="byType" />
 	<bean id="mailService" class="it.othala.service.MailService" autowire="byType" />

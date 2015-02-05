@@ -19,13 +19,21 @@
 		</property>
 	</bean>
 
-	<!--  <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean"
+	<bean id="dataSourceJ" class="org.springframework.jndi.JndiObjectFactoryBean"
 		scope="singleton">
 		<property name="jndiName" value="${database.jndi_name}" />
 		<property name="resourceRef" value="true" />
-	</bean>-->
-	
-	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">  
+	</bean>
+
+
+	<bean id="SqlMapClientJ" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSourceJ" />
+		<property name="configLocation">
+			<value>it/othala/dao/ibatis/configuration.xml</value>
+		</property>
+	</bean>
+
+	<bean id="dataSourceM" class="org.springframework.jdbc.datasource.DriverManagerDataSource">  
      	<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>  
      	<property name="url" value="jdbc:sqlserver://46.37.27.103:49522;database=esolver_eventi;instanceName=SISTEMI"/>  
      	<property name="username" value="ecom_ev"/>  
@@ -33,8 +41,8 @@
 	</bean>
 
 
-	<bean id="SqlMapClient" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSource" ref="dataSource" />
+	<bean id="SqlMapClientM" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSourceM" />
 		<property name="configLocation">
 			<value>it/othala/external/dao/ibatis/configuration_ext.xml</value>
 		</property>
@@ -42,21 +50,20 @@
 
 	<!-- <jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/othala" /> -->
 
-	<tx:advice id="txAdvice" transaction-manager="txManager">
-		<tx:attributes>
-			<tx:method name="get*" read-only="true" />
-			<tx:method name="*" rollback-for="Throwable" />
-		</tx:attributes>
-	</tx:advice>
-
 	<aop:config>
 		<aop:pointcut id="txBeanMethods" expression="execution(* it.othala.external.service.*.*(..))" />
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="txBeanMethods" />
 	</aop:config>
 
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="*" rollback-for="Throwable" />
+		</tx:attributes>
+	</tx:advice>
+	
 	<bean id="txManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource" />
+		<property name="dataSource" ref="dataSourceJ" />
 	</bean>
 
 	
@@ -65,11 +72,11 @@
 	</bean>
 	
 	<bean id="externalDAO" class="it.othala.external.dao.ExternalDAO">
-		<property name="sqlSessionFactory" ref="SqlMapClient" />
+		<property name="sqlSessionFactory" ref="SqlMapClientM" />
 	</bean>
 	
 	<bean id="productDAO" class="it.othala.dao.ProductDAO">
-		<property name="sqlSessionFactory" ref="SqlMapClient" />
+		<property name="sqlSessionFactory" ref="SqlMapClientJ" />
 	</bean>
 		
 

@@ -19,6 +19,7 @@ import it.othala.dto.SubMenuDTO;
 import it.othala.dto.VetrinaDTO;
 import it.othala.execption.BarcodeNotPresentException;
 import it.othala.execption.OthalaException;
+import it.othala.external.service.interfaces.IOthalaExternalServices;
 import it.othala.service.interfaces.IProductService;
 
 import java.io.File;
@@ -32,6 +33,7 @@ import java.util.Set;
 public class ProductService implements IProductService {
 
 	private IProductDAO productDAO;
+	private IOthalaExternalServices externalService;
 
 	public void setArticleDAO(IProductDAO productDAO) {
 		this.productDAO = productDAO;
@@ -246,6 +248,8 @@ public class ProductService implements IProductService {
 	public ProductFullNewDTO getProductFull(String languages,
 			Integer idProduct, Boolean fgQtaZero) {
 
+		externalService.aggiornaQtArticle(idProduct);
+		
 		ProductFullNewDTO productFull = productDAO.getProductFull(languages,
 				idProduct);
 
@@ -536,6 +540,14 @@ public class ProductService implements IProductService {
 		// TODO Auto-generated method stub
 		List<ArticleCashedDTO> arts= productDAO.getArticlesMajorCached(language);
 		return arts;
+	}
+
+	public IOthalaExternalServices getExternalService() {
+		return externalService;
+	}
+
+	public void setExternalService(IOthalaExternalServices externalService) {
+		this.externalService = externalService;
 	}
 	
 	
