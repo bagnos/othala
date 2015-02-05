@@ -4,7 +4,7 @@
 
 	<select id="getQtStock" resultType="Integer" parameterType="java.lang.String">
 
-		SELECT MAX(QtaGiacUmMag) QTA 
+		SELECT COALESCE(MAX(QtaGiacUmMag),0) QTA 
 		FROM Y_ARTICOLI_VARIANTI 
 		WHERE CodBarre = #{barcode}
 
