@@ -15,6 +15,7 @@ public interface IAccountDAO {
 	public int existAccount(String email);
 
 	public AccountDTO getAccount(String email);
+	
 
 	public int deleteAccount(String email);
 

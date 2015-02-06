@@ -30,7 +30,7 @@
 			</if>
 			<if test="name!=null">
 				and txNome like #{name}
-			</if>
+			</if>			
 		</where>
 		order by txCognome,txNome
 	</select>
