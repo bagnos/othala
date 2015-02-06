@@ -182,7 +182,7 @@
 									<div class="col-sm-5">
 										<div class="form-group">
 											<p:commandButton styleClass="btnAddToWishList"
-												onclick="PF('dlgSize').show(); PF('dlgColor').hide();"
+												onclick="PF('dlgSize').show();"
 												id="cmdZise"
 												value="#{cartFlowBean.detailProductFull.tyProduct == 1 ? msg.catalog_chooseFormato : msg.catalog_chooseSize}"
 												style="margin: 0 5px 5px !important;" />
@@ -193,17 +193,7 @@
 											value="#{cartChoice2View.txSize}" />
 									</div>
 									<div class="col-sm-5">
-										<div class="form-group">
-											<p:commandButton styleClass="btnAddToWishList"
-												disabled="#{cartChoice2View.idSize==null}"
-												onclick="PF('dlgColor').show(); PF('dlgSize').hide();"
-												value="#{msg.catalog_chooseColor}" id="cmdColor"
-												style="margin: 0 5px 5px !important;" />
-										</div>
-										<h:commandButton onclick="return false;" id="selectedColor"
-											rendered="#{cartChoice2View.txColor!=null}" disabled="true"
-											styleClass="wish-list-tails"
-											value="#{cartChoice2View.txColor}" />
+										
 									</div>
 								</div>
 								<h:panelGroup style="display:none;" layout="block" id="qtaArt">
@@ -231,7 +221,7 @@
 								</div>
 							</h:panelGroup>
 							<br />
-							<h:panelGroup
+							<h:panelGroup id="pnl-prezzo"
 								rendered="#{cartChoice2View.qtaArticle !=null and cartChoice2View.qtaArticle !=0 }">
 								<div class="row" style="font-size: 16px;">
 									<div class="col-sm-3">
@@ -320,8 +310,7 @@
 				</div>
 
 
-				<h:panelGroup
-					rendered="#{cartFlowBean.detailProductFull.tyProduct != null and cartFlowBean.detailProductFull.tyProduct == 1}">
+				<h:panelGroup>
 					<ui:repeat var="inf"
 						value="#{cartFlowBean.detailProductFull.infAggiuntive}">
 						<div class="row">
@@ -391,7 +380,7 @@
 
 			<p:dialog widgetVar="dlgSize" id="dlgSize" width="190"
 				appendToBody="false" styleClass="borderSizeColor" showHeader="false"
-				header="#{msg.catalog_chooseSize}" closable="true"
+				header="#{msg.catalog_chooseFormato}" closable="true"
 				closeOnEscape="true" resizable="false">
 				<!-- <h6>#{msg.catalog_chooseSize}</h6>-->
 				<div class="row spacer30">
@@ -411,8 +400,8 @@
 							<f:selectItem itemLabel="#{msg.catalog_chooseSize}"
 								itemValue="-1" noSelectionOption="true" />
 							<f:selectItems value="#{cartChoice2View.sizeItems}"></f:selectItems>
-							<f:ajax execute="@this" render="pnl-scelte dlgColor"
-								listener="#{cartChoice2View.changeSize}"></f:ajax>
+							<f:ajax execute="@this" render="qtaArt add-cart pnl-scelte"
+								listener="#{cartChoice2View.changeFormato}"></f:ajax>
 						</h:selectOneMenu>
 					</div>
 				</div>
@@ -421,34 +410,7 @@
 						onclick="PF('dlgSize').hide()" />
 				</div>
 			</p:dialog>
-			<p:dialog widgetVar="dlgColor" id="dlgColor" width="210"
-				showHeader="false" styleClass="borderSizeColor"
-				header="#{msg.catalog_chooseColor}" closable="true"
-				closeOnEscape="true" resizable="false">
-				<div class="row spacer30">
-					<div class="col-sm-12" style="padding: 0px">
-						<ui:repeat var="colore" value="#{cartChoice2View.colorItems}">
-							<h:commandLink style="font-size: 11px !important;"
-								onclick="$('#selColor').val('#{colore.value}');$('#selColor').change();PF('dlgColor').hide(); return false;"
-								styleClass="wish-list-tails" value="#{colore.label}">
-							</h:commandLink>
-						</ui:repeat>
-					</div>
-					<h:selectOneMenu style="visibility:hidden;height:0px" id="selColor"
-						styleClass="form-control" label="#{msg.catalog_color}"
-						value="#{cartChoice2View.idColor}">
-						<f:selectItem itemLabel="#{msg.catalog_chooseColor}" itemValue=""
-							noSelectionOption="true" />
-						<f:selectItems value="#{cartChoice2View.colorItems}"></f:selectItems>
-						<f:ajax execute="@form" render="qtaArt add-cart pnl-scelte"
-							listener="#{cartChoice2View.changeColor}"></f:ajax>
-					</h:selectOneMenu>
-				</div>
-				<div class="footerSizeColor">
-					<span class="glyphicon glyphicon-remove footerClose"
-						onclick="PF('dlgColor').hide()" />
-				</div>
-			</p:dialog>
+
 		</h:form>
 	</ui:define>
 </ui:composition>

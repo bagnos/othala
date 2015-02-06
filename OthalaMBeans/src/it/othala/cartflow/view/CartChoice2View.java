@@ -306,6 +306,35 @@ public class CartChoice2View extends BaseView {
 		changeColor(null);
 	}
 	
+	
+	public void changeFormato(AjaxBehaviorEvent e) {
+		if (idSize != null && idSize.intValue() != 0) {
+			for (SelectItem s:sizeItems)
+			{
+				if (s.getValue().toString().equalsIgnoreCase(idSize.toString()))
+				{
+					txSize=s.getLabel();
+					break;
+				}
+			}
+			
+			colorItems = new ArrayList<>();
+			// colorItems.add(new SelectItem(-1,
+			// OthalaUtil.getWordBundle("catalog_chooseColor")));
+			for (ArticleFullDTO art : prdFull.getArticles()) {
+				if (art.getIdSize().intValue() == idSize.intValue())
+					idColor=art.getIdColor();
+					colorItems.add(new SelectItem(art.getIdColor(), art.getTxColor()));
+			}
+		} else {
+			colorItems = new ArrayList<>();
+			// colorItems.add(new SelectItem(-1,
+			// OthalaUtil.getWordBundle("catalog_chooseColor")));
+		}
+		changeColor(null);
+	}
+	
+	
 	public void selectSize(ActionEvent e) {
 		idSize=(Integer) e.getComponent().getAttributes().get("idSize");
 		txSize=(String)e.getComponent().getAttributes().get("txSize");
