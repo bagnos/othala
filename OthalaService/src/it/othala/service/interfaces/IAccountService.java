@@ -56,5 +56,6 @@ public interface IAccountService {
 	public void deleteMailGroup(Integer idMailGroup);
 	public List<MailGroupDTO> listMailGroup(Integer idMailGroup);
 	public List<MailDTO> listMail(Integer idMailGroup, String txUser);
+	public void sendMailNewsletter(List<MailDTO>users,String testo,String imageContenuto,String subject,MailPropertiesDTO mailProps) throws Exception;
 	
 	}
