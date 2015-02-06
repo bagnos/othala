@@ -1,24 +1,32 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
-	template="/template/masterTemplateBS.xhtml" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions"
-	xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:g="http://base.google.com/ns/1.0">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/masterTemplateBS.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:g="http://base.google.com/ns/1.0">
 	<ui:define name="metadata">
 		<f:metadata>
 			<f:viewAction action="#{homeView.doInit}"></f:viewAction>
 		</f:metadata>
 	</ui:define>
 	<ui:define name="canonical">
-		<link rel="canonical" href="http://#{request.serverName}#{request.contextPath}/home.xhtml" />
+		<link rel="canonical"
+			href="http://#{request.serverName}#{request.contextPath}/home.xhtml" />
 	</ui:define>
 	<ui:define name="fb">
 		<meta property="fb:app_id" content="1462056920726471" />
 		<meta property="og:type" content="product" />
 		<meta property="og:locale" content="en_US" />
 		<meta property="og:locale:alternate" content="it_IT" />
-		<meta property="og:url" content="http://#{request.serverName}#{request.contextPath}/home.xhtml" />
+		<meta property="og:url"
+			content="http://#{request.serverName}#{request.contextPath}/home.xhtml" />
 		<meta property="og:title" content="#{msgSite.nomeMerchant}" />
-		<meta property="og:description" content="Online Shopping #{msgSite.titleMerchant}" />
+		<meta property="og:description"
+			content="Online Shopping #{msgSite.titleMerchant}" />
 		<meta property="og:image"
 			content="http://#{request.serverName}#{request.contextPath}/javax.faces.resource/#{applicationBean.imgsCarousel[0].txName}.xhtml?ln=images/home" />
 	</ui:define>
@@ -61,18 +69,19 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
   })();
 </script>
 					</div>
-					<div style="float: right" class="fb-like" data-layout="button_count" data-share="true"
-						data-width="450" data-show-faces="true"></div>
+					<div style="float: right" class="fb-like"
+						data-layout="button_count" data-share="true" data-width="450"
+						data-show-faces="true"></div>
 				</div>
 			</div>
 			<div id="main-carousel" class="row">
 				<div class="col-sm-12">
 					<div id="owl-mainCarousel" class="owl-carousel">
 						<ui:repeat var="imgCar" value="#{applicationBean.imgsCarousel}">
-							<div class="item">							
-									<img title="#{imgCar.txAlt}" alt="#{imgCar.txAlt}" class="lazyOwl img-responsive"
-										style="margin: auto"
-										data-src="#{request.contextPath}/javax.faces.resource/#{imgCar.txName}.xhtml?ln=images/home" />
+							<div class="item">
+								<img title="#{imgCar.txAlt}" alt="#{imgCar.txAlt}"
+									class="lazyOwl img-responsive" style="margin: auto"
+									data-src="#{request.contextPath}/javax.faces.resource/#{imgCar.txName}.xhtml?ln=images/home" />
 							</div>
 						</ui:repeat>
 					</div>
@@ -122,23 +131,44 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 					<div id="owl-newArr" class="owl-carousel col-sm-12">
 						<ui:repeat var="art" value="#{homeView.articleNewArrivals}">
 							<div class="item">
-								<h:link outcome="cart/cart-choice-2" rendered="#{art.idProduct != null}">
-									<img title="#{art.txBrand} #{art.description}" alt="#{art.txBrand} #{art.description}"
+								<h:link outcome="cart/cart-choice-2"
+									rendered="#{art.idProduct != null and art.tyProduct == null}">
+									<img title="#{art.txBrand} #{art.description}"
+										alt="#{art.txBrand} #{art.description}"
+										class="lazyOwl img-responsive" style="margin: auto"
+										data-src="#{request.contextPath}/javax.faces.resource/#{art.thumbnailsUrl}.xhtml?ln=images/cartThumbinals" />
+									<f:param name="idPrd" value="#{art.idProduct}"></f:param>
+								</h:link>
+
+								<h:link outcome="cart/cart-choice-3"
+									rendered="#{art.idProduct != null and art.tyProduct != null and art.tyProduct == 1}">
+									<img title="#{art.txBrand} #{art.description}"
+										alt="#{art.txBrand} #{art.description}"
+										class="lazyOwl img-responsive" style="margin: auto"
+										data-src="#{request.contextPath}/javax.faces.resource/#{art.thumbnailsUrl}.xhtml?ln=images/cartThumbinals" />
+									<f:param name="idPrd" value="#{art.idProduct}"></f:param>
+								</h:link>
+
+								<h:link outcome="cart/cart-choice-4"
+									rendered="#{art.idProduct != null and art.tyProduct != null and art.tyProduct == 1}">
+									<img title="#{art.txBrand} #{art.description}"
+										alt="#{art.txBrand} #{art.description}"
 										class="lazyOwl img-responsive" style="margin: auto"
 										data-src="#{request.contextPath}/javax.faces.resource/#{art.thumbnailsUrl}.xhtml?ln=images/cartThumbinals" />
 									<f:param name="idPrd" value="#{art.idProduct}"></f:param>
 								</h:link>
 								<div class="row">
 									<div class="col-sm-12" style="text-align: center;">
-										<h5  style="text-transform: uppercase;">
+										<h5 style="text-transform: uppercase;">
 											<h:outputText id="descr" value="#{art.txBrand}" />
-										</h5>										
+										</h5>
 										<h3 style="color: #a59061">
 											<strong> <h:outputText value="#{art.price}"
 													styleClass="#{art.price != art.priceDiscounted?'onSale':''}">
 													<f:converter converterId="it.othala.BigDecimalConverter" />
 												</h:outputText> <h:outputText value="#{art.priceDiscounted}"
-													rendered="#{art.price != art.priceDiscounted}" style="padding-left: 5px;">
+													rendered="#{art.price != art.priceDiscounted}"
+													style="padding-left: 5px;">
 													<f:converter converterId="it.othala.BigDecimalConverter" />
 												</h:outputText>
 											</strong>
