@@ -175,26 +175,7 @@
 									value="#{cartFlowBean.detailProductFull.discount} %" />
 							</div>
 							<br />
-							<div class="row" style="font-size: 16px;">
-								<div class="col-sm-3">
-									<h:outputText value="#{msg.catalog_price}">
-									</h:outputText>
-								</div>
-								<div class="col-sm-3">
-									<h:outputText value="#{cartFlowBean.detailProductFull.price}"
-										styleClass="#{cartFlowBean.detailProductFull.discount!=null and cartFlowBean.detailProductFull.discount!=0?'onSale':''}">
-										<f:converter converterId="it.othala.BigDecimalConverter" />
-									</h:outputText>
-								</div>
-								<div class="col-sm-4">
-									<h:outputText
-										value="#{cartFlowBean.detailProductFull.priceDiscounted}"
-										rendered="#{cartFlowBean.detailProductFull.price != cartFlowBean.detailProductFull.priceDiscounted}">
-										<f:converter converterId="it.othala.BigDecimalConverter" />
-									</h:outputText>
-								</div>
-							</div>
-							<br />
+
 							<h:panelGroup layout="block" id="pnl-scelte"
 								rendered="#{cartChoice2View.disponibile and cartChoice2View.renderSize}">
 								<div class="row">
@@ -202,7 +183,8 @@
 										<div class="form-group">
 											<p:commandButton styleClass="btnAddToWishList"
 												onclick="PF('dlgSize').show(); PF('dlgColor').hide();"
-												id="cmdZise" value="#{cartFlowBean.detailProductFull.tyProduct == 1 ? msg.catalog_chooseFormato : msg.catalog_chooseSize}"
+												id="cmdZise"
+												value="#{cartFlowBean.detailProductFull.tyProduct == 1 ? msg.catalog_chooseFormato : msg.catalog_chooseSize}"
 												style="margin: 0 5px 5px !important;" />
 										</div>
 										<h:commandButton onclick="return false;"
@@ -210,10 +192,10 @@
 											styleClass="wish-list-tails"
 											value="#{cartChoice2View.txSize}" />
 									</div>
-									<div class="col-sm-5" >
-										<div class="form-group" >
+									<div class="col-sm-5">
+										<div class="form-group">
 											<p:commandButton styleClass="btnAddToWishList"
-												disabled="#{cartChoice2View.idSize==null}" 
+												disabled="#{cartChoice2View.idSize==null}"
 												onclick="PF('dlgColor').show(); PF('dlgSize').hide();"
 												value="#{msg.catalog_chooseColor}" id="cmdColor"
 												style="margin: 0 5px 5px !important;" />
@@ -248,19 +230,35 @@
 									</div>
 								</div>
 							</h:panelGroup>
-						</div>
-						<div class="row guidaVisibile">
-							<h:panelGroup styleClass="col-sm-12"
-								rendered="#{cartChoice2View.renderSize}">
-								<p:graphicImage style="cursor: pointer;"
-									onclick="PF('dlgTaglie').show();"
-									title="visualizza la guida delle taglie" id="imgArt"
-									library="images" name="info-thumb.png" />
-								<span title="visualizza la guida delle taglie"
-									style="cursor: pointer;" onclick="PF('dlgTaglie').show();">Guida
-									Taglie</span>
+							<br />
+							<h:panelGroup
+								rendered="#{cartChoice2View.qtaArticle !=null and cartChoice2View.qtaArticle !=0 }">
+								<div class="row" style="font-size: 16px;">
+									<div class="col-sm-3">
+										<h:outputText value="#{msg.catalog_price}">
+										</h:outputText>
+									</div>
+									<div class="col-sm-3">
+										<h:outputText value="#{cartFlowBean.detailProductFull.price}"
+											styleClass="#{cartFlowBean.detailProductFull.discount!=null and cartFlowBean.detailProductFull.discount!=0?'onSale':''}">
+											<f:converter converterId="it.othala.BigDecimalConverter" />
+										</h:outputText>
+									</div>
+									<div class="col-sm-4">
+										<h:outputText
+											value="#{cartFlowBean.detailProductFull.priceDiscounted}"
+											rendered="#{cartFlowBean.detailProductFull.price != cartFlowBean.detailProductFull.priceDiscounted}">
+											<f:converter converterId="it.othala.BigDecimalConverter" />
+										</h:outputText>
+									</div>
+								</div>
 							</h:panelGroup>
+
+
+
+
 						</div>
+
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="row">
@@ -309,7 +307,7 @@
 								<div class="col-xs-6">
 									<p:commandButton
 										disabled="#{cartChoice2View.qtaArticle==null or cartChoice2View.qtaArticle==0 }"
-										id="add-cart" 
+										id="add-cart"
 										styleClass="ui-priority-primary btn-articolo-sel"
 										value="#{msg.catalog_addToCart}" ajax="false"
 										action="#{cartChoice2View.goToCart}"
@@ -390,24 +388,7 @@
 
 
 			</div>
-			<p:dialog widgetVar="dlgTaglie" id="dlgTaglie" width="280"
-				appendToBody="false" styleClass="borderSizeColor" showHeader="false"
-				header="GUIDA TAGLIE" closable="true" closeOnEscape="true"
-				resizable="false">
-				<div class="row">
-					<div class="col-sm-12">
-						<br />
-						<h3>
-							<h:outputText style="font-size: 12px !important;"
-								value="#{msgSite.sizeGuide}" escape="false" />
-						</h3>
-					</div>
-				</div>
-				<div class="footerSizeColor">
-					<span class="glyphicon glyphicon-remove footerClose"
-						onclick="PF('dlgTaglie').hide()" />
-				</div>
-			</p:dialog>
+
 			<p:dialog widgetVar="dlgSize" id="dlgSize" width="190"
 				appendToBody="false" styleClass="borderSizeColor" showHeader="false"
 				header="#{msg.catalog_chooseSize}" closable="true"
