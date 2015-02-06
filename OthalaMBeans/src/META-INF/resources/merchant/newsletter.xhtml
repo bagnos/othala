@@ -1,0 +1,171 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/merchantPageTemplate.xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:viewAction action="#{newsletterView.doInit}"></f:viewAction>
+		</f:metadata>
+	</ui:define>
+
+
+	<ui:define name="Pagina">Newsletter</ui:define>
+	<ui:define name="PaginaBreadcrumb">Newsletter</ui:define>
+
+	<ui:define name="bodyPageContent">
+
+
+
+		<div class="container">
+
+			<div class="row">
+				<div class="col-sm-4">
+					<h3 class="form-titoli">
+						<h:outputText value="Newsletter" />
+					</h3>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-4">
+					<h:form id="myForm" prependId="false">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<div class="row">
+									<div class="col-sm-6">
+										<h5>
+											<strong><h:outputText style="text-transform: uppercase;" value="Nuova Mail" /></strong>
+										</h5>
+									</div>
+								</div>
+							</div>
+							<div class="panel-body">
+								<div class="form-group">
+									<p:outputLabel value="Gruppo" for="gruppo" />
+									<h:selectOneMenu styleClass="form-control" label="Gruppo" id="gruppo"
+										value="#{accessView.idMailGroup}">
+										<f:selectItems value="#{newsletterView.groups}" var="group"
+											itemValue="#{group.idMailGroup}" itemLabel="#{group.txMailGroup}"></f:selectItems>
+									</h:selectOneMenu>
+									<p:message for="gruppo"></p:message>
+								</div>
+								<div class="form-group">
+									<p:outputLabel value="#{msg.account_name}" for="name" />
+									<p:inputText styleClass="form-control" id="name" value="#{accessView.name}"
+										label="#{msg.account_name}" required="true" maxlength="70" />
+									<p:message for="name"></p:message>
+								</div>
+								<div class="form-group">
+									<p:outputLabel value="#{msg.account_surname}" for="surname" />
+									<p:inputText styleClass="form-control" id="surname" value="#{accessView.surname}"
+										required="true" maxlength="70" />
+									<p:message for="surname"></p:message>
+								</div>
+								<div class="form-group">
+									<p:outputLabel value="#{msg.account_email}" for="email" />
+									<p:inputText styleClass="form-control" value="#{accessView.email}" id="email"
+										label="#{msg.account_email}" validatorMessage="#{msg.validator_mail}" required="true"
+										maxlength="70">
+										<f:validateRegex pattern="[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+\.[a-zA-Z]{2,4}" />
+									</p:inputText>
+									<p:message for="email"></p:message>
+								</div>
+								<div class="form-group">
+									<p:commandButton styleClass="ui-priority-primary" validateClient="true"
+										onerror="PF('blockAll').unblock();" oncomplete="PF('blockAll').unblock();"
+										onclick="PF('blockAll').block();" value="Inserisci Email"
+										actionListener="#{accessView.subscribeMerchantNewsletter}"></p:commandButton>
+								</div>
+							</div>
+						</div>
+
+
+
+					</h:form>
+				</div>
+
+
+				<div class="col-sm-8">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<div class="row">
+								<div class="col-sm-4">
+									<h5>
+										<strong><h:outputText style="text-transform: uppercase;"
+												value="Invia Mail Gruppo" /></strong>
+									</h5>
+								</div>
+							</div>
+						</div>
+						<div class="panel-body">
+							<h:form prependId="false" id="frm-invio">
+								<div class="row">
+									<div class="col-sm-4">
+										<div class="form-group">
+											<p:outputLabel value="Gruppo" for="gruppoInvio" />
+											<h:selectOneMenu styleClass="form-control" label="Gruppo" id="gruppoInvio"
+												value="#{newsletterView.idGroupSelected}">
+												<f:selectItems value="#{newsletterView.groups}" var="group"
+													itemValue="#{group.idMailGroup}" itemLabel="#{group.txMailGroup}"></f:selectItems>
+											</h:selectOneMenu>
+											<p:message for="gruppoInvio"></p:message>
+										</div>
+									</div>
+									<div class="col-sm-5">
+										<p:outputLabel value="Ogetto" for="oggetto" />
+										<p:inputText styleClass="form-control" value="#{accessView.email}" id="oggetto"
+											label="oggetto" required="true" maxlength="70">
+										</p:inputText>
+										<p:message for="oggetto"></p:message>
+									</div>
+									<div class="col-sm-3">
+										<p:commandButton styleClass="ui-priority-primary"
+											actionListener="#{newsletterView.inviaMail}" validateClient="true"
+											process="frm-invio,:frmImages" style="margin-top: 6px;" value="INVIA MAIL" />
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-sm-12">
+										<div class="form-group">
+											<p:outputLabel value="Testo" for="testo" />
+											<p:inputTextarea styleClass="form-control" required="true" label="testo" rows="8"
+												id="testo" />
+										</div>
+									</div>
+								</div>
+							</h:form>
+
+							<!-- foto -->
+							<h:form enctype="multipart/form-data" prependId="false" id="frmImages">
+								<div class="row spacer10">
+									<!-- immagini -->
+									<div class="col-sm-2">
+										<p:outputLabel value="Immagine" for="immagine" />
+									</div>
+									<div class="col-sm-2">
+										<p:fileUpload fileUploadListener="#{newsletterView.handleFileUpload}" id="immagine"
+											allowTypes="/(\.|\/)(gif|jpe?g|png)$/" onerror="PF('blockAll').unblock();"
+											label="immagine" oncomplete="PF('blockAll').unblock();" onstart="PF('blockAll').block()"
+											process="@this" required="false" update="frmImages" multiple="false" auto="true" />
+										<p:message for="immagine"></p:message>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<p:graphicImage style="float:left;" rendered="#{newsletterView.fileImg!=null}"
+										styleClass="img-responsive" library="images/newsletter" width="80" height="83"
+										name="#{newsletterView.fileImg}" />
+
+								</div>
+							</h:form>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</ui:define>
+</ui:composition>

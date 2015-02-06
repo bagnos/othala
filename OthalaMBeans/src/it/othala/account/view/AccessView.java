@@ -39,7 +39,16 @@ public class AccessView extends BaseView {
 	private String surname;
 	private boolean newsletter=false;
 	private Boolean acceptPrivacy;
+	private Integer idMailGroup;
 	
+	public Integer getIdMailGroup() {
+		return idMailGroup;
+	}
+
+	public void setIdMailGroup(Integer idMailGroup) {
+		this.idMailGroup = idMailGroup;
+	}
+
 	@ManagedProperty(value="#{cartWizardView}")
 	//@Inject
 	private CartWizardView cartWizardView;
@@ -312,15 +321,42 @@ public class AccessView extends BaseView {
 			addGenericError(e1, "errore inserimento newselleter");
 		}
 	}
+	
+	public void subscribeMerchantNewsletter(ActionEvent e) {
+
+		try {
+			if (subscribeNewsletter()) {
+				addInfo("Newsletter", OthalaUtil.getWordBundle("account_newsletterSubscribe"));
+			}
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			addGenericError(e1, "errore inserimento newselleter");
+		}
+	}
 
 	private boolean subscribeNewsletter() throws OthalaException {
 		String apiKey = ConfigurationUtil.getProperty("apiKeyMailChimp");
 		String idList = ConfigurationUtil.getProperty("listId");
-		if (apiKey != null && idList != null) {
 		
+		if (getBeanApplication().getLocalNewsLetter())
+		{
+			String txName=null;
+			if (surname!=null && name!=null)
+			{
+				txName=String.format("%s %s", surname,name);
+				
+			}
+			idMailGroup=idMailGroup==null?1:idMailGroup;
+			OthalaFactory.getAccountServiceInstance().insertMail(idMailGroup, email, txName);
+			return true;
+		}
+		else if (apiKey != null && idList != null) {
+			
 			OthalaFactory.getMailServiceInstance().insertNewsletterMailChimp(email, name, surname, apiKey, idList);
 			return true;
-		} else {
+		}
+		
+		else {
 			return false;
 		}
 
