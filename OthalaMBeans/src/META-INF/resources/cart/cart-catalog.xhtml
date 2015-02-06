@@ -146,13 +146,23 @@
 									<h:outputText styleClass="newPromo3" style="float:right"
 										rendered="#{(art.specialPrice == null or art.specialPrice == 0) and art.discount != null and art.discount != 0 and art.idCampaign != null}"
 										value="#{art.discount} %" />
-									<h:link outcome="cart-choice-2">
+								<!-- <h:link outcome="#{art.tyProduct == null ? 'cart-choice-2' : 'cart-choice-3'}">  -->
+									<h:link outcome="cart-choice-2" rendered="#{art.tyProduct == null}">
 										<h:graphicImage styleClass="center-block img-responsive"
 											title="#{art.txBrand}:#{art.txType} #{art.description} #{art.descriptionEN}"
 											alt="#{art.txBrand}:#{art.txType} #{art.description} #{art.descriptionEN}"
 											library="images/cartThumbinals" name="#{art.imagesUrl.get(0)}" />
 										<f:param name="idPrd" value="#{art.idProduct}"></f:param>
 									</h:link>
+									<h:link outcome="cart-choice-3" rendered="#{art.tyProduct == 1}">
+										<h:graphicImage styleClass="center-block img-responsive"
+											title="#{art.txBrand}:#{art.txType} #{art.description} #{art.descriptionEN}"
+											alt="#{art.txBrand}:#{art.txType} #{art.description} #{art.descriptionEN}"
+											library="images/cartThumbinals" name="#{art.imagesUrl.get(0)}" />
+										<f:param name="idPrd" value="#{art.idProduct}"></f:param>
+									</h:link>
+								
+								
 									<div class="caption articolo">
 										<div class="row">
 											<div class="col-sm-12">
@@ -177,6 +187,7 @@
 												</div>
 												<div>
 													<p class="price" style="text-align: center">
+													<h:outputText value="#{msg.catalog_apartire}"  rendered="#{art.tyProduct == 1}"/>
 														<h:outputText value="#{art.price}"
 															styleClass="#{art.price != art.priceDiscounted?'onSale':''}">
 															<f:converter converterId="it.othala.BigDecimalConverter" />
