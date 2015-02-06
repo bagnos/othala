@@ -56,12 +56,12 @@ public class AccountDAO extends SqlSessionDaoSupport implements IAccountDAO {
 
 	@Override
 	public int changeStateAccount(String email, int stato) {
-		
+
 		List<String> listEmail = new ArrayList<String>();
 		listEmail.add(email);
-		
+
 		return changeStateAccount(listEmail, stato);
-		
+
 	}
 
 	@Override
@@ -113,10 +113,12 @@ public class AccountDAO extends SqlSessionDaoSupport implements IAccountDAO {
 			map.put("name", nome);
 		}
 		if (cognome != null && !cognome.isEmpty()) {
-			map.put("surname", cognome+"%");
+			map.put("surname", cognome + "%");
 		}
 		return getSqlSession().selectList("it.othala.account.queries.getAccount", map);
 	}
+
+	
 
 	@Override
 	public void insertMail(Integer idMailGroup, String txUser, String txNome) {
@@ -126,7 +128,6 @@ public class AccountDAO extends SqlSessionDaoSupport implements IAccountDAO {
 		map.put("txNome", txNome);
 		getSqlSession().insert("it.othala.account.queries.insertMail", map);
 
-		
 	}
 
 	@Override
@@ -137,7 +138,7 @@ public class AccountDAO extends SqlSessionDaoSupport implements IAccountDAO {
 		map.put("txUser", txUser);
 		map.put("txNome", txNome);
 		getSqlSession().update("it.othala.account.queries.updateMail", map);
-		
+
 	}
 
 	@Override
@@ -146,16 +147,16 @@ public class AccountDAO extends SqlSessionDaoSupport implements IAccountDAO {
 		map.put("idMail", idMail);
 
 		getSqlSession().delete("it.othala.account.queries.deleteMail", map);
-		
+
 	}
 
 	@Override
 	public void insertMailGroup(String txMailGroup) {
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("txMailGroup", txMailGroup);
-		
+
 		getSqlSession().insert("it.othala.account.queries.insertMailGroup", map);
-		
+
 	}
 
 	@Override
@@ -164,17 +165,16 @@ public class AccountDAO extends SqlSessionDaoSupport implements IAccountDAO {
 		map.put("idMailGroup", idMailGroup);
 		map.put("txMailGroup", txMailGroup);
 		getSqlSession().update("it.othala.account.queries.updateMailGroup", map);
-		
+
 	}
 
 	@Override
 	public void deleteMailGroup(Integer idMailGroup) {
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("idMailGroup", idMailGroup);
-		
+
 		getSqlSession().delete("it.othala.account.queries.deleteMailGroup", map);
 
-		
 	}
 
 	@Override
@@ -185,7 +185,6 @@ public class AccountDAO extends SqlSessionDaoSupport implements IAccountDAO {
 		}
 
 		return getSqlSession().selectList("it.othala.account.queries.listMailGroup", map);
-		
 
 	}
 
@@ -200,7 +199,7 @@ public class AccountDAO extends SqlSessionDaoSupport implements IAccountDAO {
 		}
 
 		return getSqlSession().selectList("it.othala.account.queries.listMail", map);
-	
+
 	}
 
 }
