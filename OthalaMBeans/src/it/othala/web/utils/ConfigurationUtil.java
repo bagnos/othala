@@ -18,71 +18,95 @@ public class ConfigurationUtil {
 	private static Properties properties = null;
 	private static Log log = LogFactory.getLog(ConfigurationUtil.class);
 	private static MailPropertiesDTO mailProps;
+	private static MailPropertiesDTO mailPropsNeswletter;
 	private static HttpServletRequest request;
-		
-	
-	private static String getBaseImagePath()
-	{		
-		String path= request.getServletContext().getRealPath("/");
-		 
-		path+="resources"+File.separator+"images"+File.separator;
-		return path;
-	}
-	private static String getLogoHomeMail()
-	{		
-		String path= getBaseImagePath();
-		path+="logo2-small.png";
+
+	private static String getBaseImagePath() {
+		String path = request.getServletContext().getRealPath("/");
+
+		path += "resources" + File.separator + "images" + File.separator;
 		return path;
 	}
 	
-	public static String getLogoStampa(HttpServletRequest requestStampa)
-	{		
-		String path= requestStampa.getServletContext().getRealPath("/");
-		 
-		path+="resources"+File.separator+"images"+File.separator;
-		path+="logo2-small.png";
+	private static String getBaseImageNewsletterPath() {
+		String path = request.getServletContext().getRealPath("/");
+
+		path += "resources" + File.separator + "images" + File.separator+"newsletter"+ File.separator;
 		return path;
 	}
-	
-	public static String getBaseImageThumbinals()
-	{
-		String path=getBaseImagePath()+"cartThumbinals"+File.separator;
+
+	private static String getLogoHomeMail() {
+		String path = getBaseImagePath();
+		path += "logo2-small.png";
 		return path;
 	}
-	
-	
-	private static String getImagePayment()
-	{
-		String path= getBaseImagePath();
-		path+="payment"+File.separator+"paypal.gif";
+
+	public static String getLogoStampa(HttpServletRequest requestStampa) {
+		String path = requestStampa.getServletContext().getRealPath("/");
+
+		path += "resources" + File.separator + "images" + File.separator;
+		path += "logo2-small.png";
+		return path;
+	}
+
+	public static String getBaseImageThumbinals() {
+		String path = getBaseImagePath() + "cartThumbinals" + File.separator;
+		return path;
+	}
+
+	private static String getImagePayment() {
+		String path = getBaseImagePath();
+		path += "payment" + File.separator + "paypal.gif";
 		return path;
 	}
 
 	public static MailPropertiesDTO getMailProps(HttpServletRequest req) {
-		
-		if (mailProps==null)
-		{
-			String prefix="";
-			prefix=isLocalHost(req)?"test":"";
-		if (getProperties() != null) {
-			request=req;
-			mailProps=new MailPropertiesDTO();
-			mailProps.setBasePathThumbinalsArticle(getBaseImageThumbinals());
-			mailProps.setBoardUrl(getProperty("BOARD_URL"));
-			mailProps.setCompanyName(getProperty("COMPANY_NAME"));
-			mailProps.setContextRoot(getContextPath(req));
-			mailProps.setDnsSite(getServerName(req));
-			mailProps.setFromMail(getProperty("FROM_MAIL"));
-			mailProps.setPathImgLogo(getLogoHomeMail());
-			mailProps.setPathImgPayment(getImagePayment());
-			mailProps.setMailSmtAuth(getProperty(prefix+"mail.smtp.auth"));
-			mailProps.setMailSmtpAtarttlsAnable(getProperty(prefix+"mail.smtp.starttls.enable"));
-			mailProps.setMailSmtpHost(getProperty(prefix+"mail.smtp.host"));
-			mailProps.setMailSmtpPort(getProperty(prefix+"mail.smtp.port"));
-			mailProps.setPassword(getProperty(prefix+"password"));
-			mailProps.setUsername(getProperty(prefix+"mail.smtp.user"));
-			
+
+		if (mailProps == null) {
+			String prefix = "";
+			prefix = isLocalHost(req) ? "test" : "";
+			if (getProperties() != null) {
+				request = req;
+				mailProps = new MailPropertiesDTO();
+				mailProps.setBasePathThumbinalsArticle(getBaseImageThumbinals());
+				mailProps.setBoardUrl(getProperty("BOARD_URL"));
+				mailProps.setCompanyName(getProperty("COMPANY_NAME"));
+				mailProps.setContextRoot(getContextPath(req));
+				mailProps.setDnsSite(getServerName(req));
+				mailProps.setFromMail(getProperty("FROM_MAIL"));
+				mailProps.setPathImgLogo(getLogoHomeMail());
+				mailProps.setPathImgPayment(getImagePayment());
+				mailProps.setMailSmtAuth(getProperty(prefix + "mail.smtp.auth"));
+				mailProps.setMailSmtpAtarttlsAnable(getProperty(prefix + "mail.smtp.starttls.enable"));
+				mailProps.setMailSmtpHost(getProperty(prefix + "mail.smtp.host"));
+				mailProps.setMailSmtpPort(getProperty(prefix + "mail.smtp.port"));
+				mailProps.setPassword(getProperty(prefix + "password"));
+				mailProps.setUsername(getProperty(prefix + "mail.smtp.user"));
+
+			}
 		}
+		return mailProps;
+	}
+
+	public static MailPropertiesDTO getMailPropsNewsLetter(HttpServletRequest req) {
+
+		if (mailProps == null) {
+			String prefix = "";			
+			if (getProperties() != null) {
+				request = req;
+				mailProps = new MailPropertiesDTO();
+				mailProps.setContextRoot(getContextPath(req));				
+				mailProps.setFromMail(getProperty("FROM_MAIL"));
+				mailProps.setPathImgLogo(getLogoHomeMail());				
+				mailProps.setBasePathThumbinalsArticle(getBaseImageNewsletterPath());
+				mailProps.setMailSmtAuth("true");
+				mailProps.setMailSmtpAtarttlsAnable("false");
+				mailProps.setMailSmtpHost(getProperty(prefix + "NewsLetterLocal_mail.smtp.host"));
+				mailProps.setMailSmtpPort(getProperty(prefix + "NewsLetterLocal_mail.smtp.port"));
+				mailProps.setPassword(getProperty(prefix + "NewsLetterLocal_password"));
+				mailProps.setUsername(getProperty(prefix + "NewsLetterLocal_mail.smtp.user"));
+
+			}
 		}
 		return mailProps;
 	}
@@ -114,7 +138,7 @@ public class ConfigurationUtil {
 
 	public static String getProperty(String key) {
 		String value = null;
-		key=key!=null?key.trim():null;
+		key = key != null ? key.trim() : null;
 		if (getProperties() != null) {
 			if (getProperties().containsKey(key)) {
 				value = getProperties().getProperty(key).trim();
@@ -123,31 +147,24 @@ public class ConfigurationUtil {
 		}
 		return value;
 	}
-	
-	private static boolean isLocalHost(HttpServletRequest req)
-	{
+
+	private static boolean isLocalHost(HttpServletRequest req) {
 		return req.getRemoteHost().equalsIgnoreCase("127.0.0.1");
 	}
-	
-	public static String getServerName(HttpServletRequest req)
-	{
+
+	public static String getServerName(HttpServletRequest req) {
 		return req.getServerName();
 	}
-	
-	public static String getContextPath(HttpServletRequest req)
-	{
+
+	public static String getContextPath(HttpServletRequest req) {
 		return req.getContextPath();
 	}
-	
-	public static String getOrderPrintImageUrl(HttpServletRequest req)
-	{
-		String url=getProperty("OrderPrintImageUrl");
-		url=url.replaceAll("request.remoteHost", getServerName(req));
-		url=url.replaceAll("request.contextPath",getContextPath(req));
+
+	public static String getOrderPrintImageUrl(HttpServletRequest req) {
+		String url = getProperty("OrderPrintImageUrl");
+		url = url.replaceAll("request.remoteHost", getServerName(req));
+		url = url.replaceAll("request.contextPath", getContextPath(req));
 		return url;
 	}
-	
-	
-	
 
 }

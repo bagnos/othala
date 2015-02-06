@@ -55,6 +55,15 @@ public class ApplicationBean implements Serializable {
 	private Boolean configuredBarcodeProduct;
 	private Boolean discountTabEnabled;
 	private Integer tipoMenu;
+	private Boolean localNewsLetter;
+
+	public boolean getLocalNewsLetter() {
+		if (localNewsLetter==null)
+		{
+			getDomain();
+		}
+		return localNewsLetter;
+	}
 
 	public Integer getTipoMenu() {
 		if (tipoMenu == null) {
@@ -158,6 +167,8 @@ public class ApplicationBean implements Serializable {
 			domain = OthalaFactory.getProductServiceInstance().getDomain(OthalaUtil.getLangFromContextJSF());
 			String key = ConfigurationUtil.getProperty("DiscountTabEnabled");
 			discountTabEnabled = (key == null ? false : Boolean.parseBoolean(key));
+			key=ConfigurationUtil.getProperty("NewsLetterLocal");			
+			localNewsLetter=(key == null ? false : Boolean.parseBoolean(key));
 		}
 
 		return domain;
