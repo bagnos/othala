@@ -344,7 +344,7 @@ public class CartFlowView1 extends BaseView {
 						pagDettaglio = "cart-choice-3.xhtml?idPrd=";
 					} else {
 						if (getCartFlowBean().getCatalog().getArticles().get(0)
-								.getTyProduct() == 1) {
+								.getTyProduct() == 2) {
 							pagDettaglio = "cart-choice-4.xhtml?idPrd=";
 						}
 					}

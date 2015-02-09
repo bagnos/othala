@@ -161,6 +161,13 @@
 											library="images/cartThumbinals" name="#{art.imagesUrl.get(0)}" />
 										<f:param name="idPrd" value="#{art.idProduct}"></f:param>
 									</h:link>
+									<h:link outcome="cart-choice-4" rendered="#{art.tyProduct == 2}">
+										<h:graphicImage styleClass="center-block img-responsive"
+											title="#{art.txBrand}:#{art.txType} #{art.description} #{art.descriptionEN}"
+											alt="#{art.txBrand}:#{art.txType} #{art.description} #{art.descriptionEN}"
+											library="images/cartThumbinals" name="#{art.imagesUrl.get(0)}" />
+										<f:param name="idPrd" value="#{art.idProduct}"></f:param>
+									</h:link>
 								
 								
 									<div class="caption articolo">

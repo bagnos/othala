@@ -221,8 +221,7 @@
 								</div>
 							</h:panelGroup>
 							<br />
-							<h:panelGroup id="pnl-prezzo"
-								rendered="#{cartChoice2View.qtaArticle !=null and cartChoice2View.qtaArticle !=0 }">
+							<h:panelGroup id="pnl-prezzo">
 								<div class="row" style="font-size: 16px;">
 									<div class="col-sm-3">
 										<h:outputText value="#{msg.catalog_price}">
@@ -243,7 +242,7 @@
 									</div>
 								</div>
 							</h:panelGroup>
-
+<br />
 
 
 
@@ -393,6 +392,8 @@
 									<f:attribute name="idSize" value="#{size.value}"></f:attribute>
 									<f:attribute name="txSize" value="#{size.label}"></f:attribute>
 								</f:ajax>
+								<f:ajax render="pnl-prezzo">
+								</f:ajax>
 							</h:commandLink>
 						</ui:repeat>
 						<h:selectOneMenu style="visibility:hidden;height:0px" id="selSize"
@@ -400,7 +401,7 @@
 							<f:selectItem itemLabel="#{msg.catalog_chooseSize}"
 								itemValue="-1" noSelectionOption="true" />
 							<f:selectItems value="#{cartChoice2View.sizeItems}"></f:selectItems>
-							<f:ajax execute="@this" render="qtaArt add-cart pnl-scelte"
+							<f:ajax execute="@this" render="qtaArt add-cart pnl-scelte pnl-prezzo"
 								listener="#{cartChoice2View.changeFormato}"></f:ajax>
 						</h:selectOneMenu>
 					</div>

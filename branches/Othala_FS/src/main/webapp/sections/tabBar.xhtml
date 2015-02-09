@@ -12,10 +12,16 @@
 		</a>
 	</div>
 	<ul class="nav nav-tabs responsive" id="tabNav">
-		<ui:repeat var="menu" value="#{applicationBean.menu}"
+		<ui:repeat var="menu" value="#{applicationBean.menuProducts}"
 			varStatus="status">
 			<li><a href="##{menu.idGender}" data-toggle="tab"> <h:outputText
 						value="#{menu.txGender}" />
+			</a></li>
+		</ui:repeat>
+		<ui:repeat var="menuS" value="#{applicationBean.menuServices}"
+			varStatus="status">
+			<li><a href="##{menuS.idGender}" data-toggle="tab"> <h:outputText
+						value="#{menuS.txGender}" />
 			</a></li>
 		</ui:repeat>
 		<h:panelGroup rendered="#{applicationBean.menuFull.fgPromozioni}">
@@ -37,7 +43,7 @@
 		</h:panelGroup>
 	</ul>
 	<div id="tab-content" class="tab-content responsive row col-sm-12">
-		<ui:repeat var="menu" value="#{applicationBean.menu}"
+		<ui:repeat var="menu" value="#{applicationBean.menuProducts}"
 			varStatus="status">
 			<div class="tab-pane" id="#{menu.idGender}">
 				<div class="row">
@@ -90,6 +96,63 @@
 				</div>
 			</div>
 		</ui:repeat>
+		
+		
+		<ui:repeat var="menuS" value="#{applicationBean.menuServices}"
+			varStatus="status">
+			<div class="tab-pane" id="#{menuS.idGender}">
+				<div class="row">
+					<div class="col-xs-1 col-md-2 hidden-xs">
+						<p:graphicImage styleClass="img-responsive" alt="#{menuS.txGender}"
+							library="#{menuS.imgLibrary}" name="#{menuS.imgName}" />
+					</div>
+					<div class="col-xs-6 col-sm-4  spacer10">
+						<div class="row">
+							<div class="col-sm-6 col-md-4 border-brand"
+								style="color: #666666;font-family: sinkinbold; font-size: 14px;">#{msgSite.servizi}
+							</div>
+						</div>
+						<div class="row spacer10">
+							<ui:repeat var="submenu" value="#{menuS.subMenu}"
+								varStatus="statusSub"> 
+								<div class="col-sm-12 col-md-4 spacer6" style="padding-left: 5px; padding-right: 5px;">
+									<h:link class="linkArt" value="#{submenu.txType}"
+										outcome="/cart/cart-catalog.xhtml">
+										<f:param name="idMenu" value="#{menuS.idGender}"></f:param>
+										<f:param name="idSubMenu" value="#{submenu.idType}"></f:param>
+										<f:param name="fgNewArrivals" value="false"></f:param>
+										<f:param name="idCampaign" value="0"></f:param>
+										<f:param name="idSubMenuBrand" value="0"></f:param>
+									</h:link> 
+								</div>
+							</ui:repeat>
+						</div>
+					</div>
+					<div class="col-sm-6 col-xs-6  spacer10" style="border-left: 1px dotted #ccc"> 
+						<div class="row">
+							<div class="col-sm-12 border-brand" style="color: #666666;font-family: sinkinbold; font-size: 14px;">#{msgSite.professionisti}</div>
+						</div>
+						<div class="row spacer10">
+							<ui:repeat var="submenu" value="#{menuS.subMenuBrand}"
+								varStatus="statusSub">
+								<div class="col-sm-12 col-md-6 spacer6" >
+									<h:link styleClass="linkArt" value="#{submenu.txBrand}"
+										outcome="/cart/cart-catalog.xhtml">
+										<f:param name="idMenu" value="#{menuS.idGender}"></f:param>
+										<f:param name="idSubMenu" value="0"></f:param>																			
+										<f:param name="idSubMenuBrand" value="#{submenu.idBrand}"></f:param>
+										<f:param name="fgNewArrivals" value="false"></f:param>
+										<f:param name="idCampaign" value="0"></f:param>										
+									</h:link>
+								</div>
+							</ui:repeat>
+						</div>
+					</div>
+				</div>
+			</div>
+		</ui:repeat>
+		
+		
 		<!-- promozioni -->		
 		<div class="tab-pane" id="promo2">
 			<div class="row">

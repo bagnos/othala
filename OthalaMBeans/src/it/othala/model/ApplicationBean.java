@@ -37,6 +37,8 @@ public class ApplicationBean implements Serializable {
 	private List<SelectItem> materials = null;
 	private List<SelectItem> sizes = null;
 	private List<MenuDTO> menu = null;
+	private List<MenuDTO> menuProducts = null;
+	private List<MenuDTO> menuServices = null;
 	private MenuFullDTO menuFull = null;
 	private List<SiteImagesDTO> imgsCarousel = null;
 	private List<SiteImagesDTO> imgs = null;
@@ -246,11 +248,48 @@ public class ApplicationBean implements Serializable {
 
 			}
 
+			
+			
 		}
 
 		return menu;
 	}
 
+	public List<MenuDTO> getMenuProducts() {
+		if (menuProducts == null || menuProducts.size() == 0) {
+			
+			menuProducts =  new ArrayList<MenuDTO>();
+			
+			for (MenuDTO idMenu : getMenu())
+			{
+				if (idMenu.getIdGender() != 3)
+				{
+					menuProducts.add(idMenu);
+				}
+			}
+		}
+
+		return menuProducts;
+	}
+	
+	public List<MenuDTO> getMenuServices() {
+		if (menuServices == null || menuProducts.size() == 0) {
+			
+			menuServices =  new ArrayList<MenuDTO>();
+			
+			for (MenuDTO idMenu : getMenu())
+			{
+				if (idMenu.getIdGender() == 3)
+				{
+					menuServices.add(idMenu);
+				}
+			}
+		}
+
+		return menuServices;
+	}
+	
+	
 	public List<SelectItem> getMaterials() {
 		if (materials == null) {
 			materials = new ArrayList<>();

@@ -331,6 +331,7 @@ public class CartChoice2View extends BaseView {
 			// colorItems.add(new SelectItem(-1,
 			// OthalaUtil.getWordBundle("catalog_chooseColor")));
 		}
+		idColor = 1;
 		changeColor(null);
 	}
 	
