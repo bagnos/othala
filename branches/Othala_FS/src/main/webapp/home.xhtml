@@ -135,7 +135,7 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 									rendered="#{art.idProduct != null and art.tyProduct == null}">
 									<img title="#{art.txBrand} #{art.description}"
 										alt="#{art.txBrand} #{art.description}"
-										class="lazyOwl img-responsive" style="margin: auto"
+										class="lazyOwl img-responsive" style="margin: auto; "
 										data-src="#{request.contextPath}/javax.faces.resource/#{art.thumbnailsUrl}.xhtml?ln=images/cartThumbinals" />
 									<f:param name="idPrd" value="#{art.idProduct}"></f:param>
 								</h:link>
@@ -144,16 +144,16 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 									rendered="#{art.idProduct != null and art.tyProduct != null and art.tyProduct == 1}">
 									<img title="#{art.txBrand} #{art.description}"
 										alt="#{art.txBrand} #{art.description}"
-										class="lazyOwl img-responsive" style="margin: auto"
+										class="lazyOwl img-responsive" style="margin: auto; "
 										data-src="#{request.contextPath}/javax.faces.resource/#{art.thumbnailsUrl}.xhtml?ln=images/cartThumbinals" />
 									<f:param name="idPrd" value="#{art.idProduct}"></f:param>
 								</h:link>
 
 								<h:link outcome="cart/cart-choice-4"
-									rendered="#{art.idProduct != null and art.tyProduct != null and art.tyProduct == 1}">
+									rendered="#{art.idProduct != null and art.tyProduct != null and art.tyProduct == 2}">
 									<img title="#{art.txBrand} #{art.description}"
 										alt="#{art.txBrand} #{art.description}"
-										class="lazyOwl img-responsive" style="margin: auto"
+										class="lazyOwl img-responsive" style="margin: auto; "
 										data-src="#{request.contextPath}/javax.faces.resource/#{art.thumbnailsUrl}.xhtml?ln=images/cartThumbinals" />
 									<f:param name="idPrd" value="#{art.idProduct}"></f:param>
 								</h:link>
@@ -161,6 +161,8 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 									<div class="col-sm-12" style="text-align: center;">
 										<h5 style="text-transform: uppercase;">
 											<h:outputText id="descr" value="#{art.txBrand}" />
+											<br/>
+											<h:outputText id="descr2" value="#{art.description}" />
 										</h5>
 										<h3 style="color: #a59061">
 											<strong> <h:outputText value="#{art.price}"
