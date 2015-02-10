@@ -445,15 +445,15 @@
 		1 = 1
 
 		<if test="idBrand != null">
-			and a.idBrand = #{idBrand}
+			and TAB1.idBrand = #{idBrand}
 		</if>
 
 		<if test="idProvincia != null">
-			and a.idProvincia = #{idProvincia}
+			and TAB1.idProvincia = #{idProvincia}
 		</if>
 
 		<if test="idRegione != null">
-			and a.idRegione = #{idRegione}
+			and TAB1.idRegione = #{idRegione}
 		</if>
 
 		order by txBrand
@@ -912,7 +912,8 @@
 		fgNewArrivals,
 		tab2.idCampaign,
 		specialPrice,
-		tyProduct
+		tyProduct,
+		idBrand
 		FROM
 		(
 		SELECT
@@ -940,7 +941,8 @@
 
 		a.idCampaign,
 		a.specialPrice,
-		a.tyProduct
+		a.tyProduct,
+		a.idBrand
 		FROM
 
 		${database.schema}product

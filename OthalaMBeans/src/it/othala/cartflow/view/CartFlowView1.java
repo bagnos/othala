@@ -121,6 +121,27 @@ public class CartFlowView1 extends BaseView {
 		return null;
 	}
 
+	public String doInitBrand() {
+		try {
+
+			initBean();
+
+			callServiceProductBrand(1);
+
+			updateBreadCrumb();
+			
+			getCartFlowBean().setBrandFullDTO(
+					OthalaFactory.getProductServiceInstance().listBrandFull(
+							getLang(), null, null,
+							getCartFlowBean().getCatalog().getBrand()));
+
+
+		} catch (Exception e) {
+			addGenericError(e, "errore init catalog");
+		}
+		return null;
+	}
+
 	private void initBean() {
 		getCartFlowBean().getCatalog().setColor(null);
 		getCartFlowBean().getCatalog().setSize(null);
@@ -159,6 +180,8 @@ public class CartFlowView1 extends BaseView {
 				&& getCartFlowBean().getCatalog().getBrand().intValue() == 0) {
 			getCartFlowBean().getCatalog().setBrand(null);
 		}
+
+		getCartFlowBean().setBrandFullDTO(null);
 
 	}
 
@@ -267,6 +290,13 @@ public class CartFlowView1 extends BaseView {
 
 	private void callServiceProduct(int page) {
 
+		callServiceProductBrand(page);
+
+		redirectOneProduct();
+	}
+
+	private void callServiceProductBrand(int page) {
+
 		getCartFlowBean().getCatalog()
 				.setSize(
 						getCartFlowBean().getCatalog().getSize() == null
@@ -325,7 +355,7 @@ public class CartFlowView1 extends BaseView {
 		getCartFlowBean().setBrandDTO(vetrinaDTO.getBrand());
 
 		initPaginator(page);
-		redirectOneProduct();
+
 	}
 
 	private void redirectOneProduct() {

@@ -8,12 +8,7 @@
 	xmlns:pe="http://primefaces.org/ui/extensions">
 	<ui:define name="metadata">
 		<f:metadata>
-			<f:viewAction action="#{cartFlowView1.doInit}"></f:viewAction>
-			<f:viewParam name="idMenu" value="#{cartFlowView1.idMenu}"></f:viewParam>
-			<f:viewParam name="idSubMenu" value="#{cartFlowView1.idSubMenu}"></f:viewParam>
-			<f:viewParam name="fgNewArrivals"
-				value="#{cartFlowView1.fgNewArrivals}"></f:viewParam>
-			<f:viewParam name="idCampaign" value="#{cartFlowView1.idCampaign}"></f:viewParam>
+			<f:viewAction action="#{cartFlowView1.doInitBrand}"></f:viewAction>
 			<f:viewParam name="idSubMenuBrand" value="#{cartFlowView1.brand}"></f:viewParam>
 		</f:metadata>
 	</ui:define>
@@ -30,6 +25,8 @@
 		<h:form prependId="false">
 			<div class="container">
 				<!-- BREADCRUMB -->
+
+
 				<div class="row">
 					<ol class="breadcrumb" style="margin-top: 10px">
 						<ui:repeat var="bread" value="#{cartFlowBean.breadCrumb}"
@@ -49,6 +46,48 @@
 						</ui:repeat>
 					</ol>
 				</div>
+
+				<div class="row">
+					<div class="col-sm-4">
+						<br />
+						<p:graphicImage styleClass="img-responsive"
+							name="#{cartFlowBean.brandFullDTO.get(0).urlFoto}"
+							library="images/brand"></p:graphicImage>
+					</div>
+					<div class="col-sm-8">
+						<br />
+						<div class="row">
+							<div class="col-sm-12 more-title">
+								<h2 class="title">
+									<span>#{cartFlowBean.brandFullDTO.get(0).txBrand}</span>
+								</h2>
+
+							</div>
+						</div>
+						<br />
+						<div class="row">
+							<div class="col-sm-12">
+								<h:outputText
+									value="#{cartFlowBean.brandFullDTO.get(0).txDescrOnline}"
+									escape="false" />
+							</div>
+						</div>
+
+
+					</div>
+				</div>
+
+
+				<div class="container" style="padding-top: 50px;">
+					<div class="more-title">
+						<h2 class="title">
+							<span>#{msg.footer_cus11}</span>
+						</h2>
+					</div>
+				</div>
+
+
+
 				<!-- FILTRI RICERCA -->
 				<div class="row container visibile  altezza75 " style="clear: both;">
 					<div class="panel panel-default">
@@ -231,24 +270,7 @@
 										<div class="row">
 											<div class="col-sm-12">
 												<div>
-
-	 												<h5 style="text-align:center;">
-														<h:outputText value="#{art.txBrand}" class="brandVisibile"
-															
-															rendered="#{art.tyProduct == null or art.tyProduct != 1}" />
-													</h5>
-
-
-													<h5 style="text-align:center; color: #880421;">
-														<h:link value="#{art.txBrand}"
-															outcome="/cart/cart-brand.xhtml" class="brandVisibile"
-															style="text-align:center; color: #880421;"
-															rendered="#{art.tyProduct != null and art.tyProduct == 1}">
- 															<f:param name="idSubMenuBrand" value="#{art.idBrand}"></f:param>
- 														</h:link> 
-													</h5>
-													
-													 
+													<h5 class="brandVisibile" style="text-align: center">#{art.txBrand}</h5>
 												</div>
 												<div>
 													<p class="price" style="text-align: center">
