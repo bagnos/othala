@@ -160,7 +160,15 @@
 						<div class="row well trasparente" id="artSel-well"
 							style="padding-bottom: 0px !important; margin-bottom: 0px !important;">
 							<div class="col-sm-10">
-								<h1 style="margin-left: -15px; font-size: 18px">#{cartFlowBean.detailProductFull.txBrand}</h1>
+
+
+								<h:link value="#{cartFlowBean.detailProductFull.txBrand}"
+									outcome="/cart/cart-brand.xhtml" class="trasparente"
+									style="margin-left: -15px; font-size: 18px; color: #880421; ">
+									<f:param name="idSubMenuBrand"
+										value="#{cartFlowBean.detailProductFull.idBrand}"></f:param>
+								</h:link>
+
 								<h2 style="margin-left: -15px; font-size: 14px">#{cartFlowBean.detailProductFull.description}</h2>
 							</div>
 							<div class="col-sm-2">
@@ -182,8 +190,7 @@
 									<div class="col-sm-5">
 										<div class="form-group">
 											<p:commandButton styleClass="btnAddToWishList"
-												onclick="PF('dlgSize').show();"
-												id="cmdZise"
+												onclick="PF('dlgSize').show();" id="cmdZise"
 												value="#{cartFlowBean.detailProductFull.tyProduct == 1 ? msg.catalog_chooseFormato : msg.catalog_chooseSize}"
 												style="margin: 0 5px 5px !important;" />
 										</div>
@@ -192,9 +199,7 @@
 											styleClass="wish-list-tails"
 											value="#{cartChoice2View.txSize}" />
 									</div>
-									<div class="col-sm-5">
-										
-									</div>
+									<div class="col-sm-5"></div>
 								</div>
 								<h:panelGroup style="display:none;" layout="block" id="qtaArt">
 									<div class="row">
@@ -242,7 +247,7 @@
 									</div>
 								</div>
 							</h:panelGroup>
-<br />
+							<br />
 
 
 
@@ -401,7 +406,8 @@
 							<f:selectItem itemLabel="#{msg.catalog_chooseSize}"
 								itemValue="-1" noSelectionOption="true" />
 							<f:selectItems value="#{cartChoice2View.sizeItems}"></f:selectItems>
-							<f:ajax execute="@this" render="qtaArt add-cart pnl-scelte pnl-prezzo"
+							<f:ajax execute="@this"
+								render="qtaArt add-cart pnl-scelte pnl-prezzo"
 								listener="#{cartChoice2View.changeFormato}"></f:ajax>
 						</h:selectOneMenu>
 					</div>
