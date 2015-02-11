@@ -47,7 +47,7 @@
 					</ol>
 				</div>
 
-				<div class="row">
+				<div class="row" style="padding-top: 50px">
 					<div class="col-sm-4">
 						<br />
 						<p:graphicImage styleClass="img-responsive"
@@ -64,6 +64,20 @@
 
 							</div>
 						</div>
+						<br />
+						<div class="row">
+							<div class="col-sm-12 more-title" style="text-align: center; font-size: 18px"
+								>
+								<h:outputText
+									value="#{cartFlowBean.brandFullDTO.get(0).txRegione}"
+									escape="false" />
+								<h:outputText value="," escape="false" />
+								<h:outputText
+									value="#{cartFlowBean.brandFullDTO.get(0).txProvincia}"
+									escape="false" style="padding-left:10px;" />
+							</div>
+						</div>
+
 						<br />
 						<div class="row">
 							<div class="col-sm-12">
