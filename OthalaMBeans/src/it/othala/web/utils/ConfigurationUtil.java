@@ -29,15 +29,32 @@ public class ConfigurationUtil {
 	}
 	
 	private static String getBaseImageNewsletterPath() {
-		String path = request.getServletContext().getRealPath("/");
-
-		path += "resources" + File.separator + "images" + File.separator+"newsletter"+ File.separator;
+		String path = getHttpPathImages(request)+"newsletter/";		
 		return path;
 	}
+	
+	public static String getHttpPathImages(HttpServletRequest req) {
+		String path = "http://"+getServerName(req)+getContextPath(req)+"/resources/images/";		
+		return path;
+	}
+	
+	
+	
 
 	private static String getLogoHomeMail() {
 		String path = getBaseImagePath();
 		path += "logo2-small.png";
+		return path;
+	}
+	
+	private static String getLogoHttpHomeMail() {
+		String path = getHttpPathImages(request);
+		path += "logo2-xsmall.png";
+		return path;
+	}
+	
+	public static String getHttpPathImagesNewsletter(HttpServletRequest request) {
+		String path = getHttpPathImages(request)+"/newsletter/";
 		return path;
 	}
 
@@ -82,6 +99,7 @@ public class ConfigurationUtil {
 				mailProps.setMailSmtpPort(getProperty(prefix + "mail.smtp.port"));
 				mailProps.setPassword(getProperty(prefix + "password"));
 				mailProps.setUsername(getProperty(prefix + "mail.smtp.user"));
+				mailProps.setServerName(req.getServerName());
 
 			}
 		}
@@ -97,14 +115,15 @@ public class ConfigurationUtil {
 				mailProps = new MailPropertiesDTO();
 				mailProps.setContextRoot(getContextPath(req));				
 				mailProps.setFromMail(getProperty("FROM_MAIL"));
-				mailProps.setPathImgLogo(getLogoHomeMail());				
+				mailProps.setPathImgLogo(getLogoHttpHomeMail());				
 				mailProps.setBasePathThumbinalsArticle(getBaseImageNewsletterPath());
 				mailProps.setMailSmtAuth("true");
 				mailProps.setMailSmtpAtarttlsAnable("false");
-				mailProps.setMailSmtpHost(getProperty(prefix + "NewsLetterLocal_mail.smtp.host"));
-				mailProps.setMailSmtpPort(getProperty(prefix + "NewsLetterLocal_mail.smtp.port"));
-				mailProps.setPassword(getProperty(prefix + "NewsLetterLocal_password"));
-				mailProps.setUsername(getProperty(prefix + "NewsLetterLocal_mail.smtp.user"));
+				mailProps.setMailSmtpHost(getProperty(prefix + "NewsLetterLocal_Host"));
+				mailProps.setMailSmtpPort(getProperty(prefix + "NewsLetterLocal_Port"));
+				mailProps.setPassword(getProperty(prefix + "NewsLetterLocal_Password"));
+				mailProps.setUsername(getProperty(prefix + "NewsLetterLocal_User"));
+				mailProps.setServerName(req.getServerName());
 
 			}
 		}

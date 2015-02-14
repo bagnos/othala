@@ -21,6 +21,7 @@ import it.othala.service.interfaces.IMailService;
 import it.othala.service.template.Template;
 import it.othala.service.template.Template.TipoTemplate;
 import it.othala.util.HelperCrypt;
+import it.othala.util.OthalaCommonUtils;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -332,30 +333,31 @@ public class AccountService implements IAccountService {
 	}
 
 	@Override
-	public void sendMailNewsletter(List<MailDTO>users,String testo,String imageContenuto,String subject,MailPropertiesDTO mailProps) throws Exception {
+	public void sendMailNewsletter(List<MailDTO> users, String testo, String imageContenuto, String subject,
+			MailPropertiesDTO mailProps) throws Exception {
 
-		Map<String, String> inlineImages = new HashMap<String, String>();
+		File xslFile = Template.getFile("it/othala/service/template/mailNewsletter.xsl");
+		String content = new String(java.nio.file.Files.readAllBytes(xslFile.toPath()));
+		content = content.replace("#{testo}", testo);
+		content = content.replace("#{imageContenuto}", imageContenuto);
+		content = content.replace("#{imageLogo}", mailProps.getPathImgLogo());
+		content=content.replace("#{serverName}", mailProps.getServerName());
+		content=content.replace("#{contextName}", mailProps.getContextRoot());
 		
 
-		String html = generateHtmlNewsletter(testo,imageContenuto,mailProps.getPathImgLogo(),inlineImages);
-
-		String[] arrUser=new String[users.size()];
-		int i=0;
-		for (MailDTO mail:users)
-		{
-			arrUser[i]=mail.getTxUser();
-			i++;
+		for (MailDTO mail : users) {
+			mail.setTxNome(mail.getTxNome() != null ? mail.getTxNome() : "Cliente");
+			content = content.replace("#{user}", mail.getTxNome());
+			content = content.replace("#{id}", HelperCrypt.encrypt(String.format("%s", mail.getIdMail().toString())));
+			mailService.inviaHTMLMail(new String[] { mail.getTxUser() }, subject, content, null, mailProps, false);
 		}
 
-		mailService.inviaHTMLMail(arrUser, subject, html, inlineImages,
-				mailProps);
-
 	}
-	
-	private String generateHtmlNewsletter(String testo,String imageContenuto,String imageLogo,Map<String, String> inlineImages ) throws Exception {
+
+	private String generateHtmlNewsletter(String testo, String imageContenuto, String imageLogo, String user)
+			throws Exception {
 		BufferedWriter out = null;
 		FileWriter fstream = null;
-		
 
 		try {
 
@@ -365,20 +367,27 @@ public class AccountService implements IAccountService {
 
 			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(xmlTemp), "UTF8"));
 
-			out.write("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");		
+			out.write("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
+			out.write("<mail>");
+			out.write("<user>");
+			out.write(user);
+			out.write("</user>");
+
 			out.write("<imgLogo>");
-			out.write("cid:imageLogo");
-			inlineImages.put("imageLogo", imageLogo);
+			// out.write("cid:imageLogo");
+			out.write(imageLogo);
+			// inlineImages.put("imageLogo", imageLogo);
 			out.write("</imgLogo>");
-			out.write("<imgContenuto>");
-			out.write("cid:imgContenuto");
-			inlineImages.put("imgContenuto", imageContenuto);
-			out.write("</imgContenuto>");
-			out.write("<customer>");
-			out.write(testo);			
-			out.write("</customer>");
-			out.write("</cart>");
-			out.write("</order>");
+			if (imageContenuto != null) {
+				out.write("<imgContenuto>");
+				out.write(imageContenuto);
+				// inlineImages.put("imgContenuto", imageContenuto);
+				out.write("</imgContenuto>");
+			}
+			out.write("<testo>");
+			out.write(testo);
+			out.write("</testo>");
+			out.write("</mail>");
 			out.close();
 			fstream.close();
 

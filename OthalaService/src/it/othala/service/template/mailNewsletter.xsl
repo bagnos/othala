@@ -1,9 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	xmlns="http://www.w3.org/TR/REC-html40" version="1.0">
-	<xsl:decimal-format name="euro" decimal-separator=","
-		grouping-separator="." />
-	<xsl:template match="/">
-		<html>
+<html>
 			<head>
 				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 			</head>
@@ -11,27 +6,23 @@
 				style="padding:4px;font-family: Helvetica Neue,Helvetica,Arial,sans-serif;line-height: 1.42857143;font-size:14px;">
 				<br />
 				<div>
-					<img>
-						<xsl:attribute name="src">
-					    <xsl:value-of select="imgLogo" />
-					    </xsl:attribute>
-					</img>
+					<img src="#{imageLogo}" style="max-weight:100%"></img>
 				</div>
-				<br />
+				<br />				
 				<p style="margin-top:20px">
-					<img>
-						<xsl:attribute name="src">
-					    <xsl:value-of select="imgContenuto" />
-					    </xsl:attribute>
-					</img>
+					Gentile #{user},					
+					<br />
+					<br />
+					#{testo}
 				</p>
 				<p style="margin-top:20px">
-					Gentile Cliente,					
-					<br />
-					<br />
-					<xsl:value-of select="testo" />
+				<img src="#{imageContenuto}" style="max-weight:100%"></img>
+				</p>
+				<p style="margin-top:20px">
+				<em>
+				Hai ricevuto questo messaggio perch&#233; sei iscritto alla nostra newsletter. Se non vuoi ricevere altri messaggi visita questo link
+				<strong>http://#{serverName}/#{contextName}/account/unsuscribe.xhtml?id=#{id}</strong>
+				</em>
 				</p>
 			</body>
-		</html>
-	</xsl:template>
-</xsl:stylesheet>
+	</html>
