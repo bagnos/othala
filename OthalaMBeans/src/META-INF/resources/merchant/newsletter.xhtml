@@ -116,7 +116,7 @@
 									</div>
 									<div class="col-sm-5">
 										<p:outputLabel value="Ogetto" for="oggetto" />
-										<p:inputText styleClass="form-control" value="#{accessView.email}" id="oggetto"
+										<p:inputText styleClass="form-control" value="#{newsletterView.ogettoMail}" id="oggetto"
 											label="oggetto" required="true" maxlength="70">
 										</p:inputText>
 										<p:message for="oggetto"></p:message>
@@ -131,7 +131,7 @@
 									<div class="col-sm-12">
 										<div class="form-group">
 											<p:outputLabel value="Testo" for="testo" />
-											<p:inputTextarea styleClass="form-control" required="true" label="testo" rows="8"
+											<p:inputTextarea styleClass="form-control" value="#{newsletterView.testoMail}"  required="true" label="testo" rows="8"
 												id="testo" />
 										</div>
 									</div>

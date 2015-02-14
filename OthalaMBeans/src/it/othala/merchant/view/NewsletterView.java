@@ -102,18 +102,24 @@ public class NewsletterView extends BaseView {
 		groups = OthalaFactory.getAccountServiceInstance().listMailGroup(null);
 		return null;
 	}
-	
-	public void inviaMail(ActionEvent e)
-	{
-		List<MailDTO> users=OthalaFactory.getAccountServiceInstance().listMail(idGroupSelected, null);
-		MailPropertiesDTO mailProps= ConfigurationUtil.getMailProps(getRequest());
+
+	public void inviaMail(ActionEvent e) {
+		List<MailDTO> users = OthalaFactory.getAccountServiceInstance().listMail(idGroupSelected, null);
+		MailPropertiesDTO mailProps = ConfigurationUtil.getMailPropsNewsLetter(getRequest());
+		String imgContenuto = null;
+		if (fileImg != null) {
+			imgContenuto = ConfigurationUtil.getHttpPathImagesNewsletter(getRequest()) + fileImg;
+		}
 		try {
-			OthalaFactory.getAccountServiceInstance().sendMailNewsletter(users, testoMail, absoluteFileImg, ogettoMail, mailProps);
+			OthalaFactory.getAccountServiceInstance().sendMailNewsletter(users, testoMail, imgContenuto, ogettoMail,
+					mailProps);
+			addInfo("Newsletter", "Mail inviata correttamente");
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			addError("Errore Invio mail", "si è verificato un problema nell'invio della mail.");
+			log.error("erroe invio mail", e1);
 		}
-		
+
 	}
 
 	public void handleFileUpload(FileUploadEvent event) throws IOException {
@@ -124,7 +130,7 @@ public class NewsletterView extends BaseView {
 		try {
 			UploadedFile file = event.getFile();
 			inputStream = file.getInputstream();
-			fileImg=file.getFileName();
+			fileImg = file.getFileName();
 			absoluteFileImg = baseImgPath + File.separator + file.getFileName();
 
 			outputStream = new FileOutputStream(new File(absoluteFileImg));

@@ -358,7 +358,7 @@ public class OrderService implements IOrderService {
 		String subject = shop.get(0).getTxShop() + " - Conferma Reso Merce";
 
 		mailService.inviaHTMLMail(new String[] { orderFullDTO.getIdUser().toString() }, subject, html, inlineImages,
-				mailProps);
+				mailProps,true);
 
 	}
 
@@ -381,7 +381,7 @@ public class OrderService implements IOrderService {
 		
 
 		mailService.inviaHTMLMail(new String[] { orderFullDTO.getIdUser().toString() }, subject, html, inlineImages,
-				mailProps);
+				mailProps,true);
 
 	}
 
@@ -405,7 +405,7 @@ public class OrderService implements IOrderService {
 		
 
 		mailService.inviaHTMLMail(new String[] { orderFullDTO.getIdUser().toString() }, subject, html, inlineImages,
-				mailProps);
+				mailProps,true);
 
 	}
 
@@ -426,7 +426,7 @@ public class OrderService implements IOrderService {
 
 
 		mailService.inviaHTMLMail(new String[] { orderFullDTO.getIdUser().toString() }, subject, html, inlineImages,
-				mailProps);
+				mailProps,true);
 
 	}
 

@@ -418,7 +418,7 @@ public class PaymentService implements IPaymentService {
 			oggetto = "Conferma ordine";
 		}
 
-		mailService.inviaHTMLMail(new String[] { order.getIdUser() }, oggetto, html, inlineImages, mailDTO);
+		mailService.inviaHTMLMail(new String[] { order.getIdUser() }, oggetto, html, inlineImages, mailDTO,true);
 
 		List<ShopDTO> lsShop = productDAO.listShop();
 		if (state == TypeStateOrder.SPEDITO) {
@@ -435,7 +435,7 @@ public class PaymentService implements IPaymentService {
 						html = generateHtmlOrder(order, mailDTO, inlineImages, state, "mailInserimentoOrdine", shop.getIdShop());
 						
 						mailService.inviaHTMLMail(new String[] { shop.getTxMail() }, "Nuovo Ordine WEB",
-								html, inlineImages, mailDTO);
+								html, inlineImages, mailDTO,true);
 							
 					}
 					
