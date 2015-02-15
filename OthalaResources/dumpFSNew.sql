@@ -19,9 +19,9 @@
 -- Current Database: `aduna000_othala`
 --
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `aduna000_othala` /*!40100 DEFAULT CHARACTER SET utf8 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `aduna937_othala` /*!40100 DEFAULT CHARACTER SET utf8 */;
 
-USE `aduna000_othala`;
+USE `aduna937_othala`;
 
 --
 -- Table structure for table `addresses`
