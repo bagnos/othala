@@ -906,7 +906,7 @@
 		priceDiscounted,
 		description,
 		gender,
-		type,
+		type as txType,
 		coalesce(pcSconto,discount) as
 		discount,
 		fgNewArrivals,
