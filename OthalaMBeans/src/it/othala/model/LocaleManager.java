@@ -36,6 +36,7 @@ public class LocaleManager {
         //OthalaUtil.setResources(getLocale()); 
         FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
         OthalaUtil.setLangFromContextJSF(locale.getLanguage());
+        OthalaUtil.setResources(locale);
         beanApplication.resetDomain();
         beanApplication.resetMenu();
     }
