@@ -373,7 +373,7 @@ public class OrderService implements IOrderService {
 
 		Map<String, String> inlineImages = new HashMap<String, String>();
 		
-		String html = generateHtmlReso(orderFullDTO, listRefound.get(0).getCart(), shop.get(1), "mailConfermaCambio",
+		String html = generateHtmlReso(orderFullDTO, listRefound.get(0).getCart(), shop.get(0), "mailConfermaCambio",
 				mailProps.getPathImgLogo(), idReso.toString(), inlineImages);
 
 		String subject = shop.get(0).getTxShop() + " - Conferma Cambio Merce";
@@ -397,7 +397,7 @@ public class OrderService implements IOrderService {
 		
 		Map<String, String> inlineImages = new HashMap<String, String>();
 		
-		String html = generateHtmlReso(orderFullDTO, listRefound.get(0).getCart(), shop.get(1),
+		String html = generateHtmlReso(orderFullDTO, listRefound.get(0).getCart(), shop.get(0),
 				"mailInserimentoCambio", mailProps.getPathImgLogo(), idReso.toString(), inlineImages);
 
 		String subject = shop.get(0).getTxShop() + " - Notifica di Cambio";
@@ -418,7 +418,7 @@ public class OrderService implements IOrderService {
 
 		List<ShopDTO> shop = productDAO.listShop();
 		Map<String, String> inlineImages = new HashMap<String, String>();
-		String html = generateHtmlReso(orderFullDTO, listRefound.get(0).getCart(), shop.get(1), "mailInserimentoReso",
+		String html = generateHtmlReso(orderFullDTO, listRefound.get(0).getCart(), shop.get(0), "mailInserimentoReso",
 				mailProps.getPathImgLogo(), idReso.toString(), inlineImages);
 
 		String subject = shop.get(0).getTxShop() + " - Notifica di Reso";
