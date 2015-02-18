@@ -71,6 +71,13 @@ import it.othala.external.service.interfaces.IOthalaExternalServices;
 		shop.setIdShop(100);
 		shop.setTxShop("Sede centrale");
 		shop.setTxMail("shop@degortes.net");
+		shop.setTxVia("Via Banchi di Sotto");
+		shop.setCdCap(53100);
+		shop.setTxComune("Siena");
+		shop.setTxProvincia("SI");
+		shop.setTxNazione("Italia");
+		
+		
 		//shop.setIdShop(shopDeg.getCodMagaz());
 		//shop.setTxShop(shopDeg.getDesNegozio());
 		//shop.setTxMail(shopDeg.getTxMail());
