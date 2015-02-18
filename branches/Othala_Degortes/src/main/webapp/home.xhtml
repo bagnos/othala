@@ -118,7 +118,7 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 				</div>
 			</div>
 			<div class="container" style="margin-top: 5px;">
-				<div class="row">
+				<div class="row">					
 					<div id="owl-newArr" class="owl-carousel col-sm-12">
 						<ui:repeat var="art" value="#{homeView.articleNewArrivals}">
 							<div class="item">
@@ -183,13 +183,14 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 		
 		$(window).load(function() {
 			
-					setTimeout(function(){ var blog=document.getElementById('instamember');
+/*
+			setTimeout(function(){ var blog=document.getElementById('instamember');
 					var element = document.createElement("iframe");
 					element.src = "http://instaembedder.com/gallery-v2.php?username=mag_boutique&amp;width=270&amp;cols=4&amp;rows=2&amp;color=white&amp;likes=1&amp;share_buttons=1&amp;comments=1&amp;frame_color=white";
 					element.width="100%";
 					element.height="280px";
 					element.style="border: none";	
-					blog.appendChild(element); }, 3000);
+					blog.appendChild(element); }, 3000);*/
 							 	
 					setTimeout(function() {
 						$("#owl-newArr").owlCarousel({

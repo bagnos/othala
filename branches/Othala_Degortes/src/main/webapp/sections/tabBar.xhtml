@@ -4,7 +4,9 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:pe="http://primefaces.org/ui/extensions">
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	>
 	<div id="logo">
 		<a class="hidden-xs hidden-sm" href="#{request.contextPath}/home.xhtml">
 			<h:graphicImage library="images" styleClass="img-responsive" alt="logo #{msgSite.titleMerchant}"
@@ -24,15 +26,14 @@
 			</a></li>
 		</h:panelGroup>
 		<h:panelGroup rendered="#{applicationBean.menuFull.fgNuoviArrivi}">
-			<li>			
+			<li>		
+			
+			<!-- 
 			<h:link value="#{menu.txGender}"     
-					outcome="/cart/cart-catalog.xhtml" class="trasparente">
-					<f:param name="idMenu" value="0"></f:param>
-					<f:param name="idSubMenu" value="0"></f:param>
-					<f:param name="fgNewArrivals" value="true"></f:param>
-					<f:param name="idCampaign" value="0"></f:param>
+					outcome="NewArrivals" class="trasparente">					
 					<h:outputText id="newArr" value="#{msg.catalog_newArrival}" />
-				</h:link>
+				</h:link> -->
+			<a href="#{msg.catalogo_newarrivals}">#{msg.catalog_newArrival}</a>	
 			</li>
 		</h:panelGroup>
 	</ul>
@@ -53,8 +54,10 @@
 						</div>
 						<div class="row spacer10">
 							<ui:repeat var="submenu" value="#{menu.subMenu}"
-								varStatus="statusSub"> 
+								varStatus="statusSub">								 
 								<div class="col-sm-12 col-md-4 spacer6" style="padding-left: 5px; padding-right: 5px;">
+								<a href="#{request.contextPath}/${fn:toLowerCase(msg.articoli)}/${fn:toLowerCase(menu.txGender)}/${fn:toLowerCase(submenu.txType)}" class="linkArt">#{submenu.txType}</a>
+								<!-- 							
 									<h:link class="linkArt" value="#{submenu.txType}"
 										outcome="/cart/cart-catalog.xhtml">
 										<f:param name="idMenu" value="#{menu.idGender}"></f:param>
@@ -62,7 +65,9 @@
 										<f:param name="fgNewArrivals" value="false"></f:param>
 										<f:param name="idCampaign" value="0"></f:param>
 										<f:param name="idSubMenuBrand" value="0"></f:param>
-									</h:link> 
+									</h:link>
+									 -->
+									 
 								</div>
 							</ui:repeat>
 						</div>
@@ -75,6 +80,8 @@
 							<ui:repeat var="submenu" value="#{menu.subMenuBrand}"
 								varStatus="statusSub">
 								<div class="col-sm-12 col-md-4 spacer6" >
+								<a href="#{request.contextPath}/brand/${fn:toLowerCase(menu.txGender)}/${fn:toLowerCase(submenu.txBrand)}" class="linkArt">#{submenu.txBrand}</a>
+								<!-- 
 									<h:link styleClass="linkArt" value="#{submenu.txBrand}"
 										outcome="/cart/cart-catalog.xhtml">
 										<f:param name="idMenu" value="#{menu.idGender}"></f:param>
@@ -83,6 +90,7 @@
 										<f:param name="fgNewArrivals" value="false"></f:param>
 										<f:param name="idCampaign" value="0"></f:param>										
 									</h:link>
+									 -->
 								</div>
 							</ui:repeat>
 						</div>
@@ -100,8 +108,10 @@
 				</div>
 				<div class="col-xs-10  spacer10">
 					<div class="row">
-						<ui:repeat var="campaign" value="#{applicationBean.campaigns}">
+						<ui:repeat var="campaign" value="#{applicationBean.campaigns}">					
 							<div class="col-sm-12">
+								<a href="#{request.contextPath}/${fn:toLowerCase(msg.catalog_promo)}/${fn:toLowerCase(campaign.txCampaign)}" class="linkArt">#{campaign.txCampaign}</a>
+								<!-- 
 								<h:link styleClass="linkArt" value="#{campaign.txCampaign}"
 									outcome="/cart/cart-catalog.xhtml">
 									<f:param name="idMenu" value="0"></f:param>
@@ -110,6 +120,7 @@
 									<f:param name="idCampaign" value="#{campaign.idCampaign}"></f:param>
 									<f:param name="idSubMenuBrand" value="0"></f:param>
 								</h:link>
+								 -->
 							</div>
 						</ui:repeat>
 					</div>

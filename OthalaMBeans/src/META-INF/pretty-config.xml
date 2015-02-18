@@ -1,0 +1,75 @@
+<pretty-config xmlns="http://ocpsoft.org/schema/rewrite-config-prettyfaces" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:schemaLocation="http://ocpsoft.org/schema/rewrite-config-prettyfaces
+                      http://ocpsoft.org/xml/ns/prettyfaces/rewrite-config-prettyfaces.xsd">
+
+<url-mapping id="home"> 
+   <pattern value="/" /> 
+   <view-id value="/home.xhtml" />
+</url-mapping>
+
+<url-mapping id="news"> 
+   <pattern value="/newarrivals" />   
+   <view-id value="/cart/cart-catalog.xhtml?idMenu=0&amp;idSubMenu=0&amp;fgNewArrivals=true&amp;idCampaign=0" />
+</url-mapping>
+
+<url-mapping id="nuovi"> 
+   <pattern value="/nuoviarrivi" />   
+   <view-id value="/cart/cart-catalog.xhtml?idMenu=0&amp;idSubMenu=0&amp;fgNewArrivals=true&amp;idCampaign=0" />
+</url-mapping>
+
+
+<url-mapping id="Brands"> 
+   <pattern value="/brand/#{cartFlowView1.gender}/#{cartFlowView1.brands}" /> 
+   <view-id value="/cart/cart-catalog.xhtml?idSubMenu=0&amp;fgNewArrivals=false&amp;idCampaign=0" />   
+</url-mapping>
+
+<url-mapping id="Articles"> 
+   <pattern value="/articles/#{cartFlowView1.gender}/#{cartFlowView1.type}" /> 
+   <view-id value="/cart/cart-catalog.xhtml?fgNewArrivals=false&amp;idCampaign=0&amp;idSubMenuBrand=0" />   
+</url-mapping>
+<url-mapping id="Articoli"> 
+   <pattern value="/articoli/#{cartFlowView1.gender}/#{cartFlowView1.type}" /> 
+   <view-id value="/cart/cart-catalog.xhtml?fgNewArrivals=false&amp;idCampaign=0&amp;idSubMenuBrand=0" />   
+</url-mapping>
+
+<url-mapping id="promozioni"> 
+   <pattern value="/promozioni/#{cartFlowView1.campaign}" /> 
+   <view-id value="/cart/cart-catalog.xhtml?idMenu=0&amp;idSubMenu=0&amp;fgNewArrivals=false&amp;idSubMenuBrand=0" />         
+</url-mapping>
+<url-mapping id="promotions"> 
+   <pattern value="/Promotions/#{cartFlowView1.campaign}" /> 
+   <view-id value="/cart/cart-catalog.xhtml?idMenu=0&amp;idSubMenu=0&amp;fgNewArrivals=false&amp;idSubMenuBrand=0" />         
+</url-mapping>
+
+<url-mapping id="product"> 
+   <pattern value="/article/#{brand}/#{type}/#{cartChoice2View.idProduct}" /> 
+   <view-id value="/cart/cart-choice-2.xhtml" />         
+</url-mapping>
+<url-mapping id="prodotto"> 
+   <pattern value="/articolo/#{brand}/#{type}/#{cartChoice2View.idProduct}" /> 
+   <view-id value="/cart/cart-choice-2.xhtml" />         
+</url-mapping>
+<url-mapping id="food"> 
+   <pattern value="/product/food/#{brand}/#{type}/#{cartChoice2View.idProduct}" /> 
+   <view-id value="/cart/cart-choice-3.xhtml" />         
+</url-mapping>
+<url-mapping id="alimentare"> 
+   <pattern value="/prodotto/alimentare/#{brand}/#{type}/#{cartChoice2View.idProduct}" /> 
+   <view-id value="/cart/cart-choice-3.xhtml" />         
+</url-mapping>
+<url-mapping id="servizio"> 
+   <pattern value="/servizio/#{brand}/#{type}/#{cartChoice2View.idProduct}" /> 
+   <view-id value="/cart/cart-choice-3.xhtml" />         
+</url-mapping>
+<url-mapping id="service"> 
+   <pattern value="/service/#{brand}/#{type}/#{cartChoice2View.idProduct}" /> 
+   <view-id value="/cart/cart-choice-3.xhtml" />         
+</url-mapping>
+
+
+	 
+	
+	
+	
+</pretty-config>

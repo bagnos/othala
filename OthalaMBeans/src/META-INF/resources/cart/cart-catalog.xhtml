@@ -21,10 +21,12 @@
 	<ui:define name="description">
 		<meta name="description"
 			content="#{msgSite.nomeMerchant}: #{cartFlowView1.category}"></meta>
-	</ui:define>
+	</ui:define>	
 	<ui:define name="canonical">
+		<!-- 
 		<link rel="canonical"
 			href="http://#{request.serverName}#{request.contextPath}/cart/cart-catalog.xhtml?idMenu=#{cartFlowView1.idMenu}&amp;idSubMenu=#{cartFlowView1.idSubMenu}&amp;fgNewArrivals=#{cartFlowView1.fgNewArrivals}&amp;idCampaign=#{cartFlowView1.idCampaign}&amp;idSubMenuBrand=#{cartFlowView1.brand}" />
+			-->
 	</ui:define>
 	<ui:define name="content">
 		<h:form prependId="false">
@@ -175,33 +177,31 @@
 										rendered="#{(art.specialPrice == null or art.specialPrice == 0) and art.discount != null and art.discount != 0 and art.idCampaign != null}"
 										value="#{art.discount} %" />
 									<!-- <h:link outcome="#{art.tyProduct == null ? 'cart-choice-2' : 'cart-choice-3'}">  -->
-									<h:link outcome="cart-choice-2"
+								
+									<h:outputLink value="#{cartFlowView1.getCartChoice2(art.idProduct,art.txBrand,art.txType)}"
 										rendered="#{art.tyProduct == null}">
 										<h:graphicImage styleClass="center-block img-responsive"
 											title="#{art.txBrand}:#{art.txType} #{art.description} #{art.descriptionEN}"
 											alt="#{art.txBrand}:#{art.txType} #{art.description} #{art.descriptionEN}"
 											library="images/cartThumbinals"
-											name="#{art.imagesUrl.get(0)}" />
-										<f:param name="idPrd" value="#{art.idProduct}"></f:param>
-									</h:link>
-									<h:link outcome="cart-choice-3"
+											name="#{art.imagesUrl.get(0)}" />										
+									</h:outputLink>
+									<h:outputLink  outcome="#{cartFlowView1.getCartChoice3(art.idProduct,art.txBrand)}"
 										rendered="#{art.tyProduct == 1}">
 										<h:graphicImage styleClass="center-block img-responsive"
 											title="#{art.txBrand}:#{art.txType} #{art.description} #{art.descriptionEN}"
 											alt="#{art.txBrand}:#{art.txType} #{art.description} #{art.descriptionEN}"
 											library="images/cartThumbinals"
-											name="#{art.imagesUrl.get(0)}" />
-										<f:param name="idPrd" value="#{art.idProduct}"></f:param>
-									</h:link>
-									<h:link outcome="cart-choice-4"
+											name="#{art.imagesUrl.get(0)}" />										
+									</h:outputLink>
+									<h:outputLink outcome="#{cartFlowView1.getCartChoice4(art.idProduct,art.txBrand)}"
 										rendered="#{art.tyProduct == 2}">
 										<h:graphicImage styleClass="center-block img-responsive"
 											title="#{art.txBrand}:#{art.txType} #{art.description} #{art.descriptionEN}"
 											alt="#{art.txBrand}:#{art.txType} #{art.description} #{art.descriptionEN}"
 											library="images/cartThumbinals"
-											name="#{art.imagesUrl.get(0)}" />
-										<f:param name="idPrd" value="#{art.idProduct}"></f:param>
-									</h:link>
+											name="#{art.imagesUrl.get(0)}" />										
+									</h:outputLink>
 
 
 									<div class="caption articolo">

@@ -59,6 +59,7 @@
 				<version>1.6.2</version>
 				<executions>
 					<execution>
+
 						<id>default-minify</id>
 						<configuration>
 
@@ -88,6 +89,12 @@
 		</plugins>
 	</build>
 	<dependencies>
+		<dependency>
+			<groupId>com.ocpsoft</groupId>
+			<artifactId>prettyfaces-jsf2</artifactId>
+			<version>3.3.3</version>
+		</dependency>
+
 		<dependency>
 			<groupId>it.adunata</groupId>
 			<artifactId>OthalaService</artifactId>
@@ -212,12 +219,12 @@
 
 
 		<dependency>
-    <groupId>org.imgscalr</groupId>
-    <artifactId>imgscalr-lib</artifactId>
-    <version>4.2</version>
-    <type>jar</type>
-    <scope>compile</scope>
-  </dependency>
+			<groupId>org.imgscalr</groupId>
+			<artifactId>imgscalr-lib</artifactId>
+			<version>4.2</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
 
 
 
