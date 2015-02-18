@@ -426,12 +426,12 @@ public class PaymentService implements IPaymentService {
 		} else {
 			for (ArticleFullDTO art : order.getCart()) {
 				
-				//ShopDTO shopStock = externalService.getShopStock(art.getPrdFullDTO().getIdProduct(), art.getPgArticle(), art.getTxBarCode());
+				ShopDTO shopStock = externalService.getShopStock(art.getPrdFullDTO().getIdProduct(), art.getPgArticle(), art.getTxBarCode());
 				
 				for (ShopDTO shop :  lsShop){
 					
-					if (shop.getIdShop() == 100){
-					//if (shopStock.getIdShop() == shop.getIdShop()){
+					
+					if (shopStock.getIdShop() == shop.getIdShop()){
 						
 						html = generateHtmlOrder(order, mailDTO, inlineImages, state, "mailInserimentoOrdine", shop.getIdShop());
 						
