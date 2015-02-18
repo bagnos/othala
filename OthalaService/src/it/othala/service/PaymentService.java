@@ -426,11 +426,12 @@ public class PaymentService implements IPaymentService {
 		} else {
 			for (ArticleFullDTO art : order.getCart()) {
 				
-				ShopDTO shopStock = externalService.getShopStock(art.getPrdFullDTO().getIdProduct(), art.getPgArticle(), art.getTxBarCode());
+				//ShopDTO shopStock = externalService.getShopStock(art.getPrdFullDTO().getIdProduct(), art.getPgArticle(), art.getTxBarCode());
 				
 				for (ShopDTO shop :  lsShop){
 					
-					if (shopStock.getIdShop() == shop.getIdShop()){
+					if (shop.getIdShop() == 100){
+					//if (shopStock.getIdShop() == shop.getIdShop()){
 						
 						html = generateHtmlOrder(order, mailDTO, inlineImages, state, "mailInserimentoOrdine", shop.getIdShop());
 						
@@ -459,7 +460,7 @@ public class PaymentService implements IPaymentService {
 						html = generateHtmlOrder(order, mailDTO, inlineImages, state, "mailInserimentoOrdine", lstShop
 								.get(i).getIdShop());
 						mailService.inviaHTMLMail(new String[] { lstShop.get(i).getTxMail() }, "Nuovo Ordine WEB",
-								html, inlineImages, mailDTO);
+								html, inlineImages, mailDTO, true);
 						break;
 					}
 				}
