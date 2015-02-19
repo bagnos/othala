@@ -20,6 +20,8 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
+import org.primefaces.context.PrimeFacesContext;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
@@ -37,6 +39,16 @@ public class NewsletterView extends BaseView {
 	private String baseImgPath;
 	private String fileImg;
 	private String absoluteFileImg;
+	private List<MailDTO> mail;
+	private String groupSelected;
+
+	public String getGroupSelected() {
+		return groupSelected;
+	}
+
+	public List<MailDTO> getMail() {
+		return mail;
+	}
 
 	public String getFileImg() {
 		return fileImg;
@@ -101,6 +113,21 @@ public class NewsletterView extends BaseView {
 		baseImgPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath(baseImgPath);
 		groups = OthalaFactory.getAccountServiceInstance().listMailGroup(null);
 		return null;
+	}
+	
+	public void mostra(ActionEvent e)
+	{
+		for (MailGroupDTO mgroup:groups)
+		{
+			if (mgroup.getIdMailGroup().intValue()==idGroupSelected.intValue())
+			{
+				groupSelected=mgroup.getTxMailGroup();
+				break;
+			}
+		}
+		
+		mail = OthalaFactory.getAccountServiceInstance().listMail(idGroupSelected, null);
+		RequestContext.getCurrentInstance().execute("PF('dlgGroup').show();");
 	}
 
 	public void inviaMail(ActionEvent e) {

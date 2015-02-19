@@ -85,15 +85,15 @@
 								</a>
 								<ul class="dropdown-menu">
 
-									<li class="dropdown"><a href="#{request.contextPath}/account/access.xhtml"
+									<li class="dropdown"><a href="#{request.contextPath}/access"
 											class="dropdown-toggle">
 											<h:outputText value="#{msg.header_login}" />
 										</a></li>
-									<li><a href="#{request.contextPath}/account/registration.xhtml"
+									<li><a href="#{request.contextPath}/registration"
 											class="dropdown-toggle">
 											<h:outputText value="#{msg.header_registration}" />
 										</a></li>
-									<li><a href="#{request.contextPath}/account/requestResetPsw.xhtml"
+									<li><a href="#{request.contextPath}/resetpsw"
 											class="dropdown-toggle">
 											<h:outputText value="#{msg.account_assistanceResetPsw}" />
 										</a></li>
@@ -110,18 +110,18 @@
 									<li><h:commandLink ajax="false" actionListener="#{accessView.logout}">
 											<h:outputText value="#{msg.header_logout}" />
 										</h:commandLink></li>
-									<li><a href="#{request.contextPath}/account/myAccount.xhtml" class="dropdown-toggle">
+									<li><a href="#{request.contextPath}/myaccount" class="dropdown-toggle">
 											<h:outputText value="#{msg.account_myAccount}" />
 										</a></li>
-									<li><a href="#{request.contextPath}/account/myOrders.xhtml" class="dropdown-toggle">
+									<li><a href="#{request.contextPath}/myorders" class="dropdown-toggle">
 											<h:outputText value="#{msg.account_myOrders}" />
 										</a></li>
-									<li><a href="#{request.contextPath}/account/myMerchantRequest.xhtml?richiedireso=true"
+									<li><a href="#{request.contextPath}/myrefunds"
 											class="dropdown-toggle">
 											<h:outputText value="#{msg.account_myReturns}" />
 										</a></li>
 									<li><a
-											href="#{request.contextPath}/account/myMerchantRequest.xhtml?richiediCambio=true"
+											href="#{request.contextPath}/mychanges"
 											class="dropdown-toggle">
 											<h:outputText value="#{msg.account_myChanges}" />
 										</a></li>
