@@ -8,7 +8,12 @@
 	<name>Othala Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>
-				<dependency>
+		<dependency>
+			<groupId>com.ocpsoft</groupId>
+			<artifactId>prettyfaces-jsf2</artifactId>
+			<version>3.3.3</version>
+		</dependency>
+		<dependency>
 			<groupId>it.adunata</groupId>
 			<artifactId>OthalaMBeans</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
