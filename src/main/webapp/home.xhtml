@@ -9,7 +9,7 @@
 		</f:metadata>
 	</ui:define>
 	<ui:define name="canonical">
-		<link rel="canonical" href="http://#{request.serverName}#{request.contextPath}/home.xhtml" />
+		<link rel="canonical" href="http://#{request.serverName}#{request.contextPath}/home" />
 	</ui:define>
 	<ui:define name="fb">
 		<meta itemprop="name" content="MagBoutique di Antonella Gonnelli "></meta>
@@ -107,14 +107,8 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 					<h2 class="title">
 						<span>#{msg.catalog_newArr}</span>
 					</h2>
-					<h:link value="#{menu.txGender}" outcome="/cart/cart-catalog.xhtml"
-						styleClass="show-more-link hidden-xs">
-						<f:param name="idMenu" value="0"></f:param>
-						<f:param name="idSubMenu" value="0"></f:param>
-						<f:param name="fgNewArrivals" value="true"></f:param>
-						<f:param name="idCampaign" value="0"></f:param>
-						<h:outputText value="#{msg.catalog_findNewArr}&#62;" />
-					</h:link>
+					
+					<a href="#{msg.catalogo_newarrivals}" class="show-more-link hidden-xs">#{msg.catalog_findNewArr}&#62;</a>
 
 				</div>
 			</div>
@@ -123,12 +117,12 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 					<div id="owl-newArr" class="owl-carousel col-sm-12">
 						<ui:repeat var="art" value="#{homeView.articleNewArrivals}">
 							<div class="item">
-								<h:link outcome="cart/cart-choice-2" rendered="#{art.idProduct != null}">
-									<img title="#{art.txBrand} #{art.description}" alt="#{art.txBrand} #{art.description}"
+								<h:outputLink value="#{cartFlowView1.getCartChoice(art.idProduct,art.txBrand,art.txType,art.tyProduct)}">
+									<img title="#{art.txBrand} #{art.description}" alt="Shop #{art.txBrand} #{art.description}"
 										class="lazyOwl img-responsive" style="margin: auto"
 										data-src="#{request.contextPath}/javax.faces.resource/#{art.thumbnailsUrl}.xhtml?ln=images/cartThumbinals" />
 									<f:param name="idPrd" value="#{art.idProduct}"></f:param>
-								</h:link>
+								</h:outputLink>
 								<div class="row">
 									<div class="col-sm-12" style="text-align: center;">
 										<h5 style="text-transform: uppercase;">
