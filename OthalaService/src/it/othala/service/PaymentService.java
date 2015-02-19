@@ -424,8 +424,8 @@ public class PaymentService implements IPaymentService {
 		if (state == TypeStateOrder.SPEDITO) {
 
 		} else {
-			for (ArticleFullDTO art : order.getCart()) {
-				
+			/*for (ArticleFullDTO art : order.getCart()) {
+		
 				ShopDTO shopStock = externalService.getShopStock(art.getPrdFullDTO().getIdProduct(), art.getPgArticle(), art.getTxBarCode());
 				
 				for (ShopDTO shop :  lsShop){
@@ -433,17 +433,18 @@ public class PaymentService implements IPaymentService {
 					
 					if (shopStock.getIdShop() == shop.getIdShop()){
 						
-						html = generateHtmlOrder(order, mailDTO, inlineImages, state, "mailInserimentoOrdine", shop.getIdShop());
-						
-						mailService.inviaHTMLMail(new String[] { shop.getTxMail() }, "Nuovo Ordine WEB",
-								html, inlineImages, mailDTO,true);
+
 							
 					}
 					
 				}
 				
-				
-			}
+			}*/
+			
+			html = generateHtmlOrder(order, mailDTO, inlineImages, state, "mailInserimentoOrdine", lsShop.get(0).getIdShop());
+			
+			mailService.inviaHTMLMail(new String[] { lsShop.get(0).getTxMail() }, "Nuovo Ordine WEB",
+					html, inlineImages, mailDTO,true);
 			
 			//Cambiare
 			//Creare un metodo doppio in externalservice che tira fuori nel caso del deg il magazzino con maggior capienza
