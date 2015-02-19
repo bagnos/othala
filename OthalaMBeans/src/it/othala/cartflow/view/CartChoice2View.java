@@ -42,7 +42,6 @@ public class CartChoice2View extends BaseView {
 	private String txColor;
 	private boolean renderSize;
 
-
 	public boolean isRenderSize() {
 		return renderSize;
 	}
@@ -127,15 +126,12 @@ public class CartChoice2View extends BaseView {
 		// TODO Auto-generated method stub
 		try {
 			getCartFlowBean().setUrlReferer(getRequest().getHeader("referer"));
-			
-			
 
-			if (idProduct==null)
-			{
+			if (idProduct == null) {
 				addError("Scelta prodotto", "nessun prodotto selezionato");
 				return null;
 			}
-			
+
 			for (ProductFullNewDTO p : getCartFlowBean().getCatalog().getArticlesPage()) {
 				if (p.getIdProduct().intValue() == idProduct.intValue()) {
 					getCartFlowBean().setDetailProduct(p);
@@ -143,59 +139,63 @@ public class CartChoice2View extends BaseView {
 				}
 			}
 
-			//inserita it per il crawler di fb che si presenta in use non trova il prodotto
-			prdFull = OthalaFactory.getProductServiceInstance().getProductFull(OthalaUtil.getLangFromContextJSF(), idProduct, false);
+			// inserita it per il crawler di fb che si presenta in use non trova
+			// il prodotto
+			prdFull = OthalaFactory.getProductServiceInstance().getProductFull(OthalaUtil.getLangFromContextJSF(),
+					idProduct, false);
 			getCartFlowBean().setDetailProductFull(prdFull);
-			
-			if (prdFull==null)
-			{
-				addError("Scelta prodotto", "nessun prodotto selezionato con id="+idProduct);
+
+			if (prdFull == null) {
+				addError("Scelta prodotto", "nessun prodotto selezionato con id=" + idProduct);
 				return null;
 			}
 
-			priceStr =getCartFlowBean().getDetailProductFull().getRealPrice().setScale(2, RoundingMode.HALF_UP).toString();
-					
-			
+			priceStr = getCartFlowBean().getDetailProductFull().getRealPrice().setScale(2, RoundingMode.HALF_UP)
+					.toString();
+
 			priceDiscountedStr = null;
 			if (getCartFlowBean().getDetailProductFull().getPriceDiscounted() != null
 					&& getCartFlowBean().getDetailProductFull().getPriceDiscounted().compareTo(BigDecimal.ZERO) > 0
 					&& getCartFlowBean().getDetailProductFull().getPriceDiscounted()
 							.compareTo(getCartFlowBean().getDetailProductFull().getPrice()) < 0) {
-				priceDiscountedStr = getCartFlowBean().getDetailProductFull()
-						.getPriceDiscounted().setScale(2, RoundingMode.HALF_UP).toString();
-			}
-			
-			
-/*
-			List<ProductCarouselDTO> carouselList = new ArrayList<ProductCarouselDTO>();
-			ProductCarouselDTO a = null;
-			if (getCartFlowBean().getCatalog().getArticlesPage() != null) {
-				for (int i = 0; i <= getCartFlowBean().getCatalog().getArticlesPage().size() - 1; i++) {
-
-					if (i % 4 == 0) {
-						a = new ProductCarouselDTO();
-						;
-						carouselList.add(a);
-						a.setProduct1(getCartFlowBean().getCatalog().getArticlesPage().get(i));
-
-					} else if (i % 4 == 1) {
-
-						a.setProduct2(getCartFlowBean().getCatalog().getArticlesPage().get(i));
-
-					} else if (i % 4 == 2) {
-
-						a.setProduct3(getCartFlowBean().getCatalog().getArticlesPage().get(i));
-
-					} else if (i % 4 == 3) {
-
-						a.setProduct4(getCartFlowBean().getCatalog().getArticlesPage().get(i));
-
-					}
-
-				}
+				priceDiscountedStr = getCartFlowBean().getDetailProductFull().getPriceDiscounted()
+						.setScale(2, RoundingMode.HALF_UP).toString();
 			}
 
-			getCartFlowBean().setCarouselList(carouselList);*/
+			/*
+			 * List<ProductCarouselDTO> carouselList = new
+			 * ArrayList<ProductCarouselDTO>(); ProductCarouselDTO a = null; if
+			 * (getCartFlowBean().getCatalog().getArticlesPage() != null) { for
+			 * (int i = 0; i <=
+			 * getCartFlowBean().getCatalog().getArticlesPage().size() - 1; i++)
+			 * {
+			 * 
+			 * if (i % 4 == 0) { a = new ProductCarouselDTO(); ;
+			 * carouselList.add(a);
+			 * a.setProduct1(getCartFlowBean().getCatalog().
+			 * getArticlesPage().get(i));
+			 * 
+			 * } else if (i % 4 == 1) {
+			 * 
+			 * a.setProduct2(getCartFlowBean().getCatalog().getArticlesPage().get
+			 * (i));
+			 * 
+			 * } else if (i % 4 == 2) {
+			 * 
+			 * a.setProduct3(getCartFlowBean().getCatalog().getArticlesPage().get
+			 * (i));
+			 * 
+			 * } else if (i % 4 == 3) {
+			 * 
+			 * a.setProduct4(getCartFlowBean().getCatalog().getArticlesPage().get
+			 * (i));
+			 * 
+			 * }
+			 * 
+			 * } }
+			 * 
+			 * getCartFlowBean().setCarouselList(carouselList);
+			 */
 
 			sizeItems = new ArrayList<>();
 			// sizeItems.add(new SelectItem(-1,
@@ -219,19 +219,15 @@ public class CartChoice2View extends BaseView {
 			for (ArticleFullDTO art : prdFull.getArticles()) {
 				qtArticle = qtArticle + art.getQtStock();
 			}
-			
-			if (!prdFull.getIdProductState().equals(1) ||
-					qtArticle.equals(0))
-			{
+
+			if (!prdFull.getIdProductState().equals(1) || qtArticle.equals(0)) {
 				setDisponibile(false);
 				setNondisponibile(true);
-			}
-			else
-			{
+			} else {
 				setDisponibile(true);
 				setNondisponibile(false);
 			}
-			
+
 			colorItems = new ArrayList<>();
 			verifyNA();
 
@@ -254,21 +250,18 @@ public class CartChoice2View extends BaseView {
 			return null;
 		}
 	}
-	
-	private void verifyNA()
-	{
-		renderSize=true;
-		for (ArticleFullDTO art:prdFull.getArticles())
-		{
-			if (art.getTxSize().equalsIgnoreCase("N/A"))
-			{
-				renderSize=false;
-				artSel=art;
-				qtaArticle=1;
-				idSize=art.getIdSize();
-				min=1;
-				max=1;
-				idColor=art.getIdColor();
+
+	private void verifyNA() {
+		renderSize = true;
+		for (ArticleFullDTO art : prdFull.getArticles()) {
+			if (art.getTxSize().equalsIgnoreCase("N/A")) {
+				renderSize = false;
+				artSel = art;
+				qtaArticle = 1;
+				idSize = art.getIdSize();
+				min = 1;
+				max = 1;
+				idColor = art.getIdColor();
 				art.setPrdFullDTO(prdFull);
 			}
 		}
@@ -282,8 +275,8 @@ public class CartChoice2View extends BaseView {
 	}
 
 	public String goToCatalogo() {
-		
-		//url="http://"+getRequest().getServerName()+"/"+url;
+
+		// url="http://"+getRequest().getServerName()+"/"+url;
 		try {
 			FacesContext.getCurrentInstance().getExternalContext().redirect(getCartFlowBean().getUrlReferer());
 		} catch (IOException e) {
@@ -293,17 +286,22 @@ public class CartChoice2View extends BaseView {
 		return null;
 	}
 
+	public String goToCheckout() {
+
+		// url="http://"+getRequest().getServerName()+"/"+url;
+		redirectCheckOut();
+		return null;
+	}
+
 	public void changeSize(AjaxBehaviorEvent e) {
 		if (idSize != null && idSize.intValue() != 0) {
-			for (SelectItem s:sizeItems)
-			{
-				if (s.getValue().toString().equalsIgnoreCase(idSize.toString()))
-				{
-					txSize=s.getLabel();
+			for (SelectItem s : sizeItems) {
+				if (s.getValue().toString().equalsIgnoreCase(idSize.toString())) {
+					txSize = s.getLabel();
 					break;
 				}
 			}
-			
+
 			colorItems = new ArrayList<>();
 			// colorItems.add(new SelectItem(-1,
 			// OthalaUtil.getWordBundle("catalog_chooseColor")));
@@ -319,26 +317,23 @@ public class CartChoice2View extends BaseView {
 		idColor = 0;
 		changeColor(null);
 	}
-	
-	
+
 	public void changeFormato(AjaxBehaviorEvent e) {
 		if (idSize != null && idSize.intValue() != 0) {
-			for (SelectItem s:sizeItems)
-			{
-				if (s.getValue().toString().equalsIgnoreCase(idSize.toString()))
-				{
-					txSize=s.getLabel();
+			for (SelectItem s : sizeItems) {
+				if (s.getValue().toString().equalsIgnoreCase(idSize.toString())) {
+					txSize = s.getLabel();
 					break;
 				}
 			}
-			
+
 			colorItems = new ArrayList<>();
 			// colorItems.add(new SelectItem(-1,
 			// OthalaUtil.getWordBundle("catalog_chooseColor")));
 			for (ArticleFullDTO art : prdFull.getArticles()) {
 				if (art.getIdSize().intValue() == idSize.intValue())
-					idColor=art.getIdColor();
-					colorItems.add(new SelectItem(art.getIdColor(), art.getTxColor()));
+					idColor = art.getIdColor();
+				colorItems.add(new SelectItem(art.getIdColor(), art.getTxColor()));
 			}
 		} else {
 			colorItems = new ArrayList<>();
@@ -348,18 +343,17 @@ public class CartChoice2View extends BaseView {
 		idColor = 1;
 		changeColor(null);
 	}
-	
-	
+
 	public void selectSize(ActionEvent e) {
-		idSize=(Integer) e.getComponent().getAttributes().get("idSize");
-		txSize=(String)e.getComponent().getAttributes().get("txSize");
-	
+		idSize = (Integer) e.getComponent().getAttributes().get("idSize");
+		txSize = (String) e.getComponent().getAttributes().get("txSize");
+
 		changeSize(null);
 	}
-	
+
 	public void selectColor(ActionEvent e) {
-		idColor=(Integer) e.getComponent().getAttributes().get("idColor");
-		txColor=(String)e.getComponent().getAttributes().get("txColor");
+		idColor = (Integer) e.getComponent().getAttributes().get("idColor");
+		txColor = (String) e.getComponent().getAttributes().get("txColor");
 		changeColor(null);
 	}
 
@@ -369,11 +363,9 @@ public class CartChoice2View extends BaseView {
 		qtaArticle = 0;
 		if (idSize != null && idSize.intValue() != 0) {
 			if (idColor != null && idColor.intValue() != 0) {
-				for (SelectItem s:colorItems)
-				{
-					if (s.getValue().toString().equalsIgnoreCase(idColor.toString()))
-					{
-						txColor=s.getLabel();
+				for (SelectItem s : colorItems) {
+					if (s.getValue().toString().equalsIgnoreCase(idColor.toString())) {
+						txColor = s.getLabel();
 					}
 				}
 				for (ArticleFullDTO art : prdFull.getArticles()) {

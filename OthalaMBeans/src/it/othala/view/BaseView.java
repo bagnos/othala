@@ -202,7 +202,21 @@ public abstract class BaseView implements Serializable {
 		}
 	}
 	
-	protected void redirectCart() {
+	protected void redirectCheckOut() {
+		try {
+			FacesContext
+					.getCurrentInstance()
+					.getExternalContext()
+					.redirect(
+							FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath()
+									+ "/checkout");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public String redirectCart() {
 		try {
 			FacesContext
 					.getCurrentInstance()
@@ -214,6 +228,7 @@ public abstract class BaseView implements Serializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return null;
 	}
 	
 	

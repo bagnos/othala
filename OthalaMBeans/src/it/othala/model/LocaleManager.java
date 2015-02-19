@@ -3,6 +3,7 @@ package it.othala.model;
 import it.othala.web.utils.OthalaUtil;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Locale;
 
 import javax.faces.bean.ManagedBean;
@@ -12,9 +13,13 @@ import javax.faces.context.FacesContext;
 
 @ManagedBean
 @SessionScoped
-public class LocaleManager {
+public class LocaleManager implements Serializable {
 
-    private Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
     @ManagedProperty(value="#{applicationBean}")
 	//@Inject
 	private ApplicationBean beanApplication;

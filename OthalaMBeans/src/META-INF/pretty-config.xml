@@ -76,6 +76,10 @@
    <pattern value="/servizio/#{brand}/#{type}/#{cartChoice2View.idProduct}" /> 
    <view-id value="/cart/cart-choice-3.xhtml" />         
 </url-mapping>
+<url-mapping id="checkout"> 
+   <pattern value="/checkout" /> 
+   <view-id value="/cart/cartCheckout.xhtml" />         
+</url-mapping>
 <url-mapping id="service"> 
    <pattern value="/service/#{brand}/#{type}/#{cartChoice2View.idProduct}" /> 
    <view-id value="/cart/cart-choice-3.xhtml" />         
