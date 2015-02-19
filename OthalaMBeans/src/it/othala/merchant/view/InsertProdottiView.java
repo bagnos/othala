@@ -7,6 +7,7 @@ import it.othala.dto.ProductFullNewDTO;
 import it.othala.dto.ShopDTO;
 import it.othala.enums.ArticleUpdate;
 import it.othala.merchant.model.MerchantBean;
+import it.othala.model.LocaleManager;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 import it.othala.web.utils.ResizeImageUtil;
@@ -81,7 +82,10 @@ public class InsertProdottiView extends BaseView {
 	private final int SCROLL_WIDTH_AUTOCOMPLETE = 100;
 	private String newSize;
 	private List<String> imgToDelete = new ArrayList<>();
+	
+	
 
+	
 	public String getNewSize() {
 		return newSize;
 	}
@@ -335,6 +339,9 @@ public class InsertProdottiView extends BaseView {
 		if (detail != null && detail) {
 			initProdotto();
 		}
+		
+		changeLocaleIT();
+		
 		qta = 1;
 		imgToDelete=new ArrayList<String>();
 		return null;

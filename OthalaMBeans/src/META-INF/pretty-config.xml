@@ -4,7 +4,7 @@
                       http://ocpsoft.org/xml/ns/prettyfaces/rewrite-config-prettyfaces.xsd">
 
 <url-mapping id="home"> 
-   <pattern value="/" /> 
+   <pattern value="/home" /> 
    <view-id value="/home.xhtml" />
 </url-mapping>
 
@@ -24,13 +24,27 @@
    <view-id value="/cart/cart-catalog.xhtml?idSubMenu=0&amp;fgNewArrivals=false&amp;idCampaign=0" />   
 </url-mapping>
 
+<url-mapping id="BrandsShort"> 
+   <pattern value="/brand/#{cartFlowView1.brands}" /> 
+   <view-id value="/cart/cart-catalog.xhtml?idMenu=1&amp;idSubMenu=0&amp;fgNewArrivals=false&amp;idCampaign=0" />   
+</url-mapping>
+
 <url-mapping id="Articles"> 
    <pattern value="/articles/#{cartFlowView1.gender}/#{cartFlowView1.type}" /> 
    <view-id value="/cart/cart-catalog.xhtml?fgNewArrivals=false&amp;idCampaign=0&amp;idSubMenuBrand=0" />   
 </url-mapping>
 <url-mapping id="Articoli"> 
    <pattern value="/articoli/#{cartFlowView1.gender}/#{cartFlowView1.type}" /> 
-   <view-id value="/cart/cart-catalog.xhtml?fgNewArrivals=false&amp;idCampaign=0&amp;idSubMenuBrand=0" />   
+   <view-id value="/cart/cart-catalog.xhtml?idMenu=1&amp;fgNewArrivals=false&amp;idCampaign=0&amp;idSubMenuBrand=0" />   
+</url-mapping>
+
+<url-mapping id="ArticlesShort"> 
+   <pattern value="/articles/#{cartFlowView1.type}" /> 
+   <view-id value="/cart/cart-catalog.xhtml?idMenu=1&amp;fgNewArrivals=false&amp;idCampaign=0&amp;idSubMenuBrand=0" />   
+</url-mapping>
+<url-mapping id="ArticoliShort"> 
+   <pattern value="/articoli/#{cartFlowView1.type}" /> 
+   <view-id value="/cart/cart-catalog.xhtml?idMenu=1&amp;fgNewArrivals=false&amp;idCampaign=0&amp;idSubMenuBrand=0" />   
 </url-mapping>
 
 <url-mapping id="promozioni"> 
@@ -66,6 +80,23 @@
    <pattern value="/service/#{brand}/#{type}/#{cartChoice2View.idProduct}" /> 
    <view-id value="/cart/cart-choice-3.xhtml" />         
 </url-mapping>
+
+<url-mapping id="blog"> 
+   <pattern value="/blog" /> 
+   <view-id value="/static/blog.xhtml" />         
+</url-mapping>
+
+<url-mapping id="cart"> 
+   <pattern value="/mycart" /> 
+   <view-id value="/cart/cart-selected-3.xhtml" />         
+</url-mapping>
+
+<url-mapping id="carrello"> 
+   <pattern value="/carrello" /> 
+   <view-id value="/cart/cart-selected-3.xhtml" />         
+</url-mapping>
+
+
 
 
 	 

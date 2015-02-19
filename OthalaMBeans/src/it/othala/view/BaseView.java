@@ -6,6 +6,7 @@ import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.execption.OthalaException;
 import it.othala.model.ApplicationBean;
+import it.othala.model.LocaleManager;
 import it.othala.web.utils.AutoCompleteUtils;
 import it.othala.web.utils.OthalaUtil;
 import it.othala.web.utils.UAgentInfo;
@@ -45,7 +46,16 @@ public abstract class BaseView implements Serializable {
 	private List<String> breadCrumb = new ArrayList<>();
 	private AutoCompleteUtils autoUtils = null;
 	private Boolean requestComingFromAMobileDevice = null;
+	
+	@ManagedProperty(value = "#{localeManager}")
+	private LocaleManager localManager;
 
+	public void setLocalManager(LocaleManager localManager) {
+		this.localManager = localManager;
+	}
+	
+	
+	
 	public AutoCompleteUtils getAutoUtils() {
 		if (autoUtils == null) {
 			autoUtils = new AutoCompleteUtils(getBeanApplication());
@@ -75,6 +85,14 @@ public abstract class BaseView implements Serializable {
 
 	public void setLoginBean(CustomerLoginBean loginBean) {
 		this.loginBean = loginBean;
+	}
+	
+	protected void changeLocaleIT()	
+	{
+		if (!localManager.getLanguage().equalsIgnoreCase("it")) {
+			localManager.changeLocale("it");
+		}
+
 	}
 
 	public boolean getRequestComingFromAMobileDevice() {
@@ -177,12 +195,28 @@ public abstract class BaseView implements Serializable {
 					.getExternalContext()
 					.redirect(
 							FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath()
-									+ "/home.xhtml");
+									+ "/home");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+	
+	protected void redirectCart() {
+		try {
+			FacesContext
+					.getCurrentInstance()
+					.getExternalContext()
+					.redirect(
+							FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath()
+									+ "/"+OthalaUtil.getWordBundle("catalogo_mycart"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
 
 	protected void deleteCart(CartFlowBean cart) {
 
@@ -215,6 +249,7 @@ public abstract class BaseView implements Serializable {
 	protected HttpServletRequest getRequest() {
 		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 		HttpServletRequest request = (HttpServletRequest) context.getRequest();
+		
 		return request;
 	}
 
@@ -232,6 +267,12 @@ public abstract class BaseView implements Serializable {
 			}
 		}
 		return null;
+	}
+	
+	protected String getURLCart()
+	{
+		String url=String.format("%http://%s/%s/cart", getRequest().getServerName(),getRequest().getContextPath());
+		return url;
 	}
 
 }

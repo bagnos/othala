@@ -28,7 +28,7 @@
 					<div class="col-xs-12">
 						<div class="pull-left">
 							<p:commandButton rendered="#{cartFlowBean.singleProductCatalog==false}" icon="ui-icon-triangle-1-w btn-articolo-sel"
-								action="cart-catalog.xhtml?faces-redirect=true" value="#{msg.catalog_back}" />
+								action="#{cartChoice2View.goToCatalogo()}" value="#{msg.catalog_back}" />
 						</div>
 						<div class="pull-right">
 							<p:commandButton id="add-cart" styleClass="ui-priority-primary"
@@ -43,7 +43,7 @@
 					<div class="col-xs-12">
 						<div class="pull-left">
 							<p:commandButton rendered="#{cartFlowBean.singleProductCatalog==false}" icon="ui-icon-triangle-1-w btn-articolo-sel"
-								action="cart-catalog.xhtml?faces-redirect=true" value="#{msg.catalog_back}" />
+								action="#{cartChoice2View.goToCatalogo()}" value="#{msg.catalog_back}" />
 						</div>
 						<div class="pull-right">
 							<p:commandButton id="add-cart-bottom" disabled="#{cartFlowBean.cart.size()==0}"

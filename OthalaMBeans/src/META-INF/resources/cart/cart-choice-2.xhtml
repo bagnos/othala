@@ -15,7 +15,7 @@
 		</f:metadata>
 	</ui:define>
 
-	<ui:define name="title">Online Shop  #{cartFlowBean.detailProductFull.txBrand!='Shop'?cartFlowBean.detailProductFull.txBrand:''} #{cartFlowBean.detailProductFull.txType} | #{msgSite.nomeMerchant}</ui:define>
+	<ui:define name="title">Shop  #{cartFlowBean.detailProductFull.txBrand!='Shop'?cartFlowBean.detailProductFull.txBrand:''} #{cartFlowBean.detailProductFull.txType} Online | #{msgSite.nomeMerchant}</ui:define>
 	<ui:define name="description">
 		<meta name="description"
 			content="#{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.txType} #{cartFlowBean.detailProductFull.descriptionEN}"></meta>
@@ -162,7 +162,7 @@
 						<div class="row well trasparente" id="artSel-well"
 							style="padding-bottom: 0px !important; margin-bottom: 0px !important;">
 							<div class="col-sm-10">
-								<h1 style="margin-left: -15px; font-size: 18px">#{cartFlowBean.detailProductFull.txBrand}</h1>
+								<h1 style="margin-left: -15px; font-size: 18px">#{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.txType}</h1>																
 								<h2 style="margin-left: -15px; font-size: 14px">#{cartFlowBean.detailProductFull.description}</h2>
 							</div>
 							<div class="col-sm-2">
@@ -265,7 +265,7 @@
 						</div>
 						<div class="row">
 							<div class="col-sm-12">
-								<div class="row">
+								<div class="row spacer10">
 									<div class="col-sm-4">
 										<div class="fb-like" data-layout="button_count"
 											data-share="true" data-width="450" data-show-faces="true"></div>
@@ -341,7 +341,7 @@
 									<ui:repeat var="art" value="#{cartFlowBean.catalog.articles}">
 										<li style="width: 150px;"><h:panelGroup
 												rendered="#{art.idProduct!=cartFlowBean.detailProductFull.idProduct}">
-												<h:outputLink value="#{cartFlowView1.getCartChoice2(art.idProduct,art.txBrand,art.txType)}"
+												<h:outputLink value="#{cartFlowView1.getCartChoice(art.idProduct,art.txBrand,art.txType,art.tyProduct)}"
 													rendered="#{art.idProduct != null}">
 													<h:graphicImage title="#{art.txBrand} #{art.description}"
 														alt="#{art.txBrand} #{art.description}"
@@ -362,15 +362,7 @@
 						</div>
 					</div>
 				</h:panelGroup>
-
-
-
-
-
-
-
-
-			</div>
+		</div>
 			<p:dialog widgetVar="dlgTaglie" id="dlgTaglie" width="280"
 				appendToBody="false" styleClass="borderSizeColor" showHeader="false"
 				header="GUIDA TAGLIE" closable="true" closeOnEscape="true"

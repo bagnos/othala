@@ -6,6 +6,7 @@ import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 import it.othala.web.utils.OthalaUtil;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
@@ -39,6 +41,7 @@ public class CartChoice2View extends BaseView {
 	private String txSize;
 	private String txColor;
 	private boolean renderSize;
+
 
 	public boolean isRenderSize() {
 		return renderSize;
@@ -123,6 +126,9 @@ public class CartChoice2View extends BaseView {
 	public String doInit() {
 		// TODO Auto-generated method stub
 		try {
+			getCartFlowBean().setUrlReferer(getRequest().getHeader("referer"));
+			
+			
 
 			if (idProduct==null)
 			{
@@ -270,13 +276,21 @@ public class CartChoice2View extends BaseView {
 
 	public String goToCart() {
 		getCartFlowBean().getCart().add(artSel);
-		artSel.setQtBooked(qtaArticle);	
-		return "cart-selected-3?faces-redirect=true";
+		artSel.setQtBooked(qtaArticle);
+		redirectCart();
+		return null;
 	}
 
 	public String goToCatalogo() {
-
-		return "cart-catalog?faces-redirect=true";
+		
+		//url="http://"+getRequest().getServerName()+"/"+url;
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect(getCartFlowBean().getUrlReferer());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			log.error("errore redirect go to catalog", e);
+		}
+		return null;
 	}
 
 	public void changeSize(AjaxBehaviorEvent e) {

@@ -2,6 +2,7 @@ package it.othala.merchant.view;
 
 import it.othala.enums.TypeStateOrder;
 import it.othala.merchant.model.MerchantBean;
+import it.othala.model.LocaleManager;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 
@@ -26,11 +27,11 @@ public class HomeMerchantView extends BaseView {
 		this.merchantBean = merchantBean;
 	}
 
-	@Override
+		@Override
 	public String doInit() {
 		// TODO Auto-generated method stub
 		try {
-
+			changeLocaleIT();
 			if (getQueryStringParm("torna") == null || getQueryStringParm("spedito") != null
 					|| getQueryStringParm("rimborsato") != null) {
 				merchantBean.setOrdersCompleted(OthalaFactory.getOrderServiceInstance().getOrders(null, null,

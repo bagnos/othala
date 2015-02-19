@@ -60,7 +60,16 @@ public class CartFlowBean implements Serializable {
 	private BigDecimal totalPriceOrdeNoDiscount;
 	private boolean singleProductCatalog;
 	private List<BrandFullDTO> brandFullDTO;
+	private String urlReferer;
 	
+	public String getUrlReferer() {
+		return urlReferer;
+	}
+
+	public void setUrlReferer(String urlReferer) {
+		this.urlReferer = urlReferer;
+	}
+
 	public boolean isSingleProductCatalog() {
 		return singleProductCatalog;
 	}
