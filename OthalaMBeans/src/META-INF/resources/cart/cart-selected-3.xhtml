@@ -48,7 +48,7 @@
 						<div class="pull-right">
 							<p:commandButton id="add-cart-bottom" disabled="#{cartFlowBean.cart.size()==0}"
 								styleClass="ui-priority-primary" value="#{msg.catalog_buy}" ajax="false"
-								action="cartCheckout?faces-redirect=true" />
+								action="#{cartChoice2View.goToCheckout}" />
 						</div>
 					</div>
 				</div>
