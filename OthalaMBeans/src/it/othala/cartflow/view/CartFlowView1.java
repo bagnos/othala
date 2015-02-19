@@ -49,27 +49,45 @@ public class CartFlowView1 extends BaseView {
 	private String type;
 	private String campaign;
 
-	public String getCartChoice2(String idPrd,String brand,String type) {
-		
+	public String getCartChoice(String idPrd, String brand, String type, Integer idProdType) {
+		String url = null;
+		if (idProdType == null || idProdType == 0) {
+			url = getCartChoice2(idPrd, brand, type);
+			return url;
+		}
+		switch (idProdType) {
+		case 1:
+			url = getCartChoice3(idPrd, brand);
+			break;
+		case 2:
+			url = getCartChoice4(idPrd, brand);
+			break;
+		default:
+			break;
+		}
+		return url;
+	}
+
+	private String getCartChoice2(String idPrd, String brand, String type) {
+
 		String cartChoice2 = String.format("%s/%s/%s/%s/%s", getRequest().getContextPath(),
-				OthalaUtil.getWordBundle("catalogo_product"),brand.toLowerCase(), getCartFlowBean().getCatalog().getArticles().get(0).getTxType().toLowerCase(),idPrd);
+				OthalaUtil.getWordBundle("catalogo_product"), brand.toLowerCase(), type.toLowerCase(), idPrd);
 
 		return cartChoice2;
 	}
 
-	public String getCartChoice3(String idPrd,String brand) {
+	private String getCartChoice3(String idPrd, String brand) {
 
 		String cartChoice3 = String.format("%s/%s/%s/%s/%s/%s", getRequest().getContextPath(),
 				OthalaUtil.getWordBundle("catalogo_product"), OthalaUtil.getWordBundle("catalogo_food"),
-				brand.toLowerCase(), getCartFlowBean().getCatalog()
-						.getArticles().get(0).getTxType().toLowerCase(),idPrd);
+				brand.toLowerCase(), type.toLowerCase(), idPrd);
 
 		return cartChoice3;
 	}
 
-	public String getCartChoice4(String idPrd,String brand) {
+	private String getCartChoice4(String idPrd, String brand) {
 		String cartChoice4 = String.format("%s/%s/%s/%s/%s", getRequest().getContextPath(),
-				OthalaUtil.getWordBundle("catalogo_service"),brand.toLowerCase(), getCartFlowBean().getCatalog().getArticles().get(0).getTxType().toLowerCase(),idPrd);
+				OthalaUtil.getWordBundle("catalogo_service"), brand.toLowerCase(), type.toLowerCase(), idPrd);
 
 		return cartChoice4;
 	}
@@ -231,6 +249,26 @@ public class CartFlowView1 extends BaseView {
 					break;
 				}
 			}
+		} else if (brands != null) {
+			for (MenuDTO menu : getBeanApplication().getMenu()) {
+				for (SubMenuBrandDTO sBrand : menu.getSubMenuBrand()) {
+					if (sBrand.getTxBrand().equalsIgnoreCase(brands)) {
+						brand = sBrand.getIdBrand();
+						break;
+					}
+				}
+			}
+		} else if (type != null) {
+			for (MenuDTO menu : getBeanApplication().getMenu()) {
+				for (SubMenuDTO subMenu : menu.getSubMenu()) {
+					if (subMenu.getTxType().equalsIgnoreCase(type)) {
+						idSubMenu = subMenu.getIdType();
+						break;
+					}
+
+				}
+			}
+
 		} else if (campaign != null) {
 			for (CampaignDTO cam : getBeanApplication().getCampaigns()) {
 				if (cam.getTxCampaign().equalsIgnoreCase(campaign)) {
@@ -427,21 +465,23 @@ public class CartFlowView1 extends BaseView {
 				String pagDettaglio = "";
 				if (getCartFlowBean().getCatalog().getArticles().get(0).getTyProduct() == null) {
 					pagDettaglio = getCartChoice2(getCartFlowBean().getCatalog().getArticles().get(0).getIdProduct()
-							.toString(),getCartFlowBean().getCatalog().getArticles().get(0).getTxBrand(),getCartFlowBean().getCatalog().getArticles().get(0).getTxType());
+							.toString(), getCartFlowBean().getCatalog().getArticles().get(0).getTxBrand(),
+							getCartFlowBean().getCatalog().getArticles().get(0).getTxType());
 
 				} else {
 					if (getCartFlowBean().getCatalog().getArticles().get(0).getTyProduct() == 1) {
 						pagDettaglio = getCartChoice3(getCartFlowBean().getCatalog().getArticles().get(0)
-								.getIdProduct().toString(),getCartFlowBean().getCatalog().getArticles().get(0).getTxBrand());
+								.getIdProduct().toString(), getCartFlowBean().getCatalog().getArticles().get(0)
+								.getTxBrand());
 					} else {
 						if (getCartFlowBean().getCatalog().getArticles().get(0).getTyProduct() == 2) {
 							pagDettaglio = getCartChoice4(getCartFlowBean().getCatalog().getArticles().get(0)
-									.getIdProduct().toString(),getCartFlowBean().getCatalog().getArticles().get(0).getTxBrand());
+									.getIdProduct().toString(), getCartFlowBean().getCatalog().getArticles().get(0)
+									.getTxBrand());
 						}
 					}
 				}
-				FacesContext.getCurrentInstance().getExternalContext()
-						.redirect(pagDettaglio);
+				FacesContext.getCurrentInstance().getExternalContext().redirect(pagDettaglio);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				log.error("errore redirect prodotto singolo", e);

@@ -17,7 +17,7 @@
 			<f:viewParam name="idSubMenuBrand" value="#{cartFlowView1.brand}"></f:viewParam>
 		</f:metadata>
 	</ui:define>
-	<ui:define name="title">Online Shop #{cartFlowView1.category} :#{msgSite.nomeMerchant}</ui:define>
+	<ui:define name="title">Shop #{cartFlowView1.category} Online | #{msgSite.nomeMerchant}</ui:define>
 	<ui:define name="description">
 		<meta name="description"
 			content="#{msgSite.nomeMerchant}: #{cartFlowView1.category}"></meta>
@@ -178,15 +178,15 @@
 										value="#{art.discount} %" />
 									<!-- <h:link outcome="#{art.tyProduct == null ? 'cart-choice-2' : 'cart-choice-3'}">  -->
 								
-									<h:outputLink value="#{cartFlowView1.getCartChoice2(art.idProduct,art.txBrand,art.txType)}"
+									<h:outputLink value="#{cartFlowView1.getCartChoice(art.idProduct,art.txBrand,art.txType,art.tyProduct)}"
 										rendered="#{art.tyProduct == null}">
 										<h:graphicImage styleClass="center-block img-responsive"
-											title="#{art.txBrand}:#{art.txType} #{art.description} #{art.descriptionEN}"
-											alt="#{art.txBrand}:#{art.txType} #{art.description} #{art.descriptionEN}"
+											title="Shop #{art.txBrand} #{art.txType} #{art.description} #{art.descriptionEN}"
+											alt="Shop #{art.txBrand} #{art.txType} #{art.description} #{art.descriptionEN}"
 											library="images/cartThumbinals"
 											name="#{art.imagesUrl.get(0)}" />										
 									</h:outputLink>
-									<h:outputLink  outcome="#{cartFlowView1.getCartChoice3(art.idProduct,art.txBrand)}"
+									<h:outputLink  outcome="#{cartFlowView1.getCartChoice(art.idProduct,art.txBrand,art.txType,art.tyProduct)}"
 										rendered="#{art.tyProduct == 1}">
 										<h:graphicImage styleClass="center-block img-responsive"
 											title="#{art.txBrand}:#{art.txType} #{art.description} #{art.descriptionEN}"
@@ -194,7 +194,7 @@
 											library="images/cartThumbinals"
 											name="#{art.imagesUrl.get(0)}" />										
 									</h:outputLink>
-									<h:outputLink outcome="#{cartFlowView1.getCartChoice4(art.idProduct,art.txBrand)}"
+									<h:outputLink outcome="#{cartFlowView1.getCartChoice(art.idProduct,art.txBrand,art.txType,art.tyProduct)}"
 										rendered="#{art.tyProduct == 2}">
 										<h:graphicImage styleClass="center-block img-responsive"
 											title="#{art.txBrand}:#{art.txType} #{art.description} #{art.descriptionEN}"
@@ -212,6 +212,7 @@
 														alt="shop #{art.txBrand}:#{art.txType} #{art.description} #{art.descriptionEN} availiable #{art.colorsAsString} #{art.sizesAsString} "
 														name="info-thumb.png" />
 													<p:tooltip for="imgArt">
+														<h:outputText value="#{art.txBrand} #{art.txType}" /><br />
 														<h:outputText value="#{msg.catalog_available}" />
 														<br />
 														<h:outputText
