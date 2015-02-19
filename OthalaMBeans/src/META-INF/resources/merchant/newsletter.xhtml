@@ -125,17 +125,50 @@
 										<p:commandButton styleClass="ui-priority-primary"
 											actionListener="#{newsletterView.inviaMail}" validateClient="true"
 											process="frm-invio,:frmImages" style="margin-top: 6px;" value="INVIA MAIL" />
+										
 									</div>
+
 								</div>
 								<div class="row">
+									<div class="col-sm-3">
+										<p:commandLink process="@this,gruppoInvio" update="dlgGroup" id="mostraBtn"
+											actionListener="#{newsletterView.mostra}" style="margin-top: 6px;" value="MOSTRA GRUPPO" />
+									</div>
+
+								</div>
+								<div class="row spacer10">
 									<div class="col-sm-12">
 										<div class="form-group">
 											<p:outputLabel value="Testo" for="testo" />
-											<p:inputTextarea styleClass="form-control" value="#{newsletterView.testoMail}"  required="true" label="testo" rows="8"
-												id="testo" />
+											<p:inputTextarea styleClass="form-control" value="#{newsletterView.testoMail}"
+												required="true" label="testo" rows="8" id="testo" />
 										</div>
 									</div>
 								</div>
+								<p:dialog widgetVar="dlgGroup" id="dlgGroup" styleClass="padding:3px" width="500"
+									showHeader="true" header="#{newsletterView.groupSelected}" closable="true"
+									closeOnEscape="true" resizable="false">
+									<f:facet name="header">
+										<h:outputText value="Gruppo #{newsletterView.groupSelected}" id="headTbl" />
+									</f:facet>
+
+
+
+									<p:dataTable var="itemMail" id="mailDialog" value="#{newsletterView.mail}" rows="10"
+										paginator="true" paginatorPosition="bottom"
+										currentPageReportTemplate="(Mail {startRecord} - {endRecord} di
+       {totalRecords}, Pagina: {currentPage}/{totalPages})"
+										paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
+										<p:column headerText="Mail" sortBy="#{itemMail.txUser}">
+											<h:outputText id="mail" styleClass="truncate"  value="#{itemMail.txUser}" />
+										</p:column>
+										<p:column headerText="User" styleClass="truncate" sortBy="#{itemMail.txNome}">
+											<h:outputText id="user" value="#{itemMail.txNome}" />
+										</p:column>
+									</p:dataTable>
+
+								</p:dialog>
+
 							</h:form>
 
 							<!-- foto -->
@@ -160,12 +193,11 @@
 
 								</div>
 							</h:form>
+
 						</div>
 					</div>
 				</div>
-
 			</div>
 		</div>
-
 	</ui:define>
 </ui:composition>

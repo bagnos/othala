@@ -96,11 +96,43 @@
    <view-id value="/cart/cart-selected-3.xhtml" />         
 </url-mapping>
 
+<url-mapping id="richiedicambio"> 
+   <pattern value="/mychanges" /> 
+   <view-id value="/account/myMerchantRequest.xhtml?richiediCambio=true" />         
+</url-mapping>
+<url-mapping id="myrefunds"> 
+   <pattern value="/myrefunds" />    
+   <view-id value="/account/myMerchantRequest.xhtml?richiedireso=true" />         
+</url-mapping>
+
+<url-mapping id="myorders"> 
+   <pattern value="/myorders" />    
+   <view-id value="/account/myOrders.xhtml" />         
+</url-mapping>
+
+<url-mapping id="myaccount"> 
+   <pattern value="/myaccount" />    
+   <view-id value="/account/myAccount.xhtml" />         
+</url-mapping>
+<url-mapping id="access"> 
+   <pattern value="/access" />    
+   <view-id value="/account/access.xhtml" />         
+</url-mapping>
+
+<url-mapping id="registration"> 
+   <pattern value="/registration" />    
+   <view-id value="/account/registration.xhtml" />         
+</url-mapping>
+
+<url-mapping id="resetpsw"> 
+   <pattern value="/resetpsw" />    
+   <view-id value="/account/requestResetPsw.xhtml" />         
+</url-mapping>
 
 
 
-	 
-	
-	
-	
+
+
+
+
 </pretty-config>
