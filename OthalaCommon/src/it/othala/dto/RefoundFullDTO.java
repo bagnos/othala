@@ -28,6 +28,15 @@ public class RefoundFullDTO implements Serializable {
 	private String fgChangeRefound;
 	private boolean fgPartialRefound;
 	private List<ArticleRefounded> cart;
+	private String keyRefound;
+	public void setKeyRefound(String keyRefound) {
+		this.keyRefound = keyRefound;
+	}
+
+	public String getKeyRefound() {
+		return keyRefound;
+	}
+	
 	public Integer getIdRefound() {
 		return idRefound;
 	}

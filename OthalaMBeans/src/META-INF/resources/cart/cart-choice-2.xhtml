@@ -21,9 +21,12 @@
 			content="#{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.txType} #{cartFlowBean.detailProductFull.descriptionEN}"></meta>
 	</ui:define>
 	<ui:define name="canonical">
+		
+		<link rel="canonical"
+			href="#{cartChoice2View.canonicalUrl}" />
 		<!-- 
 		<link rel="canonical"
-			href="http://#{request.serverName}#{request.contextPath}/cart/cart-choice-2.xhtml?idPrd=#{cartChoice2View.idProduct}" />
+			href="http://#{request.serverName}#{request.contextPath}/article/cart-choice-2.xhtml?idPrd=#{cartChoice2View.idProduct}" />
 			-->
 	</ui:define>
 	<ui:define name="fb">

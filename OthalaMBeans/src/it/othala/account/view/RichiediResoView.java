@@ -165,6 +165,15 @@ public class RichiediResoView extends BaseView {
 			} else {
 				doInitElencaResi();
 			}
+			for (RefoundFullDTO ref : elencoResi) {
+
+				keyRefund = getLoginBean().getEmail() + "-" + ref.getIdRefound();
+				keyRefund = HelperCrypt.encrypt(keyRefund);
+				ref.setKeyRefound(keyRefund);
+				getRequest().getSession().setAttribute(keyRefund, ref);
+
+			}
+
 		} catch (Exception e) {
 			addGenericError(e, "errore nella int ri richiesta reso");
 		}
@@ -175,8 +184,7 @@ public class RichiediResoView extends BaseView {
 		// TODO Auto-generated method stub
 
 		try {
-			keyRefund = getLoginBean().getEmail() + "-"
-					+ myAccountBean.getOrderSelected().getIdOrder();
+			keyRefund = getLoginBean().getEmail() + "-" + myAccountBean.getOrderSelected().getIdOrder();
 			keyRefund = HelperCrypt.encrypt(keyRefund);
 		} catch (Exception e) {
 			addGenericError(e, "errore nella int ri richiesta reso");
@@ -186,16 +194,16 @@ public class RichiediResoView extends BaseView {
 
 	private void doInitElencaResi() {
 		// TODO Auto-generated method stub
-		elencoResi = OthalaFactory.getOrderServiceInstance().getRefounds(null,
-				null, getLoginBean().getEmail(), null, null, "R");
+		elencoResi = OthalaFactory.getOrderServiceInstance().getRefounds(null, null, getLoginBean().getEmail(), null,
+				null, "R");
 
 	}
 
 	private void doInitElencaCambi() {
 		// TODO Auto-generated method stub
 
-		elencoResi = OthalaFactory.getOrderServiceInstance().getRefounds(null,
-				null, getLoginBean().getEmail(), null, null, "C");
+		elencoResi = OthalaFactory.getOrderServiceInstance().getRefounds(null, null, getLoginBean().getEmail(), null,
+				null, "C");
 
 	}
 
@@ -203,33 +211,25 @@ public class RichiediResoView extends BaseView {
 		try {
 			imRefunded = BigDecimal.ZERO;
 			artToRefund = new ArrayList<>();
-			String idArt = (String) e.getComponent().getAttributes()
-					.get("pgArt");
+			String idArt = (String) e.getComponent().getAttributes().get("pgArt");
 			String[] items = idArt.split("-");
 			int pgArt = Integer.valueOf(items[1].trim());
 			int idPrd = Integer.valueOf(items[0].trim());
 			int idOrderArticle = Integer.valueOf(items[2].trim());
-			
-			
+
 			ArticleRefounded artref = null;
-			for (ArticleFullDTO art : myAccountBean.getOrderSelected()
-					.getCart()) {
+			for (ArticleFullDTO art : myAccountBean.getOrderSelected().getCart()) {
 				if (art.isSelected()) {
 					artref = new ArticleRefounded(art);
 					artToRefund.add(artref);
-					
+
 					imRefunded = imRefunded.add(art.getPriceDiscounted().multiply(new BigDecimal(art.getQtBooked())));
 
-					if (richiediCambio != null
-							&& richiediCambio
-							&& art.getPgArticle().intValue() == pgArt
+					if (richiediCambio != null && richiediCambio && art.getPgArticle().intValue() == pgArt
 							&& art.getPrdFullDTO().getIdProduct().intValue() == idPrd
 							&& art.getIdOrderArticle().intValue() == idOrderArticle) {
-						ProductFullNewDTO prd = OthalaFactory
-								.getProductServiceInstance().getProductFull(
-										getLang(),
-										art.getPrdFullDTO().getIdProduct(),
-										false);
+						ProductFullNewDTO prd = OthalaFactory.getProductServiceInstance().getProductFull(getLang(),
+								art.getPrdFullDTO().getIdProduct(), false);
 						updateChangeableArticle(prd, art);
 					}
 				}
@@ -247,8 +247,7 @@ public class RichiediResoView extends BaseView {
 			artToRefund.clear();
 
 			imRefunded = BigDecimal.ZERO;
-			for (ArticleFullDTO art : myAccountBean.getOrderSelected()
-					.getCart()) {
+			for (ArticleFullDTO art : myAccountBean.getOrderSelected().getCart()) {
 				if (art.isSelected()) {
 					ArticleRefounded artref = new ArticleRefounded(art);
 					artToRefund.add(artref);
@@ -264,7 +263,7 @@ public class RichiediResoView extends BaseView {
 			ref.setCart(artToRefund);
 			ref.setIdOrder(myAccountBean.getOrderSelected().getIdOrder());
 			ref.setIdUser(myAccountBean.getOrderSelected().getIdUser());
-			
+
 			ref.setTxMotivoReso(note);
 			if (richiedireso != null && richiedireso == true) {
 				getRefund(ref);
@@ -286,7 +285,7 @@ public class RichiediResoView extends BaseView {
 		// keyRefund = HelperCrypt.encrypt(keyRefund);
 
 		getRequest().getSession().setAttribute(keyRefund, ref);
-		renderStampa=true;
+		renderStampa = true;
 		// String
 		// url="http://"+getRequest().getServerName()+getRequest().getContextPath()+"/RichiestaResoServlet?keyRefund="
 		// + keyRefund;
@@ -294,42 +293,38 @@ public class RichiediResoView extends BaseView {
 		 * RequestContext.getCurrentInstance().execute(
 		 * "window.open('"+url+"');");
 		 */
-		//RequestContext.getCurrentInstance().execute("$('#stampa').click();");
+		// RequestContext.getCurrentInstance().execute("$('#stampa').click();");
 
 	}
 
-	private void getChange(RefoundFullDTO ref) throws OthalaException,
-			RefoundPresentException {
+	private void getChange(RefoundFullDTO ref) throws OthalaException, RefoundPresentException {
 		try {
-		// verifica se per gli articoli selezionati è presenta un articolo da
-		// cambiare
-		for (ArticleRefounded art : ref.getCart()) {
-			if (art.getPgArticleChangeSelected() == null) {
-				// selezionata la check box ma non selezionato il cambio
-				addError(
-						OthalaUtil.getWordBundle("account_changeRequest"),
-						OthalaUtil
-								.getWordBundle("account_noArticleChangeSelected"));
-				return;
-			}
-			for (ChangeArticleDTO chArt : art.getChangesAvailable()) {
-				if (chArt.getPgArticleNew().intValue() == art
-						.getPgArticleChangeSelected().intValue()) {
-					art.setTxChangeRefound(chArt.getNoteMerchant());
-					art.setPgArticleChangeSelected(chArt.getPgArticleNew());
-					// inserire barcode su artRefounded
+			// verifica se per gli articoli selezionati è presenta un articolo
+			// da
+			// cambiare
+			for (ArticleRefounded art : ref.getCart()) {
+				if (art.getPgArticleChangeSelected() == null) {
+					// selezionata la check box ma non selezionato il cambio
+					addError(OthalaUtil.getWordBundle("account_changeRequest"),
+							OthalaUtil.getWordBundle("account_noArticleChangeSelected"));
+					return;
 				}
-			}
+				for (ChangeArticleDTO chArt : art.getChangesAvailable()) {
+					if (chArt.getPgArticleNew().intValue() == art.getPgArticleChangeSelected().intValue()) {
+						art.setTxChangeRefound(chArt.getNoteMerchant());
+						art.setPgArticleChangeSelected(chArt.getPgArticleNew());
+						// inserire barcode su artRefounded
+					}
+				}
 
-		}
-		ref.setFgChangeRefound("C");
-		ref.setIdStato(TypeStateOrder.REQUEST_CHANGE.getState());
-		
-		OthalaFactory.getOrderServiceInstance().insertRefound(ref,
-				ConfigurationUtil.getMailProps(getRequest()));
-		addInfo("Richesta Cambio",
-				"La richiesta è stata effettuata correttamente, nella sezione 'Miei Cambi' portà verificare lo stato della sua richiesta. \n Stampare la ricevuta ed inserirla all'interno del pacco insieme all'atricoli da cambiare");
-		stampa(ref);
+			}
+			ref.setFgChangeRefound("C");
+			ref.setIdStato(TypeStateOrder.REQUEST_CHANGE.getState());
+
+			OthalaFactory.getOrderServiceInstance().insertRefound(ref, ConfigurationUtil.getMailProps(getRequest()));
+			addInfo("Richesta Cambio",
+					"La richiesta è stata effettuata correttamente, nella sezione 'Miei Cambi' portà verificare lo stato della sua richiesta. \n Stampare la ricevuta ed inserirla all'interno del pacco insieme all'atricoli da cambiare");
+			stampa(ref);
 		} catch (RefoundPresentException bex) {
 			addOthalaExceptionError
 
@@ -339,16 +334,13 @@ public class RichiediResoView extends BaseView {
 		}
 	}
 
-	private void getRefund(RefoundFullDTO ref) throws OthalaException,
-			RefoundPresentException {
+	private void getRefund(RefoundFullDTO ref) throws OthalaException, RefoundPresentException {
 
 		try {
 			ref.setImRefound(imRefunded);
-			ref.setIdTransaction(myAccountBean.getOrderSelected()
-					.getIdTransaction());
+			ref.setIdTransaction(myAccountBean.getOrderSelected().getIdTransaction());
 			ref.setFgChangeRefound("R");
-			ref.setFgPartialRefound(ref.getCart().size() != myAccountBean
-					.getOrderSelected().getCart().size());
+			ref.setFgPartialRefound(ref.getCart().size() != myAccountBean.getOrderSelected().getCart().size());
 			ref.setIdStato(TypeStateOrder.REQUEST_REFOUND.getState());
 			ref = OthalaFactory.getOrderServiceInstance().insertRefound(ref,
 					ConfigurationUtil.getMailProps(getRequest()));
@@ -369,8 +361,8 @@ public class RichiediResoView extends BaseView {
 	}
 
 	public void selectRefund(AjaxBehaviorEvent e) {
-		int idRefund = Integer.valueOf(FacesContext.getCurrentInstance()
-				.getExternalContext().getRequestParameterMap().get("idRefund"));
+		int idRefund = Integer.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap()
+				.get("idRefund"));
 		for (RefoundFullDTO art : elencoResi) {
 			if (art.getIdRefound() == idRefund) {
 				refundSelected = art;
@@ -384,8 +376,7 @@ public class RichiediResoView extends BaseView {
 		renderDetails = false;
 	}
 
-	private void updateChangeableArticle(ProductFullNewDTO prd,
-			ArticleFullDTO artSel) {
+	private void updateChangeableArticle(ProductFullNewDTO prd, ArticleFullDTO artSel) {
 		ChangeArticleDTO artRef = null;
 		if (artSel.getChangesAvailable() == null) {
 			// non sono stati ancora calcolati i possibili cambi
@@ -393,17 +384,15 @@ public class RichiediResoView extends BaseView {
 			List<SelectItem> sel = new ArrayList<SelectItem>();
 			for (ArticleFullDTO art : prd.getArticles()) {
 				// si esclude l'articolo corrente tra le possibili scelte
-				if (art.getPgArticle() != artSel.getPgArticle()
-						&& art.getQtStock() > 0) {
+				if (art.getPgArticle() != artSel.getPgArticle() && art.getQtStock() > 0) {
 					artRef = valueOfArticle(art);
 					artSel.getChangesAvailable().add(valueOfArticle(art));
-					sel.add(new SelectItem(art.getPgArticle(), String.format(
-							"%s, %s", artRef.getSize(), artRef.getColor())));
+					sel.add(new SelectItem(art.getPgArticle(), String.format("%s, %s", artRef.getSize(),
+							artRef.getColor())));
 				}
 			}
 			if (!artSel.getChangesAvailable().isEmpty()) {
-				artSel.setPgArticleChangeSelected(artSel.getChangesAvailable()
-						.get(0).getPgArticleNew());
+				artSel.setPgArticleChangeSelected(artSel.getChangesAvailable().get(0).getPgArticleNew());
 				map.put(artSel.getPgArticle(), sel);
 			}
 

@@ -51,13 +51,14 @@
 												<tr>
 													<th class="col-sm-1"></th>
 													<th class="col-sm-2">#{msg.account_nrReturn}</th>
-													<th class="col-sm-2">#{msg.account_nrOrder}</th>
+													<th class="col-sm-1">#{msg.account_nrOrder}</th>
 													<c:if test="#{richiediResoView.richiedireso}">
 														<th class="col-sm-2">#{msg.account_imOrder}</th>
 													</c:if>
-													<th class="col-sm-2">#{msg.account_nrArticles}</th>
+													<th class="col-sm-1">#{msg.account_nrArticles}</th>
 													<th class="col-sm-2">#{msg.account_stato}</th>
 													<th class="col-sm-2">#{msg.account_dtIns}</th>
+													<th class="col-sm-2"></th>
 
 
 												</tr>
@@ -94,6 +95,11 @@
 																<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
 															</h:outputText></td>
 
+														<td><p:commandButton styleClass="ui-priority-primary" value="STAMPA"
+																title="#{account_printRequest}" 
+																onclick="window.open('#{request.contextPath}/RichiestaResoServlet?keyRefund=#{refund.keyRefound}');">
+															</p:commandButton></td>
+
 
 													</tr>
 												</ui:repeat>
@@ -120,7 +126,7 @@
 
 
 						<div class="row spacer20">
-						
+
 							<div class="col-sm-3">
 								<h4>
 									<strong>ID. RICHIESTA</strong>

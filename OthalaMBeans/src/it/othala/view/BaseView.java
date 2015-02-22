@@ -27,6 +27,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.ocpsoft.pretty.PrettyContext;
+
 public abstract class BaseView implements Serializable {
 
 	/**
@@ -46,16 +48,24 @@ public abstract class BaseView implements Serializable {
 	private List<String> breadCrumb = new ArrayList<>();
 	private AutoCompleteUtils autoUtils = null;
 	private Boolean requestComingFromAMobileDevice = null;
-	
+	private String canonicalUrl;
+
+	public String getCanonicalUrl() {
+		canonicalUrl = String.format("http://%s%s%s", FacesContext.getCurrentInstance().getExternalContext()
+				.getRequestServerName(),
+				FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath(), PrettyContext
+						.getCurrentInstance().getRequestURL().toURL());
+
+		return canonicalUrl;
+	}
+
 	@ManagedProperty(value = "#{localeManager}")
 	private LocaleManager localManager;
 
 	public void setLocalManager(LocaleManager localManager) {
 		this.localManager = localManager;
 	}
-	
-	
-	
+
 	public AutoCompleteUtils getAutoUtils() {
 		if (autoUtils == null) {
 			autoUtils = new AutoCompleteUtils(getBeanApplication());
@@ -86,9 +96,8 @@ public abstract class BaseView implements Serializable {
 	public void setLoginBean(CustomerLoginBean loginBean) {
 		this.loginBean = loginBean;
 	}
-	
-	protected void changeLocaleIT()	
-	{
+
+	protected void changeLocaleIT() {
 		if (!localManager.getLanguage().equalsIgnoreCase("it")) {
 			localManager.changeLocale("it");
 		}
@@ -190,18 +199,14 @@ public abstract class BaseView implements Serializable {
 
 	protected void redirectHome() {
 		try {
-			FacesContext
-					.getCurrentInstance()
-					.getExternalContext()
-					.redirect(
-							FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath()
-									+ "/home");
+			FacesContext.getCurrentInstance().getExternalContext()
+					.redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/home");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
 	protected void redirectCheckOut() {
 		try {
 			FacesContext
@@ -215,23 +220,21 @@ public abstract class BaseView implements Serializable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public String redirectCart() {
 		try {
 			FacesContext
 					.getCurrentInstance()
 					.getExternalContext()
 					.redirect(
-							FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath()
-									+ "/"+OthalaUtil.getWordBundle("catalogo_mycart"));
+							FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/"
+									+ OthalaUtil.getWordBundle("catalogo_mycart"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
-	
 
 	protected void deleteCart(CartFlowBean cart) {
 
@@ -264,7 +267,7 @@ public abstract class BaseView implements Serializable {
 	protected HttpServletRequest getRequest() {
 		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 		HttpServletRequest request = (HttpServletRequest) context.getRequest();
-		
+
 		return request;
 	}
 
@@ -283,10 +286,9 @@ public abstract class BaseView implements Serializable {
 		}
 		return null;
 	}
-	
-	protected String getURLCart()
-	{
-		String url=String.format("%http://%s/%s/cart", getRequest().getServerName(),getRequest().getContextPath());
+
+	protected String getURLCart() {
+		String url = String.format("%http://%s/%s/cart", getRequest().getServerName(), getRequest().getContextPath());
 		return url;
 	}
 

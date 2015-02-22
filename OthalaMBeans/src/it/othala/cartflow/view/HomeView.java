@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 @ManagedBean
 @ViewScoped
@@ -19,7 +20,6 @@ public class HomeView extends BaseView {
 	private List<ArticleCashedDTO> articleCached;
 	private List<ProductFullNewDTO> articleNewArrivals;
 
-	
 	public List<ProductFullNewDTO> getArticleNewArrivals() {
 		return articleNewArrivals;
 	}
@@ -36,10 +36,11 @@ public class HomeView extends BaseView {
 	public String doInit() {
 		// TODO Auto-generated method stub
 		log.info("Access Site");
+
 		articleCached = OthalaFactory.getProductServiceInstance().listArticleMajorCashed(getLang());
 		VetrinaDTO vetrina = OthalaFactory.getProductServiceInstance().getListProduct(getLang(), null, null, null,
 				null, null, null, null, true, 0, null, false);
-		articleNewArrivals=vetrina.getProdotti();
+		articleNewArrivals = vetrina.getProdotti();
 		return null;
 	}
 }
