@@ -16,17 +16,11 @@
 		</ui:repeat>
 		<h:panelGroup rendered="#{applicationBean.menuFull.fgPromozioni}">
 			<li><a href="#promo2" id="promo" data-toggle="tab">
-					<h:outputText value="#{msg.catalog_promo}" style="text-transform:uppercase"  />
+					<h:outputText value="#{msg.catalog_promo}" />
 				</a></li>
 		</h:panelGroup>
 		<h:panelGroup rendered="#{applicationBean.menuFull.fgNuoviArrivi}">
-			<li><h:link value="#{menu.txGender}" outcome="/cart/cart-catalog.xhtml" class="trasparente">
-					<f:param name="idMenu" value="0"></f:param>
-					<f:param name="idSubMenu" value="0"></f:param>
-					<f:param name="fgNewArrivals" value="true"></f:param>
-					<f:param name="idCampaign" value="0"></f:param>
-					<h:outputText id="newArr" value="#{msg.catalog_newArrival}" style="color:red;text-transform:uppercase"/>
-				</h:link></li>
+			<li><a href="#{msg.catalogo_newarrivals}">#{msg.catalog_newArrival}</a></li>
 		</h:panelGroup>
 	</ul>
 	<div id="tab-content" class="tab-content responsive row col-sm-12">
