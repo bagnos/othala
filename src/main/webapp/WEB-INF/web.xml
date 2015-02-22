@@ -110,11 +110,14 @@ org.primefaces.webapp.filter.FileUploadFilter
   <filter-mapping>
     <filter-name>PrimeFaces FileUpload Filter</filter-name>
     <servlet-name>Faces Servlet</servlet-name>
-  </filter-mapping>  
+  </filter-mapping>
+  <!--   
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>AdminPages</web-resource-name>
-      <url-pattern>/*</url-pattern>            
+      <url-pattern>/home.xhtml</url-pattern>            
+      <url-pattern>/home</url-pattern>
+      <url-pattern>/merchant/*</url-pattern>
     </web-resource-collection>
     <auth-constraint>
       <role-name>AMMINISTRATORE</role-name>
@@ -129,7 +132,8 @@ org.primefaces.webapp.filter.FileUploadFilter
   </login-config>
   <security-role>
     <role-name>AMMINISTRATORE</role-name>
-  </security-role>  
+  </security-role>
+  -->  
   <session-config>
     <session-timeout>30</session-timeout>
   </session-config>
