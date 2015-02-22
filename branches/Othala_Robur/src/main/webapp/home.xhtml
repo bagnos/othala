@@ -10,6 +10,9 @@
 			<f:viewAction action="#{homeView.doInit}"></f:viewAction>
 		</f:metadata>
 	</ui:define>
+	<ui:define name="canonical">
+		<link rel="canonical" href="http://#{request.serverName}#{request.contextPath}/home" />
+	</ui:define>
 	<ui:define name="content">
 		<div class="container">
 			<div class="row">
