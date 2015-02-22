@@ -24,6 +24,8 @@ import javax.faces.event.AjaxBehaviorEvent;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.ocpsoft.pretty.PrettyContext;
+
 /*@Named
  @javax.faces.view.ViewScoped*/
 // @javax.faces.flow.FlowScoped("cartFlow")
@@ -50,6 +52,8 @@ public class CartFlowView1 extends BaseView {
 	private String campaign;
 
 	public String getCartChoice(String idPrd, String brand, String type, Integer idProdType) {
+		
+		
 		String url = null;
 		if (idProdType == null || idProdType == 0) {
 			url = getCartChoice2(idPrd, brand, type);
@@ -78,6 +82,7 @@ public class CartFlowView1 extends BaseView {
 
 	private String getCartChoice3(String idPrd, String brand) {
 
+		
 		String cartChoice3 = String.format("%s/%s/%s/%s/%s/%s", getRequest().getContextPath(),
 				OthalaUtil.getWordBundle("catalogo_product"), OthalaUtil.getWordBundle("catalogo_food"),
 				brand.toLowerCase(), type.toLowerCase(), idPrd);
@@ -180,6 +185,8 @@ public class CartFlowView1 extends BaseView {
 	public String doInit() {
 		try {
 			// TODO Auto-generated method stub
+			
+			
 			initBean();
 
 			callServiceProduct(1);

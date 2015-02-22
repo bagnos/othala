@@ -132,11 +132,13 @@
    <pattern value="/resetpsw" />    
    <view-id value="/account/requestResetPsw.xhtml" />         
 </url-mapping>
+<url-mapping id="requestreturn"> 
+   <pattern value="/refundrequest" />    
+   <view-id value="/account/richiediReso.xhtml?richiedireso=true" />         
+</url-mapping>
 
-
-
-
-
-
-
+<url-mapping id="requestchange"> 
+   <pattern value="/changerequest" />    
+   <view-id value="/account/richiediReso.xhtml?richiedicambio=true" />         
+</url-mapping>
 </pretty-config>
