@@ -101,7 +101,7 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 				</div>
 			</div>
 		</div>
-		<h:panelGroup rendered="#{applicationBean.menuFull.fgNuoviArrivi}">
+		<h:panelGroup rendered="#{applicationBean.getDomain(localeManager.language).menuFull.fgNuoviArrivi}">
 			<div class="container">
 				<div class="more-title">
 					<h2 class="title">
@@ -121,7 +121,7 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 			<div class="container" style="margin-top: 5px;">
 				<div class="row">
 					<div id="owl-newArr" class="owl-carousel col-sm-12">
-						<ui:repeat var="art" value="#{homeView.articleNewArrivals}">
+						<ui:repeat var="art" value="#{cartFlowBean.articleNewArrivals}">
 							<div class="item">
 								<h:link outcome="cart/cart-choice-2" rendered="#{art.idProduct != null}">
 									<img title="#{art.txBrand} #{art.description}" alt="#{art.txBrand} #{art.description}"
