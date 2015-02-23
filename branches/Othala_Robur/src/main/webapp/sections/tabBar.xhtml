@@ -3,28 +3,28 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:pe="http://primefaces.org/ui/extensions">
 	<div id="logo">
-		<a class="hidden-xs hidden-sm" href="#{request.contextPath}/home.xhtml">
+		<a class="hidden-xs hidden-sm" href="#{request.contextPath}/home">
 			<h:graphicImage library="images" styleClass="img-responsive" alt="logo #{msgSite.titleMerchant}" title="#{msg.navTab_goHome}"
 				name="logo2-store.png"></h:graphicImage>
 		</a>
 	</div>
 	<ul class="nav nav-tabs responsive" id="tabNav">
-		<ui:repeat var="menu" value="#{applicationBean.menu}" varStatus="status">
+		<ui:repeat var="menu" value="#{applicationBean.getDomain(localeManager.language).menu}" varStatus="status">
 			<li><a href="##{menu.idGender}" data-toggle="tab">
 					<h:outputText  value="#{menu.txGender}" style="text-transform:uppercase" />
 				</a></li>
 		</ui:repeat>
-		<h:panelGroup rendered="#{applicationBean.menuFull.fgPromozioni}">
+		<h:panelGroup rendered="#{applicationBean.getDomain(localeManager.language).menuFull.fgPromozioni}">
 			<li><a href="#promo2" id="promo" data-toggle="tab">
 					<h:outputText value="#{msg.catalog_promo}" />
 				</a></li>
 		</h:panelGroup>
-		<h:panelGroup rendered="#{applicationBean.menuFull.fgNuoviArrivi}">
-			<li><a href="#{msg.catalogo_newarrivals}">#{msg.catalog_newArrival}</a></li>
+		<h:panelGroup rendered="#{applicationBean.getDomain(localeManager.language).menuFull.fgNuoviArrivi}">
+			<li><a href="#{request.contextPath}/#{msg.catalogo_newarrivals}">#{msg.catalog_newArrival}</a></li>
 		</h:panelGroup>
 	</ul>
 	<div id="tab-content" class="tab-content responsive row col-sm-12">
-		<ui:repeat var="menu" value="#{applicationBean.menu}" varStatus="status">
+		<ui:repeat var="menu" value="#{applicationBean.getDomain(localeManager.language).menu}" varStatus="status">
 			<div class="tab-pane" id="#{menu.idGender}">
 				<div class="row">
 					<div class="col-xs-1 col-md-2 hidden-xs">
@@ -54,8 +54,8 @@
 			<div class="row">
 				<div class="col-xs-1 col-md-2 hidden-xs">
 					<p:graphicImage styleClass="img-responsive" alt="promotions"
-						library="#{applicationBean.menuFull.imgPromo.txLibrary}"
-						name="#{applicationBean.menuFull.imgPromo.txName}" />
+						library="#{applicationBean.getDomain(localeManager.language).menuFull.imgPromo.txLibrary}"
+						name="#applicationBean.getDomain(localeManager.language).menuFull.imgPromo.txName}" />
 				</div>
 				<div class="col-xs-10  spacer10">
 					<div class="row">

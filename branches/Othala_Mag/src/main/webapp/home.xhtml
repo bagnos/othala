@@ -101,13 +101,14 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 				</div>
 			</div>
 		</div>
-		<h:panelGroup rendered="#{applicationBean.menuFull.fgNuoviArrivi}">
+		<h:panelGroup
+			rendered="#{applicationBean.getDomain(localeManager.language).menuFull.fgNuoviArrivi}">
 			<div class="container">
 				<div class="more-title">
 					<h2 class="title">
 						<span>#{msg.catalog_newArr}</span>
 					</h2>
-					
+
 					<a href="#{msg.catalogo_newarrivals}" class="show-more-link hidden-xs">#{msg.catalog_findNewArr}&#62;</a>
 
 				</div>
@@ -115,12 +116,13 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 			<div class="container" style="margin-top: 5px;">
 				<div class="row">
 					<div id="owl-newArr" class="owl-carousel col-sm-12">
-						<ui:repeat var="art" value="#{homeView.articleNewArrivals}">
+						<ui:repeat var="art" value="#{cartFlowBean.articleNewArrivals}">
 							<div class="item">
-								<h:outputLink value="#{cartFlowView1.getCartChoice(art.idProduct,art.txBrand,art.txType,art.tyProduct)}">
+								<h:outputLink
+									value="#{cartFlowView1.getCartChoice(art.idProduct,art.txBrand,art.txType,art.tyProduct)}">
 									<img title="#{art.txBrand} #{art.description}" alt="Shop #{art.txBrand} #{art.description}"
 										class="lazyOwl img-responsive" style="margin: auto"
-										data-src="#{request.contextPath}/javax.faces.resource/#{art.thumbnailsUrl}.xhtml?ln=images/cartThumbinals" />									
+										data-src="#{request.contextPath}/javax.faces.resource/#{art.thumbnailsUrl}.xhtml?ln=images/cartThumbinals" />
 								</h:outputLink>
 								<div class="row">
 									<div class="col-sm-12" style="text-align: center;">
@@ -145,23 +147,6 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 				</div>
 			</div>
 		</h:panelGroup>
-
-
-		<!-- 
-			<div class="container" style="margin-top: 5px;">
-				<div class="row">
-					<div id="flexsliderNewArr" class="flexslider">
-						<ul class="slides">
-							<ui:repeat var="art" value="#{homeView.articleNewArrivals}">
-								<li style="width: 150px;"><h:panelGroup>
-									</h:panelGroup></li>
-							</ui:repeat>
-						</ul>
-					</div>
-				</div>
-			</div>
-			-->
-
 		<div class="container" style="margin-top: 20px;">
 			<div class="row">
 				<div class="col-sm-4"></div>
