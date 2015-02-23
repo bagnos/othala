@@ -75,32 +75,11 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 										data-src="#{request.contextPath}/javax.faces.resource/#{imgCar.txName}.xhtml?ln=images/home" />
 							</div>
 						</ui:repeat>
-					</div>
-					<!-- 
-					<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-						<div class="carousel-inner">
-							<ui:repeat var="imgCar" value="#{applicationBean.imgsCarousel}" varStatus="staCar">
-								<h:panelGroup styleClass="#{staCar.first?'item active':'item'}"
-									rendered="#{imgCar.txName!=null}">
-									<h:link outcome="#{imgCar.urlRedirect}">
-										<p:graphicImage styleClass="img-responsive" title="#{imgCar.txAlt}" alt="#{imgCar.txAlt}"
-											library="#{imgCar.txLibrary}" name="#{imgCar.txName}" />
-									</h:link>
-								</h:panelGroup>
-							</ui:repeat>
-						</div>
-						<a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-							<span class="glyphicon glyphicon-chevron-left"></span>
-						</a>
-						<a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-							<span class="glyphicon glyphicon-chevron-right"></span>
-						</a>
-					</div>
-					 -->
+					</div>				
 				</div>
 			</div>
 		</div>
-		<h:panelGroup rendered="#{applicationBean.menuFull.fgNuoviArrivi}">
+		<h:panelGroup rendered="#{applicationBean.getDomain(localeManager.language).menuFull.fgNuoviArrivi}">
 			<div class="container">
 				<div class="more-title">
 					<h2 class="title">
@@ -113,7 +92,7 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 			<div class="container" style="margin-top: 5px;">
 				<div class="row">					
 					<div id="owl-newArr" class="owl-carousel col-sm-12">
-						<ui:repeat var="art" value="#{homeView.articleNewArrivals}">
+						<ui:repeat var="art" value="#{cartFlowBean.articleNewArrivals}">
 							<div class="item">
 								<h:outputLink value="#{cartFlowView1.getCartChoice(art.idProduct,art.txBrand,art.txType,art.tyProduct)}">
 									<img title="#{art.txBrand} #{art.description}" alt="#{art.txBrand} #{art.description}"
@@ -143,11 +122,6 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 				</div>
 			</div>
 		</h:panelGroup>
-
-
-
-
-
 	</ui:define>
 	<ui:define name="scriptPage">
 		<script>
