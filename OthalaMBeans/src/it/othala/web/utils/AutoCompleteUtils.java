@@ -4,6 +4,7 @@ import it.othala.dto.AccountDTO;
 import it.othala.dto.AttributeDTO;
 import it.othala.dto.ShopDTO;
 import it.othala.model.ApplicationBean;
+import it.othala.model.LocaleManager;
 import it.othala.service.factory.OthalaFactory;
 
 import java.io.Serializable;
@@ -13,18 +14,16 @@ import java.util.List;
 public class AutoCompleteUtils implements Serializable {
 
 	private ApplicationBean beanApplication;
+	private LocaleManager locBean;
 
-	public ApplicationBean getBeanApplication() {
-		return beanApplication;
-	}
-
-	public AutoCompleteUtils(ApplicationBean beanApp) {
+	
+	public AutoCompleteUtils(ApplicationBean beanApp,LocaleManager locBean) {
 		beanApplication = beanApp;
+		this.locBean=locBean;
 	}
 
 	public List<AttributeDTO> completeGenere(String query) {
-		List<AttributeDTO> allAttributeDTO = getBeanApplication()
-				.getGenderDTO();
+		List<AttributeDTO> allAttributeDTO =beanApplication.getDomain(locBean.getLanguage()).getGender();
 		List<AttributeDTO> filteredAttributeDTO = new ArrayList<AttributeDTO>();
 
 		for (int i = 0; i < allAttributeDTO.size(); i++) {
@@ -39,7 +38,7 @@ public class AutoCompleteUtils implements Serializable {
 
 	public List<AttributeDTO> completeTaglia(String query) {
 		List<AttributeDTO> filteredSize = new ArrayList<AttributeDTO>();
-			List<AttributeDTO> allSize = getBeanApplication().getSizesDTO();
+			List<AttributeDTO> allSize = beanApplication.getDomain(locBean.getLanguage()).getSize();
 
 			for (int i = 0; i < allSize.size(); i++) {
 				AttributeDTO attr = allSize.get(i);
@@ -53,7 +52,7 @@ public class AutoCompleteUtils implements Serializable {
 	}
 
 	public List<AttributeDTO> completeBrand(String query) {
-		List<AttributeDTO> allBrands = getBeanApplication().getBrandDTO();
+		List<AttributeDTO> allBrands = beanApplication.getDomain(locBean.getLanguage()).getBrand();
 		List<AttributeDTO> filteredBrands = new ArrayList<AttributeDTO>();
 
 		for (int i = 0; i < allBrands.size(); i++) {
@@ -67,7 +66,7 @@ public class AutoCompleteUtils implements Serializable {
 	}
 
 	public List<ShopDTO> completeShops(String query) {
-		List<ShopDTO> allShops = getBeanApplication().getShopsDTO();
+		List<ShopDTO> allShops = beanApplication.getShopsDTO();
 		List<ShopDTO> filteredShops = new ArrayList<ShopDTO>();
 
 		for (int i = 0; i < allShops.size(); i++) {
@@ -81,7 +80,7 @@ public class AutoCompleteUtils implements Serializable {
 	}
 
 	public List<AttributeDTO> completeColours(String query) {
-		List<AttributeDTO> allColours = getBeanApplication().getColorsDTO();
+		List<AttributeDTO> allColours = beanApplication.getDomain(locBean.getLanguage()).getColor();
 		List<AttributeDTO> filteredColours = new ArrayList<AttributeDTO>();
 
 		for (int i = 0; i < allColours.size(); i++) {
@@ -96,7 +95,7 @@ public class AutoCompleteUtils implements Serializable {
 
 	public List<AttributeDTO> completeTipo(String query) {
 
-		List<AttributeDTO> allType = getBeanApplication().getTypeDTO();
+		List<AttributeDTO> allType = beanApplication.getDomain(locBean.getLanguage()).getType();
 		List<AttributeDTO> filteredType = new ArrayList<AttributeDTO>();
 
 		for (int i = 0; i < allType.size(); i++) {
@@ -110,7 +109,7 @@ public class AutoCompleteUtils implements Serializable {
 	}
 
 	public List<AttributeDTO> completeMaterial(String query) {
-		List<AttributeDTO> allMaterial = getBeanApplication().getMaterialDTO();
+		List<AttributeDTO> allMaterial = beanApplication.getDomain(locBean.getLanguage()).getMaterial();
 		List<AttributeDTO> filteredMaterial = new ArrayList<AttributeDTO>();
 
 		for (int i = 0; i < allMaterial.size(); i++) {

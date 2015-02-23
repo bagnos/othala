@@ -382,7 +382,7 @@ public class InsertProdottiView extends BaseView {
 			if (fgMod == null || fgMod == false) {
 				OthalaFactory.getProductServiceInstance().insertProduct(prd, pubblica);
 				resetPrd();
-				getBeanApplication().resetMenu();
+				getBeanApplication().resetDomain();
 				addInfo("Prodotto", "inserimento effettuato correttamente");
 			} else {
 				prd.setIdProduct(prdDetail.getIdProduct());

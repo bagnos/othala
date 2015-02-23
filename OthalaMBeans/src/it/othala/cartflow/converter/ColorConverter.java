@@ -21,7 +21,7 @@ public class ColorConverter extends BaseConverter implements Converter {
 			int intValue = Integer.valueOf(value);
 			
 						 
-			for (AttributeDTO attr : getAppBean().getColorsDTO()) {
+			for (AttributeDTO attr : getAppBean().getDomain(getLocBean().getLanguage()).getColor()) {
 				if (attr.getAttributo() == intValue) {
 					
 					return attr;

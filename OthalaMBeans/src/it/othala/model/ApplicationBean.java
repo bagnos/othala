@@ -32,36 +32,38 @@ public class ApplicationBean implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private List<SelectItem> colors = null;
+	//private List<SelectItem> colors = null;
 	private List<SelectItem> brands = null;
-	private List<SelectItem> materials = null;
+	//private List<SelectItem> materials = null;
 	private List<SelectItem> sizes = null;
-	private List<MenuDTO> menu = null;
-	private List<MenuDTO> menuProducts = null;
-	private List<MenuDTO> menuServices = null;
-	private MenuFullDTO menuFull = null;
+	
 	private List<SiteImagesDTO> imgsCarousel = null;
 	private List<SiteImagesDTO> imgs = null;
 	private List<SiteImagesDTO> imgsNewArrival = null;
 	private DomainDTO domain;
 	private List<CampaignDTO> campaigns = null;;
+
 	private List<AttributeDTO> brandDTO = null;
-	private List<AttributeDTO> materialDTO = null;
-	private List<AttributeDTO> colorsDTO = null;
+	//private List<AttributeDTO> materialDTO = null;
+	//private List<AttributeDTO> colorsDTO = null;
 	private List<AttributeDTO> sizeDTO = null;
 	private List<ShopDTO> shopsDTO = null;
-	private List<AttributeDTO> genderDTO = null;
-	private List<AttributeDTO> typeDTO = null;
+	//private List<AttributeDTO> genderDTO = null;
+	//private List<AttributeDTO> typeDTO = null;
 	private List<AttributeDTO> statesOrder = null;
 	private List<AttributeDTO> statesProduct = null;
 	private Boolean configuredBarcodeProduct;
 	private Boolean discountTabEnabled;
 	private Integer tipoMenu;
 	private Boolean localNewsLetter;
+	private DomainDTO domainEN;
+
+	public DomainDTO getDomainEN() {
+		return domainEN;
+	}
 
 	public boolean getLocalNewsLetter() {
-		if (localNewsLetter==null)
-		{
+		if (localNewsLetter == null) {
 			getDomain();
 		}
 		return localNewsLetter;
@@ -102,7 +104,7 @@ public class ApplicationBean implements Serializable {
 		}
 		return statesOrder;
 	}
-
+/*
 	public List<AttributeDTO> getGenderDTO() {
 		if (genderDTO == null) {
 			genderDTO = getDomain().getGender();
@@ -123,7 +125,7 @@ public class ApplicationBean implements Serializable {
 		}
 		return typeDTO;
 	}
-
+*/
 	public List<ShopDTO> getShopsDTO() {
 		if (shopsDTO == null) {
 			shopsDTO = getDomain().getShop();
@@ -137,7 +139,7 @@ public class ApplicationBean implements Serializable {
 		}
 		return sizeDTO;
 	}
-
+	/*
 	public List<AttributeDTO> getColorsDTO() {
 		if (colorsDTO == null) {
 			colorsDTO = getDomain().getColor();
@@ -147,7 +149,7 @@ public class ApplicationBean implements Serializable {
 
 	public void setColors(List<SelectItem> colors) {
 		this.colors = colors;
-	}
+	}*/
 
 	public List<AttributeDTO> getBrandDTO() {
 		if (brandDTO == null) {
@@ -165,23 +167,38 @@ public class ApplicationBean implements Serializable {
 
 	public DomainDTO getDomain() {
 
-		if (domain == null) {
-			domain = OthalaFactory.getProductServiceInstance().getDomain(OthalaUtil.getLangFromContextJSF());
+		if (domain == null || domainEN == null) {
+			domain = OthalaFactory.getProductServiceInstance().getDomain("it");		
+			domainEN=OthalaFactory.getProductServiceInstance().getDomain("en");
+			
 			String key = ConfigurationUtil.getProperty("DiscountTabEnabled");
 			discountTabEnabled = (key == null ? false : Boolean.parseBoolean(key));
-			key=ConfigurationUtil.getProperty("NewsLetterLocal");			
-			localNewsLetter=(key == null ? false : Boolean.parseBoolean(key));
+			key = ConfigurationUtil.getProperty("NewsLetterLocal");
+			localNewsLetter = (key == null ? false : Boolean.parseBoolean(key));
 		}
 
 		return domain;
 	}
+	
+	public DomainDTO getDomain(String language) {
+		getDomain();
+		if (language.equalsIgnoreCase("it"))
+		{
+			return domain;
+		}
+		return domainEN;
 
+		
+	}
+
+	
 	public void resetDomain() {
 		domain = null;
+		domainEN=null;
 		brandDTO = null;
-		colorsDTO = null;
-		typeDTO = null;
-		materialDTO = null;
+		//colorsDTO = null;
+		//typeDTO = null;
+		//materialDTO = null;
 		sizeDTO = null;
 		campaigns = null;
 	}
@@ -210,86 +227,8 @@ public class ApplicationBean implements Serializable {
 	private final String IMG_NEW_ARRIVALS = "newArrivals";
 	private final String IMG_CAROUSEL = "carousel";
 
-	public void resetMenu() {
-		menu = null;
-		menuFull = null;
-
-	}
-
-	public MenuFullDTO getMenuFull() {
-		if (menuFull == null) {
-			menuFull = OthalaFactory.getProductServiceInstance().getMenuFull(OthalaUtil.getLangFromContextJSF());
-
-		}
-
-		return menuFull;
-	}
-
-	public List<MenuDTO> getMenu() {
-		if (menu == null) {
-			menuFull = OthalaFactory.getProductServiceInstance().getMenuFull(OthalaUtil.getLangFromContextJSF());
-			menu = menuFull.getMenu();
-
-			if (menuFull.getImgNew() == null) {
-				SiteImagesDTO imgNewCom = new SiteImagesDTO();
-				imgNewCom.setTxLibrary("images/home");
-				imgNewCom.setTxName("new.png");
-
-				menuFull.setImgNew(imgNewCom);
-
-			}
-
-			if (menuFull.getImgPromo() == null) {
-				SiteImagesDTO imgNewPromo = new SiteImagesDTO();
-				imgNewPromo.setTxLibrary("images/home");
-				imgNewPromo.setTxName("promo.png");
-
-				menuFull.setImgPromo(imgNewPromo);
-
-			}
-
-			
-			
-		}
-
-		return menu;
-	}
-
-	public List<MenuDTO> getMenuProducts() {
-		if (menuProducts == null || menuProducts.size() == 0) {
-			
-			menuProducts =  new ArrayList<MenuDTO>();
-			
-			for (MenuDTO idMenu : getMenu())
-			{
-				if (idMenu.getIdGender() != 3)
-				{
-					menuProducts.add(idMenu);
-				}
-			}
-		}
-
-		return menuProducts;
-	}
-	
-	public List<MenuDTO> getMenuServices() {
-		if (menuServices == null || menuProducts.size() == 0) {
-			
-			menuServices =  new ArrayList<MenuDTO>();
-			
-			for (MenuDTO idMenu : getMenu())
-			{
-				if (idMenu.getIdGender() == 3)
-				{
-					menuServices.add(idMenu);
-				}
-			}
-		}
-
-		return menuServices;
-	}
-	
-	
+		
+	/*
 	public List<SelectItem> getMaterials() {
 		if (materials == null) {
 			materials = new ArrayList<>();
@@ -301,7 +240,7 @@ public class ApplicationBean implements Serializable {
 
 		}
 		return materials;
-	}
+	}*/
 
 	public List<SelectItem> getBrands() {
 		if (brands == null) {
@@ -337,6 +276,7 @@ public class ApplicationBean implements Serializable {
 		return sizeDTO;
 	}
 
+	/*
 	public List<SelectItem> getColors() {
 		if (colors == null) {
 			colors = new ArrayList<>();
@@ -349,7 +289,7 @@ public class ApplicationBean implements Serializable {
 
 		}
 		return colors;
-	}
+	}*/
 
 	private void updateImgHome() {
 		imgsCarousel = new ArrayList<>();

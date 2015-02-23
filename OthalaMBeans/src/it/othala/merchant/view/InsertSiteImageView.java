@@ -166,7 +166,7 @@ public class InsertSiteImageView extends BaseView {
 			OthalaFactory.getSiteImagesServiceInstance().updateGroupImages(groupImages);
 			reset();
 			getBeanApplication().resetImgHome();
-			getBeanApplication().resetMenu();
+			getBeanApplication().resetDomain();
 			addInfo("Inserimento Immagine", "Operazione Eseguita correttamente");
 
 		} catch (Exception ex) {

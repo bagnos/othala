@@ -15,7 +15,7 @@ public class TypeConverter extends BaseConverter implements Converter {
 	public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
 		if (value != null && value.trim().length() > 0) {
 			int intValue = Integer.valueOf(value);
-			for (AttributeDTO attr : getAppBean().getTypeDTO()) {
+			for (AttributeDTO attr : getAppBean().getDomain(getLocBean().getLanguage()).getType()) {
 				if (attr.getAttributo() == intValue) {					
 					return attr;
 				}

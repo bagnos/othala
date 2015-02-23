@@ -19,7 +19,7 @@ public class GenderConverter extends BaseConverter implements Converter {
 	public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
 		if (value != null && value.trim().length() > 0) {
 			int intValue = Integer.valueOf(value);
-			for (AttributeDTO attr : getAppBean().getGenderDTO()) {
+			for (AttributeDTO attr : getAppBean().getDomain(getLocBean().getLanguage()).getGender()) {
 				if (attr.getAttributo() == intValue) {					
 					return attr;
 				}
