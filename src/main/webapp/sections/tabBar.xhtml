@@ -28,7 +28,7 @@
 			</ul>
 		</div>
 		<div class="collapse navbar-collapse js-navbar-collapse">
-			<ui:repeat var="menu" value="#{applicationBean.menu}" varStatus="status">
+			<ui:repeat var="menu" value="#{applicationBean.getDomain(localeManager.language).menu}" varStatus="status">
 				<ul class="nav navbar-nav">
 					<li class="dropdown mega-dropdown"><a href="#" class="dropdown-toggle"
 							data-toggle="dropdown">#{menu.txGender}</a>
@@ -60,7 +60,7 @@
 				</ul>
 			</ui:repeat>
 			<!-- promozioni -->
-			<c:if test="#{applicationBean.menuFull.fgPromozioni}">
+			<c:if test="#{applicationBean.getDomain(localeManager.language).menuFull.fgPromozioni}">
 				<ul class="nav navbar-nav">
 					<li class="dropdown mega-dropdown"><a href="#" class="dropdown-toggle"
 							data-toggle="dropdown">#{msg.catalog_promo}</a>
@@ -69,8 +69,8 @@
 								<div class="row">
 									<div class="col-xs-1 col-sm-2 hidden-xs">
 										<p:graphicImage styleClass="img-responsive" alt="promotions"
-											library="#{applicationBean.menuFull.imgPromo.txLibrary}"
-											name="#{applicationBean.menuFull.imgPromo.txName}" />
+											library="#{applicationBean.getDomain(localeManager.language).menuFull.imgPromo.txLibrary}"
+											name="#{applicationBean.getDomain(localeManager.language).menuFull.imgPromo.txName}" />
 									</div>
 									<div class="col-xs-11 col-sm-10 spacer10">
 										<ul style="list-style-type: none;">
@@ -93,7 +93,7 @@
 				</ul>
 			</c:if>
 						<!-- nuovi arrivi -->
-			<c:if test="#{applicationBean.menuFull.fgNuoviArrivi}">
+			<c:if test="#{applicationBean.getDomain(localeManager.language).menuFull.fgNuoviArrivi}">
 				<ul class="nav navbar-nav">
 					<li class="dropdown mega-dropdown"><h:link value="#{menu.txGender}"
 							outcome="/cart/cart-catalog.xhtml" class="trasparente">
