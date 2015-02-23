@@ -23,9 +23,45 @@ public class DomainDTO implements Serializable {
 	private List<ConfigurationDTO> configuration;
 	private List<RegioneDTO> regioni;
 	private List<AttributeDTO> infAggiuntive;
+	private List<MenuDTO> menu;
+	private MenuFullDTO menuFull;
+	private List<MenuDTO> menuProducts = null;
+	private List<MenuDTO> menuServices = null;
 	
+	
+	
+	public List<MenuDTO> getMenuProducts() {
+		return menuProducts;
+	}
 
-	
+	public void setMenuProducts(List<MenuDTO> menuProducts) {
+		this.menuProducts = menuProducts;
+	}
+
+	public List<MenuDTO> getMenuServices() {
+		return menuServices;
+	}
+
+	public void setMenuServices(List<MenuDTO> menuServices) {
+		this.menuServices = menuServices;
+	}
+
+	public MenuFullDTO getMenuFull() {
+		return menuFull;
+	}
+
+	public void setMenuFull(MenuFullDTO menuFull) {
+		this.menuFull = menuFull;
+	}
+
+	public List<MenuDTO> getMenu() {
+		return menu;
+	}
+
+	public void setMenu(List<MenuDTO> menu) {
+		this.menu = menu;
+	}
+
 	public List<AttributeDTO> getStatesProduct() {
 		return statesProduct;
 	}

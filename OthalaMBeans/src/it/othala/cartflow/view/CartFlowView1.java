@@ -52,8 +52,7 @@ public class CartFlowView1 extends BaseView {
 	private String campaign;
 
 	public String getCartChoice(String idPrd, String brand, String type, Integer idProdType) {
-		
-		
+
 		String url = null;
 		if (idProdType == null || idProdType == 0) {
 			url = getCartChoice2(idPrd, brand, type);
@@ -82,7 +81,6 @@ public class CartFlowView1 extends BaseView {
 
 	private String getCartChoice3(String idPrd, String brand) {
 
-		
 		String cartChoice3 = String.format("%s/%s/%s/%s/%s/%s", getRequest().getContextPath(),
 				OthalaUtil.getWordBundle("catalogo_product"), OthalaUtil.getWordBundle("catalogo_food"),
 				brand.toLowerCase(), type.toLowerCase(), idPrd);
@@ -185,8 +183,7 @@ public class CartFlowView1 extends BaseView {
 	public String doInit() {
 		try {
 			// TODO Auto-generated method stub
-			
-			
+
 			initBean();
 
 			callServiceProduct(1);
@@ -233,7 +230,7 @@ public class CartFlowView1 extends BaseView {
 		getCartFlowBean().getCatalog().setIncludePromo(false);
 
 		if (gender != null) {
-			for (MenuDTO menu : getBeanApplication().getMenu()) {
+			for (MenuDTO menu : getBeanApplication().getDomain(getLang()).getMenu()) {
 				if (menu.getTxGender().equalsIgnoreCase(gender)) {
 					idMenu = menu.getIdGender();
 					if (brands != null) {
@@ -257,7 +254,7 @@ public class CartFlowView1 extends BaseView {
 				}
 			}
 		} else if (brands != null) {
-			for (MenuDTO menu : getBeanApplication().getMenu()) {
+			for (MenuDTO menu : getBeanApplication().getDomain(getLang()).getMenu()) {
 				for (SubMenuBrandDTO sBrand : menu.getSubMenuBrand()) {
 					if (sBrand.getTxBrand().equalsIgnoreCase(brands)) {
 						brand = sBrand.getIdBrand();
@@ -266,7 +263,7 @@ public class CartFlowView1 extends BaseView {
 				}
 			}
 		} else if (type != null) {
-			for (MenuDTO menu : getBeanApplication().getMenu()) {
+			for (MenuDTO menu : getBeanApplication().getDomain(getLang()).getMenu()) {
 				for (SubMenuDTO subMenu : menu.getSubMenu()) {
 					if (subMenu.getTxType().equalsIgnoreCase(type)) {
 						idSubMenu = subMenu.getIdType();
@@ -503,7 +500,7 @@ public class CartFlowView1 extends BaseView {
 		getCartFlowBean().getBreadCrumb().add("");
 		if (getCartFlowBean().getCatalog().getIdMenu() != null) {
 			Integer idMenu = getCartFlowBean().getCatalog().getIdMenu();
-			for (MenuDTO m : getBeanApplication().getMenu()) {
+			for (MenuDTO m : getBeanApplication().getDomain(getLang()).getMenu()) {
 				if (m.getIdGender() == idMenu.intValue()) {
 					getCartFlowBean().getBreadCrumb().add(m.getTxGender());
 				}
@@ -518,7 +515,7 @@ public class CartFlowView1 extends BaseView {
 
 			if (idMenu != null && idSubMenu != null) {
 				// getCartFlowBean().getBreadCrumb().add("");
-				for (MenuDTO m : getBeanApplication().getMenu()) {
+				for (MenuDTO m : getBeanApplication().getDomain(getLang()).getMenu()) {
 					if (m.getIdGender() == idMenu.intValue()) {
 						// getCartFlowBean().getBreadCrumb().add(m.getTxGender());
 						for (SubMenuDTO sm : m.getSubMenu()) {

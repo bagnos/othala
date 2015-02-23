@@ -20,7 +20,7 @@ public class MaterialConverter extends BaseConverter implements Converter {
 			int intValue = Integer.valueOf(value);
 			
 						 
-			for (AttributeDTO attr : getAppBean().getMaterialDTO()) {
+			for (AttributeDTO attr : getAppBean().getDomain(getLocBean().getLanguage()).getMaterial()) {
 				if (attr.getAttributo() == intValue) {
 					
 					return attr;

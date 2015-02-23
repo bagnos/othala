@@ -2340,13 +2340,17 @@
 	</select>
 	
 	<select id="getProdottiPiuVenduti" resultType="it.othala.dto.ArticleCashedDTO">	
-	SELECT p.idProduct,coalesce(a.imPrice,p.imPrice) as imPrice,pd.txDescription as description,p.idbrand,p.idType,a.txThumbnailsUrl,sum(qtArticle) as spedita,sum(imArticle) as incasso
-	from ${database.schema}orders_articles oa, ${database.schema}article a, ${database.schema}product p,${database.schema}product_description pd
+	SELECT p.idProduct,coalesce(a.imPrice,p.imPrice) as imPrice,pd.txDescription as description,ty.txType,p.idbrand,br.txbrand,p.idType,a.txThumbnailsUrl,sum(qtArticle) as spedita,sum(imArticle) as incasso
+	from ${database.schema}orders_articles oa, ${database.schema}article a, ${database.schema}product p,${database.schema}product_description pd,${database.schema}brand br,${database.schema}type ty
 	where oa.idProdotto=a.idProduct
 	and oa.pgArticle=a.pgArticle
 	and p.idProduct=a.idProduct
 	and pd.idProduct=p.idProduct
 	and pd.idLanguages=#{language}
+	and ty.idLanguages=#{language}
+	and p.idBrand=br.idBrand
+	and p.idType=ty.idType
+	
 	group by p.idProduct,p.idbrand,p.idType
 	order by spedita desc
 	</select>

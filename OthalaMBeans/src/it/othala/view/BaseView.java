@@ -68,7 +68,7 @@ public abstract class BaseView implements Serializable {
 
 	public AutoCompleteUtils getAutoUtils() {
 		if (autoUtils == null) {
-			autoUtils = new AutoCompleteUtils(getBeanApplication());
+			autoUtils = new AutoCompleteUtils(getBeanApplication(),localManager);
 		}
 		return autoUtils;
 	}
@@ -194,7 +194,7 @@ public abstract class BaseView implements Serializable {
 	}
 
 	protected String getLang() {
-		return OthalaUtil.getLang(getRequest());
+		return localManager.getLanguage();
 	}
 
 	protected void redirectHome() {
@@ -288,7 +288,7 @@ public abstract class BaseView implements Serializable {
 	}
 
 	protected String getURLCart() {
-		String url = String.format("%http://%s/%s/cart", getRequest().getServerName(), getRequest().getContextPath());
+		String url = String.format("http://%s%s/cart", getRequest().getServerName(), getRequest().getContextPath());
 		return url;
 	}
 

@@ -1,5 +1,6 @@
 package it.othala.cartflow.model;
 
+import it.othala.dto.ArticleCashedDTO;
 import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.AttributeDTO;
 import it.othala.dto.BrandFullDTO;
@@ -61,7 +62,24 @@ public class CartFlowBean implements Serializable {
 	private boolean singleProductCatalog;
 	private List<BrandFullDTO> brandFullDTO;
 	private String urlReferer;
-	
+	private List<ArticleCashedDTO> articleCashed;
+	private List<ProductFullNewDTO> articleNewArrivals;
+	public List<ProductFullNewDTO> getArticleNewArrivals() {
+		return articleNewArrivals;
+	}
+
+	public void setArticleNewArrivals(List<ProductFullNewDTO> articleNewArrivals) {
+		this.articleNewArrivals = articleNewArrivals;
+	}
+
+	public List<ArticleCashedDTO> getArticleCashed() {
+		return articleCashed;
+	}
+
+	public void setArticleCashed(List<ArticleCashedDTO> articleCashed) {
+		this.articleCashed = articleCashed;
+	}
+
 	public String getUrlReferer() {
 		return urlReferer;
 	}
