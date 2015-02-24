@@ -20,6 +20,8 @@ import it.othala.dto.SiteImagesDTO;
 import it.othala.dto.SubMenuBrandDTO;
 import it.othala.dto.SubMenuDTO;
 import it.othala.enums.ArticleUpdate;
+import it.othala.execption.BarcodeNotPresentException;
+import it.othala.execption.OthalaException;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -378,7 +380,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 
 	@Override
 	public Integer insertProduct(ProductFullNewDTO productFull,
-			Boolean fgPubblicazione) {
+			Boolean fgPubblicazione) throws OthalaException {
 
 		if (productFull.getSpecialPrice().intValue() == 0)
 
@@ -463,6 +465,14 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		HashMap<String, Object> map4 = new HashMap<>();
 
 		for (int i = 0; i <= productFull.getArticles().size() - 1; i++) {
+			
+			ProductFullNewDTO productFullcHECK = getProductFullBarcode(productFull.getArticles().get(i)
+					.getTxBarCode());
+
+			if (productFull != null) {
+				throw new OthalaException("Barcode già presente su altro prodotto");
+			}
+			
 			map4.clear();
 			map4.put("idProduct", productFull.getIdProduct());
 			map4.put("pgArticle", productFull.getArticles().get(i)

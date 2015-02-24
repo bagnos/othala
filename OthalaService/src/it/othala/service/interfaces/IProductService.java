@@ -50,7 +50,7 @@ public interface IProductService {
 
 	public DomainDTO insertType(String languages, String txType, String txTypeEN);
 
-	public Integer insertProduct(ProductFullNewDTO productFull, Boolean fgPubblicazione);
+	public Integer insertProduct(ProductFullNewDTO productFull, Boolean fgPubblicazione) throws OthalaException;
 
 	public List<ProductFullNewDTO> listFindProduct(String txBarcode, Integer state,
 			Integer shop, Integer gender, Integer type, Integer brand,

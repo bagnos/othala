@@ -299,7 +299,7 @@ public class ProductService implements IProductService {
 	}
 
 	@Override
-	public Integer insertProduct(ProductFullNewDTO productFull, Boolean fgPubblicazione) {
+	public Integer insertProduct(ProductFullNewDTO productFull, Boolean fgPubblicazione) throws OthalaException {
 		return productDAO.insertProduct(productFull, fgPubblicazione);
 
 	}
