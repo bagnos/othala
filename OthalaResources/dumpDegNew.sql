@@ -96,7 +96,7 @@ CREATE TABLE `article` (
 
 LOCK TABLES `article` WRITE;
 /*!40000 ALTER TABLE `article` DISABLE KEYS */;
-INSERT INTO `article` VALUES (26,1,9,11,1,'thumb20141212125853994&056_67e9e8a5-d66d-44cd-a47c-cd3ea09fd7e1.JPG',1,'111111',1292.00,NULL,30),(26,2,10,11,1,'thumb20141212125853994&056_67e9e8a5-d66d-44cd-a47c-cd3ea09fd7e1.JPG',1,'111111',1292.00,NULL,30),(27,1,9,11,1,'thumb20141212130310393&126_7d3eddbf-a535-4b73-8fad-d8dcba0417de.JPG',1,'111112',1910.00,500.00,0),(28,1,26,13,14,'thumb20141212130809331&036_1bbd79c9-88f1-413f-bd28-c62935725194.JPG',1,'111113',690.00,2.00,1),(28,2,3,8,15,'thumb20141212130818063&033_1eb358a5-5e31-4e96-b8c7-764352cbb62a.JPG',1,'111113',690.00,2.00,1);
+INSERT INTO `article` VALUES (26,1,9,11,1,'thumb20141212125853994&056_67e9e8a5-d66d-44cd-a47c-cd3ea09fd7e1.JPG',300,'111111',1292.00,NULL,30),(26,2,10,11,1,'thumb20141212125853994&056_67e9e8a5-d66d-44cd-a47c-cd3ea09fd7e1.JPG',300,'111111',1292.00,NULL,30),(27,1,9,11,1,'thumb20141212130310393&126_7d3eddbf-a535-4b73-8fad-d8dcba0417de.JPG',300,'111112',1910.00,500.00,0),(28,1,26,13,14,'thumb20141212130809331&036_1bbd79c9-88f1-413f-bd28-c62935725194.JPG',300,'111113',690.00,2.00,1),(28,2,3,8,15,'thumb20141212130818063&033_1eb358a5-5e31-4e96-b8c7-764352cbb62a.JPG',300,'111113',690.00,2.00,1);
 /*!40000 ALTER TABLE `article` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1005,7 +1005,7 @@ CREATE TABLE `shops` (
 
 LOCK TABLES `shops` WRITE;
 /*!40000 ALTER TABLE `shops` DISABLE KEYS */;
-INSERT INTO `shops` VALUES (1,'Siena - via Banchi di Sotto','adunatasoftware@gmail.com','Degortes Outlet','Via Banchi di Sotto, 19 - 21','Siena',53100,'SI','Italia','+390577281103 '),(2,'Magazzino Badesse','adunatasoftware@gmail.com','Degortes Outlet','Via della Resistenza, 117/C','Siena',53100,'SI','Italia','+390577309334 ');
+INSERT INTO `shops` VALUES (1,'Valona','adunatasoftware@gmail.com','Degortes Outlet',NULL,NULL,NULL,NULL,NULL,NULL),(100,'Sede','adunatasoftware@gmail.com','Degortes Outlet','Via Banchi di Sotto, 21','Siena',53100,'SI','Italia','0577281103 '),(230,'Follonica','adunatasoftware@gmail.com','Degortes Outlet','Via Roma, 8','Follonica',58022,'GR','Italia','056642876'),(240,'Castiglione della Pescaia','adunatasoftware@gmail.com','Degortes Outlet','Corso Della Liberta’, 2','Castiglione della Pescaia',58043,'GR','Italia','0564939849'),(260,'Lucca','adunatasoftware@gmail.com','Degortes Outlet','Piazza degli Scalpellini, 1','Lucca',55100,'LU','Italia','0583492865'),(300,'Siena','adunatasoftware@gmail.com','Degortes Outlet','Via Banchi di Sotto, 19 - 21','Siena',53100,'SI','Italia','0577281103 ');
 /*!40000 ALTER TABLE `shops` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1203,4 +1203,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-02-02 17:08:22
+-- Dump completed on 2015-02-11 15:40:32
