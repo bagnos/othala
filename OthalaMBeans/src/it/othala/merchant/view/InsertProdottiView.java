@@ -6,13 +6,12 @@ import it.othala.dto.DomainDTO;
 import it.othala.dto.ProductFullNewDTO;
 import it.othala.dto.ShopDTO;
 import it.othala.enums.ArticleUpdate;
+import it.othala.execption.OthalaException;
 import it.othala.merchant.model.MerchantBean;
-import it.othala.model.LocaleManager;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 import it.othala.web.utils.ResizeImageUtil;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -25,8 +24,6 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 import org.primefaces.event.FileUploadEvent;
@@ -393,7 +390,13 @@ public class InsertProdottiView extends BaseView {
 
 			eliminaImmagini();
 
-		} catch (Exception ex) {
+		} 
+		catch (OthalaException oex) {
+			addError("errore nell'inserimento del prodotto", oex.getMessage());
+			
+		}
+
+		catch (Exception ex) {
 			addGenericError(ex, "errore nell'inserimento del prodotto");
 		}
 

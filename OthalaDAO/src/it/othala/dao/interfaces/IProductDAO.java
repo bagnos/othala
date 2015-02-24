@@ -16,6 +16,7 @@ import it.othala.dto.ShopDTO;
 import it.othala.dto.SiteImagesDTO;
 import it.othala.dto.SubMenuBrandDTO;
 import it.othala.dto.SubMenuDTO;
+import it.othala.execption.OthalaException;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -54,7 +55,7 @@ public interface IProductDAO {
 	public 	List<ArticleFullDTO> listArticleFull(Integer idProduct, String languages,
 			Boolean fgQtaZero);
 
-	public Integer insertProduct(ProductFullNewDTO productFull, Boolean fgPubblicazione);
+	public Integer insertProduct(ProductFullNewDTO productFull, Boolean fgPubblicazione) throws OthalaException;
 
 	public Integer getQtStock(Integer idProduct, Integer pgArticle);
 
