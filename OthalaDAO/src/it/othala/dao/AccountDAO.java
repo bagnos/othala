@@ -184,7 +184,20 @@ public class AccountDAO extends SqlSessionDaoSupport implements IAccountDAO {
 			map.put("idMailGroup", idMailGroup);
 		}
 
-		return getSqlSession().selectList("it.othala.account.queries.listMailGroup", map);
+		List<MailGroupDTO> outList = getSqlSession().selectList("it.othala.account.queries.listMailGroup", map);
+		
+		if (idMailGroup == null || idMailGroup == 0) {
+			MailGroupDTO globalList = new MailGroupDTO();
+			globalList.setIdMailGroup(0);
+			globalList.setTxMailGroup("Globale");
+			outList.add(globalList);
+		}
+		
+		return outList;
+		
+
+		
+		
 
 	}
 
