@@ -11,6 +11,25 @@ public class SubMenuDTO implements Serializable {
 
 	private int idType;
 	private String txType;
+	private String txTypeIT;
+	private String txTypeEN;
+	
+
+	public String getTxTypeIT() {
+		return txTypeIT;
+	}
+
+	public void setTxTypeIT(String txTypeIT) {
+		this.txTypeIT = txTypeIT;
+	}
+
+	public String getTxTypeEN() {
+		return txTypeEN;
+	}
+
+	public void setTxTypeEN(String txTypeEN) {
+		this.txTypeEN = txTypeEN;
+	}
 
 	public int getIdType() {
 		return idType;

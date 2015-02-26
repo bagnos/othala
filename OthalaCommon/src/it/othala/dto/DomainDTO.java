@@ -27,9 +27,25 @@ public class DomainDTO implements Serializable {
 	private MenuFullDTO menuFull;
 	private List<MenuDTO> menuProducts = null;
 	private List<MenuDTO> menuServices = null;
+	private List<ArticleCashedDTO> articleCashed=null;
+	private List<ProductFullNewDTO> articleNewArrivals=null;	
 	
-	
-	
+	public List<ProductFullNewDTO> getArticleNewArrivals() {
+		return articleNewArrivals;
+	}
+
+	public void setArticleNewArrivals(List<ProductFullNewDTO> articleNewArrivals) {
+		this.articleNewArrivals = articleNewArrivals;
+	}
+
+	public List<ArticleCashedDTO> getArticleCashed() {
+		return articleCashed;
+	}
+
+	public void setArticleCashed(List<ArticleCashedDTO> articleCashed) {
+		this.articleCashed = articleCashed;
+	}
+
 	public List<MenuDTO> getMenuProducts() {
 		return menuProducts;
 	}
