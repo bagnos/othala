@@ -8,8 +8,10 @@
 			<f:viewAction action="#{homeView.doInit}"></f:viewAction>
 		</f:metadata>
 	</ui:define>
-	<ui:define name="canonical">
-		<link rel="canonical" href="http://#{request.serverName}#{request.contextPath}/home" />
+	<ui:define name="canonical">		
+		<link rel="canonical" href="http://#{request.serverName}#{request.contextPath}" />
+		<link rel="alternate" href="http://#{request.serverName}#{request.contextPath}/home/it" hreflang="it" />
+		<link rel="alternate" href="http://#{request.serverName}#{request.contextPath}/home/en" hreflang="x-default" />
 	</ui:define>
 	<ui:define name="fb">
 		<meta itemprop="name" content="MagBoutique di Antonella Gonnelli "></meta>
@@ -116,7 +118,8 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 			<div class="container" style="margin-top: 5px;">
 				<div class="row">
 					<div id="owl-newArr" class="owl-carousel col-sm-12">
-						<ui:repeat var="art" value="#{cartFlowBean.articleNewArrivals}">
+						<ui:repeat var="art"
+							value="#{applicationBean.getDomain(localeManager.language).articleNewArrivals}">
 							<div class="item">
 								<h:outputLink
 									value="#{cartFlowView1.getCartChoice(art.idProduct,art.txBrand,art.txType,art.tyProduct)}">
