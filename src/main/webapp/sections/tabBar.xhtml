@@ -1,7 +1,8 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:pe="http://primefaces.org/ui/extensions">
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 	<div id="logo">
 		<a class="hidden-xs hidden-sm" href="#{request.contextPath}/home">
 			<h:graphicImage library="images" styleClass="img-responsive" alt="logo #{msgSite.titleMerchant}" title="#{msg.navTab_goHome}"
@@ -35,14 +36,10 @@
 						<div class="row spacer10">
 							<ui:repeat var="submenu" value="#{menu.subMenu}" varStatus="statusSub">
 								<div class="col-sm-12 col-md-4 spacer6">
-									<h:link class="linkArt" value="#{submenu.txType}" style="text-transform:uppercase;font-size:12px" outcome="/cart/cart-catalog.xhtml">
-										<f:param name="idMenu" value="#{menu.idGender}"></f:param>
-										<f:param name="idSubMenu" value="#{submenu.idType}"></f:param>
-										<f:param name="fgNewArrivals" value="false"></f:param>
-										<f:param name="idCampaign" value="0"></f:param>
-										<f:param name="idSubMenuBrand" value="0"></f:param>
-									</h:link>
-								</div> 
+									<a
+										href="#{request.contextPath}/${fn:toLowerCase(msg.articoli)}/${fn:toLowerCase(submenu.txType)}"
+										class="linkArt">#{submenu.txType}</a>
+								</div>
 							</ui:repeat>
 						</div>
 					</div>
@@ -61,14 +58,9 @@
 					<div class="row">
 						<ui:repeat var="campaign" value="#{applicationBean.campaigns}">
 							<div class="col-sm-12">
-								<h:link styleClass="linkArt" style="text-transform:uppercase" value="#{campaign.txCampaign}"
-									outcome="/cart/cart-catalog.xhtml">
-									<f:param name="idMenu" value="0"></f:param>
-									<f:param name="idSubMenu" value="0"></f:param>
-									<f:param name="fgNewArrivals" value="false"></f:param>
-									<f:param name="idCampaign" value="#{campaign.idCampaign}"></f:param>
-									<f:param name="idSubMenuBrand" value="0"></f:param>
-								</h:link>
+								<a
+									href="#{request.contextPath}/${fn:toLowerCase(msg.catalog_promo)}/${fn:toLowerCase(campaign.txCampaign)}"
+									class="linkArt">#{campaign.txCampaign}</a>
 							</div>
 						</ui:repeat>
 					</div>
