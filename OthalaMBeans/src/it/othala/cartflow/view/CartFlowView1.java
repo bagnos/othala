@@ -50,12 +50,22 @@ public class CartFlowView1 extends BaseView {
 	private String gender;
 	private String type;
 	private String campaign;
+	private String manualCanonicalUrlIT;
+	private String manualCanonicalUrlEN;
+
+	public String getManualCanonicalUrlEN() {
+		return manualCanonicalUrlEN;
+	}
+
+	public String getManualCanonicalUrlIT() {
+		return manualCanonicalUrlIT;
+	}
 
 	public String getCartChoice(String idPrd, String brand, String type, Integer idProdType) {
 
 		String url = null;
 		if (idProdType == null || idProdType == 0) {
-			url = getCartChoice2(idPrd, brand, type);
+			url = getCartChoice2(idPrd, brand, type, null);
 			return url;
 		}
 		switch (idProdType) {
@@ -71,10 +81,36 @@ public class CartFlowView1 extends BaseView {
 		return url;
 	}
 
-	private String getCartChoice2(String idPrd, String brand, String type) {
+	public String getCartChoice(String idPrd, String brand, String type, Integer idProdType, String lang) {
 
-		String cartChoice2 = String.format("%s/%s/%s/%s/%s", getRequest().getContextPath(),
-				OthalaUtil.getWordBundle("catalogo_product"), brand.toLowerCase(), type.toLowerCase(), idPrd);
+		String url = null;
+		if (idProdType == null || idProdType == 0) {
+			url = getCartChoice2(idPrd, brand, type, lang);
+			return url;
+		}
+		switch (idProdType) {
+		case 1:
+			url = getCartChoice3(idPrd, brand);
+			break;
+		case 2:
+			url = getCartChoice4(idPrd, brand);
+			break;
+		default:
+			break;
+		}
+		return url;
+	}
+
+	private String getCartChoice2(String idPrd, String brand, String description, String lang) {
+		String cartChoice2 = null;	
+		description=description.toLowerCase();
+		if (lang == null) {
+			cartChoice2 = String.format("%s/%s/%s/%s/%s", getRequest().getContextPath(),
+					"articolo", brand.toLowerCase(), description, idPrd);
+		} else {
+			cartChoice2 = String.format("%s/%s/%s/%s/%s/%s", getRequest().getContextPath(), lang, "article",
+					brand.toLowerCase(), description, idPrd);
+		}
 
 		return cartChoice2;
 	}
@@ -183,7 +219,8 @@ public class CartFlowView1 extends BaseView {
 	public String doInit() {
 		try {
 			// TODO Auto-generated method stub
-
+			changeLocale();
+			
 			initBean();
 
 			callServiceProduct(1);
@@ -228,15 +265,26 @@ public class CartFlowView1 extends BaseView {
 		getCartFlowBean().getCatalog().setColor(null);
 		getCartFlowBean().getCatalog().setSize(null);
 		getCartFlowBean().getCatalog().setIncludePromo(false);
+		
+		StringBuilder buildeCanonicalUrlEN=new StringBuilder().append("http://").append(getRequest().getServerName()).append(getRequest().getContextPath()).append("/en");
+		StringBuilder buildeCanonicalUrlIT=new StringBuilder().append("http://").append(getRequest().getServerName()).append(getRequest().getContextPath()).append("/it");
+		
 
 		if (gender != null) {
+			
 			for (MenuDTO menu : getBeanApplication().getDomain(getLang()).getMenu()) {
 				if (menu.getTxGender().equalsIgnoreCase(gender)) {
+					buildeCanonicalUrlEN.append("/").append(menu.getTxGender());
+					buildeCanonicalUrlIT.append("/").append(menu.getTxGender()).append("/");
 					idMenu = menu.getIdGender();
 					if (brands != null) {
+						buildeCanonicalUrlEN.append("/brand");
+						buildeCanonicalUrlIT.append("/brand");
 						for (SubMenuBrandDTO sBrand : menu.getSubMenuBrand()) {
 							if (sBrand.getTxBrand().equalsIgnoreCase(brands)) {
 								brand = sBrand.getIdBrand();
+								buildeCanonicalUrlEN.append("/").append(sBrand.getTxBrand().toLowerCase());
+								buildeCanonicalUrlIT.append("/").append(sBrand.getTxBrand().toLowerCase());
 								break;
 							}
 						}
@@ -244,6 +292,8 @@ public class CartFlowView1 extends BaseView {
 					if (type != null) {
 						for (SubMenuDTO subMenu : menu.getSubMenu()) {
 							if (subMenu.getTxType().equalsIgnoreCase(type)) {
+								buildeCanonicalUrlEN.append("/").append(subMenu.getTxType().toLowerCase());
+								buildeCanonicalUrlIT.append("/").append(subMenu.getTxType().toLowerCase());
 								idSubMenu = subMenu.getIdType();
 								break;
 							}
@@ -257,6 +307,8 @@ public class CartFlowView1 extends BaseView {
 			for (MenuDTO menu : getBeanApplication().getDomain(getLang()).getMenu()) {
 				for (SubMenuBrandDTO sBrand : menu.getSubMenuBrand()) {
 					if (sBrand.getTxBrand().equalsIgnoreCase(brands)) {
+						buildeCanonicalUrlEN.append("/brand/").append(sBrand.getTxBrand().toLowerCase());
+						buildeCanonicalUrlIT.append("/brand/").append(sBrand.getTxBrand().toLowerCase());
 						brand = sBrand.getIdBrand();
 						break;
 					}
@@ -266,6 +318,8 @@ public class CartFlowView1 extends BaseView {
 			for (MenuDTO menu : getBeanApplication().getDomain(getLang()).getMenu()) {
 				for (SubMenuDTO subMenu : menu.getSubMenu()) {
 					if (subMenu.getTxType().equalsIgnoreCase(type)) {
+						buildeCanonicalUrlEN.append("/articles/").append(subMenu.getTxType().toLowerCase());
+						buildeCanonicalUrlIT.append("/articoli/").append(subMenu.getTxType().toLowerCase());
 						idSubMenu = subMenu.getIdType();
 						break;
 					}
@@ -276,11 +330,21 @@ public class CartFlowView1 extends BaseView {
 		} else if (campaign != null) {
 			for (CampaignDTO cam : getBeanApplication().getCampaigns()) {
 				if (cam.getTxCampaign().equalsIgnoreCase(campaign)) {
+					buildeCanonicalUrlEN.append("/promotions/").append(cam.getTxCampaign().toLowerCase());
+					buildeCanonicalUrlIT.append("/promozioni/").append(cam.getTxCampaign().toLowerCase());
 					idCampaign = cam.getIdCampaign();
 					break;
 				}
 			}
 		}
+		else if(fgNewArrivals)		
+		{
+			buildeCanonicalUrlEN.append("/newarrivals");
+			buildeCanonicalUrlIT.append("/nuoviarrivi");
+		}
+		
+		manualCanonicalUrlEN=buildeCanonicalUrlEN.toString();
+		manualCanonicalUrlIT=buildeCanonicalUrlIT.toString();
 
 		getCartFlowBean().getCatalog().setIdMenu(idMenu);
 		getCartFlowBean().getCatalog().setIdSubMenu(idSubMenu);
@@ -470,7 +534,7 @@ public class CartFlowView1 extends BaseView {
 				if (getCartFlowBean().getCatalog().getArticles().get(0).getTyProduct() == null) {
 					pagDettaglio = getCartChoice2(getCartFlowBean().getCatalog().getArticles().get(0).getIdProduct()
 							.toString(), getCartFlowBean().getCatalog().getArticles().get(0).getTxBrand(),
-							getCartFlowBean().getCatalog().getArticles().get(0).getTxType());
+							getCartFlowBean().getCatalog().getArticles().get(0).getTxType(),null);
 
 				} else {
 					if (getCartFlowBean().getCatalog().getArticles().get(0).getTyProduct() == 1) {

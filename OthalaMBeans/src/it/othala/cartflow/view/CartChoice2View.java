@@ -41,6 +41,21 @@ public class CartChoice2View extends BaseView {
 	private String txSize;
 	private String txColor;
 	private boolean renderSize;
+	private String seoDescriptionIT;
+	private String seoDescriptionEN;
+	private String seoDescription;
+
+	public String getSeoDescription() {
+		return seoDescription;
+	}
+
+	public String getSeoDescriptionIT() {
+		return seoDescriptionIT;
+	}
+
+	public String getSeoDescriptionEN() {
+		return seoDescriptionEN;
+	}
 
 	public boolean isRenderSize() {
 		return renderSize;
@@ -125,6 +140,7 @@ public class CartChoice2View extends BaseView {
 	public String doInit() {
 		// TODO Auto-generated method stub
 		try {
+			changeLocale();
 			getCartFlowBean().setUrlReferer(getRequest().getHeader("referer"));
 
 			if (idProduct == null) {
@@ -148,6 +164,19 @@ public class CartChoice2View extends BaseView {
 			if (prdFull == null) {
 				addError("Scelta prodotto", "nessun prodotto selezionato con id=" + idProduct);
 				return null;
+			}
+
+			seoDescriptionIT = prdFull.getDescription().length() > 40 ? prdFull.getDescription().substring(0, 39)
+					: prdFull.getDescription();
+			seoDescriptionIT=seoDescriptionIT.toLowerCase();
+
+			seoDescriptionEN = prdFull.getDescriptionEN().length() > 40 ? prdFull.getDescriptionEN().substring(0, 39)
+					: prdFull.getDescriptionEN();
+			seoDescriptionEN=seoDescriptionEN.toLowerCase();
+			if (getLang().equalsIgnoreCase("it")) {
+				seoDescription = seoDescriptionIT;
+			} else {
+				seoDescription = seoDescriptionEN;
 			}
 
 			priceStr = getCartFlowBean().getDetailProductFull().getRealPrice().setScale(2, RoundingMode.HALF_UP)

@@ -49,6 +49,24 @@ public abstract class BaseView implements Serializable {
 	private AutoCompleteUtils autoUtils = null;
 	private Boolean requestComingFromAMobileDevice = null;
 	private String canonicalUrl;
+	private String canonicalUrlLang;
+	private String languageCanonical;
+
+	public String getLanguageCanonical() {
+		return languageCanonical;
+	}
+
+	public void setLanguageCanonical(String languageCanonical) {
+		this.languageCanonical = languageCanonical;
+	}
+
+	public String getCanonicalUrlLang(String lang) {
+		canonicalUrlLang = String.format("http://%s%s/%s/%s", FacesContext.getCurrentInstance().getExternalContext()
+
+		.getRequestServerName(), FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath(), lang,
+				PrettyContext.getCurrentInstance().getRequestURL().toURL());
+		return canonicalUrlLang;
+	}
 
 	public String getCanonicalUrl() {
 		canonicalUrl = String.format("http://%s%s%s", FacesContext.getCurrentInstance().getExternalContext()
@@ -62,13 +80,17 @@ public abstract class BaseView implements Serializable {
 	@ManagedProperty(value = "#{localeManager}")
 	private LocaleManager localManager;
 
+	public LocaleManager getLocalManager() {
+		return localManager;
+	}
+
 	public void setLocalManager(LocaleManager localManager) {
 		this.localManager = localManager;
 	}
 
 	public AutoCompleteUtils getAutoUtils() {
 		if (autoUtils == null) {
-			autoUtils = new AutoCompleteUtils(getBeanApplication(),localManager);
+			autoUtils = new AutoCompleteUtils(getBeanApplication(), localManager);
 		}
 		return autoUtils;
 	}
@@ -140,6 +162,14 @@ public abstract class BaseView implements Serializable {
 	public void addInfo(String summary, String message, String id) {
 		FacesContext.getCurrentInstance()
 				.addMessage(id, new FacesMessage(FacesMessage.SEVERITY_INFO, summary, message));
+	}
+	
+	protected void changeLocale()
+	{
+		if (getLanguageCanonical()!=null && (getLanguageCanonical().contains("it") || getLanguageCanonical().contains("en")))
+		{
+			getLocalManager().changeLocale(getLanguageCanonical());
+		}
 	}
 
 	public void addWarn(String summary, String message) {

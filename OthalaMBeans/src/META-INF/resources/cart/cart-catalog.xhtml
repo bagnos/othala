@@ -17,18 +17,19 @@
 		<meta name="description" content="#{msgSite.nomeMerchant}: #{cartFlowView1.category}"></meta>
 	</ui:define>
 
-	 
+
 	<ui:define name="canonical">
-	<link rel="canonical"
-			href="#{cartFlowView1.canonicalUrl}" />
-	
+		<link rel="canonical" href="#{cartFlowView1.canonicalUrl}" />
+		<link rel="alternate" href="#{cartFlowView1.manualCanonicalUrlIT}" hreflang="it" />
+		<link rel="alternate" href="#{cartFlowView1.manualCanonicalUrlEN}" hreflang="x-default" />
+
 		<!-- 
 		<link rel="canonical"
 			href="http://#{request.serverName}#{request.contextPath}/cart/cart-catalog.xhtml?idMenu=#{cartFlowView1.idMenu}&amp;idSubMenu=#{cartFlowView1.idSubMenu}&amp;fgNewArrivals=#{cartFlowView1.fgNewArrivals}&amp;idCampaign=#{cartFlowView1.idCampaign}&amp;idSubMenuBrand=#{cartFlowView1.brand}" />
 			-->
 	</ui:define>
-	
-	
+
+
 	<ui:define name="content">
 		<h:form prependId="false">
 			<div class="container">
