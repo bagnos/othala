@@ -195,12 +195,12 @@ public class ApplicationBean implements Serializable {
 	public void resetDomain() {
 		domain = null;
 		domainEN=null;
-		brandDTO = null;
+		//brandDTO = null;
 		//colorsDTO = null;
 		//typeDTO = null;
 		//materialDTO = null;
-		sizeDTO = null;
-		campaigns = null;
+		//sizeDTO = null;
+		//campaigns = null;
 	}
 
 	public void resetImgHome() {

@@ -7,9 +7,17 @@
    <pattern value="/home" /> 
    <view-id value="/home.xhtml" />
 </url-mapping>
+<url-mapping id="homeLang"> 
+   <pattern value="/home/#{homeView.languageCanonical}" /> 
+   <view-id value="/home.xhtml" />
+</url-mapping>
 
 <url-mapping id="news"> 
    <pattern value="/newarrivals" />   
+   <view-id value="/cart/cart-catalog.xhtml?idMenu=0&amp;idSubMenu=0&amp;fgNewArrivals=true&amp;idCampaign=0" />
+</url-mapping>
+<url-mapping id="newsEN"> 
+   <pattern value="/#{homeView.languageCanonical}/newarrivals" />   
    <view-id value="/cart/cart-catalog.xhtml?idMenu=0&amp;idSubMenu=0&amp;fgNewArrivals=true&amp;idCampaign=0" />
 </url-mapping>
 
@@ -17,7 +25,16 @@
    <pattern value="/nuoviarrivi" />   
    <view-id value="/cart/cart-catalog.xhtml?idMenu=0&amp;idSubMenu=0&amp;fgNewArrivals=true&amp;idCampaign=0" />
 </url-mapping>
+<url-mapping id="nuoviIT"> 
+   <pattern value="/#{homeView.languageCanonical}/nuoviarrivi" />   
+   <view-id value="/cart/cart-catalog.xhtml?idMenu=0&amp;idSubMenu=0&amp;fgNewArrivals=true&amp;idCampaign=0" />
+</url-mapping>
 
+
+<url-mapping id="BrandsLang"> 
+   <pattern value="/#{cartFlowView1.languageCanonical}/brand/#{cartFlowView1.gender}/#{cartFlowView1.brands}" /> 
+   <view-id value="/cart/cart-catalog.xhtml?idSubMenu=0&amp;fgNewArrivals=false&amp;idCampaign=0" />   
+</url-mapping>
 
 <url-mapping id="Brands"> 
    <pattern value="/brand/#{cartFlowView1.gender}/#{cartFlowView1.brands}" /> 
@@ -28,13 +45,25 @@
    <pattern value="/brand/#{cartFlowView1.brands}" /> 
    <view-id value="/cart/cart-catalog.xhtml?idMenu=1&amp;idSubMenu=0&amp;fgNewArrivals=false&amp;idCampaign=0" />   
 </url-mapping>
+<url-mapping id="BrandsShortLang"> 
+   <pattern value="/#{cartFlowView1.languageCanonical}/brand/#{cartFlowView1.brands}" /> 
+   <view-id value="/cart/cart-catalog.xhtml?idMenu=1&amp;idSubMenu=0&amp;fgNewArrivals=false&amp;idCampaign=0" />   
+</url-mapping>
 
 <url-mapping id="Articles"> 
    <pattern value="/articles/#{cartFlowView1.gender}/#{cartFlowView1.type}" /> 
    <view-id value="/cart/cart-catalog.xhtml?fgNewArrivals=false&amp;idCampaign=0&amp;idSubMenuBrand=0" />   
 </url-mapping>
+<url-mapping id="ArticlesEn"> 
+   <pattern value="/#{cartFlowView1.languageCanonical}/articles/#{cartFlowView1.gender}/#{cartFlowView1.type}" /> 
+   <view-id value="/cart/cart-catalog.xhtml?fgNewArrivals=false&amp;idCampaign=0&amp;idSubMenuBrand=0" />   
+</url-mapping>
 <url-mapping id="Articoli"> 
    <pattern value="/articoli/#{cartFlowView1.gender}/#{cartFlowView1.type}" /> 
+   <view-id value="/cart/cart-catalog.xhtml?idMenu=1&amp;fgNewArrivals=false&amp;idCampaign=0&amp;idSubMenuBrand=0" />   
+</url-mapping>
+<url-mapping id="ArticoliIT"> 
+   <pattern value="/#{cartFlowView1.languageCanonical}/articoli/#{cartFlowView1.gender}/#{cartFlowView1.type}" /> 
    <view-id value="/cart/cart-catalog.xhtml?idMenu=1&amp;fgNewArrivals=false&amp;idCampaign=0&amp;idSubMenuBrand=0" />   
 </url-mapping>
 
@@ -42,8 +71,16 @@
    <pattern value="/articles/#{cartFlowView1.type}" /> 
    <view-id value="/cart/cart-catalog.xhtml?idMenu=1&amp;fgNewArrivals=false&amp;idCampaign=0&amp;idSubMenuBrand=0" />   
 </url-mapping>
+<url-mapping id="ArticlesShortEN"> 
+   <pattern value="/#{cartFlowView1.languageCanonical}/articles/#{cartFlowView1.type}" /> 
+   <view-id value="/cart/cart-catalog.xhtml?idMenu=1&amp;fgNewArrivals=false&amp;idCampaign=0&amp;idSubMenuBrand=0" />   
+</url-mapping>
 <url-mapping id="ArticoliShort"> 
    <pattern value="/articoli/#{cartFlowView1.type}" /> 
+   <view-id value="/cart/cart-catalog.xhtml?idMenu=1&amp;fgNewArrivals=false&amp;idCampaign=0&amp;idSubMenuBrand=0" />   
+</url-mapping>
+<url-mapping id="ArticoliShortIT"> 
+   <pattern value="/#{cartFlowView1.languageCanonical}/articoli/#{cartFlowView1.type}" /> 
    <view-id value="/cart/cart-catalog.xhtml?idMenu=1&amp;fgNewArrivals=false&amp;idCampaign=0&amp;idSubMenuBrand=0" />   
 </url-mapping>
 
@@ -51,8 +88,16 @@
    <pattern value="/promozioni/#{cartFlowView1.campaign}" /> 
    <view-id value="/cart/cart-catalog.xhtml?idMenu=0&amp;idSubMenu=0&amp;fgNewArrivals=false&amp;idSubMenuBrand=0" />         
 </url-mapping>
+<url-mapping id="promozioniIT"> 
+   <pattern value="/#{cartFlowView1.languageCanonical}/promozioni/#{cartFlowView1.campaign}" /> 
+   <view-id value="/cart/cart-catalog.xhtml?idMenu=0&amp;idSubMenu=0&amp;fgNewArrivals=false&amp;idSubMenuBrand=0" />         
+</url-mapping>
 <url-mapping id="promotions"> 
-   <pattern value="/Promotions/#{cartFlowView1.campaign}" /> 
+   <pattern value="/promotions/#{cartFlowView1.campaign}" /> 
+   <view-id value="/cart/cart-catalog.xhtml?idMenu=0&amp;idSubMenu=0&amp;fgNewArrivals=false&amp;idSubMenuBrand=0" />         
+</url-mapping>
+<url-mapping id="promotionsEN"> 
+   <pattern value="/#{cartFlowView1.languageCanonical}/promotions/#{cartFlowView1.campaign}" /> 
    <view-id value="/cart/cart-catalog.xhtml?idMenu=0&amp;idSubMenu=0&amp;fgNewArrivals=false&amp;idSubMenuBrand=0" />         
 </url-mapping>
 
@@ -60,8 +105,16 @@
    <pattern value="/article/#{brand}/#{type}/#{cartChoice2View.idProduct}" /> 
    <view-id value="/cart/cart-choice-2.xhtml" />         
 </url-mapping>
+<url-mapping id="productEN"> 
+   <pattern value="/#{cartChoice2View.languageCanonical}/article/#{brand}/#{type}/#{cartChoice2View.idProduct}" /> 
+   <view-id value="/cart/cart-choice-2.xhtml" />         
+</url-mapping>
 <url-mapping id="prodotto"> 
    <pattern value="/articolo/#{brand}/#{type}/#{cartChoice2View.idProduct}" /> 
+   <view-id value="/cart/cart-choice-2.xhtml" />         
+</url-mapping>
+<url-mapping id="prodottoIT"> 
+   <pattern value="/#{cartChoice2View.languageCanonical}/articolo/#{brand}/#{type}/#{cartChoice2View.idProduct}" /> 
    <view-id value="/cart/cart-choice-2.xhtml" />         
 </url-mapping>
 <url-mapping id="food"> 

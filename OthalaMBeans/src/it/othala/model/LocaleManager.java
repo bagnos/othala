@@ -55,17 +55,15 @@ public class LocaleManager implements Serializable {
         FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
         OthalaUtil.setLangFromContextJSF(locale.getLanguage());
         OthalaUtil.setResources(locale);
-        beanApplication.resetDomain();
-        cartFlowBean.setArticleCashed(null);
-        cartFlowBean.setArticleNewArrivals(null);
+        //beanApplication.resetDomain();
         
-        
+       /* 
         try {
 			FacesContext.getCurrentInstance().getExternalContext().redirect(OthalaUtil.getHome());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
     }
 
 }

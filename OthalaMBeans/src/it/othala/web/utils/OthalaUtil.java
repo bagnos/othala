@@ -44,6 +44,11 @@ public class OthalaUtil {
 		return getResources().getString(key);
 
 	}
+	
+	
+
+	
+	
 
 	private static HttpServletRequest getRequest() {
 		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
