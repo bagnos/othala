@@ -133,6 +133,13 @@ public class ProductService implements IProductService {
 				domainDTO.getMenuServices().add(idMenu);
 			}
 		}
+		
+		
+		domainDTO.setArticleCashed(listArticleMajorCashed(languages));
+		domainDTO.setArticleNewArrivals(getListProduct(languages, null, null, null,
+				null, null, null, null, true, 0, null, false).getProdotti());
+				
+		
 
 		return domainDTO;
 

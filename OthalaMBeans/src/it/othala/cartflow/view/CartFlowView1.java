@@ -292,8 +292,8 @@ public class CartFlowView1 extends BaseView {
 					if (type != null) {
 						for (SubMenuDTO subMenu : menu.getSubMenu()) {
 							if (subMenu.getTxType().equalsIgnoreCase(type)) {
-								buildeCanonicalUrlEN.append("/").append(subMenu.getTxType().toLowerCase());
-								buildeCanonicalUrlIT.append("/").append(subMenu.getTxType().toLowerCase());
+								buildeCanonicalUrlEN.append("/").append(subMenu.getTxTypeEN().toLowerCase());
+								buildeCanonicalUrlIT.append("/").append(subMenu.getTxTypeIT().toLowerCase());
 								idSubMenu = subMenu.getIdType();
 								break;
 							}
@@ -318,8 +318,8 @@ public class CartFlowView1 extends BaseView {
 			for (MenuDTO menu : getBeanApplication().getDomain(getLang()).getMenu()) {
 				for (SubMenuDTO subMenu : menu.getSubMenu()) {
 					if (subMenu.getTxType().equalsIgnoreCase(type)) {
-						buildeCanonicalUrlEN.append("/articles/").append(subMenu.getTxType().toLowerCase());
-						buildeCanonicalUrlIT.append("/articoli/").append(subMenu.getTxType().toLowerCase());
+						buildeCanonicalUrlEN.append("/articles/").append(subMenu.getTxTypeEN().toLowerCase());
+						buildeCanonicalUrlIT.append("/articoli/").append(subMenu.getTxTypeIT().toLowerCase());
 						idSubMenu = subMenu.getIdType();
 						break;
 					}
