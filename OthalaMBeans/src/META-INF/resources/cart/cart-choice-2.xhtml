@@ -10,15 +10,15 @@
 			<f:viewParam name="idPrd" value="#{cartChoice2View.idProduct}" />
 		</f:metadata>
 	</ui:define>
-	<ui:define name="title">Shop  #{cartFlowBean.detailProductFull.txBrand!='Shop'?cartFlowBean.detailProductFull.txBrand:''} #{cartChoice2View.seoDescription}  | #{msgSite.nomeMerchant}</ui:define>
+	<ui:define name="title">Shop #{cartFlowBean.detailProductFull.txBrand!='shop'?cartFlowBean.detailProductFull.txBrand:''} #{cartChoice2View.seoDescription}  | #{msgSite.nomeMerchant}</ui:define>
 	<ui:define name="description">
 		<c:if test="#{localeManager.language=='it'}">
 			<meta name="description"
-				content="#{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.description}"></meta>
+				content="#{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.txType}: #{cartFlowBean.detailProductFull.description}"></meta>
 		</c:if>
 		<c:if test="#{localeManager.language!='it'}">
 			<meta name="description"
-				content="#{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.descriptionEN}"></meta>
+				content="#{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.txType}: #{cartFlowBean.detailProductFull.descriptionEN}"></meta>
 		</c:if>
 	</ui:define>
 	<ui:define name="canonical">
