@@ -466,10 +466,10 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 
 		for (int i = 0; i <= productFull.getArticles().size() - 1; i++) {
 			
-			ProductFullNewDTO productFullcHECK = getProductFullBarcode(productFull.getArticles().get(i)
+			ProductFullNewDTO productFullCheck = getProductFullBarcode(productFull.getArticles().get(i)
 					.getTxBarCode());
 
-			if (productFull != null) {
+			if (productFullCheck != null) {
 				throw new OthalaException("Barcode già presente su altro prodotto");
 			}
 			
