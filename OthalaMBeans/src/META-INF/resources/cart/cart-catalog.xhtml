@@ -12,9 +12,9 @@
 			<f:viewParam name="idSubMenuBrand" value="#{cartFlowView1.brand}"></f:viewParam>
 		</f:metadata>
 	</ui:define>
-	<ui:define name="title">Shop #{cartFlowView1.category} Online | #{msgSite.nomeMerchant}</ui:define>
+	<ui:define name="title">#{cartFlowView1.titleSEO} Online | #{msgSite.nomeMerchant}</ui:define>
 	<ui:define name="description">
-		<meta name="description" content="#{msgSite.nomeMerchant}: #{cartFlowView1.category}"></meta>
+		<meta name="description" content="#{cartFlowView1.titleSEO} Online | #{msgSite.nomeMerchant}"></meta>
 	</ui:define>
 
 
