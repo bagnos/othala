@@ -82,7 +82,7 @@
 						<p:outputLabel for="tipo" styleClass="col-sm-1 control-label" value="Tipo" />
 						<div class="col-sm-3">
 							<h:panelGroup id="tipoPnl">
-								<p:autoComplete readonly="#{insertProdottiView.fgRead==true}"
+								<p:autoComplete  readonly="#{insertProdottiView.fgRead==true}"
 									scrollHeight="#{insertProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}" required="true"
 									minQueryLength="1" dropdown="true" id="tipo" value="#{insertProdottiView.tipo}"
 									completeMethod="#{insertProdottiView.completeTipo}" var="type" itemLabel="#{type.valore}"
@@ -194,7 +194,7 @@
 						<p:outputLabel styleClass="col-sm-1 control-label" for="desc" value="Descrizione IT" />
 						<div class="col-sm-6">
 
-							<p:inputText onchange="$('#friendlyUrlIT').text($('#desc').val().trim().substring(0, 39))" readonly="#{insertProdottiView.fgRead==true}" required="false"
+							<p:inputText onfocus="if ($('#desc').val()==''){$('#desc').val($('#tipo_input').val()+' '+$('#brand_input').val())}" onchange="$('#friendlyUrlIT').text($('#desc').val().trim().substring(0, 39))" readonly="#{insertProdottiView.fgRead==true}" required="false"
 								styleClass="form-control" value="#{insertProdottiView.descrizione}" id="desc"></p:inputText>
 							<span style="margin-top:10px"><strong>Friendly URL(max 40 caratteri):</strong></span>
 							<span id="friendlyUrlIT"></span>
@@ -208,7 +208,7 @@
 						<p:outputLabel styleClass="col-sm-1 control-label" for="descEN" value="Descrizione EN" />
 						<div class="col-sm-6">
 
-							<p:inputText onchange="$('#friendlyUrlEN').text($('#descEN').val().trim().substring(0, 39))" readonly="#{insertProdottiView.fgRead==true}" required="false"
+							<p:inputText onfocus="if ($('#descEN').val()==''){$('#descEN').val($('#tipo_input').val()+' '+$('#brand_input').val())}" onchange="$('#friendlyUrlEN').text($('#descEN').val().trim().substring(0, 39))" readonly="#{insertProdottiView.fgRead==true}" required="false"
 								styleClass="form-control" value="#{insertProdottiView.descrizioneEN}" id="descEN"></p:inputText>
 								<span style="margin-top:10px"><strong>Friendly URL(max 40 caratteri):</strong></span>
 							<span id="friendlyUrlEN"></span>
