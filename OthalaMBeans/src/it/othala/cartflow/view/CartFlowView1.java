@@ -52,6 +52,13 @@ public class CartFlowView1 extends BaseView {
 	private String campaign;
 	private String manualCanonicalUrlIT;
 	private String manualCanonicalUrlEN;
+	private String titleSEO;
+
+	
+
+	public String getTitleSEO() {
+		return titleSEO;
+	}
 
 	public String getManualCanonicalUrlEN() {
 		return manualCanonicalUrlEN;
@@ -102,11 +109,11 @@ public class CartFlowView1 extends BaseView {
 	}
 
 	private String getCartChoice2(String idPrd, String brand, String description, String lang) {
-		String cartChoice2 = null;	
-		description=description.toLowerCase();
+		String cartChoice2 = null;
+		description = description.toLowerCase();
 		if (lang == null) {
-			cartChoice2 = String.format("%s/%s/%s/%s/%s", getRequest().getContextPath(),
-					"articolo", brand.toLowerCase(), description, idPrd);
+			cartChoice2 = String.format("%s/%s/%s/%s/%s", getRequest().getContextPath(), "articolo",
+					brand.toLowerCase(), description, idPrd);
 		} else {
 			cartChoice2 = String.format("%s/%s/%s/%s/%s/%s", getRequest().getContextPath(), lang, "article",
 					brand.toLowerCase(), description, idPrd);
@@ -220,7 +227,7 @@ public class CartFlowView1 extends BaseView {
 		try {
 			// TODO Auto-generated method stub
 			changeLocale();
-			
+
 			initBean();
 
 			callServiceProduct(1);
@@ -265,13 +272,15 @@ public class CartFlowView1 extends BaseView {
 		getCartFlowBean().getCatalog().setColor(null);
 		getCartFlowBean().getCatalog().setSize(null);
 		getCartFlowBean().getCatalog().setIncludePromo(false);
-		
-		StringBuilder buildeCanonicalUrlEN=new StringBuilder().append("http://").append(getRequest().getServerName()).append(getRequest().getContextPath()).append("/en");
-		StringBuilder buildeCanonicalUrlIT=new StringBuilder().append("http://").append(getRequest().getServerName()).append(getRequest().getContextPath()).append("/it");
-		
+
+		StringBuilder buildeCanonicalUrlEN = new StringBuilder().append("http://").append(getRequest().getServerName())
+				.append(getRequest().getContextPath()).append("/en");
+		StringBuilder buildeCanonicalUrlIT = new StringBuilder().append("http://").append(getRequest().getServerName())
+				.append(getRequest().getContextPath()).append("/it");
+		StringBuilder buildTitleSEO = new StringBuilder().append("Shop");
 
 		if (gender != null) {
-			
+
 			for (MenuDTO menu : getBeanApplication().getDomain(getLang()).getMenu()) {
 				if (menu.getTxGender().equalsIgnoreCase(gender)) {
 					buildeCanonicalUrlEN.append("/").append(menu.getTxGender());
@@ -285,6 +294,9 @@ public class CartFlowView1 extends BaseView {
 								brand = sBrand.getIdBrand();
 								buildeCanonicalUrlEN.append("/").append(sBrand.getTxBrand().toLowerCase());
 								buildeCanonicalUrlIT.append("/").append(sBrand.getTxBrand().toLowerCase());
+
+								buildTitleSEO.append(sBrand.getTxBrand().trim());
+
 								break;
 							}
 						}
@@ -293,7 +305,8 @@ public class CartFlowView1 extends BaseView {
 						for (SubMenuDTO subMenu : menu.getSubMenu()) {
 							if (subMenu.getTxType().equalsIgnoreCase(type)) {
 								buildeCanonicalUrlEN.append("/").append(subMenu.getTxTypeEN().toLowerCase());
-								buildeCanonicalUrlIT.append("/").append(subMenu.getTxTypeIT().toLowerCase());
+								buildeCanonicalUrlIT.append("/").append(subMenu.getTxTypeIT().toLowerCase());								
+								buildTitleSEO.append(" "+subMenu.getTxType().trim());
 								idSubMenu = subMenu.getIdType();
 								break;
 							}
@@ -309,6 +322,7 @@ public class CartFlowView1 extends BaseView {
 					if (sBrand.getTxBrand().equalsIgnoreCase(brands)) {
 						buildeCanonicalUrlEN.append("/brand/").append(sBrand.getTxBrand().toLowerCase());
 						buildeCanonicalUrlIT.append("/brand/").append(sBrand.getTxBrand().toLowerCase());
+						buildTitleSEO.append(" "+sBrand.getTxBrand().trim());
 						brand = sBrand.getIdBrand();
 						break;
 					}
@@ -320,6 +334,7 @@ public class CartFlowView1 extends BaseView {
 					if (subMenu.getTxType().equalsIgnoreCase(type)) {
 						buildeCanonicalUrlEN.append("/articles/").append(subMenu.getTxTypeEN().toLowerCase());
 						buildeCanonicalUrlIT.append("/articoli/").append(subMenu.getTxTypeIT().toLowerCase());
+						buildTitleSEO.append(" "+subMenu.getTxType().trim());
 						idSubMenu = subMenu.getIdType();
 						break;
 					}
@@ -332,19 +347,27 @@ public class CartFlowView1 extends BaseView {
 				if (cam.getTxCampaign().equalsIgnoreCase(campaign)) {
 					buildeCanonicalUrlEN.append("/promotions/").append(cam.getTxCampaign().toLowerCase());
 					buildeCanonicalUrlIT.append("/promozioni/").append(cam.getTxCampaign().toLowerCase());
+					if (getLang().equalsIgnoreCase("it"))
+					{
+						buildTitleSEO.append(" promozioni ").append(cam.getTxCampaign().toLowerCase());
+					}
+					else
+					{
+						buildTitleSEO.append(" promotions ").append(cam.getTxCampaign().toLowerCase());
+					}
 					idCampaign = cam.getIdCampaign();
 					break;
 				}
 			}
-		}
-		else if(fgNewArrivals)		
-		{
+		} else if (fgNewArrivals) {
 			buildeCanonicalUrlEN.append("/newarrivals");
 			buildeCanonicalUrlIT.append("/nuoviarrivi");
+			buildTitleSEO.append(" newarrivals");
 		}
-		
-		manualCanonicalUrlEN=buildeCanonicalUrlEN.toString();
-		manualCanonicalUrlIT=buildeCanonicalUrlIT.toString();
+
+		manualCanonicalUrlEN = buildeCanonicalUrlEN.toString();
+		manualCanonicalUrlIT = buildeCanonicalUrlIT.toString();
+		titleSEO=buildTitleSEO.toString();
 
 		getCartFlowBean().getCatalog().setIdMenu(idMenu);
 		getCartFlowBean().getCatalog().setIdSubMenu(idSubMenu);
@@ -534,7 +557,7 @@ public class CartFlowView1 extends BaseView {
 				if (getCartFlowBean().getCatalog().getArticles().get(0).getTyProduct() == null) {
 					pagDettaglio = getCartChoice2(getCartFlowBean().getCatalog().getArticles().get(0).getIdProduct()
 							.toString(), getCartFlowBean().getCatalog().getArticles().get(0).getTxBrand(),
-							getCartFlowBean().getCatalog().getArticles().get(0).getTxType(),null);
+							getCartFlowBean().getCatalog().getArticles().get(0).getTxType(), null);
 
 				} else {
 					if (getCartFlowBean().getCatalog().getArticles().get(0).getTyProduct() == 1) {
