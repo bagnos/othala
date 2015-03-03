@@ -80,7 +80,7 @@
 											<h6>#{art.txBarCode}</h6>
 											<c:if test="#{cartFlowBean.checkoutCart==false}">
 												<p style="margin-top: 20px">
-													<p:commandButton value="Rimuovi Articolo" process="@all" update="@all"
+													<p:commandButton value="#{msg.catalog_remove}" process="@all" update="@all"
 														actionListener="#{cartSelected3View.deleteArticol}" icon="ui-icon ui-icon-trash">
 														<f:attribute value="#{art}" name="art" />
 													</p:commandButton>
