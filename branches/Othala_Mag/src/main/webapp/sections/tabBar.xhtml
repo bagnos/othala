@@ -88,7 +88,7 @@
 						<ui:repeat var="campaign" value="#{applicationBean.campaigns}">
 							<div class="col-sm-12">
 								<a
-									href="#{request.contextPath}/${fn:toLowerCase(promozioni)}/${fn:toLowerCase(campaign.txCampaign)}"
+									href="#{request.contextPath}/${fn:toLowerCase(msg.catalog_promoLink)}/${fn:toLowerCase(campaign.txCampaign)}"
 									class="linkArt">#{campaign.txCampaign}</a>
 							</div>
 						</ui:repeat>
