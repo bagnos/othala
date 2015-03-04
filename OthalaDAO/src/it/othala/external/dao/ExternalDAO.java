@@ -5,6 +5,7 @@ import it.othala.external.dao.interfaces.IExternalDAO;
 import it.othala.external.dto.ShopDegortesDTO;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 
@@ -29,9 +30,9 @@ public class ExternalDAO extends SqlSessionDaoSupport implements IExternalDAO {
 	}
 
 	@Override
-	public ShopDegortesDTO getShopStock(String barCode) {
+	public List<ShopDegortesDTO> getShopStock(String barCode) {
 		
-		return getSqlSession().selectOne(
+		return getSqlSession().selectList(
 				"it.othala.external.queries.getShopStock", barCode);
 		
 	}
