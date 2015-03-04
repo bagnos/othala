@@ -202,12 +202,13 @@
 							<th>Prezzo</th>
 							<th>Quantità</th>
 							<th>Prezzo Totale</th>
-
+							<th>Id. Shop</th>
+							<th>Denom.</th>
 						</tr>
 					</thead>
 					<tfoot>
 						<tr>
-							<td colspan="6" class="text-right">Costo Spedizione</td>
+							<td colspan="8" class="text-right">Costo Spedizione</td>
 							<td>
 								
 								<xsl:value-of select="format-number(deliveryCost, '#.###.##0,00' , 'euro')"/>
@@ -215,7 +216,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td colspan="6" class="text-right">
+							<td colspan="8" class="text-right">
 								<strong>Totale</strong>
 							</td>
 							<td>
@@ -266,7 +267,12 @@
 									<xsl:value-of select="format-number(price, '#.###.##0,00' , 'euro')"/>
 									
 								</td>
-
+								<td>
+									<xsl:value-of select="idshop" />
+								</td>
+								<td>
+									<xsl:value-of select="desshop" />
+								</td>
 
 							</tr>
 						</xsl:for-each>

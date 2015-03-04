@@ -66,21 +66,10 @@ import it.othala.external.service.interfaces.IOthalaExternalServices;
 	@Override
 	public ShopDTO getShopStock(Integer idProduct, Integer pgArticle,
 			String codBarre) {
-		ShopDegortesDTO shopDeg = externalDAO.getShopStock(codBarre);
+		List<ShopDegortesDTO> shopDeg = externalDAO.getShopStock(codBarre);
 		ShopDTO shop = new ShopDTO();
-/*		shop.setIdShop(100);
-		shop.setTxShop("Sede centrale");
-		shop.setTxMail("shop@degortes.net");
-		shop.setTxVia("Via Banchi di Sotto");
-		shop.setCdCap(53100);
-		shop.setTxComune("Siena");
-		shop.setTxProvincia("SI");
-		shop.setTxNazione("Italia");*/
-		
-		
-		shop.setIdShop(shopDeg.getCodMagaz());
-		shop.setTxShop(shopDeg.getDesNegozio());
-		//shop.setTxMail(shopDeg.getTxMail());
+		shop.setIdShop(shopDeg.get(0).getCodMag());
+		shop.setTxShop(shopDeg.get(0).getDesNegozio());
 		
 		return shop;
 		
