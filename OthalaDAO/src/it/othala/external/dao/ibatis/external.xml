@@ -25,14 +25,13 @@
 	
 	<select id="getShopStock" resultType="it.othala.external.dto.ShopDegortesDTO" parameterType="java.lang.String">
 		
-		SELECT b.codMagaz, b.DesNegozio 
-		FROM Y_ARTICOLI_VARIANTI a, Y_NEGOZI_ESHOP b
-		WHERE a.CodBarre = #{barCode}
-		AND a.QtaGiacUmMag = (SELECT MAX(c.QtaGiacUmMag)  
-								FROM Y_ARTICOLI_VARIANTI c
-								WHERE c.CodBarre = #{barCode})
+		SELECT a.codmag as CodMag, COALESCE(b.DesNegozio,'Fittizio') DesNegozio
+		FROM Y_ARTICOLI_VARIANTI a LEFT OUTER JOIN Y_NEGOZI_ESHOP b ON a.codmag = b.codMagaz
+		WHERE a.CodBarre = #{barCode} 
+		AND a.QtaGiacUmMag = (SELECT MAX(c.QtaGiacUmMag) 
+							  FROM Y_ARTICOLI_VARIANTI 
+							  WHERE c.CodBarre = a.CodBarre )
 		AND a.QtaGiacUmMag > 0
-		AND a.codmag = b.codMagaz
 
 	</select>
 
