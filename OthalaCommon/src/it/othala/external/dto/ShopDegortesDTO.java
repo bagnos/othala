@@ -6,25 +6,22 @@ public class ShopDegortesDTO {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Integer codMagaz;
+	private Integer CodMag;
 	private String DesNegozio;
-	private String txMail;
-	public Integer getCodMagaz() {
-		return codMagaz;
-	}
-	public void setCodMagaz(Integer codMagaz) {
-		this.codMagaz = codMagaz;
-	}
+
+
 	public String getDesNegozio() {
 		return DesNegozio;
 	}
 	public void setDesNegozio(String desNegozio) {
 		DesNegozio = desNegozio;
 	}
-	public String getTxMail() {
-		return txMail;
+	public Integer getCodMag() {
+		return CodMag;
 	}
-	public void setTxMail(String txMail) {
-		this.txMail = txMail;
+	public void setCodMag(Integer codMag) {
+		CodMag = codMag;
 	}
+
+
 }
