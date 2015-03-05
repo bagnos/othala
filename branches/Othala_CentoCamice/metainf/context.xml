@@ -11,53 +11,31 @@
 <!-- The contents of this file will be loaded for each web application -->
 <Context>
 
-	<!-- configurazione di produzione -->
-
-	 <Realm className="org.apache.catalina.realm.DataSourceRealm" dataSourceName="jdbc/othala" 
-		userTable="aduna937_othala.customer" userNameCol="idUser" userCredCol="txPassword" userRoleTable="aduna937_othala.customer_roles" 
+	<!-- TEST MAG -->
+	<Realm className="org.apache.catalina.realm.DataSourceRealm"
+		dataSourceName="jdbc/othala" userTable="aduna100_othala.customer" userNameCol="idUser"
+		userCredCol="txPassword" userRoleTable="aduna100_othala.customer_roles"
 		roleNameCol="txRole" localDataSource="true" />
-		
-		<!--  <Resource name="jdbc/contrada" auth="Container" 
-		type="javax.sql.DataSource" validationQuery="SELECT 1" validationInterval="30000" 
-		maxActive="100" maxIdle="30" maxWait="10000" username="prote923_bagnos" password="didone1976" 
-		driverClassName="com.mysql.jdbc.Driver" url="jdbc:mysql://mysql.protettoratonicchio.it:3306/prote923_contrada" 
-		/> -->
-
-<!-- PRODUZIONE -->
-<!-- 
-	 <Resource name="jdbc/othala" removeAbandoned="true" logAbandoned="true"
-		auth="Container" type="javax.sql.DataSource" maxActive="10" maxIdle="5"
-		validationQuery="SELECT 1" validationInterval="30000" maxWait="10000"
-		username="aduna937_othala" password="StileRagingCoatedAnkh62" driverClassName="com.mysql.jdbc.Driver"
-		url="jdbc:mysql://wc1mysql2.mondoserver.com:3306/aduna937_othala" />-->
-		
-	 
-		<Resource name="jdbc/othala" removeAbandoned="true" logAbandoned="true"
+	<Resource name="jdbc/othala" removeAbandoned="true" logAbandoned="true"
 		auth="Container" type="javax.sql.DataSource" maxActive="10" maxIdle="5"
 		validationQuery="SELECT 1" validationInterval="30000" maxWait="10000"
 		username="root" password="root" driverClassName="com.mysql.jdbc.Driver"
-		url="jdbc:mysql://localhost:3306/aduna937_othala" /> 
-
-
-	<Realm className="org.apache.catalina.realm.DataSourceRealm"
-		dataSourceName="jdbc/othala" userTable="aduna937_othala.customer" userNameCol="idUser"
-		userCredCol="txPassword" userRoleTable="aduna937_othala.customer_roles" roleNameCol="txRole"
-		localDataSource="true" />
-
-
-<!-- 
-	<Resource name="mail/othala" auth="Container" type="javax.mail.Session"
-		mail.transport.protocol="smtp" mail.smtp.starttls.enable="true"
-		mail.smtp.host="smtp.gmail.com" mail.smtp.port="587" mail.smtp.user="simone.bagnolesi@gmail.com"
-		mail.smtp.auth="true" password="didone76" />-->
-
-
-	<Resource name="BeanManager" auth="Container"
-		type="javax.enterprise.inject.spi.BeanManager" factory="org.jboss.weld.resources.ManagerObjectFactory" />
-
-
-
-
-	<!-- <Transaction factory="com.atomikos.icatch.jta.UserTransactionFactory" /> -->
-
+		url="jdbc:mysql://localhost:3306/aduna100_othala" />
+	<!-- FINE TEST MAG-->
+	
+	
+	
+	
+	
+	<!-- PRODUZIONE MAG -->
+	<!-- <Resource url="jdbc:mysql://wc1mysql2.mondoserver.com:3306/magbo647_othala" 
+		driverClassName="com.mysql.jdbc.Driver" password="Othala2014" username="aduna100_Othala" 
+		maxWait="10000" validationInterval="30000" validationQuery="SELECT 1" maxIdle="5" 
+		maxActive="10" type="javax.sql.DataSource" auth="Container" logAbandoned="true" removeAbandoned="true" 
+		name="jdbc/othala" /> <Realm localDataSource="true" roleNameCol="txRole" userRoleTable="aduna100_othala.customer_roles" 
+		userCredCol="txPassword" userNameCol="idUser" userTable="aduna100_othala.customer" 
+		dataSourceName="jdbc/othala" className="org.apache.catalina.realm.DataSourceRealm" 
+		/> -->
+	<!-- FINE PRODUZIONE MAG-->
+	
 </Context>
