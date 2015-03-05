@@ -4,21 +4,6 @@
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
-        <dependent-module archiveName="OthalaMBeans-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/OthalaMBeans/OthalaMBeans">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="OthalaService-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/OthalaService/OthalaService">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="OthalaDAO-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/OthalaDAO/OthalaDAO">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="OthalaCommon-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/OthalaCommon/OthalaCommon">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="OthalaPayment-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/OthalaPayment/OthalaPayment">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <property name="context-root" value="Othala"/>
         <property name="java-output-path" value="/Othala/target/classes"/>
     </wb-module>
