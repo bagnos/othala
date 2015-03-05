@@ -233,9 +233,9 @@ public class OrderService implements IOrderService {
 			Iterator<OrderFullDTO> oi = lsOrders.iterator();
 			orderFull = oi.next();
 		}
-
-		StateOrderDTO stateOrder = new StateOrderDTO();
-		stateOrder.setIdOrder(orderFull.getIdOrder());
+  
+		StateOrderDTO stateOrder = new StateOrderDTO();   
+		stateOrder.setIdOrder(orderFull.getIdOrder());   
 		stateOrder.setIdStato(stato.getState());
 		stateOrder.setTxNote(null);
 
