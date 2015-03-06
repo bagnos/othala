@@ -100,7 +100,16 @@
 		 <dependency>
 		 	<groupId>com.microsoft.sqlserver</groupId>
 		 	<artifactId>sqljdbc4</artifactId>
-		 	<version>4.0</version>
 		 </dependency>
+		 
 	</dependencies>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.microsoft.sqlserver</groupId>
+				<artifactId>sqljdbc4</artifactId>
+				<version>4.0</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 </project>
