@@ -29,7 +29,7 @@
 		FROM Y_ARTICOLI_VARIANTI a LEFT OUTER JOIN Y_NEGOZI_ESHOP b ON a.codmag = b.codMagaz
 		WHERE a.CodBarre = #{barCode} 
 		AND a.QtaGiacUmMag = (SELECT MAX(c.QtaGiacUmMag) 
-							  FROM Y_ARTICOLI_VARIANTI 
+							  FROM Y_ARTICOLI_VARIANTI c 
 							  WHERE c.CodBarre = a.CodBarre )
 		AND a.QtaGiacUmMag > 0
 
