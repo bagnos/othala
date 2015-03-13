@@ -195,6 +195,7 @@ public class ApplicationBean implements Serializable {
 	public void resetDomain() {
 		domain = null;
 		domainEN=null;
+		getDomain();
 		//brandDTO = null;
 		//colorsDTO = null;
 		//typeDTO = null;
