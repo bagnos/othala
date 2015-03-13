@@ -385,6 +385,7 @@ public class InsertProdottiView extends BaseView {
 				prd.setIdProduct(prdDetail.getIdProduct());
 				OthalaFactory.getProductServiceInstance().updateProduct(prd);
 				merchantBean.findProduct();
+				getBeanApplication().resetDomain();
 				addInfo("Prodotto", "modifica effettuata correttamente");
 			}
 
