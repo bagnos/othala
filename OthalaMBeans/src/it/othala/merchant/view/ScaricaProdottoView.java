@@ -93,6 +93,7 @@ public class ScaricaProdottoView extends BaseView {
 						pgArticles, !carico);
 
 				prdFounded.clear();
+				getBeanApplication().resetDomain();
 			} else {
 				addError("Scarico prodotto", "nessun prodotto selezionato");
 			}
