@@ -424,14 +424,14 @@ public class PaymentService implements IPaymentService {
 		if (state == TypeStateOrder.SPEDITO) {
 
 		} else {
-			for (ArticleFullDTO art : order.getCart()) {
+/*			for (ArticleFullDTO art : order.getCart()) {
 		
 				ShopDTO shopStock = externalService.getShopStock(art.getPrdFullDTO().getIdProduct(), art.getPgArticle(), art.getTxBarCode());
 				
 				art.getShop().setIdShop(shopStock.getIdShop());
 				art.getShop().setTxShop(shopStock.getTxShop());
 					
-			}
+			}*/
 			
 			html = generateHtmlOrder(order, mailDTO, inlineImages, state, "mailInserimentoOrdine", lsShop.get(0).getIdShop());
 			
@@ -546,8 +546,11 @@ public class PaymentService implements IPaymentService {
 					out.write("<unitPrice>" + art.getPrdFullDTO().getRealPrice() + "</unitPrice>");
 					out.write("<quantity>" + art.getQtBooked() + "</quantity>");
 					out.write("<price>" + art.getPriceDiscounted().multiply(new BigDecimal(art.getQtBooked())) + "</price>");
-					out.write("<idshop>" + art.getShop().getIdShop().toString() + "</idshop>");
-					out.write("<desshop>" + art.getShop().getTxShop() + "</desshop>");
+					
+					ShopDTO shopStock = externalService.getShopStock(art.getPrdFullDTO().getIdProduct(), art.getPgArticle(), art.getTxBarCode());
+					
+					out.write("<idshop>" + shopStock.getIdShop().toString() + "</idshop>");
+					out.write("<desshop>" + shopStock.getTxShop() + "</desshop>");
 					out.write("</item>");
 					i++;
 				}
