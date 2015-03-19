@@ -6,6 +6,7 @@ import it.othala.dto.AttributeDTO;
 import it.othala.dto.BrandFullDTO;
 import it.othala.dto.CampaignDTO;
 import it.othala.dto.ConfigurationDTO;
+import it.othala.dto.HashtagDTO;
 import it.othala.dto.InfAggiuntiveDTO;
 import it.othala.dto.LookBookDTO;
 import it.othala.dto.MenuDTO;
@@ -200,6 +201,8 @@ public interface IProductDAO {
 	
 	public List<ArticleCashedDTO> getArticlesCached();
 	public List<ArticleCashedDTO> getArticlesMajorCached(String language);
+
+	public List<HashtagDTO> listHashtag(String language);
 
 
 

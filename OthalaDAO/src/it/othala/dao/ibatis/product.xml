@@ -62,7 +62,8 @@
 		${database.schema}type y
 		where
 		d.idType = x.idType
-		and d.idType = y.idType
+		and d.idType =
+		y.idType
 		and x.idLanguages = "it"
 		and y.idLanguages = "en"
 		and
@@ -192,6 +193,95 @@
 
 
 	</select>
+
+
+	<select id="listHashtag" resultType="it.othala.dto.HashtagDTO"
+		parameterType="java.util.HashMap">
+
+
+
+		select upper(ashtag) hashtag, idGender, idType,idBrand, idMaterial, count(*) numero
+		from(
+
+		SELECT
+		concat(txType, " ", txBrand) ashtag,
+		null idGender,
+		a.idType,
+		a.idBrand,
+		null idMaterial
+		FROM
+		${database.schema}product a,
+		${database.schema}type
+		d,
+		${database.schema}brand e
+		where
+		a.idType = d.idType
+		and a.idBrand =
+		e.idBrand
+		and d.idLanguages = #{languages}
+		and exists (select 1 from
+		article h where h.idProduct = a.idProduct and h.qtStock >0)
+
+		union all
+
+		SELECT
+
+		concat(txType, " ", txMaterial) ashtag,
+		null,
+		a.idType,
+		null,
+		a.idMaterial
+		FROM
+		${database.schema}product a,
+		${database.schema}type d,
+		${database.schema}material f
+
+		where
+
+		a.idType = d.idType
+
+		and f.idMaterial =
+		a.idMaterial
+		and d.idLanguages = #{languages}
+		and f.idLanguages =
+		d.idLanguages
+		and exists (select 1 from article h where h.idProduct =
+		a.idProduct and h.qtStock >0)
+
+		union all
+
+		SELECT
+		concat(txType, " ", txGender) ashtag,
+		a.idGender,
+		a.idType,
+		null,
+		null
+		FROM
+		${database.schema}product a,
+		${database.schema}gender c,
+		${database.schema}type d
+
+
+		where
+
+		a.idType = d.idType
+		and a.idGender =
+		c.idGender
+		and d.idLanguages = #{languages}
+		and c.idLanguages =
+		d.idLanguages
+
+		and exists (select 1 from article h where h.idProduct =
+		a.idProduct and h.qtStock >0)
+		) tab1
+		group by 1
+		order by numero desc
+
+
+
+	</select>
+
+
 
 
 	<!-- LOOKBOOK -->
@@ -1448,7 +1538,8 @@
 		${database.schema}product_info e,
 		${database.schema}infaggiuntive f
 		where a.idProduct = #{idProduct}
-		and c.idProduct = a.idProduct
+		and
+		c.idProduct = a.idProduct
 		and e.idProduct = a.idProduct
 		and
 		a.idInformazione = b.idInformazione
@@ -1466,7 +1557,8 @@
 		"it"
 		and
 		e.idInformazione = a.idInformazione
-		and e.idInformazione =
+		and
+		e.idInformazione =
 		f.idInformazione
 		and e.idLanguages = f.idLanguages
 		and e.idLanguages =
@@ -2336,32 +2428,43 @@
 		(SELECT
 		p.idProduct,p.idbrand,p.idType,a.pgArticle,a.idColor,a.idSize,sum(qtArticle)
 		as spedita,sum(imArticle) as incasso
-		from ${database.schema}orders_articles oa,${database.schema}states_orders
+		from
+		${database.schema}orders_articles oa,${database.schema}states_orders
 		so, ${database.schema}article a, ${database.schema}product p
-		where oa.idProdotto=a.idProduct
+		where
+		oa.idProdotto=a.idProduct
 		and oa.pgArticle=a.pgArticle
-		and p.idProduct=a.idProduct
+		and
+		p.idProduct=a.idProduct
 		and oa.idOrder=so.idOrder
 		and so.idStato=15
-		group by p.idProduct,p.idbrand,p.idType,a.pgArticle,a.idColor,a.idSize)SP
-		left join
+		group by
+		p.idProduct,p.idbrand,p.idType,a.pgArticle,a.idColor,a.idSize)SP
+		left
+		join
 		(SELECT
 		p.idProduct,p.idbrand,p.idType,a.pgArticle,a.idColor,a.idSize,sum(coalesce(qtArticle,0))
 		as rimborsata,sum(imArticle) as incassoRimborsato
-		from ${database.schema}refound_articles oa, ${database.schema}article a,
+		from
+		${database.schema}refound_articles oa, ${database.schema}article a,
 		${database.schema}product p
 		where oa.idProdotto=a.idProduct
-		and oa.pgArticle=a.pgArticle
+		and
+		oa.pgArticle=a.pgArticle
 		and p.idProduct=a.idProduct
-		and fgChangeRefound='S'
-		group by p.idProduct,p.idbrand,p.idType,a.pgArticle,a.idColor,a.idSize)RIM
+		and
+		fgChangeRefound='S'
+		group by
+		p.idProduct,p.idbrand,p.idType,a.pgArticle,a.idColor,a.idSize)RIM
 		on(
 		sp.idProduct=RIM.idProduct
 		and
 		sp.pgArticle=rim.pgArticle
 		)
-		join ${database.schema}brand b on b.idbrand=sp.idBrand
-		join ${database.schema}type t on (t.idType=sp.idType and
+		join
+		${database.schema}brand b on b.idbrand=sp.idBrand
+		join
+		${database.schema}type t on (t.idType=sp.idType and
 		t.idLanguages='it')
 		join ${database.schema}size s on s.idSize=sp.idSize
 		join ${database.schema}color c on (c.idColor=sp.idColor and
@@ -2370,23 +2473,30 @@
 	</select>
 
 	<select id="getProdottiPiuVenduti" resultType="it.othala.dto.ArticleCashedDTO">
-		SELECT p.idProduct,coalesce(a.imPrice,p.imPrice) as imPrice,pd.txDescription
+		SELECT
+		p.idProduct,coalesce(a.imPrice,p.imPrice) as imPrice,pd.txDescription
 		as
 		description,ty.txType,p.idbrand,br.txbrand,p.idType,a.txThumbnailsUrl,sum(qtArticle)
 		as spedita,sum(imArticle) as incasso
-		from ${database.schema}orders_articles oa, ${database.schema}article a,
+		from
+		${database.schema}orders_articles oa, ${database.schema}article a,
 		${database.schema}product p,${database.schema}product_description
 		pd,${database.schema}brand br,${database.schema}type ty
-		where oa.idProdotto=a.idProduct
+		where
+		oa.idProdotto=a.idProduct
 		and oa.pgArticle=a.pgArticle
-		and p.idProduct=a.idProduct
+		and
+		p.idProduct=a.idProduct
 		and pd.idProduct=p.idProduct
-		and pd.idLanguages=#{language}
+		and
+		pd.idLanguages=#{language}
 		and ty.idLanguages=#{language}
-		and p.idBrand=br.idBrand
+		and
+		p.idBrand=br.idBrand
 		and p.idType=ty.idType
 
-		group by p.idProduct,p.idbrand,p.idType
+		group by
+		p.idProduct,p.idbrand,p.idType
 		order by spedita desc
 	</select>
 </mapper>

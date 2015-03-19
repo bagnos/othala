@@ -29,6 +29,7 @@ public class DomainDTO implements Serializable {
 	private List<MenuDTO> menuServices = null;
 	private List<ArticleCashedDTO> articleCashed=null;
 	private List<ProductFullNewDTO> articleNewArrivals=null;	
+	private List<HashtagDTO> hashtag;
 	
 	public List<ProductFullNewDTO> getArticleNewArrivals() {
 		return articleNewArrivals;
@@ -180,6 +181,14 @@ public class DomainDTO implements Serializable {
 
 	public void setInfAggiuntive(List<AttributeDTO> infAggiuntive) {
 		this.infAggiuntive = infAggiuntive;
+	}
+
+	public List<HashtagDTO> getHashtag() {
+		return hashtag;
+	}
+
+	public void setHashtag(List<HashtagDTO> hashtag) {
+		this.hashtag = hashtag;
 	}
 
 }
