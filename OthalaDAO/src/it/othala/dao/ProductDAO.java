@@ -9,6 +9,7 @@ import it.othala.dto.CampaignDTO;
 import it.othala.dto.ConfigurationDTO;
 import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DescriptionDTO;
+import it.othala.dto.HashtagDTO;
 import it.othala.dto.InfAggiuntiveDTO;
 import it.othala.dto.LookBookDTO;
 import it.othala.dto.MenuDTO;
@@ -179,6 +180,21 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		return listShop;
 
 	}
+	
+	@Override
+	public List<HashtagDTO> listHashtag(String languages) {
+
+		HashMap<String, Object> mapAttribute = new HashMap<>();
+		mapAttribute.put("languages", languages);
+		
+		List<HashtagDTO> listHashtag = getSqlSession().selectList(
+				"it.othala.product.queries.listHashtag", mapAttribute);
+
+		return listHashtag;
+
+	}
+	
+	
 
 	@Override
 	public List<RegioneDTO> listRegioni() {

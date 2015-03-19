@@ -72,7 +72,8 @@ public class ProductFullNewDTO implements Serializable {
 	
 	private Integer tyProduct;
 	
-
+	private List<HashtagDTO> listHashtag;
+	
 	public String getColorsAsString() {
 		return StringUtils.collectionToCommaDelimitedString(color);
 	}
@@ -343,6 +344,14 @@ public class ProductFullNewDTO implements Serializable {
 
 	public void setTyProduct(Integer tyProduct) {
 		this.tyProduct = tyProduct;
+	}
+
+	public List<HashtagDTO> getListHashtag() {
+		return listHashtag;
+	}
+
+	public void setListHashtag(List<HashtagDTO> listHashtag) {
+		this.listHashtag = listHashtag;
 	}
 
 }
