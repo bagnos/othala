@@ -9,6 +9,7 @@ import it.othala.dto.OrderFullDTO;
 import it.othala.dto.ShopDTO;
 import it.othala.execption.FidelityCardNotPresentException;
 import it.othala.execption.FidelityCardNotValidException;
+import it.othala.external.dto.FidelityCardDegortesDTO;
 import it.othala.external.service.interfaces.IOthalaExternalServices;
 
 class OthalaExternalService implements IOthalaExternalServices {
@@ -72,6 +73,12 @@ class OthalaExternalService implements IOthalaExternalServices {
 	public void aggiornaQtArticle(Integer idProduct) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<FidelityCardDegortesDTO> getMailingList() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

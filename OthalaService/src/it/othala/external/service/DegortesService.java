@@ -10,6 +10,7 @@ import it.othala.dto.ShopDTO;
 import it.othala.execption.FidelityCardNotPresentException;
 import it.othala.execption.FidelityCardNotValidException;
 import it.othala.external.dao.interfaces.IExternalDAO;
+import it.othala.external.dto.FidelityCardDegortesDTO;
 import it.othala.external.dto.ShopDegortesDTO;
 import it.othala.external.service.interfaces.IOthalaExternalServices;
 
@@ -67,9 +68,24 @@ import it.othala.external.service.interfaces.IOthalaExternalServices;
 	public ShopDTO getShopStock(Integer idProduct, Integer pgArticle,
 			String codBarre) {
 		List<ShopDegortesDTO> shopDeg = externalDAO.getShopStock(codBarre);
+		
 		ShopDTO shop = new ShopDTO();
-		shop.setIdShop(shopDeg.get(0).getCodMag());
-		shop.setTxShop(shopDeg.get(0).getDesNegozio());
+		Integer appo = 0;
+		
+		for (ShopDegortesDTO lsShop: shopDeg){
+			if (lsShop.getQtaGiacUmMag() > appo){
+				appo = lsShop.getQtaGiacUmMag();
+				shop.setIdShop(lsShop.getCodMag());
+				shop.setTxShop(lsShop.getDesNegozio());
+			}
+			
+			if (lsShop.getCodMag()==500){
+				shop.setIdShop(lsShop.getCodMag());
+				shop.setTxShop(lsShop.getDesNegozio());			
+				break;
+			}
+		
+		}
 		
 		return shop;
 		
@@ -85,6 +101,11 @@ import it.othala.external.service.interfaces.IOthalaExternalServices;
 			
 		}
 		
+	}
+
+	@Override
+	public List<FidelityCardDegortesDTO> getMailingList() {
+		return externalDAO.getMailingList();
 	}
 
 }
