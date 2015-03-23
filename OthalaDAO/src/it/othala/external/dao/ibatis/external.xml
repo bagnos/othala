@@ -25,13 +25,18 @@
 	
 	<select id="getShopStock" resultType="it.othala.external.dto.ShopDegortesDTO" parameterType="java.lang.String">
 		
-		SELECT a.codmag as CodMag, COALESCE(b.DesNegozio,'Fittizio') DesNegozio
+		SELECT a.codmag as CodMag, COALESCE(b.DesNegozio,'Fittizio') DesNegozio, a.QtaGiacUmMag
 		FROM Y_ARTICOLI_VARIANTI a LEFT OUTER JOIN Y_NEGOZI_ESHOP b ON a.codmag = b.codMagaz
 		WHERE a.CodBarre = #{barCode} 
-		AND a.QtaGiacUmMag = (SELECT MAX(c.QtaGiacUmMag) 
-							  FROM Y_ARTICOLI_VARIANTI c 
-							  WHERE c.CodBarre = a.CodBarre )
 		AND a.QtaGiacUmMag > 0
+
+	</select>
+	
+	<select id="getMailingList" resultType="it.othala.external.dto.FidelityCardDegortesDTO">
+		
+		SELECT IndirEmail, CodZona 
+		FROM Y_FIDELITY_CARDS_ESHOP 
+		ORDER BY CodZona
 
 	</select>
 

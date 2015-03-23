@@ -2,6 +2,7 @@ package it.othala.external.dao;
 
 import it.othala.dto.FidelityCardDTO;
 import it.othala.external.dao.interfaces.IExternalDAO;
+import it.othala.external.dto.FidelityCardDegortesDTO;
 import it.othala.external.dto.ShopDegortesDTO;
 
 import java.util.HashMap;
@@ -35,6 +36,13 @@ public class ExternalDAO extends SqlSessionDaoSupport implements IExternalDAO {
 		return getSqlSession().selectList(
 				"it.othala.external.queries.getShopStock", barCode);
 		
+	}
+
+	@Override
+	public List<FidelityCardDegortesDTO> getMailingList() {
+		return getSqlSession().selectList(
+				"it.othala.external.queries.getMailingList");
+	
 	}
 
 }

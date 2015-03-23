@@ -8,6 +8,7 @@ public class ShopDegortesDTO {
 
 	private Integer CodMag;
 	private String DesNegozio;
+	private Integer QtaGiacUmMag;
 
 
 	public String getDesNegozio() {
@@ -21,6 +22,12 @@ public class ShopDegortesDTO {
 	}
 	public void setCodMag(Integer codMag) {
 		CodMag = codMag;
+	}
+	public Integer getQtaGiacUmMag() {
+		return QtaGiacUmMag;
+	}
+	public void setQtaGiacUmMag(Integer qtaGiacUmMag) {
+		QtaGiacUmMag = qtaGiacUmMag;
 	}
 
 
