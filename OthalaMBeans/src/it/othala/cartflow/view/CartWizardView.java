@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.othala.account.execption.MailNotSendException;
+import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.CouponDTO;
 import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryCostDTO;
@@ -64,6 +65,8 @@ public class CartWizardView extends BaseView {
 	private boolean andAddrSpe = false;
 	private DeliveryAddressDTO deliverCurrenteAddressMerchant = new DeliveryAddressDTO();
 
+	private BigDecimal importoScontabile;
+	
 	public DeliveryAddressDTO getDeliverCurrenteAddressMerchant() {
 		return deliverCurrenteAddressMerchant;
 	}
@@ -657,9 +660,23 @@ public class CartWizardView extends BaseView {
 				getCartFlowBean().getTotalItemOrder().add(getCartFlowBean().getDeliveryCost().getImportoSpese()));
 
 		if (pcScontoTotale > 0) {
+			
+			importoScontabile = new BigDecimal(0);
+			for (ArticleFullDTO art : getCartFlowBean().getCart()) {
+				
+				if (art.getSpecialPrice() == null ||
+						art.getSpecialPrice() == new BigDecimal(0))
+				{
+					setImportoScontabile(importoScontabile.add(art.getPriceDiscounted()));
+					
+				}
+
+			}
+			
 			BigDecimal sconto = new BigDecimal(pcScontoTotale);
 			sconto = sconto.divide(new BigDecimal(100));
-			getCartFlowBean().setAmtDiscount(getCartFlowBean().getTotalPriceOrdeNoDiscount().multiply(sconto));
+			
+			getCartFlowBean().setAmtDiscount(importoScontabile.multiply(sconto));
 			sconto = getCartFlowBean().getTotalPriceOrdeNoDiscount().subtract(getCartFlowBean().getAmtDiscount());
 
 		} else {
@@ -786,6 +803,14 @@ public class CartWizardView extends BaseView {
 		getCartFlowBean().setTotalPriceOrder(order.getImOrdine());
 		return order;
 
+	}
+
+	public BigDecimal getImportoScontabile() {
+		return importoScontabile;
+	}
+
+	public void setImportoScontabile(BigDecimal importoScontabile) {
+		this.importoScontabile = importoScontabile;
 	}
 
 }

@@ -29,7 +29,14 @@ public class ExternalDAO extends SqlSessionDaoSupport implements IExternalDAO {
 		getSqlSession().selectList(
 				"it.othala.external.queries.getScontoFidelity", Integer.parseInt(idFidelity));
 		
+		if (listFidelity != null  && !listFidelity.isEmpty())
+		{
 		return listFidelity.get(0);
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 	@Override
