@@ -1,7 +1,11 @@
 package it.othala.merchant.view;
 
+import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.OrderFullDTO;
+import it.othala.dto.ShopDTO;
 import it.othala.enums.TypeStateOrder;
+import it.othala.external.service.FactoryExternalService;
+import it.othala.external.service.interfaces.IOthalaExternalServices;
 import it.othala.merchant.model.MerchantBean;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
@@ -105,6 +109,8 @@ public class GestioneOrdiniView extends BaseView {
 
 	public void stampaBolla(ActionEvent e) {
 	}
+	
+	
 
 	@Override
 	public String doInit() {
@@ -132,11 +138,18 @@ public class GestioneOrdiniView extends BaseView {
 	}
 	
 
+	/*
 	public void onRowSelectNavigate(SelectEvent event) {
-		// FacesContext.getCurrentInstance().getExternalContext().getFlash().put("selectedCar",
-		// event.getObject());
-
+	
 		try {
+			//recuper il negozio tramite extService(es. degortes)
+			IOthalaExternalServices extService= FactoryExternalService.getExternalService(getBeanApplication().getSito());
+			for (ArticleFullDTO art:merchantBean.getOrderSelected().getCart())
+			{
+				ShopDTO shop= extService.getShopStock(art.getPrdFullDTO().getIdProduct(), art.getPgArticle(), art.getPrdFullDTO().getMerchantCode());
+				art.setShop(shop);
+			}
+			
 			FacesContext.getCurrentInstance().getExternalContext().redirect("dettaglioOrdine.xhtml?cercaOrd=true");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -144,6 +157,6 @@ public class GestioneOrdiniView extends BaseView {
 		}
 	
 
-	}
+	}*/
 
 }
