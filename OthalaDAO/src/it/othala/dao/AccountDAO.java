@@ -176,6 +176,14 @@ public class AccountDAO extends SqlSessionDaoSupport implements IAccountDAO {
 		getSqlSession().delete("it.othala.account.queries.deleteMailGroup", map);
 
 	}
+	
+	@Override
+	public void deleteAllMail() {
+				getSqlSession().delete("it.othala.account.queries.deleteAllMail");
+
+	}
+	
+	
 
 	@Override
 	public List<MailGroupDTO> listMailGroup(Integer idMailGroup) {

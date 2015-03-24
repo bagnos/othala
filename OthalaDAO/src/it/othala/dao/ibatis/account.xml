@@ -163,6 +163,15 @@
 		where idMail =#{idMail}
 
 	</delete>
+	
+	<delete id="deleteAllMail" >
+		DELETE FROM
+		${database.schema}mail
+		where idMailGroup != 1
+
+	</delete>
+	
+	
 
 	<delete id="deleteMailGroup" parameterType="java.util.HashMap">
 		DELETE FROM

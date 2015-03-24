@@ -9,19 +9,15 @@ import it.othala.account.execption.UserNotFoundException;
 import it.othala.account.execption.UserNotResetStateException;
 import it.othala.dao.interfaces.IAccountDAO;
 import it.othala.dto.AccountDTO;
-import it.othala.dto.ArticleRefounded;
 import it.othala.dto.MailDTO;
 import it.othala.dto.MailGroupDTO;
 import it.othala.dto.MailPropertiesDTO;
-import it.othala.dto.OrderFullDTO;
-import it.othala.dto.ShopDTO;
 import it.othala.enums.TypeCustomerState;
 import it.othala.service.interfaces.IAccountService;
 import it.othala.service.interfaces.IMailService;
 import it.othala.service.template.Template;
 import it.othala.service.template.Template.TipoTemplate;
 import it.othala.util.HelperCrypt;
-import it.othala.util.OthalaCommonUtils;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -30,11 +26,8 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Source;
@@ -45,6 +38,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.apache.commons.io.IOUtils;
 
 public class AccountService implements IAccountService {
+
 
 	private IAccountDAO accountDAO;
 	private IMailService mailService;
@@ -60,14 +54,16 @@ public class AccountService implements IAccountService {
 	}
 
 	@Override
-	public AccountDTO loginAccount(String mail, String pswd) throws BadCredentialException {
+	public AccountDTO loginAccount(String mail, String pswd)
+			throws BadCredentialException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void registerAccount(AccountDTO account, MailPropertiesDTO mailProps) throws DuplicateUserException,
-			BadCredentialException, MailNotSendException {
+	public void registerAccount(AccountDTO account, MailPropertiesDTO mailProps)
+			throws DuplicateUserException, BadCredentialException,
+			MailNotSendException {
 
 		if (accountDAO.existAccount(account.getEmail()) > 0) {
 			throw new DuplicateUserException(account.getEmail());
@@ -76,24 +72,28 @@ public class AccountService implements IAccountService {
 		accountDAO.insertAccount(account);
 		accountDAO.insertAccountRole(account.getEmail(), CUSTOMER_ROLE);
 
-		inviaMailRegistrazione(account.getEmail(), account.getName(), account.getPsw(), mailProps);
+		inviaMailRegistrazione(account.getEmail(), account.getName(),
+				account.getPsw(), mailProps);
 
 	}
 
 	@Override
-	public void resetPasswordAccount(String email, MailPropertiesDTO mailProps) throws UserNotFoundException,
-			MailNotSendException, UserNotActivatedException {
+	public void resetPasswordAccount(String email, MailPropertiesDTO mailProps)
+			throws UserNotFoundException, MailNotSendException,
+			UserNotActivatedException {
 		// TODO Auto-generated method stub
 
 		if (accountDAO.existAccount(email) == 0) {
 			throw new UserNotFoundException(email);
 		}
 
-		if (accountDAO.getAccount(email).getState() != TypeCustomerState.ATTIVATO.getState()) {
+		if (accountDAO.getAccount(email).getState() != TypeCustomerState.ATTIVATO
+				.getState()) {
 			throw new UserNotActivatedException(email);
 		}
 
-		accountDAO.changeStateAccount(email, TypeCustomerState.RESET_PSW.getState());
+		accountDAO.changeStateAccount(email,
+				TypeCustomerState.RESET_PSW.getState());
 		inviaResetMailRegistrazione(email, mailProps);
 	}
 
@@ -107,7 +107,8 @@ public class AccountService implements IAccountService {
 		for (AccountDTO acc : listAccount) {
 			email.add(acc.getEmail());
 		}
-		return accountDAO.changeStateAccount(email, TypeCustomerState.CESSATO.getState());
+		return accountDAO.changeStateAccount(email,
+				TypeCustomerState.CESSATO.getState());
 	}
 
 	@Override
@@ -120,17 +121,19 @@ public class AccountService implements IAccountService {
 		for (AccountDTO acc : listAccount) {
 			email.add(acc.getEmail());
 		}
-		return accountDAO.changeStateAccount(email, TypeCustomerState.ATTIVATO.getState());
+		return accountDAO.changeStateAccount(email,
+				TypeCustomerState.ATTIVATO.getState());
 	}
 
 	@Override
-	public void modifyAccount(String OldEmail, AccountDTO account) throws BadCredentialException {
+	public void modifyAccount(String OldEmail, AccountDTO account)
+			throws BadCredentialException {
 		// TODO Auto-generated method stub
 
 	}
 
-	private void inviaMailRegistrazione(String email, String name, String psw, MailPropertiesDTO mailProps)
-			throws MailNotSendException {
+	private void inviaMailRegistrazione(String email, String name, String psw,
+			MailPropertiesDTO mailProps) throws MailNotSendException {
 		String content;
 		try {
 			content = Template.getContenFile(TipoTemplate.MailRegistrazione);
@@ -142,15 +145,19 @@ public class AccountService implements IAccountService {
 		content = content.replaceAll("<NAME>", name);
 		content = content.replaceAll("<PSW>", psw);
 		content = content.replaceAll("<SITE>", mailProps.getDnsSite());
-		content = content.replaceAll("<COMPANY_NAME>", mailProps.getCompanyName());
-		content = content.replaceAll("<CONTEXT_ROOT>", mailProps.getContextRoot());
+		content = content.replaceAll("<COMPANY_NAME>",
+				mailProps.getCompanyName());
+		content = content.replaceAll("<CONTEXT_ROOT>",
+				mailProps.getContextRoot());
 		content = content.replaceAll("<BOARD_URL>", mailProps.getBoardUrl());
 		String encryptMail = HelperCrypt.encrypt(email);
 		content = content.replaceAll("<USER>", encryptMail);
-		mailService.inviaMail(new String[] { email }, "Welcome " + mailProps.getCompanyName(), content, mailProps);
+		mailService.inviaMail(new String[] { email },
+				"Welcome " + mailProps.getCompanyName(), content, mailProps);
 	}
 
-	private void inviaResetMailRegistrazione(String email, MailPropertiesDTO mailPros) throws MailNotSendException {
+	private void inviaResetMailRegistrazione(String email,
+			MailPropertiesDTO mailPros) throws MailNotSendException {
 		String content = null;
 		String encryptMail = null;
 		try {
@@ -161,18 +168,21 @@ public class AccountService implements IAccountService {
 		}
 
 		content = content.replaceAll("<SITE>", mailPros.getDnsSite());
-		content = content.replaceAll("<CONTEXT_ROOT>", mailPros.getContextRoot());
+		content = content.replaceAll("<CONTEXT_ROOT>",
+				mailPros.getContextRoot());
 
 		encryptMail = HelperCrypt.encrypt(email);
 		content = content.replaceAll("<USER>", encryptMail);
 		String subject = "Reset Password ";
 		subject += mailPros.getCompanyName();
 
-		mailService.inviaMail(new String[] { email }, subject, content, mailPros);
+		mailService.inviaMail(new String[] { email }, subject, content,
+				mailPros);
 	}
 
 	@Override
-	public void activatedAccount(String email) throws UserNotFoundException, UserAlReadyActivatedException {
+	public void activatedAccount(String email) throws UserNotFoundException,
+			UserAlReadyActivatedException {
 		// TODO Auto-generated method stub
 		// INSERIRE LA VERIFICA SEL L'UTENTE è GIA PIN STATO ATTIVAZIONE
 		AccountDTO acc = accountDAO.getAccount(email);
@@ -186,7 +196,8 @@ public class AccountService implements IAccountService {
 
 		}
 
-		int res = accountDAO.changeStateAccount(email, TypeCustomerState.ATTIVATO.getState());
+		int res = accountDAO.changeStateAccount(email,
+				TypeCustomerState.ATTIVATO.getState());
 		if (res == 0) {
 			// INSERIRE UN MESSAGGIO DEL LANGUAGE.
 			throw new UserNotFoundException(email);
@@ -194,8 +205,8 @@ public class AccountService implements IAccountService {
 	}
 
 	@Override
-	public void changePassworResetdAccount(String email, String psw) throws UserNotFoundException,
-			UserNotResetStateException {
+	public void changePassworResetdAccount(String email, String psw)
+			throws UserNotFoundException, UserNotResetStateException {
 		// TODO Auto-generated method stub
 		AccountDTO acc = accountDAO.getAccount(email);
 
@@ -209,11 +220,13 @@ public class AccountService implements IAccountService {
 
 		accountDAO.updatePassword(email, psw);
 
-		accountDAO.changeStateAccount(email, TypeCustomerState.ATTIVATO.getState());
+		accountDAO.changeStateAccount(email,
+				TypeCustomerState.ATTIVATO.getState());
 	}
 
 	@Override
-	public void changePassworAccount(String email, String psw) throws UserNotFoundException {
+	public void changePassworAccount(String email, String psw)
+			throws UserNotFoundException {
 		// TODO Auto-generated method stub
 		AccountDTO acc = accountDAO.getAccount(email);
 
@@ -225,7 +238,8 @@ public class AccountService implements IAccountService {
 	}
 
 	@Override
-	public AccountDTO verifyPasswordAccount(String email, String psw) throws BadCredentialException {
+	public AccountDTO verifyPasswordAccount(String email, String psw)
+			throws BadCredentialException {
 		if (email == null || email.isEmpty() || psw == null || psw.isEmpty()) {
 			throw new BadCredentialException();
 		}
@@ -256,8 +270,9 @@ public class AccountService implements IAccountService {
 	}
 
 	@Override
-	public void richiediFidelity(String nome, String cognome, String email, String cell, String emailMerchant,
-			String site, MailPropertiesDTO mail) throws MailNotSendException {
+	public void richiediFidelity(String nome, String cognome, String email,
+			String cell, String emailMerchant, String site,
+			MailPropertiesDTO mail) throws MailNotSendException {
 		// TODO Auto-generated method stub
 		StringBuilder sb = new StringBuilder();
 		sb.append("<nome>" + nome + "</nome>");
@@ -279,8 +294,8 @@ public class AccountService implements IAccountService {
 		content = content.replaceAll("<cognome>", cognome);
 		content = content.replaceAll("<email>", email);
 
-		mailService.inviaMail(new String[] { emailMerchant }, site + ":richiesta censimento Fidelity Card", content,
-				mail);
+		mailService.inviaMail(new String[] { emailMerchant }, site
+				+ ":richiesta censimento Fidelity Card", content, mail);
 	}
 
 	@Override
@@ -292,7 +307,8 @@ public class AccountService implements IAccountService {
 	}
 
 	@Override
-	public void updateMail(Integer idMail, Integer idMailGroup, String txUser, String txNome) {
+	public void updateMail(Integer idMail, Integer idMailGroup, String txUser,
+			String txNome) {
 		accountDAO.updateMail(idMail, idMailGroup, txUser, txNome);
 
 	}
@@ -333,39 +349,46 @@ public class AccountService implements IAccountService {
 	}
 
 	@Override
-	public void sendMailNewsletter(List<MailDTO> users, String testo, String imageContenuto, String subject,
-			MailPropertiesDTO mailProps) throws Exception {
+	public void sendMailNewsletter(List<MailDTO> users, String testo,
+			String imageContenuto, String subject, MailPropertiesDTO mailProps)
+			throws Exception {
 
-		File xslFile = Template.getFile("it/othala/service/template/mailNewsletter.xsl");
-		String content = new String(java.nio.file.Files.readAllBytes(xslFile.toPath()));
+		File xslFile = Template
+				.getFile("it/othala/service/template/mailNewsletter.xsl");
+		String content = new String(java.nio.file.Files.readAllBytes(xslFile
+				.toPath()));
 		content = content.replace("#{testo}", testo);
 		content = content.replace("#{imageContenuto}", imageContenuto);
 		content = content.replace("#{imageLogo}", mailProps.getPathImgLogo());
-		content=content.replace("#{serverName}", mailProps.getServerName());
-		content=content.replace("#{contextName}", mailProps.getContextRoot());
-		
+		content = content.replace("#{serverName}", mailProps.getServerName());
+		content = content.replace("#{contextName}", mailProps.getContextRoot());
 
 		for (MailDTO mail : users) {
-			mail.setTxNome(mail.getTxNome() != null ? mail.getTxNome() : "Cliente");
+			mail.setTxNome(mail.getTxNome() != null ? mail.getTxNome()
+					: "Cliente");
 			content = content.replace("#{user}", mail.getTxNome());
-			content = content.replace("#{id}", HelperCrypt.encrypt(String.format("%s", mail.getIdMail().toString())));
-			mailService.inviaHTMLMail(new String[] { mail.getTxUser() }, subject, content, null, mailProps, false);
+			content = content.replace("#{id}", HelperCrypt.encrypt(String
+					.format("%s", mail.getIdMail().toString())));
+			mailService.inviaHTMLMail(new String[] { mail.getTxUser() },
+					subject, content, null, mailProps, false);
 		}
 
 	}
 
-	private String generateHtmlNewsletter(String testo, String imageContenuto, String imageLogo, String user)
-			throws Exception {
+	private String generateHtmlNewsletter(String testo, String imageContenuto,
+			String imageLogo, String user) throws Exception {
 		BufferedWriter out = null;
 		FileWriter fstream = null;
 
 		try {
 
-			File xslFile = Template.getFile("it/othala/service/template/mailNewsletter.xsl");
+			File xslFile = Template
+					.getFile("it/othala/service/template/mailNewsletter.xsl");
 			File xmlTemp = File.createTempFile("xmlTemp", ".xml");
 			fstream = new FileWriter(xmlTemp);
 
-			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(xmlTemp), "UTF8"));
+			out = new BufferedWriter(new OutputStreamWriter(
+					new FileOutputStream(xmlTemp), "UTF8"));
 
 			out.write("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
 			out.write("<mail>");
@@ -398,15 +421,19 @@ public class AccountService implements IAccountService {
 			// effetto la conversione xml,xsl to html scrivo il file html
 			// temporaneo
 			TransformerFactory tFactory = TransformerFactory.newInstance();
-			Source xslSource = new javax.xml.transform.stream.StreamSource(xslFile);
-			Source xmlSource = new javax.xml.transform.stream.StreamSource(xmlTemp);
-			javax.xml.transform.stream.StreamResult result = new StreamResult(htmlTemp);
+			Source xslSource = new javax.xml.transform.stream.StreamSource(
+					xslFile);
+			Source xmlSource = new javax.xml.transform.stream.StreamSource(
+					xmlTemp);
+			javax.xml.transform.stream.StreamResult result = new StreamResult(
+					htmlTemp);
 			Transformer transformer;
 			transformer = tFactory.newTransformer(xslSource);
 			transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 			transformer.transform(xmlSource, result);
 
-			String html = IOUtils.toString(new FileInputStream(htmlTemp), "UTF-8");
+			String html = IOUtils.toString(new FileInputStream(htmlTemp),
+					"UTF-8");
 
 			return html;
 
@@ -416,4 +443,7 @@ public class AccountService implements IAccountService {
 		}
 
 	}
+
+
+
 }

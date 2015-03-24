@@ -8,6 +8,7 @@ import it.othala.account.execption.UserNotFoundException;
 import it.othala.cartflow.view.CartWizardView;
 import it.othala.dto.AccountDTO;
 import it.othala.execption.OthalaException;
+import it.othala.external.service.FactoryExternalService;
 import it.othala.model.ApplicationBean;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
@@ -19,6 +20,7 @@ import it.othala.web.utils.WizardUtil;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContextFactory;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
 
@@ -334,6 +336,20 @@ public class AccessView extends BaseView {
 		}
 	}
 
+	
+	public void aggiornaMerchantNewsletter(ActionEvent e) {
+
+		try {
+			if (aggiornaNewsletter()) {
+				addInfo("Newsletter", "Newsletter aggiornata");
+			}
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			addGenericError(e1, "errore aggiornamento newsletter");
+		}
+	}
+	
+	
 	private boolean subscribeNewsletter() throws OthalaException {
 		String apiKey = ConfigurationUtil.getProperty("apiKeyMailChimp");
 		String idList = ConfigurationUtil.getProperty("listId");
@@ -361,6 +377,15 @@ public class AccessView extends BaseView {
 		}
 
 	}
+	
+	private boolean aggiornaNewsletter() throws OthalaException {
+
+
+			OthalaFactory.getOrderServiceInstance().aggiornaNewsletter();
+			return true;
+	}
+	
+	
 
 	public String moveToAcess() {
 		return "accedi";
