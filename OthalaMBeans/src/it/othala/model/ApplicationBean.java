@@ -57,6 +57,11 @@ public class ApplicationBean implements Serializable {
 	private Integer tipoMenu;
 	private Boolean localNewsLetter;
 	private DomainDTO domainEN;
+	private String sito;
+
+	public String getSito() {
+		return sito;
+	}
 
 	public DomainDTO getDomainEN() {
 		return domainEN;
@@ -171,10 +176,14 @@ public class ApplicationBean implements Serializable {
 			domain = OthalaFactory.getProductServiceInstance().getDomain("it");		
 			domainEN=OthalaFactory.getProductServiceInstance().getDomain("en");
 			
-			String key = ConfigurationUtil.getProperty("DiscountTabEnabled");
+			String key = ConfigurationUtil.getProperty("DiscountTabEnabled");			
 			discountTabEnabled = (key == null ? false : Boolean.parseBoolean(key));
+			
 			key = ConfigurationUtil.getProperty("NewsLetterLocal");
 			localNewsLetter = (key == null ? false : Boolean.parseBoolean(key));
+			
+			key=ConfigurationUtil.getProperty("othala_ExtSito");
+			sito=key==null?"":key;
 		}
 
 		return domain;

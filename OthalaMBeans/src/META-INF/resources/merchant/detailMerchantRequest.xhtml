@@ -101,10 +101,11 @@
 						<table class="table" id="cartTable">
 							<thead>
 								<tr>
-									<th class="col-sm-4">#{msg.catalog_article}</th>
+									<th class="col-sm-3">#{msg.catalog_article}</th>
 									<th class="col-sm-2">#{msg.catalog_color}</th>
 									<th class="col-sm-1">#{msg.catalog_size}</th>
-									<th class="col-sm-2">#{msg.catalog_price}</th>
+									<th class="col-sm-2">NEGOZIO</th>
+									<th class="col-sm-1">#{msg.catalog_price}</th>
 									<th class="col-sm-1">#{msg.catalog_qta}</th>
 									<th class="col-sm-2">#{msg.catalog_totalPrice}</th>
 
@@ -143,6 +144,7 @@
 											</div></td>
 										<td><h:outputText value="#{art.txColor}" /></td>
 										<td><h:outputText value="#{art.txSize}" /></td>
+										<td><h:outputText value="#{art.shop.txShop}" /></td>
 
 										<td><h:outputText value="#{art.prdFullDTO.realPrice}">
 												<f:converter converterId="it.othala.BigDecimalConverter" />
@@ -167,15 +169,13 @@
 						onerror="PF('blockAll').unblock();"
 						onclick="PF('blockAll').block()"
 						actionListener="#{detailMerchantRequestView.elimina}">
-						
+						 <p:confirm header="Conferma" message="Sei sicuro di eliminare?" icon="ui-icon-alert" />
 					</p:commandButton>
 
 					<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
-						<p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes"
-							icon="ui-icon-check" />
-						<p:commandButton value="Annulla" type="button" styleClass="ui-confirmdialog-no"
-							icon="ui-icon-close" />
-					</p:confirmDialog>
+        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    </p:confirmDialog>
 
 				</div>
 

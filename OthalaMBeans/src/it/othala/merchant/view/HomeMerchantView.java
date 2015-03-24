@@ -1,12 +1,15 @@
 package it.othala.merchant.view;
 
+import it.othala.dto.ArticleFullDTO;
+import it.othala.dto.ShopDTO;
 import it.othala.enums.TypeStateOrder;
+import it.othala.external.service.FactoryExternalService;
+import it.othala.external.service.interfaces.IOthalaExternalServices;
 import it.othala.merchant.model.MerchantBean;
-import it.othala.model.LocaleManager;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 
-import java.io.IOException;
+import java.util.List;
 
 import javax.faces.application.ConfigurableNavigationHandler;
 import javax.faces.bean.ManagedBean;
@@ -27,7 +30,7 @@ public class HomeMerchantView extends BaseView {
 		this.merchantBean = merchantBean;
 	}
 
-		@Override
+	@Override
 	public String doInit() {
 		// TODO Auto-generated method stub
 		try {
@@ -61,11 +64,34 @@ public class HomeMerchantView extends BaseView {
 
 	}
 
+	private void findShop(boolean change) {
+		// recuper il negozio tramite extService(es. degortes)
+		IOthalaExternalServices extService = FactoryExternalService.getExternalService(getBeanApplication().getSito());
+		List<ArticleFullDTO> arts = null;
+		if (!getBeanApplication().getSito().isEmpty()) {
+			if (change) {
+				for (ArticleFullDTO art : merchantBean.getRefoundSelected().getCart()) {
+					ShopDTO shop = extService.getShopStock(art.getPrdFullDTO().getIdProduct(), art.getPgArticle(), art
+							.getTxBarCode());
+					art.setShop(shop);
+				}
+			} else {
+				for (ArticleFullDTO art : merchantBean.getOrderSelected().getCart()) {
+					ShopDTO shop = extService.getShopStock(art.getPrdFullDTO().getIdProduct(), art.getPgArticle(), art
+							.getTxBarCode());
+					art.setShop(shop);
+				}
+			}
+		}
+		
+	}
+
 	public void onRowSelectNavigate(SelectEvent event) {
 		// FacesContext.getCurrentInstance().getExternalContext().getFlash().put("selectedCar",
 		// event.getObject());
 
 		// FacesContext.getCurrentInstance().getExternalContext().redirect("dettaglioOrdine.xhtml?home=true");
+		findShop(false);
 		ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext
 				.getCurrentInstance().getApplication().getNavigationHandler();
 		configurableNavigationHandler.performNavigation("dettaglioOrdine.xhtml?home=true");
@@ -77,6 +103,7 @@ public class HomeMerchantView extends BaseView {
 		// event.getObject());
 
 		// FacesContext.getCurrentInstance().getExternalContext().redirect("detailMerchantRequest.xhtml?home=true");
+		findShop(true);
 		ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext
 				.getCurrentInstance().getApplication().getNavigationHandler();
 		configurableNavigationHandler.performNavigation("detailMerchantRequest.xhtml?home=true");
