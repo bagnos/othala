@@ -8,12 +8,12 @@ public class FidelityCardDegortesDTO {
 	public void setIndirEmail(String indirEmail) {
 		IndirEmail = indirEmail;
 	}
-	public Integer getCodZona() {
+	public String getCodZona() {
 		return CodZona;
 	}
-	public void setCodZona(Integer codZona) {
+	public void setCodZona(String codZona) {
 		CodZona = codZona;
 	}
 	String IndirEmail;
-	Integer CodZona;
+	String CodZona;
 }
