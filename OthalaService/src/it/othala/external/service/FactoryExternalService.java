@@ -1,6 +1,7 @@
 package it.othala.external.service;
 
 import it.othala.external.service.interfaces.IOthalaExternalServices;
+import it.othala.service.factory.OthalaFactory;
 import it.othala.service.interfaces.IAccountService;
 
 import java.io.IOException;
@@ -12,6 +13,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class FactoryExternalService {
 
 	private static String appContextCompletePath = "it/othala/external/service/applicationcontext_othala#SITO#.xml";
+	private static String appContextCompleteInternalPath = "it/othala//service/applicationcontext_othala#SITO#.xml";
 	private static IOthalaExternalServices externalService;
 	private static ApplicationContext appContext = null;
 	private static Object mutex = new Object();
@@ -47,6 +49,19 @@ public class FactoryExternalService {
 
 			externalService = getExternalServiceInstance(sito);
 
+		}
+
+		return externalService;
+	}
+
+	public static IOthalaExternalServices getExternalService(String sito) {
+
+		if (sito != null && !sito.isEmpty()) {
+
+			externalService = getExternalServiceInstance(sito);
+
+		} else {
+			externalService = OthalaFactory.getExternalServiceInstance();
 		}
 
 		return externalService;
