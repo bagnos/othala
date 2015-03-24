@@ -25,9 +25,11 @@ public class ExternalDAO extends SqlSessionDaoSupport implements IExternalDAO {
 	@Override
 	public FidelityCardDTO getFidelityCard(String idFidelity) {
 		
-		return getSqlSession().selectOne(
+		List<FidelityCardDTO> listFidelity = 
+		getSqlSession().selectList(
 				"it.othala.external.queries.getScontoFidelity", Integer.parseInt(idFidelity));
 		
+		return listFidelity.get(0);
 	}
 
 	@Override
