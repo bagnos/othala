@@ -11,24 +11,23 @@ import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.DeliveryCostDTO;
 import it.othala.dto.DeliveryDTO;
 import it.othala.dto.FidelityCardDTO;
+import it.othala.dto.MailGroupDTO;
 import it.othala.dto.MailPropertiesDTO;
 import it.othala.dto.OrderFullDTO;
-import it.othala.dto.ProductFullNewDTO;
 import it.othala.dto.RefoundFullDTO;
 import it.othala.dto.RendicontoOrdini;
 import it.othala.dto.ShopDTO;
 import it.othala.dto.StateOrderDTO;
 import it.othala.enums.TypeStateOrder;
-import it.othala.execption.BarcodeNotPresentException;
 import it.othala.execption.CouponBurntException;
 import it.othala.execption.CouponExpiredException;
 import it.othala.execption.CouponNotPresentException;
-import it.othala.execption.CouponNotValidException;
 import it.othala.execption.FidelityCardNotPresentException;
 import it.othala.execption.FidelityCardNotValidException;
 import it.othala.execption.OthalaException;
 import it.othala.execption.RefoundPresentException;
 import it.othala.execption.StockNotPresentException;
+import it.othala.external.dto.FidelityCardDegortesDTO;
 import it.othala.external.service.interfaces.IOthalaExternalServices;
 import it.othala.service.interfaces.IMailService;
 import it.othala.service.interfaces.IOrderService;
@@ -41,16 +40,12 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.OutputStreamWriter;
 import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.security.SecureRandom;
 import java.sql.Timestamp;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import javax.xml.transform.OutputKeys;
@@ -75,20 +70,24 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public List<OrderFullDTO> getOrders(Integer Order, String User, TypeStateOrder StatoOrdine, Boolean fgStIns) {
+	public List<OrderFullDTO> getOrders(Integer Order, String User,
+			TypeStateOrder StatoOrdine, Boolean fgStIns) {
 
 		return getOrders(Order, User, StatoOrdine, fgStIns, null);
 
 	}
 
 	@Override
-	public List<OrderFullDTO> getOrders(Integer Order, String User, TypeStateOrder StatoOrdine, Boolean fgStIns,String idTransaction) {
+	public List<OrderFullDTO> getOrders(Integer Order, String User,
+			TypeStateOrder StatoOrdine, Boolean fgStIns, String idTransaction) {
 
 		List<OrderFullDTO> listaOrdini;
 		if (StatoOrdine == null) {
-			listaOrdini = orderDAO.getOrders(Order, User, null, fgStIns,idTransaction);
+			listaOrdini = orderDAO.getOrders(Order, User, null, fgStIns,
+					idTransaction);
 		} else {
-			listaOrdini = orderDAO.getOrders(Order, User, StatoOrdine.getState(), fgStIns,idTransaction);
+			listaOrdini = orderDAO.getOrders(Order, User,
+					StatoOrdine.getState(), fgStIns, idTransaction);
 		}
 
 		Iterator<OrderFullDTO> i = listaOrdini.iterator();
@@ -96,19 +95,21 @@ public class OrderService implements IOrderService {
 			OrderFullDTO order = i.next();
 
 			List<ArticleFullDTO> newlistArticle = new ArrayList<ArticleFullDTO>();
-			ArticleFullDTO artFull=null;
-			
-			for (ArticleFullDTO article:order.getCart())
-			{
-				artFull=new ArticleFullDTO();
-				artFull = productDAO.getArticleFull(article.getPrdFullDTO().getIdProduct(),
-				article.getPgArticle(), "it");
-				artFull.setShop(productDAO.getShop(article.getPrdFullDTO().getIdProduct(), article.getPgArticle()));
-				artFull.setPrdFullDTO(productDAO.getProductArticleFull("it", article.getPrdFullDTO().getIdProduct(),
+			ArticleFullDTO artFull = null;
+
+			for (ArticleFullDTO article : order.getCart()) {
+				artFull = new ArticleFullDTO();
+				artFull = productDAO.getArticleFull(article.getPrdFullDTO()
+						.getIdProduct(), article.getPgArticle(), "it");
+				artFull.setShop(productDAO.getShop(article.getPrdFullDTO()
+						.getIdProduct(), article.getPgArticle()));
+				artFull.setPrdFullDTO(productDAO.getProductArticleFull("it",
+						article.getPrdFullDTO().getIdProduct(),
 						article.getPgArticle()));
 				artFull.setQtBooked(article.getQtBooked());
-				artFull.setIdOrderArticle(article.getIdOrderArticle().intValue());
-				
+				artFull.setIdOrderArticle(article.getIdOrderArticle()
+						.intValue());
+
 				newlistArticle.add(artFull);
 			}
 			order.setCart(newlistArticle);
@@ -119,16 +120,17 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public OrderFullDTO insertOrder(OrderFullDTO orderFull) throws OthalaException {
+	public OrderFullDTO insertOrder(OrderFullDTO orderFull)
+			throws OthalaException {
 
 		checkQtaInStock(null, orderFull);
 		orderDAO.insertOrder(orderFull);
-		HashMap<String, Object> mapProduct = new HashMap<String, Object>();		
-		for (ArticleFullDTO article: orderFull.getCart())
-		{
+		HashMap<String, Object> mapProduct = new HashMap<String, Object>();
+		for (ArticleFullDTO article : orderFull.getCart()) {
 			mapProduct.clear();
 			mapProduct.put("idOrder", orderFull.getIdOrder());
-			mapProduct.put("idProdotto", article.getPrdFullDTO().getIdProduct());
+			mapProduct
+					.put("idProdotto", article.getPrdFullDTO().getIdProduct());
 			mapProduct.put("pgArticle", article.getPgArticle());
 			mapProduct.put("qtArticle", article.getQtBooked());
 			mapProduct.put("imArticle", article.getPriceDiscounted());
@@ -141,7 +143,8 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public OrderFullDTO confirmOrderPayment(OrderFullDTO order) throws StockNotPresentException {
+	public OrderFullDTO confirmOrderPayment(OrderFullDTO order)
+			throws StockNotPresentException {
 
 		// OrderFullDTO orderFull = checkQtaInStock(order.getIdOrder(),null);
 
@@ -150,7 +153,8 @@ public class OrderService implements IOrderService {
 		// orderDAO.updateOrder(order.getIdOrder(),
 		// order.getIdTransaction(), null);
 
-		updateStateOrder(null, order, TypeStateOrder.valueOf(order.getIdStato()));
+		updateStateOrder(null, order,
+				TypeStateOrder.valueOf(order.getIdStato()));
 
 		updateStock(order, true);
 
@@ -158,10 +162,12 @@ public class OrderService implements IOrderService {
 
 	}
 
-	public OrderFullDTO checkQtaInStock(Integer idOrder, OrderFullDTO orderFull) throws StockNotPresentException {
+	public OrderFullDTO checkQtaInStock(Integer idOrder, OrderFullDTO orderFull)
+			throws StockNotPresentException {
 
 		if (orderFull == null) {
-			List<OrderFullDTO> lsOrders = orderDAO.getOrders(idOrder, null, null, null);
+			List<OrderFullDTO> lsOrders = orderDAO.getOrders(idOrder, null,
+					null, null);
 			Iterator<OrderFullDTO> oi = lsOrders.iterator();
 			orderFull = oi.next();
 		}
@@ -176,14 +182,16 @@ public class OrderService implements IOrderService {
 			 * productDAO.getQtStockLock(article.getPrdFullDTO().getIdProduct(),
 			 * article.getPgArticle());
 			 */
-			
-			Integer qtaProduct = externalService.getQtStockLock(article.getPrdFullDTO().getIdProduct(),
-					article.getPgArticle(), article.getTxBarCode());
-			
+
+			Integer qtaProduct = externalService.getQtStockLock(article
+					.getPrdFullDTO().getIdProduct(), article.getPgArticle(),
+					article.getTxBarCode());
+
 			if (qtaProduct < article.getQtBooked()) {
 				List<String> prodNoStock = new ArrayList<String>();
 				prodNoStock.add(article.getPrdFullDTO().getDescription());
-				throw new StockNotPresentException(article.getPrdFullDTO().getIdProduct());
+				throw new StockNotPresentException(article.getPrdFullDTO()
+						.getIdProduct());
 			}
 
 		}
@@ -194,8 +202,8 @@ public class OrderService implements IOrderService {
 		List<ArticleFullDTO> lsProd = orderFull.getCart();
 		for (ArticleFullDTO article : lsProd) {
 
-			productDAO.updateQtStock(article.getPrdFullDTO().getIdProduct(), article.getPgArticle(),
-					article.getQtBooked(), fgVendita);
+			productDAO.updateQtStock(article.getPrdFullDTO().getIdProduct(),
+					article.getPgArticle(), article.getQtBooked(), fgVendita);
 
 		}
 	}
@@ -226,23 +234,26 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public OrderFullDTO updateStateOrder(Integer idOrder, OrderFullDTO orderFull, TypeStateOrder stato) {
+	public OrderFullDTO updateStateOrder(Integer idOrder,
+			OrderFullDTO orderFull, TypeStateOrder stato) {
 
 		if (orderFull == null) {
-			List<OrderFullDTO> lsOrders = orderDAO.getOrders(idOrder, null, null, null);
+			List<OrderFullDTO> lsOrders = orderDAO.getOrders(idOrder, null,
+					null, null);
 			Iterator<OrderFullDTO> oi = lsOrders.iterator();
 			orderFull = oi.next();
 		}
-  
-		StateOrderDTO stateOrder = new StateOrderDTO();   
-		stateOrder.setIdOrder(orderFull.getIdOrder());   
+
+		StateOrderDTO stateOrder = new StateOrderDTO();
+		stateOrder.setIdOrder(orderFull.getIdOrder());
 		stateOrder.setIdStato(stato.getState());
 		stateOrder.setTxNote(null);
 
 		orderDAO.updateStateOrder(stateOrder);
 
 		if (orderFull.getIdTransaction() != null) {
-			orderDAO.updateOrder(orderFull.getIdOrder(), orderFull.getIdTransaction(), null);
+			orderDAO.updateOrder(orderFull.getIdOrder(),
+					orderFull.getIdTransaction(), null);
 		}
 
 		/*
@@ -257,7 +268,8 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public OrderFullDTO increaseQtaArticle(OrderFullDTO orderFull, TypeStateOrder stato) {
+	public OrderFullDTO increaseQtaArticle(OrderFullDTO orderFull,
+			TypeStateOrder stato) {
 		orderFull = updateStateOrder(null, orderFull, stato);
 
 		updateStock(orderFull, false);
@@ -271,7 +283,8 @@ public class OrderService implements IOrderService {
 
 	@Override
 	public DeliveryDTO getDeliveryInfo(String userId) {
-		List<DeliveryAddressDTO> addresses = orderDAO.getDeliveryAddress(userId);
+		List<DeliveryAddressDTO> addresses = orderDAO
+				.getDeliveryAddress(userId);
 		/*
 		 * List<DeliveryCostDTO> costs =
 		 * orderDAO.getDeliveryCost(addresses.get(0).getNazione());
@@ -301,7 +314,8 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public DeliveryAddressDTO updateAddress(DeliveryAddressDTO newAddress, Integer idAddress) {
+	public DeliveryAddressDTO updateAddress(DeliveryAddressDTO newAddress,
+			Integer idAddress) {
 		orderDAO.deleteAddress(idAddress);
 		orderDAO.newAddress(newAddress);
 		return newAddress;
@@ -320,11 +334,13 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public CouponDTO checkCoupon(String idCoupon, String idUser) throws OthalaException {
+	public CouponDTO checkCoupon(String idCoupon, String idUser)
+			throws OthalaException {
 
 		List<CouponDTO> listCoupons = orderDAO.getCoupons(idCoupon, idUser);
 
-		if (listCoupons!=null && listCoupons.isEmpty()==false && listCoupons.get(0) != null) {
+		if (listCoupons != null && listCoupons.isEmpty() == false
+				&& listCoupons.get(0) != null) {
 			if (listCoupons.get(0).getDtScadenza().compareTo(new Date()) < 0) {
 				throw new CouponExpiredException(idCoupon);
 			}
@@ -342,130 +358,144 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public void sendMailConfirmReso(Integer idReso, MailPropertiesDTO mailProps) throws Exception {
+	public void sendMailConfirmReso(Integer idReso, MailPropertiesDTO mailProps)
+			throws Exception {
 
-		List<RefoundFullDTO> listRefound = getRefounds(idReso, null, null, null, null, null);
-		List<OrderFullDTO> listOrderFullDTO = getOrders(listRefound.get(0).getIdOrder(), null, null, null);
+		List<RefoundFullDTO> listRefound = getRefounds(idReso, null, null,
+				null, null, null);
+		List<OrderFullDTO> listOrderFullDTO = getOrders(listRefound.get(0)
+				.getIdOrder(), null, null, null);
 		OrderFullDTO orderFullDTO = listOrderFullDTO.get(0);
 
 		List<ShopDTO> shop = productDAO.listShop();
 
 		Map<String, String> inlineImages = new HashMap<String, String>();
-		
-		String html = generateHtmlReso(orderFullDTO, listRefound.get(0).getCart(), shop.get(0), "mailConfermaReso",
+
+		String html = generateHtmlReso(orderFullDTO, listRefound.get(0)
+				.getCart(), shop.get(0), "mailConfermaReso",
 				mailProps.getPathImgLogo(), idReso.toString(), inlineImages);
 
 		String subject = shop.get(0).getTxShop() + " - Conferma Reso Merce";
 
-		mailService.inviaHTMLMail(new String[] { orderFullDTO.getIdUser().toString() }, subject, html, inlineImages,
-				mailProps,true);
+		mailService.inviaHTMLMail(new String[] { orderFullDTO.getIdUser()
+				.toString() }, subject, html, inlineImages, mailProps, true);
 
 	}
 
 	@Override
-	public void sendMailConfirmCambio(Integer idReso, MailPropertiesDTO mailProps) throws Exception {
+	public void sendMailConfirmCambio(Integer idReso,
+			MailPropertiesDTO mailProps) throws Exception {
 
-		List<RefoundFullDTO> listRefound = getRefounds(idReso, null, null, null, null, null);
-		List<OrderFullDTO> listOrderFullDTO = getOrders(listRefound.get(0).getIdOrder(), null, null,null);
+		List<RefoundFullDTO> listRefound = getRefounds(idReso, null, null,
+				null, null, null);
+		List<OrderFullDTO> listOrderFullDTO = getOrders(listRefound.get(0)
+				.getIdOrder(), null, null, null);
 		OrderFullDTO orderFullDTO = listOrderFullDTO.get(0);
 
 		List<ShopDTO> shop = productDAO.listShop();
 
 		Map<String, String> inlineImages = new HashMap<String, String>();
-		
-		String html = generateHtmlReso(orderFullDTO, listRefound.get(0).getCart(), shop.get(0), "mailConfermaCambio",
+
+		String html = generateHtmlReso(orderFullDTO, listRefound.get(0)
+				.getCart(), shop.get(0), "mailConfermaCambio",
 				mailProps.getPathImgLogo(), idReso.toString(), inlineImages);
 
 		String subject = shop.get(0).getTxShop() + " - Conferma Cambio Merce";
 
-		
-
-		mailService.inviaHTMLMail(new String[] { orderFullDTO.getIdUser().toString() }, subject, html, inlineImages,
-				mailProps,true);
+		mailService.inviaHTMLMail(new String[] { orderFullDTO.getIdUser()
+				.toString() }, subject, html, inlineImages, mailProps, true);
 
 	}
 
 	@Override
-	public void sendMailInsertCambio(Integer idReso, MailPropertiesDTO mailProps) throws Exception {
+	public void sendMailInsertCambio(Integer idReso, MailPropertiesDTO mailProps)
+			throws Exception {
 
-		List<RefoundFullDTO> listRefound = getRefounds(idReso, null, null, null, null, null);
-		List<OrderFullDTO> listOrderFullDTO = getOrders(listRefound.get(0).getIdOrder(), null, null, null);
+		List<RefoundFullDTO> listRefound = getRefounds(idReso, null, null,
+				null, null, null);
+		List<OrderFullDTO> listOrderFullDTO = getOrders(listRefound.get(0)
+				.getIdOrder(), null, null, null);
 		OrderFullDTO orderFullDTO = listOrderFullDTO.get(0);
 
 		List<ShopDTO> shop = productDAO.listShop();
 
-		
 		Map<String, String> inlineImages = new HashMap<String, String>();
-		
-		String html = generateHtmlReso(orderFullDTO, listRefound.get(0).getCart(), shop.get(0),
-				"mailInserimentoCambio", mailProps.getPathImgLogo(), idReso.toString(), inlineImages);
+
+		String html = generateHtmlReso(orderFullDTO, listRefound.get(0)
+				.getCart(), shop.get(0), "mailInserimentoCambio",
+				mailProps.getPathImgLogo(), idReso.toString(), inlineImages);
 
 		String subject = shop.get(0).getTxShop() + " - Notifica di Cambio";
 
-		
-
-		mailService.inviaHTMLMail(new String[] { orderFullDTO.getIdUser().toString() }, subject, html, inlineImages,
-				mailProps,true);
+		mailService.inviaHTMLMail(new String[] { orderFullDTO.getIdUser()
+				.toString() }, subject, html, inlineImages, mailProps, true);
 
 	}
 
 	@Override
-	public void sendMailInsertReso(Integer idReso, MailPropertiesDTO mailProps) throws Exception {
+	public void sendMailInsertReso(Integer idReso, MailPropertiesDTO mailProps)
+			throws Exception {
 
-		List<RefoundFullDTO> listRefound = getRefounds(idReso, null, null, null, null, null);
-		List<OrderFullDTO> listOrderFullDTO = getOrders(listRefound.get(0).getIdOrder(), null, null, null);
+		List<RefoundFullDTO> listRefound = getRefounds(idReso, null, null,
+				null, null, null);
+		List<OrderFullDTO> listOrderFullDTO = getOrders(listRefound.get(0)
+				.getIdOrder(), null, null, null);
 		OrderFullDTO orderFullDTO = listOrderFullDTO.get(0);
 
 		List<ShopDTO> shop = productDAO.listShop();
 		Map<String, String> inlineImages = new HashMap<String, String>();
-		String html = generateHtmlReso(orderFullDTO, listRefound.get(0).getCart(), shop.get(0), "mailInserimentoReso",
+		String html = generateHtmlReso(orderFullDTO, listRefound.get(0)
+				.getCart(), shop.get(0), "mailInserimentoReso",
 				mailProps.getPathImgLogo(), idReso.toString(), inlineImages);
 
 		String subject = shop.get(0).getTxShop() + " - Notifica di Reso";
 
-
-
-		mailService.inviaHTMLMail(new String[] { orderFullDTO.getIdUser().toString() }, subject, html, inlineImages,
-				mailProps,true);
+		mailService.inviaHTMLMail(new String[] { orderFullDTO.getIdUser()
+				.toString() }, subject, html, inlineImages, mailProps, true);
 
 	}
 
 	@Override
-	public String stampaResoHTML(Integer idReso, String pathLogo) throws Exception {
+	public String stampaResoHTML(Integer idReso, String pathLogo)
+			throws Exception {
 
-		List<RefoundFullDTO> listRefound = getRefounds(idReso, null, null, null, null, null);
-		List<OrderFullDTO> listOrderFullDTO = getOrders(listRefound.get(0).getIdOrder(), null, null,null);
+		List<RefoundFullDTO> listRefound = getRefounds(idReso, null, null,
+				null, null, null);
+		List<OrderFullDTO> listOrderFullDTO = getOrders(listRefound.get(0)
+				.getIdOrder(), null, null, null);
 		OrderFullDTO orderFullDTO = listOrderFullDTO.get(0);
 
 		List<ShopDTO> shop = productDAO.listShop();
 		Map<String, String> inlineImages = new HashMap<String, String>();
-		return generateHtmlReso(orderFullDTO, listRefound.get(0).getCart(), shop.get(0), "reso", pathLogo,
-				idReso.toString(), inlineImages);
+		return generateHtmlReso(orderFullDTO, listRefound.get(0).getCart(),
+				shop.get(0), "reso", pathLogo, idReso.toString(), inlineImages);
 
 	}
 
-	private String generateHtmlReso(OrderFullDTO order, List<ArticleRefounded> artRef, ShopDTO shop,
-			String xslTemplate, String pathLogo, String numReso, Map<String, String> inlineImages) throws Exception {
+	private String generateHtmlReso(OrderFullDTO order,
+			List<ArticleRefounded> artRef, ShopDTO shop, String xslTemplate,
+			String pathLogo, String numReso, Map<String, String> inlineImages)
+			throws Exception {
 		BufferedWriter out = null;
 		FileWriter fstream = null;
 
 		try {
 
-			File xslFile = Template.getFile("it/othala/service/template/" + xslTemplate + ".xsl");
+			File xslFile = Template.getFile("it/othala/service/template/"
+					+ xslTemplate + ".xsl");
 			File xmlTemp = File.createTempFile("xmlTemp", ".xml");
 			fstream = new FileWriter(xmlTemp);
 
-			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(xmlTemp), "UTF8"));
+			out = new BufferedWriter(new OutputStreamWriter(
+					new FileOutputStream(xmlTemp), "UTF8"));
 
 			out.write("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
 			out.write("<order>");
-			
+
 			out.write("<imgLogo>");
 			out.write("cid:imageLogo");
 			inlineImages.put("imageLogo", pathLogo);
 			out.write("</imgLogo>");
-			
-			
 
 			out.write("<customer>");
 			out.write("<name>" + order.getNameUser() + "</name>");
@@ -475,9 +505,12 @@ public class OrderService implements IOrderService {
 
 			out.write("<numReso>" + numReso + "</numReso>");
 			out.write("<number>" + order.getIdOrder() + "</number>");
-			out.write("<transaction>" + order.getIdTransaction() + "</transaction>");
+			out.write("<transaction>" + order.getIdTransaction()
+					+ "</transaction>");
 
-			out.write("<deliveryCost>" + order.getSpeseSpedizione().getImportoSpese() + "</deliveryCost>");
+			out.write("<deliveryCost>"
+					+ order.getSpeseSpedizione().getImportoSpese()
+					+ "</deliveryCost>");
 			out.write("<totalCost>" + order.getImOrdine() + "</totalCost>");
 
 			out.write("<merchant>");
@@ -490,24 +523,39 @@ public class OrderService implements IOrderService {
 			out.write("</merchant>");
 
 			out.write("<billingAddress>");
-			out.write("<name>" + order.getBillingAddress().getNome() + "</name>");
-			out.write("<surname>" + order.getBillingAddress().getCognome() + "</surname>");
-			out.write("<telefono>" + order.getBillingAddress().getTel() + "</telefono>");
-			out.write("<street>" + order.getBillingAddress().getVia() + "</street>");
-			out.write("<zipCode>" + order.getBillingAddress().getCap() + "</zipCode>");
-			out.write("<city>" + order.getBillingAddress().getComune() + "</city>");
-			out.write("<prov>" + order.getBillingAddress().getProvincia() + "</prov>");
-			out.write("<country>" + order.getBillingAddress().getNazione() + "</country>");
+			out.write("<name>" + order.getBillingAddress().getNome()
+					+ "</name>");
+			out.write("<surname>" + order.getBillingAddress().getCognome()
+					+ "</surname>");
+			out.write("<telefono>" + order.getBillingAddress().getTel()
+					+ "</telefono>");
+			out.write("<street>" + order.getBillingAddress().getVia()
+					+ "</street>");
+			out.write("<zipCode>" + order.getBillingAddress().getCap()
+					+ "</zipCode>");
+			out.write("<city>" + order.getBillingAddress().getComune()
+					+ "</city>");
+			out.write("<prov>" + order.getBillingAddress().getProvincia()
+					+ "</prov>");
+			out.write("<country>" + order.getBillingAddress().getNazione()
+					+ "</country>");
 			out.write("</billingAddress>");
 			out.write("<shippingAddress>");
-			out.write("<name>" + order.getShippingAddress().getNome() + "</name>");
-			out.write("<surname>" + order.getShippingAddress().getCognome() + "</surname>");
+			out.write("<name>" + order.getShippingAddress().getNome()
+					+ "</name>");
+			out.write("<surname>" + order.getShippingAddress().getCognome()
+					+ "</surname>");
 			out.write("<tel>" + order.getShippingAddress().getTel() + "</tel>");
-			out.write("<street>" + order.getShippingAddress().getVia() + "</street>");
-			out.write("<zipCode>" + order.getShippingAddress().getCap() + "</zipCode>");
-			out.write("<city>" + order.getShippingAddress().getComune() + "</city>");
-			out.write("<prov>" + order.getShippingAddress().getProvincia() + "</prov>");
-			out.write("<country>" + order.getShippingAddress().getNazione() + "</country>");
+			out.write("<street>" + order.getShippingAddress().getVia()
+					+ "</street>");
+			out.write("<zipCode>" + order.getShippingAddress().getCap()
+					+ "</zipCode>");
+			out.write("<city>" + order.getShippingAddress().getComune()
+					+ "</city>");
+			out.write("<prov>" + order.getShippingAddress().getProvincia()
+					+ "</prov>");
+			out.write("<country>" + order.getShippingAddress().getNazione()
+					+ "</country>");
 			out.write("</shippingAddress>");
 
 			out.write("<cart>");
@@ -515,16 +563,28 @@ public class OrderService implements IOrderService {
 			for (ArticleRefounded refArticle : artRef) {
 
 				out.write("<item>");
-				out.write("<number>" + refArticle.getPrdFullDTO().getIdProduct() + "</number>");
-				out.write("<brand>" + refArticle.getPrdFullDTO().getTxBrand() + "</brand>");
-				out.write("<description>" + refArticle.getPrdFullDTO().getDescription() + "</description>");
+				out.write("<number>"
+						+ refArticle.getPrdFullDTO().getIdProduct()
+						+ "</number>");
+				out.write("<brand>" + refArticle.getPrdFullDTO().getTxBrand()
+						+ "</brand>");
+				out.write("<description>"
+						+ refArticle.getPrdFullDTO().getDescription()
+						+ "</description>");
 				out.write("<color>" + refArticle.getTxColor() + "</color>");
 				out.write("<size>" + refArticle.getTxSize() + "</size>");
-				out.write("<unitPrice>" + refArticle.getPrdFullDTO().getRealPrice() + "</unitPrice>");
-				out.write("<quantity>" + refArticle.getQtBooked() + "</quantity>");
-				out.write("<price>" + refArticle.getPriceDiscounted().multiply(new BigDecimal(refArticle.getQtBooked())) + "</price>");
-				
-				out.write("<cambio>" + refArticle.getTxChangeRefound() + "</cambio>");
+				out.write("<unitPrice>"
+						+ refArticle.getPrdFullDTO().getRealPrice()
+						+ "</unitPrice>");
+				out.write("<quantity>" + refArticle.getQtBooked()
+						+ "</quantity>");
+				out.write("<price>"
+						+ refArticle.getPriceDiscounted().multiply(
+								new BigDecimal(refArticle.getQtBooked()))
+						+ "</price>");
+
+				out.write("<cambio>" + refArticle.getTxChangeRefound()
+						+ "</cambio>");
 				out.write("</item>");
 				i++;
 			}
@@ -540,15 +600,19 @@ public class OrderService implements IOrderService {
 			// effetto la conversione xml,xsl to html scrivo il file html
 			// temporaneo
 			TransformerFactory tFactory = TransformerFactory.newInstance();
-			Source xslSource = new javax.xml.transform.stream.StreamSource(xslFile);
-			Source xmlSource = new javax.xml.transform.stream.StreamSource(xmlTemp);
-			javax.xml.transform.stream.StreamResult result = new StreamResult(htmlTemp);
+			Source xslSource = new javax.xml.transform.stream.StreamSource(
+					xslFile);
+			Source xmlSource = new javax.xml.transform.stream.StreamSource(
+					xmlTemp);
+			javax.xml.transform.stream.StreamResult result = new StreamResult(
+					htmlTemp);
 			Transformer transformer;
 			transformer = tFactory.newTransformer(xslSource);
 			transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 			transformer.transform(xmlSource, result);
 
-			String html = IOUtils.toString(new FileInputStream(htmlTemp), "UTF-8");
+			String html = IOUtils.toString(new FileInputStream(htmlTemp),
+					"UTF-8");
 
 			return html;
 
@@ -560,31 +624,36 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public String stampaCambioHTML(Integer idReso, String pathLogo) throws Exception {
+	public String stampaCambioHTML(Integer idReso, String pathLogo)
+			throws Exception {
 
-		List<RefoundFullDTO> listRefound = getRefounds(idReso, null, null, null, null, null);
-		List<OrderFullDTO> listOrderFullDTO = getOrders(listRefound.get(0).getIdOrder(), null, null, null);
+		List<RefoundFullDTO> listRefound = getRefounds(idReso, null, null,
+				null, null, null);
+		List<OrderFullDTO> listOrderFullDTO = getOrders(listRefound.get(0)
+				.getIdOrder(), null, null, null);
 		OrderFullDTO orderFullDTO = listOrderFullDTO.get(0);
 
 		List<ShopDTO> shop = productDAO.listShop();
 
 		Map<String, String> inlineImages = new HashMap<String, String>();
-		
-		return generateHtmlReso(orderFullDTO, listRefound.get(0).getCart(), shop.get(1), "cambi", pathLogo,
-				idReso.toString(), inlineImages);
+
+		return generateHtmlReso(orderFullDTO, listRefound.get(0).getCart(),
+				shop.get(1), "cambi", pathLogo, idReso.toString(), inlineImages);
 
 	}
 
 	@Override
-	public List<RefoundFullDTO> getRefounds(Integer idRefound, Integer Order, String User, TypeStateOrder StatoOrdine,
-			String idTransaction, String fgChangeRefound) {
+	public List<RefoundFullDTO> getRefounds(Integer idRefound, Integer Order,
+			String User, TypeStateOrder StatoOrdine, String idTransaction,
+			String fgChangeRefound) {
 
 		List<RefoundFullDTO> listaRimborsi;
 		if (StatoOrdine == null) {
-			listaRimborsi = orderDAO.getRefounds(idRefound, Order, User, null, idTransaction, fgChangeRefound);
+			listaRimborsi = orderDAO.getRefounds(idRefound, Order, User, null,
+					idTransaction, fgChangeRefound);
 		} else {
-			listaRimborsi = orderDAO.getRefounds(idRefound, Order, User, StatoOrdine.getState(), idTransaction,
-					fgChangeRefound);
+			listaRimborsi = orderDAO.getRefounds(idRefound, Order, User,
+					StatoOrdine.getState(), idTransaction, fgChangeRefound);
 		}
 
 		Iterator<RefoundFullDTO> i = listaRimborsi.iterator();
@@ -598,14 +667,17 @@ public class OrderService implements IOrderService {
 			while (it.hasNext()) {
 				ArticleRefounded article = it.next();
 
-				ArticleFullDTO artFull = productDAO.getArticleFull(article.getPrdFullDTO().getIdProduct(),
+				ArticleFullDTO artFull = productDAO.getArticleFull(article
+						.getPrdFullDTO().getIdProduct(),
 						article.getPgArticle(), "it");
 
 				ArticleRefounded artRef = new ArticleRefounded(artFull);
 
-				artRef.setShop(productDAO.getShop(article.getPrdFullDTO().getIdProduct(), article.getPgArticle()));
+				artRef.setShop(productDAO.getShop(article.getPrdFullDTO()
+						.getIdProduct(), article.getPgArticle()));
 
-				artRef.setPrdFullDTO(productDAO.getProductArticleFull("it", article.getPrdFullDTO().getIdProduct(),
+				artRef.setPrdFullDTO(productDAO.getProductArticleFull("it",
+						article.getPrdFullDTO().getIdProduct(),
 						article.getPgArticle()));
 
 				artRef.setQtBooked(article.getQtBooked());
@@ -621,12 +693,13 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public RefoundFullDTO insertRefound(RefoundFullDTO refoundFull, MailPropertiesDTO mailProps) throws OthalaException,  RefoundPresentException{
+	public RefoundFullDTO insertRefound(RefoundFullDTO refoundFull,
+			MailPropertiesDTO mailProps) throws OthalaException,
+			RefoundPresentException {
 
-		if (orderDAO.checkRefound(refoundFull) == false)
-		{
+		if (orderDAO.checkRefound(refoundFull) == false) {
 			throw new RefoundPresentException();
-			
+
 		}
 		orderDAO.insertRefound(refoundFull);
 
@@ -639,12 +712,14 @@ public class OrderService implements IOrderService {
 
 			mapProduct.clear();
 			mapProduct.put("idRefound", refoundFull.getIdRefound());
-			mapProduct.put("idProdotto", article.getPrdFullDTO().getIdProduct());
+			mapProduct
+					.put("idProdotto", article.getPrdFullDTO().getIdProduct());
 			mapProduct.put("pgArticle", article.getPgArticle());
 			mapProduct.put("qtArticle", article.getQtBooked());
 			mapProduct.put("fgChangeRefound", article.getFgChangeRefound());
 			mapProduct.put("txChangeRefound", article.getTxChangeRefound());
-			mapProduct.put("pgArticleNew", article.getPgArticleChangeSelected());
+			mapProduct
+					.put("pgArticleNew", article.getPgArticleChangeSelected());
 			mapProduct.put("imArticle", article.getPriceDiscounted());
 
 			orderDAO.insertRefoundArticles(mapProduct);
@@ -671,9 +746,9 @@ public class OrderService implements IOrderService {
 		return refoundFull;
 	}
 
-	
 	@Override
-	public void updateStateRefound(Integer idRefound, TypeStateOrder stato, String txNote) {
+	public void updateStateRefound(Integer idRefound, TypeStateOrder stato,
+			String txNote) {
 
 		HashMap<String, Object> mapState = new HashMap<String, Object>();
 		mapState.put("idRefound", idRefound);
@@ -705,7 +780,8 @@ public class OrderService implements IOrderService {
 	@Override
 	public String addFidelityCard(FidelityCardDTO carta) {
 		if (carta.getIdFidelity() == null || carta.getIdFidelity().isEmpty()) {
-			carta.setIdFidelity(RandomStringUtils.randomAlphanumeric(9).toUpperCase());
+			carta.setIdFidelity(RandomStringUtils.randomAlphanumeric(9)
+					.toUpperCase());
 		}
 		orderDAO.newFidelityCard(carta);
 
@@ -714,8 +790,9 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public FidelityCardDTO checkFidelityCard(String idFidelity, String eMail, String celNum)
-			throws FidelityCardNotPresentException, FidelityCardNotValidException {
+	public FidelityCardDTO checkFidelityCard(String idFidelity, String eMail,
+			String celNum) throws FidelityCardNotPresentException,
+			FidelityCardNotValidException {
 		/*
 		 * List<FidelityCardDTO> fCard = orderDAO.getFidelityCard(idFidelity,
 		 * null, null, null); if (fCard.get(0) == null) throw new
@@ -739,14 +816,16 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public void aggiornaFidelity(String idFidelity, Integer pcSconto, String txNome, String txCognome, String txEmail,
-			String txTel) {
-		orderDAO.updateFidelity(idFidelity, pcSconto, txNome, txCognome, txEmail, txTel);
+	public void aggiornaFidelity(String idFidelity, Integer pcSconto,
+			String txNome, String txCognome, String txEmail, String txTel) {
+		orderDAO.updateFidelity(idFidelity, pcSconto, txNome, txCognome,
+				txEmail, txTel);
 
 	}
 
 	@Override
-	public void aggiornaQtaCambio(Integer idProduct, Integer pgArticleIn, Integer pgArticleOut) {
+	public void aggiornaQtaCambio(Integer idProduct, Integer pgArticleIn,
+			Integer pgArticleOut) {
 
 		productDAO.updateQtStock(idProduct, pgArticleIn, 1, false);
 		productDAO.updateQtStock(idProduct, pgArticleOut, 1, true);
@@ -754,37 +833,41 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public String stampaOrdineHTML(Integer idOrder, String pathLogo) throws Exception {
+	public String stampaOrdineHTML(Integer idOrder, String pathLogo)
+			throws Exception {
 
-		List<OrderFullDTO> listOrderFullDTO = getOrders(idOrder, null, null, null);
+		List<OrderFullDTO> listOrderFullDTO = getOrders(idOrder, null, null,
+				null);
 		OrderFullDTO orderFullDTO = listOrderFullDTO.get(0);
 		Map<String, String> inlineImages = new HashMap<String, String>();
 
-		return generateHtmlOrder(orderFullDTO, inlineImages, "stampaOrdine", pathLogo);
+		return generateHtmlOrder(orderFullDTO, inlineImages, "stampaOrdine",
+				pathLogo);
 
 	}
 
-	private String generateHtmlOrder(OrderFullDTO order, Map<String, String> inlineImages, String xslTemplate,
+	private String generateHtmlOrder(OrderFullDTO order,
+			Map<String, String> inlineImages, String xslTemplate,
 			String pathLogo) throws Exception {
 		BufferedWriter out = null;
 		FileWriter fstream = null;
 
 		try {
 
-			File xslFile = Template.getFile("it/othala/service/template/" + xslTemplate + ".xsl");
+			File xslFile = Template.getFile("it/othala/service/template/"
+					+ xslTemplate + ".xsl");
 			File xmlTemp = File.createTempFile("xmlTemp", ".xml");
 			fstream = new FileWriter(xmlTemp);
 
-			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(xmlTemp), "UTF8"));
+			out = new BufferedWriter(new OutputStreamWriter(
+					new FileOutputStream(xmlTemp), "UTF8"));
 
 			out.write("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
 			out.write("<order>");
 			/*
-			out.write("<imgLogo>");
-			out.write("cid:imageLogo");
-			inlineImages.put("imageLogo", pathLogo);
-			out.write("</imgLogo>");
-*/
+			 * out.write("<imgLogo>"); out.write("cid:imageLogo");
+			 * inlineImages.put("imageLogo", pathLogo); out.write("</imgLogo>");
+			 */
 			out.write("<customer>");
 			out.write("<name>" + order.getNameUser() + "</name>");
 			out.write("<mail>" + order.getIdUser() + "</mail>");
@@ -792,30 +875,48 @@ public class OrderService implements IOrderService {
 			out.write("</customer>");
 
 			out.write("<number>" + order.getIdOrder() + "</number>");
-			out.write("<transaction>" + order.getIdTransaction() + "</transaction>");
+			out.write("<transaction>" + order.getIdTransaction()
+					+ "</transaction>");
 
-			out.write("<deliveryCost>" + order.getSpeseSpedizione().getImportoSpese() + "</deliveryCost>");
+			out.write("<deliveryCost>"
+					+ order.getSpeseSpedizione().getImportoSpese()
+					+ "</deliveryCost>");
 			out.write("<totalCost>" + order.getImOrdine() + "</totalCost>");
 
 			out.write("<billingAddress>");
-			out.write("<name>" + order.getBillingAddress().getNome() + "</name>");
-			out.write("<surname>" + order.getBillingAddress().getCognome() + "</surname>");
-			out.write("<telefono>" + order.getBillingAddress().getTel() + "</telefono>");
-			out.write("<street>" + order.getBillingAddress().getVia() + "</street>");
-			out.write("<zipCode>" + order.getBillingAddress().getCap() + "</zipCode>");
-			out.write("<city>" + order.getBillingAddress().getComune() + "</city>");
-			out.write("<prov>" + order.getBillingAddress().getProvincia() + "</prov>");
-			out.write("<country>" + order.getBillingAddress().getNazione() + "</country>");
+			out.write("<name>" + order.getBillingAddress().getNome()
+					+ "</name>");
+			out.write("<surname>" + order.getBillingAddress().getCognome()
+					+ "</surname>");
+			out.write("<telefono>" + order.getBillingAddress().getTel()
+					+ "</telefono>");
+			out.write("<street>" + order.getBillingAddress().getVia()
+					+ "</street>");
+			out.write("<zipCode>" + order.getBillingAddress().getCap()
+					+ "</zipCode>");
+			out.write("<city>" + order.getBillingAddress().getComune()
+					+ "</city>");
+			out.write("<prov>" + order.getBillingAddress().getProvincia()
+					+ "</prov>");
+			out.write("<country>" + order.getBillingAddress().getNazione()
+					+ "</country>");
 			out.write("</billingAddress>");
 			out.write("<shippingAddress>");
-			out.write("<name>" + order.getShippingAddress().getNome() + "</name>");
-			out.write("<surname>" + order.getShippingAddress().getCognome() + "</surname>");
+			out.write("<name>" + order.getShippingAddress().getNome()
+					+ "</name>");
+			out.write("<surname>" + order.getShippingAddress().getCognome()
+					+ "</surname>");
 			out.write("<tel>" + order.getShippingAddress().getTel() + "</tel>");
-			out.write("<street>" + order.getShippingAddress().getVia() + "</street>");
-			out.write("<zipCode>" + order.getShippingAddress().getCap() + "</zipCode>");
-			out.write("<city>" + order.getShippingAddress().getComune() + "</city>");
-			out.write("<prov>" + order.getShippingAddress().getProvincia() + "</prov>");
-			out.write("<country>" + order.getShippingAddress().getNazione() + "</country>");
+			out.write("<street>" + order.getShippingAddress().getVia()
+					+ "</street>");
+			out.write("<zipCode>" + order.getShippingAddress().getCap()
+					+ "</zipCode>");
+			out.write("<city>" + order.getShippingAddress().getComune()
+					+ "</city>");
+			out.write("<prov>" + order.getShippingAddress().getProvincia()
+					+ "</prov>");
+			out.write("<country>" + order.getShippingAddress().getNazione()
+					+ "</country>");
 			out.write("</shippingAddress>");
 
 			out.write("<cart>");
@@ -823,14 +924,21 @@ public class OrderService implements IOrderService {
 			for (ArticleFullDTO art : order.getCart()) {
 
 				out.write("<item>");
-				out.write("<number>" + art.getPrdFullDTO().getIdProduct() + "</number>");
-				out.write("<brand>" + art.getPrdFullDTO().getTxBrand() + "</brand>");
-				out.write("<description>" + art.getPrdFullDTO().getDescription() + "</description>");
+				out.write("<number>" + art.getPrdFullDTO().getIdProduct()
+						+ "</number>");
+				out.write("<brand>" + art.getPrdFullDTO().getTxBrand()
+						+ "</brand>");
+				out.write("<description>"
+						+ art.getPrdFullDTO().getDescription()
+						+ "</description>");
 				out.write("<color>" + art.getTxColor() + "</color>");
 				out.write("<size>" + art.getTxSize() + "</size>");
-				out.write("<unitPrice>" + art.getPrdFullDTO().getRealPrice() + "</unitPrice>");
+				out.write("<unitPrice>" + art.getPrdFullDTO().getRealPrice()
+						+ "</unitPrice>");
 				out.write("<quantity>" + art.getQtBooked() + "</quantity>");
-				out.write("<price>" + art.getPriceDiscounted().multiply(new BigDecimal(art.getQtBooked())) + "</price>");
+				out.write("<price>"
+						+ art.getPriceDiscounted().multiply(
+								new BigDecimal(art.getQtBooked())) + "</price>");
 				out.write("</item>");
 
 			}
@@ -846,15 +954,19 @@ public class OrderService implements IOrderService {
 			// effetto la conversione xml,xsl to html scrivo il file html
 			// temporaneo
 			TransformerFactory tFactory = TransformerFactory.newInstance();
-			Source xslSource = new javax.xml.transform.stream.StreamSource(xslFile);
-			Source xmlSource = new javax.xml.transform.stream.StreamSource(xmlTemp);
-			javax.xml.transform.stream.StreamResult result = new StreamResult(htmlTemp);
+			Source xslSource = new javax.xml.transform.stream.StreamSource(
+					xslFile);
+			Source xmlSource = new javax.xml.transform.stream.StreamSource(
+					xmlTemp);
+			javax.xml.transform.stream.StreamResult result = new StreamResult(
+					htmlTemp);
 			Transformer transformer;
 			transformer = tFactory.newTransformer(xslSource);
 			transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 			transformer.transform(xmlSource, result);
 
-			String html = IOUtils.toString(new FileInputStream(htmlTemp), "UTF-8");
+			String html = IOUtils.toString(new FileInputStream(htmlTemp),
+					"UTF-8");
 
 			return html;
 
@@ -884,7 +996,8 @@ public class OrderService implements IOrderService {
 	@Override
 	public String insertCoupon(CouponDTO couponDTO) throws Exception {
 
-		couponDTO.setIdCoupon(RandomStringUtils.randomAlphanumeric(9).toUpperCase());
+		couponDTO.setIdCoupon(RandomStringUtils.randomAlphanumeric(9)
+				.toUpperCase());
 		// SecureRandom random = new SecureRandom();
 		// couponDTO.setIdCoupon(new BigInteger(64,
 		// random).toString(32).toUpperCase());
@@ -907,7 +1020,8 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public List<CouponDTO> getCoupons(String idCoupon, String idUser) throws Exception {
+	public List<CouponDTO> getCoupons(String idCoupon, String idUser)
+			throws Exception {
 
 		return orderDAO.getCoupons(idCoupon, idUser);
 
@@ -926,17 +1040,55 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public List<FidelityCardDTO> getFidelityCards(String idFidelity, String txNome, String txCognome, String txEmail)
-			throws Exception {
+	public List<FidelityCardDTO> getFidelityCards(String idFidelity,
+			String txNome, String txCognome, String txEmail) throws Exception {
 
 		return orderDAO.getFidelityCard(idFidelity, txNome, txCognome, txEmail);
 	}
 
 	@Override
-	public RendicontoOrdini getTotaliOrdini(Timestamp dtDa, Timestamp dtA, TypeStateOrder statoOrdine,
-			TypeStateOrder statoRefound) {
+	public RendicontoOrdini getTotaliOrdini(Timestamp dtDa, Timestamp dtA,
+			TypeStateOrder statoOrdine, TypeStateOrder statoRefound) {
 
 		return orderDAO.getTotaliOrdini(dtDa, dtA, statoOrdine, statoRefound);
+	}
+
+	@Override
+	public void aggiornaNewsletter() {
+
+		List<FidelityCardDegortesDTO> a = externalService.getMailingList();
+
+		if (a != null) {
+			
+			
+			accountDAO.deleteAllMail();
+
+			List<MailGroupDTO> listGroup = accountDAO.listMailGroup(null);
+			
+			for (FidelityCardDegortesDTO fid : a) {
+				
+				Integer codMail = 2;
+				
+				for (int i = 0; i <= listGroup.size() - 1; i++) {
+				
+					if (listGroup.get(i).getIdMailGroup() == Integer.parseInt(fid.getCodZona()))
+							{
+								codMail = Integer.parseInt(fid.getCodZona());
+							}
+				}
+				
+				
+				if (codMail == 0)
+				{
+					codMail = 2;
+				}
+				
+				accountDAO.insertMail(codMail,
+						fid.getIndirEmail(), "");
+
+			}
+		}
+
 	}
 
 }

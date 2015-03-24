@@ -34,8 +34,10 @@
 	
 	<select id="getMailingList" resultType="it.othala.external.dto.FidelityCardDegortesDTO">
 		
-		SELECT IndirEmail, CodZona 
-		FROM Y_FIDELITY_CARDS_ESHOP 
+		SELECT distinct IndirEmail, coalesce(CodZona,2) CodZona, Cliente
+		FROM Y_FIDELITY_CARDS_ESHOP
+		WHERE IndirEmail is not null
+		and IndirEmail != ''
 		ORDER BY CodZona
 
 	</select>

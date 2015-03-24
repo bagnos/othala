@@ -50,6 +50,8 @@ public interface IAccountDAO {
 	public List<MailGroupDTO> listMailGroup(Integer idMailGroup);
 
 	public List<MailDTO> listMail(Integer idMailGroup, String txUser);
+
+	public void deleteAllMail();
 	
 	
 

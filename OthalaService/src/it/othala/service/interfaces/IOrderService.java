@@ -105,6 +105,8 @@ public interface IOrderService {
 	public List<FidelityCardDTO> getFidelityCards(String idFidelity, String txNome, String txCognome, String txEmail) throws Exception;
 	
 	public RendicontoOrdini getTotaliOrdini(Timestamp dtDa, Timestamp dtA, TypeStateOrder statoOrdine, TypeStateOrder statoRefound);
+
+	public void aggiornaNewsletter();
 	
 	
 	
