@@ -26,6 +26,11 @@ public class DetailMerchantRequestView extends BaseView {
 	@ManagedProperty(value = "#{merchantBean}")
 	private MerchantBean merchantBean;
 	private boolean disabledConferma;
+	private boolean disabledElimina;
+
+	public boolean isDisabledElimina() {
+		return disabledElimina;
+	}
 
 	public boolean isDisabledConferma() {
 		return disabledConferma;
@@ -43,6 +48,7 @@ public class DetailMerchantRequestView extends BaseView {
 	public String doInit() {
 		// TODO Auto-generated method stub
 		disabledConferma = false;
+		disabledElimina=false;
 		return null;
 	}
 
@@ -63,7 +69,21 @@ public class DetailMerchantRequestView extends BaseView {
 	{
 		try {
 		OthalaFactory.getOrderServiceInstance().updateStateRefound(merchantBean.getRefoundSelected().getIdRefound(), TypeStateOrder.REFOUND_CANCELED, "eliminato da merchant");
-		addInfo("Richiesta di Cambio", "Operazione eseguita correttamente");
+		disabledElimina=true;
+		disabledConferma=true;
+		
+		try {
+			
+			merchantBean.setRefoundRequest(OthalaFactory.getOrderServiceInstance().getRefounds(null, null,
+					null, TypeStateOrder.REQUEST_REFOUND, null, "R"));
+			merchantBean.setRefoundRequest(OthalaFactory.getOrderServiceInstance().getRefounds(null, null,
+					null, TypeStateOrder.REQUEST_REFOUND, null, "C"));
+		} catch (Exception ex) {
+			log.error("errore aggiornamento prodotti dopo rimborso", ex);
+		}
+		
+		
+		addInfo("Elimina Richiesta", "Operazione eseguita correttamente");
 		} catch (Exception ex) {
 			addGenericError(ex, "errore nella fase di romborso");
 		}
@@ -84,6 +104,7 @@ public class DetailMerchantRequestView extends BaseView {
 			} else {
 				addInfo("Richiesta di Rimborso", "Operazione eseguita correttamente");
 				disabledConferma = true;
+				disabledElimina=true;
 				try {
 					merchantBean.setRefoundRequest(OthalaFactory.getOrderServiceInstance().getRefounds(null, null,
 							null, TypeStateOrder.REQUEST_REFOUND, null, "R"));

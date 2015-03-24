@@ -162,10 +162,12 @@
 			<div class="row spacer20">
 				<div class="col-sm-2" style="margin-bottom: 20px">
 					<p:commandButton title="Elimina Richiesta" process="@this" update="@form"
-						styleClass="ui-priority-primary" value="Elimina"
-						actionListener="#{detailMerchantRequestView.elimina}" oncomplete="$('#btnTorna').click();">
-						<p:confirm header="Conferma elimina rimborso" message="Sei sicuro di eliminare il rimborso?"
-							icon="ui-icon-alert" />
+						styleClass="ui-priority-primary" value="Elimina" disabled="#{detailMerchantRequestView.disabledElimina}"
+						oncomplete="PF('blockAll').unblock();$(window).scrollTop(0);"
+						onerror="PF('blockAll').unblock();"
+						onclick="PF('blockAll').block()"
+						actionListener="#{detailMerchantRequestView.elimina}">
+						
 					</p:commandButton>
 
 					<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
