@@ -34,7 +34,7 @@
 					<h5>
 						<strong>#{msg.delivery_costShipping}</strong>
 					</h5>
-					<h:outputText styleClass="form-control"
+					<h:outputText styleClass="form-control" id="imSpese"
 						value="#{cartWizardView.cartFlowBean.deliveryCost.importoSpese}">
 						<f:converter converterId="it.othala.BigDecimalConverter" />
 					</h:outputText>
@@ -248,13 +248,14 @@
 
 							<div class="form-group">
 								<p:outputLabel styleClass="col-sm-3 control-label" value="#{msg.delivery_paese}" />
-								<div class="col-sm-5">
+								<div class="col-sm-6">
 									<h:selectOneMenu id="nazione" label="#{msg.delivery_prov}" styleClass="form-control"
 										disabled="#{cartWizardView.blockInsAddrDelivery and cartWizardView.deliverCurrenteAddressMerchant.nazione!=null}"
 										value="#{cartFlowBean.addressSpe.nazione}">
 
 										<f:selectItems value="#{cartWizardView.cartFlowBean.nazioni}" var="nazione"
 											itemLabel="#{nazione.descrizione}" itemValue="#{nazione.descrizione}" />
+										<f:ajax execute="@this" listener="#{cartWizardView.modifyNazione}" render="typeDelivery imSpese"></f:ajax>
 
 									</h:selectOneMenu>
 								</div>

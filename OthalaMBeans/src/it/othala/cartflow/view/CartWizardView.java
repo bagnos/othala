@@ -245,7 +245,6 @@ public class CartWizardView extends BaseView {
 			}
 		}
 
-	
 		editAddrFat = idAddressFat == 0;
 		editAddrSpe = idAddressSpe == 0;
 
@@ -279,6 +278,15 @@ public class CartWizardView extends BaseView {
 	}
 
 	public void hideAddressFat(AjaxBehaviorEvent ev) {
+
+	}
+
+	public void modifyNazione(AjaxBehaviorEvent e) {
+
+		listDeliveryCostDTO = OthalaFactory.getOrderServiceInstance().getSpeseSpedizione(
+				getCartFlowBean().getAddressSpe().getNazione());
+
+		getCartFlowBean().setDeliveryCost(listDeliveryCostDTO.get(0));
 
 	}
 
@@ -409,12 +417,12 @@ public class CartWizardView extends BaseView {
 
 		}
 		deliveryDTO.getIndirizzo().clear();
-		deliveryDTO.getIndirizzo().addAll(delAdress);		
+		deliveryDTO.getIndirizzo().addAll(delAdress);
 		deliveryDTO.getIndirizzo().removeAll(listDelete);
 		if (deliveryDTO.getIndirizzo().isEmpty()) {
 			editAddrSpe();
 			getCartFlowBean().setAddressSpe(new DeliveryAddressDTO());
-			
+
 		} else {
 			readAddrSpe(deliveryDTO.getIndirizzo().get(0));
 		}
