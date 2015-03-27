@@ -497,6 +497,8 @@ public class CartWizardView extends BaseView {
 		 * (deliveryDTO.getSpeseSpedizione().get(0).getIdDeliveryCost());
 		 */
 
+		modifyNazione(ev);
+		
 	}
 
 	public void modifyAddrFat(AjaxBehaviorEvent ev) {
