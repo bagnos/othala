@@ -23,23 +23,9 @@ public class CartSelected3View extends BaseView {
 
 	public String doInit() {
 		// TODO Auto-generated method stub
-		try
-		{
-		totalPrice = BigDecimal.ZERO;
-		getCartFlowBean().setCheckoutCart(false);
-		for (ArticleFullDTO art : getCartFlowBean().getCart()) {
-			totalPrice = art.getPriceDiscounted().add(totalPrice);
-
-		}
-		if (getCartFlowBean().getDeliveryCost()!=null && getCartFlowBean().getDeliveryCost().getImportoSpese()!=null)
-		{
-			totalPrice=totalPrice.add(getCartFlowBean().getDeliveryCost().getImportoSpese());
-		}
-
-		getCartFlowBean().setTotalPriceOrder(totalPrice);
-		}
-		catch (Exception e)
-		{
+		try {
+			calcolaPrezzoCarrello();
+		} catch (Exception e) {
 			addGenericError(e, "errore initr carello");
 		}
 

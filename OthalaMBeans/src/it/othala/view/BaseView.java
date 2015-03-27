@@ -2,6 +2,7 @@ package it.othala.view;
 
 import it.othala.account.model.CustomerLoginBean;
 import it.othala.cartflow.model.CartFlowBean;
+import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.DeliveryAddressDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.execption.OthalaException;
@@ -13,6 +14,7 @@ import it.othala.web.utils.UAgentInfo;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -320,6 +322,24 @@ public abstract class BaseView implements Serializable {
 	protected String getURLCart() {
 		String url = String.format("http://%s%s/cart", getRequest().getServerName(), getRequest().getContextPath());
 		return url;
+	}
+	
+	protected void calcolaPrezzoCarrello()
+	{
+		BigDecimal totalPrice = BigDecimal.ZERO;
+		getCartFlowBean().setCheckoutCart(false);
+		for (ArticleFullDTO art : getCartFlowBean().getCart()) {
+			totalPrice = art.getPriceDiscounted().add(totalPrice);
+
+		}
+		if (getCartFlowBean().getDeliveryCost() != null
+				&& getCartFlowBean().getDeliveryCost().getImportoSpese() != null) {
+			totalPrice = totalPrice.add(getCartFlowBean().getDeliveryCost().getImportoSpese());
+
+		}
+
+		getCartFlowBean().setTotalPriceOrder(totalPrice);
+
 	}
 
 }

@@ -518,7 +518,7 @@
 			<div class="row spacer10">
 				<div class="col-sm-12">
 					<div class="pull-right">
-						<p:commandButton validateClient="true" ajax="true" rendered="#{cartWizardView.rendeRiepilogo}"
+						<p:commandButton validateClient="true" id="goRiepilogo" ajax="true" rendered="#{cartWizardView.rendeRiepilogo}"
 							actionListener="#{cartWizardView.newAddr}" update="delivery wrapUp cartTable-pnl"
 							process="delivery addrFatNew addrSpeNew" icon="ui-icon-triangle-1-e" iconPos="right"
 							value="#{applicationBean.discountTabEnabled?msg.catalogo_discounted:msg.delivery_wrapUpOrder}" />
