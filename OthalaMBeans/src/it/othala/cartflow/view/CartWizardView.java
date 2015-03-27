@@ -698,10 +698,13 @@ public class CartWizardView extends BaseView {
 
 		RequestContext.getCurrentInstance().execute(WizardUtil.NextStepWizard());
 	}
+	
+	
 
 	public void newAddr(ActionEvent ev) {
 		try {
 			boolean modify = false;
+			
 
 			if (idAddressSpe == 0) {
 				// nuovo spedizione
@@ -730,6 +733,7 @@ public class CartWizardView extends BaseView {
 			editAddrSpe = false;
 			editAddrFat = false;
 			sameAddress = false;
+			calcolaPrezzoCarrello();
 			RequestContext.getCurrentInstance().execute(WizardUtil.NextStepWizard());
 		} catch (Exception e) {
 			addGenericError(e, "errore nell'inserimento dell'indirizzo");
