@@ -464,8 +464,12 @@
 
 											<f:selectItems value="#{cartWizardView.cartFlowBean.nazioni}" var="nazione"
 												itemLabel="#{nazione.descrizione}" itemValue="#{nazione.descrizione}" />
-
+<f:ajax execute="@this" listener="#{cartWizardView.modifyNazione}" render="typeDelivery imSpese"></f:ajax>
 										</h:selectOneMenu>
+										
+										
+									
+									
 									</div>
 
 								</div>
