@@ -81,6 +81,13 @@ class OthalaExternalService implements IOthalaExternalServices {
 		return null;
 	}
 
+	@Override
+	public ShopDTO getShopReso() {
+		List<ShopDTO> shop = productDAO.listShop();
+		
+		return shop.get(0);
+	}
+
 
 
 }

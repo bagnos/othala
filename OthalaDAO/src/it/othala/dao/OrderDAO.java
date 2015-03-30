@@ -417,7 +417,7 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO {
 			mapOrder.put("idStatoRefound", statoRefound.getState());
 		else
 			mapOrder.put("idStatoRefound",
-					statoRefound.REFOUND_COMPLETED.getState());
+					statoRefound.INSTANT.getState());
 
 		RendicontoRefound rcoRef = getSqlSession().selectOne(
 				"it.othala.order.queries.selectTotRefounds", mapOrder);

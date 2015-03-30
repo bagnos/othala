@@ -108,4 +108,17 @@ import it.othala.external.service.interfaces.IOthalaExternalServices;
 		return externalDAO.getMailingList();
 	}
 
+	@Override
+	public ShopDTO getShopReso() {
+		List<ShopDTO> lsShop = productDAO.listShop();
+		
+		ShopDTO shop = new ShopDTO();
+		for (ShopDTO s: lsShop){
+			if (s.getIdShop()==500) shop = s;
+			
+		}
+		
+		return shop;
+	}
+
 }

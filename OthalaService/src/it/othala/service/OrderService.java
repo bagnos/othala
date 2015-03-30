@@ -16,6 +16,8 @@ import it.othala.dto.MailPropertiesDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.RefoundFullDTO;
 import it.othala.dto.RendicontoOrdini;
+import it.othala.dto.RendicontoRefound;
+import it.othala.dto.RendicontoTotDTO;
 import it.othala.dto.ShopDTO;
 import it.othala.dto.StateOrderDTO;
 import it.othala.enums.TypeStateOrder;
@@ -465,10 +467,12 @@ public class OrderService implements IOrderService {
 				.getIdOrder(), null, null, null);
 		OrderFullDTO orderFullDTO = listOrderFullDTO.get(0);
 
-		List<ShopDTO> shop = productDAO.listShop();
+		//List<ShopDTO> shop = productDAO.listShop();
+		ShopDTO shopReso = externalService.getShopReso();
+		
 		Map<String, String> inlineImages = new HashMap<String, String>();
 		return generateHtmlReso(orderFullDTO, listRefound.get(0).getCart(),
-				shop.get(0), "reso", pathLogo, idReso.toString(), inlineImages);
+				shopReso, "reso", pathLogo, idReso.toString(), inlineImages);
 
 	}
 
@@ -1047,10 +1051,26 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public RendicontoOrdini getTotaliOrdini(Timestamp dtDa, Timestamp dtA,
+	public RendicontoTotDTO getTotaliOrdini(Timestamp dtDa, Timestamp dtA,
 			TypeStateOrder statoOrdine, TypeStateOrder statoRefound) {
 
-		return orderDAO.getTotaliOrdini(dtDa, dtA, statoOrdine, statoRefound);
+		RendicontoOrdini rOrd = orderDAO.getTotaliOrdini(dtDa, dtA, statoOrdine, statoRefound);
+		RendicontoRefound rRef = orderDAO.getTotaliRefound(dtDa, dtA, statoOrdine, statoRefound);
+		
+		BigDecimal tot =  new BigDecimal(0);
+		tot = rOrd.getImpTotOrders().subtract(rRef.getImpTotRefound());
+		
+		RendicontoTotDTO rTot = new RendicontoTotDTO();
+		
+		rTot.setImpTotOrders(rOrd.getImpTotOrders());
+		rTot.setImpTotRefound(rRef.getImpTotRefound());
+		rTot.setNumTotArticles(rOrd.getNumTotArticles());
+		rTot.setNumTotArticlesRefounded(rRef.getNumTotArticles());
+		rTot.setNumTotOrders(rOrd.getNumTotOrders());
+		rTot.setNumTotRefound(rRef.getNumTotRefound());
+		rTot.setImpTotDaAvere(tot);
+		
+		return rTot;
 	}
 
 	@Override
