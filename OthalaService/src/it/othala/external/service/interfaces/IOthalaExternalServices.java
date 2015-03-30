@@ -17,4 +17,5 @@ public interface IOthalaExternalServices {
 	public ShopDTO getShopStock(Integer idProduct, Integer pgArticle, String codBarre);
 	public void aggiornaQtArticle(Integer idProduct);
 	public List<FidelityCardDegortesDTO> getMailingList();
+	public ShopDTO getShopReso();
 }
