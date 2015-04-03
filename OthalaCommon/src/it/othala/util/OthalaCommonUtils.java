@@ -17,8 +17,8 @@ public class OthalaCommonUtils {
 
 	public static String getImporto(BigDecimal value) {
 		// TODO Auto-generated method stub
-
-		String s = n.format(getImportoNoCurrency(value));
+		
+		String s = n.format(value.setScale(2, RoundingMode.HALF_UP).doubleValue());
 		return s;
 	}
 
