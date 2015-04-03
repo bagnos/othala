@@ -86,6 +86,7 @@ class PayPalWrapper {
 		String response = null;
 		HashMap<String, String> responseMap = new HashMap<String, String>();
 		try {
+			log.info(String.format("prosessIpnMessage, request for verify: %s", request));
 			response = pp.setResponseIPN(request);
 			log.info("responseIPN:" + response);
 		} catch (MalformedURLException e) {
