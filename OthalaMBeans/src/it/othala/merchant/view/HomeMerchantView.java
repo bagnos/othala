@@ -7,8 +7,10 @@ import it.othala.external.service.FactoryExternalService;
 import it.othala.external.service.interfaces.IOthalaExternalServices;
 import it.othala.merchant.model.MerchantBean;
 import it.othala.service.factory.OthalaFactory;
+import it.othala.util.OthalaCommonUtils;
 import it.othala.view.BaseView;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.faces.application.ConfigurableNavigationHandler;
@@ -34,6 +36,8 @@ public class HomeMerchantView extends BaseView {
 	public String doInit() {
 		// TODO Auto-generated method stub
 		try {
+			
+			
 			changeLocaleIT();
 			if (getQueryStringParm("torna") == null || getQueryStringParm("spedito") != null
 					|| getQueryStringParm("rimborsato") != null) {
