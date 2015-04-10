@@ -8,55 +8,107 @@
 	</ui:define>
 	<ui:define name="content">
 		<div class="container" style="margin-top: 20px;">
-			<div class="row">
+			<div id="main-carousel" class="row">
 				<div class="col-sm-12">
-					<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-						<div class="carousel-inner">
-							<ui:repeat var="imgCar" value="#{applicationBean.imgsCarousel}" varStatus="staCar">
-								<div class="#{staCar.first?'item active':'item'}">								
-										<p:graphicImage styleClass="img-responsive" title="#{imgCar.txAlt}" alt="#{imgCar.txAlt}"
-											library="#{imgCar.txLibrary}" name="#{imgCar.txName}" />									
-								</div>
-							</ui:repeat>
-						</div>
-						<a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-							<span class="glyphicon glyphicon-chevron-left"></span>
-						</a>
-						<a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-							<span class="glyphicon glyphicon-chevron-right"></span>
-						</a>
+					<div id="owl-mainCarousel" class="owl-carousel">
+						<ui:repeat var="imgCar" value="#{applicationBean.imgsCarousel}">
+							<div class="item">
+								<img title="#{imgCar.txAlt}" alt="#{imgCar.txAlt}" class="lazyOwl img-responsive"
+									style="margin: auto"
+									data-src="#{request.contextPath}/javax.faces.resource/#{imgCar.txName}.xhtml?ln=images/home" />
+							</div>
+						</ui:repeat>
 					</div>
 				</div>
 			</div>
 		</div>
 		<h:panelGroup rendered="#{applicationBean.menuFull.fgNuoviArrivi}">
-			<div class="container" style="margin-top: 20px;">
-				<div class="row">
-					<div class="col-sm-12">
-						<h1
-							style="text-align: center; background-color: black; font-size: -webkit-xxx-large; border-style: double; border-color: blue">
-							<h:outputText value="NEW ARRIVALS" style="color:white" />
-						</h1>
-					</div>
+			<div class="container">
+				<div class="more-title">
+					<h2 class="title">
+						<span>#{msg.catalog_newArr}</span>
+					</h2>
+
+					<a href="#{msg.catalogo_newarrivals}" class="show-more-link hidden-xs">#{msg.catalog_findNewArr}&#62;</a>
+
 				</div>
 			</div>
 			<div class="container" style="margin-top: 5px;">
 				<div class="row">
-					<ui:repeat var="imgNewArr" value="#{applicationBean.imgsNewArrival}">
-						<div class="col-sm-6">
-							<div class="thumbnail thumbnail-home">
-								<h:link outcome="#{imgNewArr.urlRedirect}">
-									<p:graphicImage styleClass="img-responsive" title="#{imgNewArr.txAlt}"
-										alt="#{imgNewArr.txAlt}" library="#{imgNewArr.txLibrary}" name="#{imgNewArr.txName}" />
-									<h:panelGroup rendered="#{not empty imgNewArr.txAlt}" styleClass="headlineBox">
-										<h1 class="headline">#{imgNewArr.txAlt}</h1>
-									</h:panelGroup>
-								</h:link>
+					<div id="owl-newArr" class="owl-carousel col-sm-12">
+						<ui:repeat var="art" value="#{homeView.articleNewArrivals}">
+							<div class="item">
+								<h:outputLink
+									value="#{cartFlowView1.getCartChoice(art.idProduct,art.txBrand,art.txType,art.tyProduct)}">
+									<img title="#{art.txBrand} #{art.description}" alt="Shop #{art.txBrand} #{art.description}"
+										class="lazyOwl img-responsive" style="margin: auto"
+										data-src="#{request.contextPath}/javax.faces.resource/#{art.thumbnailsUrl}.xhtml?ln=images/cartThumbinals" />
+								</h:outputLink>
+								<div class="row">
+									<div class="col-sm-12" style="text-align: center;">
+										<h5 style="text-transform: uppercase;">
+											<h:outputText id="descr" value="#{art.txBrand}" />
+										</h5>
+										<h3 style="color: #a59061">
+											<strong> <h:outputText value="#{art.price}"
+													styleClass="#{art.price != art.priceDiscounted?'onSale':''}">
+													<f:converter converterId="it.othala.BigDecimalConverter" />
+												</h:outputText> <h:outputText value="#{art.priceDiscounted}"
+													rendered="#{art.price != art.priceDiscounted}" style="padding-left: 5px;">
+													<f:converter converterId="it.othala.BigDecimalConverter" />
+												</h:outputText>
+											</strong>
+										</h3>
+									</div>
+								</div>
 							</div>
-						</div>
-					</ui:repeat>
+						</ui:repeat>
+					</div>
 				</div>
 			</div>
 		</h:panelGroup>
+	</ui:define>
+	<ui:define name="scriptPage">
+		<script>
+		$(document).ready(function() {
+			 
+			  $("#owl-mainCarousel").owlCarousel({
+			 
+			      slideSpeed : 300,
+			      paginationSpeed : 400,
+			      singleItem:true,
+			      lazyLoad : true,
+			      navigation : false,
+			      autoPlay: true
+			 
+			      // "singleItem:true" is a shortcut for:
+			      // items : 1, 
+			      // itemsDesktop : false,
+			      // itemsDesktopSmall : false,
+			      // itemsTablet: false,
+			      // itemsMobile : false
+			 
+			  });
+			 
+			});
+		
+		$(window).load(function() {
+			
+							 	
+					setTimeout(function() {
+						$("#owl-newArr").owlCarousel({
+						    items : 4,			    	    
+						    navigation : false,
+						    pagination:true,
+						    lazyLoad : true,		
+						    navigationText:	["&#60;","&#62;"]
+						  });
+					}, 2500);
+		});
+
+
+		 
+		    		
+			</script>
 	</ui:define>
 </ui:composition>
