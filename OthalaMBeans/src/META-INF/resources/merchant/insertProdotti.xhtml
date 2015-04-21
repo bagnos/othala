@@ -243,7 +243,7 @@
 							value="#{insertProdottiView.newBrand}" maxlength="40" size="40" />
 						<br /> <br />
 						<p:commandButton oncomplete="PF('dlgIns').hide();" ajax="true" validateClient="true"
-							process="@this newBrand1" partialSubmit="true" update=":frmProd:brandPnl"
+							process="@this newBrand1"  update=":frmProd:brandPnl"
 							actionListener="#{insertProdottiView.addNewBrand}" value="Inserisci"></p:commandButton>
 					</div>
 				</div>
