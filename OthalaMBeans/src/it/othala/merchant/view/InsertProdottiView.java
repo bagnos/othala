@@ -79,10 +79,7 @@ public class InsertProdottiView extends BaseView {
 	private final int SCROLL_WIDTH_AUTOCOMPLETE = 100;
 	private String newSize;
 	private List<String> imgToDelete = new ArrayList<>();
-	
-	
 
-	
 	public String getNewSize() {
 		return newSize;
 	}
@@ -336,11 +333,11 @@ public class InsertProdottiView extends BaseView {
 		if (detail != null && detail) {
 			initProdotto();
 		}
-		
+
 		changeLocaleIT();
-		
+
 		qta = 1;
-		imgToDelete=new ArrayList<String>();
+		imgToDelete = new ArrayList<String>();
 		return null;
 	}
 
@@ -391,10 +388,9 @@ public class InsertProdottiView extends BaseView {
 
 			eliminaImmagini();
 
-		} 
-		catch (OthalaException oex) {
+		} catch (OthalaException oex) {
 			addError("errore nell'inserimento del prodotto", oex.getMessage());
-			
+
 		}
 
 		catch (Exception ex) {
@@ -432,7 +428,7 @@ public class InsertProdottiView extends BaseView {
 		imagesFile = prdDetail.getImagesUrl();
 		prezzo = prdDetail.getPrice();
 		prezzoScontato = prdDetail.getPriceDiscounted();
-		prezzoSpeciale=prdDetail.getSpecialPrice();
+		prezzoSpeciale = prdDetail.getSpecialPrice();
 		fileThumb = prdDetail.getThumbnailsUrl();
 		sconto = prdDetail.getDiscount();
 
@@ -621,8 +617,9 @@ public class InsertProdottiView extends BaseView {
 
 		imagesFile.remove(fileName);
 
-		if (fileThumb!=null && fileThumb.contains(fileName)) {			
-			//cancelli direttamente solo in modalità inserimento, non in modifica
+		if (fileThumb != null && fileThumb.contains(fileName)) {
+			// cancelli direttamente solo in modalità inserimento, non in
+			// modifica
 			if (!fgMod) {
 				ResizeImageUtil.deleteImage(fileThumb);
 			}
@@ -632,7 +629,7 @@ public class InsertProdottiView extends BaseView {
 		if (!fgMod) {
 			ResizeImageUtil.deleteImage(fileName);
 		} else {
-			//aggiungiamo alla lista delle immagini da cancellare
+			// aggiungiamo alla lista delle immagini da cancellare
 			imgToDelete.add(fileName);
 		}
 
@@ -713,11 +710,21 @@ public class InsertProdottiView extends BaseView {
 			return;
 		}
 		try {
-			OthalaFactory.getProductServiceInstance().insertBrand(getLang(), newBrand, null, null, null, null, null, null);
-			
+			OthalaFactory.getProductServiceInstance().insertBrand(getLang(), newBrand, null, null, null, null, null,
+					null);
+
 			getBeanApplication().resetDomain();
-			brand = completeBrand(newBrand).get(0);
-			addInfo("Nuovo Brand", "brand inserito correttamente");
+			for (AttributeDTO attr : getBeanApplication().getBrandDTO()) {
+				if (attr.getValore().equalsIgnoreCase(newBrand)) {
+					brand = attr;
+					break;
+				}
+			}
+			if (brand != null) {
+				addInfo("Nuovo Brand", "brand inserito correttamente");
+			} else {
+				addError("Nuovo brand", "errore inserimento brand");
+			}
 
 		} catch (Exception ex) {
 			addGenericError(ex, "errore nell'inserimento del brand");
