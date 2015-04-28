@@ -980,9 +980,9 @@
 
 		SELECT * FROM
 		${database.schema}campaigns
-		where dtInizio &lt; current_date
+		where dtInizio &lt;= current_date
 		and dtFine
-		&gt; current_date;
+		&gt;= current_date;
 
 
 
@@ -1106,8 +1106,8 @@
 			where
 			r.idCampaign = a.idCampaign
 			and
-			r.dtInizio &lt; current_date
-			and r.dtFine &gt; current_date
+			r.dtInizio &lt;= current_date
+			and r.dtFine &gt;= current_date
 			)
 		</if>
 
