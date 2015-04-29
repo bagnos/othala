@@ -510,8 +510,8 @@ public class PaymentService implements IPaymentService {
 			out.write("<totalCost>" + order.getImOrdine() + "</totalCost>");
 
 			out.write("<billingAddress>");
-			out.write("<name>" + order.getBillingAddress().getNome() + "</name>");
-			out.write("<surname>" + order.getBillingAddress().getCognome() + "</surname>");
+			out.write("<name><![CDATA[" + order.getBillingAddress().getNome() + "]]></name>");
+			out.write("<surname><![CDATA[" + order.getBillingAddress().getCognome() + "]]></surname>");
 			out.write("<telefono>" + order.getBillingAddress().getTel() + "</telefono>");
 			out.write("<street>" + order.getBillingAddress().getVia() + "</street>");
 			out.write("<zipCode>" + order.getBillingAddress().getCap() + "</zipCode>");
@@ -520,8 +520,8 @@ public class PaymentService implements IPaymentService {
 			out.write("<country>" + order.getBillingAddress().getNazione() + "</country>");
 			out.write("</billingAddress>");
 			out.write("<shippingAddress>");
-			out.write("<name>" + order.getShippingAddress().getNome() + "</name>");
-			out.write("<surname>" + order.getShippingAddress().getCognome() + "</surname>");
+			out.write("<name><![CDATA[" + order.getShippingAddress().getNome() + "]]></name>");
+			out.write("<surname><![CDATA[" + order.getShippingAddress().getCognome() + "]]></surname>");
 			out.write("<tel>" + order.getShippingAddress().getTel() + "</tel>");
 			out.write("<street>" + order.getShippingAddress().getVia() + "</street>");
 			out.write("<zipCode>" + order.getShippingAddress().getCap() + "</zipCode>");

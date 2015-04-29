@@ -57,31 +57,161 @@
 
 				<h:panelGroup>
 					<div class="row spacer20">
-						<div class="col-sm-3">
+						<div class="col-sm-4">
 							<h4>
 								<strong>#{msg.catalogo_nrOrder}</strong>
 							</h4>
 							#{merchantBean.orderSelected.idOrder}
 						</div>
-						<div class="col-sm-3">
+						<div class="col-sm-4">
 							<h4>
 								<strong>#{msg.catalogo_nrTrans}</strong>
 							</h4>
 							#{merchantBean.orderSelected.idTransaction}
 						</div>
-						<div class="col-sm-3">
-							<h4>
-								<strong>Utente</strong>
-							</h4>
-							#{merchantBean.orderSelected.idUser}
-						</div>
-						<div class="col-sm-3">
+
+						<div class="col-sm-4">
 							<h4>
 								<strong>Stato</strong>
 							</h4>
 							#{merchantBean.orderSelected.txStato}
 
 						</div>
+					</div>
+
+					<div class="row spacer20">
+						<div class="col-sm-4">
+
+							<h5>
+								<strong> <h:outputText value="#{msg.account_user}" />
+								</strong>
+							</h5>
+							<div>
+								<div>
+									<p:outputLabel styleClass="label-control" value="#{msg.account_email}" />
+									<h:outputText value="#{merchantBean.orderSelected.idUser}" />
+
+								</div>
+								<div>
+									<p:outputLabel styleClass="label-control" value="#{msg.account_name}" />
+									<h:outputText value="#{merchantBean.orderSelected.nameUser}" />
+								</div>
+								<div>
+									<p:outputLabel styleClass="label-control" value="#{msg.account_surname}" />
+									<h:outputText value="#{merchantBean.orderSelected.surnameUser}" />
+								</div>
+							</div>
+						</div>
+
+						<div class="col-sm-4 ">
+							<h5>
+								<strong> <h:outputText value="#{msg.delivery_invoiceAddress}" />
+								</strong>
+							</h5>
+
+							<div>
+								<p:outputLabel value="#{msg.delivery_name}" styleClass="label-control" />
+								<h:outputText value="#{merchantBean.orderSelected.billingAddress.nome}" />
+							</div>
+							<div>
+								<p:outputLabel value="#{msg.delivery_surname}" styleClass="label-control"
+									for="lblCognomeFat" />
+								<h:outputText id="lblCognomeFat"
+									value="#{merchantBean.orderSelected.billingAddress.cognome}">
+								</h:outputText>
+
+							</div>
+
+							<div>
+								<p:outputLabel value="#{msg.delivery_tel}" styleClass="label-control" for="lblTelefonoFat" />
+								<h:outputText id="lblTelefonoFat" value="#{merchantBean.orderSelected.billingAddress.tel}" />
+							</div>
+
+							<div>
+								<p:outputLabel value="#{msg.delivery_address}" styleClass="label-control"
+									for="lblIndirizzoFat" />
+								<h:outputText id="lblIndirizzoFat" value="#{merchantBean.orderSelected.billingAddress.via}" />
+							</div>
+
+							<div>
+								<p:outputLabel value="#{msg.delivery_cap}" styleClass="label-control" for="lblPostaleFat" />
+								<h:outputText id="lblPostaleFat" value="#{merchantBean.orderSelected.billingAddress.cap}" />
+							</div>
+
+							<div>
+								<p:outputLabel value="#{msg.delivery_city}" styleClass="label-control" for="lblCittaFat" />
+								<h:outputText id="lblCittaFat" value="#{merchantBean.orderSelected.billingAddress.comune}" />
+							</div>
+
+							<div>
+								<p:outputLabel value="#{msg.delivery_prov}" styleClass="label-control" for="lblProvFat" />
+								<h:outputText id="lblProvFat" value="#{merchantBean.orderSelected.billingAddress.provincia}" />
+							</div>
+							<div>
+								<p:outputLabel value="#{msg.delivery_paese}" styleClass="label-control" for="lblNazFat" />
+								<h:outputText id="lblNazFat" value="#{merchantBean.orderSelected.billingAddress.nazione}" />
+							</div>
+
+						</div>
+
+
+						<div class="col-sm-4">
+
+							<h5>
+								<strong> <h:outputText value="#{msg.delivery_deliveryAddress}" />
+								</strong>
+							</h5>
+
+
+							<div>
+								<p:outputLabel value="#{msg.delivery_name}" styleClass="label-control" for="lnlNameSpe" />
+								<h:outputText id="lnlNameSpe" value="#{merchantBean.orderSelected.shippingAddress.nome}" />
+							</div>
+
+							<div>
+								<p:outputLabel value="#{msg.delivery_surname}" styleClass="label-control"
+									for="lblCognomeSpe" />
+								<h:outputText id="lblCognomeSpe"
+									value="#{merchantBean.orderSelected.shippingAddress.cognome}" />
+							</div>
+
+							<div>
+								<p:outputLabel value="#{msg.delivery_tel}" styleClass="label-control" for="lblTelefonoSpe" />
+								<h:outputText id="lblTelefonoSpe" value="#{merchantBean.orderSelected.shippingAddress.tel}" />
+							</div>
+
+							<div>
+								<p:outputLabel value="#{msg.delivery_address}" styleClass="label-control"
+									for="lblIndirizzoSpe" />
+								<h:outputText rows="2" cols="30" required="true" id="lblIndirizzoSpe"
+									value="#{merchantBean.orderSelected.shippingAddress.via}" />
+							</div>
+
+							<div>
+								<p:outputLabel value="#{msg.delivery_cap}" styleClass="label-control" for="lblPostaleSpe" />
+								<h:outputText id="lblPostaleSpe" value="#{merchantBean.orderSelected.shippingAddress.cap}" />
+
+							</div>
+
+							<div>
+								<p:outputLabel value="#{msg.delivery_city}" styleClass="label-control" for="lblCittaSpe" />
+								<h:outputText id="lblCittaSpe" value="#{merchantBean.orderSelected.shippingAddress.comune}" />
+							</div>
+
+
+							<div>
+								<p:outputLabel value="#{msg.delivery_prov}" styleClass="label-control" for="lblProvSpe" />
+								<h:outputText id="lblProvSpe"
+									value="#{merchantBean.orderSelected.shippingAddress.provincia}" />
+
+							</div>
+							<div>
+								<p:outputLabel value="#{msg.delivery_paese}" styleClass="label-control" for="lblNazSpe" />
+								<h:outputText id="lblNazSpe" value="#{merchantBean.orderSelected.shippingAddress.nazione}" />
+							</div>
+
+						</div>
+
 					</div>
 
 					<div class="row  spacer20">
