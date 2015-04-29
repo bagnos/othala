@@ -873,9 +873,9 @@ public class OrderService implements IOrderService {
 			 * inlineImages.put("imageLogo", pathLogo); out.write("</imgLogo>");
 			 */
 			out.write("<customer>");
-			out.write("<name>" + order.getNameUser() + "</name>");
+			out.write("<name><![CDATA[" + order.getNameUser() + "]]></name>");
 			out.write("<mail>" + order.getIdUser() + "</mail>");
-			out.write("<surname>" + order.getSurnameUser() + "</surname>");
+			out.write("<surname><![CDATA[" + order.getSurnameUser() + "]]></surname>");
 			out.write("</customer>");
 
 			out.write("<number>" + order.getIdOrder() + "</number>");
@@ -888,10 +888,10 @@ public class OrderService implements IOrderService {
 			out.write("<totalCost>" + order.getImOrdine() + "</totalCost>");
 
 			out.write("<billingAddress>");
-			out.write("<name>" + order.getBillingAddress().getNome()
-					+ "</name>");
-			out.write("<surname>" + order.getBillingAddress().getCognome()
-					+ "</surname>");
+			out.write("<name><![CDATA[" + order.getBillingAddress().getNome()
+					+ "]]></name>");
+			out.write("<surname><![CDATA[" + order.getBillingAddress().getCognome()
+					+ "]]></surname>");
 			out.write("<telefono>" + order.getBillingAddress().getTel()
 					+ "</telefono>");
 			out.write("<street>" + order.getBillingAddress().getVia()
@@ -906,10 +906,10 @@ public class OrderService implements IOrderService {
 					+ "</country>");
 			out.write("</billingAddress>");
 			out.write("<shippingAddress>");
-			out.write("<name>" + order.getShippingAddress().getNome()
-					+ "</name>");
-			out.write("<surname>" + order.getShippingAddress().getCognome()
-					+ "</surname>");
+			out.write("<name><![CDATA[" + order.getShippingAddress().getNome()
+					+ "]]></name>");
+			out.write("<surname><![CDATA[" + order.getShippingAddress().getCognome()
+					+ "]]></surname>");
 			out.write("<tel>" + order.getShippingAddress().getTel() + "</tel>");
 			out.write("<street>" + order.getShippingAddress().getVia()
 					+ "</street>");

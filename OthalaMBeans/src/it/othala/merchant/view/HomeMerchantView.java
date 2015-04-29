@@ -98,7 +98,7 @@ public class HomeMerchantView extends BaseView {
 		findShop(false);
 		ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext
 				.getCurrentInstance().getApplication().getNavigationHandler();
-		configurableNavigationHandler.performNavigation("dettaglioOrdine.xhtml?home=true");
+		configurableNavigationHandler.performNavigation("dettaglioOrdine.xhtml?faces-redirect=true&home=true");
 
 	}
 
