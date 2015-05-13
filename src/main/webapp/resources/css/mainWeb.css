@@ -23,7 +23,11 @@
     font-weight: normal;
     font-style: normal;
 
-}.ui-widget {
+}.guidaVisibile {
+	display: inline !important;
+}
+
+.ui-widget {
 	font-family: playregular !important;
 }
 

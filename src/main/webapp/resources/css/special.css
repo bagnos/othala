@@ -1,3 +1,7 @@
+.guidaVisibile {
+	display: inline !important;
+}
+
 .ui-widget {
 	font-family: playregular !important;
 }
