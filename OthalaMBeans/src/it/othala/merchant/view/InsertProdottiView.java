@@ -18,6 +18,8 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -367,6 +369,11 @@ public class InsertProdottiView extends BaseView {
 			prd.setSpecialPrice(prezzoSpeciale);
 			prd.setThumbnailsUrl(fileThumb);
 			prd.setPriceDiscounted(prezzoScontato);
+			prd.setIdProductState(0);
+			if (pubblica)
+			{
+				prd.setIdProductState(1);
+			}
 			if (getBeanApplication().isConfiguredBarcodeProduct()) {
 				for (ArticleFullDTO art : prd.getArticles()) {
 					art.setTxBarCode(merchantCode);
@@ -439,6 +446,8 @@ public class InsertProdottiView extends BaseView {
 		material = new AttributeDTO();
 		material.setAttributo(prdDetail.getIdMaterial());
 		material.setValore(prdDetail.getTxMaterial());
+		
+		pubblica=!(prdDetail.getIdProductState()==null || prdDetail.getIdProductState().intValue()==0); 
 
 		genere = new AttributeDTO();
 		genere.setAttributo(prdDetail.getIdGender());
@@ -675,6 +684,14 @@ public class InsertProdottiView extends BaseView {
 
 		fileThumb = (String) e.getComponent().getAttributes().get("img");
 		resizeThumb(ResizeImageUtil.getFormat(fileThumb));
+
+	}
+	
+	public void moveThumb(ActionEvent e) {
+
+		int index = (int) e.getComponent().getAttributes().get("img");
+		int indexMove=(index+1) % imagesFile.size()-1;
+		Collections.swap(imagesFile, index, indexMove);
 
 	}
 

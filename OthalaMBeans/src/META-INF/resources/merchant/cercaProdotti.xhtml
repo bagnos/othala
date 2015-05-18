@@ -52,7 +52,7 @@
 						<div class="col-sm-3">
 
 							<p:autoComplete scrollHeight="#{ricercaProdottiView.SCROLL_WIDTH_AUTOCOMPLETE}"
-								minQueryLength="1" size="34" dropdown="true" id="negozio" value="#{merchantBean.shop}"
+								minQueryLength="1" size="25" dropdown="true" id="negozio" value="#{merchantBean.shop}"
 								completeMethod="#{ricercaProdottiView.completeShops}" var="shop" itemLabel="#{shop.txShop}"
 								itemValue="#{shop}" converter="it.othala.ShopConverter" forceSelection="true" />
 
@@ -131,11 +131,11 @@
 								rendered="#{merchantBean.stateProduct!=null and merchantBean.stateProduct.attributo>0}">
 								<p:outputLabel for="buttonDa" styleClass="col-sm-1 control-label" value="Data Da" />
 								<div class="col-sm-3">
-									<p:calendar title="data relativa allo stato selezionato" id="buttonDa" showOn="button" />
+									<p:calendar pattern="dd/MM/yyyy" locale="it" title="data relativa allo stato selezionato" value="#{merchantBean.dtBegin}" id="buttonDa" showOn="button" />
 								</div>
 								<p:outputLabel for="buttonA" styleClass="col-sm-1 control-label" value="Data A" />
 								<div class="col-sm-3">
-									<p:calendar title="data relativa allo stato selezionato" id="buttonA" showOn="button" />
+									<p:calendar pattern="dd/MM/yyyy" locale="it" title="data relativa allo stato selezionato" value="#{merchantBean.dtEnd}" id="buttonA" showOn="button" />
 								</div>
 							</h:panelGroup>
 						</h:panelGroup>
@@ -304,12 +304,12 @@
 						<div class="form-group">
 							<p:outputLabel for="dataDa" styleClass="col-sm-2 control-label" value="Data Da" />
 							<div class="col-sm-4">
-								<p:calendar label="data inizio campagna" value="#{ricercaProdottiView.campaignDTO.dtInizio}"
+								<p:calendar label="data inizio campagna" pattern="dd/MM/yyyy" locale="it" value="#{ricercaProdottiView.campaignDTO.dtInizio}"
 									required="true" title="data relativa allo stato selezionato" id="dataDa" showOn="button" />
 							</div>
 							<p:outputLabel for="dataA" styleClass="col-sm-2 control-label" value="Data A" />
 							<div class="col-sm-4">
-								<p:calendar label="data fine campagna" value="#{ricercaProdottiView.campaignDTO.dtFine}"
+								<p:calendar label="data fine campagna" pattern="dd/MM/yyyy" locale="it" value="#{ricercaProdottiView.campaignDTO.dtFine}"
 									required="true" title="data relativa allo stato selezionato" id="dataA" showOn="button" />
 							</div>
 

@@ -72,8 +72,9 @@ public class AccountService implements IAccountService {
 		accountDAO.insertAccount(account);
 		accountDAO.insertAccountRole(account.getEmail(), CUSTOMER_ROLE);
 
+		/*
 		inviaMailRegistrazione(account.getEmail(), account.getName(),
-				account.getPsw(), mailProps);
+				account.getPsw(), mailProps);*/
 
 	}
 

@@ -131,7 +131,20 @@ public class RicercaProdottiView extends BaseView {
 
 	public void findProducts(ActionEvent e) {
 		try {
-
+			if (merchantBean.getDtBegin()!=null)
+			{
+				if (merchantBean.getDtEnd()==null)
+				{
+					addError("Date finale errata", "inserire la data");
+				}
+			}
+			if (merchantBean.getDtEnd()!=null)
+			{
+				if (merchantBean.getDtBegin()==null)
+				{
+					addError("Date iniziale errata", "inserire la data");
+				}
+			}
 			merchantBean.findProduct();
 		} catch (Exception ex) {
 			addGenericError(ex, "errore ricerca prodotti");
@@ -152,6 +165,7 @@ public class RicercaProdottiView extends BaseView {
 				}
 				addInfo("Eliminazione Prodotto",
 						String.format("operazione eseguita correttamente, eliminati  %d prodotti", del));
+				getBeanApplication().resetDomain();
 				findProducts(null);
 				merchantBean.setSelectedProducts(null);
 			} else {
@@ -184,7 +198,9 @@ public class RicercaProdottiView extends BaseView {
 
 				addInfo("Pubblicazione Prodotto",
 						String.format("operazione eseguita correttamente, pubblicati  %d prodotti", idPrds.size()));
+				getBeanApplication().resetDomain();
 				findProducts(null);
+				
 			} else {
 				addError("Pubblicazione Prodotto", "nessun prodotto selezionato");
 			}
