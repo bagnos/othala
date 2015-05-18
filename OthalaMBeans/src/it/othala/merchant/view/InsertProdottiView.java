@@ -690,7 +690,7 @@ public class InsertProdottiView extends BaseView {
 	public void moveThumb(ActionEvent e) {
 
 		int index = (int) e.getComponent().getAttributes().get("img");
-		int indexMove=(index+1) % imagesFile.size()-1;
+		int indexMove=(index+1) % imagesFile.size();
 		Collections.swap(imagesFile, index, indexMove);
 
 	}
