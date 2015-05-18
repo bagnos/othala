@@ -405,6 +405,8 @@ public class AccessView extends BaseView {
 			addError("privacy", null, OthalaUtil.getWordBundle("validator_privacy"));
 			return false;
 		}
+		
+		
 
 		return true;
 	}

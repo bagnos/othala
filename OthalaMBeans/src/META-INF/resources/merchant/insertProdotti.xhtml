@@ -348,7 +348,7 @@
 				<h:panelGroup layout="block" rendered="#{insertProdottiView.imagesFile.size()!=0}">
 					<div class="row spacer20 clearfix">
 
-						<ui:repeat id="lstImgs" var="imgPrd" value="#{insertProdottiView.imagesFile}">
+						<ui:repeat id="lstImgs" var="imgPrd" value="#{insertProdottiView.imagesFile}" varStatus="current">
 
 							<div class="col-sm-2 spacer10">
 								<p:graphicImage style="float:left;"
@@ -367,6 +367,12 @@
 										image="/imagesExt/picture_add.png" title="aggiungi thumbnail #{imgPrd}"
 										actionListener="#{insertProdottiView.addThumb}">
 										<f:attribute name="img" value="#{imgPrd}" />
+										<f:ajax execute="@this" render="frmImages thumb"></f:ajax>
+									</h:commandButton><br />
+									<h:commandButton rendered="#{insertProdottiView.fgRead==false}"
+										image="/imagesExt/go_forward.png" title="sposta immagine"
+										actionListener="#{insertProdottiView.moveThumb}">
+										<f:attribute name="img" value="#{current.index}" />
 										<f:ajax execute="@this" render="frmImages thumb"></f:ajax>
 									</h:commandButton>
 								</div>

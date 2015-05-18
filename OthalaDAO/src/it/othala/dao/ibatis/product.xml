@@ -1985,7 +1985,8 @@
 		`specialPrice` =
 		#{specialPrice},
 		`tyProduct` =
-		#{tyProduct}
+		#{tyProduct},
+		idProductState=#{idProductState}
 		WHERE idProduct
 		=
 		#{idProduct}
@@ -2148,7 +2149,7 @@
 		</if>
 
 		<if test="dtEnd != null">
-			and a.dtProductState &gt;= #{dtEnd}
+			and a.dtProductState &lt;= #{dtEnd}
 		</if>
 
 

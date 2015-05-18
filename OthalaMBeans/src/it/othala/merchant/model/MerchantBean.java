@@ -13,7 +13,7 @@ import it.othala.web.utils.OthalaUtil;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -305,13 +305,15 @@ public class MerchantBean implements Serializable {
 	}
 
 	public void findProduct() {
+		java.sql.Date diIni= getDtBegin()!=null?new java.sql.Date(getDtBegin().getTime()):null;
+		java.sql.Date dtFine= getDtEnd()!=null?new java.sql.Date(getDtEnd().getTime()):null;
 		products = OthalaFactory.getProductServiceInstance().listFindProduct(
 				getMerchantCode() == null || getMerchantCode().isEmpty() ? null : getMerchantCode(),
 				getStateProduct() == null ? null : getStateProduct().getAttributo(), getShop() != null ? getShop().getIdShop() : null,
 				getGenere() != null ? getGenere().getAttributo() : null,
 				getTipo() != null ? getTipo().getAttributo() : null,
 				getBrand() != null ? getBrand().getAttributo() : null, BigDecimal.valueOf(getMinPrice()),
-				BigDecimal.valueOf(getMaxPrice()), getDescrizione()!=null && getDescrizione().isEmpty()?null:getDescrizione(), getDtBegin(), getDtEnd());
+				BigDecimal.valueOf(getMaxPrice()), getDescrizione()!=null && getDescrizione().isEmpty()?null:getDescrizione(),diIni, dtFine);
 	}
 	
 	public void findOrders(ActionEvent e) {

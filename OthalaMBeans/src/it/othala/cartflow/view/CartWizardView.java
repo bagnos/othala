@@ -237,6 +237,13 @@ public class CartWizardView extends BaseView {
 				getCartFlowBean().setIdTypeDelivery(listDeliveryCostDTO.get(0).getIdDeliveryCost());
 
 			}
+			else
+			{
+				//NON CI SONO INDIRIZZI PER L'UTENTE
+				getCartFlowBean().setDeliveryCost(listDeliveryCostDTO.get(0));
+				getCartFlowBean().setIdTypeDelivery(listDeliveryCostDTO.get(0).getIdDeliveryCost());
+
+			}
 		} else {
 			listDeliveryCostDTO = OthalaFactory.getOrderServiceInstance().getSpeseSpedizione(
 					getCartFlowBean().getAddressSpe().getNazione());
