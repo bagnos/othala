@@ -662,7 +662,7 @@ public class CartWizardView extends BaseView {
 			// inserita fidelity card
 			try {
 				fidelity = OthalaFactory.getOrderServiceInstance().checkFidelityCard(
-						getCartFlowBean().getFidelityCard(), getLoginBean().getEmail(), null);
+						getCartFlowBean().getFidelityCard(), getLoginBean().getEmail(), null, getLoginBean().getName(), getLoginBean().getSurname());
 				getCartFlowBean().setPcScontoFidelity(fidelity.getPcSconto());
 			} catch (FidelityCardNotPresentException | FidelityCardNotValidException e) {
 				// TODO Auto-generated catch block
