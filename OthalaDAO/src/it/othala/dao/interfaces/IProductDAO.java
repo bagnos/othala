@@ -52,6 +52,7 @@ public interface IProductDAO {
 			Boolean newArrivals, int order, Integer idCampaign, Boolean fgCampaign);
 
 	public ProductFullNewDTO getProductFull(String languages, Integer idProduct);
+	public void clearCache();
 
 	public 	List<ArticleFullDTO> listArticleFull(Integer idProduct, String languages,
 			Boolean fgQtaZero);
