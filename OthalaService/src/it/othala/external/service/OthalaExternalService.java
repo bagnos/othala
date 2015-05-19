@@ -26,7 +26,7 @@ class OthalaExternalService implements IOthalaExternalServices {
 	}
 
 	@Override
-	public FidelityCardDTO checkFidelityCard(String idFidelity, String eMail, String celNum) throws FidelityCardNotPresentException, FidelityCardNotValidException 
+	public FidelityCardDTO checkFidelityCard(String idFidelity, String eMail, String celNum, String nome, String cognome) throws FidelityCardNotPresentException, FidelityCardNotValidException 
 	{
 		List<FidelityCardDTO> fCard = orderDAO.getFidelityCard(idFidelity, null, null, null);
 		if (fCard.get(0) == null)
