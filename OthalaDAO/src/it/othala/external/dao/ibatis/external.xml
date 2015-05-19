@@ -13,11 +13,13 @@
 	<resultMap id="ScontoFidelity" type="it.othala.dto.FidelityCardDTO">
 		<id property="idFidelity" column="Cliente" javaType="java.lang.String" />
 		<result property="pcSconto" column="CodCategoriaSconti" javaType="java.lang.Integer" />
+		<result property="txCognome" column="Cognome" javaType="java.lang.String" />
+		<result property="txNome" column="Nome" javaType="java.lang.String" />
 	</resultMap>
 	
 	<select id="getScontoFidelity" resultMap="ScontoFidelity" parameterType="java.lang.Integer">
 		
-		SELECT Cliente, CodCategoriaSconti 
+		SELECT Cliente, CodCategoriaSconti, Cognome, Nome 
 		FROM Y_FIDELITY_CARDS_ESHOP 
 		WHERE Cliente = #{idFidelity}
 		
