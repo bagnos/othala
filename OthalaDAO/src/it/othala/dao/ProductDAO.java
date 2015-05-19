@@ -163,17 +163,25 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 
 	@Override
 	public List<AttributeDTO> listBrand() {
-
+		
+		
 		List<AttributeDTO> listAttribute = getSqlSession().selectList(
 				"it.othala.product.queries.listBrand");
 
 		return listAttribute;
 
 	}
+	
+	@Override
+	public void clearCache()
+	{
+		getSqlSession().clearCache();
+	}
 
 	@Override
 	public List<ShopDTO> listShop() {
 
+		
 		List<ShopDTO> listShop = getSqlSession().selectList(
 				"it.othala.product.queries.listShop");
 

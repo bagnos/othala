@@ -93,6 +93,7 @@ public class ProductService implements IProductService {
 	public DomainDTO getDomain(String languages) {
 
 		DomainDTO domainDTO = new DomainDTO();
+		productDAO.clearCache();
 		domainDTO.setSize(productDAO.listSize(languages));
 		domainDTO.setColor(productDAO.listColor(languages));
 		domainDTO.setBrand(productDAO.listBrand());

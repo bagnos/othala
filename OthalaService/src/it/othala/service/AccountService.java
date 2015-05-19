@@ -363,10 +363,12 @@ public class AccountService implements IAccountService {
 		content = content.replace("#{imageLogo}", mailProps.getPathImgLogo());
 		content = content.replace("#{serverName}", mailProps.getServerName());
 		content = content.replace("#{contextName}", mailProps.getContextRoot());
+		String userContent=content;
 
 		for (MailDTO mail : users) {
 			mail.setTxNome(mail.getTxNome() != null ? mail.getTxNome()
 					: "Cliente");
+			content=userContent;
 			content = content.replace("#{user}", mail.getTxNome());
 			content = content.replace("#{id}", HelperCrypt.encrypt(String
 					.format("%s", mail.getIdMail().toString())));

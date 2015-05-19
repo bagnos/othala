@@ -726,12 +726,14 @@ public class InsertProdottiView extends BaseView {
 			addError("Nuovo Brand", "inserire il brand");
 			return;
 		}
+		newBrand=newBrand.trim();
 		try {
 			OthalaFactory.getProductServiceInstance().insertBrand(getLang(), newBrand, null, null, null, null, null,
 					null);
-
+			log.info("inserito brand "+newBrand);
 			getBeanApplication().resetDomain();
 			for (AttributeDTO attr : getBeanApplication().getBrandDTO()) {
+				log.info("attr "+attr.getValore());
 				if (attr.getValore().equalsIgnoreCase(newBrand)) {
 					brand = attr;
 					break;
