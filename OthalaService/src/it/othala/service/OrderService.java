@@ -795,7 +795,7 @@ public class OrderService implements IOrderService {
 
 	@Override
 	public FidelityCardDTO checkFidelityCard(String idFidelity, String eMail,
-			String celNum) throws FidelityCardNotPresentException,
+			String celNum,String nome, String cognome) throws FidelityCardNotPresentException,
 			FidelityCardNotValidException {
 		/*
 		 * List<FidelityCardDTO> fCard = orderDAO.getFidelityCard(idFidelity,
@@ -815,7 +815,7 @@ public class OrderService implements IOrderService {
 		 * FidelityCardNotValidException(idFidelity); }
 		 */
 
-		return externalService.checkFidelityCard(idFidelity, eMail, celNum);
+		return externalService.checkFidelityCard(idFidelity, eMail, celNum, nome, cognome);
 
 	}
 

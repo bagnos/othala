@@ -45,7 +45,7 @@ import it.othala.external.service.interfaces.IOthalaExternalServices;
 
 	@Override
 	public FidelityCardDTO checkFidelityCard(String idFidelity, String eMail,
-			String celNum) throws FidelityCardNotPresentException,
+			String celNum, String nome, String cognome) throws FidelityCardNotPresentException,
 			FidelityCardNotValidException {
 		
 		char[] sequenza = idFidelity.toCharArray();
@@ -60,6 +60,10 @@ import it.othala.external.service.interfaces.IOthalaExternalServices;
 		FidelityCardDTO fCard = externalDAO.getFidelityCard(idFidelity);
 		if (fCard == null)
 			throw new FidelityCardNotPresentException(idFidelity);
+		else{
+			if (!fCard.getTxNome().trim().toUpperCase().equals(nome.trim().toUpperCase()) || !fCard.getTxCognome().trim().toUpperCase().equals(cognome.trim().toUpperCase()))
+				throw new FidelityCardNotValidException(idFidelity);
+		}
 
 		return fCard;
 	}
