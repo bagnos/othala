@@ -225,3 +225,8 @@ html,body,form {
 .read_more_container a {
 	
 }
+
+.owl-item
+{
+	margin-right: 7px !important;
+}
