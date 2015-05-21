@@ -217,6 +217,10 @@ public class CartWizardView extends BaseView {
 		delAdress.addAll(deliveryDTO.getIndirizzo());
 		delAdressFat.clear();
 		delAdressFat.addAll(deliveryDTO.getIndirizzo());
+		if (getCartFlowBean().getAddressSpe().getNazione()==null)
+		{
+			getCartFlowBean().getAddressSpe().setNazione("ITALIA");
+		}
 
 		if (idAddressFat == 0 && idAddressSpe == 0) {
 			// nessun indirizzo selezionato
