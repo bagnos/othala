@@ -10,7 +10,7 @@ import org.apache.commons.io.IOUtils;
 public class Template {
 
 	public enum TipoTemplate {
-		MailRegistrazione, MailResetPSW, MailIPNRefusePayment, MailIPNAcceptedPaymemtAfetPending, MailFidelityRequest,MailConfermaOrdine;
+		MailRegistrazione, MailResetPSW, MailIPNRefusePayment, MailIPNAcceptedPaymemtAfetPending, MailFidelityRequest, MailConfermaOrdine;
 
 		private TipoTemplate() {
 
@@ -37,7 +37,7 @@ public class Template {
 		case MailIPNAcceptedPaymemtAfetPending:
 			nameFile = "MailIPNPagamentoAccettato.txt";
 			break;
-			
+
 		case MailConfermaOrdine:
 			nameFile = "mailConfermaOrdine.xsl";
 			break;
@@ -51,30 +51,16 @@ public class Template {
 		return contentFile;
 
 	}
-	
-	public static String getNomeFile(TipoTemplate temp,String language) throws IOException {
+
+	public static String getNomeFile(String nomeTemplate, String language)  {
 
 		String nameFile = null;
-		switch (temp) {
-			
-		case MailConfermaOrdine:
-			if (language==null || language.toUpperCase().startsWith("IT")) {
-				nameFile = "mailConfermaOrdine";
-			}
-			else
-			{
-				nameFile = "mailConfermaOrdine"+"_"+language;
-			}
-			
-			break;
-
-		default:
-			return null;
+		if (language == null || language.toUpperCase().startsWith("IT")) {
+			nameFile = nomeTemplate;
+		} else {
+			nameFile = nomeTemplate + "_en";
 		}
-
-		String contentFile = IOUtils.toString(Template.class.getResourceAsStream(nameFile), "UTF-8");
-
-		return contentFile;
+		return nameFile;
 
 	}
 
@@ -87,7 +73,5 @@ public class Template {
 		return file;
 
 	}
-
-	
 
 }
