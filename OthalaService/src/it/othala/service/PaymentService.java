@@ -409,7 +409,8 @@ public class PaymentService implements IPaymentService {
 		Map<String, String> inlineImages = new HashMap<String, String>();
 		String basePath = res.getPath().replace("/WEB-INF/classes", "");
 		basePath = basePath.replace("/", "");
-		String html = generateHtmlOrder(order, mailDTO, inlineImages, state, "mailConfermaOrdine", null);
+		String template=Template.getNomeFile("mailConfermaOrdine", order.getShippingAddress().getNazione());
+		String html = generateHtmlOrder(order, mailDTO, inlineImages, state, template, null);
 
 		String oggetto = null;
 		if (state == TypeStateOrder.SPEDITO) {
@@ -469,7 +470,7 @@ public class PaymentService implements IPaymentService {
 
 		try {
 
-			File xslFile = Template.getFile("it/othala/service/template/" + xslTemplate + ".xsl",order.getShippingAddress().getNazione());
+			File xslFile = Template.getFile("it/othala/service/template/" + xslTemplate + ".xsl");
 			File xmlTemp = File.createTempFile("xmlTemp", ".xml");
 			fstream = new FileWriter(xmlTemp);
 

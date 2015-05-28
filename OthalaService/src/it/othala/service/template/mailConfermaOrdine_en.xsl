@@ -29,10 +29,10 @@
 					<br />
 					<xsl:choose>
 						<xsl:when test="pending = 'false'">							
-							your order is been received and it is being developed
+							your order is been received and it is being developed.
 						</xsl:when>
 						<xsl:when test="pending = 'spedito'">							
-							your order has been sent
+							your order has been sent.
 						</xsl:when>
 						<xsl:otherwise>
 							your order is being verified in PayPal System, we will send you an email
@@ -239,7 +239,7 @@
 
 				<!-- METODO DI PAGAMENTO -->
 				<div>
-					<h4>METODO DI PAGAMENTO</h4>
+					<h4>PAYMENT</h4>
 					<div>
 						<img>
 
@@ -251,7 +251,7 @@
 				</div>
 
 				<!-- CARRELLO -->
-				<h4>CARRELLO</h4>
+				<h4>CART</h4>
 
 				<table border="0" style="width:100%;text-align:left;border-spacing:10px;">
 					<thead>
