@@ -22,7 +22,7 @@
 
 				<!-- grreting -->
 				<p style="margin-top:20px">
-					Gentile
+					Dear
 					<xsl:value-of select="customer/name" />
 					,
 					<br />
