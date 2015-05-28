@@ -469,7 +469,7 @@ public class PaymentService implements IPaymentService {
 
 		try {
 
-			File xslFile = Template.getFile("it/othala/service/template/" + xslTemplate + ".xsl");
+			File xslFile = Template.getFile("it/othala/service/template/" + xslTemplate + ".xsl",order.getShippingAddress().getNazione());
 			File xmlTemp = File.createTempFile("xmlTemp", ".xml");
 			fstream = new FileWriter(xmlTemp);
 
