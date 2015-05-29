@@ -782,6 +782,21 @@
 		${database.schema}configuration;
 
 	</select>
+	
+	<select id="getConfigurationBarcode" resultType="it.othala.dto.ConfigurationDTO">
+
+
+		SELECT
+		idConfiguration,
+		txConfiguration,
+		nrConfiguration
+		FROM
+		${database.schema}configuration
+		where idConfiguration = 2;
+
+	</select>
+	
+	
 
 	<resultMap id="Regioni" type="it.othala.dto.RegioneDTO">
 		<id property="idRegione" column="idRegione" />
