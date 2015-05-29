@@ -85,7 +85,7 @@ import it.othala.external.service.interfaces.IOthalaExternalServices;
 			
 			if (lsShop.getCodMag()==500){
 				shop.setIdShop(lsShop.getCodMag());
-				shop.setTxShop(lsShop.getDesNegozio());			
+				shop.setTxShop("Magazzino");			
 				break;
 			}
 		
