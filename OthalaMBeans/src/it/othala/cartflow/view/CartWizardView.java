@@ -182,6 +182,8 @@ public class CartWizardView extends BaseView {
 		idAddressSpe = getCartFlowBean().getAddressSpe() != null
 				&& getCartFlowBean().getAddressSpe().getIdAddress() == null ? 0 : getCartFlowBean().getAddressSpe()
 				.getIdAddress();
+		
+		
 
 		if (getLoginBean().getEmail() != null) {
 			// se è presente il login possiamo recuperare nuovamente i
@@ -217,6 +219,19 @@ public class CartWizardView extends BaseView {
 		delAdress.addAll(deliveryDTO.getIndirizzo());
 		delAdressFat.clear();
 		delAdressFat.addAll(deliveryDTO.getIndirizzo());
+		
+		if (deliveryDTO != null && deliveryDTO.getIndirizzo() != null
+				&& !deliveryDTO.getIndirizzo().isEmpty()){
+			getCartFlowBean().setAddressSpe(deliveryDTO.getIndirizzo().get(0));
+			getCartFlowBean().setAddressFat(deliveryDTO.getIndirizzo().get(0));
+		
+			idAddressFat = getCartFlowBean().getAddressFat()
+			.getIdAddress();
+			idAddressSpe = getCartFlowBean().getAddressSpe()
+					.getIdAddress();
+					
+			
+		}
 		if (getCartFlowBean().getAddressSpe().getNazione()==null)
 		{
 			getCartFlowBean().getAddressSpe().setNazione("ITALIA");
@@ -251,6 +266,9 @@ public class CartWizardView extends BaseView {
 		} else {
 			listDeliveryCostDTO = OthalaFactory.getOrderServiceInstance().getSpeseSpedizione(
 					getCartFlowBean().getAddressSpe().getNazione());
+			getCartFlowBean().setDeliveryCost(listDeliveryCostDTO.get(0));
+			getCartFlowBean().setIdTypeDelivery(listDeliveryCostDTO.get(0).getIdDeliveryCost());
+
 			if (getCartFlowBean().getIdTypeDelivery() == ID_ADDRESS_MERCHANT) {
 				addressMerchant = true;
 			}
