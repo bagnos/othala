@@ -434,7 +434,7 @@ public class PaymentService implements IPaymentService {
 					
 			}*/
 			
-			html = generateHtmlOrder(order, mailDTO, inlineImages, state, "mailInserimentoOrdine", lsShop.get(0).getIdShop());
+			html = generateHtmlOrder(order, mailDTO, inlineImages, state, "mailInserimentoOrdine", null);
 			
 			mailService.inviaHTMLMail(new String[] { lsShop.get(0).getTxMail() }, "Nuovo Ordine WEB",
 					html, inlineImages, mailDTO,true);
