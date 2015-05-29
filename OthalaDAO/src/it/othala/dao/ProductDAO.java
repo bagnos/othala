@@ -163,46 +163,41 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 
 	@Override
 	public List<AttributeDTO> listBrand() {
-		
-		
+
 		List<AttributeDTO> listAttribute = getSqlSession().selectList(
 				"it.othala.product.queries.listBrand");
 
 		return listAttribute;
 
 	}
-	
+
 	@Override
-	public void clearCache()
-	{
+	public void clearCache() {
 		getSqlSession().clearCache();
 	}
 
 	@Override
 	public List<ShopDTO> listShop() {
 
-		
 		List<ShopDTO> listShop = getSqlSession().selectList(
 				"it.othala.product.queries.listShop");
 
 		return listShop;
 
 	}
-	
+
 	@Override
 	public List<HashtagDTO> listHashtag(String languages) {
 
 		HashMap<String, Object> mapAttribute = new HashMap<>();
 		mapAttribute.put("languages", languages);
-		
+
 		List<HashtagDTO> listHashtag = getSqlSession().selectList(
 				"it.othala.product.queries.listHashtag", mapAttribute);
 
 		return listHashtag;
 
 	}
-	
-	
 
 	@Override
 	public List<RegioneDTO> listRegioni() {
@@ -256,7 +251,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	@Override
 	public ProductFullNewDTO getProductFull(String languages, Integer idProduct) {
 
-		 getSqlSession().clearCache();
+		getSqlSession().clearCache();
 		HashMap<String, Object> mapProduct = new HashMap<>();
 		mapProduct.put("languages", languages);
 		mapProduct.put("idProduct", idProduct);
@@ -271,7 +266,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	@Override
 	public List<ArticleFullDTO> listArticleFull(Integer idProduct,
 			String languages, Boolean fgQtaZero) {
-			
+
 		HashMap<String, Object> map2 = new HashMap<>();
 		map2.put("idProduct", idProduct);
 		map2.put("languages", languages);
@@ -488,15 +483,21 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 
 		HashMap<String, Object> map4 = new HashMap<>();
 
-		for (int i = 0; i <= productFull.getArticles().size() - 1; i++) {
-			
-			ProductFullNewDTO productFullCheck = getProductFullBarcode(productFull.getArticles().get(i)
-					.getTxBarCode());
+		ConfigurationDTO confBarcode = getSqlSession().selectOne(
+				"it.othala.product.queries.getConfigurationBarcode");
 
-			if (productFullCheck != null) {
-				throw new OthalaException("Barcode già presente su altro prodotto");
+		for (int i = 0; i <= productFull.getArticles().size() - 1; i++) {
+
+			if (confBarcode == null || confBarcode.getNrConfiguration() != 1) {
+				ProductFullNewDTO productFullCheck = getProductFullBarcode(productFull
+						.getArticles().get(i).getTxBarCode());
+
+				if (productFullCheck != null) {
+					throw new OthalaException(
+							"Barcode già presente su altro prodotto");
+				}
 			}
-			
+
 			map4.clear();
 			map4.put("idProduct", productFull.getIdProduct());
 			map4.put("pgArticle", productFull.getArticles().get(i)
@@ -510,21 +511,16 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 					.getIdShop());
 			map4.put("txBarCode", productFull.getArticles().get(i)
 					.getTxBarCode());
-			if (productFull.getArticles().get(i).getPrice() == null)
-			{
+			if (productFull.getArticles().get(i).getPrice() == null) {
 				map4.put("imPrice", productFull.getPrice());
-				map4.put("specialPrice", productFull
+				map4.put("specialPrice", productFull.getSpecialPrice());
+				map4.put("pcDiscount", productFull.getDiscount());
+			} else {
+				map4.put("imPrice", productFull.getArticles().get(i).getPrice());
+				map4.put("specialPrice", productFull.getArticles().get(i)
 						.getSpecialPrice());
-				map4.put("pcDiscount", productFull
+				map4.put("pcDiscount", productFull.getArticles().get(i)
 						.getDiscount());
-			}
-			else
-			{
-			map4.put("imPrice", productFull.getArticles().get(i).getPrice());
-			map4.put("specialPrice", productFull.getArticles().get(i)
-					.getSpecialPrice());
-			map4.put("pcDiscount", productFull.getArticles().get(i)
-					.getDiscount());
 			}
 			getSqlSession().insert("it.othala.product.queries.insertArticle",
 					map4);
@@ -915,33 +911,29 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 						.getIdShop());
 				map4.put("txBarCode", productFull.getArticles().get(i)
 						.getTxBarCode());
-				if (productFull.getArticles().get(i).getPrice() == null)
-				{
+				if (productFull.getArticles().get(i).getPrice() == null) {
 					map4.put("imPrice", productFull.getPrice());
-					map4.put("specialPrice", productFull
+					map4.put("specialPrice", productFull.getSpecialPrice());
+					map4.put("pcDiscount", productFull.getDiscount());
+				} else {
+					map4.put("imPrice", productFull.getArticles().get(i)
+							.getPrice());
+					map4.put("specialPrice", productFull.getArticles().get(i)
 							.getSpecialPrice());
-					map4.put("pcDiscount", productFull
+					map4.put("pcDiscount", productFull.getArticles().get(i)
 							.getDiscount());
-				}
-				else
-				{
-				map4.put("imPrice", productFull.getArticles().get(i).getPrice());
-				map4.put("specialPrice", productFull.getArticles().get(i)
-						.getSpecialPrice());
-				map4.put("pcDiscount", productFull.getArticles().get(i)
-						.getDiscount());
 				}
 
 				getSqlSession().insert(
 						"it.othala.product.queries.insertArticle", map4);
 			}
 
-			else
-			{
-				
-			/*
-			if (productFull.getArticles().get(i).getArticleUpdate() == ArticleUpdate.MODIFICATO) {
-			*/
+			else {
+
+				/*
+				 * if (productFull.getArticles().get(i).getArticleUpdate() ==
+				 * ArticleUpdate.MODIFICATO) {
+				 */
 				map4.clear();
 				map4.put("idProduct", productFull.getIdProduct());
 				map4.put("pgArticle", productFull.getArticles().get(i)
@@ -951,29 +943,23 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 				map4.put("idShop", productFull.getArticles().get(i).getShop()
 						.getIdShop());
 				/*
-				if (productFull.getArticles().get(i).getPrice() == null)
-				{
-				*/
-					map4.put("imPrice", productFull.getPrice());
-					map4.put("specialPrice", productFull
-							.getSpecialPrice());
-					map4.put("pcDiscount", productFull
-							.getDiscount());
-				/*	
-				}
-				else
-				{
-				
-				map4.put("imPrice", productFull.getArticles().get(i).getPrice());
-				map4.put("specialPrice", productFull.getArticles().get(i)
-						.getSpecialPrice());
-				map4.put("pcDiscount", productFull.getArticles().get(i)
-						.getDiscount());
-				
-				}
-				*/
-				
-				
+				 * if (productFull.getArticles().get(i).getPrice() == null) {
+				 */
+				map4.put("imPrice", productFull.getPrice());
+				map4.put("specialPrice", productFull.getSpecialPrice());
+				map4.put("pcDiscount", productFull.getDiscount());
+				/*
+				 * } else {
+				 * 
+				 * map4.put("imPrice",
+				 * productFull.getArticles().get(i).getPrice());
+				 * map4.put("specialPrice", productFull.getArticles().get(i)
+				 * .getSpecialPrice()); map4.put("pcDiscount",
+				 * productFull.getArticles().get(i) .getDiscount());
+				 * 
+				 * }
+				 */
+
 				getSqlSession().insert(
 						"it.othala.product.queries.updateArticle", map4);
 			}
@@ -1396,10 +1382,10 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 	@Override
 	public List<ArticleCashedDTO> getArticlesMajorCached(String language) {
 		// TODO Auto-generated method stub
-		HashMap<String, Object> map = new HashMap<>();		
+		HashMap<String, Object> map = new HashMap<>();
 		map.put("language", language);
 		return getSqlSession().selectList(
-				"it.othala.product.queries.getProdottiPiuVenduti",map);
+				"it.othala.product.queries.getProdottiPiuVenduti", map);
 	}
 
 }
