@@ -1314,7 +1314,8 @@ background
 /* preloading images */
 .owl-item.loading {
 	min-height: 150px;
-	background: url(AjaxLoader.gif) no-repeat center center
+	background: url("#{resource['images/AjaxLoader.gif']}") no-repeat center center
+	
 }
 
 #owl-demo .owl-item>div img {
@@ -1857,7 +1858,7 @@ text-decoration: underline;
 /* preloading images */
 .owl-item.loading{
 	min-height: 150px;
-	background: url(AjaxLoader.gif) no-repeat center center
+	background: url("#{resource['images/AjaxLoader.gif']}") no-repeat center center
 }.com { color: #93a1a1; }
 .lit { color: #195f91; }
 .pun, .opn, .clo { color: #93a1a1; }

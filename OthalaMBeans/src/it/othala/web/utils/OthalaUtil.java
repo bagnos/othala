@@ -21,27 +21,9 @@ import org.apache.commons.logging.Log;
 
 public class OthalaUtil {
 
-	private static String langFromContextJSF;
-
-	private static ResourceBundle resources;
-
-	public static ResourceBundle getResources() {
-		if (resources == null) {
-			Locale locale = FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
-
-			resources = ResourceBundle.getBundle("language", locale);
-		}
-		return resources;
-	}
-
-	public static void setResources(Locale locale) {
-
-		resources = ResourceBundle.getBundle("language", locale);
-
-	}
-
+	
 	public static String getWordBundle(String key) {
-		return getResources().getString(key);
+		return getLocalManagerBean().getWordBundle(key);
 
 	}
 	
@@ -90,18 +72,7 @@ public class OthalaUtil {
 		return message;
 	}
 
-	public static void setLangFromContextJSF(String langFromContextJSFNew) {
-		langFromContextJSF = langFromContextJSFNew;
-	}
-
-	public static String getLangFromContextJSF() {
-		if (langFromContextJSF == null) {
-			langFromContextJSF = FacesContext.getCurrentInstance().getExternalContext().getRequestLocale()
-					.getLanguage();
-		}
-		return langFromContextJSF;
-		/* return "en"; */
-	}
+	
 	
 	public static String getHome() {
 		String url = String.format("http://%s%s/home", getRequest().getServerName(), getRequest().getContextPath());
@@ -109,13 +80,8 @@ public class OthalaUtil {
 	}
 
 	public static String getLang(HttpServletRequest req) {
-		if (langFromContextJSF == null) {
-			return req.getLocale().getLanguage();
-		} else {
-			return langFromContextJSF;
-		}
-		/* return "en"; */
-
+		
+		return getLocalManagerBean().getLanguage();
 	}
 
 	public static void warning(HttpServletResponse response, String error, Exception e, Log log) {

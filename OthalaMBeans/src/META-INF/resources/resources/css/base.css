@@ -1307,7 +1307,8 @@ background
 /* preloading images */
 .owl-item.loading {
 	min-height: 150px;
-	background: url(AjaxLoader.gif) no-repeat center center
+	background: url("#{resource['images/AjaxLoader.gif']}") no-repeat center center
+	
 }
 
 #owl-demo .owl-item>div img {

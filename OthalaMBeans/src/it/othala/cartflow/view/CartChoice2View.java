@@ -44,6 +44,16 @@ public class CartChoice2View extends BaseView {
 	private String seoDescriptionIT;
 	private String seoDescriptionEN;
 	private String seoDescription;
+	private String txType;
+	private String txDescription;
+	
+	
+
+	public String getTxType() {
+		return txType;
+	}
+
+	
 
 	public String getSeoDescription() {
 		return seoDescription;
@@ -157,7 +167,9 @@ public class CartChoice2View extends BaseView {
 
 			// inserita it per il crawler di fb che si presenta in use non trova
 			// il prodotto
-			prdFull = OthalaFactory.getProductServiceInstance().getProductFull(OthalaUtil.getLangFromContextJSF(),
+			
+			
+			prdFull = OthalaFactory.getProductServiceInstance().getProductFull(getLocalManager().getLanguage(),
 					idProduct, false);
 			getCartFlowBean().setDetailProductFull(prdFull);
 
@@ -168,15 +180,18 @@ public class CartChoice2View extends BaseView {
 
 			seoDescriptionIT = prdFull.getDescription().length() > 40 ? prdFull.getDescription().substring(0, 39)
 					: prdFull.getDescription();
-			seoDescriptionIT=seoDescriptionIT.toLowerCase();
+			seoDescriptionIT=seoDescriptionIT.toLowerCase().replace("/", "");
 
 			seoDescriptionEN = prdFull.getDescriptionEN().length() > 40 ? prdFull.getDescriptionEN().substring(0, 39)
 					: prdFull.getDescriptionEN();
-			seoDescriptionEN=seoDescriptionEN.toLowerCase();
+			seoDescriptionEN=seoDescriptionEN.toLowerCase().replace("/", "");
 			if (getLang().equalsIgnoreCase("it")) {
 				seoDescription = seoDescriptionIT;
+				
+				
 			} else {
 				seoDescription = seoDescriptionEN;
+				
 			}
 
 			priceStr = getCartFlowBean().getDetailProductFull().getRealPrice().setScale(2, RoundingMode.HALF_UP)

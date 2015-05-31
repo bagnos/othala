@@ -37,6 +37,7 @@ public abstract class BaseView implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private static final String DEFAULT_LOCALE_DB = "it";
 
 	/**
 	 * dentro il content del .xhtml inserire {@code <f:metadata>
@@ -165,13 +166,12 @@ public abstract class BaseView implements Serializable {
 		FacesContext.getCurrentInstance()
 				.addMessage(id, new FacesMessage(FacesMessage.SEVERITY_INFO, summary, message));
 	}
-	
-	protected void changeLocale()
-	{
-		if (getLanguageCanonical()!=null && (getLanguageCanonical().contains("it") || getLanguageCanonical().contains("en")))
-		{
+
+	protected void changeLocale() {
+		if (getLanguageCanonical() != null
+				&& (getLanguageCanonical().contains("it") || getLanguageCanonical().contains("en"))) {
 			getLocalManager().changeLocale(getLanguageCanonical());
-		}
+		} 
 	}
 
 	public void addWarn(String summary, String message) {
@@ -323,9 +323,8 @@ public abstract class BaseView implements Serializable {
 		String url = String.format("http://%s%s/cart", getRequest().getServerName(), getRequest().getContextPath());
 		return url;
 	}
-	
-	protected void calcolaPrezzoCarrello()
-	{
+
+	protected void calcolaPrezzoCarrello() {
 		BigDecimal totalPrice = BigDecimal.ZERO;
 		getCartFlowBean().setCheckoutCart(false);
 		for (ArticleFullDTO art : getCartFlowBean().getCart()) {
