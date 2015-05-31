@@ -369,7 +369,7 @@
 
 	<!-- DOMINIO -->
 
-	<insert id="insertBrand" parameterType="java.util.HashMap">
+	<insert id="insertBrand" flushCache="true" parameterType="java.util.HashMap">
 
 		INSERT INTO
 		${database.schema}brand
@@ -388,7 +388,7 @@
 		</selectKey>
 
 	</insert>
-	<insert id="insertBrandDescr" parameterType="java.util.HashMap">
+	<insert id="insertBrandDescr" flushCache="true" parameterType="java.util.HashMap">
 
 		INSERT INTO
 		${database.schema}brand_descr
@@ -400,7 +400,7 @@
 
 	</insert>
 
-	<insert id="insertSize" parameterType="java.util.HashMap">
+	<insert id="insertSize" flushCache="true" parameterType="java.util.HashMap">
 
 		INSERT INTO
 		${database.schema}size
@@ -409,7 +409,7 @@
 
 	</insert>
 
-	<insert id="insertColor" parameterType="java.util.HashMap">
+	<insert id="insertColor" flushCache="true" parameterType="java.util.HashMap">
 
 		INSERT INTO
 		${database.schema}color
@@ -419,7 +419,7 @@
 
 	</insert>
 
-	<insert id="insertMaterial" parameterType="java.util.HashMap">
+	<insert id="insertMaterial" flushCache="true" parameterType="java.util.HashMap">
 
 		INSERT INTO
 		${database.schema}material
@@ -429,7 +429,7 @@
 
 	</insert>
 
-	<insert id="insertType" parameterType="java.util.HashMap">
+	<insert id="insertType" flushCache="true" parameterType="java.util.HashMap">
 
 		INSERT INTO
 		${database.schema}type
