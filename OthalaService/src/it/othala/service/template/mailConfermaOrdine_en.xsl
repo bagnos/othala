@@ -29,7 +29,7 @@
 					<br />
 					<xsl:choose>
 						<xsl:when test="pending = 'false'">							
-							your order is been received and it is being developed.
+							your order has been received and it is being developed.
 						</xsl:when>
 						<xsl:when test="pending = 'spedito'">							
 							your order has been sent.

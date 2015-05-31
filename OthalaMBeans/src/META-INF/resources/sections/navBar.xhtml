@@ -49,12 +49,12 @@
 								<b class="caret"></b>
 							</a>
 							<ul class="dropdown-menu">
-								<li><h:commandLink id="langIt" styleClass="dropdown-toggle"
-										actionListener="#{localeManager.changeLocale('it')}">
+								<li><h:commandLink id="langIt" styleClass="dropdown-toggle" 
+										actionListener="#{localeManager.changeLocaleWithRedirect('it')}"  >
 										<h:outputText value="ITALIANO" />
 									</h:commandLink></li>
 								<li><h:commandLink id="langEn" styleClass="dropdown-toggle"
-										actionListener="#{localeManager.changeLocale('en')}">
+										actionListener="#{localeManager.changeLocaleWithRedirect('en')}">
 										<h:outputText value="ENGLISH" />
 									</h:commandLink></li>
 							</ul></li>
