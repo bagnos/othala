@@ -753,7 +753,9 @@ public class PaymentService implements IPaymentService {
 	private RefundTransactionDTO updateStateRefund(String paypalStatus, String pendingReason,
 			String parentTransactionID, RefoundFullDTO ref, RefundTransactionDTO refTrans, MailPropertiesDTO mailProps)
 			throws PayPalException, MailNotSendException {
+		
 		if (ref == null) {
+			log.info("ref null updateStateRefund");
 			ref = orderService.getRefounds(null, null, null, null, parentTransactionID, null).get(0);
 		}
 		if (refTrans == null) {
