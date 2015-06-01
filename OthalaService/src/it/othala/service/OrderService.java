@@ -58,6 +58,8 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class OrderService implements IOrderService {
 
@@ -66,6 +68,7 @@ public class OrderService implements IOrderService {
 	private IAccountDAO accountDAO;
 	private IMailService mailService;
 	private IOthalaExternalServices externalService;
+	private Log log = LogFactory.getLog(OrderService.class);
 
 	public void setExternalService(IOthalaExternalServices externalService) {
 		this.externalService = externalService;
@@ -650,9 +653,10 @@ public class OrderService implements IOrderService {
 	public List<RefoundFullDTO> getRefounds(Integer idRefound, Integer Order,
 			String User, TypeStateOrder StatoOrdine, String idTransaction,
 			String fgChangeRefound) {
-
+			
 		List<RefoundFullDTO> listaRimborsi;
 		if (StatoOrdine == null) {
+			log.info("getRefounds stato ordine null");
 			listaRimborsi = orderDAO.getRefounds(idRefound, Order, User, null,
 					idTransaction, fgChangeRefound);
 		} else {

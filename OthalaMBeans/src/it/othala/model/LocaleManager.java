@@ -25,7 +25,7 @@ public class LocaleManager implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
-    private ResourceBundle resources;
+    private transient ResourceBundle resources;
     
    
 	public ResourceBundle getResources() {

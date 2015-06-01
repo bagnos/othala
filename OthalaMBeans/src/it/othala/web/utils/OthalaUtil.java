@@ -81,7 +81,9 @@ public class OthalaUtil {
 
 	public static String getLang(HttpServletRequest req) {
 		
-		return getLocalManagerBean().getLanguage();
+	
+			return req.getLocale().getLanguage();
+	
 	}
 
 	public static void warning(HttpServletResponse response, String error, Exception e, Log log) {
