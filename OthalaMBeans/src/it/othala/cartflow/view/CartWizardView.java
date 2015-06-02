@@ -210,7 +210,7 @@ public class CartWizardView extends BaseView {
 
 	private boolean equalsAddrSede(DeliveryAddressDTO del, DeliveryCostDTO d) {
 		return (del.getCap().equalsIgnoreCase(d.getDeliverySede().getCap()) && d.getDeliverySede().getComune()
-				.equalsIgnoreCase(d.getDeliverySede().getComune()));
+				.equalsIgnoreCase(d.getDeliverySede().getComune()) && del.getVia().equalsIgnoreCase(d.getDeliverySede().getVia()) );
 	}
 
 	public void retrieveAddresses() {
