@@ -13,6 +13,7 @@ import it.othala.dto.RefoundFullDTO;
 import it.othala.dto.ShopDTO;
 import it.othala.enums.TypeStateOrder;
 import it.othala.execption.OthalaException;
+import it.othala.execption.RefoundPresentException;
 import it.othala.execption.StockNotPresentException;
 import it.othala.external.service.interfaces.IOthalaExternalServices;
 import it.othala.payment.paypal.dto.DoExpressCheckoutPaymentDTO;
@@ -43,8 +44,10 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -97,9 +100,9 @@ public class PaymentService implements IPaymentService {
 		messageIpnDAO.insertMessageIpn(ipnDTO);
 	}
 
-	private boolean exitsIdTransaction(String idTransaction,String txStato) {
+	private boolean exitsIdTransaction(String idTransaction, String txStato) {
 		// TODO Auto-generated method stub
-		return messageIpnDAO.getIdTransaction(idTransaction,txStato) > 0;
+		return messageIpnDAO.getIdTransaction(idTransaction, txStato) > 0;
 
 	}
 
@@ -122,8 +125,9 @@ public class PaymentService implements IPaymentService {
 			// check that txn_id has not been previously processed
 			String txn_id = ipnDTO.getTxn_id();
 			Integer idOrder = Integer.valueOf(ipnDTO.getCustom());
+
 			TypeStateOrder state = TypeStateOrder.fromString(ipnDTO.getPayment_status());
-			if (!exitsIdTransaction(txn_id,ipnDTO.getPayment_status())) {
+			if (!exitsIdTransaction(txn_id, ipnDTO.getPayment_status())) {
 
 				// check that receiver_email is your Primary PayPal email
 				String recEmailMerchant = profile.getReceiverEmail();
@@ -162,8 +166,11 @@ public class PaymentService implements IPaymentService {
 				if (ipnDTO.getParent_txn_id() != null && ipnDTO.getReason_code().equalsIgnoreCase("refund")) {
 					log.info("refund trovato txtId = " + ipnDTO.getParent_txn_id());
 					try {
-						updateStateRefund(ipnDTO.getPayment_status(), null, ipnDTO.getParent_txn_id(), null, null,
-								mailProps);
+						if (idOrder != null) {
+							order = orderService.getOrders(idOrder, null, null, null).get(0);
+						}
+
+						updateStateRefundIPN(order, ipnDTO, responseMap, null);
 					} catch (MailNotSendException e) {
 						// TODO Auto-generated catch block
 						log.error("errore nell'invio della mail per il conferma rimborso", e);
@@ -185,7 +192,6 @@ public class PaymentService implements IPaymentService {
 				}
 
 				// message is correct, process message
-				
 
 				if (isPaymentKO(ipnDTO.getPayment_status())) {
 					// inviare una mail in cui si comunica che PayPal non ha
@@ -328,7 +334,7 @@ public class PaymentService implements IPaymentService {
 		return false;
 
 	}
-	
+
 	public boolean isPaymenInstant(String paypalStatus) {
 		// TODO Auto-generated method stub
 		if (paypalStatus.equalsIgnoreCase("instant")) {
@@ -338,8 +344,6 @@ public class PaymentService implements IPaymentService {
 		return false;
 
 	}
-	
-	
 
 	@Override
 	public void sendMailRefusedPayment(OrderFullDTO order, MailPropertiesDTO mailProps) throws MailNotSendException {
@@ -378,7 +382,8 @@ public class PaymentService implements IPaymentService {
 			throw new MailNotSendException(e);
 		}
 
-		content = content.replaceAll("<COMPANY_NAME>", mailProps.getCompanyName()==null?"":mailProps.getCompanyName());
+		content = content.replaceAll("<COMPANY_NAME>",
+				mailProps.getCompanyName() == null ? "" : mailProps.getCompanyName());
 		content = content.replaceAll("<NAME>", order.getNameUser() + " " + order.getSurnameUser());
 		content = content.replaceAll("<idTransazione>", order.getIdTransaction());
 		content = content.replaceAll("<idOrder>", String.valueOf(order.getIdOrder()));
@@ -409,7 +414,7 @@ public class PaymentService implements IPaymentService {
 		Map<String, String> inlineImages = new HashMap<String, String>();
 		String basePath = res.getPath().replace("/WEB-INF/classes", "");
 		basePath = basePath.replace("/", "");
-		String template=Template.getNomeFile("mailConfermaOrdine", order.getShippingAddress().getNazione());
+		String template = Template.getNomeFile("mailConfermaOrdine", order.getShippingAddress().getNazione());
 		String html = generateHtmlOrder(order, mailDTO, inlineImages, state, template, null);
 
 		String oggetto = null;
@@ -419,46 +424,50 @@ public class PaymentService implements IPaymentService {
 			oggetto = "Conferma ordine";
 		}
 
-		mailService.inviaHTMLMail(new String[] { order.getIdUser() }, oggetto, html, inlineImages, mailDTO,true);
+		mailService.inviaHTMLMail(new String[] { order.getIdUser() }, oggetto, html, inlineImages, mailDTO, true);
 
 		List<ShopDTO> lsShop = productDAO.listShop();
 		if (state == TypeStateOrder.SPEDITO) {
 
 		} else {
-/*			for (ArticleFullDTO art : order.getCart()) {
-		
-				ShopDTO shopStock = externalService.getShopStock(art.getPrdFullDTO().getIdProduct(), art.getPgArticle(), art.getTxBarCode());
-				
-				art.getShop().setIdShop(shopStock.getIdShop());
-				art.getShop().setTxShop(shopStock.getTxShop());
-					
-			}*/
-			
+			/*
+			 * for (ArticleFullDTO art : order.getCart()) {
+			 * 
+			 * ShopDTO shopStock =
+			 * externalService.getShopStock(art.getPrdFullDTO().getIdProduct(),
+			 * art.getPgArticle(), art.getTxBarCode());
+			 * 
+			 * art.getShop().setIdShop(shopStock.getIdShop());
+			 * art.getShop().setTxShop(shopStock.getTxShop());
+			 * 
+			 * }
+			 */
+
 			html = generateHtmlOrder(order, mailDTO, inlineImages, state, "mailInserimentoOrdine", null);
-			
-			mailService.inviaHTMLMail(new String[] { lsShop.get(0).getTxMail() }, "Nuovo Ordine WEB",
-					html, inlineImages, mailDTO,true);
-			
-			//Cambiare
-			//Creare un metodo doppio in externalservice che tira fuori nel caso del deg il magazzino con maggior capienza
-			//nel caso normale il negozio
-			//Poi
-			//Per ogni articolo va preso il magazzino con maggior capienza e mandata la mail per deg
-			//Per ogni articolo mandare la mail al negozio
+
+			mailService.inviaHTMLMail(new String[] { lsShop.get(0).getTxMail() }, "Nuovo Ordine WEB", html,
+					inlineImages, mailDTO, true);
+
+			// Cambiare
+			// Creare un metodo doppio in externalservice che tira fuori nel
+			// caso del deg il magazzino con maggior capienza
+			// nel caso normale il negozio
+			// Poi
+			// Per ogni articolo va preso il magazzino con maggior capienza e
+			// mandata la mail per deg
+			// Per ogni articolo mandare la mail al negozio
 			// invia la mai di notifica ordine ai negozi
-			/*List<ShopDTO> lstShop = new ArrayList<ShopDTO>();
-			lstShop = productDAO.listShop();
-			for (int i = 0; i < lstShop.size(); i++) {
-				for (ArticleFullDTO art : order.getCart()) {
-					if (art.getShop().getIdShop() == lstShop.get(i).getIdShop()) {
-						html = generateHtmlOrder(order, mailDTO, inlineImages, state, "mailInserimentoOrdine", lstShop
-								.get(i).getIdShop());
-						mailService.inviaHTMLMail(new String[] { lstShop.get(i).getTxMail() }, "Nuovo Ordine WEB",
-								html, inlineImages, mailDTO, true);
-						break;
-					}
-				}
-			}*/
+			/*
+			 * List<ShopDTO> lstShop = new ArrayList<ShopDTO>(); lstShop =
+			 * productDAO.listShop(); for (int i = 0; i < lstShop.size(); i++) {
+			 * for (ArticleFullDTO art : order.getCart()) { if
+			 * (art.getShop().getIdShop() == lstShop.get(i).getIdShop()) { html
+			 * = generateHtmlOrder(order, mailDTO, inlineImages, state,
+			 * "mailInserimentoOrdine", lstShop .get(i).getIdShop());
+			 * mailService.inviaHTMLMail(new String[] {
+			 * lstShop.get(i).getTxMail() }, "Nuovo Ordine WEB", html,
+			 * inlineImages, mailDTO, true); break; } } }
+			 */
 		}
 
 	}
@@ -546,10 +555,12 @@ public class PaymentService implements IPaymentService {
 					out.write("<size>" + art.getTxSize() + "</size>");
 					out.write("<unitPrice>" + art.getPrdFullDTO().getRealPrice() + "</unitPrice>");
 					out.write("<quantity>" + art.getQtBooked() + "</quantity>");
-					out.write("<price>" + art.getPriceDiscounted().multiply(new BigDecimal(art.getQtBooked())) + "</price>");
-					
-					ShopDTO shopStock = externalService.getShopStock(art.getPrdFullDTO().getIdProduct(), art.getPgArticle(), art.getTxBarCode());
-					
+					out.write("<price>" + art.getPriceDiscounted().multiply(new BigDecimal(art.getQtBooked()))
+							+ "</price>");
+
+					ShopDTO shopStock = externalService.getShopStock(art.getPrdFullDTO().getIdProduct(),
+							art.getPgArticle(), art.getTxBarCode());
+
 					out.write("<idshop>" + shopStock.getIdShop().toString() + "</idshop>");
 					out.write("<desshop>" + shopStock.getTxShop() + "</desshop>");
 					out.write("</item>");
@@ -649,7 +660,7 @@ public class PaymentService implements IPaymentService {
 				orderService.updateStateOrder(order.getIdOrder(), order, state);
 			}
 
-			// salvo il messaggio			
+			// salvo il messaggio
 			MessageIpnDTO ipn = new MessageIpnDTO();
 			ipn.setFgElaborato(false);
 			ipn.setIdOrder(order.getIdOrder());
@@ -750,13 +761,88 @@ public class PaymentService implements IPaymentService {
 		return refTrans;
 	}
 
+	private void updateStateRefundIPN(OrderFullDTO order, IpnDTO ipnDTO, HashMap<String, String> responseMap,
+			MailPropertiesDTO mailProps) throws PayPalException, MailNotSendException {
+
+		log.info("refund updateStateRefundIPN");
+		List<RefoundFullDTO> refs = orderService.getRefounds(null, null, null, null, ipnDTO.getParent_txn_id(), null);
+		BigDecimal reqToRefund = new BigDecimal(ipnDTO.getMc_gross());
+		RefoundFullDTO ref = null;
+
+		HashMap<Integer, String> idArticle = new HashMap<>();
+		for (String key : responseMap.keySet()) {
+			log.info("key="+key);
+			if (key.contains("item_number")) {
+				idArticle.put(Integer.parseInt(responseMap.get(key)), key);
+				log.info("add product " + responseMap.get(key));
+			}
+		}
+
+		if (refs != null && !refs.isEmpty()) {
+			log.info("individuato txtId in tabella order refound");
+			ref = refs.get(0);
+			updateStateRefund(ipnDTO.getPayment_status(), null, ipnDTO.getParent_txn_id(), ref, null, mailProps);
+		} else {
+			// richiesta rimborso direttamente da paypal, non è presente in
+			// OrderRefund
+			log.info("richiesta rimborso direttamente da paypal, non è presente parentTransactionID in OrderRefund");
+
+			ref = new RefoundFullDTO();
+			List<ArticleRefounded> artToRefund = new ArrayList<ArticleRefounded>();
+			BigDecimal imRefunded = BigDecimal.ZERO;
+
+			for (ArticleFullDTO art : order.getCart()) {
+
+				if (idArticle.containsKey(art.getPrdFullDTO().getIdProduct().intValue())) {
+					log.info("inserito articolo in articoli da rimborsare "+art.getPrdFullDTO().getIdProduct().intValue());
+					ArticleRefounded artref = new ArticleRefounded(art);
+					artToRefund.add(artref);				
+				}
+
+			}
+			if (artToRefund.isEmpty()) {
+				throw new PayPalException("nessun articolo trovato per la somma " + ipnDTO.getMc_gross()
+						+ " ed ordine " + order.getIdOrder());
+			}
+
+			ref.setCart(artToRefund);
+			ref.setIdOrder(order.getIdOrder());
+			ref.setIdUser(order.getIdUser());
+			ref.setImRefound(reqToRefund);
+			ref.setIdTransaction(ipnDTO.getParent_txn_id());
+			ref.setFgChangeRefound("R");
+			ref.setFgPartialRefound(order.getImOrdineSenzaSpese().compareTo(ref.getImRefound()) != 0);
+			ref.setIdStato(TypeStateOrder.REFUNDED.getState());
+			try {
+				ref = OthalaFactory.getOrderServiceInstance().insertRefound(ref, null);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				throw new PayPalException(e);
+			}
+
+		}
+	}
+
 	private RefundTransactionDTO updateStateRefund(String paypalStatus, String pendingReason,
 			String parentTransactionID, RefoundFullDTO ref, RefundTransactionDTO refTrans, MailPropertiesDTO mailProps)
 			throws PayPalException, MailNotSendException {
-		
+
 		if (ref == null) {
 			log.info("ref null updateStateRefund");
-			ref = orderService.getRefounds(null, null, null, null, parentTransactionID, null).get(0);
+			List<RefoundFullDTO> refs = orderService.getRefounds(null, null, null, null, parentTransactionID, null);
+
+			if (refs != null && refs.isEmpty()) {
+				ref = refs.get(0);
+			} else {
+				// richiesta rimborso direttamente da paypal, non è presente in
+				// OrderRefund
+				log.info("richiesta rimborso direttamente da paypal, non è presente parentTransactionID in OrderRefund");
+
+				// inserire manualmente la richiesta in OrderRefound/annullare
+				// l'ordine.
+
+				return null;
+			}
 		}
 		if (refTrans == null) {
 			refTrans = new RefundTransactionDTO();
@@ -776,15 +862,14 @@ public class PaymentService implements IPaymentService {
 		} else if (isPaymentKO(paypalStatus)) {
 			orderService.updateStateRefound(ref.getIdRefound(), TypeStateOrder.REFOUND_REFUSED, pendingReason);
 			refTrans.setFailed(true);
-			
-		} 
-		else if(isPaymenInstant(paypalStatus))
-		{
+
+		} else if (isPaymenInstant(paypalStatus)) {
 			orderService.updateStateRefound(ref.getIdRefound(), TypeStateOrder.INSTANT, pendingReason);
 			refTrans.setInstant(true);
-		}
-		else {
-			//throw new PayPalException(String.format("Stati %s non ammesso nella fase di rimborso", paypalStatus));
+		} else {
+			// throw new
+			// PayPalException(String.format("Stati %s non ammesso nella fase di rimborso",
+			// paypalStatus));
 			log.info(String.format("nessuna operazione da fare per lo stato  %s di rimborso", paypalStatus));
 		}
 		return refTrans;
