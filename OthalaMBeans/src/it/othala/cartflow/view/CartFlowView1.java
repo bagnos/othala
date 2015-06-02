@@ -105,19 +105,22 @@ public class CartFlowView1 extends BaseView {
 		default:
 			break;
 		}
+	
 		return url;
 	}
 
 	private String getCartChoice2(String idPrd, String brand, String description, String lang) {
 		String cartChoice2 = null;
-		description = description.toLowerCase();
+		description = description.toLowerCase().replace("/", "").replace("%", "");
+		brand=brand.toLowerCase().replace("/", "").replace("%", "");
 		if (lang == null) {
 			cartChoice2 = String.format("%s/%s/%s/%s/%s", getRequest().getContextPath(), "articolo",
-					brand.toLowerCase(), description, idPrd);
+					brand, description, idPrd);
 		} else {
 			cartChoice2 = String.format("%s/%s/%s/%s/%s/%s", getRequest().getContextPath(), lang, "article",
-					brand.toLowerCase(), description, idPrd);
+					brand, description, idPrd);
 		}
+	
 
 		return cartChoice2;
 	}
