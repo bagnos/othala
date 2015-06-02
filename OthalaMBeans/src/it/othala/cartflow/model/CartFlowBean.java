@@ -62,8 +62,17 @@ public class CartFlowBean implements Serializable {
 	private boolean singleProductCatalog;
 	private List<BrandFullDTO> brandFullDTO;
 	private String urlReferer;
+	private DeliveryAddressDTO addressAnnSpe;
 	
 	
+	public DeliveryAddressDTO getAddressAnnSpe() {
+		return addressAnnSpe;
+	}
+
+	public void setAddressAnnSpe(DeliveryAddressDTO addressAnnSpe) {
+		this.addressAnnSpe = addressAnnSpe;
+	}
+
 	public String getUrlReferer() {
 		return urlReferer;
 	}
@@ -232,6 +241,8 @@ public class CartFlowBean implements Serializable {
 	public void setAddressSpe(DeliveryAddressDTO addressSpe) {
 		this.addressSpe = addressSpe;
 	}
+	
+	
 
 	public void deleteArticol(ActionEvent e) {
 		ArticleFullDTO art = (ArticleFullDTO) e.getComponent().getAttributes().get("art");
