@@ -223,7 +223,14 @@ public class CartWizardView extends BaseView {
 		delAdressFat.addAll(deliveryDTO.getIndirizzo());
 
 		if (getCartFlowBean().getAddressSpe().getNazione() == null) {
-			getCartFlowBean().getAddressSpe().setNazione("ITALIA");
+			// primo ingresso nella view, come default nazione recupero la prima
+			// degli indirizzi associati al cliente
+			if (!deliveryDTO.getIndirizzo().isEmpty()) {
+				getCartFlowBean().getAddressSpe().setNazione(deliveryDTO.getIndirizzo().get(0).getNazione());
+			} else {
+				getCartFlowBean().getAddressSpe().setNazione("ITALIA");
+			}
+
 		}
 
 		// recupero spese di spedizione associate alla nazione
