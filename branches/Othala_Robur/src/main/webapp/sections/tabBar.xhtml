@@ -37,7 +37,7 @@
 							<ui:repeat var="submenu" value="#{menu.subMenu}" varStatus="statusSub">
 								<div class="col-sm-12 col-md-4 spacer6">
 									<a
-										href="#{request.contextPath}/${fn:toLowerCase(msg.articoli)}/${fn:toLowerCase(submenu.txType)}"
+										href="#{request.contextPath}/${fn:toLowerCase(msg.articoli)}/${fn:toLowerCase(menu.txGender)}/${fn:toLowerCase(submenu.txType)}"
 										class="linkArt">#{submenu.txType}</a>
 								</div>
 							</ui:repeat>
