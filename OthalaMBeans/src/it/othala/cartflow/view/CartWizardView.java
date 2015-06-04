@@ -576,7 +576,10 @@ public class CartWizardView extends BaseView {
 		newAddrSpe = false;
 		editAddrSpe = false;
 		saveAddressSpe = false;
+		if (getCartFlowBean().getAddressAnnSpe() != null)
+		{
 		getCartFlowBean().setAddressSpe(getCartFlowBean().getAddressAnnSpe());
+		}
 	}
 
 	public void saveAddrFat(AjaxBehaviorEvent ev) {
