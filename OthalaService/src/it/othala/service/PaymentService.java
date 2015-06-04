@@ -766,7 +766,7 @@ public class PaymentService implements IPaymentService {
 
 		log.info("refund updateStateRefundIPN");
 		List<RefoundFullDTO> refs = orderService.getRefounds(null, null, null, null, ipnDTO.getParent_txn_id(), null);
-		BigDecimal reqToRefund = new BigDecimal(ipnDTO.getMc_gross());
+		BigDecimal reqToRefund = new BigDecimal(ipnDTO.getMc_gross().replace("-", ""));
 		RefoundFullDTO ref = null;
 
 		HashMap<Integer, String> idArticle = new HashMap<>();
@@ -817,8 +817,10 @@ public class PaymentService implements IPaymentService {
 				ref = OthalaFactory.getOrderServiceInstance().insertRefound(ref, null);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
+				log.error("errore in inserimento richiesta di rimborso da PayPal",e);
 				throw new PayPalException(e);
 			}
+			log.info("inserimento richiesta di rimborso da PayPal eseguita correttamente");
 
 		}
 	}
