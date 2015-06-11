@@ -64,12 +64,17 @@
 					<div id="owl-newArr" class="owl-carousel col-sm-12">
 						<ui:repeat var="art" value="#{applicationBean.getDomain(localeManager.language).articleNewArrivals}">
 							<div class="item">
-								<h:link outcome="cart/cart-choice-2" rendered="#{art.idProduct != null}">
+								<h:outputLink rendered="#{art.idProduct != null}"
+								value="#{cartFlowView1.getCartChoice(art.idProduct,art.txBrand,art.txType,null)}">
 									<img title="#{art.txBrand} #{art.description}" alt="#{art.txBrand} #{art.description}"
 										class="lazyOwl img-responsive" style="margin: auto"
 										data-src="#{request.contextPath}/javax.faces.resource/#{art.thumbnailsUrl}.xhtml?ln=images/cartThumbinals" />
-									<f:param name="idPrd" value="#{art.idProduct}"></f:param>
-								</h:link>
+									
+								
+								
+							</h:outputLink>
+								
+								
 								<div class="row">
 									<div class="col-sm-12" style="text-align: center;">
 										<h5 class="descrVisibile" style="text-transform: uppercase;">
