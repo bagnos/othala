@@ -6,13 +6,16 @@ import it.othala.dto.MailPropertiesDTO;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
 import it.othala.web.utils.ConfigurationUtil;
-import it.othala.web.utils.OthalaUtil;
+import it.othala.web.utils.ResizeImageUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -20,7 +23,6 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
-import org.primefaces.context.PrimeFacesContext;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
@@ -109,23 +111,23 @@ public class NewsletterView extends BaseView {
 	@Override
 	public String doInit() {
 		// TODO Auto-generated method stub
+		testoMail = null;
+		ogettoMail = null;
+
 		baseImgPath = ConfigurationUtil.getProperty("BASE_IMG_PATH_NEWSLETTER");
 		baseImgPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath(baseImgPath);
 		groups = OthalaFactory.getAccountServiceInstance().listMailGroup(null);
 		return null;
 	}
-	
-	public void mostra(ActionEvent e)
-	{
-		for (MailGroupDTO mgroup:groups)
-		{
-			if (mgroup.getIdMailGroup().intValue()==idGroupSelected.intValue())
-			{
-				groupSelected=mgroup.getTxMailGroup();
+
+	public void mostra(ActionEvent e) {
+		for (MailGroupDTO mgroup : groups) {
+			if (mgroup.getIdMailGroup().intValue() == idGroupSelected.intValue()) {
+				groupSelected = mgroup.getTxMailGroup();
 				break;
 			}
 		}
-		
+
 		mail = OthalaFactory.getAccountServiceInstance().listMail(idGroupSelected, null);
 		RequestContext.getCurrentInstance().execute("PF('dlgGroup').show();");
 	}
@@ -153,13 +155,14 @@ public class NewsletterView extends BaseView {
 
 		InputStream inputStream = null;
 		OutputStream outputStream = null;
-
+		DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+		String dateSuffix = dateFormat.format(new Date());
 		try {
 			UploadedFile file = event.getFile();
 			inputStream = file.getInputstream();
-			fileImg = file.getFileName();
-			absoluteFileImg = baseImgPath + File.separator + file.getFileName();
 
+			fileImg = dateSuffix + file.getFileName();
+			absoluteFileImg = baseImgPath + File.separator + fileImg;
 			outputStream = new FileOutputStream(new File(absoluteFileImg));
 
 			int read = 0;
