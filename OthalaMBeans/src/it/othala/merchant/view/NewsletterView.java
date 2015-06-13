@@ -17,6 +17,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -140,13 +141,63 @@ public class NewsletterView extends BaseView {
 			imgContenuto = ConfigurationUtil.getHttpPathImagesNewsletter(getRequest()) + fileImg;
 		}
 		try {
-			OthalaFactory.getAccountServiceInstance().sendMailNewsletter(users, testoMail, imgContenuto, ogettoMail,
-					mailProps);
+			BundleMail bundle = new BundleMail(mail, testoMail, imgContenuto, ogettoMail, mailProps);
+			MailThread mThread = new MailThread(bundle);
+			mThread.start();
 			addInfo("Newsletter", "Mail inviata correttamente");
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			addError("Errore Invio mail", "si è verificato un problema nell'invio della mail.");
 			log.error("erroe invio mail", e1);
+		}
+
+	}
+
+	private class BundleMail {
+		List<MailDTO> users;
+		String testoMail;
+		String imgContenuto;
+		String oggettoMail;
+		MailPropertiesDTO mailProps;
+
+		public BundleMail(List<MailDTO> users, String testoMail, String imgContenuto, String oggettoMail,
+				MailPropertiesDTO mailProps) {
+			// TODO Auto-generated constructor stub
+			this.users = users;
+			this.testoMail = testoMail;
+			this.imgContenuto = imgContenuto;
+			this.oggettoMail = oggettoMail;
+			this.mailProps = mailProps;
+		}
+	}
+
+	private class MailThread extends Thread {
+		private BundleMail mail;
+
+		MailThread(BundleMail mail) {
+			this.mail = mail;
+		}
+
+		public void run() {
+			try {
+				long inizio = System.currentTimeMillis();
+				log.info("THREAD MAIL: inizio invio newsletter");
+				OthalaFactory.getAccountServiceInstance().sendMailNewsletter(this.mail.users, this.mail.testoMail,
+						this.mail.imgContenuto, this.mail.oggettoMail, this.mail.mailProps);
+				long end = System.currentTimeMillis() - inizio;
+
+				log.info("THREAD MAIL: Newsletter inviata tempo = "
+						+ String.format(
+								"%d min, %d sec",
+								TimeUnit.MILLISECONDS.toMinutes(end),
+								TimeUnit.MILLISECONDS.toSeconds(end)
+										- TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(end))));
+
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				log.error("errore invio mail thread asincrono", e);
+			}
+
 		}
 
 	}
