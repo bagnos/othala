@@ -36,11 +36,14 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class AccountService implements IAccountService {
 
 	private IAccountDAO accountDAO;
 	private IMailService mailService;
+	protected static Log log = LogFactory.getLog(AccountService.class);
 
 	private final String CUSTOMER_ROLE = "CUSTOMER";
 
@@ -334,9 +337,8 @@ public class AccountService implements IAccountService {
 
 		File xslFile = Template.getFile("it/othala/service/template/mailNewsletter.xsl");
 		String content = new String(java.nio.file.Files.readAllBytes(xslFile.toPath()));
-		if (testo==null)
-		{
-			testo="";
+		if (testo == null) {
+			testo = "";
 		}
 		content = content.replace("#{testo}", testo);
 		if (imageContenuto != null) {
@@ -349,11 +351,16 @@ public class AccountService implements IAccountService {
 		String userContent = content;
 
 		for (MailDTO mail : users) {
-			mail.setTxNome(mail.getTxNome() != null ? mail.getTxNome() : "Cliente");
-			content = userContent;
-			content = content.replace("#{user}", mail.getTxNome());
-			content = content.replace("#{id}", HelperCrypt.encrypt(String.format("%s", mail.getIdMail().toString())));
-			mailService.inviaHTMLMail(new String[] { mail.getTxUser() }, subject, content, null, mailProps, false);
+			try {
+				mail.setTxNome(mail.getTxNome() != null ? mail.getTxNome() : "Cliente");
+				content = userContent;
+				content = content.replace("#{user}", mail.getTxNome());
+				content = content.replace("#{id}",
+						HelperCrypt.encrypt(String.format("%s", mail.getIdMail().toString())));
+				mailService.inviaHTMLMail(new String[] { mail.getTxUser() }, subject, content, null, mailProps, false);
+			} catch (Exception e) {
+				log.error("errore invio mail item newsletter=" + mail.getTxUser()!=null?mail.getTxUser():"mail null per id"+mail.getIdMail());
+			}
 		}
 
 	}

@@ -139,9 +139,9 @@ public class ApplicationBean implements Serializable {
 	}
 
 	public List<AttributeDTO> getSizeDTO() {
-		if (sizeDTO == null) {
-			sizeDTO = getDomain().getSize();
-		}
+		
+		sizeDTO = getDomain().getSize();
+		
 		return sizeDTO;
 	}
 	/*
@@ -157,10 +157,9 @@ public class ApplicationBean implements Serializable {
 	}*/
 
 	public List<AttributeDTO> getBrandDTO() {
-		if (brandDTO == null) {
-			brandDTO = getDomain().getBrand();
-		}
+		brandDTO= getDomain().getBrand();
 		return brandDTO;
+		
 	}
 
 	public List<CampaignDTO> getCampaigns() {
@@ -171,6 +170,7 @@ public class ApplicationBean implements Serializable {
 	}
 
 	public DomainDTO getDomain() {
+		
 
 		if (domain == null || domainEN == null) {
 			domain = OthalaFactory.getProductServiceInstance().getDomain("it");		
@@ -202,9 +202,13 @@ public class ApplicationBean implements Serializable {
 
 	
 	public void resetDomain() {
+		
+		brands=null;
+		sizes=null;
 		domain = null;
 		domainEN=null;
 		getDomain();
+		campaigns=null;
 		//brandDTO = null;
 		//colorsDTO = null;
 		//typeDTO = null;

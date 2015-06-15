@@ -164,7 +164,7 @@ public class ProductService implements IProductService {
 	}
 
 	@Override
-	public DomainDTO insertBrand(String languages, String txBrand,
+	public void insertBrand(String languages, String txBrand,
 			Integer idRegione, Integer idProvincia, String idUser,
 			String urlFoto, String txDescrIT, String txDescrEN) {
 
@@ -173,22 +173,22 @@ public class ProductService implements IProductService {
 					urlFoto, txDescrIT, txDescrEN);
 		}
 
-		return getDomain(languages);
+		
 
 	}
 
 	@Override
-	public DomainDTO insertSize(String languages, String txSize) {
+	public void insertSize(String languages, String txSize) {
 
 		if (productDAO.checkEsistenza("size", txSize, null)) {
 			productDAO.insertSize(txSize);
 		}
-		return getDomain(languages);
+
 
 	}
 
 	@Override
-	public DomainDTO insertColor(String languages, String txColorIT,
+	public void insertColor(String languages, String txColorIT,
 			String txColorEN) {
 
 		if (productDAO.checkEsistenza("color", txColorIT, "it")) {
@@ -197,12 +197,12 @@ public class ProductService implements IProductService {
 			productDAO.insertColor(maxIdColor, "it", txColorIT);
 			productDAO.insertColor(maxIdColor, "en", txColorEN);
 		}
-		return getDomain(languages);
+	
 
 	}
 
 	@Override
-	public DomainDTO insertMaterial(String languages, String txMaterialIT,
+	public void insertMaterial(String languages, String txMaterialIT,
 			String txMaterialEN) {
 
 		if (productDAO.checkEsistenza("material", txMaterialIT, "it")) {
@@ -212,12 +212,12 @@ public class ProductService implements IProductService {
 			productDAO.insertMaterial(maxIdMaterial, "it", txMaterialIT);
 			productDAO.insertMaterial(maxIdMaterial, "en", txMaterialEN);
 		}
-		return getDomain(languages);
+	
 
 	}
 
 	@Override
-	public DomainDTO insertType(String languages, String txType, String txTypeEN) {
+	public void insertType(String languages, String txType, String txTypeEN) {
 
 		if (productDAO.checkEsistenza("type", txType, "it")) {
 			Integer maxIdType = productDAO.getMaxIdType();
@@ -226,7 +226,7 @@ public class ProductService implements IProductService {
 			productDAO.insertType(maxIdType, "it", txType);
 			productDAO.insertType(maxIdType, "en", txTypeEN);
 		}
-		return getDomain(languages);
+		
 
 	}
 

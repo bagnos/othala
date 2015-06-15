@@ -722,6 +722,7 @@ public class InsertProdottiView extends BaseView {
 	}
 
 	public void addNewBrand(ActionEvent e) {
+		brand=null;
 		if (newBrand == null || newBrand.isEmpty()) {
 			addError("Nuovo Brand", "inserire il brand");
 			return;
