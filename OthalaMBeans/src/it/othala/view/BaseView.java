@@ -181,6 +181,7 @@ public abstract class BaseView implements Serializable {
 
 	public void addError(String summary, String message) {
 		summary = summary == null ? OthalaUtil.getWordBundle("validator_summary") : summary;
+		log.warn(String.format("%s %s", summary,message));
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_ERROR, summary, message));
 	}

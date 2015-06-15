@@ -449,7 +449,7 @@
 
 	</select>
 
-	<select id="listColor" resultType="it.othala.dto.AttributeDTO"
+	<select id="listColor" flushCache="true" resultType="it.othala.dto.AttributeDTO"
 		parameterType="java.util.HashMap">
 
 		SELECT idColor as attributo,txColor as valore
@@ -475,7 +475,7 @@
 
 	</select>
 
-	<select id="listMaterial" resultType="it.othala.dto.AttributeDTO"
+	<select id="listMaterial" flushCache="true" resultType="it.othala.dto.AttributeDTO"
 		parameterType="java.util.HashMap">
 
 		SELECT idMaterial as attributo,txMaterial as valore
@@ -487,7 +487,7 @@
 
 	</select>
 
-	<select id="listBrand" resultType="it.othala.dto.AttributeDTO">
+	<select id="listBrand" flushCache="true" resultType="it.othala.dto.AttributeDTO">
 
 		SELECT idBrand as
 		attributo,txBrand as valore
@@ -558,7 +558,7 @@
 
 	</select>
 
-	<select id="listGender" resultType="it.othala.dto.AttributeDTO"
+	<select id="listGender" flushCache="true" resultType="it.othala.dto.AttributeDTO"
 		parameterType="java.util.HashMap">
 
 		SELECT idGender as attributo,txGender as valore
@@ -570,7 +570,7 @@
 
 	</select>
 
-	<select id="listType" resultType="it.othala.dto.AttributeDTO"
+	<select id="listType"  flushCache="true" resultType="it.othala.dto.AttributeDTO"
 		parameterType="java.util.HashMap">
 
 		SELECT idType as attributo,txType as valore
