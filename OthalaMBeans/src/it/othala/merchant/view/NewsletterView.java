@@ -141,7 +141,7 @@ public class NewsletterView extends BaseView {
 			imgContenuto = ConfigurationUtil.getHttpPathImagesNewsletter(getRequest()) + fileImg;
 		}
 		try {
-			BundleMail bundle = new BundleMail(mail, testoMail, imgContenuto, ogettoMail, mailProps);
+			BundleMail bundle = new BundleMail(users, testoMail, imgContenuto, ogettoMail, mailProps);
 			MailThread mThread = new MailThread(bundle);
 			mThread.start();
 			addInfo("Newsletter", "Mail inviata correttamente");
