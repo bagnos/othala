@@ -21,7 +21,7 @@
 				<p style="margin-top:20px">
 				<em>
 				Hai ricevuto questo messaggio perch&#233; sei iscritto alla nostra newsletter. Se non vuoi ricevere altri messaggi visita questo link
-				<strong>http://#{serverName}/#{contextName}/account/unsuscribe.xhtml?id=#{id}</strong>
+				<strong>http://#{serverName}/#{contextName}/account/unsubscribe.xhtml?id=#{id}</strong>
 				</em>
 				</p>
 			</body>
