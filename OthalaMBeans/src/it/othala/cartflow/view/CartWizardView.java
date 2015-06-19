@@ -180,6 +180,18 @@ public class CartWizardView extends BaseView {
 		newAddrFat = false;
 		newAddrSpe = false;
 		andAddrSpe = false;
+		
+		if (getCartFlowBean().getAddressSpe()==null)
+		{
+			getCartFlowBean().setAddressSpe(new DeliveryAddressDTO());
+		}
+		
+		if (getCartFlowBean().getAddressFat()==null)
+		{
+			getCartFlowBean().setAddressFat(new DeliveryAddressDTO());
+		}
+		
+		
 
 		idAddressFat = getCartFlowBean().getAddressFat() != null
 				&& getCartFlowBean().getAddressFat().getIdAddress() == null ? 0 : getCartFlowBean().getAddressFat()
@@ -226,6 +238,8 @@ public class CartWizardView extends BaseView {
 		delAdress.addAll(deliveryDTO.getIndirizzo());
 		delAdressFat.clear();
 		delAdressFat.addAll(deliveryDTO.getIndirizzo());
+		
+		
 
 		if (getCartFlowBean().getAddressSpe().getNazione() == null) {
 			// primo ingresso nella view, come default nazione recupero la prima
@@ -281,7 +295,7 @@ public class CartWizardView extends BaseView {
 			}
 			if (idAddressFat == 0) {
 
-				if (delAdressFat != null)
+				if (delAdressFat != null && !delAdressFat.isEmpty())
 				{
 					getCartFlowBean().setAddressFat(delAdressFat.get(0));
 					idAddressFat = getCartFlowBean().getAddressFat().getIdAddress();
