@@ -346,6 +346,16 @@
 				and idUser = #{idUser}
 			</if>
 		</where>
+		union all
+		SELECT idCoupon, idUser, pcSconto, dtScadenza, qtUtilizzo
+		FROM
+		${database.schema}coupons
+		<where>
+			<if test="idCoupon != null">
+				idCoupon = #{idCoupon}
+			</if>
+			and idUser is null
+		</where>
 		order by idUser
 
 	</select>

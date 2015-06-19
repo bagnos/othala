@@ -247,6 +247,7 @@ public class CartWizardView extends BaseView {
 			getCartFlowBean().setIdTypeDelivery(listDeliveryCostDTO.get(0).getIdDeliveryCost());
 		}
 
+		
 		// verifico presenza indirizzo merchant
 		deliverAddressMerchant = null;
 		for (DeliveryCostDTO del : listDeliveryCostDTO) {
@@ -258,6 +259,17 @@ public class CartWizardView extends BaseView {
 			}
 		}
 
+		// elimino la sede come indirizzo di fatturazione
+		if (deliverAddressMerchant != null) {
+			for (DeliveryAddressDTO del : delAdress) {
+				if (del.getCognome().equalsIgnoreCase(deliverAddressMerchant.getCognome())
+						&& del.getNome().equalsIgnoreCase(deliverAddressMerchant.getNome())) {
+					delAdressFat.remove(del);
+				}
+			}
+		}
+		
+		
 		if (deliveryDTO != null && deliveryDTO.getIndirizzo() != null && !deliveryDTO.getIndirizzo().isEmpty()) {
 			// ci sono indirizzi associati al cliente, se non è presente già una
 			// selezione imposto il primo per default
@@ -268,13 +280,19 @@ public class CartWizardView extends BaseView {
 
 			}
 			if (idAddressFat == 0) {
-				// se è presente solo indirizzo sede prenderebbe come
-				// fatturazione la sede
+
+				if (delAdressFat != null)
+				{
+					getCartFlowBean().setAddressFat(delAdressFat.get(0));
+					idAddressFat = getCartFlowBean().getAddressFat().getIdAddress();
+				}
+				/*
 				if (deliverAddressMerchant!=null && !deliveryDTO.getIndirizzo().get(0).getCognome().equalsIgnoreCase(deliverAddressMerchant.getCognome())
 						&& !deliveryDTO.getIndirizzo().get(0).getNome().equalsIgnoreCase(deliverAddressMerchant.getNome())) {
 					getCartFlowBean().setAddressFat(deliveryDTO.getIndirizzo().get(0));
 					idAddressFat = getCartFlowBean().getAddressFat().getIdAddress();
 				}
+				*/
 			}
 		}
 
@@ -285,15 +303,7 @@ public class CartWizardView extends BaseView {
 		// la spedizione selezionata
 		modifyTypeDelivery(null);
 
-		// elimino la sede come indirizzo di fatturazione
-		if (deliverAddressMerchant != null) {
-			for (DeliveryAddressDTO del : delAdress) {
-				if (del.getCognome().equalsIgnoreCase(deliverAddressMerchant.getCognome())
-						&& del.getNome().equalsIgnoreCase(deliverAddressMerchant.getNome())) {
-					delAdressFat.remove(del);
-				}
-			}
-		}
+
 
 	}
 
