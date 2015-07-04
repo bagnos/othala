@@ -125,7 +125,15 @@ public class RicercaCampagneView extends BaseView {
 	}
 
 	public void eliminaCampagna(ActionEvent e) {
-
+		if (selectCampaigns != null) {
+			for (CampaignDTO c : selectCampaigns) {
+				OthalaFactory.getProductServiceInstance().deleteCampaign(c);
+			}
+		}
+		campaigns = OthalaFactory.getProductServiceInstance().getListCampaign();
+		selectCampaigns.clear();
+		getBeanApplication().resetDomain();
+		addInfo("Elimina Campagna", "Operazione eseguita correttamente");
 	}
 
 	public void modifyCampagna(ActionEvent e) {
@@ -133,13 +141,16 @@ public class RicercaCampagneView extends BaseView {
 		details = false;
 		selectCampaign = selectCampaigns.get(0);
 		updateProdutcCampaigns();
+		getBeanApplication().resetDomain();
 		RequestContext.getCurrentInstance().execute("PF('campaign').show();");
 
 	}
 
 	private void updateProdutcCampaigns() {
-		prdCampaign = OthalaFactory.getProductServiceInstance().getListProduct(getLang(), null, null, null, null, null,
-				null, null, null, 1, selectCampaign.getIdCampaign(), true).getProdotti();
+		prdCampaign = OthalaFactory
+				.getProductServiceInstance()
+				.getListProduct(getLang(), null, null, null, null, null, null, null, null, 1,
+						selectCampaign.getIdCampaign(), true).getProdotti();
 	}
 
 	public void conferma(ActionEvent e) {
@@ -150,7 +161,7 @@ public class RicercaCampagneView extends BaseView {
 			}
 
 			OthalaFactory.getProductServiceInstance().updateCampaign(selectCampaign, idPrds);
-
+			getBeanApplication().resetDomain();
 			addInfo("Modifica Campagna", "Operazione eseguita correttamente");
 			RequestContext.getCurrentInstance().execute("PF('campaign').hide();");
 		} catch (Exception ex) {
