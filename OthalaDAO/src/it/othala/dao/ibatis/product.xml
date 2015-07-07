@@ -2437,19 +2437,21 @@
 
 	<select id="getProdottiVenduti" resultType="it.othala.dto.ArticleCashedDTO">
 		select
-		sp.idProduct,SP.pgArticle,b.txBrand,t.txType,c.txColor,s.txSize,(coalesce(spedita,0)-coalesce(rimborsata,0))
+		sp.idProduct,SP.pgArticle,b.txBrand,t.txType,sp.txDescription as description,c.txColor,s.txSize,(coalesce(spedita,0)-coalesce(rimborsata,0))
 		as qtaCashed,(coalesce(incasso,0)-coalesce(incassoRimborsato,0)) as
 		imCashed
 		from
 		(SELECT
-		p.idProduct,p.idbrand,p.idType,a.pgArticle,a.idColor,a.idSize,sum(qtArticle)
+		p.idProduct,p.idbrand,p.idType,pd.txDescription,a.pgArticle,a.idColor,a.idSize,sum(qtArticle)
 		as spedita,sum(imArticle) as incasso
 		from
 		${database.schema}orders_articles oa,${database.schema}states_orders
-		so, ${database.schema}article a, ${database.schema}product p
+		so, ${database.schema}article a, ${database.schema}product p,${database.schema}product_description pd
 		where
 		oa.idProdotto=a.idProduct
 		and oa.pgArticle=a.pgArticle
+		and pd.idProduct=p.idProduct
+        and pd.idLanguages='it'
 		and
 		p.idProduct=a.idProduct
 		and oa.idOrder=so.idOrder
@@ -2468,6 +2470,7 @@
 		and
 		oa.pgArticle=a.pgArticle
 		and p.idProduct=a.idProduct
+		
 		and
 		fgChangeRefound='S'
 		group by
