@@ -346,8 +346,10 @@ public class CartFlowView1 extends BaseView {
 			}
 
 		} else if (campaign != null) {
+			log.info("Campagna="+campaign.trim());
 			for (CampaignDTO cam : getBeanApplication().getCampaigns()) {
-				if (cam.getTxCampaign().equalsIgnoreCase(campaign)) {
+				log.info("Campagna item="+cam.getTxCampaign().trim());
+				if (cam.getTxCampaign().trim().equalsIgnoreCase(campaign.trim())) {
 					buildeCanonicalUrlEN.append("/promotions/").append(cam.getTxCampaign().toLowerCase());
 					buildeCanonicalUrlIT.append("/promozioni/").append(cam.getTxCampaign().toLowerCase());
 					if (getLang().equalsIgnoreCase("it"))
@@ -359,6 +361,7 @@ public class CartFlowView1 extends BaseView {
 						buildTitleSEO.append(" promotions ").append(cam.getTxCampaign().toLowerCase());
 					}
 					idCampaign = cam.getIdCampaign();
+					log.info(" Id Campagna="+idCampaign);
 					break;
 				}
 			}
