@@ -9,6 +9,8 @@ import it.othala.account.execption.UserNotFoundException;
 import it.othala.account.execption.UserNotResetStateException;
 import it.othala.dao.interfaces.IAccountDAO;
 import it.othala.dto.AccountDTO;
+import it.othala.dto.MailDTO;
+import it.othala.dto.MailGroupDTO;
 import it.othala.dto.MailPropertiesDTO;
 import it.othala.enums.TypeCustomerState;
 import it.othala.service.interfaces.IAccountService;
@@ -17,22 +19,38 @@ import it.othala.service.template.Template;
 import it.othala.service.template.Template.TipoTemplate;
 import it.othala.util.HelperCrypt;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class AccountService implements IAccountService {
 
 	private IAccountDAO accountDAO;
 	private IMailService mailService;
-	
+	protected static Log log = LogFactory.getLog(AccountService.class);
+
 	private final String CUSTOMER_ROLE = "CUSTOMER";
 
 	public void setMailService(IMailService mailService) {
 		this.mailService = mailService;
 	}
 
-	
 	public void setAccountDAO(IAccountDAO accountDAO) {
 		this.accountDAO = accountDAO;
 	}
@@ -54,9 +72,10 @@ public class AccountService implements IAccountService {
 		accountDAO.insertAccount(account);
 		accountDAO.insertAccountRole(account.getEmail(), CUSTOMER_ROLE);
 
-		
-
-		inviaMailRegistrazione(account.getEmail(), account.getName(), account.getPsw(), mailProps);
+		/*
+		 * inviaMailRegistrazione(account.getEmail(), account.getName(),
+		 * account.getPsw(), mailProps);
+		 */
 
 	}
 
@@ -89,7 +108,7 @@ public class AccountService implements IAccountService {
 		}
 		return accountDAO.changeStateAccount(email, TypeCustomerState.CESSATO.getState());
 	}
-	
+
 	@Override
 	public int activeAccount(List<AccountDTO> listAccount) {
 		// TODO Auto-generated method stub
@@ -191,7 +210,7 @@ public class AccountService implements IAccountService {
 
 		accountDAO.changeStateAccount(email, TypeCustomerState.ATTIVATO.getState());
 	}
-	
+
 	@Override
 	public void changePassworAccount(String email, String psw) throws UserNotFoundException {
 		// TODO Auto-generated method stub
@@ -236,8 +255,8 @@ public class AccountService implements IAccountService {
 	}
 
 	@Override
-	public void richiediFidelity(String nome, String cognome, String email,String cell, String emailMerchant,String site, MailPropertiesDTO mail)
-			throws MailNotSendException {
+	public void richiediFidelity(String nome, String cognome, String email, String cell, String emailMerchant,
+			String site, MailPropertiesDTO mail) throws MailNotSendException {
 		// TODO Auto-generated method stub
 		StringBuilder sb = new StringBuilder();
 		sb.append("<nome>" + nome + "</nome>");
@@ -247,7 +266,7 @@ public class AccountService implements IAccountService {
 		sb.append("<site>" + email + "</site>");
 
 		String content = null;
-		
+
 		try {
 			content = Template.getContenFile(TipoTemplate.MailFidelityRequest);
 		} catch (IOException e) {
@@ -259,8 +278,154 @@ public class AccountService implements IAccountService {
 		content = content.replaceAll("<cognome>", cognome);
 		content = content.replaceAll("<email>", email);
 
-		mailService.inviaMail(new String[] { emailMerchant }, site+":richiesta censimento Fidelity Card", content,
+		mailService.inviaMail(new String[] { emailMerchant }, site + ":richiesta censimento Fidelity Card", content,
 				mail);
+	}
+
+	@Override
+	public void insertMail(Integer idMailGroup, String txUser, String txNome) {
+		if (accountDAO.listMail(idMailGroup, txUser).isEmpty()) {
+			accountDAO.insertMail(idMailGroup, txUser, txNome);
+		}
+
+	}
+
+	@Override
+	public void updateMail(Integer idMail, Integer idMailGroup, String txUser, String txNome) {
+		accountDAO.updateMail(idMail, idMailGroup, txUser, txNome);
+
+	}
+
+	@Override
+	public void deleteMail(Integer idMail) {
+		accountDAO.deleteMail(idMail);
+
+	}
+
+	@Override
+	public void insertMailGroup(String txMailGroup) {
+		accountDAO.insertMailGroup(txMailGroup);
+
+	}
+
+	@Override
+	public void updateMailGroup(Integer idMailGroup, String txMailGroup) {
+		accountDAO.updateMailGroup(idMailGroup, txMailGroup);
+
+	}
+
+	@Override
+	public void deleteMailGroup(Integer idMailGroup) {
+		accountDAO.deleteMailGroup(idMailGroup);
+
+	}
+
+	@Override
+	public List<MailGroupDTO> listMailGroup(Integer idMailGroup) {
+
+		return accountDAO.listMailGroup(idMailGroup);
+	}
+
+	@Override
+	public List<MailDTO> listMail(Integer idMailGroup, String txUser) {
+		return accountDAO.listMail(idMailGroup, txUser);
+	}
+
+	@Override
+	public void sendMailNewsletter(List<MailDTO> users, String testo, String imageContenuto, String subject,
+			MailPropertiesDTO mailProps) throws Exception {
+
+		File xslFile = Template.getFile("it/othala/service/template/mailNewsletter.xsl");
+		String content = new String(java.nio.file.Files.readAllBytes(xslFile.toPath()));
+		if (testo == null) {
+			testo = "";
+		}
+		content = content.replace("#{testo}", testo);
+		if (imageContenuto != null) {
+			content = content.replace("#{imageContenuto}", imageContenuto);
+		}
+
+		content = content.replace("#{imageLogo}", mailProps.getPathImgLogo());
+		content = content.replace("#{serverName}", mailProps.getServerName());
+		content = content.replace("#{contextName}", mailProps.getContextRoot());
+		String userContent = content;
+
+		for (MailDTO mail : users) {
+			try {
+				mail.setTxNome(mail.getTxNome() != null ? mail.getTxNome() : "Cliente");
+				content = userContent;
+				content = content.replace("#{user}", mail.getTxNome());
+				content = content.replace("#{id}",
+						HelperCrypt.encrypt(String.format("%s", mail.getIdMail().toString())));
+				mailService.inviaHTMLMail(new String[] { mail.getTxUser() }, subject, content, null, mailProps, false);
+			} catch (Exception e) {
+				log.error("errore invio mail item newsletter=" + mail.getTxUser()!=null?mail.getTxUser():"mail null per id"+mail.getIdMail());
+			}
+		}
+
+	}
+
+	private String generateHtmlNewsletter(String testo, String imageContenuto, String imageLogo, String user)
+			throws Exception {
+		BufferedWriter out = null;
+		FileWriter fstream = null;
+
+		try {
+
+			File xslFile = Template.getFile("it/othala/service/template/mailNewsletter.xsl");
+			File xmlTemp = File.createTempFile("xmlTemp", ".xml");
+			fstream = new FileWriter(xmlTemp);
+
+			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(xmlTemp), "UTF8"));
+
+			out.write("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
+			out.write("<mail>");
+			out.write("<user>");
+			out.write(user);
+			out.write("</user>");
+
+			out.write("<imgLogo>");
+			// out.write("cid:imageLogo");
+			out.write(imageLogo);
+			// inlineImages.put("imageLogo", imageLogo);
+			out.write("</imgLogo>");
+			if (imageContenuto != null) {
+				out.write("<imgContenuto>");
+				out.write(imageContenuto);
+				// inlineImages.put("imgContenuto", imageContenuto);
+				out.write("</imgContenuto>");
+			}
+			out.write("<testo>");
+			out.write(testo);
+			out.write("</testo>");
+			out.write("</mail>");
+			out.close();
+			fstream.close();
+
+			// scrivo il file xml temporaneo
+
+			File htmlTemp = File.createTempFile("htmlTemp", ".html");
+
+			// effetto la conversione xml,xsl to html scrivo il file html
+			// temporaneo
+			TransformerFactory tFactory = TransformerFactory.newInstance();
+			Source xslSource = new javax.xml.transform.stream.StreamSource(xslFile);
+			Source xmlSource = new javax.xml.transform.stream.StreamSource(xmlTemp);
+			javax.xml.transform.stream.StreamResult result = new StreamResult(htmlTemp);
+			Transformer transformer;
+			transformer = tFactory.newTransformer(xslSource);
+			transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+			transformer.transform(xmlSource, result);
+
+			String html = IOUtils.toString(new FileInputStream(htmlTemp), "UTF-8");
+
+			return html;
+
+		} catch (Exception e) {
+			throw e;
+
+		}
+
 	}
 
 }

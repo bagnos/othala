@@ -15,14 +15,17 @@ import it.othala.enums.TypeStateOrder;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 
 public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO {
+	
+	private Log log = LogFactory.getLog(OrderDAO.class);
 
 	@Override
 	public List<OrderFullDTO> getOrders(Integer idOrder, String idUser,
@@ -221,20 +224,46 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO {
 			String fgChangeRefound) {
 
 		HashMap<String, Object> mapRefound = new HashMap<>();
+		log.info("verifica parametri dai getrefounds");
 		if (idRefound != null && idRefound > 0)
+		{
 			mapRefound.put("idRefound", idRefound);
+			log.info("idRefound presente "+idRefound);
+		}
+		
 		if (idOrder != null && idOrder > 0)
+		{
 			mapRefound.put("idOrder", idOrder);
+			log.info("idOrder presente "+idOrder);
+		}
+		
 		if (idUser != null && !idUser.isEmpty())
+		{
 			mapRefound.put("idUser", idUser);
+			log.info("idUser presente "+idUser);
+		}
+		
 		if (idStato != null && idStato > 0)
+		{
 			mapRefound.put("idStato", idStato);
+			log.info("idStato presente "+idStato);
+		}
+		
 		if (idTransaction != null && !idTransaction.isEmpty())
+		{
 			mapRefound.put("idTransaction", idTransaction);
+			log.info("idTransaction presente "+idTransaction);
+		}
+		
 		if (fgChangeRefound != null && !fgChangeRefound.isEmpty())
+		{
 			mapRefound.put("fgChangeRefound", fgChangeRefound);
+			log.info("fgChangeRefound presente "+fgChangeRefound);
+		}
 
 		// recupero resi
+		
+		
 		List<RefoundFullDTO> listRefounds = getSqlSession().selectList(
 				"it.othala.order.queries.listRefounds", mapRefound);
 
@@ -417,7 +446,7 @@ public class OrderDAO extends SqlSessionDaoSupport implements IOrderDAO {
 			mapOrder.put("idStatoRefound", statoRefound.getState());
 		else
 			mapOrder.put("idStatoRefound",
-					statoRefound.REFOUND_COMPLETED.getState());
+					statoRefound.INSTANT.getState());
 
 		RendicontoRefound rcoRef = getSqlSession().selectOne(
 				"it.othala.order.queries.selectTotRefounds", mapOrder);

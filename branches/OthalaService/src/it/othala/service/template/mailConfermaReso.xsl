@@ -20,8 +20,8 @@
 	,
 	<br />
 	<br />
-	la tua richiesta di Reso è stata accettata. <br />
-	A breve riceverà la conferma del rimborso tramite e-mail.
+	la tua richiesta di Reso è stata registrata. <br />
+	Quando riceveremo la merce riceverà una mail sull'esito dell'operazione.
 
     </p>
 	<div>

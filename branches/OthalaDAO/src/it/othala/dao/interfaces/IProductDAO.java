@@ -6,6 +6,7 @@ import it.othala.dto.AttributeDTO;
 import it.othala.dto.BrandFullDTO;
 import it.othala.dto.CampaignDTO;
 import it.othala.dto.ConfigurationDTO;
+import it.othala.dto.HashtagDTO;
 import it.othala.dto.InfAggiuntiveDTO;
 import it.othala.dto.LookBookDTO;
 import it.othala.dto.MenuDTO;
@@ -16,6 +17,7 @@ import it.othala.dto.ShopDTO;
 import it.othala.dto.SiteImagesDTO;
 import it.othala.dto.SubMenuBrandDTO;
 import it.othala.dto.SubMenuDTO;
+import it.othala.execption.OthalaException;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -50,11 +52,12 @@ public interface IProductDAO {
 			Boolean newArrivals, int order, Integer idCampaign, Boolean fgCampaign);
 
 	public ProductFullNewDTO getProductFull(String languages, Integer idProduct);
+	public void clearCache();
 
 	public 	List<ArticleFullDTO> listArticleFull(Integer idProduct, String languages,
 			Boolean fgQtaZero);
 
-	public Integer insertProduct(ProductFullNewDTO productFull, Boolean fgPubblicazione);
+	public Integer insertProduct(ProductFullNewDTO productFull, Boolean fgPubblicazione) throws OthalaException;
 
 	public Integer getQtStock(Integer idProduct, Integer pgArticle);
 
@@ -199,6 +202,8 @@ public interface IProductDAO {
 	
 	public List<ArticleCashedDTO> getArticlesCached();
 	public List<ArticleCashedDTO> getArticlesMajorCached(String language);
+
+	public List<HashtagDTO> listHashtag(String language);
 
 
 

@@ -12,10 +12,9 @@ public class HomeView extends BaseView {
 	@Override
 	public String doInit() {
 		// TODO Auto-generated method stub
-	
 		
-		
-		log.info("Access Site");		
+
+		log.info("Access Site");
 		changeLocale();
 		return null;
 	}

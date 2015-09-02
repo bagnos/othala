@@ -8,6 +8,7 @@ import it.othala.dto.AttributeDTO;
 import it.othala.dto.BrandFullDTO;
 import it.othala.dto.CampaignDTO;
 import it.othala.dto.DomainDTO;
+import it.othala.dto.HashtagDTO;
 import it.othala.dto.LookBookDTO;
 import it.othala.dto.MenuDTO;
 import it.othala.dto.MenuFullDTO;
@@ -19,6 +20,8 @@ import it.othala.dto.SubMenuDTO;
 import it.othala.dto.VetrinaDTO;
 import it.othala.execption.BarcodeNotPresentException;
 import it.othala.execption.OthalaException;
+import it.othala.external.service.interfaces.IOthalaExternalServices;
+import it.othala.service.factory.OthalaFactory;
 import it.othala.service.interfaces.IProductService;
 
 import java.io.File;
@@ -32,6 +35,7 @@ import java.util.Set;
 public class ProductService implements IProductService {
 
 	private IProductDAO productDAO;
+	private IOthalaExternalServices externalService;
 
 	public void setArticleDAO(IProductDAO productDAO) {
 		this.productDAO = productDAO;
@@ -89,6 +93,7 @@ public class ProductService implements IProductService {
 	public DomainDTO getDomain(String languages) {
 
 		DomainDTO domainDTO = new DomainDTO();
+		productDAO.clearCache();
 		domainDTO.setSize(productDAO.listSize(languages));
 		domainDTO.setColor(productDAO.listColor(languages));
 		domainDTO.setBrand(productDAO.listBrand());
@@ -103,7 +108,43 @@ public class ProductService implements IProductService {
 
 		domainDTO.setRegioni(productDAO.listRegioni());
 		domainDTO.setInfAggiuntive(productDAO.listInfAggiuntive(languages));
-		
+
+		domainDTO.setMenuFull(getMenuFull(languages));
+		domainDTO.setMenu(domainDTO.getMenuFull().getMenu());
+
+		SiteImagesDTO imgNewCom = new SiteImagesDTO();
+		imgNewCom.setTxLibrary("images/home");
+		imgNewCom.setTxName("new.png");
+
+		domainDTO.getMenuFull().setImgNew(imgNewCom);
+
+		SiteImagesDTO imgNewPromo = new SiteImagesDTO();
+		imgNewPromo.setTxLibrary("images/home");
+		imgNewPromo.setTxName("promo.png");
+
+		domainDTO.getMenuFull().setImgPromo(imgNewPromo);
+
+		domainDTO.setMenuProducts(new ArrayList<MenuDTO>());
+		for (MenuDTO idMenu : domainDTO.getMenu()) {
+			if (idMenu.getIdGender() != 3) {
+				domainDTO.getMenuProducts().add(idMenu);
+			}
+		}
+
+		domainDTO.setMenuServices(new ArrayList<MenuDTO>());
+		for (MenuDTO idMenu : domainDTO.getMenu()) {
+			if (idMenu.getIdGender() == 3) {
+				domainDTO.getMenuServices().add(idMenu);
+			}
+		}
+
+		domainDTO.setArticleCashed(listArticleMajorCashed(languages));
+		domainDTO.setArticleNewArrivals(getListProduct(languages, null, null,
+				null, null, null, null, null, true, 0, null, false)
+				.getProdotti());
+
+		domainDTO.setHashtag(productDAO.listHashtag(languages));
+
 		return domainDTO;
 
 	}
@@ -123,28 +164,31 @@ public class ProductService implements IProductService {
 	}
 
 	@Override
-	public DomainDTO insertBrand(String languages, String txBrand, Integer idRegione, Integer idProvincia, String idUser, String urlFoto, String txDescrIT, String txDescrEN) {
+	public void insertBrand(String languages, String txBrand,
+			Integer idRegione, Integer idProvincia, String idUser,
+			String urlFoto, String txDescrIT, String txDescrEN) {
 
 		if (productDAO.checkEsistenza("brand", txBrand, null)) {
-			productDAO.insertBrand(txBrand, idRegione, idProvincia, idUser, urlFoto, txDescrIT, txDescrEN);
+			productDAO.insertBrand(txBrand, idRegione, idProvincia, idUser,
+					urlFoto, txDescrIT, txDescrEN);
 		}
 
-		return getDomain(languages);
+		
 
 	}
 
 	@Override
-	public DomainDTO insertSize(String languages, String txSize) {
+	public void insertSize(String languages, String txSize) {
 
 		if (productDAO.checkEsistenza("size", txSize, null)) {
 			productDAO.insertSize(txSize);
 		}
-		return getDomain(languages);
+
 
 	}
 
 	@Override
-	public DomainDTO insertColor(String languages, String txColorIT,
+	public void insertColor(String languages, String txColorIT,
 			String txColorEN) {
 
 		if (productDAO.checkEsistenza("color", txColorIT, "it")) {
@@ -153,12 +197,12 @@ public class ProductService implements IProductService {
 			productDAO.insertColor(maxIdColor, "it", txColorIT);
 			productDAO.insertColor(maxIdColor, "en", txColorEN);
 		}
-		return getDomain(languages);
+	
 
 	}
 
 	@Override
-	public DomainDTO insertMaterial(String languages, String txMaterialIT,
+	public void insertMaterial(String languages, String txMaterialIT,
 			String txMaterialEN) {
 
 		if (productDAO.checkEsistenza("material", txMaterialIT, "it")) {
@@ -168,12 +212,12 @@ public class ProductService implements IProductService {
 			productDAO.insertMaterial(maxIdMaterial, "it", txMaterialIT);
 			productDAO.insertMaterial(maxIdMaterial, "en", txMaterialEN);
 		}
-		return getDomain(languages);
+	
 
 	}
 
 	@Override
-	public DomainDTO insertType(String languages, String txType, String txTypeEN) {
+	public void insertType(String languages, String txType, String txTypeEN) {
 
 		if (productDAO.checkEsistenza("type", txType, "it")) {
 			Integer maxIdType = productDAO.getMaxIdType();
@@ -182,7 +226,7 @@ public class ProductService implements IProductService {
 			productDAO.insertType(maxIdType, "it", txType);
 			productDAO.insertType(maxIdType, "en", txTypeEN);
 		}
-		return getDomain(languages);
+		
 
 	}
 
@@ -227,7 +271,7 @@ public class ProductService implements IProductService {
 
 		VetrinaDTO vetrinaDTO = new VetrinaDTO();
 		vetrinaDTO.setProdotti(listProduct);
-		
+
 		vetrinaDTO.setSize(productDAO.listSizeProduct(languages, type, gender,
 				brand, minPrice, maxPrice, size, color, newArrivals, order,
 				idCampaign, fgCampaign));
@@ -246,12 +290,15 @@ public class ProductService implements IProductService {
 	public ProductFullNewDTO getProductFull(String languages,
 			Integer idProduct, Boolean fgQtaZero) {
 
+		externalService.aggiornaQtArticle(idProduct);
+
 		ProductFullNewDTO productFull = productDAO.getProductFull(languages,
 				idProduct);
 
 		List<String> newString = productDAO.listProductImages(idProduct);
-		
-		productFull.setInfAggiuntive(productDAO.listInfAggiuntive(idProduct, languages));
+
+		productFull.setInfAggiuntive(productDAO.listInfAggiuntive(idProduct,
+				languages));
 
 		productFull.setImagesUrl(newString);
 
@@ -268,6 +315,36 @@ public class ProductService implements IProductService {
 
 		productFull.setArticles(listArticleFull);
 
+		List<HashtagDTO> listHashtag = new ArrayList<HashtagDTO>();
+
+		listHashtag.add(new HashtagDTO(productFull.getTxGender().toUpperCase(),
+				productFull.getIdGender(), null, null, null, null));
+
+		listHashtag.add(new HashtagDTO(productFull.getTxType().toUpperCase(),
+				null, productFull.getIdType(), null, null, null));
+
+		listHashtag.add(new HashtagDTO(productFull.getTxBrand().toUpperCase(),
+				null, null, productFull.getIdBrand(), null, null));
+
+		listHashtag.add(new HashtagDTO(productFull.getTxMaterial()
+				.toUpperCase(), null, null, null, productFull.getIdMaterial(),
+				null));
+
+		listHashtag.add(new HashtagDTO(productFull.getTxType().toUpperCase()
+				+ " " + productFull.getTxGender().toUpperCase(), productFull
+				.getIdGender(), productFull.getIdType(), null, null, null));
+
+		listHashtag.add(new HashtagDTO(productFull.getTxType().toUpperCase()
+				+ " " + productFull.getTxBrand().toUpperCase(), null,
+				productFull.getIdType(), productFull.getIdBrand(), null, null));
+
+		listHashtag.add(new HashtagDTO(productFull.getTxType().toUpperCase()
+				+ " " + productFull.getTxMaterial().toUpperCase(), null,
+				productFull.getIdType(), null, productFull.getIdMaterial(),
+				null));
+
+		productFull.setListHashtag(listHashtag);
+		
 		return productFull;
 	}
 
@@ -283,7 +360,7 @@ public class ProductService implements IProductService {
 
 	@Override
 	public Integer insertProduct(ProductFullNewDTO productFull,
-			Boolean fgPubblicazione) {
+			Boolean fgPubblicazione) throws OthalaException {
 		return productDAO.insertProduct(productFull, fgPubblicazione);
 
 	}
@@ -333,7 +410,8 @@ public class ProductService implements IProductService {
 	}
 
 	@Override
-	public ProductFullNewDTO listFindBarcode(String txBarcode) throws BarcodeNotPresentException {
+	public ProductFullNewDTO listFindBarcode(String txBarcode)
+			throws BarcodeNotPresentException {
 
 		ProductFullNewDTO productFull = productDAO
 				.getProductFullBarcode(txBarcode);
@@ -341,18 +419,16 @@ public class ProductService implements IProductService {
 		if (productFull == null) {
 			throw new BarcodeNotPresentException(txBarcode);
 		}
-			List<String> newString = productDAO.listProductImages(productFull
-					.getIdProduct());
-			productFull.setImagesUrl(newString);
+		List<String> newString = productDAO.listProductImages(productFull
+				.getIdProduct());
+		productFull.setImagesUrl(newString);
 
-			List<ArticleFullDTO> listArticleFull = productDAO
-					.listArticleFullBarcode(productFull.getIdProduct(),
-							txBarcode);
+		List<ArticleFullDTO> listArticleFull = productDAO
+				.listArticleFullBarcode(productFull.getIdProduct(), txBarcode);
 
-			productFull.setArticles(listArticleFull);
+		productFull.setArticles(listArticleFull);
 
-			return productFull;
-
+		return productFull;
 
 	}
 
@@ -516,27 +592,36 @@ public class ProductService implements IProductService {
 		return productDAO.listaLookBook(idLookBook);
 	}
 
-	
 	@Override
-	public List<BrandFullDTO> listBrandFull(String languages, Integer idProvincia, Integer idRegione, Integer idBrand) {
+	public List<BrandFullDTO> listBrandFull(String languages,
+			Integer idProvincia, Integer idRegione, Integer idBrand) {
 
-		return	productDAO.listBrandFull(languages, idProvincia, idRegione, idBrand);
+		return productDAO.listBrandFull(languages, idProvincia, idRegione,
+				idBrand);
 
 	}
 
 	@Override
 	public List<ArticleCashedDTO> listArticleCashed() {
 		// TODO Auto-generated method stub
-		List<ArticleCashedDTO> arts= productDAO.getArticlesCached();
+		List<ArticleCashedDTO> arts = productDAO.getArticlesCached();
 		return arts;
 	}
-	
+
 	@Override
 	public List<ArticleCashedDTO> listArticleMajorCashed(String language) {
 		// TODO Auto-generated method stub
-		List<ArticleCashedDTO> arts= productDAO.getArticlesMajorCached(language);
+		List<ArticleCashedDTO> arts = productDAO
+				.getArticlesMajorCached(language);
 		return arts;
 	}
-	
-	
+
+	public IOthalaExternalServices getExternalService() {
+		return externalService;
+	}
+
+	public void setExternalService(IOthalaExternalServices externalService) {
+		this.externalService = externalService;
+	}
+
 }

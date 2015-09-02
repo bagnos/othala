@@ -2,20 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="it.othala.account.queries">
 
-	<select id="existAccount" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+	<select id="existAccount" resultType="java.lang.Integer"
+		parameterType="java.util.HashMap">
 		SELECT count(idUser)
 		FROM
 		${database.schema}CUSTOMER
-		WHERE idUser like #{idUser}
+		WHERE
+		idUser like #{idUser}
 	</select>
 
 	<select id="getAccount" resultType="it.othala.dto.AccountDTO"
 		parameterType="java.util.HashMap">
 		SELECT idUser as email,txPassword as psw,txNome as
 		name,txCognome as
-		surname,txFiscale as cdFisc,T.idTypeState as state,T.txTypeState as txState
+		surname,txFiscale as cdFisc,T.idTypeState as state,T.txTypeState as
+		txState
 		FROM
-		${database.schema}CUSTOMER C JOIN ${database.schema}type_state_account T
+		${database.schema}CUSTOMER C JOIN
+		${database.schema}type_state_account T
 		ON C.idTypeState=t.idTypeState
 		<where>
 			<if test="email!=null">
@@ -26,7 +30,7 @@
 			</if>
 			<if test="name!=null">
 				and txNome like #{name}
-			</if>
+			</if>			
 		</where>
 		order by txCognome,txNome
 	</select>
@@ -38,7 +42,8 @@
 		SELECT txNome as name,txCognome as surname, idUser as email
 		FROM ${database.schema}CUSTOMER
 		WHERE idUser=#{email}
-		AND txPassword=#{psw}
+		AND
+		txPassword=#{psw}
 	</select>
 
 	<insert id="insertAccount" parameterType="it.othala.dto.AccountDTO">
@@ -64,7 +69,8 @@
 		UPDATE
 		${database.schema}CUSTOMER
 		SET idTypeState=#{stato}
-		where idUser in
+		where idUser
+		in
 		<foreach item="item" index="index" collection="email" open="("
 			separator="," close=")">
 			#{item}
@@ -85,5 +91,107 @@
 		(#{email})
 	</insert>
 
+	<insert id="insertMail" parameterType="java.util.HashMap">
+
+		INSERT INTO
+		${database.schema}mail
+		(
+		`idMailGroup`,
+		`txUser`, `txNome`)
+		values
+		(#{idMailGroup},#{txUser},#{txNome})
+
+	</insert>
+
+
+	<select id="listMailGroup" resultType="it.othala.dto.MailGroupDTO"
+		parameterType="java.util.HashMap">
+
+		SELECT
+		idMailGroup,
+		txMailGroup
+		FROM ${database.schema}mail_group
+		<where>
+			<if test="idMailGroup!=null">
+				idMailGroup = #{idMailGroup}
+			</if>
+		</where>
+
+	</select>
+
+	<select id="listMail" resultType="it.othala.dto.MailDTO"
+		parameterType="java.util.HashMap">
+
+		SELECT
+		idMail,
+		idMailGroup,
+		txUser,
+		txNome
+		FROM ${database.schema}mail
+
+		<where>
+			<if test="idMailGroup!=null">
+				idMailGroup = #{idMailGroup}
+			</if>
+			<if test="txUser!=null">
+				and txUser like CONCAT('%', #{txUser}, '%')
+			</if>
+
+		</where>
+
+	</select>
+
+	<update id="updateMail" parameterType="java.util.HashMap">
+		UPDATE
+		${database.schema}mail
+		set idMailGroup=#{idMailGroup},
+		txUser=#{txUser},
+		txNome=#{txNome}
+		where idMail =#{idMail}
+	</update>
+	
+		<update id="updateMailGroup" parameterType="java.util.HashMap">
+		UPDATE
+		${database.schema}mail_group
+		set txMailGroup=#{txMailGroup}
+		where idMailGroup =#{idMailGroup}
+	</update>
+
+	<delete id="deleteMail" parameterType="java.util.HashMap">
+		DELETE FROM
+		${database.schema}mail
+		where idMail =#{idMail}
+
+	</delete>
+	
+	<delete id="deleteAllMail" >
+		DELETE FROM
+		${database.schema}mail
+		where idMailGroup != 1
+
+	</delete>
+	
+	
+
+	<delete id="deleteMailGroup" parameterType="java.util.HashMap">
+		DELETE FROM
+		${database.schema}mail_group
+		where idMailGroup =#{idMailGroup}
+
+	</delete>
+	
+
+	<insert id="insertMailGroup" parameterType="java.util.HashMap">
+
+		INSERT INTO
+		${database.schema}mail_group
+		(
+		`txMailGroup`
+		)
+		values
+		(#{txMailGroup})
+
+	</insert>
+	
 
 </mapper>

@@ -8,8 +8,9 @@ import it.othala.account.execption.UserNotActivatedException;
 import it.othala.account.execption.UserNotFoundException;
 import it.othala.account.execption.UserNotResetStateException;
 import it.othala.dto.AccountDTO;
+import it.othala.dto.MailDTO;
+import it.othala.dto.MailGroupDTO;
 import it.othala.dto.MailPropertiesDTO;
-import it.othala.execption.OthalaException;
 
 import java.util.List;
 
@@ -25,12 +26,12 @@ public interface IAccountService {
 
 	public void changePassworResetdAccount(String email, String psw) throws UserNotFoundException,
 			UserNotResetStateException;
+
 	public void changePassworAccount(String email, String psw) throws UserNotFoundException;
 
-	
-	public int removeAccount(List<AccountDTO> account) ;
-	
-	public int activeAccount(List<AccountDTO> account) ;
+	public int removeAccount(List<AccountDTO> account);
+
+	public int activeAccount(List<AccountDTO> account);
 
 	public void modifyAccount(String OldEmail, AccountDTO account) throws BadCredentialException;
 
@@ -46,5 +47,16 @@ public interface IAccountService {
 
 	public void richiediFidelity(String nome, String cognome, String email, String cell, String emailMerchant,
 			String site, MailPropertiesDTO mail) throws MailNotSendException;
+	
+	public void insertMail(Integer idMailGroup, String txUser, String txNome);
+	public void updateMail(Integer idMail, Integer idMailGroup, String txUser, String txNome);
+	public void deleteMail(Integer idMail);
+	public void insertMailGroup(String txMailGroup);
+	public void updateMailGroup(Integer idMailGroup, String txMailGroup);
+	public void deleteMailGroup(Integer idMailGroup);
+	public List<MailGroupDTO> listMailGroup(Integer idMailGroup);
+	public List<MailDTO> listMail(Integer idMailGroup, String txUser);
+	public void sendMailNewsletter(List<MailDTO>users,String testo,String imageContenuto,String subject,MailPropertiesDTO mailProps) throws Exception;
 
-}
+
+	}

@@ -48,9 +48,9 @@ public interface IProductService {
 
 	public Integer insertCampaign(CampaignDTO campaign);
 
-	public DomainDTO insertType(String languages, String txType, String txTypeEN);
+	public void insertType(String languages, String txType, String txTypeEN);
 
-	public Integer insertProduct(ProductFullNewDTO productFull, Boolean fgPubblicazione);
+	public Integer insertProduct(ProductFullNewDTO productFull, Boolean fgPubblicazione) throws OthalaException;
 
 	public List<ProductFullNewDTO> listFindProduct(String txBarcode, Integer state,
 			Integer shop, Integer gender, Integer type, Integer brand,
@@ -61,9 +61,9 @@ public interface IProductService {
 
 	public void updateProduct(ProductFullNewDTO productFull);
 
-	public DomainDTO insertColor(String languages, String txColorIT, String txColorEN);
+	public void insertColor(String languages, String txColorIT, String txColorEN);
 
-	public DomainDTO insertMaterial(String languages, String txMaterialIT,
+	public void insertMaterial(String languages, String txMaterialIT,
 			String txMaterialEN);
 
 	public ProductFullNewDTO listFindBarcode(String txBarcode) throws BarcodeNotPresentException;
@@ -77,7 +77,7 @@ public interface IProductService {
 	public Integer insertCampaign(CampaignDTO campaign, List<Integer> listIdProduct);
 
 
-	public DomainDTO insertSize(String languages, String txSize);
+	public void insertSize(String languages, String txSize);
 	
 	public void cleanFolderImages(String folderPath) throws OthalaException;
 	
@@ -96,7 +96,7 @@ public interface IProductService {
 			Integer idRegione, Integer idBrand);
 
 
-	public DomainDTO insertBrand(String languages, String txBrand, Integer idRegione,
+	public void insertBrand(String languages, String txBrand, Integer idRegione,
 			Integer idProvincia, String idUser, String urlFoto,
 			String txDescrIT, String txDescrEN);
 

@@ -14,7 +14,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 
 
 	<mappers>
-		<mapper resource="it/othala/external/dao/ibatis/external.xml" /> 
+		<mapper resource="it/othala/external/dao/ibatis/external.xml" />
 	</mappers>
 
 </configuration>

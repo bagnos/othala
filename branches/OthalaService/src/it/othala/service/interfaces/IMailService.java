@@ -9,7 +9,7 @@ import java.util.Map;
 public interface IMailService {
 
 	
-	public void inviaHTMLMail(String[] tos, String subject, String content,Map<String, String> inlineImages,MailPropertiesDTO mailProos) throws MailNotSendException;
+	public void inviaHTMLMail(String[] tos, String subject, String content,Map<String, String> inlineImages,MailPropertiesDTO mailProos,boolean bcc) throws MailNotSendException;
 	public void inviaMail(String[] tos, String subject, String content,MailPropertiesDTO mailProos) throws MailNotSendException;
 	public void insertNewsletterMailChimp(String email,String name,String surname,String apiKey,String listId) throws OthalaException;
 	

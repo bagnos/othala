@@ -98,7 +98,7 @@ public class MailService implements IMailService {
 
 	@Override
 	public void inviaHTMLMail(String[] tos, String subject, String content, Map<String, String> inlineImages,
-			MailPropertiesDTO mailProps) throws MailNotSendException {
+			MailPropertiesDTO mailProps, boolean bcc) throws MailNotSendException {
 		// TODO Auto-generated method stub
 
 		{
@@ -120,7 +120,9 @@ public class MailService implements IMailService {
 
 				message.setFrom(new InternetAddress(mailProps.getFromMail()));
 				message.setRecipients(Message.RecipientType.TO, to);
-				message.setRecipient(Message.RecipientType.BCC, new InternetAddress("adunatasoftware@gmail.com"));
+				if (bcc) {
+					message.setRecipient(Message.RecipientType.BCC, new InternetAddress("adunatasoftware@gmail.com"));
+				}
 				message.setSubject(subject);
 
 				// message.setContent(content, "text/html");

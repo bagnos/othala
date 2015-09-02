@@ -4,7 +4,7 @@
 
 	<select id="getQtStock" resultType="Integer" parameterType="java.lang.String">
 
-		SELECT MAX(QtaGiacUmMag) QTA 
+		SELECT COALESCE(MAX(QtaGiacUmMag),0) QTA 
 		FROM Y_ARTICOLI_VARIANTI 
 		WHERE CodBarre = #{barcode}
 
@@ -13,11 +13,13 @@
 	<resultMap id="ScontoFidelity" type="it.othala.dto.FidelityCardDTO">
 		<id property="idFidelity" column="Cliente" javaType="java.lang.String" />
 		<result property="pcSconto" column="CodCategoriaSconti" javaType="java.lang.Integer" />
+		<result property="txCognome" column="Cognome" javaType="java.lang.String" />
+		<result property="txNome" column="Nome" javaType="java.lang.String" />
 	</resultMap>
 	
 	<select id="getScontoFidelity" resultMap="ScontoFidelity" parameterType="java.lang.Integer">
 		
-		SELECT Cliente, CodCategoriaSconti 
+		SELECT Cliente, CodCategoriaSconti, Cognome, Nome 
 		FROM Y_FIDELITY_CARDS_ESHOP 
 		WHERE Cliente = #{idFidelity}
 		
@@ -25,14 +27,20 @@
 	
 	<select id="getShopStock" resultType="it.othala.external.dto.ShopDegortesDTO" parameterType="java.lang.String">
 		
-		SELECT b.codMagaz, b.DescrizioneNegozio 
-		FROM Y_ARTICOLI_VARIANTI a, Y_NEGOZI_ESHOP b
-		WHERE a.CodBarre = #{barCode}
-		AND a.QtaGiacUmMag = (SELECT MAX(c.QtaGiacUmMag)  
-								FROM Y_ARTICOLI_VARIANTI c
-								WHERE c.CodBarre = #{barCode})
+		SELECT a.codmag as CodMag, COALESCE(b.DesNegozio,'Fittizio') DesNegozio, a.QtaGiacUmMag
+		FROM Y_ARTICOLI_VARIANTI a LEFT OUTER JOIN Y_NEGOZI_ESHOP b ON a.codmag = b.codMagaz
+		WHERE a.CodBarre = #{barCode} 
 		AND a.QtaGiacUmMag > 0
-		AND a.codmag = b.codMagaz
+
+	</select>
+	
+	<select id="getMailingList" resultType="it.othala.external.dto.FidelityCardDegortesDTO">
+		
+		SELECT distinct IndirEmail, coalesce(CodZona,2) CodZona, Cliente
+		FROM Y_FIDELITY_CARDS_ESHOP
+		WHERE IndirEmail is not null
+		and IndirEmail != ''
+		ORDER BY CodZona
 
 	</select>
 

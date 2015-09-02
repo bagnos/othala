@@ -2,6 +2,8 @@ package it.othala.dao;
 
 import it.othala.dao.interfaces.IAccountDAO;
 import it.othala.dto.AccountDTO;
+import it.othala.dto.MailDTO;
+import it.othala.dto.MailGroupDTO;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,12 +56,12 @@ public class AccountDAO extends SqlSessionDaoSupport implements IAccountDAO {
 
 	@Override
 	public int changeStateAccount(String email, int stato) {
-		
+
 		List<String> listEmail = new ArrayList<String>();
 		listEmail.add(email);
-		
+
 		return changeStateAccount(listEmail, stato);
-		
+
 	}
 
 	@Override
@@ -111,9 +113,117 @@ public class AccountDAO extends SqlSessionDaoSupport implements IAccountDAO {
 			map.put("name", nome);
 		}
 		if (cognome != null && !cognome.isEmpty()) {
-			map.put("surname", cognome+"%");
+			map.put("surname", cognome + "%");
 		}
 		return getSqlSession().selectList("it.othala.account.queries.getAccount", map);
+	}
+
+	
+
+	@Override
+	public void insertMail(Integer idMailGroup, String txUser, String txNome) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("idMailGroup", idMailGroup);
+		map.put("txUser", txUser);
+		map.put("txNome", txNome);
+		getSqlSession().insert("it.othala.account.queries.insertMail", map);
+
+	}
+
+	@Override
+	public void updateMail(Integer idMail, Integer idMailGroup, String txUser, String txNome) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("idMail", idMail);
+		map.put("idMailGroup", idMailGroup);
+		map.put("txUser", txUser);
+		map.put("txNome", txNome);
+		getSqlSession().update("it.othala.account.queries.updateMail", map);
+
+	}
+
+	@Override
+	public void deleteMail(Integer idMail) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("idMail", idMail);
+
+		getSqlSession().delete("it.othala.account.queries.deleteMail", map);
+
+	}
+
+	@Override
+	public void insertMailGroup(String txMailGroup) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("txMailGroup", txMailGroup);
+
+		getSqlSession().insert("it.othala.account.queries.insertMailGroup", map);
+
+	}
+
+	@Override
+	public void updateMailGroup(Integer idMailGroup, String txMailGroup) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("idMailGroup", idMailGroup);
+		map.put("txMailGroup", txMailGroup);
+		getSqlSession().update("it.othala.account.queries.updateMailGroup", map);
+
+	}
+
+	@Override
+	public void deleteMailGroup(Integer idMailGroup) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("idMailGroup", idMailGroup);
+
+		getSqlSession().delete("it.othala.account.queries.deleteMailGroup", map);
+
+	}
+	
+	@Override
+	public void deleteAllMail() {
+				getSqlSession().delete("it.othala.account.queries.deleteAllMail");
+
+	}
+	
+	
+
+	@Override
+	public List<MailGroupDTO> listMailGroup(Integer idMailGroup) {
+		HashMap<String, Object> map = new HashMap<>();
+		if (idMailGroup != null && idMailGroup != 0) {
+			map.put("idMailGroup", idMailGroup);
+		}
+
+		List<MailGroupDTO> queryList = getSqlSession().selectList("it.othala.account.queries.listMailGroup", map);
+		List<MailGroupDTO> outList = new ArrayList<MailGroupDTO>(); 
+				
+		
+		if (idMailGroup == null || idMailGroup == 0) {
+			MailGroupDTO globalList = new MailGroupDTO();
+			globalList.setIdMailGroup(0);
+			globalList.setTxMailGroup("Globale");
+			outList.add(globalList);
+		}
+		
+		outList.addAll(queryList);
+		return outList;
+		
+
+		
+		
+
+	}
+
+	@Override
+	public List<MailDTO> listMail(Integer idMailGroup, String txUser) {
+		HashMap<String, Object> map = new HashMap<>();
+		if (idMailGroup != null && idMailGroup != 0) {
+			map.put("idMailGroup", idMailGroup);
+		}
+		if (txUser != null && !txUser.isEmpty()) {
+			map.put("txUser", txUser);
+		}
+
+		return getSqlSession().selectList("it.othala.account.queries.listMail", map);
+
 	}
 
 }

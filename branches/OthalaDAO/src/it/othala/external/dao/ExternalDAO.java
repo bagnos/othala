@@ -2,9 +2,11 @@ package it.othala.external.dao;
 
 import it.othala.dto.FidelityCardDTO;
 import it.othala.external.dao.interfaces.IExternalDAO;
+import it.othala.external.dto.FidelityCardDegortesDTO;
 import it.othala.external.dto.ShopDegortesDTO;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 
@@ -23,17 +25,33 @@ public class ExternalDAO extends SqlSessionDaoSupport implements IExternalDAO {
 	@Override
 	public FidelityCardDTO getFidelityCard(String idFidelity) {
 		
-		return getSqlSession().selectOne(
+		List<FidelityCardDTO> listFidelity = 
+		getSqlSession().selectList(
 				"it.othala.external.queries.getScontoFidelity", Integer.parseInt(idFidelity));
+		
+		if (listFidelity != null  && !listFidelity.isEmpty())
+		{
+		return listFidelity.get(0);
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+	@Override
+	public List<ShopDegortesDTO> getShopStock(String barCode) {
+		
+		return getSqlSession().selectList(
+				"it.othala.external.queries.getShopStock", barCode);
 		
 	}
 
 	@Override
-	public ShopDegortesDTO getShopStock(String barCode) {
-		
-		return getSqlSession().selectOne(
-				"it.othala.external.queries.getShopStock", barCode);
-		
+	public List<FidelityCardDegortesDTO> getMailingList() {
+		return getSqlSession().selectList(
+				"it.othala.external.queries.getMailingList");
+	
 	}
 
 }

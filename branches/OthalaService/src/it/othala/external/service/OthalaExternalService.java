@@ -9,6 +9,7 @@ import it.othala.dto.OrderFullDTO;
 import it.othala.dto.ShopDTO;
 import it.othala.execption.FidelityCardNotPresentException;
 import it.othala.execption.FidelityCardNotValidException;
+import it.othala.external.dto.FidelityCardDegortesDTO;
 import it.othala.external.service.interfaces.IOthalaExternalServices;
 
 class OthalaExternalService implements IOthalaExternalServices {
@@ -25,7 +26,7 @@ class OthalaExternalService implements IOthalaExternalServices {
 	}
 
 	@Override
-	public FidelityCardDTO checkFidelityCard(String idFidelity, String eMail, String celNum) throws FidelityCardNotPresentException, FidelityCardNotValidException 
+	public FidelityCardDTO checkFidelityCard(String idFidelity, String eMail, String celNum, String nome, String cognome) throws FidelityCardNotPresentException, FidelityCardNotValidException 
 	{
 		List<FidelityCardDTO> fCard = orderDAO.getFidelityCard(idFidelity, null, null, null);
 		if (fCard.get(0) == null)
@@ -66,6 +67,25 @@ class OthalaExternalService implements IOthalaExternalServices {
 		
 		return productDAO.getShop(idProduct, pgArticle);
 		
+	}
+
+	@Override
+	public void aggiornaQtArticle(Integer idProduct) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<FidelityCardDegortesDTO> getMailingList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ShopDTO getShopReso() {
+		List<ShopDTO> shop = productDAO.listShop();
+		
+		return shop.get(0);
 	}
 
 

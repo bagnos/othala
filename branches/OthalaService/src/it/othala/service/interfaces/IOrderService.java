@@ -9,6 +9,7 @@ import it.othala.dto.MailPropertiesDTO;
 import it.othala.dto.OrderFullDTO;
 import it.othala.dto.RefoundFullDTO;
 import it.othala.dto.RendicontoOrdini;
+import it.othala.dto.RendicontoTotDTO;
 import it.othala.enums.TypeStateOrder;
 import it.othala.execption.FidelityCardNotPresentException;
 import it.othala.execption.FidelityCardNotValidException;
@@ -63,7 +64,7 @@ public interface IOrderService {
 	
 	public String addFidelityCard(FidelityCardDTO carta);
 	
-	public FidelityCardDTO checkFidelityCard(String idFidelity, String eMail, String celNum) throws FidelityCardNotPresentException, FidelityCardNotValidException;
+	public FidelityCardDTO checkFidelityCard(String idFidelity, String eMail, String celNum, String nome, String cognome) throws FidelityCardNotPresentException, FidelityCardNotValidException;
 	
 	public void aggiornaFidelity(String idFidelity, Integer pcSconto, String txNome, String txCognome, String txEmail, String txTel);
 	
@@ -104,6 +105,10 @@ public interface IOrderService {
 	
 	public List<FidelityCardDTO> getFidelityCards(String idFidelity, String txNome, String txCognome, String txEmail) throws Exception;
 	
-	public RendicontoOrdini getTotaliOrdini(Timestamp dtDa, Timestamp dtA, TypeStateOrder statoOrdine, TypeStateOrder statoRefound);
+	public RendicontoTotDTO getTotaliOrdini(Timestamp dtDa, Timestamp dtA, TypeStateOrder statoOrdine, TypeStateOrder statoRefound);
+
+	public void aggiornaNewsletter();
+	
+	
 	
 }
