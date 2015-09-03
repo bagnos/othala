@@ -62,8 +62,8 @@
 								style="color: white">
 								<span class="glyphicon glyphicon-shopping-cart"></span>
 								<h:outputText styleClass="hidden-xs" value="#{msg.header_Cart}" />
-								<h:outputText value="(#{cartFlowBean.cart.size()})" />
-								<h:panelGroup rendered="#{cartFlowBean.cart.size()>0}">
+								<h:outputText id="valueCartNavNbar" value="(#{cartFlowBean.cart.size()})" />
+								<h:panelGroup  rendered="#{cartFlowBean.cart.size()>0}">
 									<b class="caret"></b>
 								</h:panelGroup>
 							</a> <h:panelGroup rendered="#{cartFlowBean.cart.size()>0}">
@@ -80,13 +80,17 @@
 						<h:panelGroup rendered="#{customerLoginBean.name==null}">
 							<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
 									style="color: white">
-									<h:outputText value="#{msg.header_access}" />
+								    <span class="glyphicon glyphicon-log-in"></span>
+									<h:outputText value="#{msg.header_access}" style="margin-left:2px" />
 									<b class="caret"></b>
 								</a>
 								<ul class="dropdown-menu">
 
 									<li class="dropdown"><a href="#{request.contextPath}/access"
 											class="dropdown-toggle">
+											
+											
+												
 											<h:outputText value="#{msg.header_login}" />
 										</a></li>
 									<li><a href="#{request.contextPath}/registration"

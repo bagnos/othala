@@ -41,7 +41,7 @@ public class CartFlowBean implements Serializable {
 	private int idPayment;
 	private Catalog catalog;
 	private boolean checkoutCart;
-	private BigDecimal totalPriceOrder;
+	private BigDecimal totalPriceOrder=BigDecimal.ZERO;
 	
 	private DeliveryCostDTO deliveryCost;
 	private BigDecimal totalItemOrder;
