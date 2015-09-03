@@ -3,12 +3,32 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	<div class="hidden-xs">
+	  <div id="siglaStore" class="hidden-xs" style="float: left">
+	<h:graphicImage library="images/home" styleClass="img-responsive" alt="Roburs Siena Official Online Store" title="#{msg.navTab_goHome}"
+				name="scritta_laterale-siena.png"></h:graphicImage>
+	</div>
 	<div id="logo">
 		<a class="hidden-xs hidden-sm" href="#{request.contextPath}/home">
 			<h:graphicImage library="images" styleClass="img-responsive" alt="logo #{msgSite.titleMerchant}" title="#{msg.navTab_goHome}"
-				name="logo2-store.png"></h:graphicImage>
+				name="logo.png"></h:graphicImage>
 		</a>
 	</div>
+	<div id="carrello" >
+		<div class="hidden-xs">
+		<!--<h:graphicImage  library="images/home" styleClass="img-responsive" alt="logo #{msgSite.titleMerchant}" title="#{msg.navTab_goHome}"
+				name="legapro.png"></h:graphicImage>-->
+				<span class="glyphicon glyphicon-shopping-cart"></span>
+			Carrello <h:outputText value="(#{cartFlowBean.cart.size()}) " />  <h:outputText value="#{cartFlowBean.totalPriceOrder}">
+										<f:converter converterId="it.othala.BigDecimalConverter" />
+									</h:outputText>
+				
+    </div>
+		</div>
+		
+	</div>
+	
+	
 	<ul class="nav nav-tabs responsive" id="tabNav">
 		<ui:repeat var="menu" value="#{applicationBean.getDomain(localeManager.language).menu}" varStatus="status">
 			<li><a href="##{menu.idGender}" data-toggle="tab">
@@ -24,7 +44,8 @@
 			<li><a href="#{request.contextPath}/#{msg.catalogo_newarrivals}">#{msg.catalog_newArrival}</a></li>
 		</h:panelGroup>
 	</ul>
-	<div id="tab-content" class="tab-content responsive row col-sm-12">
+
+	<div id="tab-content" class="tab-content responsive  col-sm-12">
 		<ui:repeat var="menu" value="#{applicationBean.getDomain(localeManager.language).menu}" varStatus="status">
 			<div class="tab-pane" id="#{menu.idGender}">
 				<div class="row">
