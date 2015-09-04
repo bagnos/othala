@@ -780,8 +780,8 @@ public class OrderService implements IOrderService {
 			 * inlineImages.put("imageLogo", pathLogo); out.write("</imgLogo>");
 			 */
 			out.write("<customer>");
-			out.write("<name><![CDATA[" + order.getNameUser() + "]]></name>");
-			out.write("<mail>" + order.getIdUser() + "</mail>");
+			out.write("<name><![CDATA[" + org.apache.commons.lang3.StringEscapeUtils.escapeHtml4(order.getNameUser()) + "]]></name>");
+			out.write("<mail>" + org.apache.commons.lang3.StringEscapeUtils.escapeHtml4(order.getIdUser()) + "</mail>");
 			out.write("<surname><![CDATA[" + order.getSurnameUser() + "]]></surname>");
 			out.write("</customer>");
 
@@ -795,7 +795,7 @@ public class OrderService implements IOrderService {
 			out.write("<name><![CDATA[" + order.getBillingAddress().getNome() + "]]></name>");
 			out.write("<surname><![CDATA[" + order.getBillingAddress().getCognome() + "]]></surname>");
 			out.write("<telefono>" + order.getBillingAddress().getTel() + "</telefono>");
-			out.write("<street>" + order.getBillingAddress().getVia() + "</street>");
+			out.write("<street><![CDATA[" + order.getBillingAddress().getVia() + "]]></street>");
 			out.write("<zipCode>" + order.getBillingAddress().getCap() + "</zipCode>");
 			out.write("<city>" + order.getBillingAddress().getComune() + "</city>");
 			out.write("<prov>" + order.getBillingAddress().getProvincia() + "</prov>");
@@ -805,7 +805,7 @@ public class OrderService implements IOrderService {
 			out.write("<name><![CDATA[" + order.getShippingAddress().getNome() + "]]></name>");
 			out.write("<surname><![CDATA[" + order.getShippingAddress().getCognome() + "]]></surname>");
 			out.write("<tel>" + order.getShippingAddress().getTel() + "</tel>");
-			out.write("<street>" + order.getShippingAddress().getVia() + "</street>");
+			out.write("<street><![CDATA[" + order.getShippingAddress().getVia() + "]]></street>");
 			out.write("<zipCode>" + order.getShippingAddress().getCap() + "</zipCode>");
 			out.write("<city>" + order.getShippingAddress().getComune() + "</city>");
 			out.write("<prov>" + order.getShippingAddress().getProvincia() + "</prov>");
@@ -818,8 +818,8 @@ public class OrderService implements IOrderService {
 
 				out.write("<item>");
 				out.write("<number>" + art.getPrdFullDTO().getIdProduct() + "</number>");
-				out.write("<brand>" + art.getPrdFullDTO().getTxBrand() + "</brand>");
-				out.write("<description>" + art.getPrdFullDTO().getDescription() + "</description>");
+				out.write("<brand><![CDATA[" +  art.getPrdFullDTO().getTxBrand() + "]]></brand>");
+				out.write("<description><![CDATA["  + art.getPrdFullDTO().getDescription()+ "]]></description>");
 				out.write("<color>" + art.getTxColor() + "</color>");
 				out.write("<size>" + art.getTxSize() + "</size>");
 				out.write("<unitPrice>" + art.getPrdFullDTO().getRealPrice() + "</unitPrice>");
@@ -849,7 +849,6 @@ public class OrderService implements IOrderService {
 			transformer.transform(xmlSource, result);
 
 			String html = IOUtils.toString(new FileInputStream(htmlTemp), "UTF-8");
-
 			return html;
 
 		} catch (Exception e) {
