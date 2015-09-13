@@ -54,7 +54,17 @@ public class CartFlowView1 extends BaseView {
 	private String manualCanonicalUrlEN;
 	private String titleSEO;
 
+	private String searchProduct;
+
 	
+
+	public String getSearchProduct() {
+		return searchProduct;
+	}
+
+	public void setSearchProduct(String searchProduct) {
+		this.searchProduct = searchProduct;
+	}
 
 	public String getTitleSEO() {
 		return titleSEO;
@@ -370,6 +380,10 @@ public class CartFlowView1 extends BaseView {
 			buildeCanonicalUrlIT.append("/nuoviarrivi");
 			buildTitleSEO.append(" newarrivals");
 		}
+		else if (searchProduct!=null || searchProduct.isEmpty()==false)
+		{
+			
+		}
 
 		manualCanonicalUrlEN = buildeCanonicalUrlEN.toString();
 		manualCanonicalUrlIT = buildeCanonicalUrlIT.toString();
@@ -640,6 +654,10 @@ public class CartFlowView1 extends BaseView {
 				}
 			}
 		}
+		else if (searchProduct!=null || searchProduct.isEmpty()==false)
+		{
+			getCartFlowBean().getBreadCrumb().add(searchProduct);
+		}	
 
 		if (getCartFlowBean().getBreadCrumb().size() == 1) {
 			getCartFlowBean().getBreadCrumb().clear();

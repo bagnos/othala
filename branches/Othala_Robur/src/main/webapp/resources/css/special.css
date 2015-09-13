@@ -294,10 +294,46 @@ html,body,form {
 	top: -130px !important;;
 	right: 50% !important;
 }
+/*
+#cartHiddenXs
+{
+	display: none;
+}
 
 #valueCartNavNbar {
 	display: none;
+}*/
+
+#txtCercaProdotto
+{
+	border: 1px solid black;color:black;
 }
+
+#cmdSearchProduct
+{
+	border: 1px solid black;color:black;
+}
+
+#txtCercaProdotto::-webkit-input-placeholder
+{
+  color:    black;
+}
+#txtCercaProdotto:-moz-placeholder
+ 
+{
+  color:    black;
+}
+#txtCercaProdotto::-moz-placeholder
+ 
+{
+  color:    black;
+}
+#txtCercaProdotto:-ms-input-placeholder
+ 
+{
+  color:    black;
+}
+
 
 #carrello {
 	position: absolute;
@@ -305,6 +341,11 @@ html,body,form {
 	right: 0px;
 	font-family: playregular !important;
 	font-size: 25px;
+}
+
+#carrello a
+{
+	color:black !important;
 }
 
 @media ( min-width : 767px) {

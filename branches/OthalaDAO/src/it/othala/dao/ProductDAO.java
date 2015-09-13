@@ -88,6 +88,8 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 
 		return listProduct;
 	}
+	
+	
 
 	@Override
 	public List<String> listDistinctArticleSize(Integer idProduct) {
@@ -1387,5 +1389,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		return getSqlSession().selectList(
 				"it.othala.product.queries.getProdottiPiuVenduti", map);
 	}
+
+	
 
 }

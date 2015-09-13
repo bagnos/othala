@@ -1,59 +1,91 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:pe="http://primefaces.org/ui/extensions"
-	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	xmlns:pe="http://primefaces.org/ui/extensions" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 	<div class="hidden-xs">
-	  <div id="siglaStore" class="hidden-xs" style="float: left">
-	<h:graphicImage library="images/home" styleClass="img-responsive" alt="Roburs Siena Official Online Store" title="#{msg.navTab_goHome}"
+		<div id="siglaStore" class="hidden-xs" style="float: left">
+			<h:graphicImage library="images/home" styleClass="img-responsive"
+				alt="Roburs Siena Official Online Store" title="#{msg.navTab_goHome}"
 				name="scritta_laterale-siena.png"></h:graphicImage>
-	</div>
-	<div id="logo">
-		<a class="hidden-xs hidden-sm" href="#{request.contextPath}/home">
-			<h:graphicImage library="images" styleClass="img-responsive" alt="logo #{msgSite.titleMerchant}" title="#{msg.navTab_goHome}"
-				name="logo.png"></h:graphicImage>
-		</a>
-	</div>
-	<div id="carrello" >
-		<div class="hidden-xs">
-		<!--<h:graphicImage  library="images/home" styleClass="img-responsive" alt="logo #{msgSite.titleMerchant}" title="#{msg.navTab_goHome}"
-				name="legapro.png"></h:graphicImage>-->
-				<span class="glyphicon glyphicon-shopping-cart"></span>
-			Carrello <h:outputText value="(#{cartFlowBean.cart.size()}) " />  <h:outputText value="#{cartFlowBean.totalPriceOrder}">
-										<f:converter converterId="it.othala.BigDecimalConverter" />
-									</h:outputText>
-				
-    </div>
 		</div>
-		
+		<div id="logo">
+			<a class="hidden-xs hidden-sm" href="#{request.contextPath}/home">
+				<h:graphicImage library="images" styleClass="img-responsive" alt="logo #{msgSite.titleMerchant}"
+					title="#{msg.navTab_goHome}" name="logo.png"></h:graphicImage>
+			</a>
+		</div>
+		<div id="carrello">
+			<div class="hidden-xs">
+				<!--<h:graphicImage  library="images/home" styleClass="img-responsive" alt="logo #{msgSite.titleMerchant}" title="#{msg.navTab_goHome}"
+				name="legapro.png"></h:graphicImage>-->
+				<!-- 
+				<a title="#{msg.catalogo_show_mycart}" 
+											href="#{request.contextPath}/#{msg.catalogo_mycart}">
+				<span class="glyphicon glyphicon-shopping-cart"></span></a> #{msg.header_Cart}
+				<h:outputText value="(#{cartFlowBean.cart.size()}) " />
+
+				<h:outputText rendered="#{cartFlowBean.totalPriceOrder!=null}"
+					value="#{cartFlowBean.totalPriceOrder}">
+					<f:converter converterId="it.othala.BigDecimalConverter" />
+				</h:outputText>
+				<h:outputText rendered="#{cartFlowBean.totalPriceOrder==null}" value="&#8364; 0,00 " />
+				-->
+				<h:form id="tabBarForm" prependId="false">
+
+					<div class="col-sm-3 col-sm-offset-9">
+						<div class="input-group">
+							<h:inputText maxlength="10"
+								
+								styleClass="form-control" id="txtCercaProdotto" value="#{homeView.serchProduct}"
+								pt:placeholder="CERCA IN ROBUR STORE" />
+
+							<span class="input-group-btn"> <h:commandLink id="cmdSearchProduct" 
+									class="btn btn-default" actionListener="#{homeView.serchProductClick}"
+									icon="ui-icon-search">
+									<f:ajax execute="txtCercaProdotto" render="txtCercaProdotto"></f:ajax>
+									<span class="glyphicon glyphicon-search"></span>
+								</h:commandLink>
+							</span>
+						</div>
+					</div>
+
+				</h:form>
+
+			</div>
+		</div>
+
 	</div>
-	
-	
+
+
 	<ul class="nav nav-tabs responsive" id="tabNav">
-		<ui:repeat var="menu" value="#{applicationBean.getDomain(localeManager.language).menu}" varStatus="status">
+		<ui:repeat var="menu" value="#{applicationBean.getDomain(localeManager.language).menu}"
+			varStatus="status">
 			<li><a href="##{menu.idGender}" data-toggle="tab">
-					<h:outputText  value="#{menu.txGender}" style="text-transform:uppercase" />
+					<h:outputText value="#{menu.txGender}" style="text-transform:uppercase" />
 				</a></li>
 		</ui:repeat>
-		<h:panelGroup rendered="#{applicationBean.getDomain(localeManager.language).menuFull.fgPromozioni}">
+		<h:panelGroup
+			rendered="#{applicationBean.getDomain(localeManager.language).menuFull.fgPromozioni}">
 			<li><a href="#promo2" id="promo" data-toggle="tab">
 					<h:outputText value="#{msg.catalog_promo}" />
 				</a></li>
 		</h:panelGroup>
-		<h:panelGroup rendered="#{applicationBean.getDomain(localeManager.language).menuFull.fgNuoviArrivi}">
+		<h:panelGroup
+			rendered="#{applicationBean.getDomain(localeManager.language).menuFull.fgNuoviArrivi}">
 			<li><a href="#{request.contextPath}/#{msg.catalogo_newarrivals}">#{msg.catalog_newArrival}</a></li>
 		</h:panelGroup>
 	</ul>
 
 	<div id="tab-content" class="tab-content responsive  col-sm-12">
-		<ui:repeat var="menu" value="#{applicationBean.getDomain(localeManager.language).menu}" varStatus="status">
+		<ui:repeat var="menu" value="#{applicationBean.getDomain(localeManager.language).menu}"
+			varStatus="status">
 			<div class="tab-pane" id="#{menu.idGender}">
 				<div class="row">
 					<div class="col-xs-1 col-md-2 hidden-xs">
-						<p:graphicImage styleClass="img-responsive"  alt="#{menu.txGender}" library="#{menu.imgLibrary}"
-							name="#{menu.imgName}" />
+						<p:graphicImage styleClass="img-responsive" alt="#{menu.txGender}"
+							library="#{menu.imgLibrary}" name="#{menu.imgName}" />
 					</div>
-					<div class="col-xs-10 col-sm-8  spacer10">						
+					<div class="col-xs-10 col-sm-8  spacer10">
 						<div class="row spacer10">
 							<ui:repeat var="submenu" value="#{menu.subMenu}" varStatus="statusSub">
 								<div class="col-sm-12 col-md-4 spacer6">

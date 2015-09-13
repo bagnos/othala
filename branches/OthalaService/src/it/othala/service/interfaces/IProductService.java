@@ -35,7 +35,8 @@ public interface IProductService {
 			BigDecimal maxPrice, Integer size, Integer color,
 			Boolean newArrivals, int order, Integer idCampaign,
 			Boolean fgCampaign);
-
+	
+	
 	public void publishProduct(List<Integer> listIdProduct);
 	
 	public void addProductToCampaign(List<Integer> listIdProduct, Integer idCampaign);
@@ -56,6 +57,8 @@ public interface IProductService {
 			Integer shop, Integer gender, Integer type, Integer brand,
 			BigDecimal minPrice, BigDecimal maxPrice, String description,
 			Date dtBegin, Date dtEnd);
+	
+	
 			
 	public List<String> deleteProduct (Integer idProduct);
 

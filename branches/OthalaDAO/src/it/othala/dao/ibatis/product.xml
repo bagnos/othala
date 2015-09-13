@@ -1113,6 +1113,10 @@
 		<if test="idCampaign != null">
 			and a.idCampaign = #{idCampaign}
 		</if>
+		
+		
+		
+		
 
 		<if test="fgCampaign != null and fgCampaign == true">
 			and a.idCampaign is not null

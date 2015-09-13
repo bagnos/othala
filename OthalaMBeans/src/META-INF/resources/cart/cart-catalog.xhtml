@@ -10,6 +10,7 @@
 			<f:viewParam name="fgNewArrivals" value="#{cartFlowView1.fgNewArrivals}"></f:viewParam>
 			<f:viewParam name="idCampaign" value="#{cartFlowView1.idCampaign}"></f:viewParam>
 			<f:viewParam name="idSubMenuBrand" value="#{cartFlowView1.brand}"></f:viewParam>
+			<f:viewParam name="searchProduct" value="#{cartFlowView1.searchProduct}"></f:viewParam>
 		</f:metadata>
 	</ui:define>
 	<ui:define name="title">#{cartFlowView1.titleSEO} Online | #{msgSite.nomeMerchant}</ui:define>
@@ -48,6 +49,7 @@
 						</ui:repeat>
 					</ol>
 				</div>
+				
 				<!-- FILTRI RICERCA -->
 				<div class="row container visibile  altezza75 " style="clear: both;">
 					<div class="panel panel-default">
@@ -142,6 +144,7 @@
 				<!-- PANNELLO PRODOTTI -->
 				<h:panelGroup id="products" styleClass="emptyPnl">
 					<!-- CATALOGO PRODOTTI -->
+
 					<div class="row">
 						<ui:repeat var="art" value="#{cartFlowBean.catalog.articlesPage}" varStatus="status">
 							<div class="col-sm-4">

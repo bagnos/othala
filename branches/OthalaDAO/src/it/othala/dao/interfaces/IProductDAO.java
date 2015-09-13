@@ -50,6 +50,9 @@ public interface IProductDAO {
 			Integer gender, Integer brand, BigDecimal minPrice,
 			BigDecimal maxPrice, Integer size, Integer color,
 			Boolean newArrivals, int order, Integer idCampaign, Boolean fgCampaign);
+	
+	
+
 
 	public ProductFullNewDTO getProductFull(String languages, Integer idProduct);
 	public void clearCache();
