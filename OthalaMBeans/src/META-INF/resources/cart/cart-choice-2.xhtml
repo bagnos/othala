@@ -241,6 +241,10 @@
 									</div>
 								</div>
 							</h:panelGroup>
+							
+							
+						<ui:include  src="/sections/customizationProduct.xhtml" />
+			
 						</div>
 						<div class="row guidaVisibile">
 							<h:panelGroup styleClass="col-sm-12" rendered="#{cartChoice2View.renderSize}">
@@ -346,7 +350,9 @@
 							</div>
 						</div>
 					</div>
+					
 				</h:panelGroup>
+				
 			</div>
 			<p:dialog widgetVar="dlgTaglie" id="dlgTaglie" width="780" appendToBody="false"
 				styleClass="borderSizeColor" showHeader="false" header="GUIDA TAGLIE" closable="true"

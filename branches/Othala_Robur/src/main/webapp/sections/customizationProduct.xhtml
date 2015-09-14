@@ -1,0 +1,24 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:pe="http://primefaces.org/ui/extensions" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	<h:panelGroup rendered="#{cartFlowBean.detailProductFull.idType==9}">
+	
+			<div class="panel panel-default">
+				<div class="panel-heading">Personalizza il tuo Prodotto</div>
+				<div class="panel-body">
+					<div class="form-group spacer10">
+						<label for="numero">Numero Maglia</label>
+						<p:spinner size="2" value="#{cartChoice2View.custom1}" id="numero" min="1" max="99" />
+					</div>
+					<div class="form-group">
+						<label for="numero">Nome</label>
+						<h:inputText value="#{cartChoice2View.custom2}" styleClass="form-control" maxlength="10"
+							pt:placeholder="Max 10. caratteri" />
+					</div>
+				</div>
+			</div>
+
+		
+	</h:panelGroup>
+</ui:composition>

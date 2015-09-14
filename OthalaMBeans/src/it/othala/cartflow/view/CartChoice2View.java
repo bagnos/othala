@@ -47,7 +47,34 @@ public class CartChoice2View extends BaseView {
 	private String txType;
 	private String txDescription;
 	
+	private String custom1;
+	private String custom2;
 	
+	
+
+	public String getCustom1() {
+		return custom1;
+	}
+
+
+
+	public void setCustom1(String custom1) {
+		this.custom1 = custom1;
+	}
+
+
+
+	public String getCustom2() {
+		return custom2;
+	}
+
+
+
+	public void setCustom2(String custom2) {
+		this.custom2 = custom2;
+	}
+
+
 
 	public String getTxType() {
 		return txType;
@@ -312,6 +339,10 @@ public class CartChoice2View extends BaseView {
 	}
 
 	public String goToCart() {
+		if (custom1!=null && custom1.isEmpty()==false && custom2!=null && custom2.isEmpty()==false )
+		{
+			artSel.setCustom(custom1+" "+custom2);
+		}
 		getCartFlowBean().getCart().add(artSel);
 		artSel.setQtBooked(qtaArticle);
 		redirectCart();

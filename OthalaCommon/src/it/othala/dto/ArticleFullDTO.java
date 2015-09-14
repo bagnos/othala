@@ -68,6 +68,16 @@ public class ArticleFullDTO implements Serializable {
 	private BigDecimal specialPrice;
 	private BigDecimal totalPriced;
 	private Integer idOrderArticle;
+	private String custom;
+	
+	public String getCustom() {
+		return custom;
+	}
+
+	public void setCustom(String custom) {
+		this.custom = custom;
+	}
+
 	public BigDecimal getTotalPriced() {
 
 		totalPriced = priceDiscounted.multiply(new BigDecimal(qtBooked));
