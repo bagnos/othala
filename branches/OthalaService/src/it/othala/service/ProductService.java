@@ -287,6 +287,56 @@ public class ProductService implements IProductService {
 	}
 
 	@Override
+	public VetrinaDTO getListProduct(String descr, String languages) {
+
+		List<ProductFullNewDTO> listProduct = productDAO.listProduct(descr);
+
+		for (int i = 0; i <= listProduct.size() - 1; i++) {
+
+			List<String> newString = productDAO.listProductImages(listProduct
+					.get(i).getIdProduct());
+
+			listProduct.get(i).setImagesUrl(newString);
+		}
+
+		for (int i = 0; i <= listProduct.size() - 1; i++) {
+
+			List<String> newString = productDAO
+					.listDistinctArticleSize(listProduct.get(i).getIdProduct());
+
+			listProduct.get(i).setSize(newString);
+
+		}
+
+		// recupero attributo colori degli articoli
+
+		for (int i = 0; i <= listProduct.size() - 1; i++) {
+
+			List<String> newString = productDAO.listDistinctArticleColor(
+					listProduct.get(i).getIdProduct(), languages.toString());
+
+			listProduct.get(i).setColor(newString);
+
+		}
+
+		VetrinaDTO vetrinaDTO = new VetrinaDTO();
+		vetrinaDTO.setProdotti(listProduct);
+
+		vetrinaDTO.setSize(productDAO.listSizeProduct(languages, null, null,
+				null, null, null, null, null, null,0,
+				null, null));
+		vetrinaDTO.setColor(productDAO.listColorProduct(languages, null, null,
+				null, null, null, null, null, null, 0,
+				null, null));
+		vetrinaDTO.setBrand(productDAO.listBrandProduct(languages, null, null,
+				null, null, null, null, null, null, 0,
+				null, null));
+
+		return vetrinaDTO;
+
+	}
+	
+	@Override
 	public ProductFullNewDTO getProductFull(String languages,
 			Integer idProduct, Boolean fgQtaZero) {
 

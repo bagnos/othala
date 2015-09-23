@@ -107,6 +107,9 @@ public interface IProductService {
 	public List<ArticleCashedDTO> listArticleMajorCashed(String language);
 
 
+	public VetrinaDTO getListProduct(String descr, String languages);
+
+
 	
 	
 }
