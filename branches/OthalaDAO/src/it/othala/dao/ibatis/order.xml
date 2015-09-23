@@ -50,6 +50,7 @@
 			<result property="qtBooked" column="qtArticle" />
 			<result property="priceDiscounted" column="imArticle" />
 			<result property="idOrderArticle" column="idOrderArticle" />
+			<result property="custom" column="txOrderArticle" />
 		</collection>
 		<collection property="speseSpedizione" ofType="it.othala.dto.DeliveryCostDTO">
 			<result property="idDeliveryCost" column="deliveryCost" />
@@ -73,6 +74,7 @@
 		b.qtArticle,
 		b.imArticle,
 		b.idOrderArticle,
+		b.txOrderArticle,
 		c.idStato, c.dtStato, c.txNote,
 		d.txStato, f.IDAddress as
 		idAddressBilling,
@@ -185,9 +187,9 @@
 
 		INSERT INTO
 		${database.schema}orders_articles
-		(`idOrder`,`idProdotto`,`pgArticle`,`qtArticle`,`imArticle`)
+		(`idOrder`,`idProdotto`,`pgArticle`,`qtArticle`,`imArticle`,`txOrderArticle`)
 		values
-		(#{idOrder},#{idProdotto},#{pgArticle},#{qtArticle},#{imArticle})
+		(#{idOrder},#{idProdotto},#{pgArticle},#{qtArticle},#{imArticle},#{custom})
 
 	</insert>
 

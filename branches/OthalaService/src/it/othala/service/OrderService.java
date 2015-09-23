@@ -131,6 +131,8 @@ public class OrderService implements IOrderService {
 			mapProduct.put("pgArticle", article.getPgArticle());
 			mapProduct.put("qtArticle", article.getQtBooked());
 			mapProduct.put("imArticle", article.getPriceDiscounted());
+			mapProduct.put("custom", article.getCustom());
+			
 			orderDAO.insertOrdersArticles(mapProduct);
 		}
 
