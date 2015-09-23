@@ -1390,6 +1390,18 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 				"it.othala.product.queries.getProdottiPiuVenduti", map);
 	}
 
+	@Override
+	public List<ProductFullNewDTO> listProduct(String descr) {
+		HashMap<String, Object> mapProduct = new HashMap<>();
+		mapProduct.put("descr", descr);
+
+		// recupero prodotti
+		List<ProductFullNewDTO> listProduct = getSqlSession().selectList(
+				"it.othala.product.queries.listProductDescr", mapProduct);
+
+		return listProduct;
+	}
+
 	
 
 }

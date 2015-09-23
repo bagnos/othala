@@ -51,6 +51,7 @@ public interface IProductDAO {
 			BigDecimal maxPrice, Integer size, Integer color,
 			Boolean newArrivals, int order, Integer idCampaign, Boolean fgCampaign);
 	
+	public List<ProductFullNewDTO> listProduct(String descr);
 	
 
 

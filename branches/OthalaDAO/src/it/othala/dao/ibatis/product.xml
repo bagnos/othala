@@ -1196,6 +1196,118 @@
 
 
 	</select>
+	
+	<select id="listProductDescr" resultType="it.othala.dto.ProductFullNewDTO"
+		parameterType="java.util.HashMap">
+
+		SELECT
+		idProduct ,
+		price,
+		txBrand,
+		thumbnailsUrl,
+		coalesce(specialPrice,
+		ceiling(price * (100 -
+		coalesce(pcSconto,discount)) / 100)) as
+		priceDiscounted,
+		description,
+		gender,
+		type as txType,
+		coalesce(pcSconto,discount) as
+		discount,
+		fgNewArrivals,
+		tab2.idCampaign,
+		specialPrice,
+		tyProduct,
+		idBrand
+		FROM
+		(
+		SELECT
+		a.idProduct ,
+		imPrice as
+		price,
+		txBrand,
+		txThumbnailsUrl
+		as
+		thumbnailsUrl,
+		txDescription as
+		description,
+		txGender as
+		gender,
+		txType as
+		type,
+		pcDiscount as discount,
+
+		case
+		when
+		DATEDIFF(current_date,
+		a.dtProductState) &lt; 20
+		then 'Y'
+		else
+		'N'
+		end as
+		fgNewArrivals,
+
+		a.idCampaign,
+		a.specialPrice,
+		a.tyProduct,
+		a.idBrand
+		FROM
+
+		${database.schema}product
+		a,
+		${database.schema}product_description
+		b,
+		${database.schema}brand c,
+		${database.schema}gender f,
+		`type` g
+		where
+		a.idProduct = b.idProduct
+		and
+		b.idLanguages = #{languages}
+		and
+		b.idLanguages = f.idLanguages
+		and
+		b.idLanguages = g.idLanguages
+		and
+		a.idProductState = 1
+		and c.idBrand =
+		a.idBrand
+		and f.idGender =
+		a.idGender
+		and g.idType = a.idType
+		and exists
+		(select 1 from
+		${database.schema}article
+		d where
+		d.idProduct =
+		a.idProduct
+		and
+		d.qtStock >
+		0)
+
+
+		<if test="newArrivals != null and newArrivals == true">
+			and txDescription like '%' + #{descr} + '%'
+		</if>
+
+	
+
+		) tab1
+		left join
+		${database.schema}campaigns tab2
+
+		on tab1.idCampaign =
+		tab2.idCampaign
+		and tab2.dtInizio &lt;= current_date
+		and tab2.dtFine
+		&gt;=
+		current_date
+		
+
+		;
+
+
+	</select>
 
 	<select id="listDistinctArticleSize" resultType="String"
 		parameterType="java.util.HashMap">
