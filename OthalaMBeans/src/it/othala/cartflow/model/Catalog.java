@@ -30,6 +30,15 @@ public class Catalog implements Serializable {
 	private boolean includePromo;
 	private Integer idCampaign;
 	private boolean disabledNewCampaign;
+	private String searchProduct;
+
+	public String getSearchProduct() {
+		return searchProduct;
+	}
+
+	public void setSearchProduct(String searchProduct) {
+		this.searchProduct = searchProduct;
+	}
 
 	public boolean isDisabledNewCampaign() {
 		return disabledNewCampaign;

@@ -78,7 +78,7 @@
 											<h6>#{art.prdFullDTO.description}</h6>
 											<ui:fragment rendered="#{art.txSize!='N/A' and art.txColor!='N/A'}"><h6>#{art.txSize} - #{art.txColor}</h6></ui:fragment>
 											<h6>COD. #{art.txBarCode}</h6>
-											<h6>Custom: #{art.custom}</h6>
+											<h6>#{art.note}</h6>
 											<c:if test="#{cartFlowBean.checkoutCart==false}">
 												<p style="margin-top: 20px">
 													<p:commandButton value="#{msg.catalog_remove}" process="@all" update="@all"

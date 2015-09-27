@@ -382,7 +382,9 @@ public class CartFlowView1 extends BaseView {
 		}
 		else if (searchProduct!=null || searchProduct.isEmpty()==false)
 		{
-			
+			buildeCanonicalUrlEN.append("/"+getLocalManager().getWordBundle("catalog_searchProduct"));
+			buildeCanonicalUrlIT.append("/"+getLocalManager().getWordBundle("catalog_searchProduct"));
+			buildTitleSEO.append(getLocalManager().getWordBundle("catalog_searchProduct"));
 		}
 
 		manualCanonicalUrlEN = buildeCanonicalUrlEN.toString();
@@ -394,6 +396,7 @@ public class CartFlowView1 extends BaseView {
 		getCartFlowBean().getCatalog().setIdCampaign(idCampaign);
 		getCartFlowBean().getCatalog().setBrand(brand);
 		getCartFlowBean().getCatalog().setFgNewArrivals(fgNewArrivals);
+		getCartFlowBean().getCatalog().setSearchProduct(searchProduct);
 
 		getCartFlowBean().setCheckoutCart(false);
 		getCartFlowBean().getCatalog().setPriceMin(Integer.valueOf(ConfigurationUtil.getProperty("catalogPriceMin")));
@@ -537,7 +540,14 @@ public class CartFlowView1 extends BaseView {
 						.getCatalog().getBrand());
 
 		getCartFlowBean().getCatalog().getArticles().clear();
-		VetrinaDTO vetrinaDTO = OthalaFactory.getProductServiceInstance().getListProduct(
+		VetrinaDTO vetrinaDTO=null;
+		if (getCartFlowBean().getCatalog().getSearchProduct()!=null && getCartFlowBean().getCatalog().getSearchProduct().isEmpty()==false)
+		{
+			vetrinaDTO=OthalaFactory.getProductServiceInstance().getListProduct(getCartFlowBean().getCatalog().getSearchProduct().trim(), getLang());
+		}
+		else
+		{
+		vetrinaDTO = OthalaFactory.getProductServiceInstance().getListProduct(
 				getLang(),
 				getCartFlowBean().getCatalog().getIdMenu() == null
 						|| getCartFlowBean().getCatalog().getIdMenu().intValue() == 0 ? null : getCartFlowBean()
@@ -557,6 +567,8 @@ public class CartFlowView1 extends BaseView {
 				getCartFlowBean().getCatalog().getIdCampaign() == null
 						|| getCartFlowBean().getCatalog().getIdCampaign().intValue() == 0 ? null : getCartFlowBean()
 						.getCatalog().getIdCampaign(), getCartFlowBean().getCatalog().isIncludePromo());
+		
+		}
 		getCartFlowBean().getCatalog().getArticles().addAll(vetrinaDTO.getProdotti());
 
 		getCartFlowBean().setSizeDTO(vetrinaDTO.getSize());

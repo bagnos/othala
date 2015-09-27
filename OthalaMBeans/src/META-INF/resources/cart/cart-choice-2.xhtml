@@ -242,10 +242,6 @@
 								</div>
 							</h:panelGroup>
 							
-							
-						<ui:include  src="/sections/customizationProduct.xhtml" />
-			
-						</div>
 						<div class="row guidaVisibile">
 							<h:panelGroup styleClass="col-sm-12" rendered="#{cartChoice2View.renderSize}">
 								<p:graphicImage style="cursor: pointer;" onclick="PF('dlgTaglie').show();"
@@ -253,7 +249,11 @@
 								<span title="visualizza la guida delle taglie" style="cursor: pointer;"
 									onclick="PF('dlgTaglie').show();">Guida Taglie</span>
 							</h:panelGroup>
+						</div>	
+						<ui:include  src="/sections/customizationProduct.xhtml" />
+			
 						</div>
+						
 						
 						<div class="row">
 							<div class="col-sm-12">

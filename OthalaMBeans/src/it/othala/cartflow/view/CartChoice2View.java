@@ -341,7 +341,7 @@ public class CartChoice2View extends BaseView {
 	public String goToCart() {
 		if (custom1!=null && custom1.isEmpty()==false && custom2!=null && custom2.isEmpty()==false )
 		{
-			artSel.setCustom(custom1+" "+custom2);
+			artSel.setNote(getLocalManager().getWordBundle("catalog_custom_article")+  custom1+" "+custom2);
 		}
 		getCartFlowBean().getCart().add(artSel);
 		artSel.setQtBooked(qtaArticle);

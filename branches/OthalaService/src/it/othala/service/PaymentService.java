@@ -544,13 +544,19 @@ public class PaymentService implements IPaymentService {
 			int i = 0;
 			for (ArticleFullDTO art : order.getCart()) {
 				if (art != null && idShop == null || art != null && idShop == art.getShop().getIdShop()) {
-
+					
+					if (art.getNote()==null)
+					{
+						art.setNote("");
+					}
+					
 					out.write("<item>");
 					out.write("<number>" + art.getPrdFullDTO().getIdProduct() + "</number>");
 					out.write("<img>cid:imgArt" + i + "</img>");
 					inlineImages.put("imgArt" + i, mailDTO.getBasePathThumbinalsArticle() + art.getThumbnailsUrl());
 					out.write("<brand>" + art.getPrdFullDTO().getTxBrand() + "</brand>");
 					out.write("<description>" + art.getPrdFullDTO().getDescription() + "</description>");
+					out.write("<note><![CDATA[ "+ art.getNote() +"]]></note>");
 					out.write("<color>" + art.getTxColor() + "</color>");
 					out.write("<size>" + art.getTxSize() + "</size>");
 					out.write("<unitPrice>" + art.getPrdFullDTO().getRealPrice() + "</unitPrice>");
