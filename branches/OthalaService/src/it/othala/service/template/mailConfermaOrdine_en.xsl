@@ -286,7 +286,7 @@
 									Id.
 									<xsl:value-of select="number" />
 									<br />
-									<xsl:value-of select="note" />
+									<xsl:value-of select="custom" />
 									<br />
 									
 

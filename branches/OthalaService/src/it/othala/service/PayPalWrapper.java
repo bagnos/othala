@@ -261,9 +261,9 @@ class PayPalWrapper {
 			description = String.format("%s %s %s", descrArt, cart.getAricles().get(i).getTxSize() != null ? cart.getAricles().get(i)
 					.getTxSize() : "", cart.getAricles().get(i).getTxColor() != null ? cart.getAricles().get(i)
 					.getTxColor() : "");
-			if (cart.getAricles().get(i).getNote()!=null)
+			if (cart.getAricles().get(i).getCustom()!=null)
 			{
-				description+=" "+	cart.getAricles().get(i).getNote();
+				description+=" "+	cart.getAricles().get(i).getCustom();
 			}
 			item.setDescription(description);
 			item.setAmount(cart.getAricles().get(i).getPrdFullDTO().getRealPrice().toString());
