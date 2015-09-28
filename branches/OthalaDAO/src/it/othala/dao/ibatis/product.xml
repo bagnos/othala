@@ -1286,7 +1286,7 @@
 		0)
 
 
-		<if test="newArrivals != null and newArrivals == true">
+		<if test="descr != null">
 			and txDescription like '%' + #{descr} + '%'
 		</if>
 
