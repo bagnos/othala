@@ -83,12 +83,14 @@ background-color: #666!important;
 
 .newPromo2 {
 	font-family: arialMTbold;
-	display: none;
+	display: inline-block;
+	margin-left: 20px;
 }
 
 .newPromo3 {
 	font-family: arialMTbold;
-	display: none;
+	display: inline-block;
+	margin-left:20px !important;
 }
 
 .newFlag2 {
