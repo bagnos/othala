@@ -858,6 +858,7 @@ public class CartWizardView extends BaseView {
 		order.setSurnameUser(getLoginBean().getSurname());
 
 		order.setIdFidelity(null);
+		
 		order.setPcSconto(getCartFlowBean().getPcScontoFidelity() + getCartFlowBean().getPcScontoCoupon());
 		if (getCartFlowBean().getPcScontoFidelity() > 0) {
 			order.setIdFidelity(getCartFlowBean().getFidelityCard());

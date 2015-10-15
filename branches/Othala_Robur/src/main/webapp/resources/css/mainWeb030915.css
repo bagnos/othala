@@ -28,6 +28,11 @@
 	display: inline !important;
 }
 
+#rootwizard li.active
+{
+	border:none !important;
+}
+
 .glyphicon-chevron-right,.glyphicon-chevron-left {
 	color: red;
 }

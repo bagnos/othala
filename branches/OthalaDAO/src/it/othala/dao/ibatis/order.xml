@@ -103,7 +103,8 @@
 		i.txDescrizione as
 		desSpeseSpedizione, i.imSpese as speseSpedizione,
 		i.txDescrizioneExt,
-		i.txLinkTracking
+		i.txLinkTracking,
+		b.txOrderArticle
 		FROM
 		${database.schema}orders a,
 		${database.schema}orders_articles b,

@@ -108,7 +108,7 @@ public class OrderService implements IOrderService {
 						article.getPgArticle()));
 				artFull.setQtBooked(article.getQtBooked());
 				artFull.setIdOrderArticle(article.getIdOrderArticle().intValue());
-
+				artFull.setCustom(article.getCustom());
 				newlistArticle.add(artFull);
 			}
 			order.setCart(newlistArticle);
@@ -822,6 +822,7 @@ public class OrderService implements IOrderService {
 				out.write("<number>" + art.getPrdFullDTO().getIdProduct() + "</number>");
 				out.write("<brand><![CDATA[" +  art.getPrdFullDTO().getTxBrand() + "]]></brand>");
 				out.write("<description><![CDATA["  + art.getPrdFullDTO().getDescription()+ "]]></description>");
+				out.write("<description><![CDATA["  + art.getCustom()!=null?art.getCustom():""+ "]]></description>");
 				out.write("<color>" + art.getTxColor() + "</color>");
 				out.write("<size>" + art.getTxSize() + "</size>");
 				out.write("<unitPrice>" + art.getPrdFullDTO().getRealPrice() + "</unitPrice>");
