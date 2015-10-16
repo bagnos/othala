@@ -162,29 +162,13 @@
 									<!-- <h:link outcome="#{art.tyProduct == null ? 'cart-choice-2' : 'cart-choice-3'}">  -->
 
 									<h:outputLink
-										value="#{cartFlowView1.getCartChoice(art.idProduct,art.txBrand,art.txType,art.tyProduct)}"
-										rendered="#{art.tyProduct == null}">
+										value="#{cartFlowView1.getCartChoice(art.idProduct,art.txBrand,art.txType,art.tyProduct)}">
 										<h:graphicImage styleClass="center-block img-responsive"
 											title="Shop #{art.txBrand} #{art.txType} #{art.description} #{art.descriptionEN}"
 											alt="Shop #{art.txBrand} #{art.txType} #{art.description} #{art.descriptionEN}"
 											library="images/cartThumbinals" name="#{art.imagesUrl.get(0)}" />
 									</h:outputLink>
-									<h:outputLink
-										outcome="#{cartFlowView1.getCartChoice(art.idProduct,art.txBrand,art.txType,art.tyProduct)}"
-										rendered="#{art.tyProduct == 1}">
-										<h:graphicImage styleClass="center-block img-responsive"
-											title="#{art.txBrand}:#{art.txType} #{art.description} #{art.descriptionEN}"
-											alt="#{art.txBrand}:#{art.txType} #{art.description} #{art.descriptionEN}"
-											library="images/cartThumbinals" name="#{art.imagesUrl.get(0)}" />
-									</h:outputLink>
-									<h:outputLink
-										outcome="#{cartFlowView1.getCartChoice(art.idProduct,art.txBrand,art.txType,art.tyProduct)}"
-										rendered="#{art.tyProduct == 2}">
-										<h:graphicImage styleClass="center-block img-responsive"
-											title="#{art.txBrand}:#{art.txType} #{art.description} #{art.descriptionEN}"
-											alt="#{art.txBrand}:#{art.txType} #{art.description} #{art.descriptionEN}"
-											library="images/cartThumbinals" name="#{art.imagesUrl.get(0)}" />
-									</h:outputLink>
+
 
 
 									<div class="caption articolo">
