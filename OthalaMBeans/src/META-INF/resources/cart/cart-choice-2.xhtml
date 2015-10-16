@@ -10,7 +10,7 @@
 			<f:viewParam name="idPrd" value="#{cartChoice2View.idProduct}" />
 		</f:metadata>
 	</ui:define>
-	<ui:define name="title">Shop #{cartFlowBean.detailProductFull.txBrand!='shop'?cartFlowBean.detailProductFull.txBrand:''} #{cartChoice2View.seoDescription}  | #{msgSite.nomeMerchant}</ui:define>
+	<ui:define name="title">Shop #{cartFlowBean.detailProductFull.discount!=0? msg.catalog_sales:''} #{cartFlowBean.detailProductFull.txBrand!='shop'?cartFlowBean.detailProductFull.txBrand:''} #{cartChoice2View.seoDescription}| #{msgSite.nomeMerchant}</ui:define>
 	<ui:define name="description">
 		<c:if test="#{localeManager.language=='it'}">
 			<meta name="description"
@@ -162,8 +162,12 @@
 						<div class="row well trasparente" id="artSel-well"
 							style="padding-bottom: 0px !important; margin-bottom: 0px !important;">
 							<div class="col-sm-10">
-								<h1 style="margin-left: -15px; font-size: 18px">#{cartFlowBean.detailProductFull.txBrand}
-									#{cartFlowBean.detailProductFull.txType}</h1>
+								<h1 style="margin-left: -15px; font-size: 18px">#{cartFlowBean.detailProductFull.discount!=0? msg.catalog_sales:''} #{cartFlowBean.detailProductFull.txBrand}
+									#{cartFlowBean.detailProductFull.txType}
+									<h:outputText styleClass="newPromo3" 
+									rendered="#{(cartFlowBean.detailProductFull.specialPrice == null or cartFlowBean.detailProductFull.specialPrice == 0) and cartFlowBean.detailProductFull.discount != null and cartFlowBean.detailProductFull.discount != 0 and cartFlowBean.detailProductFull.idCampaign != null}"
+									value="#{cartFlowBean.detailProductFull.discount} %" />
+									</h1>
 								<h2 style="margin-left: -15px; font-size: 14px">#{cartFlowBean.detailProductFull.description}</h2>
 							</div>
 							<div class="col-sm-2">
@@ -173,9 +177,7 @@
 								<h:outputText styleClass="newPromo2" style="float:right"
 									rendered="#{(cartFlowBean.detailProductFull.specialPrice == null or cartFlowBean.detailProductFull.specialPrice == 0) and cartFlowBean.detailProductFull.discount != null and cartFlowBean.detailProductFull.discount != 0 and cartFlowBean.detailProductFull.idCampaign == null}"
 									value="#{cartFlowBean.detailProductFull.discount} %" />
-								<h:outputText styleClass="newPromo3" style="float:right"
-									rendered="#{(cartFlowBean.detailProductFull.specialPrice == null or cartFlowBean.detailProductFull.specialPrice == 0) and cartFlowBean.detailProductFull.discount != null and cartFlowBean.detailProductFull.discount != 0 and cartFlowBean.detailProductFull.idCampaign != null}"
-									value="#{cartFlowBean.detailProductFull.discount} %" />
+								
 							</div>
 							<br />
 							<div class="row" style="font-size: 16px;">

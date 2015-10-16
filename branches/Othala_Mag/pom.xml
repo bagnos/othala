@@ -243,10 +243,10 @@
 								<cssSourceInclude>*.css</cssSourceInclude>
 							</cssSourceIncludes>
 							<cssSourceExcludes>
-							<cssSourceExclude>mainWeb.css</cssSourceExclude>
-							<cssSourceExclude>mainWeb.min.css</cssSourceExclude>
+							<cssSourceExclude>mainWeb150915.css</cssSourceExclude>
+							<cssSourceExclude>mainWeb150915.min.css</cssSourceExclude>
 							</cssSourceExcludes>
-							<cssFinalFile>mainWeb.css</cssFinalFile>
+							<cssFinalFile>mainWeb150915.css</cssFinalFile>
 						</configuration>
 						<goals>
 							<goal>minify</goal>

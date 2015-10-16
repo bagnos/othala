@@ -282,7 +282,7 @@
 												<td><h:outputText value="#{art.txSize}" /></td>
 												<td><h:outputText value="#{art.shop.txShop}" /></td>
 
-												<td><h:outputText value="#{art.prdFullDTO.realPrice}">
+												<td><h:outputText value="#{art.priceDiscounted!=null and art.priceDiscounted!=0?art.priceDiscounted:art.price}">
 														<f:converter converterId="it.othala.BigDecimalConverter" />
 													</h:outputText></td>
 												<td><h:outputText value="#{art.qtBooked}" /></td>

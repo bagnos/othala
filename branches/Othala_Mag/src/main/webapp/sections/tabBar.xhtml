@@ -98,6 +98,7 @@
 								<a
 									href="#{request.contextPath}/${fn:toLowerCase(msg.catalog_promoLink)}/${fn:toLowerCase(campaign.txCampaign)}"
 									class="linkArt">#{campaign.txCampaign}</a>
+									<h:outputText style="font-family: arialMTbold!important; font-size: 11px;color: #888!important;padding: 0 0 0 11px;"  value="(#{campaign.pcSconto}&#37;)" />
 							</div>
 						</ui:repeat>
 					</div>

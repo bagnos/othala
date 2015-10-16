@@ -109,6 +109,8 @@ public class OrderService implements IOrderService {
 				artFull.setQtBooked(article.getQtBooked());
 				artFull.setIdOrderArticle(article.getIdOrderArticle().intValue());
 				artFull.setCustom(article.getCustom());
+				artFull.setPriceDiscounted(article.getPriceDiscounted());
+				artFull.setPrice(article.getPrice());
 				newlistArticle.add(artFull);
 			}
 			order.setCart(newlistArticle);
