@@ -87,10 +87,10 @@ public class CartFlowView1 extends BaseView {
 		}
 		switch (idProdType) {
 		case 1:
-			url = getCartChoice3(idPrd, brand);
+			url = getCartChoice3(idPrd, brand, type, null);
 			break;
 		case 2:
-			url = getCartChoice4(idPrd, brand);
+			url = getCartChoice4(idPrd, brand, type, null);
 			break;
 		default:
 			break;
@@ -107,10 +107,10 @@ public class CartFlowView1 extends BaseView {
 		}
 		switch (idProdType) {
 		case 1:
-			url = getCartChoice3(idPrd, brand);
+			url = getCartChoice3(idPrd, brand, type, lang);
 			break;
 		case 2:
-			url = getCartChoice4(idPrd, brand);
+			url = getCartChoice4(idPrd, brand, type, lang);
 			break;
 		default:
 			break;
@@ -135,18 +135,34 @@ public class CartFlowView1 extends BaseView {
 		return cartChoice2;
 	}
 
-	private String getCartChoice3(String idPrd, String brand) {
-
-		String cartChoice3 = String.format("%s/%s/%s/%s/%s/%s", getRequest().getContextPath(),
-				OthalaUtil.getWordBundle("catalogo_product"), OthalaUtil.getWordBundle("catalogo_food"),
-				brand.toLowerCase(), type.toLowerCase(), idPrd);
+	private String getCartChoice3(String idPrd, String brand, String description, String lang) {
+		String cartChoice3 = null;
+		description = description.toLowerCase().replace("/", "").replace("%", "");
+		brand=brand.toLowerCase().replace("/", "").replace("%", "");
+		if (lang == null) {
+			cartChoice3 = String.format("%s/%s/%s/%s/%s", getRequest().getContextPath(), "prodotto",
+					brand, description, idPrd);
+		} else {
+			cartChoice3 = String.format("%s/%s/%s/%s/%s/%s", getRequest().getContextPath(), lang, "product",
+					brand, description, idPrd);
+		}
+	
 
 		return cartChoice3;
 	}
 
-	private String getCartChoice4(String idPrd, String brand) {
-		String cartChoice4 = String.format("%s/%s/%s/%s/%s", getRequest().getContextPath(),
-				OthalaUtil.getWordBundle("catalogo_service"), brand.toLowerCase(), type.toLowerCase(), idPrd);
+	private String getCartChoice4(String idPrd, String brand, String description, String lang) {
+		String cartChoice4 = null;
+		description = description.toLowerCase().replace("/", "").replace("%", "");
+		brand=brand.toLowerCase().replace("/", "").replace("%", "");
+		if (lang == null) {
+			cartChoice4 = String.format("%s/%s/%s/%s/%s", getRequest().getContextPath(), "articolo",
+					brand, description, idPrd);
+		} else {
+			cartChoice4 = String.format("%s/%s/%s/%s/%s/%s", getRequest().getContextPath(), lang, "article",
+					brand, description, idPrd);
+		}
+	
 
 		return cartChoice4;
 	}
@@ -593,14 +609,16 @@ public class CartFlowView1 extends BaseView {
 
 				} else {
 					if (getCartFlowBean().getCatalog().getArticles().get(0).getTyProduct() == 1) {
-						pagDettaglio = getCartChoice3(getCartFlowBean().getCatalog().getArticles().get(0)
-								.getIdProduct().toString(), getCartFlowBean().getCatalog().getArticles().get(0)
-								.getTxBrand());
+						pagDettaglio = getCartChoice3(getCartFlowBean().getCatalog().getArticles().get(0).getIdProduct()
+								.toString(), getCartFlowBean().getCatalog().getArticles().get(0).getTxBrand(),
+								getCartFlowBean().getCatalog().getArticles().get(0).getTxType(), null);
+
 					} else {
 						if (getCartFlowBean().getCatalog().getArticles().get(0).getTyProduct() == 2) {
-							pagDettaglio = getCartChoice4(getCartFlowBean().getCatalog().getArticles().get(0)
-									.getIdProduct().toString(), getCartFlowBean().getCatalog().getArticles().get(0)
-									.getTxBrand());
+							pagDettaglio = getCartChoice4(getCartFlowBean().getCatalog().getArticles().get(0).getIdProduct()
+									.toString(), getCartFlowBean().getCatalog().getArticles().get(0).getTxBrand(),
+									getCartFlowBean().getCatalog().getArticles().get(0).getTxType(), null);
+
 						}
 					}
 				}

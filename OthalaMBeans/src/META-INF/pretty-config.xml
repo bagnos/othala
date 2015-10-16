@@ -122,7 +122,7 @@
    <view-id value="/cart/cart-choice-3.xhtml" />         
 </url-mapping>
 <url-mapping id="alimentare"> 
-   <pattern value="/prodotto/alimentare/#{brand}/#{type}/#{cartChoice2View.idProduct}" /> 
+   <pattern value="/prodotto/#{brand}/#{type}/#{cartChoice2View.idProduct}" /> 
    <view-id value="/cart/cart-choice-3.xhtml" />         
 </url-mapping>
 <url-mapping id="servizio"> 

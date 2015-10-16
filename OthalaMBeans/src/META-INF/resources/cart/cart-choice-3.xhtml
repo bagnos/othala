@@ -1,29 +1,40 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	template="/template/masterTemplateBS.xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:pe="http://primefaces.org/ui/extensions"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:g="http://base.google.com/ns/1.0">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/masterTemplateBS.xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:g="http://base.google.com/ns/1.0"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 	<ui:define name="metadata">
 		<f:metadata>
 			<f:viewAction action="#{cartChoice2View.doInit}"></f:viewAction>
 			<f:viewParam name="idPrd" value="#{cartChoice2View.idProduct}" />
 		</f:metadata>
 	</ui:define>
-
-	<ui:define name="title">Online Shop  #{cartFlowBean.detailProductFull.txBrand!='Shop'?cartFlowBean.detailProductFull.txBrand:''} #{cartFlowBean.detailProductFull.txType} | #{msgSite.nomeMerchant}</ui:define>
+	<ui:define name="title">Shop #{cartFlowBean.detailProductFull.txBrand!='shop'?cartFlowBean.detailProductFull.txBrand:''} #{cartChoice2View.seoDescription}  | #{msgSite.nomeMerchant}</ui:define>
 	<ui:define name="description">
-		<meta name="description"
-			content="#{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.txType} #{cartFlowBean.detailProductFull.descriptionEN}"></meta>
+		<c:if test="#{localeManager.language=='it'}">
+			<meta name="description"
+				content="#{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.txType}: #{cartFlowBean.detailProductFull.description}"></meta>
+		</c:if>
+		<c:if test="#{localeManager.language!='it'}">
+			<meta name="description"
+				content="#{cartFlowBean.detailProductFull.txBrand} #{cartFlowBean.detailProductFull.txType}: #{cartFlowBean.detailProductFull.descriptionEN}"></meta>
+		</c:if>
 	</ui:define>
 	<ui:define name="canonical">
-	<!-- 
+
 		<link rel="canonical"
-			href="http://#{request.serverName}#{request.contextPath}/cart/cart-choice-3.xhtml?idPrd=#{cartChoice2View.idProduct}" />
+			href="http://#{request.serverName}#{request.contextPath}/articolo/${fn:toLowerCase(cartFlowBean.detailProductFull.txBrand)}/#{cartChoice2View.seoDescriptionIT}/#{cartChoice2View.idProduct}" />
+		<link rel="alternate"
+			href="http://#{request.serverName}#{request.contextPath}/it/articolo/${fn:toLowerCase(cartFlowBean.detailProductFull.txBrand)}/#{cartChoice2View.seoDescriptionIT}/#{cartChoice2View.idProduct}"
+			hreflang="it" />
+		<link rel="alternate"
+			href="http://#{request.serverName}#{request.contextPath}/en/article/#{cartFlowBean.detailProductFull.txBrand}/#{cartChoice2View.seoDescriptionEN}/#{cartChoice2View.idProduct}"
+			hreflang="x-default" />
+
+		<!-- 
+		<link rel="canonical"
+			href="http://#{request.serverName}#{request.contextPath}/article/cart-choice-2.xhtml?idPrd=#{cartChoice2View.idProduct}" />
 			-->
 	</ui:define>
 	<ui:define name="fb">
@@ -37,18 +48,15 @@
 			content="http://#{request.serverName}#{request.contextPath}/cart/cart-choice-3.xhtml?idPrd=#{cartChoice2View.idProduct}" />
 		<meta property="og:title"
 			content="Online Shop  #{cartFlowBean.detailProductFull.txBrand!='Shop'?cartFlowBean.detailProductFull.txBrand:''} #{cartFlowBean.detailProductFull.txType} | #{msgSite.nomeMerchant}" />
-		<meta property="og:description"
-			content="#{cartFlowBean.detailProductFull.description}" />
+		<meta property="og:description" content="#{cartFlowBean.detailProductFull.description}" />
 		<meta property="og:image"
 			content="http://#{request.serverName}#{request.contextPath}/javax.faces.resource/#{cartFlowBean.detailProductFull.imagesUrl[0]}.xhtml?ln=images/cartThumbinals" />
-		<meta itemprop="description"
-			content="#{cartFlowBean.detailProductFull.description}" />
+		<meta itemprop="description" content="#{cartFlowBean.detailProductFull.description}" />
 		<!-- 
 		<meta property="product:shipping_cost:amount" content="5" />
 		<meta property="product:shipping_cost:currency" content="EUR" />
 		-->
-		<meta property="product:sale_price:amount"
-			content="#{cartChoice2View.priceStr}" />
+		<meta property="product:sale_price:amount" content="#{cartChoice2View.priceStr}" />
 		<meta property="product:sale_price:currency" content="EUR" />
 	</ui:define>
 	<ui:define name="content">
