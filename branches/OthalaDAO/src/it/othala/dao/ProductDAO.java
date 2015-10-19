@@ -519,8 +519,16 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 				map4.put("pcDiscount", productFull.getDiscount());
 			} else {
 				map4.put("imPrice", productFull.getArticles().get(i).getPrice());
+				if (productFull.getArticles().get(i).getSpecialPrice() == null ||
+					productFull.getArticles().get(i).getSpecialPrice().equals(new BigDecimal(0)))
+					{
+						map4.put("specialPrice", null);
+					}
+					else
+					{
 				map4.put("specialPrice", productFull.getArticles().get(i)
 						.getSpecialPrice());
+					}
 				map4.put("pcDiscount", productFull.getArticles().get(i)
 						.getDiscount());
 			}

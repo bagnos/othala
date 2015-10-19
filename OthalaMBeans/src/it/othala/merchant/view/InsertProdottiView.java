@@ -431,17 +431,18 @@ public class InsertProdottiView extends BaseView {
 			prd.setPriceDiscounted(new BigDecimal(9999999));
 			for (ArticleFullDTO art: articles)
 			{
-				if (art.getPriceDiscounted().compareTo(prd.getPriceDiscounted()) > 0 )
+				if (art.getPriceDiscounted().compareTo(prd.getPriceDiscounted()) < 0 )
 				{
 					prd.setPriceDiscounted(art.getPriceDiscounted());
 					prd.setPrice(art.getPrice());
 					prd.setDiscount(art.getDiscount());
+					prd.setSpecialPrice(new BigDecimal(0));
 				}
 				
 			}
 			//prd.setPrice(prezzo);
 			//prd.setSpecialPrice(prezzoSpeciale);
-			prd.setSpecialPrice(null);
+			//prd.setSpecialPrice(null);
 			prd.setThumbnailsUrl(fileThumb);
 			//prd.setPriceDiscounted(prezzoScontato);
 			prd.setIdProductState(0);
@@ -622,7 +623,7 @@ public class InsertProdottiView extends BaseView {
 		art.setTxBarCode(merchantCode);
 		art.setPrice(getPrezzo());
 		art.setDiscount(getSconto());
-		art.setSpecialPrice(null);
+		art.setSpecialPrice(new BigDecimal(0));
 		
 		art.setPriceDiscounted(getPrezzo().subtract((getPrezzo().multiply(new BigDecimal(getSconto()).divide(new BigDecimal(100))))));
 		

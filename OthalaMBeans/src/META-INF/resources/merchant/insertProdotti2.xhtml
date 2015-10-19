@@ -489,7 +489,10 @@
         </p:column>
 
 							<p:column headerText="Prezzo">
-            <h:outputText rendered="#{art.selected==false}" value="#{art.price}" />
+            <h:outputText rendered="#{art.selected==false}" value="#{art.price}" >
+<f:convertNumber currencySymbol="$" groupingUsed="true"
+                     maxFractionDigits="2" type="currency" />
+</h:outputText>
         </p:column>
 
 							<p:column headerText="Sconto">
@@ -501,7 +504,10 @@
 <!--         </p:column> -->
 
 							<p:column headerText="Prezzo Scontato">
-            <h:outputText rendered="#{art.selected==false}" value="#{art.priceDiscounted}" />
+            <h:outputText rendered="#{art.selected==false}" value="#{art.priceDiscounted}" >
+<f:convertNumber currencySymbol="€" groupingUsed="true"
+                     maxFractionDigits="2" type="currency" />
+</h:outputText>
         </p:column>
 
 
