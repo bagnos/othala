@@ -406,6 +406,83 @@ public class InsertProdottiView extends BaseView {
 
 	}
 
+	public void addProduct2(ActionEvent e) {
+		try {
+			if (articles.isEmpty()) {
+				addError("Prodotto", "Inserire almeno un articolo");
+				return;
+			}
+
+			ProductFullNewDTO prd = new ProductFullNewDTO();
+			// lo mettiamo sempre, avrà significato solo per configurazioni
+			// diverse da uno
+
+			prd.setArticles(articles);
+			prd.setDescription(descrizione);
+			prd.setDescriptionEN(descrizioneEN);
+
+			//prd.setDiscount(sconto);
+			prd.setIdBrand(brand.getAttributo());
+			prd.setIdGender(genere.getAttributo());
+			prd.setIdType(tipo.getAttributo());
+			prd.setIdMaterial(1);
+			prd.setImagesUrl(imagesFile);
+			prd.setMerchantCode(merchantCode);
+			prd.setPriceDiscounted(new BigDecimal(9999999));
+			for (ArticleFullDTO art: articles)
+			{
+				if (art.getPriceDiscounted().compareTo(prd.getPriceDiscounted()) > 0 )
+				{
+					prd.setPriceDiscounted(art.getPriceDiscounted());
+					prd.setPrice(art.getPrice());
+					prd.setDiscount(art.getDiscount());
+				}
+				
+			}
+			//prd.setPrice(prezzo);
+			//prd.setSpecialPrice(prezzoSpeciale);
+			prd.setSpecialPrice(null);
+			prd.setThumbnailsUrl(fileThumb);
+			//prd.setPriceDiscounted(prezzoScontato);
+			prd.setIdProductState(0);
+			prd.setTyProduct(1);
+			if (pubblica)
+			{
+				prd.setIdProductState(1);
+			}
+			if (getBeanApplication().isConfiguredBarcodeProduct()) {
+				for (ArticleFullDTO art : prd.getArticles()) {
+					art.setTxBarCode(merchantCode);
+				}
+			}
+
+			if (fgMod == null || fgMod == false) {
+				OthalaFactory.getProductServiceInstance().insertProduct(prd, pubblica);
+				resetPrd();
+				getBeanApplication().resetDomain();
+				addInfo("Prodotto", "inserimento effettuato correttamente");
+			} else {
+				prd.setIdProduct(prdDetail.getIdProduct());
+				OthalaFactory.getProductServiceInstance().updateProduct(prd);
+				merchantBean.findProduct();
+				getBeanApplication().resetDomain();
+				addInfo("Prodotto", "modifica effettuata correttamente");
+			}
+
+			eliminaImmagini();
+
+		} catch (OthalaException oex) {
+			addError("errore nell'inserimento del prodotto", oex.getMessage());
+
+		}
+
+		catch (Exception ex) {
+			addGenericError(ex, "errore nell'inserimento del prodotto");
+		}
+
+	}
+
+	
 	private void eliminaImmagini() {
 		if (!imgToDelete.isEmpty()) {
 			try {
@@ -516,6 +593,45 @@ public class InsertProdottiView extends BaseView {
 		// shop = getBeanApplication().getShopsDTO().get(0);
 	}
 
+	public void addArticle2(ActionEvent e) {
+
+		if (fileThumb == null) {
+			addError("thumbinal", "nessun file caricato");
+			return;
+		}
+
+		ArticleFullDTO art = new ArticleFullDTO();
+		art.setThumbnailsUrl(fileThumb);
+		art.setShop(getShop());
+		art.setIdSize(size.getAttributo());
+		art.setTxSize(size.getValore());
+		art.setQtStock(qta);
+		
+		art.setIdColor(new Integer (1));
+		art.setTxColor("N/A");
+
+		
+		// se barcode è sul prodotto mettiamo lo stesso barcode a tutti gli
+		// articoli
+
+		if (articles.size() == 0) {
+			art.setPgArticle(1);
+		} else {
+			art.setPgArticle(articles.get(articles.size() - 1).getPgArticle() + 1);
+		}
+		art.setTxBarCode(merchantCode);
+		art.setPrice(getPrezzo());
+		art.setDiscount(getSconto());
+		art.setSpecialPrice(null);
+		
+		art.setPriceDiscounted(getPrezzo().subtract((getPrezzo().multiply(new BigDecimal(getSconto()).divide(new BigDecimal(100))))));
+		
+		art.setArticleUpdate(ArticleUpdate.NUOVO);
+		articles.add(art);
+
+		// shop = getBeanApplication().getShopsDTO().get(0);
+	}
+	
 	public List<AttributeDTO> completeTaglia(String query) {
 		return getAutoUtils().completeTaglia(query);
 	}
