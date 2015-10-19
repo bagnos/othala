@@ -396,12 +396,13 @@ public class CartFlowView1 extends BaseView {
 			buildeCanonicalUrlIT.append("/nuoviarrivi");
 			buildTitleSEO.append(" newarrivals");
 		}
-		else if (searchProduct!=null || searchProduct.isEmpty()==false)
+		else if (searchProduct!=null && searchProduct.isEmpty()==false)
 		{
 			buildeCanonicalUrlEN.append("/"+getLocalManager().getWordBundle("catalog_searchProduct"));
 			buildeCanonicalUrlIT.append("/"+getLocalManager().getWordBundle("catalog_searchProduct"));
 			buildTitleSEO.append(getLocalManager().getWordBundle("catalog_searchProduct"));
 		}
+
 
 		manualCanonicalUrlEN = buildeCanonicalUrlEN.toString();
 		manualCanonicalUrlIT = buildeCanonicalUrlIT.toString();

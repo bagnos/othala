@@ -66,7 +66,7 @@
 							<ui:repeat var="submenu" value="#{menu.subMenuBrand}" varStatus="statusSub">
 								<div class="col-sm-12 col-md-4 spacer6">
 									<a
-										href="#{request.contextPath}/brand/${fn:toLowerCase(menu.txGender)}/${fn:toLowerCase(submenu.txBrand)}"
+										href="#{request.contextPath}/brand/${fn:toLowerCase(submenu.txBrand)}"
 										class="linkArt">#{submenu.txBrand}</a>
 								</div>
 							</ui:repeat>

@@ -172,13 +172,20 @@
 							<div class="col-sm-10">
 
 
-								<h:link value="#{cartFlowBean.detailProductFull.txBrand}"
-									outcome="/cart/cart-brand.xhtml" class="trasparente"
-									style="margin-left: -15px; font-size: 18px; color: #880421; ">
-									<f:param name="idSubMenuBrand"
-										value="#{cartFlowBean.detailProductFull.idBrand}"></f:param>
-								</h:link>
-
+<!-- 								<h:link value="#{cartFlowBean.detailProductFull.txBrand}" -->
+<!-- 									outcome="/cart/cart-brand.xhtml" class="trasparente" -->
+<!-- 									style="margin-left: -15px; font-size: 18px; color: #880421; "> -->
+<!-- 									<f:param name="idSubMenuBrand" -->
+<!-- 										value="#{cartFlowBean.detailProductFull.idBrand}"></f:param> -->
+<!-- 								</h:link> -->
+								
+																	
+									<a href="#{request.contextPath}/brand/${fn:toLowerCase(cartFlowBean.detailProductFull.txBrand)}"
+										 style="margin-left: -15px; font-size: 18px; color: #880421; ">#{(cartFlowBean.detailProductFull.txBrand)}</a>
+										
+										
+					
+										
 								<h2 style="margin-left: -15px; font-size: 14px">#{cartFlowBean.detailProductFull.description}</h2>
 							</div>
 							<div class="col-sm-2">

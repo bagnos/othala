@@ -41,6 +41,11 @@
    <view-id value="/cart/cart-catalog.xhtml?idSubMenu=0&amp;fgNewArrivals=false&amp;idCampaign=0" />   
 </url-mapping>
 
+<url-mapping id="CartBrand"> 
+   <pattern value="/brand/#{cartFlowView1.brands}" /> 
+   <view-id value="/cart/cart-brand.xhtml?idSubMenuBrand=0" />
+</url-mapping>
+
 <url-mapping id="BrandsShort"> 
    <pattern value="/brand/#{cartFlowView1.brands}" /> 
    <view-id value="/cart/cart-catalog.xhtml?idMenu=1&amp;idSubMenu=0&amp;fgNewArrivals=false&amp;idCampaign=0" />   
