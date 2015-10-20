@@ -47,6 +47,7 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 
 	}
 
+	
 	@Override
 	public List<SubMenuDTO> listSubMenu(Integer idMenu, String languages) {
 
