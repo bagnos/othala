@@ -1527,9 +1527,9 @@
 
 
 		coalesce(specialPrice,
-		ceiling(tab1.price * (100 -
+		round(tab1.price * (100 -
 		coalesce(tab2.pcSconto,tab1.discount)) /
-		100)) as
+		100),2) as
 		priceDiscounted,
 
 		tab1.description,
@@ -1716,9 +1716,9 @@
 		TAB1.specialPrice,
 		TAB1.discount,
 		coalesce(TAB1.specialPrice,
-		ceiling(TAB1.price * (100 -
+		round(TAB1.price * (100 -
 		coalesce(tab2.pcSconto,TAB1.discount)) /
-		100)) as
+		100,2)) as
 		priceDiscounted
 
 		from
