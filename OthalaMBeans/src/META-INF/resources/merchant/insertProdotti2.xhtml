@@ -55,7 +55,7 @@
 					<div class="form-group">
 						<p:outputLabel for="barcodePrd" styleClass="col-sm-1 control-label" value="Barcode" />
 						<div class="col-sm-3">
-							<p:inputText required="true" id="barcodePrd" styleClass="form-control"
+							<p:inputText required="true" id="barcodePrd" styleClass="form-control" readonly="#{insertProdottiView.fgRead==true}"
 								value="#{insertProdottiView.merchantCode}" />
 						</div>
 					</div>
