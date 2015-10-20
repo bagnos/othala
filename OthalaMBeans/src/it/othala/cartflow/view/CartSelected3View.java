@@ -1,6 +1,7 @@
 package it.othala.cartflow.view;
 
 import it.othala.dto.ArticleFullDTO;
+import it.othala.dto.DeliveryCostDTO;
 import it.othala.view.BaseView;
 
 import java.math.BigDecimal;
@@ -24,6 +25,20 @@ public class CartSelected3View extends BaseView {
 	public String doInit() {
 		// TODO Auto-generated method stub
 		try {
+			DeliveryCostDTO delCost = new DeliveryCostDTO();
+			delCost.setImportoSpese(new BigDecimal(0));
+			
+			getCartFlowBean().setDeliveryCost(null);
+			getCartFlowBean().setTotalPriceOrdeNoDiscount(null);
+			getCartFlowBean().setTotalPriceOrder(null);
+			getCartFlowBean().setAmtDiscount(null);
+			getCartFlowBean().setCoupon(null);
+			getCartFlowBean().setPcScontoCoupon(0);
+			getCartFlowBean().setPcScontoFidelity(0);
+			
+			
+			
+			
 			calcolaPrezzoCarrello();
 		} catch (Exception e) {
 			addGenericError(e, "errore initr carello");

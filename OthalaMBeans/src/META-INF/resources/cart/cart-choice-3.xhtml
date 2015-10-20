@@ -188,17 +188,17 @@
 										
 								<h2 style="margin-left: -15px; font-size: 14px">#{cartFlowBean.detailProductFull.description}</h2>
 							</div>
-							<div class="col-sm-2">
-								<h:outputText styleClass="newPromo1" style="float:right"
-									rendered="#{cartFlowBean.detailProductFull.specialPrice != null and cartFlowBean.detailProductFull.specialPrice != 0}"
-									value="SPECIAL" />
-								<h:outputText styleClass="newPromo2" style="float:right"
-									rendered="#{(cartFlowBean.detailProductFull.specialPrice == null or cartFlowBean.detailProductFull.specialPrice == 0) and cartFlowBean.detailProductFull.discount != null and cartFlowBean.detailProductFull.discount != 0 and cartFlowBean.detailProductFull.idCampaign == null}"
-									value="#{cartFlowBean.detailProductFull.discount} %" />
-								<h:outputText styleClass="newPromo3" style="float:right"
-									rendered="#{(cartFlowBean.detailProductFull.specialPrice == null or cartFlowBean.detailProductFull.specialPrice == 0) and cartFlowBean.detailProductFull.discount != null and cartFlowBean.detailProductFull.discount != 0 and cartFlowBean.detailProductFull.idCampaign != null}"
-									value="#{cartFlowBean.detailProductFull.discount} %" />
-							</div>
+<!-- 							<div class="col-sm-2"> -->
+<!-- 								<h:outputText styleClass="newPromo1" style="float:right" -->
+<!-- 									rendered="#{cartFlowBean.detailProductFull.specialPrice != null and cartFlowBean.detailProductFull.specialPrice != 0}" -->
+<!-- 									value="SPECIAL" /> -->
+<!-- 								<h:outputText styleClass="newPromo2" style="float:right" -->
+<!-- 									rendered="#{(cartFlowBean.detailProductFull.specialPrice == null or cartFlowBean.detailProductFull.specialPrice == 0) and cartFlowBean.detailProductFull.discount != null and cartFlowBean.detailProductFull.discount != 0 and cartFlowBean.detailProductFull.idCampaign == null}" -->
+<!-- 									value="#{cartFlowBean.detailProductFull.discount} %" /> -->
+<!-- 								<h:outputText styleClass="newPromo3" style="float:right" -->
+<!-- 									rendered="#{(cartFlowBean.detailProductFull.specialPrice == null or cartFlowBean.detailProductFull.specialPrice == 0) and cartFlowBean.detailProductFull.discount != null and cartFlowBean.detailProductFull.discount != 0 and cartFlowBean.detailProductFull.idCampaign != null}" -->
+<!-- 									value="#{cartFlowBean.detailProductFull.discount} %" /> -->
+<!-- 							</div> -->
 							<br />
 
 							<h:panelGroup layout="block" id="pnl-scelte"
@@ -218,7 +218,7 @@
 									</div>
 									<div class="col-sm-5"></div>
 								</div>
-								<h:panelGroup style="display:none;" layout="block" id="qtaArt">
+								<h:panelGroup layout="block" id="qtaArt">
 									<div class="row">
 										<div class="col-sm-4">
 											<h:outputText rendered="#{cartChoice2View.min>0}"
@@ -250,15 +250,15 @@
 										</h:outputText>
 									</div>
 									<div class="col-sm-3">
-										<h:outputText value="#{cartFlowBean.detailProductFull.price}"
-											styleClass="#{cartFlowBean.detailProductFull.discount!=null and cartFlowBean.detailProductFull.discount!=0?'onSale':''}">
+										<h:outputText value="#{cartFlowBean.articleSel.price}"
+											styleClass="#{cartFlowBean.articleSel.discount!=null and cartFlowBean.articleSel.discount!=0?'onSale':''}">
 											<f:converter converterId="it.othala.BigDecimalConverter" />
 										</h:outputText>
 									</div>
 									<div class="col-sm-4">
 										<h:outputText
-											value="#{cartFlowBean.detailProductFull.priceDiscounted}"
-											rendered="#{cartFlowBean.detailProductFull.price != cartFlowBean.detailProductFull.priceDiscounted}">
+											value="#{cartFlowBean.articleSel.priceDiscounted}"
+											rendered="#{cartFlowBean.articleSel.price != cartFlowBean.articleSel.priceDiscounted}">
 											<f:converter converterId="it.othala.BigDecimalConverter" />
 										</h:outputText>
 									</div>

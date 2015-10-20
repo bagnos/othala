@@ -233,6 +233,7 @@ public class CartChoice2View extends BaseView {
 						.setScale(2, RoundingMode.HALF_UP).toString();
 			}
 
+			
 			/*
 			 * List<ProductCarouselDTO> carouselList = new
 			 * ArrayList<ProductCarouselDTO>(); ProductCarouselDTO a = null; if
@@ -299,6 +300,7 @@ public class CartChoice2View extends BaseView {
 				setNondisponibile(false);
 			}
 
+			getCartFlowBean().setArticleSel(null);
 			colorItems = new ArrayList<>();
 			verifyNA();
 
@@ -394,6 +396,7 @@ public class CartChoice2View extends BaseView {
 	}
 
 	public void changeFormato(AjaxBehaviorEvent e) {
+		
 		if (idSize != null && idSize.intValue() != 0) {
 			for (SelectItem s : sizeItems) {
 				if (s.getValue().toString().equalsIgnoreCase(idSize.toString())) {
@@ -402,21 +405,29 @@ public class CartChoice2View extends BaseView {
 				}
 			}
 
-			colorItems = new ArrayList<>();
-			// colorItems.add(new SelectItem(-1,
-			// OthalaUtil.getWordBundle("catalog_chooseColor")));
 			for (ArticleFullDTO art : prdFull.getArticles()) {
 				if (art.getIdSize().intValue() == idSize.intValue())
-					idColor = art.getIdColor();
-				colorItems.add(new SelectItem(art.getIdColor(), art.getTxColor()));
+				{
+				
+				if (art.getQtStock() > 0) {
+					artSel = art;
+					artSel.setPrdFullDTO(prdFull);
+					min = 1;
+					max = art.getQtStock();
+					qtaArticle = 1;
+					getCartFlowBean().setArticleSel(artSel);
+					
+					
+				}
+				}
+				
 			}
-		} else {
+
 			colorItems = new ArrayList<>();
-			// colorItems.add(new SelectItem(-1,
-			// OthalaUtil.getWordBundle("catalog_chooseColor")));
-		}
+			colorItems.add(new SelectItem(1,"N/A"));
 		idColor = 1;
 		changeColor(null);
+		}
 	}
 
 	public void selectSize(ActionEvent e) {

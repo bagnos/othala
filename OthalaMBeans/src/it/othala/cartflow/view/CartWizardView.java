@@ -743,7 +743,7 @@ public class CartWizardView extends BaseView {
 			for (ArticleFullDTO art : getCartFlowBean().getCart()) {
 
 				if (art.getSpecialPrice() == null || art.getSpecialPrice() == new BigDecimal(0)) {
-					setImportoScontabile(importoScontabile.add(art.getPriceDiscounted()));
+					setImportoScontabile(importoScontabile.add(art.getPriceDiscounted().multiply(new BigDecimal(art.getQtBooked()))));
 
 				}
 

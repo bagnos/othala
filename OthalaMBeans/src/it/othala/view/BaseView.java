@@ -329,7 +329,7 @@ public abstract class BaseView implements Serializable {
 		BigDecimal totalPrice = BigDecimal.ZERO;
 		getCartFlowBean().setCheckoutCart(false);
 		for (ArticleFullDTO art : getCartFlowBean().getCart()) {
-			totalPrice = art.getPriceDiscounted().add(totalPrice);
+			totalPrice = (art.getPriceDiscounted().multiply(new BigDecimal(art.getQtBooked()))).add(totalPrice);
 
 		}
 		if (getCartFlowBean().getDeliveryCost() != null
