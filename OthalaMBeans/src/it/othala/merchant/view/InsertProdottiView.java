@@ -2,6 +2,7 @@ package it.othala.merchant.view;
 
 import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.AttributeDTO;
+import it.othala.dto.BrandFullDTO;
 import it.othala.dto.DomainDTO;
 import it.othala.dto.ProductFullNewDTO;
 import it.othala.dto.ShopDTO;
@@ -34,6 +35,54 @@ import org.primefaces.model.UploadedFile;
 @ManagedBean
 @ViewScoped
 public class InsertProdottiView extends BaseView {
+
+	public String getNewBrandFulltxBrand() {
+		return newBrandFulltxBrand;
+	}
+
+	public void setNewBrandFulltxBrand(String newBrandFulltxBrand) {
+		this.newBrandFulltxBrand = newBrandFulltxBrand;
+	}
+
+	public Integer getNewBrandFullidProvincia() {
+		return newBrandFullidProvincia;
+	}
+
+	public void setNewBrandFullidProvincia(Integer newBrandFullidProvincia) {
+		this.newBrandFullidProvincia = newBrandFullidProvincia;
+	}
+
+	public Integer getNewBrandFullidRegione() {
+		return newBrandFullidRegione;
+	}
+
+	public void setNewBrandFullidRegione(Integer newBrandFullidRegione) {
+		this.newBrandFullidRegione = newBrandFullidRegione;
+	}
+
+	public String getNewBrandFullurlFoto() {
+		return newBrandFullurlFoto;
+	}
+
+	public void setNewBrandFullurlFoto(String newBrandFullurlFoto) {
+		this.newBrandFullurlFoto = newBrandFullurlFoto;
+	}
+
+	public String getNewBrandFulltxDescrIT() {
+		return newBrandFulltxDescrIT;
+	}
+
+	public void setNewBrandFulltxDescrIT(String newBrandFulltxDescrIT) {
+		this.newBrandFulltxDescrIT = newBrandFulltxDescrIT;
+	}
+
+	public String getNewBrandFulltxDescrEN() {
+		return newBrandFulltxDescrEN;
+	}
+
+	public void setNewBrandFulltxDescrEN(String newBrandFulltxDescrEN) {
+		this.newBrandFulltxDescrEN = newBrandFulltxDescrEN;
+	}
 
 	/**
 	 * 
@@ -70,6 +119,19 @@ public class InsertProdottiView extends BaseView {
 	private String newType;
 	private String newTypeEN;
 	private boolean pubblica;
+	private BrandFullDTO newBrandFull;
+	
+	
+	
+private String newBrandFulltxBrand;
+	private Integer newBrandFullidProvincia;
+	private Integer newBrandFullidRegione;
+	private String newBrandFullurlFoto;
+	private String newBrandFulltxDescrIT;
+	private String newBrandFulltxDescrEN;
+	private String newBrandFullidUser;
+	
+	
 
 	private Boolean fgRead;
 	private Boolean fgMod;
@@ -175,6 +237,16 @@ public class InsertProdottiView extends BaseView {
 		this.newBrand = newBrand;
 	}
 
+
+	
+	public BrandFullDTO getNewBrandFull() {
+		return newBrandFull;
+	}
+
+	public void setNewBrandFull(BrandFullDTO newBrandFull) {
+		this.newBrandFull = newBrandFull;
+	}
+	
 	public String getMerchantCode() {
 		return merchantCode;
 	}
@@ -340,7 +412,9 @@ public class InsertProdottiView extends BaseView {
 
 		qta = 1;
 		imgToDelete = new ArrayList<String>();
+;
 		return null;
+		
 	}
 
 	public void addProduct(ActionEvent e) {
@@ -867,6 +941,46 @@ public class InsertProdottiView extends BaseView {
 			addGenericError(ex, "errore nell'inserimento del brand");
 		}
 	}
+	
+	public void addNewBrandFull(ActionEvent e) {
+		brand=null;
+		if (newBrandFulltxBrand == null || newBrandFulltxBrand.isEmpty()) {
+			addError("Nuovo Brand", "inserire il brand");
+			return;
+		}
+		
+		newBrandFull =  new BrandFullDTO();
+		newBrandFull.setTxBrand(newBrandFulltxBrand);
+		newBrandFull.setIdProvincia(newBrandFullidProvincia);
+		newBrandFull.setIdRegione(newBrandFullidRegione);
+		newBrandFull.setUrlFoto(newBrandFullurlFoto);
+		newBrandFull.setTxDescrIT(newBrandFulltxDescrIT);
+		newBrandFull.setTxDescrEN(newBrandFulltxDescrEN);
+		newBrandFull.setIdUser(newBrandFullidUser);
+		
+		try {
+			OthalaFactory.getProductServiceInstance().insertBrand(getLang(), newBrandFull.getTxBrand(), null, null, null, null, newBrandFull.getTxDescrIT(),
+					newBrandFull.getTxDescrEN());
+			
+			getBeanApplication().resetDomain();
+			
+			for (AttributeDTO attr : getBeanApplication().getBrandDTO()) {
+				
+				if (attr.getValore().equalsIgnoreCase(newBrandFull.getTxBrand())) {
+					brand = attr;
+					break;
+				}
+			}
+			if (brand != null) {
+				addInfo("Nuovo Brand", "brand inserito correttamente");
+			} else {
+				addError("Nuovo brand", "errore inserimento brand");
+			}
+
+		} catch (Exception ex) {
+			addGenericError(ex, "errore nell'inserimento del brand");
+		}
+	}
 
 	public void addNewColor(ActionEvent e) {
 		if (newColor == null || newColor.isEmpty() || newColorEN == null || newColorEN.isEmpty()) {
@@ -962,6 +1076,14 @@ public class InsertProdottiView extends BaseView {
 
 	public void setNewMaterialEN(String newMaterialEN) {
 		this.newMaterialEN = newMaterialEN;
+	}
+
+	public String getNewBrandFullidUser() {
+		return newBrandFullidUser;
+	}
+
+	public void setNewBrandFullidUser(String newBrandFullidUser) {
+		this.newBrandFullidUser = newBrandFullidUser;
 	}
 
 }

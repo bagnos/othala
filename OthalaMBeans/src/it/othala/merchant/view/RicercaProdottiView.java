@@ -160,14 +160,14 @@ public class RicercaProdottiView extends BaseView {
 							.getCurrentInstance()
 							.getExternalContext()
 							.redirect(
-									"insertProdotti2.xhtml?faces-redirect=true&;detail=true&;mod=true");
+									"insertProdotti2.xhtml?faces-redirect=true&detail=true&mod=true");
 
 				} else {
 					FacesContext
 							.getCurrentInstance()
 							.getExternalContext()
 							.redirect(
-									"insertProdotti.xhtml?faces-redirect=true&;detail=true&;mod=true");
+									"insertProdotti.xhtml?faces-redirect=true&detail=true&mod=true");
 
 				}
 			}
@@ -198,7 +198,7 @@ public class RicercaProdottiView extends BaseView {
 							.getCurrentInstance()
 							.getExternalContext()
 							.redirect(
-									"insertProdotti.xhtml?faces-redirect=true&detail=true&;read=true");
+									"insertProdotti.xhtml?faces-redirect=true&detail=true&read=true");
 
 				}
 			}
