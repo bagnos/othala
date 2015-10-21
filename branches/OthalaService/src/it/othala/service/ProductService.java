@@ -553,8 +553,11 @@ public class ProductService implements IProductService {
 	@Override
 	public void updateCampaign(CampaignDTO campaign, List<Integer> listIdProduct) {
 		productDAO.updateCampaign(campaign);
+		if (listIdProduct != null && !listIdProduct.isEmpty())
+		{
 		productDAO.removeProductFromCampaign(listIdProduct,
 				campaign.getIdCampaign());
+		}
 	}
 
 	@Override

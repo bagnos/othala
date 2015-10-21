@@ -156,14 +156,18 @@ public class RicercaCampagneView extends BaseView {
 	public void conferma(ActionEvent e) {
 		try {
 			List<Integer> idPrds = new ArrayList<>();
+			if (prdToRemove != null)
+			{
 			for (ProductFullNewDTO prd : prdToRemove) {
 				idPrds.add(prd.getIdProduct());
+			}
 			}
 
 			OthalaFactory.getProductServiceInstance().updateCampaign(selectCampaign, idPrds);
 			getBeanApplication().resetDomain();
 			addInfo("Modifica Campagna", "Operazione eseguita correttamente");
 			RequestContext.getCurrentInstance().execute("PF('campaign').hide();");
+
 		} catch (Exception ex) {
 			addGenericError(ex, "errore nell'aggiornamento della campagna");
 		}
