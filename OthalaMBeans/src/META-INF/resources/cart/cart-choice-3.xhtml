@@ -251,7 +251,7 @@
 									</div>
 									<div class="col-sm-3">
 										<h:outputText value="#{cartFlowBean.articleSel.price}"
-											styleClass="#{cartFlowBean.articleSel.discount!=null and cartFlowBean.articleSel.discount!=0?'onSale':''}">
+											styleClass="#{cartFlowBean.articleSel.price != cartFlowBean.articleSel.priceDiscounted?'onSale':''}">
 											<f:converter converterId="it.othala.BigDecimalConverter" />
 										</h:outputText>
 									</div>

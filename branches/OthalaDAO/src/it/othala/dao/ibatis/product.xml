@@ -1010,12 +1010,11 @@
 
 		SELECT
 		idProduct ,
-		price,
+		round(price,2) as price,
 		txBrand,
 		thumbnailsUrl,
-		coalesce(specialPrice,
-		ceiling(price * (100 -
-		coalesce(pcSconto,discount)) / 100)) as
+		coalesce(round(specialPrice,2),
+		round(price * (100 - coalesce(pcSconto,discount)) / 100,2)) as
 		priceDiscounted,
 		description,
 		gender,
@@ -1024,7 +1023,7 @@
 		discount,
 		fgNewArrivals,
 		tab2.idCampaign,
-		specialPrice,
+		round(specialPrice,2) as specialPrice,
 		tyProduct,
 		idBrand
 		FROM
@@ -1166,7 +1165,7 @@
 		and tab2.dtFine
 		&gt;=
 		current_date
-		<if test="minPrice != null">
+				<if test="minPrice != null">
 			and coalesce(specialPrice,
 			ceiling(price * (100 -
 			coalesce(pcSconto,discount)) / 100)) &gt;= #{minPrice}
@@ -1177,7 +1176,7 @@
 			ceiling(price * (100 -
 			coalesce(pcSconto,discount)) / 100)) &lt;= #{maxPrice}
 		</if>
-
+		
 		<if test="order == 0">
 			order by idProduct desc
 		</if>
@@ -1202,12 +1201,12 @@
 
 		SELECT
 		idProduct ,
-		price,
+		round(price,2) as price,
 		txBrand,
 		thumbnailsUrl,
-		coalesce(specialPrice,
-		ceiling(price * (100 -
-		coalesce(pcSconto,discount)) / 100)) as
+		coalesce(round(specialPrice,2),
+		round(price * (100 -
+		coalesce(pcSconto,discount)) / 100,2)) as
 		priceDiscounted,
 		description,
 		gender,
@@ -1216,7 +1215,7 @@
 		discount,
 		fgNewArrivals,
 		tab2.idCampaign,
-		specialPrice,
+		round(specialPrice,2) as specialPrice,
 		tyProduct,
 		idBrand
 		FROM
@@ -1520,13 +1519,13 @@
 		SELECT
 
 		tab1.idProduct,
-		tab1.price,
+		round(tab1.price,2) as price,
 		tab1.thumbnailsUrl,
 		coalesce(tab2.pcSconto,tab1.discount) as
 		discount,
 
 
-		coalesce(specialPrice,
+		coalesce(round(specialPrice,2),
 		round(tab1.price * (100 -
 		coalesce(tab2.pcSconto,tab1.discount)) /
 		100),2) as
@@ -1544,7 +1543,7 @@
 		tab1.idCampaign,
 		tab1.idMaterial,
 		tab1.txMaterial,
-		tab1.specialPrice,
+		round(tab1.specialPrice,2) as specialPrice,
 		tab1.idProductState,
 		tab1.tyProduct
 
@@ -1712,10 +1711,10 @@
 		TAB1.txColor,
 		TAB1.thumbnailsUrl,
 		TAB1.txBarCode,
-		TAB1.price,
-		TAB1.specialPrice,
+		round(TAB1.price,2) as price,
+		round(TAB1.specialPrice,2) as specialPrice,
 		TAB1.discount,
-		coalesce(TAB1.specialPrice,
+		coalesce(round(TAB1.specialPrice,2),
 		round(TAB1.price * (100 -
 		coalesce(tab2.pcSconto,TAB1.discount)) /
 		100,2)) as
@@ -1793,13 +1792,13 @@
 		TAB1.txColor,
 		TAB1.thumbnailsUrl,
 		TAB1.txBarCode,
-		TAB1.price,
-		TAB1.specialPrice,
+		round(TAB1.price,2) as price,
+		round(TAB1.specialPrice,2) as specialPrice,
 		TAB1.discount,
-		coalesce(TAB1.specialPrice,
-		ceiling(TAB1.price * (100 -
+		coalesce(round(TAB1.specialPrice,2),
+		round(TAB1.price * (100 -
 		coalesce(tab2.pcSconto,TAB1.discount)) /
-		100)) as
+		100,2)) as
 		priceDiscounted
 
 
@@ -2165,16 +2164,16 @@
 		txType,
 		idBrand,
 		txBrand,
-		imPrice as price,
-		coalesce(specialPrice,
-		ceiling(imPrice * (100 -
-		coalesce(pcSconto,pcDiscount)) / 100)) as
+		round(imPrice,2) as price,
+		coalesce(round(specialPrice,2),
+		round(imPrice * (100 -
+		coalesce(pcSconto,pcDiscount)) / 100,2)) as
 		priceDiscounted,
 
 		description,
 		dtProductState,
 		thumbnailsUrl,
-		specialPrice,
+		round(specialPrice,2) as specialPrice,
 		tyProduct
 
 		FROM
@@ -2329,14 +2328,14 @@
 		SELECT DISTINCT
 
 		tab1.idProduct,
-		tab1.price,
+		round(tab1.price,2) as price,
 		tab1.thumbnailsUrl,
 		tab1.discount,
 
-		coalesce(specialPrice,
-		ceiling(tab1.price * (100 -
+		coalesce(round(specialPrice,2),
+		round(tab1.price * (100 -
 		coalesce(tab2.pcSconto,tab1.discount)) /
-		100)) as
+		100,2)) as
 		priceDiscounted,
 
 		tab1.description,
@@ -2350,7 +2349,7 @@
 		tab1.idCampaign,
 		tab1.idMaterial,
 		tab1.txMaterial,
-		tab1.specialPrice,
+		round(tab1.specialPrice,2) as specialPrice,
 		tab1.tyProduct
 
 
@@ -2368,9 +2367,9 @@
 		thumbnailsUrl,
 		a.pcDiscount as
 		discount,
-		ceiling(a.imPrice * (100 -
+		round(a.imPrice * (100 -
 		a.pcDiscount) /
-		100) as
+		100,2) as
 		priceDiscounted,
 		b.txDescription as description,
 
@@ -2609,7 +2608,7 @@
 
 	<select id="getProdottiPiuVenduti" resultType="it.othala.dto.ArticleCashedDTO">
 		SELECT
-		p.idProduct,coalesce(a.imPrice,p.imPrice) as imPrice,pd.txDescription
+		p.idProduct,coalesce(round(a.imPrice,2),round(p.imPrice,2)) as imPrice,pd.txDescription
 		as
 		description,ty.txType,p.idbrand,br.txbrand,p.idType,a.txThumbnailsUrl,sum(qtArticle)
 		as spedita,sum(imArticle) as incasso
