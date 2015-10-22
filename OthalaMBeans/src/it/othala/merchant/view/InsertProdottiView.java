@@ -5,16 +5,22 @@ import it.othala.dto.AttributeDTO;
 import it.othala.dto.BrandFullDTO;
 import it.othala.dto.DomainDTO;
 import it.othala.dto.ProductFullNewDTO;
+import it.othala.dto.ProvinciaDTO;
+import it.othala.dto.RegioneDTO;
 import it.othala.dto.ShopDTO;
 import it.othala.enums.ArticleUpdate;
 import it.othala.execption.OthalaException;
 import it.othala.merchant.model.MerchantBean;
 import it.othala.service.factory.OthalaFactory;
 import it.othala.view.BaseView;
+import it.othala.web.utils.ConfigurationUtil;
 import it.othala.web.utils.ResizeImageUtil;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -27,7 +33,9 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.ValueChangeEvent;
 
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
@@ -35,6 +43,22 @@ import org.primefaces.model.UploadedFile;
 @ManagedBean
 @ViewScoped
 public class InsertProdottiView extends BaseView {
+
+	public List<RegioneDTO> getRegioni() {
+		return regioni;
+	}
+
+	public void setRegioni(List<RegioneDTO> regioni) {
+		this.regioni = regioni;
+	}
+
+	public List<ProvinciaDTO> getProvince() {
+		return province;
+	}
+
+	public void setProvince(List<ProvinciaDTO> province) {
+		this.province = province;
+	}
 
 	public String getNewBrandFulltxBrand() {
 		return newBrandFulltxBrand;
@@ -92,6 +116,8 @@ public class InsertProdottiView extends BaseView {
 	private AttributeDTO tipo;
 	private AttributeDTO brand;
 	private AttributeDTO material;
+	private List<RegioneDTO> regioni;
+	private List<ProvinciaDTO> province;
 	private int sconto;
 	private BigDecimal prezzo;
 	private BigDecimal prezzoSpeciale;
@@ -131,6 +157,9 @@ private String newBrandFulltxBrand;
 	private String newBrandFulltxDescrEN;
 	private String newBrandFullidUser;
 	
+	private String baseImgPath;
+	private String fileImg;
+	private String absoluteFileImg;
 	
 
 	private Boolean fgRead;
@@ -175,6 +204,10 @@ private String newBrandFulltxBrand;
 		this.merchantBean = merchantBean;
 	}
 
+	public String getFileImg() {
+		return fileImg;
+	}
+	
 	public Boolean getFgRead() {
 		if (fgRead == null) {
 			fgRead = false;
@@ -401,7 +434,23 @@ private String newBrandFulltxBrand;
 	@Override
 	public String doInit() {
 		// TODO Auto-generated method stub
+		
 		DomainDTO dom = getBeanApplication().getDomain();
+		regioni = dom.getRegioni();
+		newBrandFullidRegione = regioni.get(0).getIdRegione();
+		
+		for (RegioneDTO reg: regioni)
+		{
+			if (reg.getIdRegione().equals(newBrandFullidRegione))
+			{
+				province = reg.getProvince();
+				newBrandFullidProvincia = province.get(0).getIdProvincia();
+			}
+			
+		}
+		
+	
+		
 		shop = getBeanApplication().getShopsDTO().get(0);
 		pubblica = true;
 		if (detail != null && detail) {
@@ -412,7 +461,9 @@ private String newBrandFulltxBrand;
 
 		qta = 1;
 		imgToDelete = new ArrayList<String>();
-;
+
+
+		
 		return null;
 		
 	}
@@ -949,17 +1000,27 @@ private String newBrandFulltxBrand;
 			return;
 		}
 		
+		if (fileImg == null || fileImg == "") {
+			
+			addError("Nuovo Brand", "inserire l'immagine");
+			return;
+			
+		}
+		
+			//imgContenuto = ConfigurationUtil.getHttpPathImagesNewsletter(getRequest()) + fileImg;
+		
+		
 		newBrandFull =  new BrandFullDTO();
 		newBrandFull.setTxBrand(newBrandFulltxBrand);
 		newBrandFull.setIdProvincia(newBrandFullidProvincia);
 		newBrandFull.setIdRegione(newBrandFullidRegione);
-		newBrandFull.setUrlFoto(newBrandFullurlFoto);
+		newBrandFull.setUrlFoto(fileImg);
 		newBrandFull.setTxDescrIT(newBrandFulltxDescrIT);
 		newBrandFull.setTxDescrEN(newBrandFulltxDescrEN);
 		newBrandFull.setIdUser(newBrandFullidUser);
 		
 		try {
-			OthalaFactory.getProductServiceInstance().insertBrand(getLang(), newBrandFull.getTxBrand(), null, null, null, null, newBrandFull.getTxDescrIT(),
+			OthalaFactory.getProductServiceInstance().insertBrand(getLang(), newBrandFull.getTxBrand(), newBrandFull.getIdRegione(), newBrandFull.getIdProvincia(), newBrandFull.getIdUser(), newBrandFull.getUrlFoto(), newBrandFull.getTxDescrIT(),
 					newBrandFull.getTxDescrEN());
 			
 			getBeanApplication().resetDomain();
@@ -982,6 +1043,94 @@ private String newBrandFulltxBrand;
 		}
 	}
 
+	
+	public void handleFileUploadBrand(FileUploadEvent event) throws IOException {
+
+		if (event != null)
+		{
+		baseImgPath = "//resources//images/brand";
+		baseImgPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath(baseImgPath);
+		
+		InputStream inputStream = null;
+		OutputStream outputStream = null;
+		DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+		String dateSuffix = dateFormat.format(new Date());
+		try {
+			UploadedFile file = event.getFile();
+			inputStream = file.getInputstream();
+
+			fileImg = dateSuffix + file.getFileName();
+			absoluteFileImg = baseImgPath + File.separator + fileImg;
+			outputStream = new FileOutputStream(new File(absoluteFileImg));
+
+			int read = 0;
+			byte[] bytes = new byte[1024];
+
+			while ((read = inputStream.read(bytes)) != -1) {
+				outputStream.write(bytes, 0, read);
+			}
+
+		} finally {
+			if (inputStream != null) {
+				try {
+					inputStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (outputStream != null) {
+				try {
+					// outputStream.flush();
+					outputStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+			}
+		}
+		}
+	}
+	
+	
+	public void cambiaRegione (ValueChangeEvent  e) {
+
+		
+		for (RegioneDTO reg: regioni)
+		{
+			if (reg.getIdRegione().equals(new Integer(e.getNewValue().toString().trim())))
+			{
+				province = reg.getProvince();
+				newBrandFullidProvincia = province.get(0).getIdProvincia();
+			}
+			
+		}
+		
+
+	
+		
+	}
+	
+	
+	public void cambiaProvincia (ValueChangeEvent  e) {
+
+		
+		for (ProvinciaDTO prov: province)
+		{
+			if (prov.getIdProvincia().equals(new Integer(e.getNewValue().toString().trim())))
+			{
+			
+				newBrandFullidProvincia = prov.getIdProvincia();
+			}
+			
+		}
+		
+
+	
+		
+	}
+	
+	
+	
 	public void addNewColor(ActionEvent e) {
 		if (newColor == null || newColor.isEmpty() || newColorEN == null || newColorEN.isEmpty()) {
 			addError("Nuovo colore", "inserire il colore");
@@ -1085,5 +1234,7 @@ private String newBrandFulltxBrand;
 	public void setNewBrandFullidUser(String newBrandFullidUser) {
 		this.newBrandFullidUser = newBrandFullidUser;
 	}
+
+	
 
 }

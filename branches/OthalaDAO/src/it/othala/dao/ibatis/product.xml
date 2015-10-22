@@ -817,6 +817,7 @@
 		${database.schema}provincia h
 		where
 		f.idregione = h.idregione
+		order by txRegione, txProvincia
 
 	</select>
 

@@ -264,49 +264,188 @@
 			<!-- inserimento brand -->
 
 
+
+
+
+
+
+
 			<p:dialog header="Nuovo Brand" id="dlgIns" widgetVar="dlgIns"
-				modal="true" height="500">
+				modal="true" style="width:50%">
 				<div class="row ">
 					<div class="col-sm-12 ">
 
+						<div class="row ">
+							<div class="col-sm-4 ">
 
-						<p:outputLabel style="padding-right: 10px;">Brand</p:outputLabel>
-						<p:inputText label="nuovo brand" id="newBrand1" required="true"
-							value="#{insertProdottiView.newBrandFulltxBrand}" maxlength="40"
-							size="40" />
+								<p:outputLabel style="padding-right: 10px;">Brand</p:outputLabel>
+							</div>
+							<div class="col-sm-8 ">
 
-						<br /> <br />
+								<p:inputText label="nuovo brand" id="newBrand1" required="true"
+									value="#{insertProdottiView.newBrandFulltxBrand}"
+									maxlength="40" size="35" />
 
-						<p:outputLabel style="padding-right: 10px;">Descrizione IT</p:outputLabel>
-						<p:inputText required="true"
-							value="#{insertProdottiView.newBrandFulltxDescrIT}" id="descbit"
-							maxlength="1000" size="40"></p:inputText>
+							</div>
+						</div>
+						<div class="row " style="padding-top: 10px">
+							<div class="col-sm-4 ">
+								<p:outputLabel style="padding-right: 10px;">Descrizione IT</p:outputLabel>
+							</div>
+							<div class="col-sm-8 ">
+								<p:inputText required="true"
+									value="#{insertProdottiView.newBrandFulltxDescrIT}"
+									id="descbit" maxlength="1000" size="35"></p:inputText>
 
-						<br /> <br />
+							</div>
+						</div>
 
-						<p:outputLabel style="padding-right: 10px;">Descrizione EN</p:outputLabel>
-						<p:inputText required="true"
-							value="#{insertProdottiView.newBrandFulltxDescrEN}" id="descben"
-							maxlength="1000" size="40"></p:inputText>
-							
-						<br /> <br />
 
-						<p:outputLabel style="padding-right: 10px;">Mail</p:outputLabel>
-						<p:inputText required="false"
-							value="#{insertProdottiView.newBrandFullidUser}" id="iduserb"
-							maxlength="100" size="40"></p:inputText>
-							
-						<br /> <br />
+						<div class="row " style="padding-top: 10px">
+							<div class="col-sm-4 ">
+								<p:outputLabel style="padding-right: 10px;">Descrizione EN</p:outputLabel>
+							</div>
+							<div class="col-sm-8 ">
+								<p:inputText required="true"
+									value="#{insertProdottiView.newBrandFulltxDescrEN}"
+									id="descben" maxlength="1000" size="35"></p:inputText>
 
-						
-						<p:commandButton oncomplete="PF('dlgIns').hide();" ajax="true"
-							validateClient="true" process="@this newBrand1 descbit descben iduserb"
-							update=":frmProd:brandPnl"
-							actionListener="#{insertProdottiView.addNewBrandFull}"
-							value="Inserisci"></p:commandButton>
+							</div>
+						</div>
+
+						<div class="row " style="padding-top: 10px">
+							<div class="col-sm-4 ">
+								<p:outputLabel style="padding-right: 10px;">Mail</p:outputLabel>
+							</div>
+							<div class="col-sm-8 ">
+								<p:inputText required="false"
+									value="#{insertProdottiView.newBrandFullidUser}" id="iduserb"
+									maxlength="100" size="35"></p:inputText>
+
+							</div>
+						</div>
+
+						<div class="row " style="padding-top: 10px">
+							<div class="col-sm-4 ">
+								<p:outputLabel style="padding-right: 10px;">Regione</p:outputLabel>
+							</div>
+							<div class="col-sm-8 ">
+
+								<h:selectOneMenu styleClass="form-control" id="selRegione"
+									value="#{insertProdottiView.newBrandFullidRegione}"
+									valueChangeListener="#{insertProdottiView.cambiaRegione}">
+									<p:ajax event="change" update="selProvincia" />
+									<f:selectItems value="#{insertProdottiView.regioni}"
+										var="regione" itemValue="#{regione.idRegione}"
+										itemLabel="#{regione.txRegione}"></f:selectItems>
+								</h:selectOneMenu>
+
+
+							</div>
+						</div>
+
+						<div class="row " style="padding-top: 10px">
+							<div class="col-sm-4 ">
+								<p:outputLabel style="padding-right: 10px;">Provincia</p:outputLabel>
+							</div>
+							<div class="col-sm-8 ">
+
+								<h:selectOneMenu styleClass="form-control" id="selProvincia"
+									value="#{insertProdottiView.newBrandFullidProvincia}"
+									valueChangeListener="#{insertProdottiView.cambiaProvincia}">
+									<p:ajax event="change" update="selProvincia" />
+									<f:selectItems value="#{insertProdottiView.province}"
+										var="provincia" itemValue="#{provincia.idProvincia}"
+										itemLabel="#{provincia.txProvincia}"></f:selectItems>
+								</h:selectOneMenu>
+
+
+
+
+							</div>
+						</div>
+
+						<div class="row " style="padding-top: 10px">
+							<div class="col-sm-12 ">
+
+								<h:form enctype="multipart/form-data" prependId="false"
+									id="frmImagesBrand">
+
+									<div class="row">
+										<div class="col-sm-4">
+											<p:fileUpload
+												fileUploadListener="#{insertProdottiView.handleFileUploadBrand}"
+												id="immagineBrand" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+												onerror="PF('blockAll').unblock();"
+												oncomplete="PF('blockAll').unblock();"
+												onstart="PF('blockAll').block()" process="@this imgBr"
+												label="Immagine" required="false" update="frmImagesBrand"
+												multiple="false" auto="true" />
+
+										</div>
+
+										<div class="col-sm-8">
+
+
+											<p:graphicImage id="imgBr"
+												rendered="#{insertProdottiView.fileImg!=null}"
+												styleClass="img-responsive" library="images/brand"
+												width="80" height="83" name="#{insertProdottiView.fileImg}" />
+
+										</div>
+									</div>
+								</h:form>
+
+							</div>
+						</div>
+
+						<!-- 						<div class="row " style="padding-top: 20px"> -->
+						<!-- 							<div class="col-sm-12 "> -->
+
+						<!-- 								<h:panelGroup styleClass="form-group"> -->
+
+						<!-- 									<div class="clearfix col-sm-1"> -->
+						<!-- 										<div class="sel-thumbinal container-sel-thumbinal "> -->
+						<!-- 											<h:panelGroup id="thumbBrand"> -->
+						<!-- 												<p:graphicImage -->
+						<!-- 													rendered="#{insertProdottiView.fileImg!=null}" -->
+						<!-- 												library="images/brand" width="80" height="83" -->
+						<!-- 													name="#{insertProdottiView.fileImg}" /> -->
+						<!-- 											</h:panelGroup> -->
+						<!-- 										</div> -->
+						<!-- 									</div> -->
+						<!-- 								</h:panelGroup> -->
+
+						<!-- 							</div> -->
+						<!-- 						</div> -->
+
+
+
+						<div class="row " style="padding-top: 20px">
+							<div class="col-sm-12 ">
+								<p:commandButton oncomplete="PF('dlgIns').hide();" ajax="true"
+									validateClient="true"
+									process="@this newBrand1 descbit descben iduserb"
+									update=":frmProd:brandPnl"
+									actionListener="#{insertProdottiView.addNewBrandFull}"
+									value="Inserisci"></p:commandButton>
+
+							</div>
+						</div>
 					</div>
 				</div>
 			</p:dialog>
+
+
+
+
+
+
+
+
+
+
+
 
 			<!-- inserimento taglia -->
 			<p:dialog header="Nuovo Formato" id="dlgInsTaglia"
