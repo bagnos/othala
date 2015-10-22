@@ -378,20 +378,20 @@
 												id="immagineBrand" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
 												onerror="PF('blockAll').unblock();"
 												oncomplete="PF('blockAll').unblock();"
-												onstart="PF('blockAll').block()" process="@this imgBr"
-												label="Immagine" required="false" update="frmImagesBrand"
+												onstart="PF('blockAll').block()" process="@this"
+												label="Immagine" required="false" update="thumbBrand"
 												multiple="false" auto="true" />
 
 										</div>
 
-										<div class="col-sm-8">
+										<div class="col-sm-8 clearfix">
 
-
-											<p:graphicImage id="imgBr"
-												rendered="#{insertProdottiView.fileImg!=null}"
-												styleClass="img-responsive" library="images/brand"
-												width="80" height="83" name="#{insertProdottiView.fileImg}" />
-
+											<h:panelGroup id="thumbBrand">
+												<p:graphicImage id="imgBr"
+													rendered="#{insertProdottiView.fileImg!=null}"
+													styleClass="img-responsive" library="images/brand"
+													width="80" height="83" name="#{insertProdottiView.fileImg}" />
+											</h:panelGroup>
 										</div>
 									</div>
 								</h:form>
