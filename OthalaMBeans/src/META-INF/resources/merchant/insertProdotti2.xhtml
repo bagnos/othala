@@ -387,10 +387,12 @@
 										<div class="col-sm-8 clearfix">
 
 											<h:panelGroup id="thumbBrand">
+											<div class="sel-thumbinal container-sel-thumbinal ">
 												<p:graphicImage id="imgBr"
 													rendered="#{insertProdottiView.fileImg!=null}"
 													styleClass="img-responsive" library="images/brand"
 													width="80" height="83" name="#{insertProdottiView.fileImg}" />
+													</div>
 											</h:panelGroup>
 										</div>
 									</div>
@@ -428,7 +430,7 @@
 									process="@this newBrand1 descbit descben iduserb"
 									update=":frmProd:brandPnl"
 									actionListener="#{insertProdottiView.addNewBrandFull}"
-									value="Inserisci"></p:commandButton>
+									value="Inserisci" style="float:right;"></p:commandButton>
 
 							</div>
 						</div>
