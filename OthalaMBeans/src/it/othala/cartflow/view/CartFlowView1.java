@@ -583,7 +583,7 @@ public class CartFlowView1 extends BaseView {
 				getCartFlowBean().getCatalog().getOrderPrice(),
 				getCartFlowBean().getCatalog().getIdCampaign() == null
 						|| getCartFlowBean().getCatalog().getIdCampaign().intValue() == 0 ? null : getCartFlowBean()
-						.getCatalog().getIdCampaign(), getCartFlowBean().getCatalog().isIncludePromo());
+						.getCatalog().getIdCampaign(), getCartFlowBean().getCatalog().isIncludePromo(), null);
 		
 		}
 		getCartFlowBean().getCatalog().getArticles().addAll(vetrinaDTO.getProdotti());

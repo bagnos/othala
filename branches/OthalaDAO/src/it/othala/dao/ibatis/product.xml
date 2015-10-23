@@ -487,6 +487,18 @@
 		order by 2
 
 	</select>
+	
+		<select id="listGenere" flushCache="true" resultType="it.othala.dto.AttributeDTO"
+		parameterType="java.util.HashMap">
+
+		SELECT idGenere as attributo,txGenere as valore
+		FROM
+		${database.schema}genere d
+		where
+		idLanguages = #{languages}
+		order by 2
+
+	</select>
 
 	<select id="listBrand" flushCache="true" resultType="it.othala.dto.AttributeDTO">
 
@@ -1027,7 +1039,9 @@
 		tab2.idCampaign,
 		round(specialPrice,2) as specialPrice,
 		tyProduct,
-		idBrand
+		idBrand,
+		idGenere,
+		txGenere
 		FROM
 		(
 		SELECT
@@ -1059,7 +1073,9 @@
 		a.idCampaign,
 		a.specialPrice,
 		a.tyProduct,
-		a.idBrand
+		a.idBrand,
+		a.idGenere,
+		txGenere
 		FROM
 
 		${database.schema}product
@@ -1068,11 +1084,17 @@
 		b,
 		${database.schema}brand c,
 		${database.schema}gender f,
+		${database.schema}genere r,
 		`type` g
 		where
 		a.idProduct = b.idProduct
+		
+		and coalesce(a.idGenere,0) = r.idGenere
+		
 		and
 		b.idLanguages = #{languages}
+		and
+		b.idLanguages = r.idLanguages
 		and
 		b.idLanguages = f.idLanguages
 		and
@@ -1103,6 +1125,11 @@
 			and a.idType = #{type}
 		</if>
 
+		<if test="idGenere != null">
+			and a.idGenere = #{idGenere}
+		</if>
+		
+		
 		<if test="gender != null">
 			and a.idGender = #{gender}
 		</if>
@@ -1545,6 +1572,8 @@
 		tab1.idCampaign,
 		tab1.idMaterial,
 		tab1.txMaterial,
+				tab1.idGenere,
+		tab1.txGenere,
 		round(tab1.specialPrice,2) as specialPrice,
 		tab1.idProductState,
 		tab1.tyProduct
@@ -1589,6 +1618,8 @@
 		idCampaign,
 		a.idMaterial,
 		txMaterial,
+				a.idGenere,
+		txGenere,
 		specialPrice,
 		a.idProductState,
 		a.tyProduct
@@ -1602,7 +1633,8 @@
 		${database.schema}gender c,
 		${database.schema}type d,
 		${database.schema}brand e,
-		${database.schema}material f
+		${database.schema}material f,
+				${database.schema}genere g
 
 		where
 		a.idProduct = #{idProduct}
@@ -1622,11 +1654,15 @@
 		and
 		f.idMaterial = a.idMaterial
 		and
+		g.idGenere = coalesce(a.idGenere,0)
+		and
 		d.idLanguages = b.idLanguages
 		and
 		c.idLanguages = b.idLanguages
 		and
 		f.idLanguages = b.idLanguages
+				and
+		g.idLanguages = b.idLanguages
 		) tab1
 		left join
 		${database.schema}campaigns tab2
@@ -1933,11 +1969,12 @@
 		`idCampaign`,
 		`idMaterial`,
 		`specialPrice`,
-		`tyProduct`)
+		`tyProduct`,
+		`idGenere`)
 
 		values
 		(#{idGender},#{idType},#{idBrand},
-		#{price},#{discount},#{thumbnailsUrl},0,now(),#{idCampaign},#{idMaterial},#{specialPrice},#{tyProduct})
+		#{price},#{discount},#{thumbnailsUrl},0,now(),#{idCampaign},#{idMaterial},#{specialPrice},#{tyProduct},#{idGenere})
 
 		<selectKey resultType="java.lang.Integer" keyProperty="idProduct">
 
@@ -2118,7 +2155,9 @@
 		#{specialPrice},
 		`tyProduct` =
 		#{tyProduct},
-		idProductState=#{idProductState}
+		idProductState=#{idProductState},
+				`idGenere` =
+		#{idGenere}
 		WHERE idProduct
 		=
 		#{idProduct}
@@ -2351,6 +2390,8 @@
 		tab1.idCampaign,
 		tab1.idMaterial,
 		tab1.txMaterial,
+				tab1.idGenere,
+		tab1.txGenere,
 		round(tab1.specialPrice,2) as specialPrice,
 		tab1.tyProduct
 
@@ -2394,6 +2435,8 @@
 		idCampaign,
 		a.idMaterial,
 		f.txMaterial,
+				a.idGenere,
+		h.txGenere,
 		g.specialPrice,
 		a.tyProduct
 
@@ -2406,6 +2449,7 @@
 		${database.schema}type d,
 		${database.schema}brand e,
 		${database.schema}material f,
+				${database.schema}genere h,
 		${database.schema}article g
 		where
 		a.idProduct = b.idProduct
@@ -2426,12 +2470,17 @@
 		f.idMaterial =
 		a.idMaterial
 		and
+				h.idGenere =
+		a.idGenere
+		and
 		d.idLanguages = b.idLanguages
 		and
 		c.idLanguages =
 		b.idLanguages
 		and
 		f.idLanguages = b.idLanguages
+				and
+		h.idLanguages = b.idLanguages
 		) tab1
 		left join
 		${database.schema}campaigns tab2

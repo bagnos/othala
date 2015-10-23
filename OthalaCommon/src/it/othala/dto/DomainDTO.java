@@ -15,6 +15,7 @@ public class DomainDTO implements Serializable {
 	private List<AttributeDTO> brand;
 	private List<AttributeDTO> gender;
 	private List<AttributeDTO> material;
+	private List<AttributeDTO> genere;
 	private List<AttributeDTO> type;
 	private List<ShopDTO> shop;
 	private List<AttributeDTO> statesOrder;
@@ -189,6 +190,14 @@ public class DomainDTO implements Serializable {
 
 	public void setHashtag(List<HashtagDTO> hashtag) {
 		this.hashtag = hashtag;
+	}
+
+	public List<AttributeDTO> getGenere() {
+		return genere;
+	}
+
+	public void setGenere(List<AttributeDTO> genere) {
+		this.genere = genere;
 	}
 
 }

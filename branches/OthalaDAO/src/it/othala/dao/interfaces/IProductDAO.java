@@ -114,6 +114,7 @@ public interface IProductDAO {
 
 	public void insertMaterial(Integer idMaterial,String languages, String txMaterial);
 
+	public List<AttributeDTO> listGenere(String languages);
 	public List<AttributeDTO> listMaterial(String languages);
 
 	public void insertColor(Integer idColor, String languages, String txColor);

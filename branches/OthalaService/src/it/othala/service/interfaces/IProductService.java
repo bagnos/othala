@@ -34,7 +34,7 @@ public interface IProductService {
 			Integer type, Integer brand, BigDecimal minPrice,
 			BigDecimal maxPrice, Integer size, Integer color,
 			Boolean newArrivals, int order, Integer idCampaign,
-			Boolean fgCampaign);
+			Boolean fgCampaign, Integer idGenere);
 	
 	
 	public void publishProduct(List<Integer> listIdProduct);

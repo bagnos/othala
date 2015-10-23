@@ -163,6 +163,20 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 		return listAttribute;
 
 	}
+	
+	
+	@Override
+	public List<AttributeDTO> listGenere(String languages) {
+
+		HashMap<String, Object> mapAttribute = new HashMap<>();
+		mapAttribute.put("languages", languages);
+
+		List<AttributeDTO> listAttribute = getSqlSession().selectList(
+				"it.othala.product.queries.listGenere", mapAttribute);
+
+		return listAttribute;
+
+	}
 
 	@Override
 	public List<AttributeDTO> listBrand() {
@@ -429,6 +443,8 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 				map.put("idType", productFull.getIdType());
 				map.put("idGender", productFull.getIdGender());
 				map.put("idMaterial", productFull.getIdMaterial());
+				map.put("idGenere", productFull.getIdGenere());
+				
 				map.put("languages", "it");
 
 				String txDescrizioneIT = getSqlSession().selectOne(

@@ -11,6 +11,22 @@ import org.springframework.util.StringUtils;
 
 public class ProductFullNewDTO implements Serializable {
 
+	public Integer getIdGenere() {
+		return idGenere;
+	}
+
+	public void setIdGenere(Integer idGenere) {
+		this.idGenere = idGenere;
+	}
+
+	public String getTxGenere() {
+		return txGenere;
+	}
+
+	public void setTxGenere(String txGenere) {
+		this.txGenere = txGenere;
+	}
+
 	/**
 	 * 
 	 */
@@ -46,6 +62,9 @@ public class ProductFullNewDTO implements Serializable {
 
 	private Integer idMaterial;
 	private String txMaterial;
+	
+	private Integer idGenere;
+	private String txGenere;
 
 	private List<DescriptionDTO> langDescription;
 

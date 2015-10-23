@@ -99,6 +99,7 @@ public class ProductService implements IProductService {
 		domainDTO.setBrand(productDAO.listBrand());
 		domainDTO.setGender(productDAO.listGender(languages));
 		domainDTO.setMaterial(productDAO.listMaterial(languages));
+		domainDTO.setGenere(productDAO.listGenere(languages));
 		domainDTO.setType(productDAO.listType(languages));
 		domainDTO.setShop(productDAO.listShop());
 		domainDTO.setStatesOrder(productDAO.listStatesOrder());
@@ -140,7 +141,7 @@ public class ProductService implements IProductService {
 
 		domainDTO.setArticleCashed(listArticleMajorCashed(languages));
 		domainDTO.setArticleNewArrivals(getListProduct(languages, null, null,
-				null, null, null, null, null, true, 0, null, false)
+				null, null, null, null, null, true, 0, null, false,null)
 				.getProdotti());
 
 		domainDTO.setHashtag(productDAO.listHashtag(languages));
@@ -235,7 +236,7 @@ public class ProductService implements IProductService {
 			Integer type, Integer brand, BigDecimal minPrice,
 			BigDecimal maxPrice, Integer size, Integer color,
 			Boolean newArrivals, int order, Integer idCampaign,
-			Boolean fgCampaign) {
+			Boolean fgCampaign, Integer IdGenere) {
 
 		List<ProductFullNewDTO> listProduct = productDAO.listProduct(languages,
 				type, gender, brand, minPrice, maxPrice, size, color,
