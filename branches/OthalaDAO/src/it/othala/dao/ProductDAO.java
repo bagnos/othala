@@ -637,6 +637,16 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 				"it.othala.product.queries.getMaxIdType");
 
 	}
+	
+	@Override
+	public Integer getMaxIdYnf() {
+
+		return getSqlSession().selectOne(
+				"it.othala.product.queries.getMaxIdYnf");
+
+	}
+	
+	
 
 	@Override
 	public Integer getQtStockLock(Integer idProduct, Integer pgArticle) {
@@ -792,6 +802,17 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 
 	}
 
+	@Override
+	public void insertYnf(Integer idInformazione, String languages, String txInformazione) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("idInformazione", idInformazione);
+		map.put("languages", languages);
+		map.put("txInformazione", txInformazione);
+
+		getSqlSession().insert("it.othala.product.queries.insertYnf", map);
+
+	}
+	
 	@Override
 	public List<AttributeDTO> listStatesOrder() {
 
@@ -1262,6 +1283,11 @@ public class ProductDAO extends SqlSessionDaoSupport implements IProductDAO {
 			query = "it.othala.product.queries.getSize";
 		}
 
+		if (txAttributo == "ynf") {
+			query = "it.othala.product.queries.getYnf";
+		}
+
+		
 		Integer count;
 
 		if (query != null) {

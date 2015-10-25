@@ -387,12 +387,13 @@
 										<div class="col-sm-8 clearfix">
 
 											<h:panelGroup id="thumbBrand">
-											<div class="sel-thumbinal container-sel-thumbinal ">
-												<p:graphicImage id="imgBr"
-													rendered="#{insertProdottiView.fileImg!=null}"
-													styleClass="img-responsive" library="images/brand"
-													width="80" height="83" name="#{insertProdottiView.fileImg}" />
-													</div>
+												<div class="sel-thumbinal container-sel-thumbinal ">
+													<p:graphicImage id="imgBr"
+														rendered="#{insertProdottiView.fileImg!=null}"
+														styleClass="img-responsive" library="images/brand"
+														width="80" height="83"
+														name="#{insertProdottiView.fileImg}" />
+												</div>
 											</h:panelGroup>
 										</div>
 									</div>
@@ -491,6 +492,31 @@
 					</div>
 				</div>
 			</p:dialog>
+			
+						<!-- inserimento informazione -->
+			<p:dialog header="Nuova Informazione" id="dlgInsYnf" widgetVar="dlgInsYnf"
+				modal="true" height="150">
+				<div class="row text-center">
+					<div class="col-sm-12 ">
+						<p:outputLabel style="padding-right: 5px;">IT</p:outputLabel>
+						<p:inputText label="Informazione IT" id="newYnf1" required="true"
+							value="#{insertProdottiView.newYnfIT}" maxlength="100" size="40" />
+						<br /> <br />
+						<p:outputLabel style="padding-right: 5px;">EN</p:outputLabel>
+						<p:inputText label="nuovo tipo EN" id="newYnf2" required="true"
+							value="#{insertProdottiView.newYnfEN}" maxlength="100" size="40" />
+						<br /> <br />
+						<p:commandButton id="cmdInsYnf"
+							oncomplete="PF('dlgInsYnf').hide();" ajax="true"
+							validateClient="true" process="@this newYnf1 newYnf2"
+							partialSubmit="true" update=":frmProd:tipoPnl"
+							actionListener="#{insertProdottiView.addNewYnf}"
+							value="Inserisci"></p:commandButton>
+					</div>
+				</div>
+			</p:dialog>
+			
+			
 
 
 		</h:form>
@@ -564,10 +590,184 @@
 
 		</h:form>
 
+
+
+
+		<h:form prependId="false" id="frm-inf" styleClass="form-horizontal">
+
+
+			<h3 class ="form-titoli" >INFORMAZIONI AGGIUNTIVE</h3>
+
+
+<h:panelGroup layout="block"
+				rendered="#{insertProdottiView.fgRead==false}">
+				<div class="row " style="padding-top: 10px">
+					<div class="col-sm-5 ">
+						<h:selectOneMenu styleClass="form-control" id="selInformazioni"
+							value="#{insertProdottiView.infIdInformazione}"
+							valueChangeListener="#{insertProdottiView.cambiaInformazioni}">
+							<p:ajax event="change" update="selInformazioni" />
+							<f:selectItems value="#{insertProdottiView.informazioni}"
+								var="informazione" itemValue="#{informazione.attributo}"
+								itemLabel="#{informazione.valore}"></f:selectItems>
+						</h:selectOneMenu>
+					</div>
+					
+					<div class="col-sm-1">
+												<p:commandButton rendered="#{insertProdottiView.fgRead==false}"
+								title="Aggiungi Informazione" icon="ui-icon-plus" type="button"
+								onclick="$('#newYnf1').val('');$('#newYnf2').val('');PF('dlgInsYnf').show();" />
+					</div>
+				</div>
+				<div class="row " style="padding-top: 10px">
+					<div class="col-sm-3 ">
+
+						<p:outputLabel style="padding-right: 10px;">Italiano</p:outputLabel>
+					</div>
+
+					<div class="col-sm-9 ">
+
+						<p:inputText required="false"
+							value="#{insertProdottiView.infTxInfDescIT}" id="descinfIT"
+							maxlength="1000" size="90"></p:inputText>
+
+
+
+
+					</div>
+				</div>
+				<div class="row " style="padding-top: 10px">
+					<div class="col-sm-3 ">
+
+						<p:outputLabel style="padding-right: 10px;">Inglese</p:outputLabel>
+					</div>
+
+					<div class="col-sm-9 ">
+
+						<p:inputText required="false"
+							value="#{insertProdottiView.infTxInfDescEN}" id="descinfEN"
+							maxlength="1000" size="90"></p:inputText>
+
+
+
+
+					</div>
+				</div>
+				<div class="row " style="padding-top: 10px">
+					<div class="col-sm-4 ">
+
+						<p:commandButton process="frm-inf" update="frm-inf"
+							actionListener="#{insertProdottiView.addInformazioni}"
+							id="addInfs" value="Aggiungi Informazione" />
+
+
+
+
+					</div>
+
+				</div>
+
+			</h:panelGroup>
+
+
+			<div class="row" style="padding-top: 10px">
+
+				<div class="col-sm-12">
+
+
+
+					<!-- elenco informazioni -->
+					<div class="form-group">
+						<label class="control-label col-sm-3">Elenco Informazioni
+							aggiuntive</label>       
+						<p:dataTable id="infs"
+							rendered="#{insertProdottiView.informazioniElenco.size()!=0}"
+							var="inf" value="#{insertProdottiView.informazioniElenco}">
+      
+
+							<p:column headerText="Tipo">
+								<h:outputText value="#{inf.txInformazione}" />
+        </p:column>
+        <p:column headerText="Italiano">
+            <h:outputText value="#{inf.txDescrizioneIT}" />		
+        </p:column>
+
+        <p:column headerText="Inglese">
+            <h:outputText value="#{inf.txDescrizioneEN}" />		
+        </p:column>
+       
+
+
+
+ <p:column style="width:6%;padding:0px;text-align:center"
+								rendered="#{insertProdottiView.fgRead==false}">           								
+								<div>
+									<p:commandButton title="rimuovi" process="@this"
+										icon="ui-icon-trash" update=":frm-inf"
+										actionListener="#{insertProdottiView.deleteInformazioni}">
+										<f:attribute name="idInf" value="#{inf.idInformazione}" />
+									</p:commandButton>
+
+
+
+								</div>
+        </p:column>
+
+
+
+    </p:dataTable>
+
+
+					</div>
+
+				</div>
+
+			</div>
+
+
+
+			<script type="text/javascript">
+			$(document).ready(function() {
+				initPrezzo();
+							});
+						
+			</script>
+
+		</h:form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		<h:form prependId="false" id="frm-arts" styleClass="form-horizontal">
 
 			<!-- ARTICOLI -->
-			<h3>ARTICOLI</h3>
+			<h3 class ="form-titoli">ARTICOLI</h3>
 			<div class="row">
 				<div class="col-sm-12">
 

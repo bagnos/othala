@@ -440,6 +440,17 @@
 
 	</insert>
 
+	<insert id="insertYnf" flushCache="true" parameterType="java.util.HashMap">
+
+		INSERT INTO
+		${database.schema}infaggiuntive
+		(`idInformazione`,`idLanguages`,`txInformazione`)
+		values (
+		#{idInformazione},#{languages},#{txInformazione})
+
+	</insert>
+	
+	
 	<select id="listSize" resultType="it.othala.dto.AttributeDTO">
 
 		SELECT idSize as
@@ -652,6 +663,20 @@
 
 	</select>
 
+	<select id="getYnf" resultType="Integer" parameterType="java.util.HashMap">
+
+		SELECT
+		count(*)
+		FROM
+		${database.schema}infaggiuntive
+		where
+
+		txInformazione = #{txValore};
+
+
+	</select>
+	
+	
 	<select id="getColor" resultType="Integer" parameterType="java.util.HashMap">
 
 		SELECT
@@ -780,6 +805,15 @@
 		SELECT MAX(idType)
 		FROM
 		${database.schema}type;
+
+
+	</select>
+	
+		<select id="getMaxIdYnf" resultType="Integer">
+
+		SELECT MAX(idInformazione)
+		FROM
+		${database.schema}infaggiuntive;
 
 
 	</select>

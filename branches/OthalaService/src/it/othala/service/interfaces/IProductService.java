@@ -110,6 +110,9 @@ public interface IProductService {
 	public VetrinaDTO getListProduct(String descr, String languages);
 
 
+	public void insertYnf(String languages, String txYnfIT, String txYnfEN);
+
+
 	
 	
 }

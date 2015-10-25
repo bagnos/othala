@@ -232,6 +232,20 @@ public class ProductService implements IProductService {
 	}
 
 	@Override
+	public void insertYnf(String languages, String txYnfIT, String txYnfEN) {
+
+		if (productDAO.checkEsistenza("ynf", txYnfIT, "it")) {
+			Integer maxIdYnf = productDAO.getMaxIdYnf();
+			maxIdYnf = maxIdYnf + 1;
+
+			productDAO.insertYnf(maxIdYnf, "it", txYnfIT);
+			productDAO.insertYnf(maxIdYnf, "en", txYnfEN);
+		}
+		
+
+	}
+	
+	@Override
 	public VetrinaDTO getListProduct(String languages, Integer gender,
 			Integer type, Integer brand, BigDecimal minPrice,
 			BigDecimal maxPrice, Integer size, Integer color,

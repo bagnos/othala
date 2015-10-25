@@ -4,6 +4,7 @@ import it.othala.dto.ArticleFullDTO;
 import it.othala.dto.AttributeDTO;
 import it.othala.dto.BrandFullDTO;
 import it.othala.dto.DomainDTO;
+import it.othala.dto.InfAggiuntiveDTO;
 import it.othala.dto.ProductFullNewDTO;
 import it.othala.dto.ProvinciaDTO;
 import it.othala.dto.RegioneDTO;
@@ -43,6 +44,30 @@ import org.primefaces.model.UploadedFile;
 @ManagedBean
 @ViewScoped
 public class InsertProdottiView extends BaseView {
+
+	public List<AttributeDTO> getInformazioni() {
+		return informazioni;
+	}
+
+	public void setInformazioni(List<AttributeDTO> informazioni) {
+		this.informazioni = informazioni;
+	}
+
+	public String getInfTxInfDescIT() {
+		return infTxInfDescIT;
+	}
+
+	public void setInfTxInfDescIT(String infTxInfDescIT) {
+		this.infTxInfDescIT = infTxInfDescIT;
+	}
+
+	public String getInfTxInfDescEN() {
+		return infTxInfDescEN;
+	}
+
+	public void setInfTxInfDescEN(String infTxInfDescEN) {
+		this.infTxInfDescEN = infTxInfDescEN;
+	}
 
 	public List<RegioneDTO> getRegioni() {
 		return regioni;
@@ -118,6 +143,8 @@ public class InsertProdottiView extends BaseView {
 	private AttributeDTO material;
 	private List<RegioneDTO> regioni;
 	private List<ProvinciaDTO> province;
+	private List<AttributeDTO> informazioni;
+	private List<InfAggiuntiveDTO> informazioniElenco = new ArrayList<InfAggiuntiveDTO>();
 	private int sconto;
 	private BigDecimal prezzo;
 	private BigDecimal prezzoSpeciale;
@@ -144,27 +171,33 @@ public class InsertProdottiView extends BaseView {
 	private String newMaterialEN;
 	private String newType;
 	private String newTypeEN;
+	private String newYnfIT;
+	private String newYnfEN;
 	private boolean pubblica;
 	private BrandFullDTO newBrandFull;
-	
-	
-	
-private String newBrandFulltxBrand;
+
+	private String newBrandFulltxBrand;
 	private Integer newBrandFullidProvincia;
 	private Integer newBrandFullidRegione;
 	private String newBrandFullurlFoto;
 	private String newBrandFulltxDescrIT;
 	private String newBrandFulltxDescrEN;
 	private String newBrandFullidUser;
-	
+
+	private Integer infIdInformazione;
+	private String infTxInformazione;
+
+	private String infTxInfDescIT;
+	private String infTxInfDescEN;
+
 	private String baseImgPath;
 	private String fileImg;
 	private String absoluteFileImg;
-	
 
 	private Boolean fgRead;
 	private Boolean fgMod;
-	private static DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+	private static DateFormat dateFormat = new SimpleDateFormat(
+			"yyyyMMddHHmmssSSS");
 	private String separatorDateFormat = "&";
 	private Boolean detail;
 	private ProductFullNewDTO prdDetail = null;
@@ -207,7 +240,7 @@ private String newBrandFulltxBrand;
 	public String getFileImg() {
 		return fileImg;
 	}
-	
+
 	public Boolean getFgRead() {
 		if (fgRead == null) {
 			fgRead = false;
@@ -270,8 +303,6 @@ private String newBrandFulltxBrand;
 		this.newBrand = newBrand;
 	}
 
-
-	
 	public BrandFullDTO getNewBrandFull() {
 		return newBrandFull;
 	}
@@ -279,7 +310,7 @@ private String newBrandFulltxBrand;
 	public void setNewBrandFull(BrandFullDTO newBrandFull) {
 		this.newBrandFull = newBrandFull;
 	}
-	
+
 	public String getMerchantCode() {
 		return merchantCode;
 	}
@@ -434,23 +465,20 @@ private String newBrandFulltxBrand;
 	@Override
 	public String doInit() {
 		// TODO Auto-generated method stub
-		
+
 		DomainDTO dom = getBeanApplication().getDomain();
 		regioni = dom.getRegioni();
 		newBrandFullidRegione = regioni.get(0).getIdRegione();
-		
-		for (RegioneDTO reg: regioni)
-		{
-			if (reg.getIdRegione().equals(newBrandFullidRegione))
-			{
+		informazioni = dom.getInfAggiuntive();
+
+		for (RegioneDTO reg : regioni) {
+			if (reg.getIdRegione().equals(newBrandFullidRegione)) {
 				province = reg.getProvince();
 				newBrandFullidProvincia = province.get(0).getIdProvincia();
 			}
-			
+
 		}
-		
-	
-		
+
 		shop = getBeanApplication().getShopsDTO().get(0);
 		pubblica = true;
 		if (detail != null && detail) {
@@ -462,10 +490,8 @@ private String newBrandFulltxBrand;
 		qta = 1;
 		imgToDelete = new ArrayList<String>();
 
-
-		
 		return null;
-		
+
 	}
 
 	public void addProduct(ActionEvent e) {
@@ -495,8 +521,7 @@ private String newBrandFulltxBrand;
 			prd.setThumbnailsUrl(fileThumb);
 			prd.setPriceDiscounted(prezzoScontato);
 			prd.setIdProductState(0);
-			if (pubblica)
-			{
+			if (pubblica) {
 				prd.setIdProductState(1);
 			}
 			if (getBeanApplication().isConfiguredBarcodeProduct()) {
@@ -506,7 +531,8 @@ private String newBrandFulltxBrand;
 			}
 
 			if (fgMod == null || fgMod == false) {
-				OthalaFactory.getProductServiceInstance().insertProduct(prd, pubblica);
+				OthalaFactory.getProductServiceInstance().insertProduct(prd,
+						pubblica);
 				resetPrd();
 				getBeanApplication().resetDomain();
 				addInfo("Prodotto", "inserimento effettuato correttamente");
@@ -546,7 +572,7 @@ private String newBrandFulltxBrand;
 			prd.setDescription(descrizione);
 			prd.setDescriptionEN(descrizioneEN);
 
-			//prd.setDiscount(sconto);
+			// prd.setDiscount(sconto);
 			prd.setIdBrand(brand.getAttributo());
 			prd.setIdGender(genere.getAttributo());
 			prd.setIdType(tipo.getAttributo());
@@ -554,26 +580,24 @@ private String newBrandFulltxBrand;
 			prd.setImagesUrl(imagesFile);
 			prd.setMerchantCode(merchantCode);
 			prd.setPriceDiscounted(new BigDecimal(9999999));
-			for (ArticleFullDTO art: articles)
-			{
-				if (art.getPriceDiscounted().compareTo(prd.getPriceDiscounted()) < 0 )
-				{
+			for (ArticleFullDTO art : articles) {
+				if (art.getPriceDiscounted()
+						.compareTo(prd.getPriceDiscounted()) < 0) {
 					prd.setPriceDiscounted(art.getPriceDiscounted());
 					prd.setPrice(art.getPrice());
 					prd.setDiscount(art.getDiscount());
 					prd.setSpecialPrice(new BigDecimal(0));
 				}
-				
+
 			}
-			//prd.setPrice(prezzo);
-			//prd.setSpecialPrice(prezzoSpeciale);
-			//prd.setSpecialPrice(null);
+			// prd.setPrice(prezzo);
+			// prd.setSpecialPrice(prezzoSpeciale);
+			// prd.setSpecialPrice(null);
 			prd.setThumbnailsUrl(fileThumb);
-			//prd.setPriceDiscounted(prezzoScontato);
+			// prd.setPriceDiscounted(prezzoScontato);
 			prd.setIdProductState(0);
 			prd.setTyProduct(1);
-			if (pubblica)
-			{
+			if (pubblica) {
 				prd.setIdProductState(1);
 			}
 			if (getBeanApplication().isConfiguredBarcodeProduct()) {
@@ -581,9 +605,12 @@ private String newBrandFulltxBrand;
 					art.setTxBarCode(merchantCode);
 				}
 			}
+			
+			prd.setInfAggiuntive(informazioniElenco);
 
 			if (fgMod == null || fgMod == false) {
-				OthalaFactory.getProductServiceInstance().insertProduct(prd, pubblica);
+				OthalaFactory.getProductServiceInstance().insertProduct(prd,
+						pubblica);
 				resetPrd();
 				getBeanApplication().resetDomain();
 				addInfo("Prodotto", "inserimento effettuato correttamente");
@@ -608,7 +635,6 @@ private String newBrandFulltxBrand;
 
 	}
 
-	
 	private void eliminaImmagini() {
 		if (!imgToDelete.isEmpty()) {
 			try {
@@ -622,7 +648,8 @@ private String newBrandFulltxBrand;
 	}
 
 	private void initProdotto() {
-		prdDetail = OthalaFactory.getProductServiceInstance().getProductFull(getLang(),
+		prdDetail = OthalaFactory.getProductServiceInstance().getProductFull(
+				getLang(),
 				merchantBean.getSelectedProducts().get(0).getIdProduct(), true);
 
 		if (prdDetail.getArticles() != null) {
@@ -633,6 +660,7 @@ private String newBrandFulltxBrand;
 			merchantCode = "";
 		}
 		articles = prdDetail.getArticles();
+		informazioniElenco = prdDetail.getInfAggiuntive();
 		descrizione = prdDetail.getDescription();
 		descrizioneEN = prdDetail.getDescriptionEN();
 		imagesFile = prdDetail.getImagesUrl();
@@ -649,8 +677,9 @@ private String newBrandFulltxBrand;
 		material = new AttributeDTO();
 		material.setAttributo(prdDetail.getIdMaterial());
 		material.setValore(prdDetail.getTxMaterial());
-		
-		pubblica=!(prdDetail.getIdProductState()==null || prdDetail.getIdProductState().intValue()==0); 
+
+		pubblica = !(prdDetail.getIdProductState() == null || prdDetail
+				.getIdProductState().intValue() == 0);
 
 		genere = new AttributeDTO();
 		genere.setAttributo(prdDetail.getIdGender());
@@ -659,6 +688,8 @@ private String newBrandFulltxBrand;
 		tipo = new AttributeDTO();
 		tipo.setAttributo(prdDetail.getIdType());
 		tipo.setValore(prdDetail.getTxType());
+		
+		
 
 	}
 
@@ -732,11 +763,10 @@ private String newBrandFulltxBrand;
 		art.setIdSize(size.getAttributo());
 		art.setTxSize(size.getValore());
 		art.setQtStock(qta);
-		
-		art.setIdColor(new Integer (1));
+
+		art.setIdColor(new Integer(1));
 		art.setTxColor("N/A");
 
-		
 		// se barcode è sul prodotto mettiamo lo stesso barcode a tutti gli
 		// articoli
 
@@ -749,15 +779,44 @@ private String newBrandFulltxBrand;
 		art.setPrice(getPrezzo());
 		art.setDiscount(getSconto());
 		art.setSpecialPrice(new BigDecimal(0));
-		
-		art.setPriceDiscounted(getPrezzo().subtract((getPrezzo().multiply(new BigDecimal(getSconto()).divide(new BigDecimal(100))))));
-		
+
+		art.setPriceDiscounted(getPrezzo().subtract(
+				(getPrezzo().multiply(new BigDecimal(getSconto())
+						.divide(new BigDecimal(100))))));
+
 		art.setArticleUpdate(ArticleUpdate.NUOVO);
 		articles.add(art);
 
 		// shop = getBeanApplication().getShopsDTO().get(0);
 	}
-	
+
+	public void addInformazioni(ActionEvent e) {
+
+		Integer trovato;
+		trovato = 0;
+
+		for (InfAggiuntiveDTO inf : informazioniElenco) {
+			if (inf.getIdInformazione().equals(infIdInformazione)) {
+
+				trovato = 1;
+			}
+
+		}
+
+		if (trovato == 0) {
+			InfAggiuntiveDTO inf = new InfAggiuntiveDTO();
+			inf.setIdInformazione(infIdInformazione);
+			inf.setTxInformazione(infTxInformazione);
+			inf.setTxDescrizioneIT(infTxInfDescIT);
+			inf.setTxDescrizioneEN(infTxInfDescEN);
+
+			informazioniElenco.add(inf);
+		}
+		infTxInfDescIT = "";
+		infTxInfDescEN = "";
+
+	}
+
 	public List<AttributeDTO> completeTaglia(String query) {
 		return getAutoUtils().completeTaglia(query);
 	}
@@ -832,6 +891,24 @@ private String newBrandFulltxBrand;
 		}
 	}
 
+	public void deleteInformazioni(ActionEvent e) {
+
+		Integer id = (Integer) e.getComponent().getAttributes().get("idInf");
+
+		if (!informazioniElenco.isEmpty()) {
+			for (InfAggiuntiveDTO inf : informazioniElenco) {
+				if (inf.getIdInformazione().intValue() == id.intValue()) {
+
+					informazioniElenco.remove(inf);
+					break;
+				}
+
+			}
+
+		}
+	}
+
+	
 	public void closeArticle(ActionEvent e) {
 
 		Integer id = (Integer) e.getComponent().getAttributes().get("idArt");
@@ -853,7 +930,8 @@ private String newBrandFulltxBrand;
 				if (art.getPgArticle().intValue() == id.intValue()) {
 					art.setSelected(false);
 					if (art.getArticleUpdate() == null
-							|| art.getArticleUpdate().getStato() != ArticleUpdate.NUOVO.getStato()) {
+							|| art.getArticleUpdate().getStato() != ArticleUpdate.NUOVO
+									.getStato()) {
 						art.setArticleUpdate(ArticleUpdate.MODIFICATO);
 					}
 					return;
@@ -899,7 +977,8 @@ private String newBrandFulltxBrand;
 
 			// verifica se il file è già presente
 			for (String image : imagesFile) {
-				if (image.toUpperCase().trim().contains(file.getFileName().trim().toUpperCase())) {
+				if (image.toUpperCase().trim()
+						.contains(file.getFileName().trim().toUpperCase())) {
 					addError("Upload", file.getFileName() + " già presente");
 					return;
 				}
@@ -917,7 +996,8 @@ private String newBrandFulltxBrand;
 				log.error("errore upload", e);
 				addError("Upload", file.getFileName() + " errore nell'upload");
 			}
-			addInfo("Upload", file.getFileName() + " è stata caricata correttamente");
+			addInfo("Upload", file.getFileName()
+					+ " è stata caricata correttamente");
 
 		}
 	}
@@ -928,11 +1008,11 @@ private String newBrandFulltxBrand;
 		resizeThumb(ResizeImageUtil.getFormat(fileThumb));
 
 	}
-	
+
 	public void moveThumb(ActionEvent e) {
 
 		int index = (int) e.getComponent().getAttributes().get("img");
-		int indexMove=(index+1) % imagesFile.size();
+		int indexMove = (index + 1) % imagesFile.size();
 		Collections.swap(imagesFile, index, indexMove);
 
 	}
@@ -948,8 +1028,11 @@ private String newBrandFulltxBrand;
 		// IOUtils.copy(inputStream, fileOutputStream);
 		Date date = new Date();
 
-		String fileResized = ResizeImageUtil.resizeAndCopyImage(inputStream, dateFormat.format(date)
-				+ separatorDateFormat + file.getFileName().replaceAll(separatorDateFormat, ""), format);
+		String fileResized = ResizeImageUtil.resizeAndCopyImage(inputStream,
+				dateFormat.format(date)
+						+ separatorDateFormat
+						+ file.getFileName()
+								.replaceAll(separatorDateFormat, ""), format);
 
 		return fileResized;
 
@@ -964,19 +1047,19 @@ private String newBrandFulltxBrand;
 	}
 
 	public void addNewBrand(ActionEvent e) {
-		brand=null;
+		brand = null;
 		if (newBrand == null || newBrand.isEmpty()) {
 			addError("Nuovo Brand", "inserire il brand");
 			return;
 		}
-		newBrand=newBrand.trim();
+		newBrand = newBrand.trim();
 		try {
-			OthalaFactory.getProductServiceInstance().insertBrand(getLang(), newBrand, null, null, null, null, null,
-					null);
-			log.info("inserito brand "+newBrand);
+			OthalaFactory.getProductServiceInstance().insertBrand(getLang(),
+					newBrand, null, null, null, null, null, null);
+			log.info("inserito brand " + newBrand);
 			getBeanApplication().resetDomain();
 			for (AttributeDTO attr : getBeanApplication().getBrandDTO()) {
-				log.info("attr "+attr.getValore());
+				log.info("attr " + attr.getValore());
 				if (attr.getValore().equalsIgnoreCase(newBrand)) {
 					brand = attr;
 					break;
@@ -992,25 +1075,26 @@ private String newBrandFulltxBrand;
 			addGenericError(ex, "errore nell'inserimento del brand");
 		}
 	}
-	
+
 	public void addNewBrandFull(ActionEvent e) {
-		brand=null;
+		brand = null;
 		if (newBrandFulltxBrand == null || newBrandFulltxBrand.isEmpty()) {
 			addError("Nuovo Brand", "inserire il brand");
 			return;
 		}
-		
+
 		if (fileImg == null || fileImg == "") {
-			
+
 			addError("Nuovo Brand", "inserire l'immagine");
 			return;
-			
+
 		}
-		
-			//imgContenuto = ConfigurationUtil.getHttpPathImagesNewsletter(getRequest()) + fileImg;
-		
-		
-		newBrandFull =  new BrandFullDTO();
+
+		// imgContenuto =
+		// ConfigurationUtil.getHttpPathImagesNewsletter(getRequest()) +
+		// fileImg;
+
+		newBrandFull = new BrandFullDTO();
 		newBrandFull.setTxBrand(newBrandFulltxBrand);
 		newBrandFull.setIdProvincia(newBrandFullidProvincia);
 		newBrandFull.setIdRegione(newBrandFullidRegione);
@@ -1018,16 +1102,20 @@ private String newBrandFulltxBrand;
 		newBrandFull.setTxDescrIT(newBrandFulltxDescrIT);
 		newBrandFull.setTxDescrEN(newBrandFulltxDescrEN);
 		newBrandFull.setIdUser(newBrandFullidUser);
-		
+
 		try {
-			OthalaFactory.getProductServiceInstance().insertBrand(getLang(), newBrandFull.getTxBrand(), newBrandFull.getIdRegione(), newBrandFull.getIdProvincia(), newBrandFull.getIdUser(), newBrandFull.getUrlFoto(), newBrandFull.getTxDescrIT(),
+			OthalaFactory.getProductServiceInstance().insertBrand(getLang(),
+					newBrandFull.getTxBrand(), newBrandFull.getIdRegione(),
+					newBrandFull.getIdProvincia(), newBrandFull.getIdUser(),
+					newBrandFull.getUrlFoto(), newBrandFull.getTxDescrIT(),
 					newBrandFull.getTxDescrEN());
-			
+
 			getBeanApplication().resetDomain();
-			
+
 			for (AttributeDTO attr : getBeanApplication().getBrandDTO()) {
-				
-				if (attr.getValore().equalsIgnoreCase(newBrandFull.getTxBrand())) {
+
+				if (attr.getValore()
+						.equalsIgnoreCase(newBrandFull.getTxBrand())) {
 					brand = attr;
 					break;
 				}
@@ -1043,101 +1131,102 @@ private String newBrandFulltxBrand;
 		}
 	}
 
-	
 	public void handleFileUploadBrand(FileUploadEvent event) throws IOException {
 
-		if (event != null)
-		{
-		baseImgPath = "//resources//images/brand";
-		baseImgPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath(baseImgPath);
-		
-		InputStream inputStream = null;
-		OutputStream outputStream = null;
-		DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-		String dateSuffix = dateFormat.format(new Date());
-		try {
-			UploadedFile file = event.getFile();
-			inputStream = file.getInputstream();
+		if (event != null) {
+			baseImgPath = "//resources//images/brand";
+			baseImgPath = FacesContext.getCurrentInstance()
+					.getExternalContext().getRealPath(baseImgPath);
 
-			fileImg = dateSuffix + file.getFileName();
-			absoluteFileImg = baseImgPath + File.separator + fileImg;
-			outputStream = new FileOutputStream(new File(absoluteFileImg));
+			InputStream inputStream = null;
+			OutputStream outputStream = null;
+			DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+			String dateSuffix = dateFormat.format(new Date());
+			try {
+				UploadedFile file = event.getFile();
+				inputStream = file.getInputstream();
 
-			int read = 0;
-			byte[] bytes = new byte[1024];
+				fileImg = dateSuffix + file.getFileName();
+				absoluteFileImg = baseImgPath + File.separator + fileImg;
+				outputStream = new FileOutputStream(new File(absoluteFileImg));
 
-			while ((read = inputStream.read(bytes)) != -1) {
-				outputStream.write(bytes, 0, read);
-			}
+				int read = 0;
+				byte[] bytes = new byte[1024];
 
-		} finally {
-			if (inputStream != null) {
-				try {
-					inputStream.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			if (outputStream != null) {
-				try {
-					// outputStream.flush();
-					outputStream.close();
-				} catch (IOException e) {
-					e.printStackTrace();
+				while ((read = inputStream.read(bytes)) != -1) {
+					outputStream.write(bytes, 0, read);
 				}
 
+			} finally {
+				if (inputStream != null) {
+					try {
+						inputStream.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				if (outputStream != null) {
+					try {
+						// outputStream.flush();
+						outputStream.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+
+				}
 			}
-		}
 		}
 	}
-	
-	
-	public void cambiaRegione (ValueChangeEvent  e) {
 
-		
-		for (RegioneDTO reg: regioni)
-		{
-			if (reg.getIdRegione().equals(new Integer(e.getNewValue().toString().trim())))
-			{
+	public void cambiaRegione(ValueChangeEvent e) {
+
+		for (RegioneDTO reg : regioni) {
+			if (reg.getIdRegione().equals(
+					new Integer(e.getNewValue().toString().trim()))) {
 				province = reg.getProvince();
 				newBrandFullidProvincia = province.get(0).getIdProvincia();
 			}
-			
+
 		}
-		
 
-	
-		
 	}
-	
-	
-	public void cambiaProvincia (ValueChangeEvent  e) {
 
-		
-		for (ProvinciaDTO prov: province)
-		{
-			if (prov.getIdProvincia().equals(new Integer(e.getNewValue().toString().trim())))
-			{
-			
+	public void cambiaProvincia(ValueChangeEvent e) {
+
+		for (ProvinciaDTO prov : province) {
+			if (prov.getIdProvincia().equals(
+					new Integer(e.getNewValue().toString().trim()))) {
+
 				newBrandFullidProvincia = prov.getIdProvincia();
 			}
-			
-		}
-		
 
-	
-		
+		}
+
 	}
-	
-	
-	
+
+	public void cambiaInformazioni(ValueChangeEvent e) {
+
+		for (AttributeDTO inf : informazioni) {
+			if (inf.getAttributo().equals(
+					new Integer(e.getNewValue().toString().trim()))) {
+
+				infIdInformazione = inf.getAttributo();
+				infTxInformazione = inf.getValore();
+			}
+
+		}
+
+	}
+
 	public void addNewColor(ActionEvent e) {
-		if (newColor == null || newColor.isEmpty() || newColorEN == null || newColorEN.isEmpty()) {
+		if (newColor == null || newColor.isEmpty() || newColorEN == null
+				|| newColorEN.isEmpty()) {
 			addError("Nuovo colore", "inserire il colore");
 			return;
 		}
 		try {
-			OthalaFactory.getProductServiceInstance().insertColor(getLang(), newColor, newColorEN);
+			OthalaFactory.getProductServiceInstance().insertColor(getLang(),
+					newColor, newColorEN);
 			getBeanApplication().resetDomain();
 			color = completeColours(newColor).get(0);
 			addInfo("Nuovo Colore", "colore inserito correttamente");
@@ -1153,7 +1242,8 @@ private String newBrandFulltxBrand;
 			return;
 		}
 		try {
-			OthalaFactory.getProductServiceInstance().insertSize(getLang(), newSize);
+			OthalaFactory.getProductServiceInstance().insertSize(getLang(),
+					newSize);
 			getBeanApplication().resetDomain();
 			size = completeTaglia(newSize).get(0);
 			addInfo("Nuova taglia", "operazione eseguita correttamente");
@@ -1164,12 +1254,14 @@ private String newBrandFulltxBrand;
 	}
 
 	public void addNewMaterial(ActionEvent e) {
-		if (newMaterial == null || newMaterial.isEmpty() || newMaterialEN == null || newMaterialEN.isEmpty()) {
+		if (newMaterial == null || newMaterial.isEmpty()
+				|| newMaterialEN == null || newMaterialEN.isEmpty()) {
 			addError("Nuovo materiale", "inserire il materiale");
 			return;
 		}
 		try {
-			OthalaFactory.getProductServiceInstance().insertMaterial(getLang(), newMaterial, newMaterialEN);
+			OthalaFactory.getProductServiceInstance().insertMaterial(getLang(),
+					newMaterial, newMaterialEN);
 			getBeanApplication().resetDomain();
 			material = completeMaterial(newMaterial).get(0);
 			addInfo("Nuovo Materiale", "materiale inserito correttamente");
@@ -1180,12 +1272,14 @@ private String newBrandFulltxBrand;
 	}
 
 	public void addNewType(ActionEvent e) {
-		if (newType == null || newType.isEmpty() || newTypeEN == null || newTypeEN.isEmpty()) {
+		if (newType == null || newType.isEmpty() || newTypeEN == null
+				|| newTypeEN.isEmpty()) {
 			addError("Nuovo tipo", "inserire il tipo");
 			return;
 		}
 		try {
-			OthalaFactory.getProductServiceInstance().insertType(getLang(), newType, newTypeEN);
+			OthalaFactory.getProductServiceInstance().insertType(getLang(),
+					newType, newTypeEN);
 			getBeanApplication().resetDomain();
 			tipo = completeTipo(newType).get(0);
 			addInfo("Nuovo tipo", "tipo inserito correttamente");
@@ -1195,6 +1289,28 @@ private String newBrandFulltxBrand;
 		}
 	}
 
+	
+	
+	public void addNewYnf(ActionEvent e) {
+		if (newYnfIT == null || newYnfIT.isEmpty() || newYnfEN == null
+				|| newYnfEN.isEmpty()) {
+			addError("Nuova informazione", "inserire informazione");
+			return;
+		}
+		try {
+			OthalaFactory.getProductServiceInstance().insertYnf(getLang(),
+					newYnfIT, newYnfEN);
+			getBeanApplication().resetDomain();
+			
+			addInfo("Nuova informazione", "informazione inserita correttamente");
+
+		} catch (Exception ex) {
+			addGenericError(ex, "errore nell'inserimento dell'informazione");
+		}
+	}
+	
+	
+	
 	public String getNewColorEN() {
 		return newColorEN;
 	}
@@ -1235,6 +1351,44 @@ private String newBrandFulltxBrand;
 		this.newBrandFullidUser = newBrandFullidUser;
 	}
 
-	
+	public Integer getInfIdInformazione() {
+		return infIdInformazione;
+	}
+
+	public void setInfIdInformazione(Integer infIdInformazione) {
+		this.infIdInformazione = infIdInformazione;
+	}
+
+	public String getInfTxInformazione() {
+		return infTxInformazione;
+	}
+
+	public void setInfTxInformazione(String infTxInformazione) {
+		this.infTxInformazione = infTxInformazione;
+	}
+
+	public List<InfAggiuntiveDTO> getInformazioniElenco() {
+		return informazioniElenco;
+	}
+
+	public void setInformazioniElenco(List<InfAggiuntiveDTO> informazioniElenco) {
+		this.informazioniElenco = informazioniElenco;
+	}
+
+	public String getNewYnfIT() {
+		return newYnfIT;
+	}
+
+	public void setNewYnfIT(String newYnfIT) {
+		this.newYnfIT = newYnfIT;
+	}
+
+	public String getNewYnfEN() {
+		return newYnfEN;
+	}
+
+	public void setNewYnfEN(String newYnfEN) {
+		this.newYnfEN = newYnfEN;
+	}
 
 }

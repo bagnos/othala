@@ -210,6 +210,11 @@ public interface IProductDAO {
 
 	public List<HashtagDTO> listHashtag(String language);
 
+	public Integer getMaxIdYnf();
+
+	public void insertYnf(Integer idInformazione, String languages,
+			String txInformazione);
+
 
 
 }
